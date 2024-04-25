@@ -70,7 +70,7 @@ else
 fi
 ```
 
-The structure for SFTPGo users can be found within the [OpenAPI schema](https://github.com/drakkan/sftpgo/blob/main/openapi/openapi.yaml){:target="_blank"}.
+The structure for SFTPGo users can be found within the [OpenAPI schema](https://github.com/drakkan/sftpgo/blob/2.6.x/openapi/openapi.yaml){:target="_blank"}.
 
 You can instruct SFTPGo to cache the external user by setting an `external_auth_cache_time` in user object returned by your hook. The `external_auth_cache_time` defines the cache time in seconds.
 

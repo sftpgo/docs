@@ -64,4 +64,4 @@ fi
 
 Please note that this is a demo program and it might not work in all cases. For example, the username should be obtained by parsing the JSON serialized user and not by searching the username inside the JSON as shown here.
 
-The structure for SFTPGo users can be found within the [OpenAPI schema](https://github.com/drakkan/sftpgo/blob/main/openapi/openapi.yaml){:target="_blank"}.
+The structure for SFTPGo users can be found within the [OpenAPI schema](https://github.com/drakkan/sftpgo/blob/2.6.x/openapi/openapi.yaml){:target="_blank"}.

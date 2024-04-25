@@ -174,12 +174,12 @@ SFTPGo provides an official Docker image, it is available on both [Docker Hub](h
 - [v2.5.6-alpine, v2.5-alpine, v2-alpine, alpine](https://github.com/drakkan/sftpgo/blob/v2.5.6/Dockerfile.alpine){:target="_blank"}
 - [v2.5.6-slim, v2.5-slim, v2-slim, slim](https://github.com/drakkan/sftpgo/blob/v2.5.6/Dockerfile){:target="_blank"}
 - [v2.5.6-alpine-slim, v2.5-alpine-slim, v2-alpine-slim, alpine-slim](https://github.com/drakkan/sftpgo/blob/v2.5.6/Dockerfile.alpine){:target="_blank"}
-- [edge](https://github.com/drakkan/sftpgo/blob/main/Dockerfile){:target="_blank"}
-- [edge-plugins](https://github.com/drakkan/sftpgo/blob/main/Dockerfile){:target="_blank"}
-- [edge-alpine](https://github.com/drakkan/sftpgo/blob/main/Dockerfile.alpine){:target="_blank"}
-- [edge-slim](https://github.com/drakkan/sftpgo/blob/main/Dockerfile){:target="_blank"}
-- [edge-alpine-slim](https://github.com/drakkan/sftpgo/blob/main/Dockerfile.alpine){:target="_blank"}
-- [edge-distroless-slim](https://github.com/drakkan/sftpgo/blob/main/Dockerfile.distroless){:target="_blank"}
+- [edge](https://github.com/drakkan/sftpgo/blob/2.6.x/Dockerfile){:target="_blank"}
+- [edge-plugins](https://github.com/drakkan/sftpgo/blob/2.6.x/Dockerfile){:target="_blank"}
+- [edge-alpine](https://github.com/drakkan/sftpgo/blob/2.6.x/Dockerfile.alpine){:target="_blank"}
+- [edge-slim](https://github.com/drakkan/sftpgo/blob/2.6.x/Dockerfile){:target="_blank"}
+- [edge-alpine-slim](https://github.com/drakkan/sftpgo/blob/2.6.x/Dockerfile.alpine){:target="_blank"}
+- [edge-distroless-slim](https://github.com/drakkan/sftpgo/blob/2.6.x/Dockerfile.distroless){:target="_blank"}
 
 ### How to use the SFTPGo image
 

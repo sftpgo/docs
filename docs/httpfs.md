@@ -1,6 +1,6 @@
 # HTTP/S storage backend
 
-SFTPGo can use custom storage backend implementations compliant with the REST API documented [here](https://github.com/drakkan/sftpgo/blob/main/openapi/httpfs.yaml){:target="_blank"}.
+SFTPGo can use custom storage backend implementations compliant with the REST API documented [here](https://github.com/drakkan/sftpgo/blob/2.6.x/openapi/httpfs.yaml){:target="_blank"}.
 
 :warning: HTTPFs is a work in progress and makes no API stability promises.
 

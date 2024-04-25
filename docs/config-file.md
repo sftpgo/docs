@@ -1,6 +1,6 @@
 # Configuration file
 
-The default configuration file is [sftpgo.json](https://github.com/drakkan/sftpgo/blob/main/sftpgo.json){:target="_blank"} and is divided in several sections.
+The default configuration file is [sftpgo.json](https://github.com/drakkan/sftpgo/blob/2.6.x/sftpgo.json){:target="_blank"} and is divided in several sections.
 
 ## Common
 
