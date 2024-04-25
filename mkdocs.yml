@@ -104,3 +104,5 @@ extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/drakkan/sftpgo
+  version:
+    provider: mike
