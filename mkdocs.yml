@@ -1,0 +1,106 @@
+site_name: SFTPGo documentation
+site_url: 'https://sftpgo.github.io'
+
+nav:
+  - index.md
+  - features.md
+  - 'Getting Started':
+    - installation.md
+    - initial-configuration.md
+    - 'Data provider management': data-provider.md
+  - 'Configuration':
+    - cli.md
+    - config-file.md
+    - env-vars.md
+    - web-interfaces.md
+    - 'Password Hashing': password.md
+    - kms.md
+  - virtual-folders.md
+  - groups.md
+  - roles.md
+  - 'Brute force protection': defender.md
+  - eventmanager.md
+  - oidc.md
+  - rest-api.md
+  - rate-limiting.md
+  - plugins.md
+  - logs.md
+  - metrics.md
+  - 'Tutorials':
+    - "Let's Encrypt TLS Certificates": tutorials/lets-encrypt-certificate.md
+    - 'Two-factor Authentication': tutorials/two-factor-authentication.md
+    - tutorials/eventmanager.md
+    - tutorials/postgresql-s3.md
+    - tutorials/openssh-sftp-subsystem.md
+  - 'Protocols':
+    - ssh.md
+    - ftp.md
+    - webdav.md
+  - 'Storage providers':
+    - localfs.md
+    - 'S3': s3.md
+    - 'Google Cloud': google-cloud-storage.md
+    - 'Azure Blob': azure-blob-storage.md
+    - 'Data At Rest Encryption': dare.md
+    - 'SFTP': sftpfs.md
+    - 'HTTPFs': httpfs.md
+  - 'Hooks':
+    - external-auth.md
+    - keyboard-interactive.md
+    - dynamic-user-mod.md
+    - custom-actions.md
+    - 'Post-connect': post-connect-hook.md
+    - 'Post-login': post-login-hook.md
+    - 'Post-disconnect': post-disconnect-hook.md
+    - 'Check password': check-password-hook.md
+    - 'Data Retention': data-retention-hook.md
+  - 'Profiling': profiling.md
+  - 'Build from source': build-from-source.md
+  #- performance.md
+
+theme:
+  name: material
+  logo: assets/logo.png
+  favicon: assets/favicon.ico
+  palette:
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+  features:
+    - search.suggest
+    - search.highlight
+    - search.share
+    #- navigation.sections
+    - navigation.path
+    #- navigation.instant
+    #- navigation.instant.progress
+
+plugins:
+  - search
+  - glightbox
+
+markdown_extensions:
+  - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+extra:
+  generator: true
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/drakkan/sftpgo
