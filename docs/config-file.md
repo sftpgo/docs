@@ -101,7 +101,6 @@ Supported configuration parameters for the `sftpd` section:
 - `keyboard_interactive_authentication`, boolean. This setting specifies whether keyboard interactive authentication is allowed. If no keyboard interactive hook or auth plugin is defined the default is to prompt for the user password and then the one time authentication code, if defined. Default: `true`.
 - `keyboard_interactive_auth_hook`, string. Absolute path to an external program or an HTTP URL to invoke for keyboard interactive authentication. See [Keyboard Interactive Authentication](keyboard-interactive.md) for more details.
 - `password_authentication`, boolean. Set to false to disable password authentication. This setting will disable multi-step authentication method using public key + password too. It is useful for public key only configurations if you need to manage old clients that will not attempt to authenticate with public keys if the password login method is advertised. Default: `true`.
-- `folder_prefix`, string. Virtual root folder prefix to include in all file operations (ex: `/files`). The virtual paths used for per-directory permissions, file patterns etc. must not include the folder prefix. The prefix is only applied to SFTP requests (in SFTP server mode), SCP and other SSH commands will be automatically disabled if you configure a prefix.  The prefix is ignored while running as OpenSSH's SFTP subsystem. This setting can help some specific migrations from SFTP servers based on OpenSSH and it is not recommended for general usage. Default: blank.
 
 ## FTP server
 
@@ -193,9 +192,7 @@ Supported configuration parameters for the `data_provider` section:
 - `host`, string. Database host. For `postgresql` and `cockroachdb` drivers you can specify multiple hosts separated by commas. Leave empty for drivers `sqlite`, `bolt` and `memory`
 - `port`, integer. Database port. Leave empty for drivers `sqlite`, `bolt` and `memory`
 - `username`, string. Database user. Leave empty for drivers `sqlite`, `bolt` and `memory`
-- `username_file`, string. Defines the path to a file containing the database user. This can be an absolute path or a path relative to the config dir. If not empty it takes precedence over `username`. Default: blank.
 - `password`, string. Database password. Leave empty for drivers `sqlite`, `bolt` and `memory`
-- `password_file`, string. Defines the path to a file containing the database password. This can be an absolute path or a path relative to the config dir. If not empty it takes precedence over `password`. Default: blank.
 - `sslmode`, integer. Used for drivers `mysql` and `postgresql`. 0 disable TLS connections, 1 require TLS, 2 set TLS mode to `verify-ca` for driver `postgresql` and `skip-verify` for driver `mysql`, 3 set TLS mode to `verify-full` for driver `postgresql` and `preferred` for driver `mysql`, 4 set the TLS mode to `prefer` for driver `postgresql`, 5 set the TLS mode to `allow` for driver `postgresql`
 - `root_cert`, string. Path to the root certificate authority used to verify that the server certificate was signed by a trusted CA
 - `disable_sni`, boolean. Allows to opt out Server Name Indication (SNI) for TLS connections. Default: `false`
