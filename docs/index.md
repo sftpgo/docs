@@ -1,12 +1,12 @@
 # What is SFTPGo?
 
-SFTPGo is an event drive file transfer solution. It support multiple protocols (SFTP, SCP, FTP/S, WebDAV, HTTP/S) and multiple storage backends.
+SFTPGo is an event-driven file transfer solution. It support multiple protocols (SFTP, SCP, FTP/S, WebDAV, HTTP/S) and multiple storage backends.
 
 With SFTPGo you can leverage local and cloud storage backends for exchanging and storing files internally or with business partners using the same tools and processes you are already familiar with.
 
 The WebAdmin UI allows to easily create and manage your users, folders, groups and other resources.
 
-The WebClient UI allows end users to change their credentials, browse and manage their files in the browser and setup two-factor authentication which works with Authy, Google Authenticator and other compatible apps.
+The WebClient UI allows end users to change their credentials, browse and manage their files in the browser and setup two-factor authentication which works with Microsoft Authenticator, Google Authenticator, Authy and other compatible apps.
 
 ![Architectural overview](assets/img/sftpgo%20architecture.png)
 
@@ -20,7 +20,7 @@ The open source license grant you freedom but not assurance of help. So why woul
 
 Supporting the project benefit businesses and the community because if the project is financially sustainable, using this business model, we don't have to restrict features and/or switch to an [Open-core](https://en.wikipedia.org/wiki/Open-core_model){:target="_blank"} model. The technology stays truly open source. Everyone wins.
 
-You should support the project for its ongoing maintenance, even if you don't have any questions or need new features. If SFTPGo is no longer maintained you will have troubles and your company will lose money: bugs and security vulnerabilities will no longer be fixed, new algorithms will not be added to support newer clients, and so on. You will be forced to switch to a similar proprietary product and pay for its license.
+You should support the project for its ongoing maintenance, even if you don't have any questions or need new features. If SFTPGo is no longer maintained you will have troubles and your company will lose money: bugs and security vulnerabilities will no longer be fixed, new algorithms will not be added to support newer clients, and so on. You will be forced to switch to a similar proprietary product and pay for its license and the migration cost.
 
 We have opened the project to everyone, you have to choose whether you want to be an active part of this or just a [leech](https://en.wikipedia.org/wiki/Leecher_(computing)){:target="_blank"}.
 
