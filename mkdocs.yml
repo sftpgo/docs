@@ -8,6 +8,12 @@ nav:
     - installation.md
     - initial-configuration.md
     - 'Data provider management': data-provider.md
+  - 'Tutorials':
+    - "Let's Encrypt TLS Certificates": tutorials/lets-encrypt-certificate.md
+    - 'Two-factor Authentication': tutorials/two-factor-authentication.md
+    - tutorials/eventmanager.md
+    - tutorials/postgresql-s3.md
+    - tutorials/openssh-sftp-subsystem.md
   - 'Configuration':
     - cli.md
     - config-file.md
@@ -26,12 +32,6 @@ nav:
   - plugins.md
   - logs.md
   - metrics.md
-  - 'Tutorials':
-    - "Let's Encrypt TLS Certificates": tutorials/lets-encrypt-certificate.md
-    - 'Two-factor Authentication': tutorials/two-factor-authentication.md
-    - tutorials/eventmanager.md
-    - tutorials/postgresql-s3.md
-    - tutorials/openssh-sftp-subsystem.md
   - 'Protocols':
     - ssh.md
     - ftp.md
@@ -84,10 +84,11 @@ theme:
     - search.suggest
     - search.highlight
     - search.share
-    #- navigation.sections
     - navigation.path
-    #- navigation.instant
-    #- navigation.instant.progress
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tracking
+    - toc.follow
 
 plugins:
   - search

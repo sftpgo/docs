@@ -39,11 +39,11 @@ SFTPGo can use 2FA for `HTTP`, `SSH` (SFTP, SCP) and `FTP` protocols.
 
 Each admin can view/change his/her two-factor authentication by selecting the `Two-Factor Auth` link from the top-right web UI menu.
 
-![Admin 2FA](../assets/img/admin-2FA.png)
+![Admin 2FA](../assets/img/admin-2FA.png){data-gallery="admin-2fa"}
 
 Then select a configuration and click "Generate new secret key". A QR code will be generated which you can scan with a compatible app. After you configured your app, enter a test code to ensure everything works correctly and click on "Save".
 
-![Enable 2FA](../assets/img/admin-save-2FA.png)
+![Enable 2FA](../assets/img/admin-save-2FA.png){data-gallery="admin-2fa-save"}
 
 Then save the configuration.
 
@@ -51,7 +51,7 @@ SFTPGo automatically generates some recovery codes. They are a set of one time u
 
 2FA is now enabled, so the next time you login with this admin you have to provide a valid authentication code after your password.
 
-![Login with 2FA](../assets/img/admin-2FA-login.png)
+![Login with 2FA](../assets/img/admin-2FA-login.png){data-gallery="admin-2fa-login"}
 
 Two-factor authentication will also be required to use the REST API as this admin. You can provide the authentication code using the `X-SFTPGO-OTP` HTTP header.
 
@@ -72,7 +72,7 @@ If you prefer a web UI instead of a CLI command to disable 2FA you can use the s
 
 Two-factor authentication is enabled by default for all SFTPGo users. Admins can disable 2FA per-user by selecting `mfa-disabled` in the Web client/REST API restrictions.
 
-![User 2FA disabled](../assets/img/user-2FA-disabled.png)
+![User 2FA disabled](../assets/img/user-2FA-disabled.png){data-gallery="user-2fa-disabled"}
 
 If 2FA is not disabled each user can enable it by selecting "Two-factor auth" from the left menu in the web UI.
 
@@ -86,7 +86,7 @@ FTP has no standard way to support two factor authentication, if you enable the 
 
 To enable 2FA select the wanted protocols, a configuration and click "Generate new secret key". A QR code will be generated which you can scan with a compatible app. After you configured your app, enter a test code to ensure everything works correctly and click on "Save".
 
-![Enable 2FA](../assets/img/user-save-2FA.png)
+![Enable 2FA](../assets/img/user-save-2FA.png){data-gallery="user-2fa-save"}
 
 Then save the configuration.
 
@@ -94,7 +94,7 @@ SFTPGo automatically generates some recovery codes. They are a set of one time u
 
 2FA is now enabled, so the next time you login with this user you have to provide a valid authentication code after your password.
 
-![Login with 2FA](../assets/img/user-2FA-login.png)
+![Login with 2FA](../assets/img/user-2FA-login.png){data-gallery="user-2fa-login"}
 
 Two-factor authentication will be also required to use the REST API as this user. You can provide the authentication code using the `X-SFTPGO-OTP` header.
 
