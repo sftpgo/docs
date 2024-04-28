@@ -8,7 +8,7 @@ The WebAdmin UI allows to easily create and manage your users, folders, groups a
 
 The WebClient UI allows end users to change their credentials, browse and manage their files in the browser and setup two-factor authentication which works with Microsoft Authenticator, Google Authenticator, Authy and other compatible apps.
 
-![Architectural overview](assets/img/sftpgo%20architecture.png)
+![Architectural overview](assets/img/sftpgo%20architecture.png){data-gallery="architecture"}
 
 ## Support
 
