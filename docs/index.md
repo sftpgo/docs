@@ -26,7 +26,7 @@ We have opened the project to everyone, you have to choose whether you want to b
 
 ## Licensing
 
-SFTPGo is licensed under [GNU AGPL-3.0-only](https://www.gnu.org/licenses/agpl-3.0.en.html){:target="_blank"}.
+SFTPGo source code is licensed under [GNU AGPL-3.0-only](https://www.gnu.org/licenses/agpl-3.0.en.html){:target="_blank"}.
 
 The [theme](https://keenthemes.com/products/templates-mega-bundle){:target="_blank"} used in WebAdmin and WebClient user interfaces is proprietary, this means:
 
@@ -34,3 +34,7 @@ The [theme](https://keenthemes.com/products/templates-mega-bundle){:target="_bla
 - The SFTPGo WebAdmin and WebClient user interfaces (HTML, CSS and JS components) based on this theme are allowed for use only within the SFTPGo product and therefore cannot be used in derivative works/products without an explicit grant from the [SFTPGo Team](mailto:support@sftpgo.com).
 
 More information about [compliance](https://sftpgo.com/compliance.html){:target="_blank"}.
+
+## Copyright
+
+Copyright (C) 2019 Nicola Murino
