@@ -7,6 +7,7 @@ nav:
   - 'Getting Started':
     - installation.md
     - initial-configuration.md
+    - docker.md
     - 'Data provider management': data-provider.md
   - 'Tutorials':
     - "Let's Encrypt TLS Certificates": tutorials/lets-encrypt-certificate.md
