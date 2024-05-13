@@ -22,8 +22,6 @@ Supporting the project benefit businesses and the community because if the proje
 
 You should support the project for its ongoing maintenance, even if you don't have any questions or need new features. If SFTPGo is no longer maintained you will have troubles and your company will lose money: bugs and security vulnerabilities will no longer be fixed, new algorithms will not be added to support newer clients, and so on. You will be forced to switch to a similar proprietary product and pay for its license and the migration cost.
 
-We have opened the project to everyone, you have to choose whether you want to be an active part of this or just a [leech](https://en.wikipedia.org/wiki/Leecher_(computing)){:target="_blank"}.
-
 ## Licensing
 
 SFTPGo source code is licensed under [GNU AGPL-3.0-only](https://www.gnu.org/licenses/agpl-3.0.en.html){:target="_blank"}.
