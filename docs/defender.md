@@ -2,7 +2,7 @@
 
 The built-in `defender` allows you to configure an auto-blocking policy for SFTPGo and thus helps to prevent DoS (Denial of Service) and brute force password guessing.
 
-If enabled it will protect SFTP, HTTP (WebClient and user API), FTP and WebDAV services and it will automatically block hosts (IP addresses) that continually fail to log in or attempt to connect.
+If enabled it will protect SFTP, HTTP, FTP and WebDAV services and it will automatically block hosts (IP addresses) that continually fail to log in or attempt to connect.
 
 You can configure a score for the following events:
 
@@ -43,3 +43,5 @@ Using the WebAdmin UI or REST API you can:
 - remove hosts from the defender's lists
 
 The `defender` can also check permanent block and safe lists of IP addresses/networks. You can define these lists using the WebAdmin UI or the REST API. In multi-nodes setups, the list entries propagation between nodes may take some minutes.
+
+The `defender` also allow to delay reporting failed authentications as a way to slow down password guessing attempts.
