@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../assets/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.22">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.23">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.732c4fb1.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.6543a935.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
@@ -1561,7 +1561,7 @@
 
 <h1 id="defender">Defender</h1>
 <p>The built-in <code>defender</code> allows you to configure an auto-blocking policy for SFTPGo and thus helps to prevent DoS (Denial of Service) and brute force password guessing.</p>
-<p>If enabled it will protect SFTP, HTTP (WebClient and user API), FTP and WebDAV services and it will automatically block hosts (IP addresses) that continually fail to log in or attempt to connect.</p>
+<p>If enabled it will protect SFTP, HTTP, FTP and WebDAV services and it will automatically block hosts (IP addresses) that continually fail to log in or attempt to connect.</p>
 <p>You can configure a score for the following events:</p>
 <ul>
 <li><code>score_valid</code>, defines the score for valid login attempts, eg. user accounts that exist. Default <code>1</code>.</li>
@@ -1592,6 +1592,7 @@ If you set the <code>provider</code> driver, the defender implementation may do 
 <li>remove hosts from the defender's lists</li>
 </ul>
 <p>The <code>defender</code> can also check permanent block and safe lists of IP addresses/networks. You can define these lists using the WebAdmin UI or the REST API. In multi-nodes setups, the list entries propagation between nodes may take some minutes.</p>
+<p>The <code>defender</code> also allow to delay reporting failed authentications as a way to slow down password guessing attempts.</p>
 
 
 
@@ -1658,7 +1659,7 @@ If you set the <code>provider</code> driver, the defender implementation may do 
     <script id="__config" type="application/json">{"base": "..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.5cfa9459.min.js"></script>
+      <script src="../assets/javascripts/bundle.ebd0bdb7.min.js"></script>
       
     
   <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>

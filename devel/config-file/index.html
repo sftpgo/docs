@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../assets/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.22">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.23">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.732c4fb1.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.6543a935.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
@@ -1907,6 +1907,11 @@
 <li><code>observation_time</code>, integer. Defines the time window, in minutes, for tracking client errors. A host is banned if it has exceeded the defined threshold during the last observation time minutes. Default: <code>30</code>.</li>
 <li><code>entries_soft_limit</code>, integer. Ignored for <code>provider</code> driver. Default: <code>100</code>.</li>
 <li><code>entries_hard_limit</code>, integer. The number of banned IPs and host scores kept in memory will vary between the soft and hard limit for <code>memory</code> driver. If you use the <code>provider</code> driver, this setting will limit the number of entries to return when you ask for the entire host list from the defender. Default: <code>150</code>.</li>
+<li><code>login_delay</code>, struct containing the configuration to impose a delay between login attempts:<ul>
+<li><code>success</code>, integer. Defines the number of milliseconds to pause prior to allowing a successful login. <code>0</code> means disabled. Default: <code>0</code>.</li>
+<li><code>password_failed</code>, integer. Defines the number of milliseconds to pause prior to reporting a failed password/interactive login. <code>0</code> means disabled. Default: <code>1000</code>.</li>
+</ul>
+</li>
 </ul>
 </li>
 <li><code>rate_limiters</code>, list of structs containing the rate limiters configuration. Take a look <a href="../rate-limiting/">here</a> for more details. Each struct has the following fields:<ul>
@@ -2434,7 +2439,7 @@ Supported configuration parameters for the <code>smtp</code> section:</p>
     <script id="__config" type="application/json">{"base": "..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.5cfa9459.min.js"></script>
+      <script src="../assets/javascripts/bundle.ebd0bdb7.min.js"></script>
       
     
   <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
