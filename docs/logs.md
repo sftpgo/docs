@@ -26,6 +26,7 @@ The logs can be divided into the following categories:
 - `connection_id` string. Unique connection identifier
 - `protocol` string. `SFTP`, `SCP`, `SSH`, `FTP`, `HTTP`, `HTTPShare`, `DAV`, `DataRetention`, `EventAction`
 - `ftp_mode`, string. `active` or `passive`. Included only for `FTP` protocol
+- `error`, string. Included if there is a transfer error
 
 **command logs**, SFTP/SCP command logs:
 
