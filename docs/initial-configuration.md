@@ -2,6 +2,8 @@
 
 We assume that you have installed SFTPGo and it is up and running, so let's explore the main features and concepts.
 
+:warning: SFTPGo has many settings and configuration options. Before using SFTPGo in production you should carefully understand what they mean and what changes are required to harden your installation according to your requirements. The default configuration is a tradeoff between security and usability. We can provide [commercial support]((https://sftpgo.com/#pricing){:target="_blank"}) if needed.
+
 ## Initial configuration
 
 Before you can use SFTPGo you need to create an admin account, so open [http://127.0.0.1:8080/web/admin](http://127.0.0.1:8080/web){:target="_blank"} in your web browser, replacing `127.0.0.1` with the appropriate IP address if SFTPGo is not running on localhost.
