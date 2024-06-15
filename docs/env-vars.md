@@ -14,4 +14,12 @@ If you install SFTPGo on Linux using the official deb/rpm packages you can set y
 SFTPGo also reads files inside the `env.d` directory relative to config dir and then exports the valid variables into environment variables if they are not already set. With this method you can override any configuration options, set environment variables for SFTPGo plugins but you cannot set command flags because these files are read after that SFTPGo starts and the config dir must already be set.
 Of course you can also set environment variables with the method provided by the operating system of your choice.
 
-:warning: For environment variable files within the `env.d` directory, use single-quoted strings to avoid unexpected substitutions of characters preceded by a dollar sign (`$`).
+The following escaping rules apply to environment variable files in the `env.d` directory:
+
+- If you use single quotes nothing is escaped.
+- If you use double quotes you can escape characters using a backslash (`\`). `$` has special meaning and tries to expand to another environment variable if not escaped.
+
+Suppose you want to set the dataprovider password to `my$secret\pwd`, you can use one of the following formats:
+
+- `SFTPGO_DATA_PROVIDER__PASSWORD='my$secret\pwd'`.
+- `SFTPGO_DATA_PROVIDER__PASSWORD="my\$secret\\pwd"`.
