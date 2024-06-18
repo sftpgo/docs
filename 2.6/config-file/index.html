@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../assets/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.22">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.27">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.732c4fb1.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.6543a935.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
@@ -202,7 +202,7 @@
       
     </form>
     <div class="md-search__output">
-      <div class="md-search__scrollwrap" data-md-scrollfix>
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
         <div class="md-search-result" data-md-component="search-result">
           <div class="md-search-result__meta">
             Initializing search
@@ -1870,8 +1870,8 @@
 <li><code>temp_path</code>, string. Defines the path for temporary files such as those used for atomic uploads or file pipes. If you set this option you must make sure that the defined path exists, is accessible for writing by the user running SFTPGo, and is on the same filesystem as the users home directories otherwise the renaming for atomic uploads will become a copy and therefore may take a long time. The temporary files are not namespaced. The default is generally fine. Leave empty for the default.</li>
 <li><code>proxy_protocol</code>, integer. Support for <a href="https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt" target="_blank">HAProxy PROXY protocol</a>. If you are running SFTPGo behind a proxy server such as HAProxy, AWS ELB or NGINX, you can enable the proxy protocol. It provides a convenient way to safely transport connection information such as a client's address across multiple layers of NAT or TCP proxies to get the real client IP address instead of the proxy IP. Both protocol versions 1 and 2 are supported. If the proxy protocol is enabled in SFTPGo then you have to enable the protocol in your proxy configuration too. For example, for HAProxy, add <code>send-proxy</code> or <code>send-proxy-v2</code> to each server configuration line. The PROXY protocol is supported for SSH/SFTP and FTP/S. The following modes are supported:<ul>
 <li>0, disabled</li>
-<li>1, enabled. If the upstream IP is not allowed to send a proxy header, the header will be ignored. Using this mode does not mean that we can accept connections with and without the proxy header. We always try to read the proxy header and we ignore it if the upstream IP is not allowed to send a proxy header. Set <code>proxy_skipped</code> if you want to allow some IP/networks to connect without sending a proxy header</li>
-<li>2, required. If the upstream IP is not allowed to send a proxy header, the connection will be rejected (unless the upstream IP is listed in <code>proxy_skipped</code>)</li>
+<li>1, enabled. If the upstream IP is not allowed to send a proxy header, the header will be ignored. Using this mode does not mean that we can accept connections with and without the proxy header. We always try to read the proxy header and we ignore it if the upstream IP is not allowed to send a proxy header. Set <code>proxy_skipped</code> if you want to allow some IPs/networks to connect without sending a proxy header and without SFTPGo trying to read it</li>
+<li>2, required. If the upstream IP is not allowed to send a proxy header, the connection will be rejected if a proxy header is found. We always try to read the proxy header. Set <code>proxy_skipped</code> if you want to allow some IPs/networks to connect without sending a proxy header and without SFTPGo trying to read it</li>
 </ul>
 </li>
 <li><code>proxy_allowed</code>, list of IP addresses and IP ranges allowed to send the proxy header:<ul>
@@ -1907,6 +1907,11 @@
 <li><code>observation_time</code>, integer. Defines the time window, in minutes, for tracking client errors. A host is banned if it has exceeded the defined threshold during the last observation time minutes. Default: <code>30</code>.</li>
 <li><code>entries_soft_limit</code>, integer. Ignored for <code>provider</code> driver. Default: <code>100</code>.</li>
 <li><code>entries_hard_limit</code>, integer. The number of banned IPs and host scores kept in memory will vary between the soft and hard limit for <code>memory</code> driver. If you use the <code>provider</code> driver, this setting will limit the number of entries to return when you ask for the entire host list from the defender. Default: <code>150</code>.</li>
+<li><code>login_delay</code>, struct containing the configuration to impose a delay between login attempts:<ul>
+<li><code>success</code>, integer. Defines the number of milliseconds to pause prior to allowing a successful login. <code>0</code> means disabled. Default: <code>0</code>.</li>
+<li><code>password_failed</code>, integer. Defines the number of milliseconds to pause prior to reporting a failed password/interactive login. <code>0</code> means disabled. Default: <code>1000</code>.</li>
+</ul>
+</li>
 </ul>
 </li>
 <li><code>rate_limiters</code>, list of structs containing the rate limiters configuration. Take a look <a href="../rate-limiting/">here</a> for more details. Each struct has the following fields:<ul>
@@ -1956,6 +1961,7 @@
 <li><code>host_certificates</code>, list of strings. Public host certificates. Each certificate can be defined as a path relative to the configuration directory or an absolute one. Certificate's public key must match a private host key otherwise it will be silently ignored. Default: empty.</li>
 <li><code>host_key_algorithms</code>, list of strings. Public key algorithms that the server will accept for host key authentication. The supported values are: <code>rsa-sha2-512-cert-v01@openssh.com</code>, <code>rsa-sha2-256-cert-v01@openssh.com</code>, <code>ssh-rsa-cert-v01@openssh.com</code>, <code>ssh-dss-cert-v01@openssh.com</code>, <code>ecdsa-sha2-nistp256-cert-v01@openssh.com</code>, <code>ecdsa-sha2-nistp384-cert-v01@openssh.com</code>, <code>ecdsa-sha2-nistp521-cert-v01@openssh.com</code>, <code>ssh-ed25519-cert-v01@openssh.com</code>, <code>ecdsa-sha2-nistp256</code>, <code>ecdsa-sha2-nistp384</code>, <code>ecdsa-sha2-nistp521</code>, <code>rsa-sha2-512</code>, <code>rsa-sha2-256</code>, <code>ssh-rsa</code>, <code>ssh-dss</code>, <code>ssh-ed25519</code>. Certificate algorithms are listed for backward compatibility purposes only, they are not used. Default values: <code>rsa-sha2-512</code>, <code>rsa-sha2-256</code>, <code>ecdsa-sha2-nistp256</code>, <code>ecdsa-sha2-nistp384</code>, <code>ecdsa-sha2-nistp521</code>, <code>ssh-ed25519</code>.</li>
 <li><code>kex_algorithms</code>, list of strings. Available KEX (Key Exchange) algorithms in preference order. Leave empty to use default values. The supported values are: <code>curve25519-sha256</code> (will also enable the alias <code>curve25519-sha256@libssh.org</code>), <code>ecdh-sha2-nistp256</code>, <code>ecdh-sha2-nistp384</code>, <code>ecdh-sha2-nistp521</code>, <code>diffie-hellman-group14-sha256</code>, <code>diffie-hellman-group16-sha512</code>, <code>diffie-hellman-group14-sha1</code>, <code>diffie-hellman-group1-sha1</code>, <code>diffie-hellman-group-exchange-sha256</code>, <code>diffie-hellman-group-exchange-sha1</code>. Default values: <code>curve25519-sha256</code>, <code>ecdh-sha2-nistp256</code>, <code>ecdh-sha2-nistp384</code>, <code>ecdh-sha2-nistp521</code>, <code>diffie-hellman-group14-sha256</code>,  <code>diffie-hellman-group-exchange-sha256</code>. SHA512 based KEXs are disabled by default because they are slow.</li>
+<li><code>min_dh_group_exchange_key_size</code>, integer. Defines the minimum key size to allow for the key exchanges when using diffie-ellman-group-exchange-sha1 or sha256 key exchange algorithms. Allowed values: <code>2048</code>, <code>3072</code>. Default: <code>2048</code>.</li>
 <li><code>ciphers</code>, list of strings. Allowed ciphers in preference order. Leave empty to use default values. The supported values are: <code>aes128-gcm@openssh.com</code>, <code>aes256-gcm@openssh.com</code>, <code>chacha20-poly1305@openssh.com</code>, <code>aes128-ctr</code>, <code>aes192-ctr</code>, <code>aes256-ctr</code>, <code>aes128-cbc</code>, <code>aes192-cbc</code>, <code>aes256-cbc</code>, <code>3des-cbc</code>, <code>arcfour256</code>, <code>arcfour128</code>, <code>arcfour</code>. Default values: <code>aes128-gcm@openssh.com</code>, <code>aes256-gcm@openssh.com</code>, <code>chacha20-poly1305@openssh.com</code>, <code>aes128-ctr</code>, <code>aes192-ctr</code>, <code>aes256-ctr</code>. Please note that the ciphers disabled by default are insecure, you should expect that an active attacker can recover plaintext if you enable them.</li>
 <li><code>macs</code>, list of strings. Available MAC (message authentication code) algorithms in preference order. Leave empty to use default values. The supported values are: <code>hmac-sha2-256-etm@openssh.com</code>, <code>hmac-sha2-256</code>, <code>hmac-sha2-512-etm@openssh.com</code>, <code>hmac-sha2-512</code>, <code>hmac-sha1</code>, <code>hmac-sha1-96</code>. Default values: <code>hmac-sha2-256-etm@openssh.com</code>, <code>hmac-sha2-256</code>.</li>
 <li><code>public_key_algorithms</code>, list of strings. Public key algorithms that the server will accept for client authentication. The supported values are: <code>ecdsa-sha2-nistp256</code>, <code>ecdsa-sha2-nistp384</code>, <code>ecdsa-sha2-nistp521</code>, <code>rsa-sha2-512</code>, <code>rsa-sha2-256</code>, <code>ssh-rsa</code>, <code>ssh-dss</code>, <code>ssh-ed25519</code>, <code>sk-ssh-ed25519@openssh.com</code>, <code>sk-ecdsa-sha2-nistp256@openssh.com</code>. Default values: <code>ecdsa-sha2-nistp256</code>, <code>ecdsa-sha2-nistp384</code>, <code>ecdsa-sha2-nistp521</code>, <code>rsa-sha2-512</code>, <code>rsa-sha2-256</code>, <code>ssh-ed25519</code>, <code>sk-ssh-ed25519@openssh.com</code>, <code>sk-ecdsa-sha2-nistp256@openssh.com</code>.</li>
@@ -2199,7 +2205,6 @@
 <li><code>short_name</code>, string. Defines the short name to show next to the logo image and on the login page</li>
 <li><code>favicon_path</code>, string. Path to the favicon relative to <code>static_files_path</code>. For example, if you create a directory named <code>branding</code> inside the static dir and put the <code>favicon.ico</code> file in it, you must set <code>/branding/favicon.ico</code> as path.</li>
 <li><code>logo_path</code>, string. Path to your logo relative to <code>static_files_path</code>. The preferred image size is 256x256 pixel</li>
-<li><code>login_image_path</code>, string. Path to a custom image to show on the login screen relative to <code>static_files_path</code>. The preferred image size is 900x900 pixel</li>
 <li><code>disclaimer_name</code>, string. Name for your optional disclaimer</li>
 <li><code>disclaimer_path</code>, string. Path to the HTML page with the disclaimer relative to <code>static_files_path</code> or an absolute URL (http or https).</li>
 <li><code>default_css</code>, list of strings. Optional path to custom CSS files, relative to <code>static_files_path</code>, which replaces the default CSS</li>
@@ -2434,7 +2439,7 @@ Supported configuration parameters for the <code>smtp</code> section:</p>
     <script id="__config" type="application/json">{"base": "..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.5cfa9459.min.js"></script>
+      <script src="../assets/javascripts/bundle.ad660dcc.min.js"></script>
       
     
   <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
