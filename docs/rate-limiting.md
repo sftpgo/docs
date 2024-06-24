@@ -24,7 +24,7 @@ If you configure a per-host rate limiter, SFTPGo will keep a rate limiter in mem
 
 You can exclude a list of IP addresses and IP ranges from rate limiters by adding them to rate limites allow list using the WebAdmin UI or the REST API. In multi-nodes setups, the list entries propagation between nodes may take some minutes.
 
-You can defines how many rate limiters as you want, but keep in mind that if you defines multiple rate limiters each request will be checked against all the configured limiters and so it can potentially be delayed multiple times. Let's clarify with an example, here is a configuration that defines a global rate limiter and a per-host rate limiter for the FTP protocol:
+You can defines how many rate limiters as you want, but keep in mind that if you defines multiple rate limiters each request will be checked against all the configured limiters and so it can potentially be delayed multiple times. Let's clarify with an example, here is a configuration that defines a global rate limiter and a per-host rate limiter for the SSH and FTP protocols:
 
 ```json
 "rate_limiters": [
@@ -49,9 +49,9 @@ You can defines how many rate limiters as you want, but keep in mind that if you
       "burst": 1,
       "type": 2,
       "protocols": [
+        "SSH",
         "FTP"
       ],
-      "allow_list": [],
       "generate_defender_events": true,
       "entries_soft_limit": 100,
       "entries_hard_limit": 150
@@ -59,6 +59,27 @@ You can defines how many rate limiters as you want, but keep in mind that if you
 ]
 ```
 
-we have a global rate limiter that limit the aggregate rate for the all the services to 100 req/s and an additional rate limiter that limits the `FTP` protocol to 10 req/s per host.
-With this configuration, when a client connects via FTP it will be limited first by the global rate limiter and then by the per host rate limiter.
-Clients connecting via SFTP/WebDAV will be checked only against the global rate limiter.
+Alternatively (recommended), you can use environment variables by creating the file `/etc/sftpgo/env.d/rate-limiting.env` with the following content.
+
+```shell
+SFTPGO_COMMON__RATE_LIMITERS__0__AVERAGE=100
+SFTPGO_COMMON__RATE_LIMITERS__0__PERIOD=1000
+SFTPGO_COMMON__RATE_LIMITERS__0__BURST=1
+SFTPGO_COMMON__RATE_LIMITERS__0__TYPE=1
+SFTPGO_COMMON__RATE_LIMITERS__0__PROTOCOLS=SSH,FTP,DAV,HTTP
+SFTPGO_COMMON__RATE_LIMITERS__0__GENERATE_DEFENDER_EVENTS=0
+SFTPGO_COMMON__RATE_LIMITERS__0__ENTRIES_SOFT_LIMIT=100
+SFTPGO_COMMON__RATE_LIMITERS__0__ENTRIES_HARD_LIMIT=150
+SFTPGO_COMMON__RATE_LIMITERS__1__AVERAGE=10
+SFTPGO_COMMON__RATE_LIMITERS__1__PERIOD=1000
+SFTPGO_COMMON__RATE_LIMITERS__1__BURST=1
+SFTPGO_COMMON__RATE_LIMITERS__1__TYPE=2
+SFTPGO_COMMON__RATE_LIMITERS__1__PROTOCOLS=SSH,FTP
+SFTPGO_COMMON__RATE_LIMITERS__1__GENERATE_DEFENDER_EVENTS=1
+SFTPGO_COMMON__RATE_LIMITERS__1__ENTRIES_SOFT_LIMIT=100
+SFTPGO_COMMON__RATE_LIMITERS__1__ENTRIES_HARD_LIMIT=150
+```
+
+We have a global rate limiter that limit the aggregate rate for the all the services to 100 req/s and an additional rate limiter that limits `SSH` and `FTP` protocols to 10 req/s per host.
+With this configuration, when a client connects via SSH and FTP will be limited first by the global rate limiter and then by the per host rate limiter.
+Clients connecting via WebDAV or HTTP will be checked only against the global rate limiter.
