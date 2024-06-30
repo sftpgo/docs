@@ -1890,6 +1890,7 @@
 <li><code>allow_self_connections</code>, integer. Allow users on this instance to use other users/virtual folders on this instance as storage backend. Enable this setting if you know what you are doing. Set to <code>1</code> to enable. Default: <code>0</code>.</li>
 <li><code>umask</code>, string. Set the file mode creation mask, for example <code>002</code>. Leave blank to use the system umask. Supported on *NIX platforms. Default: blank.</li>
 <li><code>server_version</code>, string. Allow some degree of customization for the advertised software version. Set to <code>short</code> to hide the SFTPGo version number, if different from <code>short</code> the default will be used. Default: blank.</li>
+<li><code>tz</code>, string. Defines the time zone to use for the EventManager scheduler and to control time-based access restrictions. Set to <code>local</code> to use the server's local time, otherwise UTC will be used. Default: blank.</li>
 <li><code>metadata</code>, struct containing the configuration for managing the Cloud Storage backends metadata.<ul>
 <li><code>read</code>, integer. Set to <code>1</code> to read metadata before downloading files from Cloud Storage backends and making them available in notification events. Default: <code>0</code>.</li>
 </ul>
