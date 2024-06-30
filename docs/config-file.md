@@ -34,6 +34,7 @@ Supported configuration parameters for the `common` section:
 - `allow_self_connections`, integer. Allow users on this instance to use other users/virtual folders on this instance as storage backend. Enable this setting if you know what you are doing. Set to `1` to enable. Default: `0`.
 - `umask`, string. Set the file mode creation mask, for example `002`. Leave blank to use the system umask. Supported on *NIX platforms. Default: blank.
 - `server_version`, string. Allow some degree of customization for the advertised software version. Set to `short` to hide the SFTPGo version number, if different from `short` the default will be used. Default: blank.
+- `tz`, string. Defines the time zone to use for the EventManager scheduler and to control time-based access restrictions. Set to `local` to use the server's local time, otherwise UTC will be used. Default: blank.
 - `metadata`, struct containing the configuration for managing the Cloud Storage backends metadata.
   - `read`, integer. Set to `1` to read metadata before downloading files from Cloud Storage backends and making them available in notification events. Default: `0`.
 - `defender`, struct containing the defender configuration. See [Defender](defender.md) for more details.
