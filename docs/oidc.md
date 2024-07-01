@@ -12,7 +12,7 @@ We'll not go through the complete process of creating a realm/clients/users in K
 Here is just an outline:
 
 - create a realm named `sftpgo`
-- in "Realm Settings" -> "Login" adjust the "Require SSL" setting as per your requirements
+- in "Realm Settings" -> "Login" adjust the "Require SSL" setting as per your requirements and make sure "Unmanaged Attributes" are allowed if you want to add custom attributes
 - create a client named `sftpgo-client`
 - for the `sftpgo-client` set the `Access Type` to `confidential` and a valid redirect URI, for example if your SFTPGo instance is running on `http://192.168.1.50:8080` a valid redirect URI is `http://192.168.1.50:8080/*`
 - for the `sftpgo-client`, in the `Mappers` settings, make sure that the username and the sftpgo role are added to the ID token. For example you can add the user attribute `sftpgo_role` as JSON string to the ID token and the `username` as `preferred_username` JSON string to the ID token
