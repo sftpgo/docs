@@ -1568,7 +1568,7 @@ so you can login to SFTPGo Web Client and Web Admin user interfaces, using your 
 <p>Here is just an outline:</p>
 <ul>
 <li>create a realm named <code>sftpgo</code></li>
-<li>in "Realm Settings" -&gt; "Login" adjust the "Require SSL" setting as per your requirements</li>
+<li>in "Realm Settings" -&gt; "Login" adjust the "Require SSL" setting as per your requirements and make sure "Unmanaged Attributes" are allowed if you want to add custom attributes</li>
 <li>create a client named <code>sftpgo-client</code></li>
 <li>for the <code>sftpgo-client</code> set the <code>Access Type</code> to <code>confidential</code> and a valid redirect URI, for example if your SFTPGo instance is running on <code>http://192.168.1.50:8080</code> a valid redirect URI is <code>http://192.168.1.50:8080/*</code></li>
 <li>for the <code>sftpgo-client</code>, in the <code>Mappers</code> settings, make sure that the username and the sftpgo role are added to the ID token. For example you can add the user attribute <code>sftpgo_role</code> as JSON string to the ID token and the <code>username</code> as <code>preferred_username</code> JSON string to the ID token</li>
