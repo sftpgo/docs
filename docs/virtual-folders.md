@@ -22,6 +22,7 @@ The same virtual folder can be shared among users, different folder quota limits
 Folder quota limits can also be included inside the user quota but in this case the folder is considered "private" and sharing it with other users will break user quota calculation.
 Folders with dynamic paths added via groups must be private to avoid breaking quota calculations.
 The calculation of the quota for a given user is obtained as the sum of the files contained in his home directory and those within each defined virtual folder included in its quota.
+For private folders, the quota is updated only for the matching user not for the folder itself.
 
 If you define folders that point to nested paths or to the same path, the quota calculation will be incorrect. Example:
 
