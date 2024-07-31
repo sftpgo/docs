@@ -2,7 +2,7 @@
 
 We assume that you have installed SFTPGo and it is up and running, so let's explore the main features and concepts.
 
-:warning: SFTPGo has many settings and configuration options. Before using SFTPGo in production you should carefully understand what they mean and what changes are required to harden your installation according to your requirements. The default configuration is a tradeoff between security and usability. We can provide [commercial support](https://sftpgo.com/#pricing){:target="_blank"} if needed.
+:warning: SFTPGo has many settings and configuration options. Before using SFTPGo in production you should carefully understand what they mean and what changes are required to harden your installation according to your requirements. We recommend that you provide at least TLS certificates to protect your services.. The default configuration is a tradeoff between security and usability. We can provide [commercial support](https://sftpgo.com/#pricing){:target="_blank"} if needed.
 
 ## Initial configuration
 
