@@ -1580,11 +1580,6 @@ To enable dynamic user modification, you must set the absolute path of your prog
 <p>If the hook is an HTTP URL then it will be invoked as HTTP POST. The login method, the used protocol and the ip address of the user trying to login are added to the query string, for example <code>&lt;http_url&gt;?login_method=password&amp;ip=1.2.3.4&amp;protocol=SSH</code>.
 The request body will contain the user trying to login serialized as JSON. If no modification is needed the HTTP response code must be 204, otherwise the response code must be 200 and the response body a valid SFTPGo user serialized as JSON.</p>
 <p>Actions defined for user's updates will not be executed in this case and an already logged in user with the same username will not be disconnected, you have to handle these things yourself.</p>
-<p>For very simple use cases, the JSON response can include only the fields to update instead of the full user. For example, if you want to disable the user, you can return a response like this:</p>
-<pre><code class="language-json">{&quot;status&quot;: 0}
-</code></pre>
-<p>This will not work as expected for sub-struct and lists.</p>
-<p>Please note that if you want to create a new user, the pre-login hook response must include all the mandatory user fields.</p>
 <p>The program hook must finish within 30 seconds, the HTTP hook will use the global configuration for HTTP clients.</p>
 <p>If an error happens while executing the hook then login will be denied.</p>
 <p>"Dynamic user creation or modification" and "External Authentication" are mutually exclusive, they are quite similar, the difference is that "External Authentication" returns an already authenticated user while using "Dynamic users modification" you simply create or update a user. The authentication will be checked inside SFTPGo.
