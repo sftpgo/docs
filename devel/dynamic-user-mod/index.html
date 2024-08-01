@@ -1587,21 +1587,6 @@ In other words while using "External Authentication" the external program receiv
 <p>For SFTPGo users (not admins) authenticating using an external identity provider such as OpenID Connect, the pre-login hook will be executed after a successful authentication against the external IDP so that you can create/update the SFTPGo user matching the one authenticated against the identity provider. In this case where the pre-login hook is executed even if an external authentication hook is defined.</p>
 <p>If you enable FTP and allow both encrypted and plain text sessions, the pre-login hook is executed after receiving the FTP <code>USER</code> command. If you return an SFTPGo user with <code>ftp_security</code> set to <code>1</code> and the FTP session is not encrypted, it will be terminated. In this case where the pre-login hook is executed even if an external authentication hook is defined.</p>
 <p>You can disable the hook on a per-user basis.</p>
-<p>Let's see a very basic example. Our sample program will grant access to the existing user <code>test_user</code> only in the time range 10:00-18:00. Other users will not be modified since the program will terminate with no output.</p>
-<pre><code class="language-shell">#!/bin/bash
-
-CURRENT_TIME=`date +%H:%M`
-if [[ &quot;$SFTPGO_LOGIND_USER&quot; =~ &quot;\&quot;test_user\&quot;&quot; ]]
-then
-  if [[ $CURRENT_TIME &gt; &quot;18:00&quot; || $CURRENT_TIME &lt; &quot;10:00&quot; ]]
-  then
-    echo '{&quot;status&quot;:0}'
-  else
-    echo '{&quot;status&quot;:1}'
-  fi
-fi
-</code></pre>
-<p>Please note that this is a demo program and it might not work in all cases. For example, the username should be obtained by parsing the JSON serialized user and not by searching the username inside the JSON as shown here.</p>
 <p>The structure for SFTPGo users can be found within the <a href="https://github.com/drakkan/sftpgo/blob/main/openapi/openapi.yaml" target="_blank">OpenAPI schema</a>.</p>
 
 
