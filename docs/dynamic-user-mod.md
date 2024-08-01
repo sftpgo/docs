@@ -35,23 +35,4 @@ If you enable FTP and allow both encrypted and plain text sessions, the pre-logi
 
 You can disable the hook on a per-user basis.
 
-Let's see a very basic example. Our sample program will grant access to the existing user `test_user` only in the time range 10:00-18:00. Other users will not be modified since the program will terminate with no output.
-
-```shell
-#!/bin/bash
-
-CURRENT_TIME=`date +%H:%M`
-if [[ "$SFTPGO_LOGIND_USER" =~ "\"test_user\"" ]]
-then
-  if [[ $CURRENT_TIME > "18:00" || $CURRENT_TIME < "10:00" ]]
-  then
-    echo '{"status":0}'
-  else
-    echo '{"status":1}'
-  fi
-fi
-```
-
-Please note that this is a demo program and it might not work in all cases. For example, the username should be obtained by parsing the JSON serialized user and not by searching the username inside the JSON as shown here.
-
 The structure for SFTPGo users can be found within the [OpenAPI schema](https://github.com/drakkan/sftpgo/blob/2.6.x/openapi/openapi.yaml){:target="_blank"}.
