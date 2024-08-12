@@ -302,6 +302,7 @@ Supported configuration parameters for the `httpd` section (REST API, WebAdmin, 
     - `content_security_policy`, string. Allows to set the `Content-Security-Policy` header value. Default: blank.
     - `permissions_policy`, string. Allows to set the `Permissions-Policy` header value. Default: blank.
     - `cross_origin_opener_policy`, string. Allows to set the `Cross-Origin-Opener-Policy` header value. Default: blank.
+    - `cache_control`, string. Allows to set the `Cache-Control` header. Set to `private` to disable caching for dynamic pages. Default: blank.
   - `branding`, struct. Defines the supported customizations to suit your brand. It contains the `web_admin` and `web_client` structs that define customizations for the WebAdmin and the WebClient UIs. Each customization struct contains the following fields:
     - `name`, string. Defines the UI name
     - `short_name`, string. Defines the short name to show next to the logo image and on the login page
