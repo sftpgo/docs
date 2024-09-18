@@ -306,7 +306,7 @@ Supported configuration parameters for the `httpd` section (REST API, WebAdmin, 
   - `branding`, struct. Defines the supported customizations to suit your brand. It contains the `web_admin` and `web_client` structs that define customizations for the WebAdmin and the WebClient UIs. Each customization struct contains the following fields:
     - `name`, string. Defines the UI name
     - `short_name`, string. Defines the short name to show next to the logo image and on the login page
-    - `favicon_path`, string. Path to the favicon relative to `static_files_path`. For example, if you create a directory named `branding` inside the static dir and put the `favicon.ico` file in it, you must set `/branding/favicon.ico` as path.
+    - `favicon_path`, string. Path to the favicon relative to `static_files_path`. For example, if you create a directory named `branding` inside the static dir and put the `favicon.png` file in it, you must set `/branding/favicon.png` as path.
     - `logo_path`, string. Path to your logo relative to `static_files_path`. The preferred image size is 256x256 pixel
     - `disclaimer_name`, string. Name for your optional disclaimer
     - `disclaimer_path`, string. Path to the HTML page with the disclaimer relative to `static_files_path` or an absolute URL (http or https).
