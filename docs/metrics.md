@@ -17,4 +17,4 @@ Several counters and gauges are available, for example:
 
 Please check the `/metrics` page for more details.
 
-The telemetry server is disabled by default. To enable look check the [configuration](config-file.md) for details.
+The telemetry server is disabled by default. To enable check the [configuration](config-file.md) for details.
