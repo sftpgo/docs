@@ -1,6 +1,6 @@
 # Metrics
 
-SFTPGo supports [Prometheus](https://prometheus.io/)){:target="_blank"} metrics at the `/metrics` HTTP endpoint of the telemetry server.
+SFTPGo supports [Prometheus](https://prometheus.io/){:target="_blank"} metrics at the `/metrics` HTTP endpoint of the telemetry server.
 Several counters and gauges are available, for example:
 
 - Total uploads and downloads
