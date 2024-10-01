@@ -82,7 +82,7 @@ Create an action named `upload notification` with the settings you can see in th
 
 You can optionally add the uploaded file as an attachment but note that SFTPGo allows you to attach a maximum of 10MB. Then the action will fail for files bigger than 10MB.
 
-Now select `Event rules` and create a rule named `Upload rule`, select `Filesystem evens` as trigger and `upload` as filesystem event.
+Now select `Event rules` and create a rule named `Upload rule`, select `Filesystem events` as trigger and `upload` as filesystem event.
 You can also filters events based on protocol, user and group name, filepath shell-like patterns, file size. We omit these additional filters for simplicity.
 
 ![Upload rule](../assets/img/upload-rule.png){data-gallery="upload-rule"}
