@@ -1560,7 +1560,8 @@
 
 
 <h1 id="logs">Logs</h1>
-<p>SFTPGo logs a stream of JSON structs. Each struct has a <code>sender</code> field that identifies the log type.</p>
+<p>SFTPGo logs a stream of JSON structs. Each struct has a <code>sender</code> field that identifies the log type.
+SFTPGo logging options are set either by cli options or environment variables, not in the configuration file. More <a href="../cli/#starting-the-server">details</a>.</p>
 <p>The logs can be divided into the following categories:</p>
 <p><strong>app logs</strong>, internal logs used to debug SFTPGo:</p>
 <ul>
