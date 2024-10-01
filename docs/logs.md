@@ -1,6 +1,7 @@
 # Logs
 
 SFTPGo logs a stream of JSON structs. Each struct has a `sender` field that identifies the log type.
+SFTPGo logging options are set either by cli options or environment variables, not in the configuration file. More [details](cli.md#starting-the-server).
 
 The logs can be divided into the following categories:
 
