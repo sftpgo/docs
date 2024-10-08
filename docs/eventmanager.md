@@ -48,6 +48,7 @@ The following placeholders are supported:
 - `{{IP}}`. Client IP address.
 - `{{Role}}`. User or admin role.
 - `{{Timestamp}}`. Event timestamp as nanoseconds since epoch.
+- `{{DateTime}}`. Event timestamp formatted as YYYY-MM-DDTHH:MM:SS.ZZZ.
 - `{{Email}}`. For filesystem events, this is the email associated with the user performing the action. For the provider events, this is the email associated with the affected user or admin. Blank in all other cases.
 - `{{ObjectData}}`. Provider object data serialized as JSON with sensitive fields removed.
 - `{{ObjectDataString}}`. Provider object data as JSON escaped string with sensitive fields removed.
