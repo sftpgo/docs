@@ -16,15 +16,14 @@ We strongly believe in Open Source software model, so we decided to make SFTPGo 
 
 The open source license grant you freedom but not assurance of help. So why would you rely on free software without support or any guarantee it will stay healthy and maintained for the upcoming years?
 
-Supporting the project benefit businesses and the community because if the project is financially sustainable, using this business model, we don't have to restrict features and/or switch to an [Open-core](https://en.wikipedia.org/wiki/Open-core_model){:target="_blank"} model. The technology stays truly open source. Everyone wins.
+We offer commercial support, guarantees, and advice for SFTPGo:
 
-It is important to understand that you should support SFTPGo and any other Open Source project you rely on for ongoing maintenance, even if you don't have any questions or need new features, to mitigate the business risk of a project you depend on going unmaintained, with its security and development velocity implications.
-
-We also provide [commercial support](https://sftpgo.com/){:target="_blank"}.
+- With our [plans](https://sftpgo.com/plans){:target="_blank"} you can safely install and use SFTPGo on-premise in professional environments.
+- With our [SaaS offerings](https://sftpgo.com/saas){:target="_blank"} you can use SFTPGo hosted in the cloud, fully managed and supported.
 
 ## Licensing
 
-SFTPGo source code is licensed under [GNU AGPL-3.0-only](https://www.gnu.org/licenses/agpl-3.0.en.html){:target="_blank"}.
+SFTPGo source code is licensed under [GNU AGPL-3.0-only](https://www.gnu.org/licenses/agpl-3.0.en.html){:target="_blank"} with [additional terms](https://github.com/drakkan/sftpgo/blob/main/NOTICE){:target="_blank"}.
 
 The [theme](https://keenthemes.com/products/templates-mega-bundle){:target="_blank"} used in WebAdmin and WebClient user interfaces is proprietary, this means:
 
