@@ -105,7 +105,11 @@ markdown_extensions:
 extra:
   generator: true
   social:
+    - icon: material/web
+      link: https://sftpgo.com
+      name: SFTPGo Website
     - icon: fontawesome/brands/github
       link: https://github.com/drakkan/sftpgo
+      name: SFTPGo code repository
   version:
     provider: mike
