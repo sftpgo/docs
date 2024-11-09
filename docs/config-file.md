@@ -62,7 +62,7 @@ Supported configuration parameters for the `common` section:
   - `entries_soft_limit`, integer.
   - `entries_hard_limit`, integer. The number of per-ip rate limiters kept in memory will vary between the soft and hard limit
 - `event_manager`, struct containing the configuration for the EventManager
-  - `enabled_commands`, list of strings. Absolute path to system commands that can be executed through Event Manager. An empty list means that any command is allowed to be executed. Default: empty
+  - `enabled_commands`, list of strings. Absolute path to system commands that can be executed through Event Manager. An empty list means that any command is allowed to be executed. :warning: Allowing any system command could pose a security risk.Default: empty
 
 ## ACME
 
