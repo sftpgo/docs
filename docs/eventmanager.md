@@ -5,7 +5,7 @@ The Event Manager allows an administrator to configure HTTP notifications, comma
 The following actions are supported:
 
 - `HTTP notification`. You can notify an HTTP/S endpoing via GET, POST, PUT, DELETE methods. You can define custom headers, query parameters and a body for POST and PUT request. Placeholders are supported for username, body, header and query parameter values.
-- `Command execution`. You can launch custom commands passing parameters via environment variables. Placeholders are supported for environment variable values. :warning: Allowing any system command could pose a security risk.
+- `Command execution`. You can launch custom commands passing parameters via environment variables. Placeholders are supported for environment variable values. :warning: Allowing any system command could pose a security risk, they are disabled by default.
 - `Email notification`. Placeholders are supported in subject and body. The email will be sent as plain text. For this action to work you have to configure an SMTP server in the SFTPGo configuration file.
 - `Backup`. A backup will be saved in the configured backup directory. The backup will contain the week day and the hour in the file name.
 - `Rotate log file`. If file logging is enabled, the log file will be rotated regardless of its size.
