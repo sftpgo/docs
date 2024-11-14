@@ -21,6 +21,9 @@ We offer commercial support, guarantees, and advice for SFTPGo:
 - With our [plans](https://sftpgo.com/plans){:target="_blank"} you can safely install and use SFTPGo on-premise in professional environments.
 - With our [SaaS offerings](https://sftpgo.com/saas){:target="_blank"} you can use SFTPGo hosted in the cloud, fully managed and supported.
 
+SFTPGo is also offered as part of several paid services aiming to facilitate the installation and use of Open Source products or as part of paid software for self-hosted servers.
+These services and software are not endorsed by, nor affiliated with, us. What you pay does not include our support for SFTPGo.
+
 ## Licensing
 
 SFTPGo source code is licensed under [GNU AGPL-3.0-only](https://www.gnu.org/licenses/agpl-3.0.en.html){:target="_blank"} with [additional terms](https://github.com/drakkan/sftpgo/blob/main/NOTICE){:target="_blank"}.
