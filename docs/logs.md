@@ -66,13 +66,27 @@ The logs can be divided into the following categories:
 - `elapsed_ms` int64. Elapsed time, as milliseconds, to complete the request
 - `request_id` string. Unique request identifier
 
-**connection failed logs**, logs for failed attempts to initialize a connection. A connection can fail for an authentication error or other errors such as a client abort or a timeout if the login does not happen in two minutes
+**connection failed logs**, logs for failed attempts to initialize a connection. A connection can fail for an authentication error or other errors such as a client abort or a timeout
 
 - `sender` string. `connection_failed`
-- `level` string
+- `level` string. `debug`
 - `time` string. Date/time with millisecond precision
 - `username`, string. Can be empty if the connection is closed before an authentication attempt
 - `client_ip` string.
 - `protocol` string. Possible values are `SSH`, `FTP`, `DAV`
 - `login_type` string. Can be `publickey`, `password`, `keyboard-interactive`, `publickey+password`, `publickey+keyboard-interactive` or `no_auth_tried`
 - `error` string. Optional error description
+
+**login logs**, logs for successful logins
+
+- `sender` string. `login`
+- `level` string. `info`
+- `time` string. Date/time with millisecond precision
+- `username`, string.
+- `ip` string.
+- `protocol` string.
+- `method` string.
+- `connection_id` string. Optional.
+- `client` string. Client software name if available.
+- `encrypted`, boolean
+- `info` string. Optional additional information.
