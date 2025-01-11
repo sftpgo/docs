@@ -37,4 +37,4 @@ More information about [compliance](https://sftpgo.com/compliance.html){:target=
 
 ## Copyright
 
-Copyright (C) 2019 Nicola Murino
+Copyright (C) 2019 - 2025 Nicola Murino
