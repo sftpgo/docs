@@ -86,7 +86,7 @@ The Docker documentation is a good starting point for understanding the differen
 
 ```shell
 docker run --name some-sftpgo \
-    -p 8080:8090 \
+    -p 8080:8080 \
     -p 2022:2022 \
     --mount type=bind,source=/my/own/sftpgodata,target=/srv/sftpgo \
     --mount type=bind,source=/my/own/sftpgohome,target=/var/lib/sftpgo \
