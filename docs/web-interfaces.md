@@ -38,7 +38,9 @@ The translations are available via [Crowdin](https://crowdin.com/project/sftpgo)
 Translating phrases is hard, even lexically correct translations in the wrong context can completely change the meaning and confuse users.
 Also, this is an ongoing effort, translations will be added, removed, updated in every release, even minor ones.
 
-For these reasons we don't accept contributions from casual users. If you want to add support for a new language we require:
+If you want to add support for a new language we require:
 
 - you are a native speaker of the target language with the technical skills necessary to correctly contextualize SFTPGo translation phrases and/or a professional translator
 - you/your company ensure long-term commitment to the project and help the project to be long-term sustainable
+
+We will also try to merge translations that are almost complete and constantly updated, but we have to manually check that they do not contain offensive or inappropriate words, so especially the first time we merge them, it will take a lot of time and work, so we cannot guarantee that all contributed localizations will be merged.
