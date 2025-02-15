@@ -173,6 +173,4 @@ These tags provide the standard image with the addition of all "official" plugin
 
 ## Helm Chart
 
-An helm chart is [available](https://artifacthub.io/packages/helm/sagikazarmark/sftpgo){:target="_blank"}. You can find the source code [here](https://github.com/sagikazarmark/helm-charts/tree/master/charts/sftpgo){:target="_blank"}.
-
-This chart is not maintained by the SFTPGo project and any issues with it should be raised to the upstream repo.
+An helm chart is [available](https://artifacthub.io/packages/helm/sftpgo/sftpgo){:target="_blank"}.
