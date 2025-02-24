@@ -2,202 +2,202 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://sftpgo.github.io/2.6/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/azure-blob-storage/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/build-from-source/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/check-password-hook/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/cli/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/config-file/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/custom-actions/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/dare/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/data-provider/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/data-retention-hook/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/defender/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/docker/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/dynamic-user-mod/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/env-vars/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/eventmanager/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/external-auth/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/features/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/ftp/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/google-cloud-storage/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/groups/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/httpfs/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/initial-configuration/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/installation/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/keyboard-interactive/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/kms/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/localfs/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/logs/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/metrics/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/oidc/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/password/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/performance/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/plugins/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/post-connect-hook/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/post-disconnect-hook/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/post-login-hook/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/profiling/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/rate-limiting/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/rest-api/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/roles/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/s3/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/sftpfs/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/ssh/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/virtual-folders/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/web-interfaces/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/webdav/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/tutorials/eventmanager/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/tutorials/lets-encrypt-certificate/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/tutorials/openssh-sftp-subsystem/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/tutorials/postgresql-s3/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
     <url>
          <loc>https://sftpgo.github.io/2.6/tutorials/two-factor-authentication/</loc>
-         <lastmod>2025-02-15</lastmod>
+         <lastmod>2025-02-24</lastmod>
     </url>
 </urlset>
