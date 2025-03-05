@@ -12,6 +12,7 @@ nav:
   - 'Tutorials':
     - "Let's Encrypt TLS Certificates": tutorials/lets-encrypt-certificate.md
     - 'Two-factor Authentication': tutorials/two-factor-authentication.md
+    - tutorials/sftp-google-cloud.md
     - tutorials/eventmanager.md
     - tutorials/postgresql-s3.md
     - tutorials/openssh-sftp-subsystem.md
@@ -61,6 +62,7 @@ nav:
 
 theme:
   name: material
+  custom_dir: overrides
   logo: assets/logo.png
   favicon: assets/favicon.ico
   palette:

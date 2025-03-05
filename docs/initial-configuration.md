@@ -12,7 +12,7 @@ Before you can use SFTPGo you need to create an admin account, so open [http://1
 
 After creating the admin account you will be automatically logged in and redirected to the page to set up two-factor authentication. Setting up two-factor authentication is optional.
 
-![Users list](assets/img/initial-screen.png){data-gallery="users"}
+![Initial Screen](assets/img/initial-screen.png){data-gallery="initial screen"}
 
 The web admin is now available at the following URL:
 
