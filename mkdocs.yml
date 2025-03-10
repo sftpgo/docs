@@ -1,5 +1,5 @@
 site_name: SFTPGo documentation
-site_url: 'https://sftpgo.github.io'
+site_url: 'https://docs.sftpgo.com'
 
 nav:
   - index.md
