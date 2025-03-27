@@ -2,206 +2,206 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://docs.sftpgo.com/devel/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/azure-blob-storage/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/build-from-source/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/check-password-hook/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/cli/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/config-file/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/custom-actions/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/dare/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/data-provider/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/data-retention-hook/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/defender/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/docker/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/dynamic-user-mod/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/env-vars/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/eventmanager/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/external-auth/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/features/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/ftp/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/google-cloud-storage/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/groups/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/httpfs/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/initial-configuration/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/installation/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/keyboard-interactive/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/kms/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/localfs/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/logs/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/metrics/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/oidc/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/password/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/performance/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/plugins/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/post-connect-hook/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/post-disconnect-hook/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/post-login-hook/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/profiling/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/rate-limiting/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/rest-api/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/roles/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/s3/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/sftpfs/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/ssh/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/virtual-folders/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/web-interfaces/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/webdav/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/tutorials/eventmanager/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/tutorials/lets-encrypt-certificate/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/tutorials/openssh-sftp-subsystem/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/tutorials/postgresql-s3/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/tutorials/sftp-google-cloud/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
     <url>
          <loc>https://docs.sftpgo.com/devel/tutorials/two-factor-authentication/</loc>
-         <lastmod>2025-03-10</lastmod>
+         <lastmod>2025-03-27</lastmod>
     </url>
 </urlset>
