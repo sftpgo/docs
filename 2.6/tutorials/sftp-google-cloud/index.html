@@ -1780,7 +1780,7 @@
 
 
 <h1 id="sftpgo-on-google-cloud-platform">SFTPGo on Google Cloud Platform</h1>
-<p>SFTPGo is available on Google Cloud Platform as a virtual machine image. The following editions are available:</p>
+<p>SFTPGo is available on <a href="https://console.cloud.google.com/marketplace/browse?filter=partner:SFTPGo%20Authors" target="_blank">Google Cloud Platform</a> as a virtual machine image. The following editions are available:</p>
 <ul>
 <li>SFTPGo Standard</li>
 <li>SFTPGo Professional</li>
@@ -1796,6 +1796,7 @@
 <p>Access the SFTPGo offering of your choice in Google Cloud Marketplace and click the <strong>Launch</strong> button.</p>
 <p><a class="glightbox" href="../../assets/img/gcp-launch.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="launch"><img alt="Launch" data-gallery="launch" src="../../assets/img/gcp-launch.png" /></a></p>
 <p>You may be asked to enable the required API, please enable them.</p>
+<p><a class="glightbox" href="../../assets/img/gcp-api.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="API"><img alt="API" data-gallery="API" src="../../assets/img/gcp-api.png" /></a></p>
 <p>Specify your deployment options such as the zone, machine type, disk type.
 A firewall configuration is proposed.</p>
 <p><a class="glightbox" href="../../assets/img/gcp-firewall.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="firewall"><img alt="Firewall" data-gallery="firewall" src="../../assets/img/gcp-firewall.png" /></a></p>
@@ -1856,7 +1857,7 @@ Mar 05 09:48:30 sftpgo-2-vm sshd[1196]: Server listening on 0.0.0.0 port 2022.
 Mar 05 09:48:30 sftpgo-2-vm sshd[1196]: Server listening on :: port 2022.
 </code></pre>
 <p>To reconfigure SFTPGo to use port <code>22</code> for SFTP create or update the file <code>/etc/sftpgo/env.d/custom.env</code> and add the following content.</p>
-<pre><code class="language-shell">SFTPGO_SFTP__BINDINGS__0__PORT=22
+<pre><code class="language-shell">SFTPGO_SFTPD__BINDINGS__0__PORT=22=22
 </code></pre>
 <p>Restart the SFTPGo service to apply the changes.</p>
 <pre><code class="language-shell">sudo systemctl restart sftpgo
