@@ -1,6 +1,6 @@
 # SFTPGo on Google Cloud Platform
 
-SFTPGo is available on Google Cloud Platform as a virtual machine image. The following editions are available:
+SFTPGo is available on [Google Cloud Platform](https://console.cloud.google.com/marketplace/browse?filter=partner:SFTPGo%20Authors){:target="_blank"} as a virtual machine image. The following editions are available:
 
 - SFTPGo Standard
 - SFTPGo Professional
@@ -19,6 +19,8 @@ Access the SFTPGo offering of your choice in Google Cloud Marketplace and click 
 ![Launch](../assets/img/gcp-launch.png){data-gallery="launch"}
 
 You may be asked to enable the required API, please enable them.
+
+![API](../assets/img/gcp-api.png){data-gallery="API"}
 
 Specify your deployment options such as the zone, machine type, disk type.
 A firewall configuration is proposed.
@@ -127,7 +129,7 @@ Mar 05 09:48:30 sftpgo-2-vm sshd[1196]: Server listening on :: port 2022.
 To reconfigure SFTPGo to use port `22` for SFTP create or update the file `/etc/sftpgo/env.d/custom.env` and add the following content.
 
 ```shell
-SFTPGO_SFTP__BINDINGS__0__PORT=22
+SFTPGO_SFTPD__BINDINGS__0__PORT=22=22
 ```
 
 Restart the SFTPGo service to apply the changes.
