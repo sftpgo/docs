@@ -25,6 +25,10 @@ SFTPGo is available on Azure Marketplace:
 - [SFTPGo for Windows](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/eliamarzia1667381463185.sftpgo_windows){:target="_blank"}
 - [SFTPGo for AKS](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/eliamarzia1667381463185.sftpgo_aks){:target="_blank"}
 
+## Google Cloud
+
+SFTPGo is available on [Google Cloud Marketplace](https://console.cloud.google.com/marketplace/browse?filter=partner:SFTPGo%20Authors){:target="_blank"}.
+
 ## Linux
 
 APT and YUM repositories are available through [Oregon State University's](https://osuosl.org/){:target="_blank"} free mirroring service. Special thanks to Lance Albertson, Director of the Oregon State University Open Source Lab.
