@@ -2,6 +2,8 @@
 
 SFTPGo runs on small embedded devices or large Kubernetes clusters. On Linux, Windows, macOS, FreeBSD. Other *BSD variants should work too.
 
+If you'd prefer to focus on your core business without worrying about the maintenance and security of your file transfer solution, consider opting for our fully managed [SaaS offerings](https://sftpgo.com/saas){:target="_blank"}. With a dedicated installation tailored specifically to your needs, you'll receive a secure, high-performance solution fully managed by us, the authors of SFTPGo. We handle everything from security patches to upgrades, ensuring your service runs smoothly at all times.
+
 ## Requirements
 
 The only (optional) requirement is a suitable SQL server to use as data provider:
