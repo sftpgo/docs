@@ -30,8 +30,8 @@ Create an action named `backup` and set the type to `Backup`.
 ![Backup action](../assets/img/backup-action.png){data-gallery="backup"}
 
 Create another action named `backup notification`, set the type to `Email` and fill the recipient/s.
-As email subject set `Backup {{StatusString}}`. The `{{StatusString}}` placeholder will be expanded to `OK` or `KO`.
-As email body set `Backup done {{ErrorString}}`. The error string will be empty if no errors occur.
+As email subject set `Backup {{.StatusString}}`. The `{{.StatusString}}` placeholder will be expanded to `OK` or `KO`.
+As email body set `Backup done {{.ErrorString}}`. The error string will be empty if no errors occur.
 
 ![Backup notification action](../assets/img/backup-notification-action.png){data-gallery="backup-notification"}
 
@@ -55,8 +55,8 @@ Create an action named `create dirs`, with the settings you can see in the follo
 ![Create dirs action](../assets/img/create-dirs-action.png){data-gallery="create-dir-action"}
 
 Create another action named `create dirs failure notification`, set the type to `Email` and fill the recipient/s.
-As email subject set `Unable to create dirs for user {{ObjectName}}`.
-As email body set `Error: {{ErrorString}}`.
+As email subject set `Unable to create dirs for user {{.ObjectName}}`.
+As email body set `Error: {{.ErrorString}}`.
 
 ![Create dirs notification](../assets/img/create-dirs-failure-notification.png){data-gallery="create-dir-failure-action"}
 

@@ -167,4 +167,4 @@ The pre-login hook will receive a JSON serialized user with the following field:
 ...
 ```
 
-In EventManager actions you can use the placeholder `{{IDPFieldsftpgo_home_dir}}` for string-based custom fields.
+In EventManager actions you can use the placeholder `{{.IDPFieldsftpgo_home_dir}}` for string-based custom fields.
