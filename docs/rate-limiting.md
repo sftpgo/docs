@@ -24,7 +24,7 @@ If you configure a per-host rate limiter, SFTPGo will keep a rate limiter in mem
 
 You can exclude a list of IP addresses and IP ranges from rate limiters by adding them to rate limites allow list using the WebAdmin UI or the REST API. In multi-nodes setups, the list entries propagation between nodes may take some minutes.
 
-You can defines how many rate limiters as you want, but keep in mind that if you defines multiple rate limiters each request will be checked against all the configured limiters and so it can potentially be delayed multiple times. Let's clarify with an example, here is a configuration that defines a global rate limiter and a per-host rate limiter for the SSH and FTP protocols:
+You can define as many rate limiters as you want, but keep in mind that if you define multiple rate limiters each request will be checked against all the configured limiters and so it can potentially be delayed multiple times. Let's clarify with an example, here is a configuration that defines a global rate limiter and a per-host rate limiter for the SSH and FTP protocols:
 
 ```json
 "rate_limiters": [
