@@ -11,7 +11,7 @@
         <link rel="canonical" href="https://docs.sftpgo.com/devel/cli/">
       
       
-        <link rel="prev" href="../tutorials/openssh-sftp-subsystem/">
+        <link rel="prev" href="../tutorials/postgresql-s3/">
       
       
         <link rel="next" href="../config-file/">
@@ -587,11 +587,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/openssh-sftp-subsystem/" class="md-nav__link">
+      <a href="../tutorials/openssh-sftp-subsystem.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    SFTPGo as OpenSSH's SFTP subsystem
+    None
     
   </span>
   
@@ -723,15 +723,6 @@
   <a href="#manage-windows-service" class="md-nav__link">
     <span class="md-ellipsis">
       Manage Windows Service
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sftp-subsystem-mode" class="md-nav__link">
-    <span class="md-ellipsis">
-      SFTP subsystem mode
     </span>
   </a>
   
@@ -1746,15 +1737,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#sftp-subsystem-mode" class="md-nav__link">
-    <span class="md-ellipsis">
-      SFTP subsystem mode
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#other-commands" class="md-nav__link">
     <span class="md-ellipsis">
       Other commands
@@ -1796,7 +1778,6 @@ Available Commands:
   revertprovider Revert the configured data provider to a previous version
   serve          Start the SFTPGo service
   smtptest       Test the SMTP configuration
-  startsubsys    Use sftpgo as SFTP file transfer subsystem
 
 Flags:
   -h, --help      help for sftpgo
@@ -2033,70 +2014,6 @@ Use &quot;sftpgo service [command] --help&quot; for more information about a com
 </code></pre>
 <p>Or through the Windows Firewall GUI.</p>
 <p>The Windows installer will register the service and allow network access for it automatically.</p>
-<h2 id="sftp-subsystem-mode">SFTP subsystem mode</h2>
-<p>In this mode SFTPGo speaks the server side of SFTP protocol to stdout and expects client requests from stdin.
-You can use SFTPGo as subsystem via the <code>startsubsys</code> command.
-This mode is not intended to be called directly, but from sshd using the <code>Subsystem</code> option.
-For example adding a line like this one in <code>/etc/ssh/sshd_config</code>:</p>
-<pre><code class="language-shell">Subsystem    sftp    sftpgo startsubsys
-</code></pre>
-<p>Command-line flags should be specified in the Subsystem declaration.</p>
-<pre><code class="language-shell">Usage:
-  sftpgo startsubsys [flags]
-
-Flags:
-  -d, --base-home-dir string   If the user does not exist specify an alternate
-                               starting directory. The home directory for a new
-                               user will be:
-
-                               [base-home-dir]/[username]
-
-                               base-home-dir must be an absolute path.
-  -c, --config-dir string      Location for the config dir. This directory
-                               is used as the base for files with a relative
-                               path, eg. the private keys for the SFTP
-                               server or the SQLite database if you use
-                               SQLite as data provider.
-                               The configuration file, if not explicitly set,
-                               is looked for in this dir. We support reading
-                               from JSON, TOML, YAML, HCL, envfile and Java
-                               properties config files. The default config
-                               file name is &quot;sftpgo&quot; and therefore
-                               &quot;sftpgo.json&quot;, &quot;sftpgo.yaml&quot; and so on are
-                               searched.
-                               This flag can be set using SFTPGO_CONFIG_DIR
-                               env var too. (default &quot;.&quot;)
-      --config-file string     Path to SFTPGo configuration file.
-                               This flag explicitly defines the path, name
-                               and extension of the config file. If must be
-                               an absolute path or a path relative to the
-                               configuration directory. The specified file
-                               name must have a supported extension (JSON,
-                               YAML, TOML, HCL or Java properties).
-                               This flag can be set using SFTPGO_CONFIG_FILE
-                               env var too.
-  -h, --help                   help for startsubsys
-  -j, --log-to-journald        Send logs to journald. Only available on Linux.
-                               Use:
-
-                               $ journalctl -o verbose -f
-
-                               To see full logs.
-                               If not set, the logs will be sent to the standard
-                               error
-      --log-utc-time           Use UTC time for logging. This flag can be set
-                               using SFTPGO_LOG_UTC_TIME env var too.
-                                (default true)
-  -v, --log-verbose            Enable verbose logs. This flag can be set
-                               using SFTPGO_LOG_VERBOSE env var too.
-                                (default true)
-  -p, --preserve-home          If the user already exists, the existing home
-                               directory will not be changed
-</code></pre>
-<p>In this mode <code>bolt</code> and <code>sqlite</code> providers are not usable as the same database file cannot be shared among multiple processes, if one of these provider is configured it will be automatically changed to <code>memory</code> provider.</p>
-<p>The username and home directory for the logged in user are determined using <a href="https://golang.org/pkg/os/user/#Current" target="_blank">user.Current()</a>.
-If the user who is logging is not found within the SFTPGo data provider, it is added automatically.
-You can pre-configure the users inside the SFTPGo data provider, this way you can use a different home directory, restrict permissions and such.</p>
 <h2 id="other-commands">Other commands</h2>
 <p>For other commands run <code>sftpgo &lt;command&gt; --help</code> to understand the usage.</p>
 

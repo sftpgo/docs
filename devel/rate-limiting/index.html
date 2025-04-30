@@ -587,11 +587,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/openssh-sftp-subsystem/" class="md-nav__link">
+      <a href="../tutorials/openssh-sftp-subsystem.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    SFTPGo as OpenSSH's SFTP subsystem
+    None
     
   </span>
   
@@ -1667,7 +1667,7 @@
 </ul>
 <p>If you configure a per-host rate limiter, SFTPGo will keep a rate limiter in memory for each host that connects to the service, you can limit the memory usage using the <code>entries_soft_limit</code> and <code>entries_hard_limit</code> configuration keys.</p>
 <p>You can exclude a list of IP addresses and IP ranges from rate limiters by adding them to rate limites allow list using the WebAdmin UI or the REST API. In multi-nodes setups, the list entries propagation between nodes may take some minutes.</p>
-<p>You can defines how many rate limiters as you want, but keep in mind that if you defines multiple rate limiters each request will be checked against all the configured limiters and so it can potentially be delayed multiple times. Let's clarify with an example, here is a configuration that defines a global rate limiter and a per-host rate limiter for the SSH and FTP protocols:</p>
+<p>You can define as many rate limiters as you want, but keep in mind that if you define multiple rate limiters each request will be checked against all the configured limiters and so it can potentially be delayed multiple times. Let's clarify with an example, here is a configuration that defines a global rate limiter and a per-host rate limiter for the SSH and FTP protocols:</p>
 <pre><code class="language-json">&quot;rate_limiters&quot;: [
     {
       &quot;average&quot;: 100,

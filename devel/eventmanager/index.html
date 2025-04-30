@@ -587,11 +587,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/openssh-sftp-subsystem/" class="md-nav__link">
+      <a href="../tutorials/openssh-sftp-subsystem.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    SFTPGo as OpenSSH's SFTP subsystem
+    None
     
   </span>
   
@@ -1677,36 +1677,36 @@
 </ul>
 <p>The following placeholders are supported:</p>
 <ul>
-<li><code>{{Name}}</code>. Username, virtual folder name, admin username for provider events, domain name for TLS certificate events.</li>
-<li><code>{{Event}}</code>. Event name, for example <code>upload</code>, <code>download</code> for filesystem events or <code>add</code>, <code>update</code> for provider events.</li>
-<li><code>{{Status}}</code>. Status for filesystem events. 1 means no error, 2 means a generic error occurred, 3 means quota exceeded error.</li>
-<li><code>{{StatusString}}</code>. Status as string. Possible values "OK", "KO".</li>
-<li><code>{{ErrorString}}</code>. Error details. Replaced with an empty string if no errors occur.</li>
-<li><code>{{VirtualPath}}</code>. Path seen by SFTPGo users, for example <code>/adir/afile.txt</code>.</li>
-<li><code>{{VirtualDirPath}}</code>. Parent directory for VirtualPath, for example if VirtualPath is "/adir/afile.txt", VirtualDirPath is "/adir".</li>
-<li><code>{{FsPath}}</code>. Full filesystem path, for example <code>/user/homedir/adir/afile.txt</code> or <code>C:/data/user/homedir/adir/afile.txt</code> on Windows.</li>
-<li><code>{{ObjectName}}</code>. File/directory name, for example <code>afile.txt</code> or provider object name.</li>
-<li><code>{{ObjectType}}</code>. Object type for provider events: <code>user</code>, <code>group</code>, <code>admin</code>, etc.</li>
-<li><code>{{Ext}}</code>. File extension, for example <code>.txt</code> if the filename is <code>afile.txt</code>.</li>
-<li><code>{{VirtualTargetPath}}</code>. Virtual target path for rename and copy operations.</li>
-<li><code>{{VirtualTargetDirPath}}</code>. Parent directory for VirtualTargetPath.</li>
-<li><code>{{TargetName}}</code>. Target object name for rename and copy operations.</li>
-<li><code>{{FsTargetPath}}</code>. Full filesystem target path for rename and copy operations.</li>
-<li><code>{{FileSize}}</code>. File size.</li>
-<li><code>{{Elapsed}}</code>. Elapsed time as milliseconds for filesystem events.</li>
-<li><code>{{Protocol}}</code>. Used protocol, for example <code>SFTP</code>, <code>FTP</code>.</li>
-<li><code>{{IP}}</code>. Client IP address.</li>
-<li><code>{{Role}}</code>. User or admin role.</li>
-<li><code>{{Timestamp}}</code>. Event timestamp as nanoseconds since epoch.</li>
-<li><code>{{DateTime}}</code>. Event timestamp formatted as YYYY-MM-DDTHH:MM:SS.ZZZ.</li>
-<li><code>{{Email}}</code>. For filesystem events, this is the email associated with the user performing the action. For the provider events, this is the email associated with the affected user or admin. Blank in all other cases.</li>
-<li><code>{{ObjectData}}</code>. Provider object data serialized as JSON with sensitive fields removed.</li>
-<li><code>{{ObjectDataString}}</code>. Provider object data as JSON escaped string with sensitive fields removed.</li>
-<li><code>{{RetentionReports}}</code>. Data retention reports as zip compressed CSV files. Supported as email attachment, file path for multipart HTTP request and as single parameter for HTTP requests body. Data retention reports contain details on the number of files deleted and the total size deleted for each folder.</li>
-<li><code>{{IDPField&lt;fieldname&gt;}}</code>. Identity Provider custom fields containing a string.</li>
-<li><code>{{Metadata}}</code>. Cloud storage metadata for the downloaded file serialized as JSON.</li>
-<li><code>{{MetadataString}}</code>. Cloud storage metadata for the downloaded file as JSON escaped string.</li>
-<li><code>{{UID}}</code>. Unique ID.</li>
+<li><code>{{.Name}}</code>. Username, virtual folder name, admin username for provider events, domain name for TLS certificate events.</li>
+<li><code>{{.Event}}</code>. Event name, for example <code>upload</code>, <code>download</code> for filesystem events or <code>add</code>, <code>update</code> for provider events.</li>
+<li><code>{{.Status}}</code>. Status for filesystem events. 1 means no error, 2 means a generic error occurred, 3 means quota exceeded error.</li>
+<li><code>{{.StatusString}}</code>. Status as string. Possible values "OK", "KO".</li>
+<li><code>{{.ErrorString}}</code>. Error details. Replaced with an empty string if no errors occur.</li>
+<li><code>{{.VirtualPath}}</code>. Path seen by SFTPGo users, for example <code>/adir/afile.txt</code>.</li>
+<li><code>{{.VirtualDirPath}}</code>. Parent directory for VirtualPath, for example if VirtualPath is "/adir/afile.txt", VirtualDirPath is "/adir".</li>
+<li><code>{{.FsPath}}</code>. Full filesystem path, for example <code>/user/homedir/adir/afile.txt</code> or <code>C:/data/user/homedir/adir/afile.txt</code> on Windows.</li>
+<li><code>{{.ObjectName}}</code>. File/directory name, for example <code>afile.txt</code> or provider object name.</li>
+<li><code>{{.ObjectType}}</code>. Object type for provider events: <code>user</code>, <code>group</code>, <code>admin</code>, etc.</li>
+<li><code>{{.Ext}}</code>. File extension, for example <code>.txt</code> if the filename is <code>afile.txt</code>.</li>
+<li><code>{{.VirtualTargetPath}}</code>. Virtual target path for rename and copy operations.</li>
+<li><code>{{.VirtualTargetDirPath}}</code>. Parent directory for VirtualTargetPath.</li>
+<li><code>{{.TargetName}}</code>. Target object name for rename and copy operations.</li>
+<li><code>{{.FsTargetPath}}</code>. Full filesystem target path for rename and copy operations.</li>
+<li><code>{{.FileSize}}</code>. File size.</li>
+<li><code>{{.Elapsed}}</code>. Elapsed time as milliseconds for filesystem events.</li>
+<li><code>{{.Protocol}}</code>. Used protocol, for example <code>SFTP</code>, <code>FTP</code>.</li>
+<li><code>{{.IP}}</code>. Client IP address.</li>
+<li><code>{{.Role}}</code>. User or admin role.</li>
+<li><code>{{.Timestamp}}</code>. Event timestamp as nanoseconds since epoch.</li>
+<li><code>{{.DateTime}}</code>. Event timestamp formatted as YYYY-MM-DDTHH:MM:SS.ZZZ.</li>
+<li><code>{{.Email}}</code>. For filesystem events, this is the email associated with the user performing the action. For the provider events, this is the email associated with the affected user or admin. Blank in all other cases.</li>
+<li><code>{{.ObjectData}}</code>. Provider object data serialized as JSON with sensitive fields removed.</li>
+<li><code>{{.ObjectDataString}}</code>. Provider object data as JSON escaped string with sensitive fields removed.</li>
+<li><code>{{.RetentionReports}}</code>. Data retention reports as zip compressed CSV files. Supported as email attachment, file path for multipart HTTP request and as single parameter for HTTP requests body. Data retention reports contain details on the number of files deleted and the total size deleted for each folder.</li>
+<li><code>{{.IDPField&lt;fieldname&gt;}}</code>. Identity Provider custom fields containing a string.</li>
+<li><code>{{.Metadata}}</code>. Cloud storage metadata for the downloaded file serialized as JSON.</li>
+<li><code>{{.MetadataString}}</code>. Cloud storage metadata for the downloaded file as JSON escaped string.</li>
+<li><code>{{.UID}}</code>. Unique ID.</li>
 </ul>
 <p>Event rules are based on the premise that an event occours. To each rule you can associate one or more actions.
 The following trigger events are supported:</p>

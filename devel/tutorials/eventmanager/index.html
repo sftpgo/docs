@@ -675,11 +675,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../openssh-sftp-subsystem/" class="md-nav__link">
+      <a href="../openssh-sftp-subsystem.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    SFTPGo as OpenSSH's SFTP subsystem
+    None
     
   </span>
   
@@ -1799,8 +1799,8 @@ SFTPGO_SMTP__ENCRYPTION=2 # change based on what your server supports
 Create an action named <code>backup</code> and set the type to <code>Backup</code>.</p>
 <p><a class="glightbox" href="../../assets/img/backup-action.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="backup"><img alt="Backup action" data-gallery="backup" src="../../assets/img/backup-action.png" /></a></p>
 <p>Create another action named <code>backup notification</code>, set the type to <code>Email</code> and fill the recipient/s.
-As email subject set <code>Backup {{StatusString}}</code>. The <code>{{StatusString}}</code> placeholder will be expanded to <code>OK</code> or <code>KO</code>.
-As email body set <code>Backup done {{ErrorString}}</code>. The error string will be empty if no errors occur.</p>
+As email subject set <code>Backup {{.StatusString}}</code>. The <code>{{.StatusString}}</code> placeholder will be expanded to <code>OK</code> or <code>KO</code>.
+As email body set <code>Backup done {{.ErrorString}}</code>. The error string will be empty if no errors occur.</p>
 <p><a class="glightbox" href="../../assets/img/backup-notification-action.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="backup-notification"><img alt="Backup notification action" data-gallery="backup-notification" src="../../assets/img/backup-notification-action.png" /></a></p>
 <p>Now select <code>Event rules</code> and create a rule named <code>Daily backup</code>, select <code>Schedule</code> as trigger and schedule a backup at midnight UTC time.</p>
 <p><a class="glightbox" href="../../assets/img/daily-backup-schedule.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="schedule"><img alt="Daily backup schedule" data-gallery="schedule" src="../../assets/img/daily-backup-schedule.png" /></a></p>
@@ -1813,8 +1813,8 @@ As email body set <code>Backup done {{ErrorString}}</code>. The error string wil
 Create an action named <code>create dirs</code>, with the settings you can see in the following screen.</p>
 <p><a class="glightbox" href="../../assets/img/create-dirs-action.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="create-dir-action"><img alt="Create dirs action" data-gallery="create-dir-action" src="../../assets/img/create-dirs-action.png" /></a></p>
 <p>Create another action named <code>create dirs failure notification</code>, set the type to <code>Email</code> and fill the recipient/s.
-As email subject set <code>Unable to create dirs for user {{ObjectName}}</code>.
-As email body set <code>Error: {{ErrorString}}</code>.</p>
+As email subject set <code>Unable to create dirs for user {{.ObjectName}}</code>.
+As email body set <code>Error: {{.ErrorString}}</code>.</p>
 <p><a class="glightbox" href="../../assets/img/create-dirs-failure-notification.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="create-dir-failure-action"><img alt="Create dirs notification" data-gallery="create-dir-failure-action" src="../../assets/img/create-dirs-failure-notification.png" /></a></p>
 <p>Now select <code>Event rules</code> and create a rule named <code>Create dirs for users</code>, select <code>Provider event</code> as trigger, <code>add</code> as provider event and <code>user</code> as object filters.</p>
 <p><a class="glightbox" href="../../assets/img/create-dirs-rule.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="create-dir-rule"><img alt="Create dirs rule" data-gallery="create-dir-rule" src="../../assets/img/create-dirs-rule.png" /></a></p>
