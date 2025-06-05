@@ -15,7 +15,6 @@ nav:
     - tutorials/sftp-google-cloud.md
     - tutorials/eventmanager.md
     - tutorials/postgresql-s3.md
-    - tutorials/openssh-sftp-subsystem.md
   - 'Configuration':
     - cli.md
     - config-file.md

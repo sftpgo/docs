@@ -47,7 +47,6 @@
 - Support for HAProxy PROXY protocol: you can proxy and/or load balance the SFTP/SCP/FTP service without losing the information about the client's address.
 - Easy [migration](https://github.com/drakkan/sftpgo/tree/main/examples/convertusers){:target="_blank"} from Linux system user accounts.
 - [Portable mode](cli.md#portable-mode): a convenient way to share a single directory on demand.
-- [SFTP subsystem mode](cli.md#sftp-subsystem-mode): you can use SFTPGo as OpenSSH's SFTP subsystem.
 - Performance analysis using built-in [profiler](profiling.md).
 - Configuration format is at your choice: JSON, TOML, YAML, envfile are supported.
 - Log files are accurate and they are saved in the easily parsable JSON format ([more information](logs.md)).
