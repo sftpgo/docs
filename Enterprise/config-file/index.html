@@ -298,7 +298,7 @@
   
   
   <span class="md-ellipsis">
-    Features
+    Main Features
     
   </span>
   
@@ -894,7 +894,7 @@
   
   
   <span class="md-ellipsis">
-    Web UIs
+    Web User Interfaces
     
   </span>
   
@@ -1794,28 +1794,6 @@
   
 
     
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../build-from-source/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Build from source
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
   </ul>
 </nav>
                   </div>
@@ -1985,7 +1963,7 @@
 
 
 <h1 id="configuration-file">Configuration file</h1>
-<p>The default configuration file is <a href="https://github.com/drakkan/sftpgo/blob/main/sftpgo.json" target="_blank">sftpgo.json</a> and is divided in several sections.</p>
+<p>The default configuration file is <code>sftpgo.json</code> and is divided in several sections.</p>
 <h2 id="common">Common</h2>
 <p>Supported configuration parameters for the <code>common</code> section:</p>
 <ul>
@@ -2019,6 +1997,8 @@
 <li><code>data_retention_hook</code>, string. Absolute path to the command to execute or HTTP URL to notify. See <a href="../data-retention-hook/">Data retention hook</a> for more details. Leave empty to disable</li>
 <li><code>max_total_connections</code>, integer. Maximum number of concurrent client connections. 0 means unlimited. Default: <code>0</code>.</li>
 <li><code>max_per_host_connections</code>, integer.  Maximum number of concurrent client connections from the same host (IP). If the defender is enabled, exceeding this limit will generate <code>score_limit_exceeded</code> events and thus hosts that repeatedly exceed the max allowed connections can be automatically blocked. 0 means unlimited. Default: <code>20</code>.</li>
+<li><code>max_total_transfers</code>, integer. Maximum number of concurrent file transfers, upload and downloads. 0 means unlimited. Default: <code>0</code>.</li>
+<li><code>max_per_host_transfers</code>, integer. Maximum number of concurrent file transfers from the same host (IP). If the defender is enabled, exceeding this limit will generate <code>score_limit_exceeded</code> events and thus hosts that repeatedly exceed the max allowed connections can be automatically blocked. 0 means unlimited. Default: <code>20</code>.</li>
 <li><code>allowlist_status</code>, integer. Set to <code>1</code> to enable the allow list. The allow list can be populated using the WebAdmin or the REST API. If enabled, only the listed IPs/networks can access the configured services, all other client connections will be dropped before they even try to authenticate. Ensure to populate your allow list before enabling this setting. In multi-nodes setups, the list entries propagation between nodes may take some minutes. Default: <code>0</code>.</li>
 <li><code>allow_self_connections</code>, integer. Allow users on this instance to use other users/virtual folders on this instance as storage backend. Enable this setting if you know what you are doing. Set to <code>1</code> to enable. Default: <code>0</code>.</li>
 <li><code>umask</code>, string. Set the file mode creation mask, for example <code>002</code>. Leave blank to use the system umask. Supported on *NIX platforms. Default: blank.</li>
@@ -2048,7 +2028,7 @@
 </li>
 </ul>
 </li>
-<li><code>rate_limiters</code>, list of structs containing the rate limiters configuration. Take a look <a href="../rate-limiting/">here</a> for more details. Each struct has the following fields:<ul>
+<li><code>rate_limiters</code>, list of structs containing the rate limiters configuration. <a href="../rate-limiting/">More details</a>. Each struct has the following fields:<ul>
 <li><code>average</code>, integer. Average defines the maximum rate allowed. 0 means disabled. Default: 0</li>
 <li><code>period</code>, integer. Period defines the period as milliseconds. The rate is actually defined by dividing average by period Default: 1000 (1 second).</li>
 <li><code>burst</code>, integer. Burst defines the maximum number of requests allowed to go through in the same arbitrarily small period of time. Default: 1</li>
@@ -2106,7 +2086,7 @@
 <li><code>trusted_user_ca_keys</code>, list of public keys paths of certificate authorities that are trusted to sign user certificates for authentication. The paths can be absolute or relative to the configuration directory.</li>
 <li><code>revoked_user_certs_file</code>, path to a file containing the revoked user certificates. The path can be absolute or relative to the configuration directory. It must contain a JSON list with the public key fingerprints of the revoked certificates. Example content: <code>["SHA256:bsBRHC/xgiqBJdSuvSTNpJNLTISP/G356jNMCRYC5Es","SHA256:119+8cL/HH+NLMawRsJx6CzPF1I3xC+jpM60bQHXGE8"]</code>. The revocation list can be reloaded on demand sending a <code>SIGHUP</code> signal on Unix based systems and a <code>paramchange</code> request to the running service on Windows. Default: "".</li>
 <li><code>login_banner_file</code>, path to the login banner file. The contents of the specified file, if any, are sent to the remote user before authentication is allowed. It can be a path relative to the config dir or an absolute one. Leave empty to disable login banner.</li>
-<li><code>enabled_ssh_commands</code>, list of enabled SSH commands. <code>*</code> enables all supported commands. More information can be found <a href="../ssh/#ssh-commands">here</a>.</li>
+<li><code>enabled_ssh_commands</code>, list of enabled SSH commands. <code>*</code> enables all supported commands. <a href="../ssh/#ssh-commands">More information</a>.</li>
 <li><code>keyboard_interactive_authentication</code>, boolean. This setting specifies whether keyboard interactive authentication is allowed. If no keyboard interactive hook or auth plugin is defined the default is to prompt for the user password and then the one time authentication code, if defined. Default: <code>true</code>.</li>
 <li><code>keyboard_interactive_auth_hook</code>, string. Absolute path to an external program or an HTTP URL to invoke for keyboard interactive authentication. See <a href="../keyboard-interactive/">Keyboard Interactive Authentication</a> for more details.</li>
 <li><code>password_authentication</code>, boolean. Set to false to disable password authentication. This setting will disable multi-step authentication method using public key + password too. It is useful for public key only configurations if you need to manage old clients that will not attempt to authenticate with public keys if the password login method is advertised. Default: <code>true</code>.</li>
@@ -2131,7 +2111,7 @@
 </li>
 <li><code>passive_host</code>, string. Hostname for passive connections. This hostname will be resolved each time a passive connection is requested and this can, depending on the DNS configuration, take a noticeable amount of time. Enable this setting only if you have a dynamic IP address. Default: "".</li>
 <li><code>client_auth_type</code>, integer. Set to <code>1</code> to require a client certificate and verify it. Set to <code>2</code> to request a client certificate during the TLS handshake and verify it if given, in this mode the client is allowed not to send a certificate. At least one certification authority must be defined in order to verify client certificates. If no certification authority is defined, this setting is ignored. Default: 0.</li>
-<li><code>tls_cipher_suites</code>, list of strings. List of supported cipher suites for TLS version 1.2 and below. If empty, a default list of secure cipher suites is used, with a preference order based on hardware performance. Note that TLS 1.3 ciphersuites are not configurable. The supported ciphersuites names are defined <a href="https://github.com/golang/go/blob/master/src/crypto/tls/cipher_suites.go#L53" target="_blank">here</a>. Any invalid name will be silently ignored. The order matters, the ciphers listed first will be the preferred ones. Default: empty.</li>
+<li><code>tls_cipher_suites</code>, list of strings. List of supported cipher suites for TLS version 1.2 and below. If empty, a default list of secure cipher suites is used, with a preference order based on hardware performance. Note that TLS 1.3 ciphersuites are not configurable. Supported <a href="https://github.com/golang/go/blob/master/src/crypto/tls/cipher_suites.go#L53" target="_blank">ciphersuites names</a>. Any invalid name will be silently ignored. The order matters, the ciphers listed first will be the preferred ones. Default: empty.</li>
 <li><code>passive_connections_security</code>, integer. Defines the security checks for passive data connections. Set to <code>0</code> to require matching peer IP addresses of control and data connection. Set to <code>1</code> to disable any checks. Please note that if you run the FTP service behind a proxy you must enable the proxy protocol for control and data connections. Default: <code>0</code>.</li>
 <li><code>active_connections_security</code>, integer. Defines the security checks for active data connections. The supported values are the same as described for <code>passive_connections_security</code>. Please note that disabling the security checks you will make the FTP service vulnerable to bounce attacks on active data connections, so change the default value only if you are on a trusted/internal network. Default: <code>0</code>.</li>
 <li><code>ignore_ascii_transfer_type</code>, integer. Set to <code>1</code> to silently ignore any client requests to perform ASCII translations via the <code>TYPE</code> command. useful in circumstances involving older/mainframe clients and EBCDIC files. This behavior can be Default: <code>0</code>.</li>
@@ -2161,7 +2141,7 @@
 <li><code>certificate_key_file</code>, string. Binding specific private key matching the above certificate. This can be an absolute path or a path relative to the config dir. If not set the global ones will be used, if any.</li>
 <li><code>min_tls_version</code>, integer. Defines the minimum version of TLS to be enabled. <code>12</code> means TLS 1.2 (and therefore TLS 1.2 and TLS 1.3 will be enabled),<code>13</code> means TLS 1.3, <code>10</code> means TLS 1.0, <code>11</code> means TLS 1.1. Default: <code>12</code>.</li>
 <li><code>client_auth_type</code>, integer. Set to <code>1</code> to require a client certificate and verify it. Set to <code>2</code> to request a client certificate during the TLS handshake and verify it if given, in this mode the client is allowed not to send a certificate. At least one certification authority must be defined in order to verify client certificates. If no certification authority is defined, this setting is ignored. Default: 0.</li>
-<li><code>tls_cipher_suites</code>, list of strings. List of supported cipher suites for TLS version 1.2 and below. If empty, a default list of secure cipher suites is used, with a preference order based on hardware performance. Note that TLS 1.3 ciphersuites are not configurable. The supported ciphersuites names are defined <a href="https://github.com/golang/go/blob/master/src/crypto/tls/cipher_suites.go#L53" target="_blank">here</a>. Any invalid name will be silently ignored. The order matters, the ciphers listed first will be the preferred ones. Default: empty.</li>
+<li><code>tls_cipher_suites</code>, list of strings. List of supported cipher suites for TLS version 1.2 and below. If empty, a default list of secure cipher suites is used, with a preference order based on hardware performance. Note that TLS 1.3 ciphersuites are not configurable. Supported <a href="https://github.com/golang/go/blob/master/src/crypto/tls/cipher_suites.go#L53" target="_blank">ciphersuites names</a>. Any invalid name will be silently ignored. The order matters, the ciphers listed first will be the preferred ones. Default: empty.</li>
 <li><code>tls_protocols</code>, list of string. HTTPS protocols in preference order. Supported values: <code>http/1.1</code>, <code>h2</code>. Default: <code>http/1.1</code>, <code>h2</code>.</li>
 <li><code>prefix</code>, string. Prefix for WebDAV resources, if empty WebDAV resources will be available at the <code>/</code> URI. If defined it must be an absolute URI, for example <code>/dav</code>. Default: "".</li>
 <li><code>proxy_mode</code>, integer. Set to <code>1</code> to use the proxy protocol configuration defined within the <code>common</code> section instead of the proxy header configuration. Default: <code>0</code>.</li>
@@ -2263,7 +2243,7 @@
 </li>
 <li><code>password_validation</code> struct. It defines the password validation rules for admins and protocol users.<ul>
 <li><code>admins</code>, struct. It defines the password validation rules for SFTPGo admins.<ul>
-<li><code>min_entropy</code>, float. Defines the minimum password entropy. Take a look <a href="https://github.com/wagslane/go-password-validator#what-entropy-value-should-i-use" target="_blank">here</a> for more details. <code>0</code> means disabled, any password will be accepted. Default: <code>0</code>.</li>
+<li><code>min_entropy</code>, float. Defines the minimum password entropy. <a href="https://github.com/wagslane/go-password-validator#what-entropy-value-should-i-use" target="_blank">More details</a>. <code>0</code> means disabled, any password will be accepted. Default: <code>0</code>.</li>
 </ul>
 </li>
 <li><code>users</code>, struct. It defines the password validation rules for SFTPGo protocol users.<ul>
@@ -2301,7 +2281,7 @@
 <li><code>certificate_key_file</code>, string. Binding specific private key matching the above certificate. This can be an absolute path or a path relative to the config dir. If not set the global ones will be used, if any.</li>
 <li><code>min_tls_version</code>, integer. Defines the minimum version of TLS to be enabled. <code>12</code> means TLS 1.2 (and therefore TLS 1.2 and TLS 1.3 will be enabled),<code>13</code> means TLS 1.3, <code>10</code> means TLS 1.0, <code>11</code> means TLS 1.1. Default: <code>12</code>.</li>
 <li><code>client_auth_type</code>, integer. Set to <code>1</code> to require client certificate authentication in addition to JWT/Web authentication. You need to define at least a certificate authority for this to work. Default: 0.</li>
-<li><code>tls_cipher_suites</code>, list of strings. List of supported cipher suites for TLS version 1.2 and below. If empty, a default list of secure cipher suites is used, with a preference order based on hardware performance. Note that TLS 1.3 ciphersuites are not configurable. The supported ciphersuites names are defined <a href="https://github.com/golang/go/blob/master/src/crypto/tls/cipher_suites.go#L53" target="_blank">here</a>. Any invalid name will be silently ignored. The order matters, the ciphers listed first will be the preferred ones. Default: empty.</li>
+<li><code>tls_cipher_suites</code>, list of strings. List of supported cipher suites for TLS version 1.2 and below. If empty, a default list of secure cipher suites is used, with a preference order based on hardware performance. Note that TLS 1.3 ciphersuites are not configurable. Supported <a href="https://github.com/golang/go/blob/master/src/crypto/tls/cipher_suites.go#L53" target="_blank">ciphersuites names</a>. Any invalid name will be silently ignored. The order matters, the ciphers listed first will be the preferred ones. Default: empty.</li>
 <li><code>tls_protocols</code>, list of string. HTTPS protocols in preference order. Supported values: <code>http/1.1</code>, <code>h2</code>. Default: <code>http/1.1</code>, <code>h2</code>.</li>
 <li><code>proxy_mode</code>, integer. Set to <code>1</code> to use the proxy protocol configuration defined within the <code>common</code> section instead of the proxy header configuration. Default: <code>0</code>.</li>
 <li><code>proxy_allowed</code>, list of IP addresses and IP ranges allowed to set client IP proxy header such as <code>X-Forwarded-For</code>, <code>X-Real-IP</code> and any other headers defined in the <code>security</code> section. Any of the indicated headers, if set on requests from a connection address not in this list, will be silently ignored. Default: empty.</li>
@@ -2322,7 +2302,19 @@
 <li><code>implicit_roles</code>, boolean. If set, the <code>role_field</code> is ignored and the SFTPGo role is assumed based on the login link used. Default: <code>false</code>.</li>
 <li><code>custom_fields</code>, list of strings. Custom token claims fields to pass to the pre-login hook. Default: empty.</li>
 <li><code>insecure_skip_signature_check</code>, boolean. This setting causes SFTPGo to skip JWT signature validation. It's intended for special cases where providers, such as Azure, use the <code>none</code> algorithm. Skipping the signature validation can cause security issues. Default: <code>false</code>.</li>
+<li><code>insecure_issuer_url</code>, boolean. Enable to allow discovery to work when the issuer_url reported by upstream is mismatched with the discovery URL. This is meant for integration with off-spec providers such as Azure B2C. Default: <code>false</code>.</li>
+<li><code>ui_name</code>, string. Defines the the name to display in the login page. Default: <code>OpenID</code>.</li>
 <li><code>debug</code>, boolean. If set, the received id tokens will be logged at debug level. Default: <code>false</code>.</li>
+</ul>
+</li>
+<li><code>wopi</code>, struct. Defines the configuration for the WOPI integration, compatible with document servers like Collabora Online.<ul>
+<li><code>server_url</code>, string. Defines the base URL of the WOPI server. The path <code>/hosting/discovery</code> will be automatically added.</li>
+<li><code>skip_tls_verify</code>,  boolean. if enabled SFTPGo accepts any TLS certificate presented by the WOPI server and any host name in that certificate. In this mode, TLS is susceptible to man-in-the-middle attacks. This should be used only for testing.</li>
+<li><code>skip_proof_key_verify</code>, boolean. If enabled the proof keys are not verified. This should be used only for testing.</li>
+<li><code>callback_url</code>, string. Defines the base URL that the WOPI server uses to access and update files. This is typically the SFTPGo URL reachable from the WOPI server, for example: <code>https://sftpgo.example.com</code>.</li>
+<li><code>allowed_from</code>. Defines the list of IP addresses and IP ranges permitted to access the SFTPGo WOPI implementation. This typically includes the IP address of the WOPI server and can be used alongside proof keys for enhanced security.</li>
+<li><code>skipped_extensions</code>. Specifies the file extensions for which the WOPI protocol will be bypassed. Examples include: <code>png</code>, <code>jpg</code>, <code>jpeg</code>.</li>
+<li><code>max_users</code>, integer. Defines the maximum number of SFTPGo users allowed to access the WOPI implementation. 0 means unlimited. Default: <code>0</code>.</li>
 </ul>
 </li>
 <li><code>security</code>, struct. Defines security headers to add to HTTP responses and allows to restrict allowed hosts. The following parameters are supported:<ul>
@@ -2373,6 +2365,7 @@
 <li><code>cookie_lifetime</code>, integer. Defines the duration in minutes for WebAdmin and WebClient cookies. Cookies are automatically refreshed if there is user activity and the maximum duration is 12 hours. An invalid value is silently ignored. Maximum allowed value <code>720</code>, default: <code>20</code>.</li>
 <li><code>share_cookie_lifetime</code>, integer. Defines the duration in minutes for public sharing cookies. An invalid value is silently ignored. Maximum allowed value <code>720</code>, default: <code>120</code>.</li>
 <li><code>jwt_lifetime</code>, integer. Defines the duration in minutes for REST API tokens. An invalid value is silently ignored. Maximum allowed value <code>720</code>, default: <code>20</code>.</li>
+<li><code>wopi_token_lifetime</code>, integer. Defines the duration in minutes for WOPI access tokens. An invalid value is silently ignored. Maximum allowed value <code>720</code>, default: <code>360</code>.</li>
 <li><code>max_upload_file_size</code>, integer. Defines the maximum request body size, in bytes, for Web Client/API HTTP upload requests. <code>0</code> means no limit. Default: <code>0</code>.</li>
 <li><code>cors</code> struct containing CORS configuration. SFTPGo uses <a href="https://github.com/rs/cors" target="_blank">Go CORS handler</a>, please refer to upstream documentation for fields meaning and their default values.<ul>
 <li><code>enabled</code>, boolean, set to <code>true</code> to enable CORS.</li>
@@ -2392,7 +2385,6 @@
 <li><code>installation_code_hint</code>, string. Description for the installation code input field. Default: <code>Installation code</code>.</li>
 </ul>
 </li>
-<li><code>hide_support_link</code>, boolean. If set, the link to the <a href="https://github.com/drakkan/sftpgo?tab=readme-ov-file#sponsors">sponsors section</a> will not appear on the setup screen page. Default: <code>false</code>.</li>
 </ul>
 <h2 id="telemetry">Telemetry</h2>
 <p>Supported configuration parameters for the <code>telemetry</code> section:</p>
@@ -2404,14 +2396,14 @@
 <li><code>certificate_file</code>, string. Certificate for HTTPS. This can be an absolute path or a path relative to the config dir.</li>
 <li><code>certificate_key_file</code>, string. Private key matching the above certificate. This can be an absolute path or a path relative to the config dir. If both the certificate and the private key are provided, the server will expect HTTPS connections. Certificate and key files can be reloaded on demand sending a <code>SIGHUP</code> signal on Unix based systems and a <code>paramchange</code> request to the running service on Windows.</li>
 <li><code>min_tls_version</code>, integer. Defines the minimum version of TLS to be enabled. <code>12</code> means TLS 1.2 (and therefore TLS 1.2 and TLS 1.3 will be enabled),<code>13</code> means TLS 1.3, <code>10</code> means TLS 1.0, <code>11</code> means TLS 1.1. Default: <code>12</code>.</li>
-<li><code>tls_cipher_suites</code>, list of strings. List of supported cipher suites for TLS version 1.2 and below. If empty, a default list of secure cipher suites is used, with a preference order based on hardware performance. Note that TLS 1.3 ciphersuites are not configurable. The supported ciphersuites names are defined <a href="https://github.com/golang/go/blob/master/src/crypto/tls/cipher_suites.go#L53" target="_blank">here</a>. Any invalid name will be silently ignored. The order matters, the ciphers listed first will be the preferred ones. Default: empty.</li>
+<li><code>tls_cipher_suites</code>, list of strings. List of supported cipher suites for TLS version 1.2 and below. If empty, a default list of secure cipher suites is used, with a preference order based on hardware performance. Note that TLS 1.3 ciphersuites are not configurable. Supported <a href="https://github.com/golang/go/blob/master/src/crypto/tls/cipher_suites.go#L53" target="_blank">ciphersuites names</a>. Any invalid name will be silently ignored. The order matters, the ciphers listed first will be the preferred ones. Default: empty.</li>
 <li><code>tls_protocols</code>, list of string. HTTPS protocols in preference order. Supported values: <code>http/1.1</code>, <code>h2</code>. Default: <code>http/1.1</code>, <code>h2</code>.</li>
 </ul>
 <p>The telemetry server publishes the following endpoints:</p>
 <ul>
 <li><code>/healthz</code>, health information (for health checks)</li>
 <li><code>/metrics</code>, Prometheus metrics</li>
-<li><code>/debug/pprof</code>, if enabled via the <code>enable_profiler</code> configuration key, for profiling, more details <a href="../profiling/">here</a></li>
+<li><code>/debug/pprof</code>, if enabled via the <code>enable_profiler</code> configuration key, for profiling, <a href="../profiling/">more details</a></li>
 </ul>
 <h2 id="http-clients">HTTP clients</h2>
 <p>HTTP clients are used for executing hooks. Some hooks use a retryable HTTP client, for these hooks you can configure the time between retries and the number of retries. Please check the hook specific documentation to understand which hooks use a retryable HTTP client.</p>
@@ -2566,14 +2558,6 @@ Supported configuration parameters for the <code>smtp</code> section:</p>
     
     <a href="https://sftpgo.com" target="_blank" rel="noopener" title="SFTPGo Website" class="md-social__link">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.36 14c.08-.66.14-1.32.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2m-5.15 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95a8.03 8.03 0 0 1-4.33 3.56M14.34 14H9.66c-.1-.66-.16-1.32-.16-2s.06-1.35.16-2h4.68c.09.65.16 1.32.16 2s-.07 1.34-.16 2M12 19.96c-.83-1.2-1.5-2.53-1.91-3.96h3.82c-.41 1.43-1.08 2.76-1.91 3.96M8 8H5.08A7.92 7.92 0 0 1 9.4 4.44C8.8 5.55 8.35 6.75 8 8m-2.92 8H8c.35 1.25.8 2.45 1.4 3.56A8 8 0 0 1 5.08 16m-.82-2C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2M12 4.03c.83 1.2 1.5 2.54 1.91 3.97h-3.82c.41-1.43 1.08-2.77 1.91-3.97M18.92 8h-2.95a15.7 15.7 0 0 0-1.38-3.56c1.84.63 3.37 1.9 4.33 3.56M12 2C6.47 2 2 6.5 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"/></svg>
-    </a>
-  
-    
-    
-    
-    
-    <a href="https://github.com/drakkan/sftpgo" target="_blank" rel="noopener" title="SFTPGo code repository" class="md-social__link">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
     </a>
   
 </div>

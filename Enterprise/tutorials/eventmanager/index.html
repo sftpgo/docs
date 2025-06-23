@@ -298,7 +298,7 @@
   
   
   <span class="md-ellipsis">
-    Features
+    Main Features
     
   </span>
   
@@ -647,6 +647,39 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#virtual-folders-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Virtual folders integration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Virtual folders integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario 1
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario 2
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#recycle-bin" class="md-nav__link">
     <span class="md-ellipsis">
       Recycle Bin
@@ -813,7 +846,7 @@
   
   
   <span class="md-ellipsis">
-    Web UIs
+    Web User Interfaces
     
   </span>
   
@@ -1713,28 +1746,6 @@
   
 
     
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../build-from-source/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Build from source
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
   </ul>
 </nav>
                   </div>
@@ -1798,6 +1809,39 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#virtual-folders-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Virtual folders integration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Virtual folders integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario 1
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario 2
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#recycle-bin" class="md-nav__link">
     <span class="md-ellipsis">
       Recycle Bin
@@ -1823,7 +1867,7 @@
 
 
 <h1 id="event-manager">Event Manager</h1>
-<p>The Event Manager allows an administrator to configure HTTP notifications, commands execution, email notifications and carry out certain server operations based on server events or schedules. More details <a href="../../eventmanager/">here</a>.</p>
+<p>The Event Manager allows an administrator to configure HTTP notifications, commands execution, email notifications and carry out certain server operations based on server events or schedules. <a href="../../eventmanager/">More details</a>.</p>
 <p>Let's see some common use cases.</p>
 <h2 id="preliminary-note">Preliminary Note</h2>
 <p>We will use email actions in the following paragraphs, so let's assume you have a working SMTP configuration.
@@ -1836,6 +1880,7 @@ SFTPGO_SMTP__AUTH_TYPE=1 # change based on what your server supports
 SFTPGO_SMTP__ENCRYPTION=2 # change based on what your server supports
 </code></pre>
 <p>SFTPGo supports several placeholders for event actions. You can see all supported placeholders by clicking on the "info" icon at the top right of the add/update action page.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/2139.svg" title=":information_source:" /> The SMTP server can also be configured directly through the WebAdmin UI by navigating to Server Manager -&gt; Configurations -&gt; SMTP.</p>
 <h2 id="daily-backups">Daily backups</h2>
 <p>You can schedule SFTPGo data backups (users, folders, groups, admins etc.) on a regular basis, such as daily.</p>
 <p>From the WebAdmin expand the <code>Event Manager</code> section, select <code>Event actions</code> and add a new action.
@@ -1876,6 +1921,82 @@ You can also filters events based on protocol, user and group name, filepath she
 <p><a class="glightbox" href="../../assets/img/upload-rule.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="upload-rule"><img alt="Upload rule" data-gallery="upload-rule" src="../../assets/img/upload-rule.png" /></a></p>
 <p>As actions, select <code>upload notification</code>.
 Done! Try uploading a new file and you will receive the configured email notification.</p>
+<h2 id="virtual-folders-integration">Virtual folders integration</h2>
+<p>Using virtual folders with the EventManager unlocks powerful automation workflows, such as copying uploaded files to different storage locations—either within the same backend (but outside the user’s security context) or to an external server or cloud storage provider. These operations can be triggered by events like file uploads or scheduled tasks, and they require no custom scripting or complex setup.</p>
+<p>Let’s explore a few example scenarios to see how this feature can be used in practice.</p>
+<h3 id="scenario-1">Scenario 1</h3>
+<p>We have the following scenario.</p>
+<ul>
+<li>The user <code>ukg</code> has the key prefix set to <code>ukg/</code> so it can only access this folder.</li>
+</ul>
+<p><a class="glightbox" href="../../assets/img/ukgfs.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="ukgfs"><img alt="UKG Filesystem" data-gallery="ukgfs" src="../../assets/img/ukgfs.png" /></a></p>
+<ul>
+<li>The user <code>vista</code> has the key prefix set to <code>vista/</code> so it can only access this folder.</li>
+</ul>
+<p><a class="glightbox" href="../../assets/img/vistafs.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="vistafs"><img alt="Vista Filesystem" data-gallery="vistafs" src="../../assets/img/vistafs.png" /></a></p>
+<p>Each time the user <code>ukg</code> uploads files to the <code>/inbound</code> folder that:</p>
+<ul>
+<li>start with <code>vista_</code>, and</li>
+<li>end with <code>.csv</code></li>
+</ul>
+<p>we want to automatically copy those files to the <code>/outbound</code> folder of the user <code>vista</code>.</p>
+<p>To achieve this, we need to define a copy action that runs after each upload. By default, actions are executed within the security context of the user who performed the upload. Since the user <code>ukg</code> is restricted to their own directory and cannot access the <code>vista</code> user's folder, this operation would normally be blocked.</p>
+<p>To support this use case, we define a virtual folder with permissions to access the <code>vista</code> user’s directory. The copy action is then configured to use this virtual folder as the destination, allowing the operation to succeed outside the security context of the <code>ukg</code> user.</p>
+<p>Create a folder named <code>storage</code> without setting a key prefix. This gives the folder visibility over the entire storage and allows it to be reused for other actions. Of course, if needed, you can also assign a key prefix to restrict access to a specific portion of the storage.</p>
+<p><a class="glightbox" href="../../assets/img/storagefolder.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="storagefolder"><img alt="Storage folder" data-gallery="storagefolder" src="../../assets/img/storagefolder.png" /></a></p>
+<p>In the EventManager section, create a new action of type <code>Filesystem</code> and choose <code>Copy</code> as the action type.
+Set the source path to <code>/inbound/{{.ObjectName}}</code> and the target path to <code>/vista/outbound/{{.ObjectName}}</code>.
+Finally, select <code>storage</code> as the target folder.</p>
+<p><a class="glightbox" href="../../assets/img/copyaction.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="copyaction"><img alt="Copy action" data-gallery="copyaction" src="../../assets/img/copyaction.png" /></a></p>
+<p>Explore the details:</p>
+<ul>
+<li>The source path is set to <code>/inbound/{{.ObjectName}}</code>. The placeholder <code>{{.ObjectName}}</code> is replaced with the file name—for example, if a file is uploaded to <code>/inbound/test.csv</code>, it becomes <code>test.csv</code>. Alternatively, you can use the more generic <code>{{.VirtualPath}}</code> placeholder, which would resolve to <code>/inbound/test.csv</code> in the same scenario.</li>
+<li>The target folder is set to <code>storage</code>, so the target path is relative to that folder.</li>
+<li>The target path is <code>/vista/outbound/{{.ObjectName}}</code>. This means that if the user <code>ukg</code> uploads the file <code>/inbound/test.csv</code>, it will be copied to <code>/vista/outbound/test.csv</code>.</li>
+</ul>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/2139.svg" title=":information_source:" /> All paths are relative. For example, if the storage folder had a key prefix set to <code>vista/</code>, the correct target path would be <code>/outbound/{{.ObjectName}}</code> instead.</p>
+<p>Finally, define a rule to execute this action after each upload.</p>
+<p>Set <code>Filesystem events</code> as trigger and <code>upload</code> as event.</p>
+<p><a class="glightbox" href="../../assets/img/uploadrule1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="upload-rule1"><img alt="Upload rule1" data-gallery="upload-rule1" src="../../assets/img/uploadrule1.png" /></a></p>
+<p>In the <code>Name filters</code> section, you can restrict which users the rule applies to. In this case, we specify <code>ukg</code>, but you can also define multiple users or patterns—for example, <code>user*</code> matches all usernames that start with <code>user</code>.</p>
+<p><a class="glightbox" href="../../assets/img/uploadrule2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="upload-rule2"><img alt="Upload rule2" data-gallery="upload-rule2" src="../../assets/img/uploadrule2.png" /></a></p>
+<p>Similar filters can be applied based on groups or roles as well.</p>
+<p>We also want to restrict the rule to files uploaded to the <code>/inbound</code> folder that start with <code>vista_</code> and end with <code>.csv</code>. To do this, configure the following path filters.</p>
+<ul>
+<li><code>/inbound/vista_*</code></li>
+<li><code>/inbound/*.csv</code></li>
+</ul>
+<p><a class="glightbox" href="../../assets/img/uploadrule3.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="upload-rule3"><img alt="Upload rule3" data-gallery="upload-rule3" src="../../assets/img/uploadrule3.png" /></a></p>
+<p>Keep in mind that paths are relative, not absolute.</p>
+<p>Finally select the <code>copy</code> action and save the rule.</p>
+<p><a class="glightbox" href="../../assets/img/uploadrule4.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="upload-rule4"><img alt="Upload rule4" data-gallery="upload-rule4" src="../../assets/img/uploadrule4.png" /></a></p>
+<p>That's it! Now upload some test files to confirm everything works as expected. For example:</p>
+<ul>
+<li>Files uploaded outside of <code>/inbound</code> → the action will not be triggered.</li>
+<li>Files in <code>/inbound</code> with the correct prefix and extension → the action will be triggered.</li>
+<li>Files in <code>/inbound</code> with a .txt extension → the action will not be triggered.</li>
+<li>Files in a subdirectory like <code>/inbound/subdir</code>, even with the correct extension → the action will not be triggered, we haven't used the double asterisk syntax to match subdirectories.</li>
+</ul>
+<h3 id="scenario-2">Scenario 2</h3>
+<p>Each time the user <code>vista</code> uploads files with <code>.csv</code> or <code>.xml</code> extensions to the <code>/inbound</code> folder, we want to automatically transfer these files to the <code>/push</code> directory on an external SFTP server.</p>
+<p>This is very similar to the <code>Scenario 1</code>, we have to define a copy action and a target folder using the external SFTP server as storage backend.</p>
+<p>Create a folder that is backed by the remote SFTP server.</p>
+<p><a class="glightbox" href="../../assets/img/sftpfolder.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="sftp-folder"><img alt="SFTP folder" data-gallery="sftp-folder" src="../../assets/img/sftpfolder.png" /></a></p>
+<p>This time, we've set the SFTP root directory to <code>/push</code>, which restricts the folder's access to that directory. As a result, the target paths defined in the copy action are relative to <code>/push</code>.</p>
+<p>For the action configuration:</p>
+<ul>
+<li>Set the source path to <code>/{{.VirtualPath}}</code>.</li>
+<li>Set the target path to <code>/{{.ObjectName}}</code>. Since the SFTP folder uses <code>/push</code> as its root directory, this path is relative to <code>/push</code>.</li>
+</ul>
+<p><a class="glightbox" href="../../assets/img/sftpcopy.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="sftp-copy"><img alt="SFTP Copy action" data-gallery="sftp-copy" src="../../assets/img/sftpcopy.png" /></a></p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/2139.svg" title=":information_source:" /> The <code>push</code> folder must already exist on the remote SFTP server for the action to succeed.</p>
+<p>For the rule:</p>
+<ul>
+<li>we use <code>vista</code> as name filter so that the action will be executed only for this user</li>
+<li><code>/inbound/*.csv</code> and <code>/inbound/*.xml</code> as path filters to limit the execution to these file extension</li>
+<li>select <code>sftp copy</code> as the action.</li>
+</ul>
+<p>That's it! Now upload some test files to confirm everything works as expected.</p>
 <h2 id="recycle-bin">Recycle Bin</h2>
 <p>Let's see how we can configure a Recycle Bin style function where files are not deleted strait away, but instead moved to a separate folder.</p>
 <p>To easily apply the Recycle Bin to multiple users we will create a virtual folder and a group, this way all users who belong to the group will have a Recycle Bin.</p>
@@ -1937,14 +2058,6 @@ Create an action named <code>move to recycle</code> with the settings you can se
     
     <a href="https://sftpgo.com" target="_blank" rel="noopener" title="SFTPGo Website" class="md-social__link">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.36 14c.08-.66.14-1.32.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2m-5.15 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95a8.03 8.03 0 0 1-4.33 3.56M14.34 14H9.66c-.1-.66-.16-1.32-.16-2s.06-1.35.16-2h4.68c.09.65.16 1.32.16 2s-.07 1.34-.16 2M12 19.96c-.83-1.2-1.5-2.53-1.91-3.96h3.82c-.41 1.43-1.08 2.76-1.91 3.96M8 8H5.08A7.92 7.92 0 0 1 9.4 4.44C8.8 5.55 8.35 6.75 8 8m-2.92 8H8c.35 1.25.8 2.45 1.4 3.56A8 8 0 0 1 5.08 16m-.82-2C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2M12 4.03c.83 1.2 1.5 2.54 1.91 3.97h-3.82c.41-1.43 1.08-2.77 1.91-3.97M18.92 8h-2.95a15.7 15.7 0 0 0-1.38-3.56c1.84.63 3.37 1.9 4.33 3.56M12 2C6.47 2 2 6.5 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"/></svg>
-    </a>
-  
-    
-    
-    
-    
-    <a href="https://github.com/drakkan/sftpgo" target="_blank" rel="noopener" title="SFTPGo code repository" class="md-social__link">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
     </a>
   
 </div>

@@ -319,9 +319,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#support" class="md-nav__link">
+  <a href="#enterprise-version" class="md-nav__link">
     <span class="md-ellipsis">
-      Support
+      Enterprise version
     </span>
   </a>
   
@@ -365,7 +365,7 @@
   
   
   <span class="md-ellipsis">
-    Features
+    Main Features
     
   </span>
   
@@ -791,7 +791,7 @@
   
   
   <span class="md-ellipsis">
-    Web UIs
+    Web User Interfaces
     
   </span>
   
@@ -1691,28 +1691,6 @@
   
 
     
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="build-from-source/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Build from source
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
   </ul>
 </nav>
                   </div>
@@ -1740,9 +1718,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#support" class="md-nav__link">
+  <a href="#enterprise-version" class="md-nav__link">
     <span class="md-ellipsis">
-      Support
+      Enterprise version
     </span>
   </a>
   
@@ -1783,29 +1761,37 @@
 
 
 <h1 id="what-is-sftpgo">What is SFTPGo?</h1>
-<p>SFTPGo is an event-driven file transfer solution. It support multiple protocols (SFTP, SCP, FTP/S, WebDAV, HTTP/S) and multiple storage backends.</p>
+<p>SFTPGo is a managed, event-driven file transfer solution that abstracts storage backends and provides access to files through its built-in WebClient over HTTPS, as well as via standard SFTP, SCP, FTP/S, and WebDAV protocols.</p>
 <p>With SFTPGo you can leverage local and cloud storage backends for exchanging and storing files internally or with business partners using the same tools and processes you are already familiar with.</p>
 <p>The WebAdmin UI allows to easily create and manage your users, folders, groups and other resources.</p>
 <p>The WebClient UI allows end users to change their credentials, browse and manage their files in the browser and setup two-factor authentication which works with Microsoft Authenticator, Google Authenticator, Authy and other compatible apps.</p>
+<p>SFTPGo in short:</p>
+<ul>
+<li>Event driven file transfer solution.</li>
+<li>Multiple protocols: SFTP, SCP, FTP/S, WebDAV, HTTP/S, REST API.</li>
+<li>Multiple storage backends: S3 Compatible, Google Cloud Storage, Azure Blob, other SFTP servers, local filesystem, encrypted local filesystem.</li>
+<li>Multiple data providers: SQLite, MySQL, PostresSQL, CockroachDB, Bolt and in-memory.</li>
+<li>Extensible via plugins and hooks.</li>
+<li>It works everywhere: on small embedded devices or large Kubernetes clusters. On Linux, Windows, macOS, FreeBSD. On x86, arm, ppc64.</li>
+</ul>
 <p><a class="glightbox" href="assets/img/sftpgo%20architecture.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="architecture"><img alt="Architectural overview" data-gallery="architecture" src="assets/img/sftpgo%20architecture.png" /></a></p>
-<h2 id="support">Support</h2>
-<p>We strongly believe in Open Source software model, so we decided to make SFTPGo available to everyone, but maintaining and evolving SFTPGo takes a lot of time and work. To make development and maintenance sustainable you should consider to support the project with a <a href="https://github.com/sponsors/drakkan" target="_blank">sponsorship</a>.</p>
-<p>The open source license grant you freedom but not assurance of help. So why would you rely on free software without support or any guarantee it will stay healthy and maintained for the upcoming years?</p>
-<p>We offer commercial support, guarantees, and advice for SFTPGo:</p>
+<h2 id="enterprise-version">Enterprise version</h2>
+<p>This documentation is for the Enterprise version of SFTPGo. If you are using the Open Source version, please refer to the <a href="/latest/" target="_blank">relevant documentation</a>.</p>
+<p>SFTPGo Enterprise is an enhanced version of the open-source SFTPGo, based on its core functionality, and tailored for organizations that require more advanced features, improved performance and a commercially licensed solution.</p>
+<p>SFTPGo Enterprise is currently used in our SaaS offerings and by some customers subscribed to our Enterprise support plan. It is set to become generally available in the near future. New features are regularly added to the Enterprise version, which may or may not be backported to the open-source version.</p>
+<p>Key Enhancements:</p>
 <ul>
-<li>With our <a href="https://sftpgo.com/plans" target="_blank">plans</a> you can safely install and use SFTPGo on-premise in professional environments.</li>
-<li>With our <a href="https://sftpgo.com/saas" target="_blank">SaaS offerings</a> you can use SFTPGo hosted in the cloud, fully managed and supported.</li>
+<li>Significant performance improvements for cloud storage backends — up to 70% faster when transferring many small files.</li>
+<li>A more powerful EventManager, enabling advanced and flexible automation workflows.</li>
+<li>PGP encryption and decryption, with <a href="https://github.com/FiloSottile/age" target="_blank">age</a> support coming soon.</li>
+<li>WOPI protocol integration, allowing in-browser document editing and real-time collaboration directly within the SFTPGo WebClient. Multiple users can edit the same document simultaneously, with live updates for all participants.</li>
+<li>Email-based authentication for public shares, enhancing security and access control.</li>
+<li>Numerous additional customization options and configuration improvements across the platform.</li>
+<li>Support included.</li>
 </ul>
-<p>SFTPGo is also offered as part of several paid services aiming to facilitate the installation and use of Open Source products or as part of paid software for self-hosted servers.
-These services and software are not endorsed by, nor affiliated with, us. What you pay does not include our support for SFTPGo.</p>
+<p>The open-source version of SFTPGo will continue to be maintained and updated with bug fixes and improvements, ensuring both versions remain reliable and functional.</p>
 <h2 id="licensing">Licensing</h2>
-<p>SFTPGo source code is licensed under <a href="https://www.gnu.org/licenses/agpl-3.0.en.html" target="_blank">GNU AGPL-3.0-only</a> with <a href="https://github.com/drakkan/sftpgo/blob/main/NOTICE" target="_blank">additional terms</a>.</p>
-<p>The <a href="https://keenthemes.com/products/templates-mega-bundle" target="_blank">theme</a> used in WebAdmin and WebClient user interfaces is proprietary, this means:</p>
-<ul>
-<li>KeenThemes HTML/CSS/JS components are allowed for use only within the SFTPGo product and restricted to be used in a resealable HTML template that can compete with KeenThemes products anyhow.</li>
-<li>The SFTPGo WebAdmin and WebClient user interfaces (HTML, CSS and JS components) based on this theme are allowed for use only within the SFTPGo product and therefore cannot be used in derivative works/products without an explicit grant from the <a href="mailto:support@sftpgo.com">SFTPGo Team</a>.</li>
-</ul>
-<p>More information about <a href="https://sftpgo.com/compliance.html" target="_blank">compliance</a>.</p>
+<p>The Enterprise version is offered under a proprietary license that removes the restrictions of the open-source AGPLv3.</p>
 <h2 id="copyright">Copyright</h2>
 <p>Copyright (C) 2019 - 2025 Nicola Murino</p>
 
@@ -1852,14 +1838,6 @@ These services and software are not endorsed by, nor affiliated with, us. What y
     
     <a href="https://sftpgo.com" target="_blank" rel="noopener" title="SFTPGo Website" class="md-social__link">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.36 14c.08-.66.14-1.32.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2m-5.15 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95a8.03 8.03 0 0 1-4.33 3.56M14.34 14H9.66c-.1-.66-.16-1.32-.16-2s.06-1.35.16-2h4.68c.09.65.16 1.32.16 2s-.07 1.34-.16 2M12 19.96c-.83-1.2-1.5-2.53-1.91-3.96h3.82c-.41 1.43-1.08 2.76-1.91 3.96M8 8H5.08A7.92 7.92 0 0 1 9.4 4.44C8.8 5.55 8.35 6.75 8 8m-2.92 8H8c.35 1.25.8 2.45 1.4 3.56A8 8 0 0 1 5.08 16m-.82-2C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2M12 4.03c.83 1.2 1.5 2.54 1.91 3.97h-3.82c.41-1.43 1.08-2.77 1.91-3.97M18.92 8h-2.95a15.7 15.7 0 0 0-1.38-3.56c1.84.63 3.37 1.9 4.33 3.56M12 2C6.47 2 2 6.5 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"/></svg>
-    </a>
-  
-    
-    
-    
-    
-    <a href="https://github.com/drakkan/sftpgo" target="_blank" rel="noopener" title="SFTPGo code repository" class="md-social__link">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
     </a>
   
 </div>

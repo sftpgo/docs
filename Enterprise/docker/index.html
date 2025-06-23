@@ -298,7 +298,7 @@
   
   
   <span class="md-ellipsis">
-    Features
+    Main Features
     
   </span>
   
@@ -451,15 +451,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#supported-tags-and-respective-dockerfile-links" class="md-nav__link">
-    <span class="md-ellipsis">
-      Supported tags and respective Dockerfile links
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#how-to-use-the-sftpgo-image" class="md-nav__link">
     <span class="md-ellipsis">
       How to use the SFTPGo image
@@ -548,9 +539,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#sftpgoversion-alpine" class="md-nav__link">
+  <a href="#sftpgosuite-plugins" class="md-nav__link">
     <span class="md-ellipsis">
-      sftpgo:&lt;version&gt;-alpine
+      sftpgo:&lt;suite&gt;-plugins
     </span>
   </a>
   
@@ -566,18 +557,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#sftpgosuite-slim" class="md-nav__link">
+  <a href="#sftpgoversion-distroless-plugins" class="md-nav__link">
     <span class="md-ellipsis">
-      sftpgo:&lt;suite&gt;-slim
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#sftpgosuite-plugins" class="md-nav__link">
-    <span class="md-ellipsis">
-      sftpgo:&lt;suite&gt;-plugins
+      sftpgo:&lt;version&gt;-distroless-plugins
     </span>
   </a>
   
@@ -915,7 +897,7 @@
   
   
   <span class="md-ellipsis">
-    Web UIs
+    Web User Interfaces
     
   </span>
   
@@ -1815,28 +1797,6 @@
   
 
     
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../build-from-source/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Build from source
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
   </ul>
 </nav>
                   </div>
@@ -1862,15 +1822,6 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#supported-tags-and-respective-dockerfile-links" class="md-nav__link">
-    <span class="md-ellipsis">
-      Supported tags and respective Dockerfile links
-    </span>
-  </a>
-  
-</li>
       
         <li class="md-nav__item">
   <a href="#how-to-use-the-sftpgo-image" class="md-nav__link">
@@ -1961,9 +1912,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#sftpgoversion-alpine" class="md-nav__link">
+  <a href="#sftpgosuite-plugins" class="md-nav__link">
     <span class="md-ellipsis">
-      sftpgo:&lt;version&gt;-alpine
+      sftpgo:&lt;suite&gt;-plugins
     </span>
   </a>
   
@@ -1979,18 +1930,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#sftpgosuite-slim" class="md-nav__link">
+  <a href="#sftpgoversion-distroless-plugins" class="md-nav__link">
     <span class="md-ellipsis">
-      sftpgo:&lt;suite&gt;-slim
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#sftpgosuite-plugins" class="md-nav__link">
-    <span class="md-ellipsis">
-      sftpgo:&lt;suite&gt;-plugins
+      sftpgo:&lt;version&gt;-distroless-plugins
     </span>
   </a>
   
@@ -2027,33 +1969,17 @@
 
 
 <h1 id="docker">Docker</h1>
-<p>SFTPGo provides an official Docker image, it is available on both <a href="https://hub.docker.com/r/drakkan/sftpgo" target="_blank">Docker Hub</a> and on <a href="https://github.com/users/drakkan/packages/container/package/sftpgo" target="_blank">GitHub Container Registry</a>.</p>
-<h2 id="supported-tags-and-respective-dockerfile-links">Supported tags and respective Dockerfile links</h2>
-<ul>
-<li><a href="https://github.com/drakkan/sftpgo/blob/2.6.x/Dockerfile" target="_blank">v2.6.6, v2.6, v2, latest</a></li>
-<li><a href="https://github.com/drakkan/sftpgo/blob/2.6.x/Dockerfile" target="_blank">v2.6.6-plugins, v2.6-plugins, v2-plugins, plugins</a></li>
-<li><a href="https://github.com/drakkan/sftpgo/blob/2.6.x/Dockerfile.alpine" target="_blank">v2.6.6-alpine, v2.6-alpine, v2-alpine, alpine</a></li>
-<li><a href="https://github.com/drakkan/sftpgo/blob/2.6.x/Dockerfile" target="_blank">v2.6.6-slim, v2.6-slim, v2-slim, slim</a></li>
-<li><a href="https://github.com/drakkan/sftpgo/blob/2.6.x/Dockerfile.alpine" target="_blank">v2.6.6-alpine-slim, v2.6-alpine-slim, v2-alpine-slim, alpine-slim</a></li>
-<li><a href="https://github.com/drakkan/sftpgo/blob/2.6.x/Dockerfile.distroless" target="_blank">v2.6.6-distroless-slim, v2.6-distroless-slim, v2-distroless-slim, distroless-slim</a></li>
-<li><a href="https://github.com/drakkan/sftpgo/blob/main/Dockerfile" target="_blank">edge</a></li>
-<li><a href="https://github.com/drakkan/sftpgo/blob/main/Dockerfile" target="_blank">edge-plugins</a></li>
-<li><a href="https://github.com/drakkan/sftpgo/blob/main/Dockerfile.alpine" target="_blank">edge-alpine</a></li>
-<li><a href="https://github.com/drakkan/sftpgo/blob/main/Dockerfile" target="_blank">edge-slim</a></li>
-<li><a href="https://github.com/drakkan/sftpgo/blob/main/Dockerfile.alpine" target="_blank">edge-alpine-slim</a></li>
-<li><a href="https://github.com/drakkan/sftpgo/blob/main/Dockerfile.distroless" target="_blank">edge-distroless-slim</a></li>
-</ul>
+<p>SFTPGo Enterprise is accessible through our private Docker repository.</p>
 <h2 id="how-to-use-the-sftpgo-image">How to use the SFTPGo image</h2>
 <h3 id="start-a-sftpgo-server-instance">Start a <code>sftpgo</code> server instance</h3>
 <p>Starting a SFTPGo instance is simple:</p>
-<pre><code class="language-shell">docker run --name some-sftpgo -p 8080:8080 -p 2022:2022 -d &quot;drakkan/sftpgo:tag&quot;
+<pre><code class="language-shell">docker run --name some-sftpgo -p 8080:8080 -p 2022:2022 -d &quot;&lt;repo name&gt;/sftpgo/sftpgo:&lt;tag&gt;&quot;
 </code></pre>
 <p>... where <code>some-sftpgo</code> is the name you want to assign to your container, and <code>tag</code> is the tag specifying the SFTPGo version you want. See the list above for relevant tags.</p>
 <p>Now visit <a href="http://localhost:8080/web/admin" target="_blank">http://localhost:8080/web/admin</a>, replacing <code>localhost</code> with the appropriate IP address if SFTPGo is not reachable on localhost, create the first admin and a new SFTPGo user. The SFTP service is available on port 2022.</p>
 <p>If you don't want to persist any files, for example for testing purposes, you can run an SFTPGo instance like this:</p>
-<pre><code class="language-shell">docker run --rm --name some-sftpgo -p 8080:8080 -p 2022:2022 -d &quot;drakkan/sftpgo:tag&quot;
+<pre><code class="language-shell">docker run --rm --name some-sftpgo -p 8080:8080 -p 2022:2022 -d &quot;&lt;repo name&gt;/sftpgo/sftpgo:&lt;tag&gt;&quot;
 </code></pre>
-<p>If you prefer GitHub Container Registry to Docker Hub replace <code>drakkan/sftpgo:tag</code> with <code>ghcr.io/drakkan/sftpgo:tag</code>.</p>
 <h3 id="container-shell-access-and-viewing-sftpgo-logs">Container shell access and viewing SFTPGo logs</h3>
 <p>The docker exec command allows you to run commands inside a Docker container. The following command line will give you a shell inside your <code>sftpgo</code> container:</p>
 <pre><code class="language-shell">docker exec -it some-sftpgo sh
@@ -2065,7 +1991,7 @@
 <pre><code class="language-shell">docker run --name some-sftpgo \
     -p 2022:2022 \
     -e SFTPGO_GRACE_TIME=32 \
-    -d &quot;drakkan/sftpgo:tag&quot;
+    -d &quot;&lt;repo name&gt;/sftpgo/sftpgo:&lt;tag&gt;&quot;
 </code></pre>
 <p>Setting the <code>SFTPGO_GRACE_TIME</code> environment variable to a non zero value when creating or running a container will enable a graceful shutdown period in seconds that will allow existing connections to hopefully complete before being forcibly closed when the time has passed.</p>
 <p>While the SFTPGo container is in graceful shutdown mode waiting for the last connection(s) to finish, no new connections will be allowed.</p>
@@ -2089,7 +2015,7 @@ Alternatively you can increase the default docker grace time to a value larger t
     -p 2022:2022 \
     --mount type=bind,source=/my/own/sftpgodata,target=/srv/sftpgo \
     --mount type=bind,source=/my/own/sftpgohome,target=/var/lib/sftpgo \
-    -d &quot;drakkan/sftpgo:tag&quot;
+    -d &quot;&lt;repo name&gt;/sftpgo/sftpgo:&lt;tag&gt;&quot;
 </code></pre>
 <p>As you can see SFTPGo uses two main volumes:</p>
 <ul>
@@ -2099,7 +2025,7 @@ Alternatively you can increase the default docker grace time to a value larger t
 <p>If you want to get fine grained control, you can also mount <code>/srv/sftpgo/data</code> and <code>/srv/sftpgo/backups</code> as separate volumes instead of mounting <code>/srv/sftpgo</code>.</p>
 <h3 id="configuration">Configuration</h3>
 <p>The runtime configuration can be customized via environment variables that you can set passing the <code>-e</code> option to the <code>docker run</code> command or inside the <code>environment</code> section if you are using <a href="https://docs.docker.com/engine/reference/commandline/stack_deploy/" target="_blank">docker stack deploy</a> or <a href="https://github.com/docker/compose" target="_blank">docker-compose</a>.</p>
-<p>Please take a look <a href="../env-vars/">here</a> to learn how to configure SFTPGo via environment variables.</p>
+<p>Refer to the <a href="../env-vars/">documentation</a> to learn how to configure SFTPGo using environment variables.</p>
 <p>Alternately you can mount your custom configuration file to <code>/var/lib/sftpgo</code> or <code>/var/lib/sftpgo/.config/sftpgo</code>.</p>
 <h3 id="running-as-an-arbitrary-user">Running as an arbitrary user</h3>
 <p>The SFTPGo image runs using <code>1000</code> as UID/GID by default. If you know the permissions of your data and/or configuration directory are already set appropriately or you have need of running SFTPGo with a specific UID/GID, it is possible to invoke this image with <code>--user</code> set to any value (other than <code>root/0</code>) in order to achieve the desired access/configuration:</p>
@@ -2115,10 +2041,10 @@ drwxr-xr-x 2 1100 1100 6  7 nov 09.19 config
     -p 2022:2022 \
     --mount type=bind,source=&quot;${PWD}/data&quot;,target=/srv/sftpgo \
     --mount type=bind,source=&quot;${PWD}/config&quot;,target=/var/lib/sftpgo \
-    -d &quot;drakkan/sftpgo:tag&quot;
+    -d &quot;&lt;repo name&gt;/sftpgo/sftpgo:&lt;tag&gt;&quot;
 </code></pre>
 <p>Alternately build your own image using the official one as a base, here is a sample Dockerfile:</p>
-<pre><code class="language-shell">FROM drakkan/sftpgo:tag
+<pre><code class="language-shell">FROM &lt;repo name&gt;/sftpgo/sftpgo:&lt;tag&gt;
 USER root
 RUN chown -R 1100:1100 /etc/sftpgo &amp;&amp; chown 1100:1100 /var/lib/sftpgo /srv/sftpgo
 USER 1100:1100
@@ -2127,21 +2053,17 @@ USER 1100:1100
 <p>The <code>sftpgo</code> images comes in many flavors, each designed for a specific use case. The <code>edge</code>, <code>edge-slim</code>, <code>edge-alpine</code>, and <code>edge-alpine-slim</code> tags are updated after each new commit.</p>
 <h3 id="sftpgoversion"><code>sftpgo:&lt;version&gt;</code></h3>
 <p>This is the defacto image, it is based on <a href="https://www.debian.org/" target="_blank">Debian</a>, available in <a href="https://hub.docker.com/_/debian" target="_blank">the <code>debian</code> official image</a>. If you are unsure about what your needs are, you probably want to use this one.</p>
-<h3 id="sftpgoversion-alpine"><code>sftpgo:&lt;version&gt;-alpine</code></h3>
-<p>This image is based on the popular <a href="https://alpinelinux.org/" target="_blank">Alpine Linux project</a>, available in <a href="https://hub.docker.com/_/alpine" target="_blank">the <code>alpine</code> official image</a>. Alpine Linux is much smaller than most distribution base images (~5MB), and thus leads to much slimmer images in general.</p>
-<p>This variant is highly recommended when final image size being as small as possible is desired. The main caveat to note is that it does use <a href="https://musl.libc.org/" target="_blank">musl libc</a> instead of <a href="https://www.etalabs.net/compare_libcs.html" target="_blank">glibc and friends</a>, so certain software might run into issues depending on the depth of their libc requirements. However, most software doesn't have an issue with this, so this variant is usually a very safe choice. See <a href="https://news.ycombinator.com/item?id=10782897" target="_blank">this Hacker News comment thread</a> for more discussion of the issues that might arise and some pro/con comparisons of using Alpine-based images.</p>
+<h3 id="sftpgosuite-plugins"><code>sftpgo:&lt;suite&gt;-plugins</code></h3>
+<p>These tags provide the standard image with the addition of open source and proprietary plugins installed in <code>/usr/local/bin</code>.</p>
 <h3 id="sftpgoversion-distroless"><code>sftpgo:&lt;version&gt;-distroless</code></h3>
 <p>This image is based on the popular <a href="https://github.com/GoogleContainerTools/distroless" target="_blank">Distroless project</a>. We use the latest Debian based distroless image as base.</p>
 <p>Distroless variant contains only a statically linked sftpgo binary and its minimal runtime dependencies and so it doesn't allow shell access (no shell is installed).
 SQLite support is disabled since it requires CGO and so a C runtime which is not installed.
-The default data provider is <code>bolt</code>, all the supported data providers except <code>sqlite</code> work.
-We only provide the slim variant and so the optional <code>git</code> dependency is not available.</p>
-<h3 id="sftpgosuite-slim"><code>sftpgo:&lt;suite&gt;-slim</code></h3>
-<p>These tags provide a slimmer image that does not include <code>jq</code> and the optional <code>git</code> and <code>rsync</code> dependencies.</p>
-<h3 id="sftpgosuite-plugins"><code>sftpgo:&lt;suite&gt;-plugins</code></h3>
-<p>These tags provide the standard image with the addition of all "official" plugins installed in <code>/usr/local/bin</code>.</p>
+The default data provider is <code>bolt</code>, all the supported data providers except <code>sqlite</code> work.</p>
+<h3 id="sftpgoversion-distroless-plugins"><code>sftpgo:&lt;version&gt;-distroless-plugins</code></h3>
+<p>These tags provide the distroless image with the addition of open source and proprietary plugins installed in <code>/usr/local/bin</code>.</p>
 <h2 id="helm-chart">Helm Chart</h2>
-<p>An helm chart is <a href="https://artifacthub.io/packages/helm/sftpgo/sftpgo" target="_blank">available</a>.</p>
+<p>An helm chart is <a href="https://artifacthub.io/packages/helm/sftpgo/sftpgo" target="_blank">available</a>. You can customize the Docker image to use in the <code>values.yaml</code>.</p>
 
 
 
@@ -2186,14 +2108,6 @@ We only provide the slim variant and so the optional <code>git</code> dependency
     
     <a href="https://sftpgo.com" target="_blank" rel="noopener" title="SFTPGo Website" class="md-social__link">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.36 14c.08-.66.14-1.32.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2m-5.15 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95a8.03 8.03 0 0 1-4.33 3.56M14.34 14H9.66c-.1-.66-.16-1.32-.16-2s.06-1.35.16-2h4.68c.09.65.16 1.32.16 2s-.07 1.34-.16 2M12 19.96c-.83-1.2-1.5-2.53-1.91-3.96h3.82c-.41 1.43-1.08 2.76-1.91 3.96M8 8H5.08A7.92 7.92 0 0 1 9.4 4.44C8.8 5.55 8.35 6.75 8 8m-2.92 8H8c.35 1.25.8 2.45 1.4 3.56A8 8 0 0 1 5.08 16m-.82-2C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2M12 4.03c.83 1.2 1.5 2.54 1.91 3.97h-3.82c.41-1.43 1.08-2.77 1.91-3.97M18.92 8h-2.95a15.7 15.7 0 0 0-1.38-3.56c1.84.63 3.37 1.9 4.33 3.56M12 2C6.47 2 2 6.5 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"/></svg>
-    </a>
-  
-    
-    
-    
-    
-    <a href="https://github.com/drakkan/sftpgo" target="_blank" rel="noopener" title="SFTPGo code repository" class="md-social__link">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
     </a>
   
 </div>
