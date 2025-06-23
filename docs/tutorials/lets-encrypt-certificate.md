@@ -4,7 +4,7 @@ This tutorial shows how to obtain and renew a free Let's encrypt TLS certificate
 
 Obtaining a Let's Encrypt certificate involves solving a domain validation challenge issued by an ACME (Automatic Certificate Management Environment) server. This challenge verifies your ownership of the domain(s) you're trying to obtain a certificate for. Different challenge types exist, the most commonly used being `HTTP-01`. As its name suggests, it uses the HTTP protocol. While HTTP servers can be configured to use any TCP port, this challenge will only work on port `80` due to security measures.
 
-More info about the supported challenge types can be found [here](https://letsencrypt.org/docs/challenge-types/){:target="_blank"}.
+More info about the supported [challenge types](https://letsencrypt.org/docs/challenge-types/){:target="_blank"}.
 
 There are several tools that allow you to obtain a Let's encrypt TLS certificate, in this tutorial we'll show how to use the [lego](https://github.com/go-acme/lego){:target="_blank"} CLI tool and the ACME protocol built into SFTPGo.
 
@@ -108,7 +108,7 @@ When the certificate is renewed you should see SFTPGo logs like the following to
 
 ## Obtaining a certificate using the ACME protocol built into SFTPGo
 
-:warning: Starting from SFTPGo v2.5.0 you can also request certificates from the Server Manager -> Configurations -> ACME section of the WebAdmin UI.
+:information_source: Starting from SFTPGo v2.5.0 you can also request certificates from the Server Manager -> Configurations -> ACME section of the WebAdmin UI.
 
 You can open the SFTPGo configuration file, search for the `acme` section and change it as follow.
 

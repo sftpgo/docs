@@ -1,6 +1,6 @@
 # Event Manager
 
-The Event Manager allows an administrator to configure HTTP notifications, commands execution, email notifications and carry out certain server operations based on server events or schedules. More details [here](../eventmanager.md).
+The Event Manager allows an administrator to configure HTTP notifications, commands execution, email notifications and carry out certain server operations based on server events or schedules. [More details](../eventmanager.md).
 
 Let's see some common use cases.
 
@@ -19,6 +19,8 @@ SFTPGO_SMTP__ENCRYPTION=2 # change based on what your server supports
 ```
 
 SFTPGo supports several placeholders for event actions. You can see all supported placeholders by clicking on the "info" icon at the top right of the add/update action page.
+
+:information_source: The SMTP server can also be configured directly through the WebAdmin UI by navigating to Server Manager -> Configurations -> SMTP.
 
 ## Daily backups
 
@@ -89,6 +91,114 @@ You can also filters events based on protocol, user and group name, filepath she
 
 As actions, select `upload notification`.
 Done! Try uploading a new file and you will receive the configured email notification.
+
+## Virtual folders integration
+
+Using virtual folders with the EventManager unlocks powerful automation workflows, such as copying uploaded files to different storage locations—either within the same backend (but outside the user’s security context) or to an external server or cloud storage provider. These operations can be triggered by events like file uploads or scheduled tasks, and they require no custom scripting or complex setup.
+
+Let’s explore a few example scenarios to see how this feature can be used in practice.
+
+### Scenario 1
+
+We have the following scenario.
+
+- The user `ukg` has the key prefix set to `ukg/` so it can only access this folder.
+
+![UKG Filesystem](../assets/img/ukgfs.png){data-gallery="ukgfs"}
+
+- The user `vista` has the key prefix set to `vista/` so it can only access this folder.
+
+![Vista Filesystem](../assets/img/vistafs.png){data-gallery="vistafs"}
+
+Each time the user `ukg` uploads files to the `/inbound` folder that:
+
+- start with `vista_`, and
+- end with `.csv`
+
+we want to automatically copy those files to the `/outbound` folder of the user `vista`.
+
+To achieve this, we need to define a copy action that runs after each upload. By default, actions are executed within the security context of the user who performed the upload. Since the user `ukg` is restricted to their own directory and cannot access the `vista` user's folder, this operation would normally be blocked.
+
+To support this use case, we define a virtual folder with permissions to access the `vista` user’s directory. The copy action is then configured to use this virtual folder as the destination, allowing the operation to succeed outside the security context of the `ukg` user.
+
+Create a folder named `storage` without setting a key prefix. This gives the folder visibility over the entire storage and allows it to be reused for other actions. Of course, if needed, you can also assign a key prefix to restrict access to a specific portion of the storage.
+
+![Storage folder](../assets/img/storagefolder.png){data-gallery="storagefolder"}
+
+In the EventManager section, create a new action of type `Filesystem` and choose `Copy` as the action type.
+Set the source path to `/inbound/{{.ObjectName}}` and the target path to `/vista/outbound/{{.ObjectName}}`.
+Finally, select `storage` as the target folder.
+
+![Copy action](../assets/img/copyaction.png){data-gallery="copyaction"}
+
+Explore the details:
+
+- The source path is set to `/inbound/{{.ObjectName}}`. The placeholder `{{.ObjectName}}` is replaced with the file name—for example, if a file is uploaded to `/inbound/test.csv`, it becomes `test.csv`. Alternatively, you can use the more generic `{{.VirtualPath}}` placeholder, which would resolve to `/inbound/test.csv` in the same scenario.
+- The target folder is set to `storage`, so the target path is relative to that folder.
+- The target path is `/vista/outbound/{{.ObjectName}}`. This means that if the user `ukg` uploads the file `/inbound/test.csv`, it will be copied to `/vista/outbound/test.csv`.
+
+:information_source: All paths are relative. For example, if the storage folder had a key prefix set to `vista/`, the correct target path would be `/outbound/{{.ObjectName}}` instead.
+
+Finally, define a rule to execute this action after each upload.
+
+Set `Filesystem events` as trigger and `upload` as event.
+
+![Upload rule1](../assets/img/uploadrule1.png){data-gallery="upload-rule1"}
+
+In the `Name filters` section, you can restrict which users the rule applies to. In this case, we specify `ukg`, but you can also define multiple users or patterns—for example, `user*` matches all usernames that start with `user`.
+
+![Upload rule2](../assets/img/uploadrule2.png){data-gallery="upload-rule2"}
+
+Similar filters can be applied based on groups or roles as well.
+
+We also want to restrict the rule to files uploaded to the `/inbound` folder that start with `vista_` and end with `.csv`. To do this, configure the following path filters.
+
+- `/inbound/vista_*`
+- `/inbound/*.csv`
+
+![Upload rule3](../assets/img/uploadrule3.png){data-gallery="upload-rule3"}
+
+Keep in mind that paths are relative, not absolute.
+
+Finally select the `copy` action and save the rule.
+
+![Upload rule4](../assets/img/uploadrule4.png){data-gallery="upload-rule4"}
+
+That's it! Now upload some test files to confirm everything works as expected. For example:
+
+- Files uploaded outside of `/inbound` → the action will not be triggered.
+- Files in `/inbound` with the correct prefix and extension → the action will be triggered.
+- Files in `/inbound` with a .txt extension → the action will not be triggered.
+- Files in a subdirectory like `/inbound/subdir`, even with the correct extension → the action will not be triggered, we haven't used the double asterisk syntax to match subdirectories.
+
+### Scenario 2
+
+Each time the user `vista` uploads files with `.csv` or `.xml` extensions to the `/inbound` folder, we want to automatically transfer these files to the `/push` directory on an external SFTP server.
+
+This is very similar to the `Scenario 1`, we have to define a copy action and a target folder using the external SFTP server as storage backend.
+
+Create a folder that is backed by the remote SFTP server.
+
+![SFTP folder](../assets/img/sftpfolder.png){data-gallery="sftp-folder"}
+
+This time, we've set the SFTP root directory to `/push`, which restricts the folder's access to that directory. As a result, the target paths defined in the copy action are relative to `/push`.
+
+For the action configuration:
+
+- Set the source path to `/{{.VirtualPath}}`.
+- Set the target path to `/{{.ObjectName}}`. Since the SFTP folder uses `/push` as its root directory, this path is relative to `/push`.
+
+![SFTP Copy action](../assets/img/sftpcopy.png){data-gallery="sftp-copy"}
+
+:information_source: The `push` folder must already exist on the remote SFTP server for the action to succeed.
+
+For the rule:
+
+- we use `vista` as name filter so that the action will be executed only for this user
+- `/inbound/*.csv` and `/inbound/*.xml` as path filters to limit the execution to these file extension
+- select `sftp copy` as the action.
+
+That's it! Now upload some test files to confirm everything works as expected.
 
 ## Recycle Bin
 

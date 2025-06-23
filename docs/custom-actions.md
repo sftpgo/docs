@@ -120,7 +120,7 @@ If the `hook` defines an HTTP URL then this URL will be invoked as HTTP POST. Th
 
 The HTTP hook will use the global configuration for HTTP clients and will respect the retry, TLS and headers configurations. See the HTTP Clients (`http`) section of the [config reference](config-file.md#http-clients).
 
-The structure for SFTPGo objects can be found within the [OpenAPI schema](https://github.com/drakkan/sftpgo/blob/main/openapi/openapi.yaml){:target="_blank"}.
+The structure for SFTPGo objects can be found within the [OpenAPI schema](https://sftpgo.com/rest-api){:target="_blank"}.
 
 ## Pub/Sub services
 

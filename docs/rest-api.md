@@ -1,13 +1,17 @@
 # REST API
 
-SFTPGo supports REST API for pretty much everything, both for administrators and users.
+SFTPGo provides a comprehensive REST API that enables full programmatic control over both administrative tasks and user operations. This API allows administrators to manage users, groups, virtual folders, quotas, and system settings, while end users can perform file uploads, downloads, share management, and more — all remotely and securely.
 
-REST API are protected using JSON Web Tokens (JWT) or API key authentication and can be served over HTTPS. You can also configure client certificate authentication in addition to JWT.
+## Security and Authentication
 
-REST API can be disabled within the `httpd` configuration via the `enable_rest_api` key.
+The REST API is secured using JSON Web Tokens (JWT) or API key authentication. We strongly recommend to enable HTTPS to protect data in transit. For enhanced security, client certificate authentication can also be configured in conjunction with JWT, adding an additional layer of trust verification.
 
-The OpenAPI 3 schema for the supported APIs can be found inside the source tree: [openapi.yaml](https://github.com/drakkan/sftpgo/blob/main/openapi/openapi.yaml "OpenAPI 3 specs"){:target="_blank"}. You can render the schema and try the API using the `/openapi` endpoint. SFTPGo uses by default [Swagger UI](https://github.com/swagger-api/swagger-ui){:target="_blank"}, you can use another renderer just by copying it to the defined OpenAPI path.
+## Configuration
 
-You can also explore the schema on [Stoplight](https://sftpgo.stoplight.io/docs/sftpgo/openapi.yaml){:target="_blank"}.
+The REST API feature can be enabled or disabled through the `httpd` configuration section on a per-binding basis, giving you flexibility in controlling API availability.
 
-You can generate your own REST API client in your preferred programming language, or even bash scripts, using an OpenAPI generator such as [swagger-codegen](https://github.com/swagger-api/swagger-codegen){:target="_blank"} or [OpenAPI Generator](https://openapi-generator.tech/){:target="_blank"}.
+## Documentation and Client Generation
+
+Complete and up-to-date API documentation is available in [OpenAPI format](https://sftpgo.com/rest-api){:target="_blank"}. This allows developers to explore the full range of endpoints, request parameters, and response formats.
+
+Using this OpenAPI specification, you can easily generate client libraries or custom integrations in your preferred programming languages. Tools such as [Swagger Codegen](https://github.com/swagger-api/swagger-codegen){:target="_blank"} and [OpenAPI Generator](https://openapi-generator.tech/){:target="_blank"} support generating clients ranging from Python, Java, and JavaScript to simple bash scripts, streamlining the integration process.

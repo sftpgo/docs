@@ -1,6 +1,6 @@
 # Environment variables
 
-You can override all the available [configuration options](config-file.md) using environment variables. SFTPGo will check for environment variables with a name matching the key uppercased and prefixed with the `SFTPGO_`. You need to use `__` to traverse a struct.
+You can override all the available [configuration options](config-file.md) and [command line options](cli.md) using environment variables. SFTPGo will check for environment variables with a name matching the key uppercased and prefixed with the `SFTPGO_`. You need to use `__` to traverse a struct.
 
 Let's see some examples:
 
@@ -23,3 +23,14 @@ Suppose you want to set the dataprovider password to `my$secret\pwd`, you can us
 
 - `SFTPGO_DATA_PROVIDER__PASSWORD='my$secret\pwd'`.
 - `SFTPGO_DATA_PROVIDER__PASSWORD="my\$secret\\pwd"`.
+
+## Additional environment variables
+
+Some additional environment variables are available:
+
+- `SFTPGO_HOOK__MEMORY_PIPES__ENABLED` set to `1` to enable memory pipes. This allows fully in-memory transfers to and from cloud storage backends, eliminating the need for temporary disk files.
+- `SFTPGO_HOOK__WEBCLIENT_DISABLE_PREVIEW`, set to `1` to disable file preview in the WebClient UI.
+- `SFTPGO_HOOK__WEBCLIENT_DISABLE_EDITOR`, set to `1` to disable the built-in text editor in the WebClient UI.
+- `SFTPGO_HOOK__S3_CHECK_PARENT_DIR`, set to `1` to prevent uploads to non-existent directories when using S3 backends, emulating the behavior of a local filesystem. By default, uploads to non-existent directories are allowed on cloud storage backends due to their flat structure.
+- `SFTPGO_HOOK__GCS_CHECK_PARENT_DIR`, set to `1` to prevent uploads to non-existent directories when using Google Cloud Storage backends.
+- `SFTPGO_HOOK__AZBLOB_CHECK_PARENT_DIR`, set to `1` to prevent uploads to non-existent directories when using Azure Blob Storage backends.

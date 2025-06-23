@@ -2,8 +2,6 @@
 
 We assume that you have installed SFTPGo and it is up and running, so let's explore the main features and concepts.
 
-:warning: SFTPGo has many settings and configuration options. Before using SFTPGo in production you should carefully understand what they mean and what changes are required to harden your installation according to your requirements. We recommend that you provide at least TLS certificates to protect your services. The default configuration is a tradeoff between security and usability. We can provide [commercial support](https://sftpgo.com/){:target="_blank"} if needed.
-
 ## Initial configuration
 
 Before you can use SFTPGo you need to create an admin account, so open [http://127.0.0.1:8080/web/admin](http://127.0.0.1:8080/web){:target="_blank"} in your web browser, replacing `127.0.0.1` with the appropriate IP address if SFTPGo is not running on localhost.
@@ -109,7 +107,7 @@ The screenshot below shows an example configuration.
 
 ![User with cryptfs backend](assets/img/local-encrypted.png){data-gallery="cryptfs-user"}
 
-You can find more details about Data At Rest Encryption [here](dare.md).
+More details about [Data At Rest Encryption](dare.md).
 
 ## Virtual permissions
 
@@ -224,7 +222,7 @@ SFTPGo supports the following types of groups:
 - secondary groups
 - membership groups
 
-A user can be a member of a primary group and many secondary and membership groups. Depending on the group type, the settings are inherited differently, more details [here](groups.md).
+A user can be a member of a primary group and many secondary and membership groups. Depending on the group type, the settings are inherited differently, [more details](groups.md).
 
 :warning: SFTPGo groups are completely unrelated to system groups. Therefore, it is not necessary to add Linux/Windows groups to use SFTPGo groups.
 
@@ -299,7 +297,9 @@ Log in using the newly created administrator and try to add a new user. The user
 
 Until now we used the default configuration, to change the global service parameters you have to edit the configuration file, or set appropriate environment variables, and restart SFTPGo to apply the changes.
 
-A full explanation of all configuration methods can be found [here](config-file.md), we explore some common use cases. Please keep in mind that SFTPGo can also be configured via environment variables, this is very convenient if you are using Docker.
+A full explanation of all configuration parameters is available in the dedicated [configuration file section](config-file.md). Below, we’ll explore some common use cases.
+
+Keep in mind that SFTPGo can also be configured using environment variables — a convenient option, especially when running it in Docker.
 
 The default configuration file is `sftpgo.json` and it can be found within the `/etc/sftpgo` directory if you installed from Linux distro packages. On Windows the configuration file can be found within the `{commonappdata}\SFTPGo` directory where `{commonappdata}` is typically `C:\ProgramData`. SFTPGo also supports reading from TOML and YAML configuration files.
 

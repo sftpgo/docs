@@ -2,6 +2,8 @@
 
 This hook runs after a data retention check completes if you specify `Hook` between notifications methods when you start the check.
 
+:information_source: You can configure data retention rules using the EventManager—without writing any hooks.
+
 The `data_retention_hook` can be defined as the absolute path of your program or an HTTP URL.
 
 If the hook defines an external program it can read the following environment variable:

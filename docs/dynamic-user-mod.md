@@ -35,4 +35,4 @@ If you enable FTP and allow both encrypted and plain text sessions, the pre-logi
 
 You can disable the hook on a per-user basis.
 
-The structure for SFTPGo users can be found within the [OpenAPI schema](https://github.com/drakkan/sftpgo/blob/main/openapi/openapi.yaml){:target="_blank"}.
+The structure for SFTPGo users can be found within the [OpenAPI schema](https://sftpgo.com/rest-api){:target="_blank"}.

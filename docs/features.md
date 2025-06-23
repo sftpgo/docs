@@ -1,55 +1,43 @@
-# Features
+# Main Features
 
-- Support for serving local filesystem, encrypted local filesystem, S3 Compatible Object Storage, Google Cloud Storage, Azure Blob Storage or other SFTP accounts over SFTP/SCP/FTP/WebDAV.
-- Virtual folders are supported: a virtual folder can use any of the supported storage backends. So you can have, for example, a user with the S3 backend mapping a GCS bucket (or part of it) on a specified path and an encrypted local filesystem on another one. Virtual folders can be private or shared among multiple users, for shared virtual folders you can define different quota limits for each user.
-- Configurable [custom commands and/or HTTP hooks](custom-actions.md) on upload, pre-upload, download, pre-download, delete, pre-delete, rename, mkdir, rmdir on SSH commands and on user add, update and delete.
-- Virtual accounts stored within a "data provider".
-- SQLite, MySQL, PostgreSQL, CockroachDB, Bolt (key/value store in pure Go) and in-memory data providers are supported.
-- Chroot isolation for local accounts. Cloud-based accounts can be restricted to a certain base path.
-- Per-user and per-directory virtual permissions, for each path you can allow or deny: directory listing, upload, overwrite, download, delete, rename, create directories, create symlinks, change owner/group/file mode and modification time.
-- [REST API](rest-api.md) for users and folders management, data retention, backup, restore and real time reports of the active connections with possibility of forcibly closing a connection.
-- The [Event Manager](eventmanager.md) allows to define custom workflows based on server events or schedules.
-- [Web based administration interface](web-interfaces.md#webadmin) to easily manage users, folders and connections.
-- [Web client interface](web-interfaces.md#webclient) so that end users can change their credentials, manage and share their files in the browser.
-- Public key and password authentication. Multiple public keys per-user are supported.
-- SSH user [certificate authentication](https://cvsweb.openbsd.org/src/usr.bin/ssh/PROTOCOL.certkeys?rev=1.8){:target="_blank"}.
-- Keyboard interactive authentication. You can easily setup a customizable multi-factor authentication.
-- Partial authentication. You can configure multi-step authentication requiring, for example, the user password after successful public key authentication.
-- Per-user authentication methods.
-- [Two-factor authentication](tutorials/two-factor-authentication.md) based on time-based one time passwords (RFC 6238) which works with Google Authenticator, Microsoft Authenticator, Authy and other compatible apps.
-- LDAP/Active Directory authentication using a [plugin](https://github.com/sftpgo/sftpgo-plugin-auth){:target="_blank"}.
-- Simplified user administrations using [groups](groups.md).
-- [Roles](roles.md) allow to create limited administrators who can only create and manage users with their role.
+- Serving local filesystem, encrypted local filesystem, S3 Compatible Object Storage, Google Cloud Storage, Azure Blob Storage or other SFTP accounts over SFTP, SCP, FTP, WebDAV, HTTPS.
+- Users are stored in a supported data provider—such as SQLite, MySQL, PostgreSQL, CockroachDB, Bolt, or in-memory storage—and each user’s access is restricted to their own home directory or designated section of a storage bucket.
+- Granular access control: per-user and per-directory permissions.
+- Encryption at REST and in Motion.
+- Audit logs and reporting.
+- Password, public key and certificate authentication.
+- Multi-factor and multi-step authentication. Authentication methods can be customized on a per-user basis.
+- Per-user and per-directory data retention rules to automatically delete or archive old files.
+- Real-time monitor of active connections.
+- Quota Management: Each account can have a disk quota, defined by maximum total storage size and/or maximum number of files.
+- Bandwidth Throttling: Upload and download speeds can be limited separately, with the ability to apply different settings based on the client’s IP address.
+- Data Transfer Limits: Total bandwidth usage can be restricted, either as a combined limit or with separate thresholds for uploads and downloads. These limits can also be customized per client IP and reset via the REST API or the EventManager.
+- [WebAdmin UI](web-interfaces.md#webadmin) to easily manage users, groups, folders and connections.
+- [WebClient UI](web-interfaces.md#webclient) so that end users can change their credentials, manage and share their files in the browser.
+- [Virtual folders](virtual-folders.md): these are special folders that connect to any supported storage backend, allowing you to make different types of storage available to users at specific folder paths. For example, a user might access an S3 bucket mapped to one folder path while also having an encrypted local filesystem available at another. Virtual folders can be either private (for a single user) or shared among multiple users. In addition, virtual folders can be used to automate actions based on events. For example, after a file is uploaded, it can be automatically copied or moved to an external SFTP server, an S3 bucket, or transferred on a set schedule. This makes it easier to manage files across different storage services without manual intervention.
+- Simplified user administrations using [groups](groups.md): you assign settings once to a group, instead of multiple times to each individual user.
+- [Roles](roles.md) enable the creation of restricted administrators who are only permitted to create and manage users with the same assigned role. Allowing to delegate users administration.
+- The [Event Manager](eventmanager.md) makes it possible to set up automated actions based on server activity—such as when files are uploaded, downloaded, or deleted—as well as on defined schedules. This feature can be used to streamline operations, for example by automatically sending notifications or moving files to other storage systems, without requiring manual intervention.
+- LDAP/Active directory users.
+- [OpenID connect](oidc.md) Single Sign-On supporting many Identity Providers including Microsoft Entra ID, Google Identity Platform, Amazon Cognito, Auth0, Okta, OneLogin, Jump Cloud, Ping Identity, Keycloak and many others.
 - Custom authentication via [external programs/HTTP API](external-auth.md).
-- Web Client and Web Admin user interfaces support [OpenID Connect](https://openid.net/connect/){:target="_blank"} authentication and so they can be integrated with identity providers such as [Keycloak](https://www.keycloak.org/){:target="_blank"}. You can find more details [here](oidc.md).
-- [Data At Rest Encryption](dare.md).
-- Dynamic user modification before login via [external programs/HTTP API](dynamic-user-mod.md).
-- Quota support: accounts can have individual disk quota expressed as max total size and/or max number of files.
-- Bandwidth throttling, with separate settings for upload and download and overrides based on the client's IP address.
-- Data transfer bandwidth limits, with total limit or separate settings for uploads and downloads and overrides based on the client's IP address. Limits can be reset using the REST API.
-- Per-protocol [rate limiting](rate-limiting.md) is supported and can be optionally connected to the built-in defender to automatically block hosts that repeatedly exceed the configured limit.
-- Per-user maximum concurrent sessions.
-- Per-user and global IP filters: login can be restricted to specific ranges of IP addresses or to a specific IP address.
-- Per-user and per-directory shell like patterns filters: files can be allowed, denied and optionally hidden based on shell like patterns.
+- Dynamic user creation or modification before login via [external programs/HTTP API](dynamic-user-mod.md).
+- Let’s Encrypt TLS certificates for HTTPS and FTPS/FTPES.
+- Geo-IP filtering.
+- Per-user and global IP filters and trusted lists.
+- Per-protocol rate limiting.
+- Automatically disactivate or deleted inactive users.
 - Automatically terminating idle connections.
-- Automatic blocklist management using the built-in [defender](defender.md).
-- Geo-IP filtering using a [plugin](https://github.com/sftpgo/sftpgo-plugin-geoipfilter){:target="_blank"}.
-- Atomic uploads are configurable.
-- Per-user files/folders ownership mapping: you can map all the users to the system account that runs SFTPGo (all platforms are supported) or you can run SFTPGo as root user and map each user or group of users to a different system account (\*NIX only).
-- Support for Git repositories over SSH.
-- SCP and rsync are supported.
-- FTP/S is supported. You can configure the FTP service to require TLS for both control and data connections.
-- [WebDAV](webdav.md) is supported.
-- ACME protocol is supported. SFTPGo can obtain and automatically renew TLS certificates for HTTPS, WebDAV and FTPS from `Let's Encrypt` or other ACME compliant certificate authorities, using the `HTTP-01` or `TLS-ALPN-01` [challenge types](https://letsencrypt.org/docs/challenge-types/){:target="_blank"}.
-- Two-Way TLS authentication, aka TLS with client certificate authentication, is supported for REST API/Web Admin, FTPS and WebDAV over HTTPS.
-- Per-user protocols restrictions. You can configure the allowed protocols (SSH/HTTP/FTP/WebDAV) for each user.
-- [Prometheus metrics](metrics.md) are supported.
+- Automatic blocklist management using the built-in [defender](defender.md), which helps protect the server against brute-force attempts.
+- Ability to configure and tune ciphers, host keys, key exchanges, message authentication codes and other algorithms.
+- Support for strict Content Security Policies for WebAdmin and WebClient UI: no `unsafe-eval` and `usafe-inline` are required.
+- Access time restrictions.
+- Branding: custom logo and name in Web interfaces.
+- REST API designed for both administrators and end users. Administrators can fully manage the system through the API—creating and managing users, groups, virtual folders, and more—while end users can access and interact with their files securely. This API allows for easy integration with other applications and supports automated workflows to streamline file handling and system administration.
+- Infrastructure as Code: [Terraform provider](https://registry.terraform.io/providers/drakkan/sftpgo/latest){:target="_blank"}.
+- Configurable [custom commands and/or HTTP hooks](custom-actions.md) on upload, pre-upload, download, pre-download, delete, pre-delete, rename, mkdir, rmdir on SSH commands and on user add, update and delete.
 - Support for HAProxy PROXY protocol: you can proxy and/or load balance the SFTP/SCP/FTP service without losing the information about the client's address.
 - Easy [migration](https://github.com/drakkan/sftpgo/tree/main/examples/convertusers){:target="_blank"} from Linux system user accounts.
 - [Portable mode](cli.md#portable-mode): a convenient way to share a single directory on demand.
+- [Prometheus metrics](metrics.md).
 - Performance analysis using built-in [profiler](profiling.md).
-- Configuration format is at your choice: JSON, TOML, YAML, envfile are supported.
-- Log files are accurate and they are saved in the easily parsable JSON format ([more information](logs.md)).
-- SFTPGo supports a [plugin system](plugins.md) and therefore can be extended using external plugins.
-- Infrastructure as Code (IaC) support using the [Terraform provider](https://registry.terraform.io/providers/drakkan/sftpgo/latest){:target="_blank"}.
-- Partial (experimental) support for [internationalization](web-interfaces.md#internationalization) for WebAdmin and WebClient user interfaces.

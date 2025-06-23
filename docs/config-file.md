@@ -1,6 +1,6 @@
 # Configuration file
 
-The default configuration file is [sftpgo.json](https://github.com/drakkan/sftpgo/blob/main/sftpgo.json){:target="_blank"} and is divided in several sections.
+The default configuration file is `sftpgo.json` and is divided in several sections.
 
 ## Common
 
@@ -30,6 +30,8 @@ Supported configuration parameters for the `common` section:
 - `data_retention_hook`, string. Absolute path to the command to execute or HTTP URL to notify. See [Data retention hook](data-retention-hook.md) for more details. Leave empty to disable
 - `max_total_connections`, integer. Maximum number of concurrent client connections. 0 means unlimited. Default: `0`.
 - `max_per_host_connections`, integer.  Maximum number of concurrent client connections from the same host (IP). If the defender is enabled, exceeding this limit will generate `score_limit_exceeded` events and thus hosts that repeatedly exceed the max allowed connections can be automatically blocked. 0 means unlimited. Default: `20`.
+- `max_total_transfers`, integer. Maximum number of concurrent file transfers, upload and downloads. 0 means unlimited. Default: `0`.
+- `max_per_host_transfers`, integer. Maximum number of concurrent file transfers from the same host (IP). If the defender is enabled, exceeding this limit will generate `score_limit_exceeded` events and thus hosts that repeatedly exceed the max allowed connections can be automatically blocked. 0 means unlimited. Default: `20`.
 - `allowlist_status`, integer. Set to `1` to enable the allow list. The allow list can be populated using the WebAdmin or the REST API. If enabled, only the listed IPs/networks can access the configured services, all other client connections will be dropped before they even try to authenticate. Ensure to populate your allow list before enabling this setting. In multi-nodes setups, the list entries propagation between nodes may take some minutes. Default: `0`.
 - `allow_self_connections`, integer. Allow users on this instance to use other users/virtual folders on this instance as storage backend. Enable this setting if you know what you are doing. Set to `1` to enable. Default: `0`.
 - `umask`, string. Set the file mode creation mask, for example `002`. Leave blank to use the system umask. Supported on *NIX platforms. Default: blank.
@@ -53,7 +55,7 @@ Supported configuration parameters for the `common` section:
   - `login_delay`, struct containing the configuration to impose a delay between login attempts:
     - `success`, integer. Defines the number of milliseconds to pause prior to allowing a successful login. `0` means disabled. Default: `0`.
     - `password_failed`, integer. Defines the number of milliseconds to pause prior to reporting a failed password/interactive login. `0` means disabled. Default: `1000`.
-- `rate_limiters`, list of structs containing the rate limiters configuration. Take a look [here](rate-limiting.md) for more details. Each struct has the following fields:
+- `rate_limiters`, list of structs containing the rate limiters configuration. [More details](rate-limiting.md). Each struct has the following fields:
   - `average`, integer. Average defines the maximum rate allowed. 0 means disabled. Default: 0
   - `period`, integer. Period defines the period as milliseconds. The rate is actually defined by dividing average by period Default: 1000 (1 second).
   - `burst`, integer. Burst defines the maximum number of requests allowed to go through in the same arbitrarily small period of time. Default: 1
@@ -104,7 +106,7 @@ Supported configuration parameters for the `sftpd` section:
 - `trusted_user_ca_keys`, list of public keys paths of certificate authorities that are trusted to sign user certificates for authentication. The paths can be absolute or relative to the configuration directory.
 - `revoked_user_certs_file`, path to a file containing the revoked user certificates. The path can be absolute or relative to the configuration directory. It must contain a JSON list with the public key fingerprints of the revoked certificates. Example content: `["SHA256:bsBRHC/xgiqBJdSuvSTNpJNLTISP/G356jNMCRYC5Es","SHA256:119+8cL/HH+NLMawRsJx6CzPF1I3xC+jpM60bQHXGE8"]`. The revocation list can be reloaded on demand sending a `SIGHUP` signal on Unix based systems and a `paramchange` request to the running service on Windows. Default: "".
 - `login_banner_file`, path to the login banner file. The contents of the specified file, if any, are sent to the remote user before authentication is allowed. It can be a path relative to the config dir or an absolute one. Leave empty to disable login banner.
-- `enabled_ssh_commands`, list of enabled SSH commands. `*` enables all supported commands. More information can be found [here](ssh.md#ssh-commands).
+- `enabled_ssh_commands`, list of enabled SSH commands. `*` enables all supported commands. [More information](ssh.md#ssh-commands).
 - `keyboard_interactive_authentication`, boolean. This setting specifies whether keyboard interactive authentication is allowed. If no keyboard interactive hook or auth plugin is defined the default is to prompt for the user password and then the one time authentication code, if defined. Default: `true`.
 - `keyboard_interactive_auth_hook`, string. Absolute path to an external program or an HTTP URL to invoke for keyboard interactive authentication. See [Keyboard Interactive Authentication](keyboard-interactive.md) for more details.
 - `password_authentication`, boolean. Set to false to disable password authentication. This setting will disable multi-step authentication method using public key + password too. It is useful for public key only configurations if you need to manage old clients that will not attempt to authenticate with public keys if the password login method is advertised. Default: `true`.
@@ -128,7 +130,7 @@ Supported configuration parameters for the `ftpd` section:
     - `ip`, string. Passive IP to return if the client IP address belongs to the defined networks. Empty means autodetect.
   - `passive_host`, string. Hostname for passive connections. This hostname will be resolved each time a passive connection is requested and this can, depending on the DNS configuration, take a noticeable amount of time. Enable this setting only if you have a dynamic IP address. Default: "".
   - `client_auth_type`, integer. Set to `1` to require a client certificate and verify it. Set to `2` to request a client certificate during the TLS handshake and verify it if given, in this mode the client is allowed not to send a certificate. At least one certification authority must be defined in order to verify client certificates. If no certification authority is defined, this setting is ignored. Default: 0.
-  - `tls_cipher_suites`, list of strings. List of supported cipher suites for TLS version 1.2 and below. If empty, a default list of secure cipher suites is used, with a preference order based on hardware performance. Note that TLS 1.3 ciphersuites are not configurable. The supported ciphersuites names are defined [here](https://github.com/golang/go/blob/master/src/crypto/tls/cipher_suites.go#L53){:target="_blank"}. Any invalid name will be silently ignored. The order matters, the ciphers listed first will be the preferred ones. Default: empty.
+  - `tls_cipher_suites`, list of strings. List of supported cipher suites for TLS version 1.2 and below. If empty, a default list of secure cipher suites is used, with a preference order based on hardware performance. Note that TLS 1.3 ciphersuites are not configurable. Supported [ciphersuites names](https://github.com/golang/go/blob/master/src/crypto/tls/cipher_suites.go#L53){:target="_blank"}. Any invalid name will be silently ignored. The order matters, the ciphers listed first will be the preferred ones. Default: empty.
   - `passive_connections_security`, integer. Defines the security checks for passive data connections. Set to `0` to require matching peer IP addresses of control and data connection. Set to `1` to disable any checks. Please note that if you run the FTP service behind a proxy you must enable the proxy protocol for control and data connections. Default: `0`.
   - `active_connections_security`, integer. Defines the security checks for active data connections. The supported values are the same as described for `passive_connections_security`. Please note that disabling the security checks you will make the FTP service vulnerable to bounce attacks on active data connections, so change the default value only if you are on a trusted/internal network. Default: `0`.
   - `ignore_ascii_transfer_type`, integer. Set to `1` to silently ignore any client requests to perform ASCII translations via the `TYPE` command. useful in circumstances involving older/mainframe clients and EBCDIC files. This behavior can be Default: `0`.
@@ -157,7 +159,7 @@ Supported configuration parameters for the `webdavd` section:
   - `certificate_key_file`, string. Binding specific private key matching the above certificate. This can be an absolute path or a path relative to the config dir. If not set the global ones will be used, if any.
   - `min_tls_version`, integer. Defines the minimum version of TLS to be enabled. `12` means TLS 1.2 (and therefore TLS 1.2 and TLS 1.3 will be enabled),`13` means TLS 1.3, `10` means TLS 1.0, `11` means TLS 1.1. Default: `12`.
   - `client_auth_type`, integer. Set to `1` to require a client certificate and verify it. Set to `2` to request a client certificate during the TLS handshake and verify it if given, in this mode the client is allowed not to send a certificate. At least one certification authority must be defined in order to verify client certificates. If no certification authority is defined, this setting is ignored. Default: 0.
-  - `tls_cipher_suites`, list of strings. List of supported cipher suites for TLS version 1.2 and below. If empty, a default list of secure cipher suites is used, with a preference order based on hardware performance. Note that TLS 1.3 ciphersuites are not configurable. The supported ciphersuites names are defined [here](https://github.com/golang/go/blob/master/src/crypto/tls/cipher_suites.go#L53){:target="_blank"}. Any invalid name will be silently ignored. The order matters, the ciphers listed first will be the preferred ones. Default: empty.
+  - `tls_cipher_suites`, list of strings. List of supported cipher suites for TLS version 1.2 and below. If empty, a default list of secure cipher suites is used, with a preference order based on hardware performance. Note that TLS 1.3 ciphersuites are not configurable. Supported [ciphersuites names](https://github.com/golang/go/blob/master/src/crypto/tls/cipher_suites.go#L53){:target="_blank"}. Any invalid name will be silently ignored. The order matters, the ciphers listed first will be the preferred ones. Default: empty.
   - `tls_protocols`, list of string. HTTPS protocols in preference order. Supported values: `http/1.1`, `h2`. Default: `http/1.1`, `h2`.
   - `prefix`, string. Prefix for WebDAV resources, if empty WebDAV resources will be available at the `/` URI. If defined it must be an absolute URI, for example `/dav`. Default: "".
   - `proxy_mode`, integer. Set to `1` to use the proxy protocol configuration defined within the `common` section instead of the proxy header configuration. Default: `0`.
@@ -238,7 +240,7 @@ Supported configuration parameters for the `data_provider` section:
   - `algo`, string. Algorithm to use for hashing passwords. Available algorithms: `argon2id`, `bcrypt`. For bcrypt hashing we use the `$2a$` prefix. Default: `bcrypt`
 - `password_validation` struct. It defines the password validation rules for admins and protocol users.
   - `admins`, struct. It defines the password validation rules for SFTPGo admins.
-    - `min_entropy`, float. Defines the minimum password entropy. Take a look [here](https://github.com/wagslane/go-password-validator#what-entropy-value-should-i-use){:target="_blank"} for more details. `0` means disabled, any password will be accepted. Default: `0`.
+    - `min_entropy`, float. Defines the minimum password entropy. [More details](https://github.com/wagslane/go-password-validator#what-entropy-value-should-i-use){:target="_blank"}. `0` means disabled, any password will be accepted. Default: `0`.
   - `users`, struct. It defines the password validation rules for SFTPGo protocol users.
     - `min_entropy`, float. This value is used as fallback if no more specific password strength is set at user/group level. Default: `0`.
 - `password_caching`, boolean. Verifying argon2id passwords has a high memory and computational cost, verifying bcrypt passwords has a high computational cost, by enabling, in memory, password caching you reduce these costs. Default: `true`
@@ -269,7 +271,7 @@ Supported configuration parameters for the `httpd` section (REST API, WebAdmin, 
   - `certificate_key_file`, string. Binding specific private key matching the above certificate. This can be an absolute path or a path relative to the config dir. If not set the global ones will be used, if any.
   - `min_tls_version`, integer. Defines the minimum version of TLS to be enabled. `12` means TLS 1.2 (and therefore TLS 1.2 and TLS 1.3 will be enabled),`13` means TLS 1.3, `10` means TLS 1.0, `11` means TLS 1.1. Default: `12`.
   - `client_auth_type`, integer. Set to `1` to require client certificate authentication in addition to JWT/Web authentication. You need to define at least a certificate authority for this to work. Default: 0.
-  - `tls_cipher_suites`, list of strings. List of supported cipher suites for TLS version 1.2 and below. If empty, a default list of secure cipher suites is used, with a preference order based on hardware performance. Note that TLS 1.3 ciphersuites are not configurable. The supported ciphersuites names are defined [here](https://github.com/golang/go/blob/master/src/crypto/tls/cipher_suites.go#L53){:target="_blank"}. Any invalid name will be silently ignored. The order matters, the ciphers listed first will be the preferred ones. Default: empty.
+  - `tls_cipher_suites`, list of strings. List of supported cipher suites for TLS version 1.2 and below. If empty, a default list of secure cipher suites is used, with a preference order based on hardware performance. Note that TLS 1.3 ciphersuites are not configurable. Supported [ciphersuites names](https://github.com/golang/go/blob/master/src/crypto/tls/cipher_suites.go#L53){:target="_blank"}. Any invalid name will be silently ignored. The order matters, the ciphers listed first will be the preferred ones. Default: empty.
   - `tls_protocols`, list of string. HTTPS protocols in preference order. Supported values: `http/1.1`, `h2`. Default: `http/1.1`, `h2`.
   - `proxy_mode`, integer. Set to `1` to use the proxy protocol configuration defined within the `common` section instead of the proxy header configuration. Default: `0`.
   - `proxy_allowed`, list of IP addresses and IP ranges allowed to set client IP proxy header such as `X-Forwarded-For`, `X-Real-IP` and any other headers defined in the `security` section. Any of the indicated headers, if set on requests from a connection address not in this list, will be silently ignored. Default: empty.
@@ -290,7 +292,17 @@ Supported configuration parameters for the `httpd` section (REST API, WebAdmin, 
     - `implicit_roles`, boolean. If set, the `role_field` is ignored and the SFTPGo role is assumed based on the login link used. Default: `false`.
     - `custom_fields`, list of strings. Custom token claims fields to pass to the pre-login hook. Default: empty.
     - `insecure_skip_signature_check`, boolean. This setting causes SFTPGo to skip JWT signature validation. It's intended for special cases where providers, such as Azure, use the `none` algorithm. Skipping the signature validation can cause security issues. Default: `false`.
+    - `insecure_issuer_url`, boolean. Enable to allow discovery to work when the issuer_url reported by upstream is mismatched with the discovery URL. This is meant for integration with off-spec providers such as Azure B2C. Default: `false`.
+    - `ui_name`, string. Defines the the name to display in the login page. Default: `OpenID`.
     - `debug`, boolean. If set, the received id tokens will be logged at debug level. Default: `false`.
+  - `wopi`, struct. Defines the configuration for the WOPI integration, compatible with document servers like Collabora Online.
+    - `server_url`, string. Defines the base URL of the WOPI server. The path `/hosting/discovery` will be automatically added.
+    - `skip_tls_verify`,  boolean. if enabled SFTPGo accepts any TLS certificate presented by the WOPI server and any host name in that certificate. In this mode, TLS is susceptible to man-in-the-middle attacks. This should be used only for testing.
+    - `skip_proof_key_verify`, boolean. If enabled the proof keys are not verified. This should be used only for testing.
+    - `callback_url`, string. Defines the base URL that the WOPI server uses to access and update files. This is typically the SFTPGo URL reachable from the WOPI server, for example: `https://sftpgo.example.com`.
+    - `allowed_from`. Defines the list of IP addresses and IP ranges permitted to access the SFTPGo WOPI implementation. This typically includes the IP address of the WOPI server and can be used alongside proof keys for enhanced security.
+    - `skipped_extensions`. Specifies the file extensions for which the WOPI protocol will be bypassed. Examples include: `png`, `jpg`, `jpeg`.
+    - `max_users`, integer. Defines the maximum number of SFTPGo users allowed to access the WOPI implementation. 0 means unlimited. Default: `0`.
   - `security`, struct. Defines security headers to add to HTTP responses and allows to restrict allowed hosts. The following parameters are supported:
     - `enabled`, boolean. Set to `true` to enable security configurations. Default: `false`.
     - `allowed_hosts`, list of strings. Fully qualified domain names that are allowed. An empty list allows any and all host names. Default: empty.
@@ -333,6 +345,7 @@ Supported configuration parameters for the `httpd` section (REST API, WebAdmin, 
 - `cookie_lifetime`, integer. Defines the duration in minutes for WebAdmin and WebClient cookies. Cookies are automatically refreshed if there is user activity and the maximum duration is 12 hours. An invalid value is silently ignored. Maximum allowed value `720`, default: `20`.
 - `share_cookie_lifetime`, integer. Defines the duration in minutes for public sharing cookies. An invalid value is silently ignored. Maximum allowed value `720`, default: `120`.
 - `jwt_lifetime`, integer. Defines the duration in minutes for REST API tokens. An invalid value is silently ignored. Maximum allowed value `720`, default: `20`.
+- `wopi_token_lifetime`, integer. Defines the duration in minutes for WOPI access tokens. An invalid value is silently ignored. Maximum allowed value `720`, default: `360`.
 - `max_upload_file_size`, integer. Defines the maximum request body size, in bytes, for Web Client/API HTTP upload requests. `0` means no limit. Default: `0`.
 - `cors` struct containing CORS configuration. SFTPGo uses [Go CORS handler](https://github.com/rs/cors){:target="_blank"}, please refer to upstream documentation for fields meaning and their default values.
   - `enabled`, boolean, set to `true` to enable CORS.
@@ -348,7 +361,6 @@ Supported configuration parameters for the `httpd` section (REST API, WebAdmin, 
 - `setup` struct containing configurations for the initial setup screen
   - `installation_code`, string. If set, this installation code will be required when creating the first admin account. Please note that even if set using an environment variable this field is read at SFTPGo startup and not at runtime. This is not a license key or similar, the purpose here is to prevent anyone who can access to the initial setup screen from creating an admin user. Default: blank.
   - `installation_code_hint`, string. Description for the installation code input field. Default: `Installation code`.
-- `hide_support_link`, boolean. If set, the link to the [sponsors section](https://github.com/drakkan/sftpgo?tab=readme-ov-file#sponsors) will not appear on the setup screen page. Default: `false`.
 
 ## Telemetry
 
@@ -361,14 +373,14 @@ Supported configuration parameters for the `telemetry` section:
 - `certificate_file`, string. Certificate for HTTPS. This can be an absolute path or a path relative to the config dir.
 - `certificate_key_file`, string. Private key matching the above certificate. This can be an absolute path or a path relative to the config dir. If both the certificate and the private key are provided, the server will expect HTTPS connections. Certificate and key files can be reloaded on demand sending a `SIGHUP` signal on Unix based systems and a `paramchange` request to the running service on Windows.
 - `min_tls_version`, integer. Defines the minimum version of TLS to be enabled. `12` means TLS 1.2 (and therefore TLS 1.2 and TLS 1.3 will be enabled),`13` means TLS 1.3, `10` means TLS 1.0, `11` means TLS 1.1. Default: `12`.
-- `tls_cipher_suites`, list of strings. List of supported cipher suites for TLS version 1.2 and below. If empty, a default list of secure cipher suites is used, with a preference order based on hardware performance. Note that TLS 1.3 ciphersuites are not configurable. The supported ciphersuites names are defined [here](https://github.com/golang/go/blob/master/src/crypto/tls/cipher_suites.go#L53){:target="_blank"}. Any invalid name will be silently ignored. The order matters, the ciphers listed first will be the preferred ones. Default: empty.
+- `tls_cipher_suites`, list of strings. List of supported cipher suites for TLS version 1.2 and below. If empty, a default list of secure cipher suites is used, with a preference order based on hardware performance. Note that TLS 1.3 ciphersuites are not configurable. Supported [ciphersuites names](https://github.com/golang/go/blob/master/src/crypto/tls/cipher_suites.go#L53){:target="_blank"}. Any invalid name will be silently ignored. The order matters, the ciphers listed first will be the preferred ones. Default: empty.
 - `tls_protocols`, list of string. HTTPS protocols in preference order. Supported values: `http/1.1`, `h2`. Default: `http/1.1`, `h2`.
 
 The telemetry server publishes the following endpoints:
 
 - `/healthz`, health information (for health checks)
 - `/metrics`, Prometheus metrics
-- `/debug/pprof`, if enabled via the `enable_profiler` configuration key, for profiling, more details [here](profiling.md)
+- `/debug/pprof`, if enabled via the `enable_profiler` configuration key, for profiling, [more details](profiling.md)
 
 ## HTTP clients
 

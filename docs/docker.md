@@ -1,21 +1,6 @@
 # Docker
 
-SFTPGo provides an official Docker image, it is available on both [Docker Hub](https://hub.docker.com/r/drakkan/sftpgo){:target="_blank"} and on [GitHub Container Registry](https://github.com/users/drakkan/packages/container/package/sftpgo){:target="_blank"}.
-
-## Supported tags and respective Dockerfile links
-
-- [v2.6.6, v2.6, v2, latest](https://github.com/drakkan/sftpgo/blob/2.6.x/Dockerfile){:target="_blank"}
-- [v2.6.6-plugins, v2.6-plugins, v2-plugins, plugins](https://github.com/drakkan/sftpgo/blob/2.6.x/Dockerfile){:target="_blank"}
-- [v2.6.6-alpine, v2.6-alpine, v2-alpine, alpine](https://github.com/drakkan/sftpgo/blob/2.6.x/Dockerfile.alpine){:target="_blank"}
-- [v2.6.6-slim, v2.6-slim, v2-slim, slim](https://github.com/drakkan/sftpgo/blob/2.6.x/Dockerfile){:target="_blank"}
-- [v2.6.6-alpine-slim, v2.6-alpine-slim, v2-alpine-slim, alpine-slim](https://github.com/drakkan/sftpgo/blob/2.6.x/Dockerfile.alpine){:target="_blank"}
-- [v2.6.6-distroless-slim, v2.6-distroless-slim, v2-distroless-slim, distroless-slim](https://github.com/drakkan/sftpgo/blob/2.6.x/Dockerfile.distroless){:target="_blank"}
-- [edge](https://github.com/drakkan/sftpgo/blob/main/Dockerfile){:target="_blank"}
-- [edge-plugins](https://github.com/drakkan/sftpgo/blob/main/Dockerfile){:target="_blank"}
-- [edge-alpine](https://github.com/drakkan/sftpgo/blob/main/Dockerfile.alpine){:target="_blank"}
-- [edge-slim](https://github.com/drakkan/sftpgo/blob/main/Dockerfile){:target="_blank"}
-- [edge-alpine-slim](https://github.com/drakkan/sftpgo/blob/main/Dockerfile.alpine){:target="_blank"}
-- [edge-distroless-slim](https://github.com/drakkan/sftpgo/blob/main/Dockerfile.distroless){:target="_blank"}
+SFTPGo Enterprise is accessible through our private Docker repository.
 
 ## How to use the SFTPGo image
 
@@ -24,7 +9,7 @@ SFTPGo provides an official Docker image, it is available on both [Docker Hub](h
 Starting a SFTPGo instance is simple:
 
 ```shell
-docker run --name some-sftpgo -p 8080:8080 -p 2022:2022 -d "drakkan/sftpgo:tag"
+docker run --name some-sftpgo -p 8080:8080 -p 2022:2022 -d "<repo name>/sftpgo/sftpgo:<tag>"
 ```
 
 ... where `some-sftpgo` is the name you want to assign to your container, and `tag` is the tag specifying the SFTPGo version you want. See the list above for relevant tags.
@@ -34,10 +19,8 @@ Now visit [http://localhost:8080/web/admin](http://localhost:8080/web/admin){:ta
 If you don't want to persist any files, for example for testing purposes, you can run an SFTPGo instance like this:
 
 ```shell
-docker run --rm --name some-sftpgo -p 8080:8080 -p 2022:2022 -d "drakkan/sftpgo:tag"
+docker run --rm --name some-sftpgo -p 8080:8080 -p 2022:2022 -d "<repo name>/sftpgo/sftpgo:<tag>"
 ```
-
-If you prefer GitHub Container Registry to Docker Hub replace `drakkan/sftpgo:tag` with `ghcr.io/drakkan/sftpgo:tag`.
 
 ### Container shell access and viewing SFTPGo logs
 
@@ -59,7 +42,7 @@ docker logs some-sftpgo
 docker run --name some-sftpgo \
     -p 2022:2022 \
     -e SFTPGO_GRACE_TIME=32 \
-    -d "drakkan/sftpgo:tag"
+    -d "<repo name>/sftpgo/sftpgo:<tag>"
 ```
 
 Setting the `SFTPGO_GRACE_TIME` environment variable to a non zero value when creating or running a container will enable a graceful shutdown period in seconds that will allow existing connections to hopefully complete before being forcibly closed when the time has passed.
@@ -90,7 +73,7 @@ docker run --name some-sftpgo \
     -p 2022:2022 \
     --mount type=bind,source=/my/own/sftpgodata,target=/srv/sftpgo \
     --mount type=bind,source=/my/own/sftpgohome,target=/var/lib/sftpgo \
-    -d "drakkan/sftpgo:tag"
+    -d "<repo name>/sftpgo/sftpgo:<tag>"
 ```
 
 As you can see SFTPGo uses two main volumes:
@@ -104,7 +87,7 @@ If you want to get fine grained control, you can also mount `/srv/sftpgo/data` a
 
 The runtime configuration can be customized via environment variables that you can set passing the `-e` option to the `docker run` command or inside the `environment` section if you are using [docker stack deploy](https://docs.docker.com/engine/reference/commandline/stack_deploy/){:target="_blank"} or [docker-compose](https://github.com/docker/compose){:target="_blank"}.
 
-Please take a look [here](env-vars.md) to learn how to configure SFTPGo via environment variables.
+Refer to the [documentation](env-vars.md) to learn how to configure SFTPGo using environment variables.
 
 Alternately you can mount your custom configuration file to `/var/lib/sftpgo` or `/var/lib/sftpgo/.config/sftpgo`.
 
@@ -128,13 +111,13 @@ docker run --name some-sftpgo \
     -p 2022:2022 \
     --mount type=bind,source="${PWD}/data",target=/srv/sftpgo \
     --mount type=bind,source="${PWD}/config",target=/var/lib/sftpgo \
-    -d "drakkan/sftpgo:tag"
+    -d "<repo name>/sftpgo/sftpgo:<tag>"
 ```
 
 Alternately build your own image using the official one as a base, here is a sample Dockerfile:
 
 ```shell
-FROM drakkan/sftpgo:tag
+FROM <repo name>/sftpgo/sftpgo:<tag>
 USER root
 RUN chown -R 1100:1100 /etc/sftpgo && chown 1100:1100 /var/lib/sftpgo /srv/sftpgo
 USER 1100:1100
@@ -148,11 +131,9 @@ The `sftpgo` images comes in many flavors, each designed for a specific use case
 
 This is the defacto image, it is based on [Debian](https://www.debian.org/){:target="_blank"}, available in [the `debian` official image](https://hub.docker.com/_/debian){:target="_blank"}. If you are unsure about what your needs are, you probably want to use this one.
 
-### `sftpgo:<version>-alpine`
+### `sftpgo:<suite>-plugins`
 
-This image is based on the popular [Alpine Linux project](https://alpinelinux.org/){:target="_blank"}, available in [the `alpine` official image](https://hub.docker.com/_/alpine){:target="_blank"}. Alpine Linux is much smaller than most distribution base images (~5MB), and thus leads to much slimmer images in general.
-
-This variant is highly recommended when final image size being as small as possible is desired. The main caveat to note is that it does use [musl libc](https://musl.libc.org/){:target="_blank"} instead of [glibc and friends](https://www.etalabs.net/compare_libcs.html){:target="_blank"}, so certain software might run into issues depending on the depth of their libc requirements. However, most software doesn't have an issue with this, so this variant is usually a very safe choice. See [this Hacker News comment thread](https://news.ycombinator.com/item?id=10782897){:target="_blank"} for more discussion of the issues that might arise and some pro/con comparisons of using Alpine-based images.
+These tags provide the standard image with the addition of open source and proprietary plugins installed in `/usr/local/bin`.
 
 ### `sftpgo:<version>-distroless`
 
@@ -161,16 +142,11 @@ This image is based on the popular [Distroless project](https://github.com/Googl
 Distroless variant contains only a statically linked sftpgo binary and its minimal runtime dependencies and so it doesn't allow shell access (no shell is installed).
 SQLite support is disabled since it requires CGO and so a C runtime which is not installed.
 The default data provider is `bolt`, all the supported data providers except `sqlite` work.
-We only provide the slim variant and so the optional `git` dependency is not available.
 
-### `sftpgo:<suite>-slim`
+### `sftpgo:<version>-distroless-plugins`
 
-These tags provide a slimmer image that does not include `jq` and the optional `git` and `rsync` dependencies.
-
-### `sftpgo:<suite>-plugins`
-
-These tags provide the standard image with the addition of all "official" plugins installed in `/usr/local/bin`.
+These tags provide the distroless image with the addition of open source and proprietary plugins installed in `/usr/local/bin`.
 
 ## Helm Chart
 
-An helm chart is [available](https://artifacthub.io/packages/helm/sftpgo/sftpgo){:target="_blank"}.
+An helm chart is [available](https://artifacthub.io/packages/helm/sftpgo/sftpgo){:target="_blank"}. You can customize the Docker image to use in the `values.yaml`.

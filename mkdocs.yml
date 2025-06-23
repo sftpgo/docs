@@ -56,7 +56,6 @@ nav:
     - 'Check password': check-password-hook.md
     - 'Data Retention': data-retention-hook.md
   - 'Profiling': profiling.md
-  - 'Build from source': build-from-source.md
   #- performance.md
 
 theme:
@@ -109,8 +108,5 @@ extra:
     - icon: material/web
       link: https://sftpgo.com
       name: SFTPGo Website
-    - icon: fontawesome/brands/github
-      link: https://github.com/drakkan/sftpgo
-      name: SFTPGo code repository
   version:
     provider: mike

@@ -1,6 +1,6 @@
 # Roles
 
-Roles can be assigned to users and administrators. Admins with a role are limited administrators, they can only view and manage users with their own role and they cannot have the following permissions:
+Roles can be assigned to users and administrators. Administrators with an assigned role are considered limited administrators: they can view and manage only the users who share their role and they cannot have the following permissions:
 
 - manage_admins
 - manage_system
@@ -8,6 +8,6 @@ Roles can be assigned to users and administrators. Admins with a role are limite
 - manage_roles
 - view_events
 
-Users created by role administrators automatically inherit their role.
+When a user is created by a role-based administrator, the user automatically inherits that administrator’s role.
 
-Admins without a role are global administrators and can manage all users (with and without a role) and assign a specific role to users.
+Administrators without a role are global administrators: they have full access to manage all users (with or without a role) and can assign roles to other users.
