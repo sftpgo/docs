@@ -1878,7 +1878,7 @@ Mar 05 09:48:30 sftpgo-2-vm sshd[1196]: Server listening on 0.0.0.0 port 2022.
 Mar 05 09:48:30 sftpgo-2-vm sshd[1196]: Server listening on :: port 2022.
 </code></pre>
 <p>To reconfigure SFTPGo to use port <code>22</code> for SFTP create or update the file <code>/etc/sftpgo/env.d/custom.env</code> and add the following content.</p>
-<pre><code class="language-shell">SFTPGO_SFTPD__BINDINGS__0__PORT=22=22
+<pre><code class="language-shell">SFTPGO_SFTPD__BINDINGS__0__PORT=22
 </code></pre>
 <p>Restart the SFTPGo service to apply the changes.</p>
 <pre><code class="language-shell">sudo systemctl restart sftpgo
