@@ -19,9 +19,9 @@ SFTPGo in short:
 
 ![Architectural overview](assets/img/sftpgo%20architecture.png){data-gallery="architecture"}
 
-## Enterprise version
+## Enterprise edition
 
-This documentation is for the Enterprise version of SFTPGo. If you are using the Open Source version, please refer to the [relevant documentation](/latest/){:target="_blank"}.
+This documentation applies to the Enterprise edition of SFTPGo. If you're using the Open Source edition, please refer to the [corresponding documentation](/latest/){:target="_blank"}.
 
 SFTPGo Enterprise is an enhanced version of the open-source SFTPGo, based on its core functionality, and tailored for organizations that require more advanced features, improved performance and a commercially licensed solution.
 
@@ -31,7 +31,7 @@ Key Enhancements:
 
 - Significant performance improvements for cloud storage backends — up to 70% faster when transferring many small files.
 - A more powerful EventManager, enabling advanced and flexible automation workflows.
-- PGP encryption and decryption, with [age](https://github.com/FiloSottile/age){:target="_blank"} support coming soon.
+- PGP encryption and decryption.
 - WOPI protocol integration, allowing in-browser document editing and real-time collaboration directly within the SFTPGo WebClient. Multiple users can edit the same document simultaneously, with live updates for all participants.
 - Email-based authentication for public shares, enhancing security and access control.
 - Numerous additional customization options and configuration improvements across the platform.
