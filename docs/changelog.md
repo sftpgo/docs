@@ -11,7 +11,7 @@ Upgrading to the Enterprise version of SFTPGo is supported from Open Source vers
 
 ### New features
 
-- EventManager: Added support for folder integration to simplify pushing files to external SFTP servers oand other storage backends, either after an upload or on a scheduled basis. Tutorials have been updated [with examples](/enterprise/tutorials/eventmanager/#virtual-folders-integration) demonstrating folders integration.
+- EventManager: Added support for folder integration to simplify pushing files to external SFTP servers and other storage backends, either after an upload or on a scheduled basis. Tutorials have been updated [with examples](/enterprise/tutorials/eventmanager/#virtual-folders-integration) demonstrating folders integration.
 - WebAdmin: Added the ability to disable password authentication for administrators. This is useful if you want to enforce API key–only access or restrict login to OpenID Connect.
 - Audit Log: Log entries for configuration changes now include details about the specific modified section.
 - Terraform Provider: Updated to fully support SFTPGo Enterprise.
