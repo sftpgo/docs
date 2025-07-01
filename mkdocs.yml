@@ -3,6 +3,7 @@ site_url: 'https://docs.sftpgo.com'
 
 nav:
   - index.md
+  - changelog.md
   - features.md
   - 'Getting Started':
     - installation.md
