@@ -27,7 +27,6 @@ Supported configuration parameters for the `common` section:
 - `startup_hook`, string. Absolute path to an external program or an HTTP URL to invoke as soon as SFTPGo starts. If you define an HTTP URL it will be invoked using a `GET` request. Please note that SFTPGo services may not yet be available when this hook is run. Leave empty do disable
 - `post_connect_hook`, string. Absolute path to the command to execute or HTTP URL to notify. See [Post-connect hook](post-connect-hook.md) for more details. Leave empty to disable
 - `post_disconnect_hook`, string. Absolute path to the command to execute or HTTP URL to notify. See [Post-disconnect hook](post-disconnect-hook.md) for more details. Leave empty to disable
-- `data_retention_hook`, string. Absolute path to the command to execute or HTTP URL to notify. See [Data retention hook](data-retention-hook.md) for more details. Leave empty to disable
 - `max_total_connections`, integer. Maximum number of concurrent client connections. 0 means unlimited. Default: `0`.
 - `max_per_host_connections`, integer.  Maximum number of concurrent client connections from the same host (IP). If the defender is enabled, exceeding this limit will generate `score_limit_exceeded` events and thus hosts that repeatedly exceed the max allowed connections can be automatically blocked. 0 means unlimited. Default: `20`.
 - `max_total_transfers`, integer. Maximum number of concurrent file transfers, upload and downloads. 0 means unlimited. Default: `0`.
@@ -297,7 +296,6 @@ Supported configuration parameters for the `httpd` section (REST API, WebAdmin, 
     - `debug`, boolean. If set, the received id tokens will be logged at debug level. Default: `false`.
   - `wopi`, struct. Defines the configuration for the WOPI integration, compatible with document servers like Collabora Online.
     - `server_url`, string. Defines the base URL of the WOPI server. The path `/hosting/discovery` will be automatically added.
-    - `skip_tls_verify`,  boolean. if enabled SFTPGo accepts any TLS certificate presented by the WOPI server and any host name in that certificate. In this mode, TLS is susceptible to man-in-the-middle attacks. This should be used only for testing.
     - `skip_proof_key_verify`, boolean. If enabled the proof keys are not verified. This should be used only for testing.
     - `callback_url`, string. Defines the base URL that the WOPI server uses to access and update files. This is typically the SFTPGo URL reachable from the WOPI server, for example: `https://sftpgo.example.com`.
     - `allowed_from`. Defines the list of IP addresses and IP ranges permitted to access the SFTPGo WOPI implementation. This typically includes the IP address of the WOPI server and can be used alongside proof keys for enhanced security.
@@ -414,7 +412,7 @@ Supported configuration parameters for the `command` section:
   - `timeout`, integer. This value overrides the global timeout if set
   - `env`, list of strings. These values are added to the environment variables defined for all commands, if any. Default: empty
   - `args`, list of strings. Arguments to pass to the command identified by `path`. Default: empty
-  - `hook`, string. If not empty this configuration only apply to the specified hook name. Supported hook names: `fs_actions`, `provider_actions`, `startup`, `post_connect`, `post_disconnect`, `data_retention`, `check_password`, `pre_login`, `post_login`, `external_auth`, `keyboard_interactive`. Default: empty
+  - `hook`, string. If not empty this configuration only apply to the specified hook name. Supported hook names: `fs_actions`, `provider_actions`, `startup`, `post_connect`, `post_disconnect`, `check_password`, `pre_login`, `post_login`, `external_auth`, `keyboard_interactive`. Default: empty
 
 ## KMS
 

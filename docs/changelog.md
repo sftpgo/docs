@@ -1,23 +1,48 @@
 # Release Notes
 
-This page provides a concise overview of the new features, improvements and bug fixes introduced in each SFTPGo release.
+This page provides a concise overview of the new features, improvements and bug fixes introduced in each SFTPGo Enterprise release.
 We encourage you to check back regularly to stay up to date with the latest changes and to make the most of all enhancements.
 
 ## Compatibility notes
 
-Upgrading to the Enterprise version of SFTPGo is supported from Open Source version 2.6.x onward.
+Upgrading to the Enterprise edition of SFTPGo is supported starting from Open Source release 2.6.x.
+
+## Update July 26, 2025 - v2.7.20250726
+
+### New features
+
+- EventManager: Completely rewritten the action placeholder system to significantly improve flexibility. Please refer to the [documentation](eventmanager.md) for details and migration steps. Note that this change may break compatibility in some cases. Don’t hesitate to contact us if you need assistance migrating your actions.
+- EventManager: Added an optional archive folder to the data retention action, enabling files to be moved to the specified folder instead of being deleted.
+- Users: Added support for a custom placeholder value set in user configurations that can be referenced as `%custom1%` within group configurations.
+- User Templates: Added support for password change requirement option.
+
+### Bug fixes
+
+- PGP: Fixed support for keys without flags, making behavior consistent with the `gpg` CLI tool.
+- OIDC: Use the global HTTP client to ensure consistent settings, such as timeouts and TLS.
+- WOPI: Use the global HTTP client to ensure consistent settings, such as timeouts and TLS. Removed `skip_tls_verify`.
+- EventManager: Updated user inactivity calculation to also consider the `updated at` timestamp.
+- Active Sessions: Fixed a rare edge case that could cause incorrect calculation of the number of currently active sessions.
+- WebClient: Improved layout and responsiveness on mobile browsers.
+- Memorypipe: Fixed edge cases that could occur during retries of multipart requests.
+
+### Backward incompatible changes
+
+- EventManager: Removed the Data Retention API. You can achieve equivalent functionality using the Data Retention Check action.
+- EventManager: Removed several placeholders. Refer to the [migration guide](eventmanager.md#migration-from-previous-versions-or-the-open-source-edition) to update your existing actions accordingly.
+- SFTPFs: Removed the root directory existence check. If a root path is configured, it is now assumed to exist, avoiding redundant and time-consuming validations. This change improves login times in environments with multiple virtual folders backed by SFTP, particularly when one or more of the backend SFTP storage endpoints are unreachable or experiencing timeouts.
 
 ## Update July 2, 2025 - v2.7.20250702
 
 ### New features
 
-- EventManager: Added support for folder integration to simplify pushing files to external SFTP servers and other storage backends, either after an upload or on a scheduled basis. Tutorials have been updated [with examples](/enterprise/tutorials/eventmanager/#virtual-folders-integration) demonstrating folders integration.
+- EventManager: Added support for folder integration to simplify pushing files to external SFTP servers and other storage backends, either after an upload or on a scheduled basis. Tutorials have been updated [with examples](tutorials/eventmanager.md#virtual-folders-integration) demonstrating folders integration.
 - WebAdmin: Added the ability to disable password authentication for administrators. This is useful if you want to enforce API key–only access or restrict login to OpenID Connect.
 - Audit Log: Log entries for configuration changes now include details about the specific modified section.
 - Terraform Provider: Updated to fully support SFTPGo Enterprise.
 - Extend metadata propagation in cloud storage to include `delete`, `rename`, and `copy` events. Support for these features depends on the storage backend: for example, metadata may not always be available with S3, whereas it is consistently supported with Google Cloud Storage and Azure Blob Storage.
 - WebUI: Added autofocus to the login and 2FA input fields, improving the user experience by automatically focusing on the first field when the page loads.
-- REST API documentation for the Enterprise version is now hosted on the [sftpgo.com](https://sftpgo.com/rest-api){:target="_blank"} domain.
+- REST API documentation for SFTPGo Enterprise is now hosted on the [sftpgo.com](https://sftpgo.com/rest-api){:target="_blank"} domain.
 
 ## Update June 7, 2025 - v2.7.20250607
 
@@ -133,9 +158,9 @@ Additionally, you can configure the lifetime of WOPI access tokens (default is 3
 - WebUI: fixed context menu activation in user lists and other tables. In some edge cases the menu was not displayed because it was activated too early in the page rendering.
 - WebUI: hidden some advanced settings like part size and concurrency for cloud storage backends. They are confusing for users and the values ​​are closely related to instance resources, so now they are adjusted automatically.
 
-## Additional features compared to the Open Source version
+## Other additions compared to the Open Source edition
 
 - Performance improvements for the cloud storage backends, especially when uploading numerous small files.
 - Downloads and uploads to cloud storage backends can be fully handled in memory by setting the environment variable `SFTPGO_HOOK__MEMORY_PIPES__ENABLED` to `1`. No unlinked files will be created, and therefore no local storage space will be used.
-- Added new configuration parameters to specify the maximum number of transfers (downloads and uploads) allowed, both in total and per host. The Open Source version only allows limiting total and per-host connections, not transfers. By default the maximum number of transfers allowed per host is 20.
+- Added new configuration parameters to specify the maximum number of transfers (downloads and uploads) allowed, both in total and per host. The Open Source edition only allows limiting total and per-host connections, not transfers. By default the maximum number of transfers allowed per host is 20.
 - Added Trusted List. IP addresses or networks added to this list are always trusted, exempt from blocking by the Defender and Geo-IP filtering, and will never be subject to rate limiting.

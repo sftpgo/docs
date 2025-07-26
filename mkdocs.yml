@@ -55,7 +55,6 @@ nav:
     - 'Post-login': post-login-hook.md
     - 'Post-disconnect': post-disconnect-hook.md
     - 'Check password': check-password-hook.md
-    - 'Data Retention': data-retention-hook.md
   - 'Profiling': profiling.md
   #- performance.md
 

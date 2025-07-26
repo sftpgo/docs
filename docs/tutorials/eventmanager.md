@@ -1,6 +1,11 @@
 # Event Manager
 
-The Event Manager allows an administrator to configure HTTP notifications, commands execution, email notifications and carry out certain server operations based on server events or schedules. [More details](../eventmanager.md).
+The Event Manager enables administrators to automate server operations by configuring HTTP notifications, executing commands, sending email alerts, and more—based on server events or scheduled triggers.
+
+At its core, the Event Manager consists of two main components: rules and actions.
+
+- Rules define the conditions that determine when an action should be executed. Think of a rule as a "when this happens, and these conditions are met, then do that" type of logic.
+- Actions are the tasks carried out when a rule is triggered. These actions can be dynamically customized using placeholders—variables that represent contextual data related to the event (such as file name, username, or file size). To further tailor these values, SFTPGo provides helper functions that format or transform placeholders directly within your templates. For a complete list of placeholders and helper functions, see the [documentation](../eventmanager.md).
 
 Let's see some common use cases.
 
@@ -32,8 +37,8 @@ Create an action named `backup` and set the type to `Backup`.
 ![Backup action](../assets/img/backup-action.png){data-gallery="backup"}
 
 Create another action named `backup notification`, set the type to `Email` and fill the recipient/s.
-As email subject set `Backup {{.StatusString}}`. The `{{.StatusString}}` placeholder will be expanded to `OK` or `KO`.
-As email body set `Backup done {{.ErrorString}}`. The error string will be empty if no errors occur.
+As email subject set `Backup notification`.
+As email body set `Backup done {{ stringJoin .Errors ", " }}`. The `stringJoin` function joins all error messages in the `.Errors` list using a comma and space as a separator. If no errors occurred, the resulting string will be empty.
 
 ![Backup notification action](../assets/img/backup-notification-action.png){data-gallery="backup-notification"}
 
@@ -58,7 +63,7 @@ Create an action named `create dirs`, with the settings you can see in the follo
 
 Create another action named `create dirs failure notification`, set the type to `Email` and fill the recipient/s.
 As email subject set `Unable to create dirs for user {{.ObjectName}}`.
-As email body set `Error: {{.ErrorString}}`.
+As email body set `Errors: {{ stringJoin .Errors ", " }}`.
 
 ![Create dirs notification](../assets/img/create-dirs-failure-notification.png){data-gallery="create-dir-failure-action"}
 
