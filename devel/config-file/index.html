@@ -1742,29 +1742,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../data-retention-hook/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Data Retention
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -2016,7 +1993,6 @@
 <li><code>startup_hook</code>, string. Absolute path to an external program or an HTTP URL to invoke as soon as SFTPGo starts. If you define an HTTP URL it will be invoked using a <code>GET</code> request. Please note that SFTPGo services may not yet be available when this hook is run. Leave empty do disable</li>
 <li><code>post_connect_hook</code>, string. Absolute path to the command to execute or HTTP URL to notify. See <a href="../post-connect-hook/">Post-connect hook</a> for more details. Leave empty to disable</li>
 <li><code>post_disconnect_hook</code>, string. Absolute path to the command to execute or HTTP URL to notify. See <a href="../post-disconnect-hook/">Post-disconnect hook</a> for more details. Leave empty to disable</li>
-<li><code>data_retention_hook</code>, string. Absolute path to the command to execute or HTTP URL to notify. See <a href="../data-retention-hook/">Data retention hook</a> for more details. Leave empty to disable</li>
 <li><code>max_total_connections</code>, integer. Maximum number of concurrent client connections. 0 means unlimited. Default: <code>0</code>.</li>
 <li><code>max_per_host_connections</code>, integer.  Maximum number of concurrent client connections from the same host (IP). If the defender is enabled, exceeding this limit will generate <code>score_limit_exceeded</code> events and thus hosts that repeatedly exceed the max allowed connections can be automatically blocked. 0 means unlimited. Default: <code>20</code>.</li>
 <li><code>allowlist_status</code>, integer. Set to <code>1</code> to enable the allow list. The allow list can be populated using the WebAdmin or the REST API. If enabled, only the listed IPs/networks can access the configured services, all other client connections will be dropped before they even try to authenticate. Ensure to populate your allow list before enabling this setting. In multi-nodes setups, the list entries propagation between nodes may take some minutes. Default: <code>0</code>.</li>
