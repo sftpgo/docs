@@ -1716,29 +1716,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../data-retention-hook/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Data Retention
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -1889,7 +1866,12 @@
 
 
 <h1 id="event-manager">Event Manager</h1>
-<p>The Event Manager allows an administrator to configure HTTP notifications, commands execution, email notifications and carry out certain server operations based on server events or schedules. <a href="../../eventmanager/">More details</a>.</p>
+<p>The Event Manager enables administrators to automate server operations by configuring HTTP notifications, executing commands, sending email alerts, and more—based on server events or scheduled triggers.</p>
+<p>At its core, the Event Manager consists of two main components: rules and actions.</p>
+<ul>
+<li>Rules define the conditions that determine when an action should be executed. Think of a rule as a "when this happens, and these conditions are met, then do that" type of logic.</li>
+<li>Actions are the tasks carried out when a rule is triggered. These actions can be dynamically customized using placeholders—variables that represent contextual data related to the event (such as file name, username, or file size). To further tailor these values, SFTPGo provides helper functions that format or transform placeholders directly within your templates. For a complete list of placeholders and helper functions, see the <a href="../../eventmanager/">documentation</a>.</li>
+</ul>
 <p>Let's see some common use cases.</p>
 <h2 id="preliminary-note">Preliminary Note</h2>
 <p>We will use email actions in the following paragraphs, so let's assume you have a working SMTP configuration.
@@ -1909,8 +1891,8 @@ SFTPGO_SMTP__ENCRYPTION=2 # change based on what your server supports
 Create an action named <code>backup</code> and set the type to <code>Backup</code>.</p>
 <p><a class="glightbox" href="../../assets/img/backup-action.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="backup"><img alt="Backup action" data-gallery="backup" src="../../assets/img/backup-action.png" /></a></p>
 <p>Create another action named <code>backup notification</code>, set the type to <code>Email</code> and fill the recipient/s.
-As email subject set <code>Backup {{.StatusString}}</code>. The <code>{{.StatusString}}</code> placeholder will be expanded to <code>OK</code> or <code>KO</code>.
-As email body set <code>Backup done {{.ErrorString}}</code>. The error string will be empty if no errors occur.</p>
+As email subject set <code>Backup notification</code>.
+As email body set <code>Backup done {{ stringJoin .Errors ", " }}</code>. The <code>stringJoin</code> function joins all error messages in the <code>.Errors</code> list using a comma and space as a separator. If no errors occurred, the resulting string will be empty.</p>
 <p><a class="glightbox" href="../../assets/img/backup-notification-action.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="backup-notification"><img alt="Backup notification action" data-gallery="backup-notification" src="../../assets/img/backup-notification-action.png" /></a></p>
 <p>Now select <code>Event rules</code> and create a rule named <code>Daily backup</code>, select <code>Schedule</code> as trigger and schedule a backup at midnight UTC time.</p>
 <p><a class="glightbox" href="../../assets/img/daily-backup-schedule.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="schedule"><img alt="Daily backup schedule" data-gallery="schedule" src="../../assets/img/daily-backup-schedule.png" /></a></p>
@@ -1924,7 +1906,7 @@ Create an action named <code>create dirs</code>, with the settings you can see i
 <p><a class="glightbox" href="../../assets/img/create-dirs-action.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="create-dir-action"><img alt="Create dirs action" data-gallery="create-dir-action" src="../../assets/img/create-dirs-action.png" /></a></p>
 <p>Create another action named <code>create dirs failure notification</code>, set the type to <code>Email</code> and fill the recipient/s.
 As email subject set <code>Unable to create dirs for user {{.ObjectName}}</code>.
-As email body set <code>Error: {{.ErrorString}}</code>.</p>
+As email body set <code>Errors: {{ stringJoin .Errors ", " }}</code>.</p>
 <p><a class="glightbox" href="../../assets/img/create-dirs-failure-notification.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="create-dir-failure-action"><img alt="Create dirs notification" data-gallery="create-dir-failure-action" src="../../assets/img/create-dirs-failure-notification.png" /></a></p>
 <p>Now select <code>Event rules</code> and create a rule named <code>Create dirs for users</code>, select <code>Provider event</code> as trigger, <code>add</code> as provider event and <code>user</code> as object filters.</p>
 <p><a class="glightbox" href="../../assets/img/create-dirs-rule.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="create-dir-rule"><img alt="Create dirs rule" data-gallery="create-dir-rule" src="../../assets/img/create-dirs-rule.png" /></a></p>

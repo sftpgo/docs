@@ -1764,29 +1764,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../data-retention-hook/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Data Retention
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -2016,7 +1993,6 @@
 <li><code>startup_hook</code>, string. Absolute path to an external program or an HTTP URL to invoke as soon as SFTPGo starts. If you define an HTTP URL it will be invoked using a <code>GET</code> request. Please note that SFTPGo services may not yet be available when this hook is run. Leave empty do disable</li>
 <li><code>post_connect_hook</code>, string. Absolute path to the command to execute or HTTP URL to notify. See <a href="../post-connect-hook/">Post-connect hook</a> for more details. Leave empty to disable</li>
 <li><code>post_disconnect_hook</code>, string. Absolute path to the command to execute or HTTP URL to notify. See <a href="../post-disconnect-hook/">Post-disconnect hook</a> for more details. Leave empty to disable</li>
-<li><code>data_retention_hook</code>, string. Absolute path to the command to execute or HTTP URL to notify. See <a href="../data-retention-hook/">Data retention hook</a> for more details. Leave empty to disable</li>
 <li><code>max_total_connections</code>, integer. Maximum number of concurrent client connections. 0 means unlimited. Default: <code>0</code>.</li>
 <li><code>max_per_host_connections</code>, integer.  Maximum number of concurrent client connections from the same host (IP). If the defender is enabled, exceeding this limit will generate <code>score_limit_exceeded</code> events and thus hosts that repeatedly exceed the max allowed connections can be automatically blocked. 0 means unlimited. Default: <code>20</code>.</li>
 <li><code>max_total_transfers</code>, integer. Maximum number of concurrent file transfers, upload and downloads. 0 means unlimited. Default: <code>0</code>.</li>
@@ -2331,7 +2307,6 @@
 </li>
 <li><code>wopi</code>, struct. Defines the configuration for the WOPI integration, compatible with document servers like Collabora Online.<ul>
 <li><code>server_url</code>, string. Defines the base URL of the WOPI server. The path <code>/hosting/discovery</code> will be automatically added.</li>
-<li><code>skip_tls_verify</code>,  boolean. if enabled SFTPGo accepts any TLS certificate presented by the WOPI server and any host name in that certificate. In this mode, TLS is susceptible to man-in-the-middle attacks. This should be used only for testing.</li>
 <li><code>skip_proof_key_verify</code>, boolean. If enabled the proof keys are not verified. This should be used only for testing.</li>
 <li><code>callback_url</code>, string. Defines the base URL that the WOPI server uses to access and update files. This is typically the SFTPGo URL reachable from the WOPI server, for example: <code>https://sftpgo.example.com</code>.</li>
 <li><code>allowed_from</code>. Defines the list of IP addresses and IP ranges permitted to access the SFTPGo WOPI implementation. This typically includes the IP address of the WOPI server and can be used alongside proof keys for enhanced security.</li>
@@ -2460,7 +2435,7 @@ Supported configuration parameters for the <code>command</code> section:</p>
 <li><code>timeout</code>, integer. This value overrides the global timeout if set</li>
 <li><code>env</code>, list of strings. These values are added to the environment variables defined for all commands, if any. Default: empty</li>
 <li><code>args</code>, list of strings. Arguments to pass to the command identified by <code>path</code>. Default: empty</li>
-<li><code>hook</code>, string. If not empty this configuration only apply to the specified hook name. Supported hook names: <code>fs_actions</code>, <code>provider_actions</code>, <code>startup</code>, <code>post_connect</code>, <code>post_disconnect</code>, <code>data_retention</code>, <code>check_password</code>, <code>pre_login</code>, <code>post_login</code>, <code>external_auth</code>, <code>keyboard_interactive</code>. Default: empty</li>
+<li><code>hook</code>, string. If not empty this configuration only apply to the specified hook name. Supported hook names: <code>fs_actions</code>, <code>provider_actions</code>, <code>startup</code>, <code>post_connect</code>, <code>post_disconnect</code>, <code>check_password</code>, <code>pre_login</code>, <code>post_login</code>, <code>external_auth</code>, <code>keyboard_interactive</code>. Default: empty</li>
 </ul>
 </li>
 </ul>

@@ -955,15 +955,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#actions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Actions
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#rules" class="md-nav__link">
     <span class="md-ellipsis">
       Rules
@@ -973,11 +964,53 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Actions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Actions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#placeholders" class="md-nav__link">
+    <span class="md-ellipsis">
+      Placeholders
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#helper-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Helper functions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#virtual-folders" class="md-nav__link">
     <span class="md-ellipsis">
       Virtual folders
     </span>
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#migration-from-previous-versions-or-the-open-source-edition" class="md-nav__link">
+    <span class="md-ellipsis">
+      Migration from Previous Versions or the Open-Source Edition
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1663,29 +1696,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../data-retention-hook/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Data Retention
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -1742,15 +1752,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#actions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Actions
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#rules" class="md-nav__link">
     <span class="md-ellipsis">
       Rules
@@ -1760,11 +1761,53 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Actions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Actions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#placeholders" class="md-nav__link">
+    <span class="md-ellipsis">
+      Placeholders
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#helper-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Helper functions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#virtual-folders" class="md-nav__link">
     <span class="md-ellipsis">
       Virtual folders
     </span>
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#migration-from-previous-versions-or-the-open-source-edition" class="md-nav__link">
+    <span class="md-ellipsis">
+      Migration from Previous Versions or the Open-Source Edition
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1785,73 +1828,15 @@
 
 
 <h1 id="event-manager">Event Manager</h1>
-<p>The Event Manager allows an administrator to configure HTTP notifications, commands execution, email notifications and carry out certain server operations based on server events or schedules.</p>
-<h2 id="actions">Actions</h2>
-<p>The following actions are supported:</p>
+<p>The EventManager is a powerful feature that enables administrators to define automated responses based on specific events occurring within the system (e.g., file uploads, user creation, scheduled tasks, and more).</p>
+<p>Rules are the conditions that determine when an action should be executed. Each rule specifies:</p>
 <ul>
-<li><code>HTTP notification</code>. You can notify an HTTP/S endpoing via GET, POST, PUT, DELETE methods. You can define custom headers, query parameters and a body for POST and PUT request. Placeholders are supported for username, body, header and query parameter values.</li>
-<li><code>Command execution</code>. You can launch custom commands passing parameters via environment variables. Placeholders are supported for environment variable values. <img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/26a0.svg" title=":warning:" /> Allowing any system command could pose a security risk, they are disabled by default.</li>
-<li><code>Email notification</code>. Placeholders are supported in subject and body. The email will be sent as plain text. For this action to work you have to configure an SMTP server in the SFTPGo configuration file.</li>
-<li><code>Backup</code>. A backup will be saved in the configured backup directory. The backup will contain the week day and the hour in the file name.</li>
-<li><code>Rotate log file</code>. If file logging is enabled, the log file will be rotated regardless of its size.</li>
-<li><code>User quota reset</code>. The quota used by users will be updated based on current usage.</li>
-<li><code>Folder quota reset</code>. The quota used by virtual folders will be updated based on current usage.</li>
-<li><code>Transfer quota reset</code>. The transfer quota values will be reset to <code>0</code>.</li>
-<li><code>Data retention check</code>. You can define per-folder retention policies.</li>
-<li><code>Password expiration check</code>. You can send an email notification to users whose password is about to expire.</li>
-<li><code>User expiration check</code>. You can receive notifications with expired users.</li>
-<li><code>User inactivity check</code>. Allow to disable or delete inactive users.</li>
-<li><code>Identity Provider account check</code>. You can create/update accounts for users/admins logging in using an Identity Provider.</li>
-<li><code>Filesystem</code>. For these actions, the required permissions are automatically granted. This is the same as executing the actions from an SFTP client and the same restrictions applies. Supported actions:<ul>
-<li><code>Rename</code>. You can rename one or more files or directories.</li>
-<li><code>Delete</code>. You can delete one or more files and directories.</li>
-<li><code>Create directories</code>. You can create one or more directories including sub-directories.</li>
-<li><code>Path exists</code>. Check if the specified path exists.</li>
-<li><code>Copy</code>. You can copy one or more files or directories.</li>
-<li><code>Compress paths</code>. You can compress (currently as zip) ore or more files and directories.</li>
-<li><code>PGP</code> encryption and decryption, allowing you to secure your files using either password-based encryption or PGP key pairs. This includes the ability to sign and verify digital signatures, ensuring both the authenticity and integrity of your data throughout the process.</li>
+<li>Which event(s) it applies to (e.g., file uploaded, file downloaded, etc.)</li>
+<li>Filters to narrow down the triggering events (e.g., only for a particular user or directory)</li>
+<li>Which action(s) to execute when the rule matches</li>
 </ul>
-</li>
-</ul>
-<p>The following placeholders are supported:</p>
-<ul>
-<li><code>{{.Name}}</code>. Username, virtual folder name, admin username for provider events, domain name for TLS certificate events.</li>
-<li><code>{{.Event}}</code>. Event name, for example <code>upload</code>, <code>download</code> for filesystem events or <code>add</code>, <code>update</code> for provider events.</li>
-<li><code>{{.Status}}</code>. Status for filesystem events. 1 means no error, 2 means a generic error occurred, 3 means quota exceeded error.</li>
-<li><code>{{.StatusString}}</code>. Status as string. Possible values "OK", "KO".</li>
-<li><code>{{.ErrorString}}</code>. Error details. Replaced with an empty string if no errors occur.</li>
-<li><code>{{.VirtualPath}}</code>. Path seen by SFTPGo users, for example <code>/adir/afile.txt</code>.</li>
-<li><code>{{.EscapedVirtualPath}}</code>. HTTP query string encoded path, for example <code>%2Fadir%2Fafile.txt</code>.</li>
-<li><code>{{.VirtualDirPath}}</code>. Parent directory for VirtualPath, for example if VirtualPath is <code>/adir/afile.txt</code>, VirtualDirPath is <code>/adir</code>.</li>
-<li><code>{{.FsPath}}</code>. Full filesystem path, for example <code>/user/homedir/adir/afile.txt</code> or <code>C:/data/user/homedir/adir/afile.txt</code> on Windows.</li>
-<li><code>{{.Ext}}</code>. File extension, for example <code>.txt</code> if the filename is <code>afile.txt</code>.</li>
-<li><code>{{.ObjectName}}</code>. File/directory name, for example <code>afile.txt</code> or provider object name.</li>
-<li><code>{{.ObjectType}}</code>. Object type for provider events: <code>user</code>, <code>group</code>, <code>admin</code>, etc.</li>
-<li><code>{{.VirtualTargetPath}}</code>. Virtual target path for rename and copy operations.</li>
-<li><code>{{.VirtualTargetDirPath}}</code>. Parent directory for VirtualTargetPath.</li>
-<li><code>{{.TargetName}}</code>. Target object name for rename and copy operations.</li>
-<li><code>{{.FsTargetPath}}</code>. Full filesystem target path for rename and copy operations.</li>
-<li><code>{{.FileSize}}</code>. File size.</li>
-<li><code>{{.Elapsed}}</code>. Elapsed time as milliseconds for filesystem events.</li>
-<li><code>{{.Protocol}}</code>. Used protocol, for example <code>SFTP</code>, <code>FTP</code>.</li>
-<li><code>{{.IP}}</code>. Client IP address.</li>
-<li><code>{{.Role}}</code>. User or admin role.</li>
-<li><code>{{.Timestamp}}</code>. Event timestamp as nanoseconds since epoch.</li>
-<li><code>{{.DateTime}}</code>. Event timestamp formatted as YYYY-MM-DDTHH:MM:SS.ZZZ.</li>
-<li><code>{{.Year}}</code>. Event year formatted as four digits.</li>
-<li><code>{{.Month}}</code>. Event month formatted as two digits.</li>
-<li><code>{{.Day}}</code>. Event day formatted as two digits.</li>
-<li><code>{{.Hour}}</code>. Event hour formatted as two digits.</li>
-<li><code>{{.Minute}}</code>. Event minute formatted as two digits.</li>
-<li><code>{{.Email}}</code>. For filesystem events, this is the email associated with the user performing the action. For the provider events, this is the email associated with the affected user or admin. Blank in all other cases.</li>
-<li><code>{{.ObjectData}}</code>. Provider object data serialized as JSON with sensitive fields removed.</li>
-<li><code>{{.ObjectDataString}}</code>. Provider object data as JSON escaped string with sensitive fields removed.</li>
-<li><code>{{.RetentionReports}}</code>. Data retention reports as zip compressed CSV files. Supported as email attachment, file path for multipart HTTP request and as single parameter for HTTP requests body. Data retention reports contain details on the number of files deleted and the total size deleted for each folder.</li>
-<li><code>{{.IDPField&lt;fieldname&gt;}}</code>. Identity Provider custom fields containing a string.</li>
-<li><code>{{.Metadata}}</code>. Cloud storage metadata for the downloaded file serialized as JSON.</li>
-<li><code>{{.MetadataString}}</code>. Cloud storage metadata for the downloaded file as JSON escaped string.</li>
-<li><code>{{.UID}}</code>. Unique ID.</li>
-</ul>
+<p>Think of a rule as a "when this happens, and these conditions are met, then do that" type of logic.</p>
+<p>Actions are the tasks performed when a rule is triggered. These actions can be dynamically customized using placeholders—variables that represent contextual data related to the event (such as file name, username, or file size). To further tailor these values, SFTPGo provides helper functions that format or transform placeholders directly within your action templates.</p>
 <h2 id="rules">Rules</h2>
 <p>Event rules are based on the premise that an event occours. To each rule you can associate one or more actions.
 The following trigger events are supported:</p>
@@ -1882,12 +1867,190 @@ The following trigger events are supported:</p>
 <li><code>Email with attachments</code> are supported for filesystem events and provider events if a user is added/updated. We need a user to get the files to attach.</li>
 <li><code>HTTP multipart requests with files as attachments</code> are supported for filesystem events and provider events if a user is added/updated. We need a user to get the files to attach.</li>
 </ul>
-<h2 id="virtual-folders">Virtual folders</h2>
+<h2 id="actions">Actions</h2>
+<p>Supported actions:</p>
+<ul>
+<li><code>HTTP notification</code>. You can notify an HTTP/S endpoing via GET, POST, PUT, DELETE methods. You can define custom headers, query parameters and a body for POST and PUT request. Placeholders are supported for username, body, header and query parameter values.</li>
+<li><code>Command execution</code>. You can launch custom commands passing parameters via environment variables. Placeholders are supported for environment variable values. <img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/26a0.svg" title=":warning:" /> Allowing any system command could pose a security risk, they are disabled by default.</li>
+<li><code>Email notification</code>. Placeholders are supported in subject and body. The email will be sent as plain text. For this action to work you have to configure an SMTP server in the SFTPGo configuration file.</li>
+<li><code>Backup</code>. A backup will be saved in the configured backup directory. The backup will contain the week day and the hour in the file name.</li>
+<li><code>Rotate log file</code>. If file logging is enabled, the log file will be rotated regardless of its size.</li>
+<li><code>User quota reset</code>. The quota used by users will be updated based on current usage.</li>
+<li><code>Folder quota reset</code>. The quota used by virtual folders will be updated based on current usage.</li>
+<li><code>Transfer quota reset</code>. The transfer quota values will be reset to <code>0</code>.</li>
+<li><code>Data retention check</code>. You can define per-folder retention policies.</li>
+<li><code>Password expiration check</code>. You can send an email notification to users whose password is about to expire.</li>
+<li><code>User expiration check</code>. You can receive notifications with expired users.</li>
+<li><code>User inactivity check</code>. Allow to disable or delete inactive users.</li>
+<li><code>Identity Provider account check</code>. You can create/update accounts for users/admins logging in using an Identity Provider.</li>
+<li><code>Filesystem</code>. For these actions, the required permissions are automatically granted. This is the same as executing the actions from an SFTP client and the same restrictions applies. Supported actions:<ul>
+<li><code>Rename</code>. You can rename one or more files or directories.</li>
+<li><code>Delete</code>. You can delete one or more files and directories.</li>
+<li><code>Create directories</code>. You can create one or more directories including sub-directories.</li>
+<li><code>Path exists</code>. Check if the specified path exists.</li>
+<li><code>Copy</code>. You can copy one or more files or directories.</li>
+<li><code>Compress paths</code>. You can compress (currently as zip) ore or more files and directories.</li>
+<li><code>PGP</code> encryption and decryption, allowing you to secure your files using either password-based encryption or PGP key pairs. This includes the ability to sign and verify digital signatures, ensuring both the authenticity and integrity of your data throughout the process.</li>
+</ul>
+</li>
+</ul>
+<p>In actions, you can hard-code values such as file paths or email addresses. While this may work in some cases, it's generally better to use dynamic values that adapt to the specific context of the action. This is where dynamic placeholders come in. Placeholders allow you to insert values that are automatically replaced at runtime. They follow the format <code>{{.FieldName}}</code> and enable your actions to be more flexible and reusable.</p>
+<p>We use Go’s template system under the hood. For a comprehensive overview, please refer to the official Go <a href="https://pkg.go.dev/text/template" target="_blank">template documentation</a>. If you need advanced logic, conditions and loops are supported.</p>
+<h3 id="placeholders">Placeholders</h3>
+<ul>
+<li><code>{{.Name}}</code>. Username, virtual folder name, admin username for provider events, domain name for TLS certificate events. Format: string.</li>
+<li><code>{{.Event}}</code>. Event name, for example <code>upload</code>, <code>download</code> for filesystem events or <code>add</code>, <code>update</code> for provider events. Format: string.</li>
+<li><code>{{.Status}}</code>. Status for filesystem events. 1 means no error, 2 means a generic error occurred, 3 means quota exceeded error. Format: integer.</li>
+<li><code>{{.Errors}}</code>. Error details. Format: list of strings.</li>
+<li><code>{{.VirtualPath}}</code>. Path seen by SFTPGo users, for example <code>/adir/afile.txt</code>. Format: string.</li>
+<li><code>{{.FsPath}}</code>. Full filesystem path, for example <code>/user/homedir/adir/afile.txt</code> or <code>C:/data/user/homedir/adir/afile.txt</code> on Windows. Format: string.</li>
+<li><code>{{.VirtualTargetPath}}</code>. Virtual target path for rename and copy operations. Format: string.</li>
+<li><code>{{.FsTargetPath}}</code>. Full filesystem target path for rename and copy operations. Format: string.</li>
+<li><code>{{.ObjectName}}</code>. File/directory name, for example <code>afile.txt</code>, or provider object name. For data retention actions, this represents the username of the affected user. Format: string.</li>
+<li><code>{{.ObjectType}}</code>. Object type for provider events: <code>user</code>, <code>group</code>, <code>admin</code> and so on. Format: string.</li>
+<li><code>{{.FileSize}}</code>. File size. Format: int64.</li>
+<li><code>{{.Elapsed}}</code>. Elapsed time as milliseconds for filesystem events. Format: int64.</li>
+<li><code>{{.Protocol}}</code>. Used protocol, for example <code>SFTP</code>, <code>FTP</code>. Format: string.</li>
+<li><code>{{.IP}}</code>. Client IP address. Format: string.</li>
+<li><code>{{.Role}}</code>. User or admin role. Format: string.</li>
+<li><code>{{.Email}}</code>. For filesystem events, this is the email associated with the user performing the action. For the provider events, this is the email associated with the affected user or admin. Blank in all other cases. Format: string.</li>
+<li><code>{{.Timestamp}}</code>. Event timestamp. Format: time object. A time object has several useful methods: <code>UTC</code>, <code>Local</code>, <code>Unix</code>, <code>UnixMilli</code>, <code>Year</code>, <code>Month</code>, <code>Day</code>, <code>Hour</code>, <code>Minute</code>, and <code>Second</code>.</li>
+<li><code>{{.UID}}</code>. Unique ID. Format: string.</li>
+<li><code>{{.Object}}</code>. Provider object data with sensitive fields removed. It’s an object that includes a <code>JSON</code> method to get its JSON representation. For example, use <code>"ObjectJSON": {{.Object.JSON}}</code>. If you need the JSON as a string, use <code>"ObjectString": {{.Object.JSON | toJson}}</code>.</li>
+<li><code>{{.RetentionReports}}</code>. Data retention reports as zip compressed CSV files. Supported as email attachment, file path for multipart HTTP request and as single parameter for HTTP requests body. Data retention reports contain details on the number of files deleted and the total size deleted for each folder. Format: string</li>
+<li><code>{{.IDPFields}}</code>. Custom fields from the Identity Provider. Format: object. The structure depends on the specific custom claims configured in your Identity Provider.</li>
+<li><code>{{.Metadata}}</code>. Cloud storage metadata represented as key/value pairs, where both keys and values are strings. You can use <code>range</code> to iterate over the keys and values.</li>
+</ul>
+<p>The <code>{{.Timestamp}}</code> time object provides several useful methods:</p>
+<ul>
+<li><code>UTC</code>: returns the time in UTC.</li>
+<li><code>Local</code>: returns the time in the local timezone.</li>
+<li><code>Unix</code>: returns the Unix timestamp in seconds.</li>
+<li><code>UnixMilli</code>: returns the Unix timestamp in milliseconds.</li>
+<li><code>Year</code>, <code>Month</code>, <code>Day</code>: return the date components.</li>
+<li><code>Hour</code>, <code>Minute</code>, <code>Second</code>: return the time components.</li>
+<li><code>Format(layout string)</code>: formats a time object using Go's layout reference <code>2006-01-02 15:04:05</code>.</li>
+</ul>
+<p>Some examples:</p>
+<ul>
+<li><code>{{ .Timestamp.Unix }}</code> returns the Unix timestamp in seconds.</li>
+<li>If <code>{{.Timestamp}}</code> is set to July 4, 2025 at 14:30, <code>{{ .Timestamp.Format "2006-01-02" }}</code> outputs <code>2025-07-04</code>, <code>{{ .Timestamp.Format "02/01/2006 15:04" }}</code> outputs <code>04/07/2025 14:30</code>, and <code>{{ .Timestamp.Format "Monday, 02 Jan 2006 at 15:04" }}</code> outputs <code>Friday, 04 Jul 2025 at 14:30</code>.</li>
+</ul>
+<h3 id="helper-functions">Helper functions</h3>
+<p>You can use SFTPGo specific helper functions to transform or format the placeholder values. These functions allow you to do things like:</p>
+<ul>
+<li>Convert data to JSON: <code>{{ toJson .VirtualPath }}</code>.</li>
+<li>Format datetime: <code>{{ .Timestamp.UTC.Format "2006-01-02T15:04:05.000" }}</code>.</li>
+<li>Get the parent directory for a path: <code>{{ pathDir .VirtualPath }}</code>.</li>
+</ul>
+<p>They can be used in either of the following forms: <code>{{ toJson .VirtualPath }}</code> or <code>{{ .VirtualPath | toJson }}</code>.</p>
+<p>The first form calls the <code>toJson</code> function directly with <code>.VirtualPath</code> as its argument. The second form uses the pipe (<code>|</code>) operator, which passes the value on its left (<code>.VirtualPath</code>) as the input to the function on its right (<code>toJson</code>).</p>
+<p>The pipe syntax is particularly useful when chaining multiple functions together, allowing you to transform data step-by-step in a clear and readable way.</p>
+<p>Supported built-in functions:</p>
+<ul>
+<li><code>toJson</code> converts any value to its JSON representation; since <code>.VirtualPath</code> is a string, <code>{ "path": {{ toJson .VirtualPath }} }</code> outputs <code>{ "path": "/mydir/myfile.txt" }</code>, and since <code>.Metadata</code> is a map of strings, <code>{{ toJson .Metadata }}</code> outputs <code>{"author":"alice","version":"1.0"}</code>. Using <code>toJson</code> ensures that strings are always correctly quoted and special characters properly escaped for safe inclusion in JSON.</li>
+<li><code>toJsonUnquoted</code> works like <code>toJson</code>, but if the input is a string, it returns the JSON value without the surrounding quotes; for other types it behaves like  <code>toJson</code>. This is useful when you want to concatenate a dynamic JSON string with fixed text without extra quotes. Example: <code>{ "out_dir": "/basedir/{{ toJsonUnquoted .ObjectName }}" }</code> outputs <code>{"out_dir": "/basedir/myfile.txt"}</code>.</li>
+<li><code>urlEscape</code> encodes a string for safe use in query parameters Example: <code>{{ urlEscape .Email }}</code> outputs <code>user%40example.com</code>).</li>
+<li><code>urlPathEscape</code> encodes a string for safe use in URL paths. Exammple: <code>{{ urlPathEscape .VirtualPath }}</code> outputs: <code>folder%20name%2Ffile.txt</code>.</li>
+<li><code>pathDir</code> returns the directory part of a path. Example: if <code>.VirtualPath</code> is <code>/a/b/file.txt</code>, <code>{{ pathDir .VirtualPath }}</code> outputs <code>/a/b</code>.</li>
+<li><code>pathBase</code> returns the last element of a path. Example: if <code>.VirtualPath</code> is <code>/a/b/file.txt</code>, <code>{{ pathBase .VirtualPath }}</code> outputs <code>file.txt</code>.</li>
+<li><code>pathExt</code> returns the file extension. Example: if <code>.VirtualPath</code> is <code>/a/b/file.txt</code>, <code>{{ pathExt .VirtualPath }}</code> outputs <code>.txt</code>.</li>
+<li><code>pathJoin</code> joins multiple path segments into a clean path. Example: <code>{{ pathJoin (stringSlice "/a" .VirtualPath "final") }}</code> with <code>.VirtualPath</code> as <code>b/c</code> outputs <code>/a/b/c/final</code>.</li>
+<li><code>filePathJoin</code> joins multiple elements into a clean filesystem path using the correct separator for the OS. It’s similar to pathJoin, but <code>filePathJoin</code> should be used for real filesystem paths like <code>.FsPath</code>, while <code>pathJoin</code> is for virtual paths like <code>.VirtualPath</code>.</li>
+<li><code>stringSlice</code> creates a list of strings. Example: <code>{{ pathJoin (stringSlice "/a" .VirtualPath "final") }}</code> with <code>.VirtualPath</code> as <code>b/c</code> outputs <code>/a/b/c/final</code>; it's useful when you need to pass multiple strings as a slice to functions like <code>pathJoin</code> or <code>filePathJoin</code>.</li>
+<li><code>stringJoin</code> joins a list of strings into one string with a specified separator. Example: <code>{{ stringJoin .Errors ", " }}</code>.</li>
+<li><code>stringTrimSuffix</code> removes a specified suffix from a string if present. Example: <code>{{ stringTrimSuffix .VirtualPath ".jpg" }}</code>.</li>
+<li><code>stringTrimPrefix</code> removes a specified prefix from a string if present.</li>
+<li><code>stringReplace</code> replaces all occurrences of a substring with another string. Example: <code>{{ stringReplace .VirtualPath "/dir1" "/dir2" }}</code>.</li>
+<li><code>stringHasPrefix</code> checks if a string starts with a specified prefix. Example: <code>{{- if stringHasPrefix .VirtualPath "/dir2" -}}found{{- end -}}</code>.</li>
+<li><code>stringHasSuffix</code> checks if a string ends with a specified suffix.</li>
+<li><code>stringToLower</code> converts a string to lowercase. Example: <code>{{ stringToLower .VirtualPath }}</code>.</li>
+<li><code>stringToUpper</code> converts a string to uppercase.</li>
+<li><code>createDict</code> builds a map from alternating key-value pairs. Example: <code>{{- $statusMap := createDict 1 "OK" 2 "KO" -}}</code> creates a map where 1 maps to "OK" and 2 maps to "KO".</li>
+<li><code>mapToString</code> looks up a value in a map by a given key. Example: <code>{{ (mapToString .Status $statusMap) | toJson }}</code> returns the string mapped to <code>.Status</code> in $statusMap, encoded as JSON.</li>
+<li><code>humanizeBytes</code> converts a numeric byte value into a human-readable string with appropriate units (e.g., KB, MB, GB). It formats the input size by scaling it down and appending the correct unit suffix to improve readability. For example, an input of 10000 bytes is rendered as 10 KB. Example: <code>{{ humanizeBytes .FileSize }}</code>.</li>
+</ul>
+<p>Some more examples.</p>
+<p>This example shows how to build a JSON object, such as the body of an HTTP request, using advanced template features.</p>
+<pre><code class="language-json">{{- $statusMap := createDict 1 &quot;OK&quot; 2 &quot;KO&quot; -}}
+{
+  &quot;Name&quot;: {{.Name | toJson}},
+  &quot;VirtualPath&quot;: {{.VirtualPath | toJson}},
+  &quot;Status&quot;: {{.Status}},
+  &quot;StatusString&quot;: {{ (mapToString .Status $statusMap) | toJson }},
+  &quot;Metadata&quot;: {{.Metadata | toJson}},
+  &quot;ObjectString&quot;: {{.Object.JSON | toJson}},
+  &quot;ObjectJSON&quot;: {{.Object.JSON}}
+}
+</code></pre>
+<p>First, a map <code>$statusMap</code> is created with <code>createDict</code> to translate status codes (1 and 2) into strings ("OK" and "KO").</p>
+<p>The JSON object includes several fields from the current context:</p>
+<ul>
+<li>"Name" and "VirtualPath" are converted to JSON strings with <code>toJson</code>.</li>
+<li>"Status" outputs the raw status code.</li>
+<li>"StatusString" uses <code>mapToString</code> to get the human-readable status from <code>$statusMap</code>, then converts it to a JSON string.</li>
+<li>"Metadata" outputs metadata as JSON.</li>
+<li>"ObjectString" outputs the JSON representation of <code>.Object</code> as a JSON string.</li>
+<li>"ObjectJSON" outputs the raw JSON object from <code>.Object.JSON</code>.</li>
+</ul>
+<p>This approach allows mixing raw values, JSON strings, and mapped values seamlessly in a structured JSON output.</p>
+<p>In Go templates, the <code>-</code> inside <code>{{-</code> or <code>-}}</code> trims whitespace immediately before or after the template tag. For example, <code>{{-</code> removes any whitespace to the left of the tag, and <code>-}}</code> removes whitespace to the right. This helps keep the generated output clean by avoiding unwanted spaces or newlines.</p>
+<p>Another example:</p>
+<pre><code class="language-json">{{- $keyPrefix := stringJoin (stringSlice &quot;users&quot; .Name) &quot;/&quot; -}}
+{
+  &quot;username&quot;: {{toJson .Name}},
+  &quot;status&quot;: 1,
+  &quot;permissions&quot;: {&quot;/&quot;:[&quot;*&quot;]},
+  &quot;filesystem&quot;: {
+    &quot;provider&quot;: 1,
+    &quot;s3config&quot;: {
+      &quot;bucket&quot;: &quot;default&quot;,
+      &quot;region&quot;: &quot;default&quot;,
+      &quot;key_prefix&quot;: {{ $keyPrefix | toJson }}
+    }
+  },
+  &quot;groups&quot;: [
+    {{- $roles := .IDPFields.sftpgo_role -}}
+    {{- range $i, $role := $roles -}}
+        {{- if ne $i 0}},{{end}}
+      {&quot;type&quot;: {{if eq $i 0}}1{{else}}2{{end}},
+      &quot;name&quot;: {{$role | toJson}}}
+    {{- end}}
+    ]
+}
+</code></pre>
+<p>This example builds a JSON object (for example, a user configuration) using advanced templating techniques:</p>
+<ul>
+<li><code>$keyPrefix</code> is created by joining "users" and <code>.Name</code> with a slash (<code>/</code>), e.g., if <code>.Name</code> is "alice", <code>$keyPrefix</code> becomes "users/alice".</li>
+<li>The JSON object includes fixed fields like "username" (JSON-encoded <code>.Name</code>), "status", "permissions", and "filesystem" settings.</li>
+<li>Inside "filesystem", the "key_prefix" is set to the value of <code>$keyPrefix</code>.</li>
+<li>The "groups" array is populated from the <code>.IDPFields.sftpgo_role</code> claim, which is a list of roles (e.g., <code>["group1", "group2", "group3"]</code>). Using range, it loops over the roles: the first role gets <code>"type": 1</code> (primary group), the others <code>"type": 2</code> (secondary groups). Each group object includes "name" set to the role name, properly JSON-encoded.</li>
+</ul>
+<p>This template dynamically generates user-related JSON data by combining static values, computed fields, and information from identity provider claims. It can be used, for example, to automatically create SFTPGo users after a successful Identity Provider login.</p>
+<h3 id="virtual-folders">Virtual folders</h3>
 <p>Virtual folders can be combined with filesystem actions. You can define:</p>
 <ul>
 <li>The source folder. Actions triggered by filesystem events, such as uploads or downloads, use the filesystem associated with the user. By specifying a source folder, you can control which filesystem is used. This is especially useful for events that aren't tied to a user, such as scheduled tasks and advanced workflows.</li>
 <li>The target folder. By specifying a target folder, you can use a different filesystem for target paths than the one associated with the user who triggered the action. This is useful for moving files to another storage backend, such as a different S3 bucket or an external SFTP server, accessing restricted areas of the same storage backend, supporting scheduled actions, or enabling more advanced workflows.</li>
 </ul>
+<h3 id="migration-from-previous-versions-or-the-open-source-edition">Migration from Previous Versions or the Open-Source Edition</h3>
+<p>Before introducing the template system, we relied on simple placeholder replacements and tried to guess whether to output strings or JSON automatically—for example based on the configured <code>Content-Type</code> header in HTTP requests. This approach was error-prone and limiting. Now, you need to be more explicit by using <code>toJson</code> and related functions where appropriate to ensure correct formatting.</p>
+<p>Additionally, some placeholders were removed because their functionality can now be easily achieved using the built-in functions.</p>
+<p>Removed placeholders:</p>
+<ul>
+<li><code>{{.StatusString}}</code>. Instead, create a template variable using <code>createDict</code>, for example: <code>{{- $statusMap := createDict 1 "OK" 2 "KO" 3 "Quota exceeded" -}}</code>. Then retrieve the status string with: <code>{{ mapToString .Status $statusMap }}</code>. Bonus: this approach lets you customize the status messages easily.</li>
+<li><code>{{.ErrorString}}</code>. Instead, use the <code>{{.Errors}}</code> placeholder, which contains the list of errors, and join them into a string with: <code>{{ stringJoin .Errors ", " }}</code> to get the same output as the old placeholder.</li>
+<li><code>{{.EscapedVirtualPath}}</code>. Instead, use <code>{{ urlEscape .VirtualPath }}</code>. Bonus: you can apply <code>urlEscape</code> to any placeholder without needing separate escaped variants for each one.</li>
+<li><code>{{.VirtualDirPath}}</code>, <code>{{.VirtualTargetDirPath}}</code>. Instead, use <code>{{ pathDir .VirtualPath }}</code> and <code>{{ pathDir .VirtualTargetPath }}</code>.</li>
+<li><code>{{.Ext}}</code>. Instead use <code>{{ pathExt .VirtualPath }}</code>. Bonus: you can apply <code>pathExt</code> to any placeholder containing a path.</li>
+<li><code>{{.TargetName}}</code>. Instead use <code>{{ pathBase VirtualTargetPath }}</code>.</li>
+<li><code>{{.DateTime}}</code>, <code>{{.Year}}</code>, <code>{{.Month}}</code>, <code>{{.Day}}</code>, <code>{{.Hour}}</code>, <code>{{.Minute}}</code>: these individual placeholders are replaced by a single <code>{{.Timestamp}}</code> time object. You can format it as needed, for example:
+<code>{{ .Timestamp.UTC.Fomat "2006-01-02T15:04:05.000" }}</code>. Additionally, you can call any method supported by the Go time object on <code>.Timestamp</code>, such as <code>UTC</code>, <code>Local</code>, <code>Unix</code>, <code>UnixMilli</code>, <code>Year</code>, <code>Month</code>, <code>Day</code>, <code>Hour</code>, <code>Minute</code>, and <code>Second</code>.</li>
+<li><code>{{.ObjectData}}</code> and <code>{{.ObjectDataString}}</code>. These placeholders have been replaced by the <code>{{.Object}}</code> placeholder. Use <code>{{.Object.JSON}}</code> to get the equivalent of the old <code>{{.ObjectData}}</code>, and <code>{{.Object.JSON | toJson}}</code> to get the equivalent of <code>{{.ObjectDataString}}</code>.</li>
+<li><code>{{.Metadata}}</code>, <code>{{.MetadataString}}</code>. The <code>{{.Metadata}}</code> placeholder is now an object. Use <code>{{ toJson .Metadata }}</code> to get the equivalent of the old <code>{{.Metadata}}</code>, and <code>{{toJson .Metadata | toJson}}</code> to get the equivalent of <code>{{.MetadataString}}</code>.</li>
+<li><code>{{.IDPField&lt;fieldname&gt;}}</code>. These individual placeholders have been replaced by the generic <code>{{.IDPFields}}</code> object. You can now access fields using <code>{{ .IDPFields.fieldname }}</code>. Bonus: Previously, only string fields were available; now all fields are propagated with their original types as defined in your Identity Provider.</li>
+</ul>
+<p>If you need assistance migrating your actions, please don’t hesitate to contact us.</p>
 
 
 
