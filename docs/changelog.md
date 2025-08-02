@@ -12,8 +12,8 @@ Upgrading to the Enterprise edition of SFTPGo is supported starting from Open So
 ### New features
 
 - EventManager: Completely rewritten the action placeholder system to significantly improve flexibility. Please refer to the [documentation](eventmanager.md) for details and migration steps. Note that this change may break compatibility in some cases. Don’t hesitate to contact us if you need assistance migrating your actions.
-- EventManager: Added an optional archive folder to the data retention action, enabling files to be moved to the specified folder instead of being deleted.
-- Users: Added support for a custom placeholder value set in user configurations that can be referenced as `%custom1%` within group configurations.
+- EventManager: Added an optional archive folder to the data retention action, enabling files to be moved to the specified virtual folder instead of being deleted.
+- Users: Added support for a custom placeholder value set in user configurations. It can be referenced as `%custom1%` within group configurations.
 - User Templates: Added support for password change requirement option.
 
 ### Bug fixes
