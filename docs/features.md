@@ -36,8 +36,7 @@
 - Geo-IP filtering using a [plugin](https://github.com/sftpgo/sftpgo-plugin-geoipfilter){:target="_blank"}.
 - Atomic uploads are configurable.
 - Per-user files/folders ownership mapping: you can map all the users to the system account that runs SFTPGo (all platforms are supported) or you can run SFTPGo as root user and map each user or group of users to a different system account (\*NIX only).
-- Support for Git repositories over SSH.
-- SCP and rsync are supported.
+- SCP is supported.
 - FTP/S is supported. You can configure the FTP service to require TLS for both control and data connections.
 - [WebDAV](webdav.md) is supported.
 - ACME protocol is supported. SFTPGo can obtain and automatically renew TLS certificates for HTTPS, WebDAV and FTPS from `Let's Encrypt` or other ACME compliant certificate authorities, using the `HTTP-01` or `TLS-ALPN-01` [challenge types](https://letsencrypt.org/docs/challenge-types/){:target="_blank"}.
