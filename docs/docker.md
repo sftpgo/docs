@@ -2,6 +2,11 @@
 
 SFTPGo Enterprise is accessible through our private Docker repository.
 
+To access our regisry, you must first obtain a valid license key.
+License keys are provided after purchasing a subscription or activating a trial via our [website](https://sftpgo.com/on-premises){:target="_blank"}.
+
+After completing the process, you will receive access details.
+
 ## How to use the SFTPGo image
 
 ### Start a `sftpgo` server instance
@@ -125,15 +130,15 @@ USER 1100:1100
 
 ## Image Variants
 
-The `sftpgo` images comes in many flavors, each designed for a specific use case. The `edge`, `edge-slim`, `edge-alpine`, and `edge-alpine-slim` tags are updated after each new commit.
+The `sftpgo` images comes in many flavors, each designed for a specific use case.
 
 ### `sftpgo:<version>`
 
 This is the defacto image, it is based on [Debian](https://www.debian.org/){:target="_blank"}, available in [the `debian` official image](https://hub.docker.com/_/debian){:target="_blank"}. If you are unsure about what your needs are, you probably want to use this one.
 
-### `sftpgo:<suite>-plugins`
+### `sftpgo:<version>-plugins`
 
-These tags provide the standard image with the addition of open source and proprietary plugins installed in `/usr/local/bin`.
+These tags provide the standard image with the addition of plugins installed in `/usr/local/bin`.
 
 ### `sftpgo:<version>-distroless`
 

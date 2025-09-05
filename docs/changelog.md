@@ -7,6 +7,30 @@ We encourage you to check back regularly to stay up to date with the latest chan
 
 Upgrading to the Enterprise edition of SFTPGo is supported starting from Open Source release 2.6.x.
 
+If you're migrating from an open-source installation, please follow the guide here: [**Migration from Open-Source 2.6.x to Enterprise**](tutorials/migrating.md)
+
+## Update August 31, 2025 - v2.7.20250831
+
+### New features
+
+- Added support for license keys and made the Enterprise Edition generally available.
+- SFTP storage backend: Added support for SOCKS proxy versions v4 and v4a.
+- Preserve sort order for related folders and groups, improving compatibility and predictability when used with the Terraform provider.
+- Cluster mode: ensures near real-time propagation of event rule updates, IP lists, and license changes across all cluster nodes.
+- Password hashing: Introduced general support for importing password using the `yescrypt` format.
+- EventManager: Added "Metadata Check" action to verify the presence or value of a metadata key in cloud storage backends, with optional retries and timeout.
+
+### Bug fixes
+
+- SMTP: Fixed OAuth2 authentication issue when using the Microsoft provider with a tenant ID.
+- Fixed a rare edge case where transfers could remain stalled due to unresponsive storage backends.
+- WebDAV: Fixed an issue where some scanner devices failed to process PROPFIND responses returned for GET requests on collection resources.
+- Preserved the initial sort order of folders and groups to improve compatibility and ensure predictable behavior when used with Terraform.
+
+### Backward incompatible changes
+
+- Removed Git support. Hosting Git repositories over SSH falls outside the intended scope of a file transfer solution, and the use of external commands introduces unnecessary security risks by increasing the attack surface.
+
 ## Update July 26, 2025 - v2.7.20250726
 
 ### New features

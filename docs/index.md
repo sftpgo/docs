@@ -25,7 +25,7 @@ This documentation applies to the Enterprise edition of SFTPGo. If you're using 
 
 SFTPGo Enterprise is an enhanced version of the open-source SFTPGo, based on its core functionality, and tailored for organizations that require more advanced features, improved performance and a commercially licensed solution.
 
-SFTPGo Enterprise is currently used in our SaaS offerings and by some customers subscribed to our Enterprise support plan. It is set to become generally available in the near future. New features are regularly added to the Enterprise version, which may or may not be backported to the open-source version.
+New features are regularly added to the Enterprise edition, which may or may not be backported to the open-source edition.
 
 Key Enhancements:
 
@@ -41,7 +41,7 @@ The open-source version of SFTPGo will continue to be maintained and updated wit
 
 ## Licensing
 
-The Enterprise version is offered under a proprietary license that removes the restrictions of the open-source AGPLv3.
+The Enterprise version is offered under a [proprietary license](https://sftpgo.com/assets/LICENSE.pdf){:target="_blank"} that removes the restrictions of the open-source AGPLv3.
 
 ## Copyright
 

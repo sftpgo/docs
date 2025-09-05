@@ -13,6 +13,7 @@ Supported hash algorithms:
 - MD5 crypt APR1, prefix `$apr1$`
 - SHA256 crypt, prefix `$5$`
 - SHA512 crypt, prefix `$6$`
+- yescrypt, prefix `$y$`
 - MD5 digest, prefix `{MD5}`
 - SHA256 digest, prefix `{SHA256}`
 - SHA512 digest, prefix `{SHA512}`

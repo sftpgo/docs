@@ -1,16 +1,22 @@
 # SFTPGo on Google Cloud Platform
 
-SFTPGo is available on [Google Cloud Platform](https://console.cloud.google.com/marketplace/browse?filter=partner:SFTPGo%20Authors){:target="_blank"} as a virtual machine image. The following editions are available:
+SFTPGo is available on Google Cloud Marketplace:
 
-- SFTPGo Standard
-- SFTPGo Professional
+- [SFTPGo Enterprise - Starter](https://console.cloud.google.com/marketplace/product/sunlit-theory-450708-g7/sftpgo-enterprise-starter){:target="_blank"}
+- [SFTPGo Enterprise - Premium](https://console.cloud.google.com/marketplace/product/sunlit-theory-450708-g7/sftpgo-enterprise-premium){:target="_blank"}
 
-The Professional edition provides the following additional features:
+The Starter tier is a cost-effective solution for small to medium-scale file transfer environments. It supports unlimited users and connections, with up to 20 concurrent uploads and downloads. Storage options include local filesystem or Google Cloud buckets. Detailed audit logs are also available directly within the WebAdmin UI.
 
-- Search and export audit logs from the WebAdmin UI.
-- LDAP/Active Directory authentication.
-- Geo-IP filtering.
-- Publish events to Google Cloud Pub/Sub topics and other publish/subscribe systems such as Amazon SNS/SQS, Azure Service Bus, RabbitMQ, NATS, Kafka.
+The Premium tier is designed for deployments that require advanced features and greater flexibility. It includes all capabilities of the Starter tier, plus the following features:
+
+- Unlimited users and connections, with up to 100 concurrent uploads and downloads.
+- Additional storage backends: Amazon S3 (Compatible), Azure Blob Storage, other SFTP servers.
+- PGP encryption/decryption.
+- Advanced automation through the EventManager.
+- Plugin for Geo-IP filtering via plugins.
+- Plugin for event publishing to systems like Amazon SNS, RabbitMQ, NATS, Kafka, and other publish/subscribe platforms.
+
+:information_source: We also offer SFTPGo Standard and Professional editions, both based on the open-source version of SFTPGo. These editions were introduced before the availability of SFTPGo Enterprise and remain fully supported. However, we recommend transitioning to the Starter or Premium tiers to take full advantage of the enhanced features and improved performance provided by SFTPGo Enterprise.
 
 ## Deploy from Marketplace
 
@@ -32,9 +38,9 @@ Here what the proposed ports are used for:
 
 - TCP port 8080 is the default port for the SFTPGo WebAdmin and WebClient user interfaces. It will be used for the initial configuration.
 - TCP port 2022 is the default port for the SFTP service.
+- TCP port 22 is the port used for the SSH service (OpenSSH), which is useful for remote access and management of your virtual machine.
 - TCP port 80 (HTTP traffic from the Internet) is required to obtain and renew Let's Encrypt TLS certificates.
 - TCP port 443 (HTTPS traffic from the Internet) is useful if you want enable HTTPS for the SFTPGo WebAdmin and WebClient and reconfigure SFTPGo to use the standard HTTPS port.
-- TCP port 22 is the port used for the SSH service (OpenSSH), which is useful for remote access and management of your virtual machine.
 
 :warning: If you want to use SFTP on port 22 you need to reconfigure OpenSSH to use a different port.
 
@@ -53,6 +59,12 @@ Before you can use SFTPGo you need to create an admin account, so open **http://
 After creating the admin account you will be automatically logged in and redirected to the page to set up two-factor authentication. Setting up two-factor authentication is optional.
 
 ![Initial screen](../assets/img/initial-screen.png){data-gallery="initial-screen"}
+
+## Licensed Features
+
+You can view the enabled licensed features by navigating to the "License" section under "Server Manager".
+
+![License](../assets/img/gcp-license.png){data-gallery="license"}
 
 ## Enable HTTPS and obtain a Let's Encrypt TLS certificate
 
@@ -92,7 +104,7 @@ You can now access your installation using **https://your_domain_name/**.
 
 ## Reconfigure SFTPGo to use the port 22 for SFTP
 
-To make the SFTP service provided by SFTPGo available on port 22,0 the OpenSSH service must to be re-configured to use a different port.
+To make the SFTP service provided by SFTPGo available on port 22, the OpenSSH service must to be re-configured to use a different port.
 
 Stop the SFTPGo service.
 

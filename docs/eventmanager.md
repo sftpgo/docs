@@ -71,6 +71,7 @@ Supported actions:
   - `Copy`. You can copy one or more files or directories.
   - `Compress paths`. You can compress (currently as zip) ore or more files and directories.
   - `PGP` encryption and decryption, allowing you to secure your files using either password-based encryption or PGP key pairs. This includes the ability to sign and verify digital signatures, ensuring both the authenticity and integrity of your data throughout the process.
+  - `Metadata Check` verifies whether a specified metadata key exists and matches a configured value, or whether it is absent. To check for non-existence, leave the value field empty. If the condition is not met, the check is retried until the specified timeout is reached (if greater than zero). This action is supported for cloud storage backends.
 
 In actions, you can hard-code values such as file paths or email addresses. While this may work in some cases, it's generally better to use dynamic values that adapt to the specific context of the action. This is where dynamic placeholders come in. Placeholders allow you to insert values that are automatically replaced at runtime. They follow the format `{{.FieldName}}` and enable your actions to be more flexible and reusable.
 
@@ -231,7 +232,11 @@ Virtual folders can be combined with filesystem actions. You can define:
 
 ### Migration from Previous Versions or the Open-Source Edition
 
-Before introducing the template system, we relied on simple placeholder replacements and tried to guess whether to output strings or JSON automatically—for example based on the configured `Content-Type` header in HTTP requests. This approach was error-prone and limiting. Now, you need to be more explicit by using `toJson` and related functions where appropriate to ensure correct formatting.
+Starting with version `v2.7.20250726`, SFTPGo introduced a new, more powerful templating system for the EventManager.
+
+If you're upgrading from a version **prior to `v2.7.20250726`** or from the Open-Source version, you will need to **manually migrate your existing actions** to the new templating syntax to ensure correct behavior.
+
+In earlier versions (both Enterprise and open-source), event actions relied on simple placeholder replacement and attempted to automatically determine the output format, such as plain text or JSON, based on headers like `Content-Type`. This approach was limited and sometimes unreliable. Now, you need to be more explicit by using `toJson` and related functions where appropriate to ensure correct formatting.
 
 Additionally, some placeholders were removed because their functionality can now be easily achieved using the built-in functions.
 

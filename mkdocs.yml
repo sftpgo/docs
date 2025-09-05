@@ -11,10 +11,12 @@ nav:
     - docker.md
     - 'Data provider management': data-provider.md
   - 'Tutorials':
+    - 'Migration from Open-Source 2.6.x to Enterprise': tutorials/migrating.md
     - "Let's Encrypt TLS Certificates": tutorials/lets-encrypt-certificate.md
     - 'Two-factor Authentication': tutorials/two-factor-authentication.md
-    - tutorials/sftp-google-cloud.md
     - tutorials/eventmanager.md
+    - tutorials/sftpgo-google-cloud.md
+    - tutorials/sftpgo-aws.md
     - tutorials/postgresql-s3.md
   - 'Configuration':
     - cli.md

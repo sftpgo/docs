@@ -22,6 +22,23 @@ From the `Status` page you see the active services.
 
 The default configuration enables the SFTP service on port `2022` and uses an embedded data provider (`SQLite` or `bolt` based on the target OS and architecture).
 
+## Adding a license key
+
+Without a valid license, the application will operate under the [Starter license tier](https://sftpgo.com/on-premises){:target="_blank"}, with the following additional limitations:
+
+- Concurrent transfers are limited to 2.
+- Plugin support is disabled.
+
+You can view your license status and add a new license key from the WebAdmin UI by navigating to Server Manager => License.
+
+![License](assets/img/license.png){data-gallery="license"}
+
+For unattended or CLI-based setups, the license key can also be activated by setting the `SFTPGO_LICENSE_KEY` environment variable.
+
+```shell
+SFTPGO_LICENSE_KEY=XXXX-XXXX-XXXX-XXXX
+```
+
 ## Creating users
 
 Let's create our first local user:
@@ -68,14 +85,6 @@ Fetching /adir/file.txt to file.txt
 
 It worked! We can upload/download files and create directories.
 
-Each user can browse and download their files, share files with external users, change their credentials and configure two-factor authentication using the WebClient interface available at the following URL:
-
-[http://127.0.0.1:8080/web/client](http://127.0.0.1:8080/web/client){:target="_blank"}
-
-![WebClient files](assets/img/web-client-files.png){data-gallery="client-files"}
-
-![WebClient two-factor authentication](assets/img/web-client-two-factor-auth.png){data-gallery="client-2fa"}
-
 ### Creating users with a Cloud Storage backend
 
 The procedure is similar to the one described for local users, you have only specify the Cloud Storage backend and its credentials.
@@ -108,6 +117,84 @@ The screenshot below shows an example configuration.
 ![User with cryptfs backend](assets/img/local-encrypted.png){data-gallery="cryptfs-user"}
 
 More details about [Data At Rest Encryption](dare.md).
+
+## WebClient
+
+Users created via the WebAdmin UI can also log in to the WebClient UI to browse and manage their files directly in the browser. They can update their credentials and enable two-factor authentication, which is compatible with Microsoft Authenticator, Google Authenticator, Authy, and other apps that support standard TOTP.
+
+From the WebClient, authorized users can securely share files and folders via HTTP/S links. Sharing options include setting download/upload limits, password protection, email-based authentication, IP address restrictions, and automatic expiration dates.
+
+The WebClient interface is available at the following URL:
+
+[http://127.0.0.1:8080/web/client](http://127.0.0.1:8080/web/client){:target="_blank"}
+
+### File and Folder Management
+
+The WebClient allows users to easily manage files and folders within their SFTPGo storage from the "Files" section.
+
+![WebClient files](assets/img/web-client-files.png){data-gallery="client-files"}
+
+Key functionalities:
+
+- Upload: Drag & drop or use the upload button to add single or multiple files.
+- Download: Download individual files or multiple items as a zipped archive.
+- Folders: Create, rename, and delete folders to organize your content.
+- Rename/Delete: Rename or delete files and folders via the context menu.
+- Move/Copy: Move or copy files and folders.
+- Search: Quickly find files and folders using the search bar.
+- Preview: Preview supported file types directly in the browser.
+
+### Document Editing & Collaboration
+
+Document Editing & Collaboration can be added as a separate add-on to any license.
+
+This feature enables seamless document editing, and real-time collaboration directly within the SFTPGo WebClient. Multiple users can work on the same document simultaneously, with live updates visible to everyone as changes are made.
+
+To use this feature, you will need to deploy a compatible WOPI document server in your environment, such as [Collabora Online](https://www.collaboraonline.com/){:target="_blank"}, the open-source office suite based on LibreOffice. We are an official partner of Collabora and offer first-class support for integrating with it.
+
+Virtual folders can be created for sharing among multiple users, enabling collaboration on the documents stored within them.
+
+To start editing and collaborating on a .docx, .xlsx, or .pptx files (or their open formats), simply click the 'eye' icon next to the file in the list.
+
+![View document](assets/img/view_doc.png){data-gallery="view-doc"}
+
+The Collabora Online editor will open directly in your browser.
+
+![Collabora Online editor](assets/img/collabora.png){data-gallery="doc-editor"}
+
+This powerful, web-based office suite allows you to view, edit, and collaborate on documents in real time, without needing to download or install anything. It supports rich editing features for text documents, spreadsheets and presentations, ensuring full compatibility with Microsoft Office formats.
+
+The licensing model is per-user. When a user opens a document, one of the available licenses is automatically assigned to them. If no document is opened for three consecutive days, the license is automatically released and available for a different users.
+
+If you've purchased the add-on for fewer users than the total number of users in your installation, you can restrict access by disabling WOPI for specific users or groups in the "ACLs" section.
+
+![Disable WOPI](assets/img/disable_wopi.png)
+
+### Two factor authentication
+
+For detailed, step-by-step instructions, please refer to the dedicated [Two-Factor Authentication tutorial](./tutorials/two-factor-authentication.md#enable-2fa-for-users).
+
+![WebClient two-factor authentication](assets/img/web-client-two-factor-auth.png){data-gallery="webclient-2fa"}
+
+### Sharing
+
+The WebClient allows users to securely share files and folders via HTTP/S links. Each share can be customized with advanced options to control access and improve security.
+
+To share a file or folder, select the desired item and click the three-dot menu (⋮) on the left. Then choose the 'Share' option from the menu.
+
+![WebClient add share](assets/img/webclient_add_share.png){data-gallery="webclient-share"}
+
+Configure the sharing options, such as the access scope—read, write, or read/write—to define what actions recipients are allowed to perform. You can also enable email-based authentication to restrict access to specific recipients.
+
+![WebClient add share](assets/img/webclient_config_share.png){data-gallery="webclient-config-share"}
+
+Share the link with external users.
+
+Bonus: Configure an EventManager rule to automatically send email notifications to recipients whenever a new share is created.
+
+External users will be prompted to enter their email address and will receive a one-time authentication code, valid for a limited time, to access the shared content.
+
+![WebClient share login](assets/img/webclient_share_auth.png){data-gallery="webclient-share-auth"}
 
 ## Virtual permissions
 
@@ -292,6 +379,10 @@ In the `User page preferences` section hide all the sections.
 Log in using the newly created administrator and try to add a new user. The user page is simplified as you can see in the following screen.
 
 ![Simplified user add](assets/img/add-user-simplified.png){data-gallery="simplified-user"}
+
+## Custom branding
+
+From the "Server Manager" section, select "Configurations" and then "Branding". You can change the name, logo, favicon and add a disclaimer in the login section for both WebAdmin and WebClient. The disclaimer might be a URL to your Privacy Policy or something like that.
 
 ## Configuration parameters
 
