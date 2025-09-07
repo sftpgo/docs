@@ -8,25 +8,25 @@
       
       
       
-        <link rel="canonical" href="https://docs.sftpgo.com/Enterprise/tutorials/sftp-google-cloud/">
+        <link rel="canonical" href="https://docs.sftpgo.com/Enterprise/tutorials/sftpgo-aws/">
       
       
-        <link rel="prev" href="../two-factor-authentication/">
+        <link rel="prev" href="../sftpgo-google-cloud/">
       
       
-        <link rel="next" href="../eventmanager/">
+        <link rel="next" href="../postgresql-s3/">
       
       
       <link rel="icon" href="../../assets/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.18">
     
     
       
-        <title>SFTPGo on Google Cloud Platform - SFTPGo documentation</title>
+        <title>SFTPGo on AWS - SFTPGo documentation</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e37652d.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
@@ -94,7 +94,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#sftpgo-on-google-cloud-platform" class="md-skip">
+        <a href="#sftpgo-on-aws" class="md-skip">
           Skip to content
         </a>
       
@@ -133,7 +133,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              SFTPGo on Google Cloud Platform
+              SFTPGo on AWS
             
           </span>
         </div>
@@ -514,6 +514,29 @@
   
   
     <li class="md-nav__item">
+      <a href="../migrating/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Migration from Open-Source 2.6.x to Enterprise
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../lets-encrypt-certificate/" class="md-nav__link">
         
   
@@ -557,6 +580,52 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../eventmanager/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Event Manager
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sftpgo-google-cloud/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SFTPGo on Google Cloud Platform
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -574,7 +643,7 @@
   
   
   <span class="md-ellipsis">
-    SFTPGo on Google Cloud Platform
+    SFTPGo on AWS
     
   </span>
   
@@ -587,7 +656,7 @@
   
   
   <span class="md-ellipsis">
-    SFTPGo on Google Cloud Platform
+    SFTPGo on AWS
     
   </span>
   
@@ -628,27 +697,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#enable-https-and-obtain-a-lets-encrypt-tls-certificate" class="md-nav__link">
+  <a href="#licensed-features" class="md-nav__link">
     <span class="md-ellipsis">
-      Enable HTTPS and obtain a Let's Encrypt TLS certificate
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#reconfigure-sftpgo-to-use-the-standard-https-port" class="md-nav__link">
-    <span class="md-ellipsis">
-      Reconfigure SFTPGo to use the standard HTTPS port
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#reconfigure-sftpgo-to-use-the-port-22-for-sftp" class="md-nav__link">
-    <span class="md-ellipsis">
-      Reconfigure SFTPGo to use the port 22 for SFTP
+      Licensed Features
     </span>
   </a>
   
@@ -658,29 +709,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../eventmanager/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Event Manager
-    
-  </span>
-  
-
-      </a>
     </li>
   
 
@@ -1757,27 +1785,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#enable-https-and-obtain-a-lets-encrypt-tls-certificate" class="md-nav__link">
+  <a href="#licensed-features" class="md-nav__link">
     <span class="md-ellipsis">
-      Enable HTTPS and obtain a Let's Encrypt TLS certificate
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#reconfigure-sftpgo-to-use-the-standard-https-port" class="md-nav__link">
-    <span class="md-ellipsis">
-      Reconfigure SFTPGo to use the standard HTTPS port
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#reconfigure-sftpgo-to-use-the-port-22-for-sftp" class="md-nav__link">
-    <span class="md-ellipsis">
-      Reconfigure SFTPGo to use the port 22 for SFTP
+      Licensed Features
     </span>
   </a>
   
@@ -1799,90 +1809,54 @@
 
 
 
-<h1 id="sftpgo-on-google-cloud-platform">SFTPGo on Google Cloud Platform</h1>
-<p>SFTPGo is available on <a href="https://console.cloud.google.com/marketplace/browse?filter=partner:SFTPGo%20Authors" target="_blank">Google Cloud Platform</a> as a virtual machine image. The following editions are available:</p>
+<h1 id="sftpgo-on-aws">SFTPGo on AWS</h1>
+<p>SFTPGo is available on AWS Marketplace:</p>
 <ul>
-<li>SFTPGo Standard</li>
-<li>SFTPGo Professional</li>
+<li><a href="https://aws.amazon.com/marketplace/pp/prodview-6pasgeptfjjf6" target="_blank">SFTPGo Enterprise - Starter</a></li>
+<li><a href="https://aws.amazon.com/marketplace/pp/prodview-ocwppyuudgbz2" target="_blank">SFTPGo Enterprise - Premium</a></li>
+<li><a href="https://aws.amazon.com/marketplace/pp/prodview-ukjjbuggrxrlw" target="_blank">SFTPGo Enterprise - Starter (arm64)</a></li>
+<li><a href="https://aws.amazon.com/marketplace/pp/prodview-6fcfsxgzfx3yu" target="_blank">SFTPGo Enterprise - Premium (arm64)</a></li>
 </ul>
-<p>The Professional edition provides the following additional features:</p>
+<p>The Starter tier is a cost-effective solution for small to medium-scale file transfer environments. It supports unlimited users and connections, with up to 20 concurrent uploads and downloads. Storage options include local filesystem or Google Cloud buckets. Detailed audit logs are also available directly within the WebAdmin UI.</p>
+<p>The Premium tier is designed for deployments that require advanced features and greater flexibility. It includes all capabilities of the Starter tier, plus the following features:</p>
 <ul>
-<li>Search and export audit logs from the WebAdmin UI.</li>
-<li>LDAP/Active Directory authentication.</li>
-<li>Geo-IP filtering.</li>
-<li>Publish events to Google Cloud Pub/Sub topics and other publish/subscribe systems such as Amazon SNS/SQS, Azure Service Bus, RabbitMQ, NATS, Kafka.</li>
+<li>Unlimited users and connections, with up to 100 concurrent uploads and downloads.</li>
+<li>Additional storage backends: Amazon S3 (Compatible), Azure Blob Storage, other SFTP servers.</li>
+<li>PGP encryption/decryption.</li>
+<li>Advanced automation through the EventManager.</li>
+<li>Plugin for Geo-IP filtering via plugins.</li>
+<li>Plugin for event publishing to systems like Amazon SNS, RabbitMQ, NATS, Kafka, and other publish/subscribe platforms.</li>
 </ul>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/2139.svg" title=":information_source:" /> We also offer the open-source version of SFTPGo on AWS Marketplaces. These offers were introduced before the availability of SFTPGo Enterprise and remain fully supported. However, we recommend transitioning to the Starter or Premium tiers to take full advantage of the enhanced features and improved performance provided by SFTPGo Enterprise.</p>
 <h2 id="deploy-from-marketplace">Deploy from Marketplace</h2>
-<p>Access the SFTPGo offering of your choice in Google Cloud Marketplace and click the <strong>Launch</strong> button.</p>
-<p><a class="glightbox" href="../../assets/img/gcp-launch.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="launch"><img alt="Launch" data-gallery="launch" src="../../assets/img/gcp-launch.png" /></a></p>
-<p>You may be asked to enable the required API, please enable them.</p>
-<p><a class="glightbox" href="../../assets/img/gcp-api.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="API"><img alt="API" data-gallery="API" src="../../assets/img/gcp-api.png" /></a></p>
-<p>Specify your deployment options such as the zone, machine type, disk type.
-A firewall configuration is proposed.</p>
-<p><a class="glightbox" href="../../assets/img/gcp-firewall.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="firewall"><img alt="Firewall" data-gallery="firewall" src="../../assets/img/gcp-firewall.png" /></a></p>
-<p>Add network traffic restrictions and enable rules based on your specific security requirements.
-Here what the proposed ports are used for:</p>
+<p>Access the SFTPGo offering of your choice in AWS Marketplace and click the <strong>Try for free</strong> button.</p>
+<p><a class="glightbox" href="../../assets/img/aws_launch.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="launch"><img alt="Launch" data-gallery="launch" src="../../assets/img/aws_launch.png" /></a></p>
+<p>You will be redirected to the AWS subscription screen, where you can select the pricing model. SFTPGo offers use a usage-based pricing model, with the option to save by selecting an annual contract.</p>
+<p>After selecting your preferred pricing model, click “Subscribe” to complete the subscription.</p>
+<p><a class="glightbox" href="../../assets/img/aws_subscribe.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="subscribe"><img alt="Subscribe" data-gallery="subscribe" src="../../assets/img/aws_subscribe.png" /></a></p>
+<p>Select your preferred AWS region and launch the SFTPGo offer from the EC2 console.
+The suggested security rules will allow the following ports:</p>
 <ul>
 <li>TCP port 8080 is the default port for the SFTPGo WebAdmin and WebClient user interfaces. It will be used for the initial configuration.</li>
 <li>TCP port 2022 is the default port for the SFTP service.</li>
-<li>TCP port 80 (HTTP traffic from the Internet) is required to obtain and renew Let's Encrypt TLS certificates.</li>
-<li>TCP port 443 (HTTPS traffic from the Internet) is useful if you want enable HTTPS for the SFTPGo WebAdmin and WebClient and reconfigure SFTPGo to use the standard HTTPS port.</li>
 <li>TCP port 22 is the port used for the SSH service (OpenSSH), which is useful for remote access and management of your virtual machine.</li>
 </ul>
-<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/26a0.svg" title=":warning:" /> If you want to use SFTP on port 22 you need to reconfigure OpenSSH to use a different port.</p>
-<p>After configuring your virtual machine, click <strong>Deploy</strong>, after few minutes your SFTPGo installation will be ready to use.</p>
-<p><a class="glightbox" href="../../assets/img/gcp_deployment.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="deployment"><img alt="Deployment" data-gallery="deployment" src="../../assets/img/gcp_deployment.png" /></a></p>
-<p>By clicking on the deployed <strong>Compute Engine</strong>, you can view the IP address of your new SFTPGo installation.</p>
+<p>Additionally you may consider to add:</p>
+<ul>
+<li>TCP port 80 (HTTP traffic from the Internet) is required to obtain and renew Let's Encrypt TLS certificates.</li>
+<li>TCP port 443 (HTTPS traffic from the Internet) is useful if you want enable HTTPS for the SFTPGo WebAdmin and WebClient and reconfigure SFTPGo to use the standard HTTPS port.</li>
+</ul>
+<p>After deploying the virtual machine make note of its IP address and instance ID.</p>
+<p><a class="glightbox" href="../../assets/img/aws_subscribe.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="instance"><img alt="Running instance" data-gallery="instance" src="../../assets/img/aws_subscribe.png" /></a></p>
 <h2 id="create-the-initial-administrator-account">Create the initial administrator account</h2>
-<p>Before you can use SFTPGo you need to create an admin account, so open <strong>http://your_instance_IP:8080/web/admin</strong> in your web browser, replacing <code>your instance IP</code> with the IP address of your instance.</p>
-<p><a class="glightbox" href="../../assets/img/setup.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="setup"><img alt="Setup" data-gallery="setup" src="../../assets/img/setup.png" /></a></p>
+<p>Before you can use SFTPGo you need to create an admin account, so open <strong>http://your_instance_IP:8080/web/admin</strong> in your web browser, replacing <code>Your instance ID</code> with the ID of your instance, which you can find in the AWS Console.</p>
+<p><a class="glightbox" href="../../assets/img/aws_setup.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="setup"><img alt="Setup" data-gallery="setup" src="../../assets/img/aws_setup.png" /></a></p>
+<p>The instance ID is required to validate your installation.</p>
 <p>After creating the admin account you will be automatically logged in and redirected to the page to set up two-factor authentication. Setting up two-factor authentication is optional.</p>
 <p><a class="glightbox" href="../../assets/img/initial-screen.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="initial-screen"><img alt="Initial screen" data-gallery="initial-screen" src="../../assets/img/initial-screen.png" /></a></p>
-<h2 id="enable-https-and-obtain-a-lets-encrypt-tls-certificate">Enable HTTPS and obtain a Let's Encrypt TLS certificate</h2>
-<p>In order to obtain a Let's Encrypt TLS certificate for HTTPS access you must create a DNS entry under a custom domain that you own which resolves to your SFTPGo public IP address and the port 80 must be publicly reachable.
-Also make sure your Compute instance has a static IP address.</p>
-<p>From the SFTPGo WebAdmin UI go to the "Server Manager" section, select "Configurations" and then "ACME".
-Specify the domain name associated with the IP address of the virtual machine, set an email address, and the protocols for which you want to use the certificate. Leave the port at <code>80</code>.</p>
-<p><a class="glightbox" href="../../assets/img/gcp_acme.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="acme"><img alt="ACME" data-gallery="acme" src="../../assets/img/gcp_acme.png" /></a></p>
-<p>Click <strong>Save</strong>.</p>
-<p>To apply the change you need to restart the SFTPGo service, so login via SSH to your virtual machine and execute the following command.</p>
-<pre><code class="language-shell">sudo systemctl restart sftpgo
-</code></pre>
-<p>You can now access your installation using <strong>https://your_domain_name:8080/</strong>.</p>
-<h2 id="reconfigure-sftpgo-to-use-the-standard-https-port">Reconfigure SFTPGo to use the standard HTTPS port</h2>
-<p>Login to your virtual machine via SSH change the port by creating a file named <code>/etc/sftpgo/env.d/custom.env</code> with the following content.</p>
-<pre><code class="language-shell">SFTPGO_HTTPD__BINDINGS__0__PORT=443
-</code></pre>
-<p>Restart the service to apply the changes.</p>
-<pre><code class="language-shell">sudo systemctl restart sftpgo
-</code></pre>
-<p>You can now access your installation using <strong>https://your_domain_name/</strong>.</p>
-<h2 id="reconfigure-sftpgo-to-use-the-port-22-for-sftp">Reconfigure SFTPGo to use the port 22 for SFTP</h2>
-<p>To make the SFTP service provided by SFTPGo available on port 22,0 the OpenSSH service must to be re-configured to use a different port.</p>
-<p>Stop the SFTPGo service.</p>
-<pre><code class="language-shell">sudo systemctl stop sftpgo
-</code></pre>
-<p>Create the file <code>/etc/ssh/sshd_config.d/10-port.conf</code> with the following content.</p>
-<pre><code class="language-shell">Port 2022
-</code></pre>
-<p>Restart OpenSSH to apply the change.</p>
-<pre><code class="language-shell">sudo systemctl restart sshd
-</code></pre>
-<p>Verify that OpenSSH was able to start correctly.</p>
-<pre><code class="language-shell">systemctl status sshd
-</code></pre>
-<p>You should see something like this.</p>
-<pre><code class="language-shell">Mar 05 09:48:30 sftpgo-2-vm systemd[1]: Starting ssh.service - OpenBSD Secure Shell server...
-Mar 05 09:48:30 sftpgo-2-vm sshd[1196]: Server listening on 0.0.0.0 port 2022.
-Mar 05 09:48:30 sftpgo-2-vm sshd[1196]: Server listening on :: port 2022.
-</code></pre>
-<p>To reconfigure SFTPGo to use port <code>22</code> for SFTP create or update the file <code>/etc/sftpgo/env.d/custom.env</code> and add the following content.</p>
-<pre><code class="language-shell">SFTPGO_SFTPD__BINDINGS__0__PORT=22
-</code></pre>
-<p>Restart the SFTPGo service to apply the changes.</p>
-<pre><code class="language-shell">sudo systemctl restart sftpgo
-</code></pre>
-<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/26a0.svg" title=":warning:" /> Make sure OpenSSH is running properly and can accept new SSH connections before disconnecting your current SSH session to avoid becoming locked out of the system.</p>
+<h2 id="licensed-features">Licensed Features</h2>
+<p>You can view the enabled licensed features by navigating to the "License" section under "Server Manager".</p>
+<p><a class="glightbox" href="../../assets/img/gcp-license.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="license"><img alt="License" data-gallery="license" src="../../assets/img/gcp-license.png" /></a></p>
 
 
 
@@ -1919,7 +1893,8 @@ Mar 05 09:48:30 sftpgo-2-vm sshd[1196]: Server listening on :: port 2022.
   
 </div>
       
-        <div class="md-social">
+        
+<div class="md-social">
   
     
     
@@ -1945,10 +1920,10 @@ Mar 05 09:48:30 sftpgo-2-vm sshd[1196]: Server listening on :: port 2022.
     
     
       
-      <script id="__config" type="application/json">{"base": "../..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"base": "../..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      <script src="../../assets/javascripts/bundle.92b07e13.min.js"></script>
       
     
   <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});

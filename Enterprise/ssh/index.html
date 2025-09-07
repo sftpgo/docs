@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../assets/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.18">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.342714a4.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.7e37652d.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
@@ -512,6 +512,29 @@
   
   
     <li class="md-nav__item">
+      <a href="../tutorials/migrating/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Migration from Open-Source 2.6.x to Enterprise
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../tutorials/lets-encrypt-certificate/" class="md-nav__link">
         
   
@@ -558,7 +581,30 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/sftp-google-cloud/" class="md-nav__link">
+      <a href="../tutorials/eventmanager/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Event Manager
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/sftpgo-google-cloud/" class="md-nav__link">
         
   
   
@@ -581,12 +627,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/eventmanager/" class="md-nav__link">
+      <a href="../tutorials/sftpgo-aws/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Event Manager
+    SFTPGo on AWS
     
   </span>
   
@@ -1764,7 +1810,6 @@
 <p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/26a0.svg" title=":warning:" /> SFTPGo attempts to sanitize system command arguments and restrict their use to the intended use cases. But these are external programs that could be used in many ways, and this could lead to unexpected behavior or even security issues. Please consider carefully before enabling the supported system commands.</p>
 <p>For these reasons we should limit system commands usage as much as possible, we currently support the following system commands:</p>
 <ul>
-<li><code>git-receive-pack</code>, <code>git-upload-pack</code>, <code>git-upload-archive</code>. These commands enable support for Git repositories over SSH. They need to be installed and in your system's <code>PATH</code>.</li>
 <li><code>rsync</code>. The <code>rsync</code> command needs to be installed and in your system's <code>PATH</code>.</li>
 </ul>
 <p>At least the following permissions are required to be able to run system commands:</p>
@@ -1778,7 +1823,7 @@
 </ul>
 <p>For <code>rsync</code>  we cannot avoid that it creates symlinks so if the <code>create_symlinks</code> permission is granted we add the option <code>--safe-links</code>, if it is not already set, to the received <code>rsync</code> command. This should prevent to create symlinks that point outside the home directory.
 If the user cannot create symlinks we add the option <code>--munge-links</code>, if it is not already set, to the received <code>rsync</code> command. This should make symlinks unusable (but manually recoverable).</p>
-<p><strong>Note:</strong>: you might consider to use SFTPGo as SFTP backend for <a href="https://rclone.org/sftp/" target="_blank">rclone</a>, or similar software that allows to synchronize files via SFTP, instead of <code>rsync</code>, this way there are no limitations and <code>rclone</code> does not need to be installed on the server side since it uses the SFTP protocol.</p>
+<p><strong>Note</strong>: you might consider to use SFTPGo as SFTP backend for <a href="https://rclone.org/sftp/" target="_blank">rclone</a>, or similar software that allows to synchronize files via SFTP, instead of <code>rsync</code>, this way there are no limitations and <code>rclone</code> does not need to be installed on the server side since it uses the SFTP protocol. Suppprt for <code>rsync</code> may be removed in the future.</p>
 <p>SFTPGo supports the following built-in SSH commands:</p>
 <ul>
 <li><code>scp</code>, SFTPGo implements the SCP protocol so we can support it for cloud filesystems too and we can avoid the other system commands limitations. SCP between two remote hosts is supported using the <code>-3</code> scp option. Wildcard expansion is not supported.</li>
@@ -1832,7 +1877,8 @@ If the user cannot create symlinks we add the option <code>--munge-links</code>,
   
 </div>
       
-        <div class="md-social">
+        
+<div class="md-social">
   
     
     
@@ -1858,10 +1904,10 @@ If the user cannot create symlinks we add the option <code>--munge-links</code>,
     
     
       
-      <script id="__config" type="application/json">{"base": "..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"base": "..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      <script src="../assets/javascripts/bundle.92b07e13.min.js"></script>
       
     
   <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});

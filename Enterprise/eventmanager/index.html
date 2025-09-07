@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../assets/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.18">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.342714a4.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.7e37652d.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
@@ -512,6 +512,29 @@
   
   
     <li class="md-nav__item">
+      <a href="../tutorials/migrating/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Migration from Open-Source 2.6.x to Enterprise
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../tutorials/lets-encrypt-certificate/" class="md-nav__link">
         
   
@@ -558,7 +581,30 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/sftp-google-cloud/" class="md-nav__link">
+      <a href="../tutorials/eventmanager/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Event Manager
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/sftpgo-google-cloud/" class="md-nav__link">
         
   
   
@@ -581,12 +627,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/eventmanager/" class="md-nav__link">
+      <a href="../tutorials/sftpgo-aws/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Event Manager
+    SFTPGo on AWS
     
   </span>
   
@@ -1891,6 +1937,7 @@ The following trigger events are supported:</p>
 <li><code>Copy</code>. You can copy one or more files or directories.</li>
 <li><code>Compress paths</code>. You can compress (currently as zip) ore or more files and directories.</li>
 <li><code>PGP</code> encryption and decryption, allowing you to secure your files using either password-based encryption or PGP key pairs. This includes the ability to sign and verify digital signatures, ensuring both the authenticity and integrity of your data throughout the process.</li>
+<li><code>Metadata Check</code> verifies whether a specified metadata key exists and matches a configured value, or whether it is absent. To check for non-existence, leave the value field empty. If the condition is not met, the check is retried until the specified timeout is reached (if greater than zero). This action is supported for cloud storage backends.</li>
 </ul>
 </li>
 </ul>
@@ -2034,7 +2081,9 @@ The following trigger events are supported:</p>
 <li>The target folder. By specifying a target folder, you can use a different filesystem for target paths than the one associated with the user who triggered the action. This is useful for moving files to another storage backend, such as a different S3 bucket or an external SFTP server, accessing restricted areas of the same storage backend, supporting scheduled actions, or enabling more advanced workflows.</li>
 </ul>
 <h3 id="migration-from-previous-versions-or-the-open-source-edition">Migration from Previous Versions or the Open-Source Edition</h3>
-<p>Before introducing the template system, we relied on simple placeholder replacements and tried to guess whether to output strings or JSON automatically—for example based on the configured <code>Content-Type</code> header in HTTP requests. This approach was error-prone and limiting. Now, you need to be more explicit by using <code>toJson</code> and related functions where appropriate to ensure correct formatting.</p>
+<p>Starting with version <code>v2.7.20250726</code>, SFTPGo introduced a new, more powerful templating system for the EventManager.</p>
+<p>If you're upgrading from a version <strong>prior to <code>v2.7.20250726</code></strong> or from the Open-Source version, you will need to <strong>manually migrate your existing actions</strong> to the new templating syntax to ensure correct behavior.</p>
+<p>In earlier versions (both Enterprise and open-source), event actions relied on simple placeholder replacement and attempted to automatically determine the output format, such as plain text or JSON, based on headers like <code>Content-Type</code>. This approach was limited and sometimes unreliable. Now, you need to be more explicit by using <code>toJson</code> and related functions where appropriate to ensure correct formatting.</p>
 <p>Additionally, some placeholders were removed because their functionality can now be easily achieved using the built-in functions.</p>
 <p>Removed placeholders:</p>
 <ul>
@@ -2087,7 +2136,8 @@ The following trigger events are supported:</p>
   
 </div>
       
-        <div class="md-social">
+        
+<div class="md-social">
   
     
     
@@ -2113,10 +2163,10 @@ The following trigger events are supported:</p>
     
     
       
-      <script id="__config" type="application/json">{"base": "..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"base": "..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      <script src="../assets/javascripts/bundle.92b07e13.min.js"></script>
       
     
   <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
