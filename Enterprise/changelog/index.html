@@ -2421,6 +2421,8 @@ We encourage you to check back regularly to stay up to date with the latest chan
 <ul>
 <li>SMTP: Fixed OAuth2 authentication issue when using the Microsoft provider with a tenant ID.</li>
 <li>Fixed a rare edge case where transfers could remain stalled due to unresponsive storage backends.</li>
+<li>WebDAV: Fixed an issue where some scanner devices failed to process PROPFIND responses returned for GET requests on collection resources.</li>
+<li>Preserved the initial sort order of folders and groups to improve compatibility and ensure predictable behavior when used with Terraform.</li>
 </ul>
 <h3 id="backward-incompatible-changes">Backward incompatible changes</h3>
 <ul>
