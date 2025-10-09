@@ -581,6 +581,29 @@
   
   
     <li class="md-nav__item">
+      <a href="../tutorials/shares/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Public Shares
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../tutorials/eventmanager/" class="md-nav__link">
         
   
@@ -1946,6 +1969,7 @@ The following trigger events are supported:</p>
 <h3 id="placeholders">Placeholders</h3>
 <ul>
 <li><code>{{.Name}}</code>. Username, virtual folder name, admin username for provider events, domain name for TLS certificate events. Format: string.</li>
+<li><code>{{.ExtName}}</code>: External username, set to the email address used for authenticating public shares configured with email authentication. Format: string.</li>
 <li><code>{{.Event}}</code>. Event name, for example <code>upload</code>, <code>download</code> for filesystem events or <code>add</code>, <code>update</code> for provider events. Format: string.</li>
 <li><code>{{.Status}}</code>. Status for filesystem events. 1 means no error, 2 means a generic error occurred, 3 means quota exceeded error. Format: integer.</li>
 <li><code>{{.Errors}}</code>. Error details. Format: list of strings.</li>

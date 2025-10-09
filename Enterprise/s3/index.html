@@ -581,6 +581,29 @@
   
   
     <li class="md-nav__item">
+      <a href="../tutorials/shares/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Public Shares
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../tutorials/eventmanager/" class="md-nav__link">
         
   
@@ -1743,7 +1766,7 @@
 <li><code>rename</code> is a two step operation: server-side copy and then deletion. So, it is not atomic as for local filesystem.</li>
 <li>We don't support renaming non empty directories since we should rename all the contents too and this could take a long time: think about directories with thousands of files: for each file we should do an AWS API call.</li>
 <li>For server side encryption, you have to configure the mapped bucket to automatically encrypt objects.</li>
-<li>A local home directory is still required to store temporary files.</li>
+<li>A local home directory is still required to store temporary files, unless the environment variable <code>SFTPGO_HOOK__MEMORY_PIPES__ENABLED</code> is set to <code>1</code>, which allows you to avoid this requirement by using in-memory pipes.</li>
 <li>Clients that require advanced filesystem-like features such as <code>sshfs</code> are not supported.</li>
 <li><code>chtime</code> not supported.</li>
 </ul>

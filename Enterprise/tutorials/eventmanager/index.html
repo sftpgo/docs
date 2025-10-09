@@ -11,7 +11,7 @@
         <link rel="canonical" href="https://docs.sftpgo.com/Enterprise/tutorials/eventmanager/">
       
       
-        <link rel="prev" href="../two-factor-authentication/">
+        <link rel="prev" href="../shares/">
       
       
         <link rel="next" href="../sftpgo-google-cloud/">
@@ -580,6 +580,29 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../shares/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Public Shares
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -663,6 +686,15 @@
   <a href="#upload-notifications" class="md-nav__link">
     <span class="md-ellipsis">
       Upload notifications
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pgp-compatible-encryption-and-decryption" class="md-nav__link">
+    <span class="md-ellipsis">
+      PGP-compatible Encryption and Decryption
     </span>
   </a>
   
@@ -1854,6 +1886,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pgp-compatible-encryption-and-decryption" class="md-nav__link">
+    <span class="md-ellipsis">
+      PGP-compatible Encryption and Decryption
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#virtual-folders-integration" class="md-nav__link">
     <span class="md-ellipsis">
       Virtual folders integration
@@ -1971,6 +2012,32 @@ You can also filters events based on protocol, user and group name, filepath she
 <p><a class="glightbox" href="../../assets/img/upload-rule.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="upload-rule"><img alt="Upload rule" data-gallery="upload-rule" src="../../assets/img/upload-rule.png" /></a></p>
 <p>As actions, select <code>upload notification</code>.
 Done! Try uploading a new file and you will receive the configured email notification.</p>
+<h2 id="pgp-compatible-encryption-and-decryption">PGP-compatible Encryption and Decryption</h2>
+<p>PGP is a widely adopted encryption standard that ensures data confidentiality and integrity. By encrypting files before they're shared and decrypting them upon receipt, PGP protects valuable business information from unauthorized access or tampering.</p>
+<p>By using PGP actions, you can automatically encrypt or decrypt files immediately after upload.
+This supports secure, automated workflows for both sending and receiving files:</p>
+<ul>
+<li><strong>Encrypting files for an external party</strong>:
+The external party generates a PGP key pair and shares their public key.
+SFTPGo is configured to automatically encrypt uploaded files using the public key.
+The trading partner downloads the files and decrypts them using their private key.</li>
+<li><strong>Decrypting files from an external party</strong>:
+You share your public key with the external party and ask them to encrypt files before uploading.
+SFTPGo automatically decrypts the files after upload using your private key.
+The files are then available in plain form for further processing.</li>
+</ul>
+<p>This setup ensures end-to-end file security with minimal manual intervention.</p>
+<p>PGP actions require either a password or a key pair. When using a key pair:</p>
+<ul>
+<li>For encryption, the public key is required, and the private, if provided, will be used for signing.</li>
+<li>For decryption, the private key is required, and the public key, if provided, will be used for signature verification.</li>
+</ul>
+<p>The following example demonstrates how to configure an action to automatically encrypt files after upload. A similar approach can be used to set up automatic decryption.</p>
+<p>From the WebAdmin expand the "Event Manager" section, select "Actions" and add a new action. Create an action named <code>PGP encryption</code> set the type to <code>Filesystem</code>, the Filesystem action to <code>PGP</code> and the Public Key, like this.</p>
+<p><a class="glightbox" href="../../assets/img/pgp_ecrypt.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="pgp-enc"><img alt="PGP encryption" data-gallery="pgp-enc" src="../../assets/img/pgp_ecrypt.png" /></a></p>
+<p><a class="glightbox" href="../../assets/img/pgp_ecrypt_paths.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom" data-gallery="pgp-enc"><img alt="PGP encryption paths" data-gallery="pgp-enc" src="../../assets/img/pgp_ecrypt_paths.png" /></a></p>
+<p>The source path is defined as <code>/{{.VirtualPath}}</code>, and the target path as <code>/{{.VirtualPath}}.pgp</code>. For example, a file named <code>file.txt</code> will be encrypted and stored as <code>file.txt.pgp</code>.</p>
+<p>Now define a rule that execute this action after uploads. Additional actions can be configured as part of the rule, such as deleting the original plain text file upon successful encryption and/or sending an email notification.</p>
 <h2 id="virtual-folders-integration">Virtual folders integration</h2>
 <p>Using virtual folders with the EventManager unlocks powerful automation workflows, such as copying uploaded files to different storage locations—either within the same backend (but outside the user’s security context) or to an external server or cloud storage provider. These operations can be triggered by events like file uploads or scheduled tasks, and they require no custom scripting or complex setup.</p>
 <p>Let’s explore a few example scenarios to see how this feature can be used in practice.</p>

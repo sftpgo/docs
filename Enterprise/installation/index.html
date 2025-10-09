@@ -760,6 +760,29 @@
   
   
     <li class="md-nav__item">
+      <a href="../tutorials/shares/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Public Shares
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../tutorials/eventmanager/" class="md-nav__link">
         
   
@@ -2141,7 +2164,12 @@ sudo zypper install sftpgo
 sudo systemctl enable sftpgo
 </code></pre>
 <h3 id="windows">Windows</h3>
-<p>You can download the latest Windows installer using <a href="https://download.sftpgo.com/windows/sftpgo_windows_x86_64.exe" target="_blank">this link</a>. The installer will automatically register SFTPGo as a Windows service and start it after installation.</p>
+<p>You can download the latest Windows installer using <a href="https://download.sftpgo.com/windows/sftpgo_windows_x86_64.exe" target="_blank">this link</a>. The installer includes the plugins and will automatically register SFTPGo as a Windows service, starting it immediately after installation.</p>
+<p>By default, the service runs under the Local System account. However, you can configure it to run under a different user account either through the built-in Windows Services UI or via the command line, as shown below:</p>
+<pre><code class="language-shell">C:\Program Files\SFTPGo&gt;sftpgo.exe service uninstall
+C:\Program Files\SFTPGo&gt;sftpgo.exe service install -c &quot;C:\ProgramData\SFTPGo Enterprise&quot; -l &quot;logs\sftpgo.log&quot; --service-user &quot;DOMAIN\username&quot; --service-password password
+</code></pre>
+<p>The installer registers SFTPGo as a Windows service only during the initial installation. Future updates will not modify the existing service configuration.</p>
 <h3 id="docker">Docker</h3>
 <p>For setup instructions, image details, and access to the private registry, please refer to the dedicated <a href="../docker/">Docker page</a>.</p>
 <h3 id="adding-a-license-key">Adding a license key</h3>

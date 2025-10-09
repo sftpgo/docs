@@ -581,6 +581,29 @@
   
   
     <li class="md-nav__item">
+      <a href="../tutorials/shares/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Public Shares
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../tutorials/eventmanager/" class="md-nav__link">
         
   
@@ -2046,7 +2069,7 @@
 <li><code>allowlist_status</code>, integer. Set to <code>1</code> to enable the allow list. The allow list can be populated using the WebAdmin or the REST API. If enabled, only the listed IPs/networks can access the configured services, all other client connections will be dropped before they even try to authenticate. Ensure to populate your allow list before enabling this setting. In multi-nodes setups, the list entries propagation between nodes may take some minutes. Default: <code>0</code>.</li>
 <li><code>allow_self_connections</code>, integer. Allow users on this instance to use other users/virtual folders on this instance as storage backend. Enable this setting if you know what you are doing. Set to <code>1</code> to enable. Default: <code>0</code>.</li>
 <li><code>umask</code>, string. Set the file mode creation mask, for example <code>002</code>. Leave blank to use the system umask. Supported on *NIX platforms. Default: blank.</li>
-<li><code>server_version</code>, string. Allow some degree of customization for the advertised software version. Set to <code>short</code> to hide the SFTPGo version number, if different from <code>short</code> the default will be used. Default: blank.</li>
+<li><code>server_version</code>, string. Allow some degree of customization for the advertised software version. Set to <code>short</code> to hide the SFTPGo version number. If set to a non-empty, valid custom string (ASCII only, max 50 characters, no newlines), it will fully override the default banner, replacing both the application name and version. The commit hash may still be appended and when SFTPGo acts as a client for another service (e.g., S3), this value may be ignored depending on the context. Default: blank.</li>
 <li><code>tz</code>, string. Defines the time zone to use for the EventManager scheduler and to control time-based access restrictions. Set to <code>local</code> to use the server's local time, otherwise UTC will be used. Default: blank.</li>
 <li><code>metadata</code>, struct containing the configuration for managing the Cloud Storage backends metadata.<ul>
 <li><code>read</code>, integer. Set to <code>1</code> to read metadata before downloading files from Cloud Storage backends and making them available in notification events. Default: <code>0</code>.</li>
