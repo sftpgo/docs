@@ -1750,34 +1750,6 @@
 <h2 id="sftp">SFTP</h2>
 <p>The SFTP implementation supports the SFTP sever protocol <a href="https://datatracker.ietf.org/doc/html/draft-ietf-secsh-filexfer-02" target="_blank">version 3</a>, the same as OpenSSH.</p>
 <h2 id="ssh-commands">SSH commands</h2>
-<p>Some SSH commands are implemented directly inside SFTPGo, while for others we use system commands that need to be installed and in your system's <code>PATH</code>.</p>
-<p>For system commands we have no direct control on file creation/deletion and so there are some limitations:</p>
-<ul>
-<li>we cannot allow them if the target directory contains virtual folders or file extensions filters</li>
-<li>system commands work only on local filesystem</li>
-<li>we cannot avoid to leak real filesystem paths</li>
-<li>quota check is suboptimal</li>
-<li>maximum size restriction on single file is not respected</li>
-<li>data at-rest encryption is not supported</li>
-</ul>
-<p>If quota is enabled and SFTPGo receives a system command, the used size and number of files are checked at the command start and not while new files are created/deleted. While the command is running the number of files is not checked, the remaining size is calculated as the difference between the max allowed quota and the used one, and it is checked against the bytes transferred via SSH. The command is aborted if it uploads more bytes than the remaining allowed size calculated at the command start. Anyway, we only see the bytes that the remote command sends to the local one via SSH. These bytes contain both protocol commands and files, and so the size of the files is different from the size transferred via SSH: for example, a command can send compressed files, or a protocol command (few bytes) could delete a big file. To mitigate these issues, quotas are recalculated at the command end with a full scan of the directory specified for the system command. This could be heavy for big directories. If you need system commands and quotas you could consider disabling quota restrictions and periodically update quota usage yourself using the REST API.</p>
-<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/26a0.svg" title=":warning:" /> SFTPGo attempts to sanitize system command arguments and restrict their use to the intended use cases. But these are external programs that could be used in many ways, and this could lead to unexpected behavior or even security issues. Please consider carefully before enabling the supported system commands.</p>
-<p>For these reasons we should limit system commands usage as much as possible, we currently support the following system commands:</p>
-<ul>
-<li><code>rsync</code>. The <code>rsync</code> command needs to be installed and in your system's <code>PATH</code>.</li>
-</ul>
-<p>At least the following permissions are required to be able to run system commands:</p>
-<ul>
-<li><code>list</code></li>
-<li><code>download</code></li>
-<li><code>upload</code></li>
-<li><code>create_dirs</code></li>
-<li><code>overwrite</code></li>
-<li><code>delete</code></li>
-</ul>
-<p>For <code>rsync</code>  we cannot avoid that it creates symlinks so if the <code>create_symlinks</code> permission is granted we add the option <code>--safe-links</code>, if it is not already set, to the received <code>rsync</code> command. This should prevent to create symlinks that point outside the home directory.
-If the user cannot create symlinks we add the option <code>--munge-links</code>, if it is not already set, to the received <code>rsync</code> command. This should make symlinks unusable (but manually recoverable).</p>
-<p><strong>Note</strong>: you might consider to use SFTPGo as SFTP backend for <a href="https://rclone.org/sftp/" target="_blank">rclone</a>, or similar software that allows to synchronize files via SFTP, instead of <code>rsync</code>, this way there are no limitations and <code>rclone</code> does not need to be installed on the server side since it uses the SFTP protocol. Support for <code>rsync</code> may be removed in the future.</p>
 <p>SFTPGo supports the following built-in SSH commands:</p>
 <ul>
 <li><code>scp</code>, SFTPGo implements the SCP protocol so we can support it for cloud filesystems too and we can avoid the other system commands limitations. SCP between two remote hosts is supported using the <code>-3</code> scp option. Wildcard expansion is not supported.</li>
