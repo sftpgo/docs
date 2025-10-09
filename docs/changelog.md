@@ -9,6 +9,36 @@ Upgrading to the Enterprise edition of SFTPGo is supported starting from Open So
 
 If you're migrating from an open-source installation, please follow the guide here: [**Migration from Open-Source 2.6.x to Enterprise**](tutorials/migrating.md)
 
+## Update October 9, 2025 - v2.7.20251009
+
+### New features
+
+- EventManager: Introduced support for split retention report notifications, enabling separate email notifications to be sent to individual users.
+- EventManager: Added the `{{.ExtName}}` placeholder, representing the email address used for authenticating public shares with email-based access.
+- Status page: Added display of license information.
+- WebClient: External users can now explicitly create directories in public shares.
+- WebClient: Added the ability to modify the name of a public share and display it to external users.
+- WebUI: Updated to Bootstrap 5.3.8, Axios 1.12.2, and the latest versions of other dependencies.
+- WebUI: Added support for cloning groups, rules and actions.
+- FTPD: Added TLS version and cipher suite information to the login log.
+- Windows: Added support for installing the service under a custom user account via command line.
+
+### Bug fixes
+
+- Upload Resume: Fixed edge cases related to resuming uploads with cloud storage backends.
+- WebAdmin UI: preserve condition pattern order to ensure correct filter evaluation, especially with inverse matches.
+- Cloud Storage backends: Fixed a rare bug that could cause directory listings to fail under specific conditions.
+
+### Backward incompatible changes
+
+- Removed `rsync` support. In the previous versions, rsync was executed as an external command, which means we have no insight into or control over what it actually does. From a security perspective, this is far from ideal. To be clear, there's nothing inherently wrong with `rsync` itself. However, if we were to support it properly within SFTPGo, we would need to implement the low-level protocol internally rather than relying on launching an external process. This would ensure it works seamlessly with any storage backend, just as SFTP does, for example. We recommend using one of the many alternatives that rely on the SFTP protocol, such as `rclone`.
+- To clearly differentiate the Enterprise edition from the open source version, the installer now uses a distinct GUID and installs SFTPGo into the folder named "SFTPGo Enterprise".
+
+### Documentation
+
+- Added a tutorial on [public shares](./tutorials/shares.md).
+- Expanded the Event Manager tutorial with a [PGP](./tutorials/eventmanager.md#pgp-compatible-encryption-and-decryption) usage example.
+
 ## Update August 31, 2025 - v2.7.20250831
 
 ### New features

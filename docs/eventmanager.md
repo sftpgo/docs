@@ -80,6 +80,7 @@ We use Go’s template system under the hood. For a comprehensive overview, plea
 ### Placeholders
 
 - `{{.Name}}`. Username, virtual folder name, admin username for provider events, domain name for TLS certificate events. Format: string.
+- `{{.ExtName}}`: External username, set to the email address used for authenticating public shares configured with email authentication. Format: string.
 - `{{.Event}}`. Event name, for example `upload`, `download` for filesystem events or `add`, `update` for provider events. Format: string.
 - `{{.Status}}`. Status for filesystem events. 1 means no error, 2 means a generic error occurred, 3 means quota exceeded error. Format: integer.
 - `{{.Errors}}`. Error details. Format: list of strings.

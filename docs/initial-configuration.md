@@ -180,7 +180,7 @@ For detailed, step-by-step instructions, please refer to the dedicated [Two-Fact
 
 The WebClient allows users to securely share files and folders via HTTP/S links. Each share can be customized with advanced options to control access and improve security.
 
-To share a file or folder, select the desired item and click the three-dot menu (⋮) on the left. Then choose the 'Share' option from the menu.
+To share a file or folder, select the desired item and click the three-dot menu on the left. Then choose the 'Share' option from the menu.
 
 ![WebClient add share](assets/img/webclient_add_share.png){data-gallery="webclient-share"}
 

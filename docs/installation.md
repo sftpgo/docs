@@ -171,7 +171,16 @@ sudo systemctl enable sftpgo
 
 ### Windows
 
-You can download the latest Windows installer using [this link](https://download.sftpgo.com/windows/sftpgo_windows_x86_64.exe){:target="_blank"}. The installer will automatically register SFTPGo as a Windows service and start it after installation.
+You can download the latest Windows installer using [this link](https://download.sftpgo.com/windows/sftpgo_windows_x86_64.exe){:target="_blank"}. The installer includes the plugins and will automatically register SFTPGo as a Windows service, starting it immediately after installation.
+
+By default, the service runs under the Local System account. However, you can configure it to run under a different user account either through the built-in Windows Services UI or via the command line, as shown below:
+
+```shell
+C:\Program Files\SFTPGo>sftpgo.exe service uninstall
+C:\Program Files\SFTPGo>sftpgo.exe service install -c "C:\ProgramData\SFTPGo Enterprise" -l "logs\sftpgo.log" --service-user "DOMAIN\username" --service-password password
+```
+
+The installer registers SFTPGo as a Windows service only during the initial installation. Future updates will not modify the existing service configuration.
 
 ### Docker
 

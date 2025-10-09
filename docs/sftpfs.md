@@ -7,9 +7,10 @@ Here are the supported configuration parameters:
 - `Endpoint`, ssh endpoint as `host:port`
 - `Username`
 - `Password`
-- `PrivateKey`
+- `PrivateKey` and optionally the `Passphrase` used to protect it
 - `Fingerprints`
-- `Prefix`
+- `SFTP root directory`
+- `SOCKS proxy`, optional SOCKS4, SOCKS4a, or SOCKS5 proxy.
 - `BufferSize`
 
 The mandatory parameters are the endpoint, the username and a password or a private key. If you define both a password and a private key the key is tried first. The provided private key should be PEM encoded, something like this:

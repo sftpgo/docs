@@ -97,6 +97,41 @@ You can also filters events based on protocol, user and group name, filepath she
 As actions, select `upload notification`.
 Done! Try uploading a new file and you will receive the configured email notification.
 
+## PGP-compatible Encryption and Decryption
+
+PGP is a widely adopted encryption standard that ensures data confidentiality and integrity. By encrypting files before they're shared and decrypting them upon receipt, PGP protects valuable business information from unauthorized access or tampering.
+
+By using PGP actions, you can automatically encrypt or decrypt files immediately after upload.
+This supports secure, automated workflows for both sending and receiving files:
+
+- **Encrypting files for an external party**:
+The external party generates a PGP key pair and shares their public key.
+SFTPGo is configured to automatically encrypt uploaded files using the public key.
+The trading partner downloads the files and decrypts them using their private key.
+- **Decrypting files from an external party**:
+You share your public key with the external party and ask them to encrypt files before uploading.
+SFTPGo automatically decrypts the files after upload using your private key.
+The files are then available in plain form for further processing.
+
+This setup ensures end-to-end file security with minimal manual intervention.
+
+PGP actions require either a password or a key pair. When using a key pair:
+
+- For encryption, the public key is required, and the private, if provided, will be used for signing.
+- For decryption, the private key is required, and the public key, if provided, will be used for signature verification.
+
+The following example demonstrates how to configure an action to automatically encrypt files after upload. A similar approach can be used to set up automatic decryption.
+
+From the WebAdmin expand the "Event Manager" section, select "Actions" and add a new action. Create an action named `PGP encryption` set the type to `Filesystem`, the Filesystem action to `PGP` and the Public Key, like this.
+
+![PGP encryption](../assets/img/pgp_ecrypt.png){data-gallery="pgp-enc"}
+
+![PGP encryption paths](../assets//img/pgp_ecrypt_paths.png){data-gallery="pgp-enc"}
+
+The source path is defined as `/{{.VirtualPath}}`, and the target path as `/{{.VirtualPath}}.pgp`. For example, a file named `file.txt` will be encrypted and stored as `file.txt.pgp`.
+
+Now define a rule that execute this action after uploads. Additional actions can be configured as part of the rule, such as deleting the original plain text file upon successful encryption and/or sending an email notification.
+
 ## Virtual folders integration
 
 Using virtual folders with the EventManager unlocks powerful automation workflows, such as copying uploaded files to different storage locations—either within the same backend (but outside the user’s security context) or to an external server or cloud storage provider. These operations can be triggered by events like file uploads or scheduled tasks, and they require no custom scripting or complex setup.
