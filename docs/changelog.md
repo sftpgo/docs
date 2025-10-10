@@ -32,7 +32,7 @@ If you're migrating from an open-source installation, please follow the guide he
 ### Backward incompatible changes
 
 - Removed `rsync` support. In the previous versions, rsync was executed as an external command, which means we have no insight into or control over what it actually does. From a security perspective, this is far from ideal. To be clear, there's nothing inherently wrong with `rsync` itself. However, if we were to support it properly within SFTPGo, we would need to implement the low-level protocol internally rather than relying on launching an external process. This would ensure it works seamlessly with any storage backend, just as SFTP does, for example. We recommend using one of the many alternatives that rely on the SFTP protocol, such as `rclone`.
-- To clearly differentiate the Enterprise edition from the open source version, the installer now uses a distinct GUID and installs SFTPGo into the folder named "SFTPGo Enterprise".
+- Windows: To clearly differentiate the Enterprise edition from the open source version, the installer now uses a distinct GUID and installs SFTPGo into the folder named "SFTPGo Enterprise".
 
 ### Documentation
 
