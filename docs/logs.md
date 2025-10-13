@@ -65,6 +65,9 @@ The logs can be divided into the following categories:
 - `resp_size` integer. Size in bytes of the HTTP response
 - `elapsed_ms` int64. Elapsed time, as milliseconds, to complete the request
 - `request_id` string. Unique request identifier
+- `tls_ver` string. TLS version. Added for HTTPS
+- `cipher_suite` string. Negotiated cipher suite. Added for HTTPS
+- `kex` string. Key exchange mechanism. Added for HTTPS
 
 **connection failed logs**, logs for failed attempts to initialize a connection. A connection can fail for an authentication error or other errors such as a client abort or a timeout
 

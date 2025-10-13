@@ -182,9 +182,23 @@ C:\Program Files\SFTPGo>sftpgo.exe service install -c "C:\ProgramData\SFTPGo Ent
 
 The installer registers SFTPGo as a Windows service only during the initial installation. Future updates will not modify the existing service configuration.
 
+To install on systems without a GUI (e.g., Windows Server Core), run the installer with the following flag:
+
+```shell
+sftpgo_windows_x86_64.exe /VERYSILENT
+```
+
+No progress or confirmation will be shown during installation. To confirm it completed successfully, check that the Windows service was registered:
+
+```shell
+Get-Service -Name "sftpgo"
+```
+
+The installer is built with Inno Setup. For a full list of supported command-line options, see the [official documentation](https://jrsoftware.org/ishelp/index.php?topic=setupcmdline){:target="_blank"}.
+
 ### Docker
 
-For setup instructions, image details, and access to the private registry, please refer to the dedicated [Docker page](docker.md).
+For setup instructions, image details, and access to our Docker registry, please refer to the dedicated [Docker page](docker.md).
 
 ### Adding a license key
 

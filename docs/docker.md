@@ -1,11 +1,13 @@
 # Docker
 
-SFTPGo Enterprise is accessible through our private Docker repository.
+SFTPGo Enterprise is accessible through our Docker repository: `registry.sftpgo.com/sftpgo`
 
-To access our regisry, you must first obtain a valid license key.
-License keys are provided after purchasing a subscription or activating a trial via our [website](https://sftpgo.com/on-premises){:target="_blank"}.
+## Latest tags
 
-After completing the process, you will receive access details.
+- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20251009
+- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20251009-plugins
+- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20251009-distroless
+- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20251009-distroless-plugins
 
 ## How to use the SFTPGo image
 
@@ -14,7 +16,7 @@ After completing the process, you will receive access details.
 Starting a SFTPGo instance is simple:
 
 ```shell
-docker run --name some-sftpgo -p 8080:8080 -p 2022:2022 -d "<repo name>/sftpgo/sftpgo:<tag>"
+docker run --name some-sftpgo -p 8080:8080 -p 2022:2022 -d "registry.sftpgo.com/sftpgo/sftpgo:<tag>"
 ```
 
 ... where `some-sftpgo` is the name you want to assign to your container, and `tag` is the tag specifying the SFTPGo version you want. See the list above for relevant tags.
@@ -24,7 +26,7 @@ Now visit [http://localhost:8080/web/admin](http://localhost:8080/web/admin){:ta
 If you don't want to persist any files, for example for testing purposes, you can run an SFTPGo instance like this:
 
 ```shell
-docker run --rm --name some-sftpgo -p 8080:8080 -p 2022:2022 -d "<repo name>/sftpgo/sftpgo:<tag>"
+docker run --rm --name some-sftpgo -p 8080:8080 -p 2022:2022 -d "registry.sftpgo.com/sftpgo/sftpgo:<tag>"
 ```
 
 ### Container shell access and viewing SFTPGo logs
@@ -47,7 +49,7 @@ docker logs some-sftpgo
 docker run --name some-sftpgo \
     -p 2022:2022 \
     -e SFTPGO_GRACE_TIME=32 \
-    -d "<repo name>/sftpgo/sftpgo:<tag>"
+    -d "registry.sftpgo.com/sftpgo/sftpgo:<tag>"
 ```
 
 Setting the `SFTPGO_GRACE_TIME` environment variable to a non zero value when creating or running a container will enable a graceful shutdown period in seconds that will allow existing connections to hopefully complete before being forcibly closed when the time has passed.
@@ -78,7 +80,7 @@ docker run --name some-sftpgo \
     -p 2022:2022 \
     --mount type=bind,source=/my/own/sftpgodata,target=/srv/sftpgo \
     --mount type=bind,source=/my/own/sftpgohome,target=/var/lib/sftpgo \
-    -d "<repo name>/sftpgo/sftpgo:<tag>"
+    -d "registry.sftpgo.com/sftpgo/sftpgo:<tag>"
 ```
 
 As you can see SFTPGo uses two main volumes:
@@ -116,13 +118,13 @@ docker run --name some-sftpgo \
     -p 2022:2022 \
     --mount type=bind,source="${PWD}/data",target=/srv/sftpgo \
     --mount type=bind,source="${PWD}/config",target=/var/lib/sftpgo \
-    -d "<repo name>/sftpgo/sftpgo:<tag>"
+    -d "registry.sftpgo.com/sftpgo/sftpgo:<tag>"
 ```
 
 Alternately build your own image using the official one as a base, here is a sample Dockerfile:
 
 ```shell
-FROM <repo name>/sftpgo/sftpgo:<tag>
+FROM registry.sftpgo.com/sftpgo/sftpgo:<tag>
 USER root
 RUN chown -R 1100:1100 /etc/sftpgo && chown 1100:1100 /var/lib/sftpgo /srv/sftpgo
 USER 1100:1100
