@@ -1800,6 +1800,9 @@ SFTPGo logging options are set either by cli options or environment variables, n
 <li><code>resp_size</code> integer. Size in bytes of the HTTP response</li>
 <li><code>elapsed_ms</code> int64. Elapsed time, as milliseconds, to complete the request</li>
 <li><code>request_id</code> string. Unique request identifier</li>
+<li><code>tls_ver</code> string. TLS version. Added for HTTPS</li>
+<li><code>cipher_suite</code> string. Negotiated cipher suite. Added for HTTPS</li>
+<li><code>kex</code> string. Key exchange mechanism. Added for HTTPS</li>
 </ul>
 <p><strong>connection failed logs</strong>, logs for failed attempts to initialize a connection. A connection can fail for an authentication error or other errors such as a client abort or a timeout</p>
 <ul>

@@ -2170,8 +2170,15 @@ sudo systemctl enable sftpgo
 C:\Program Files\SFTPGo&gt;sftpgo.exe service install -c &quot;C:\ProgramData\SFTPGo Enterprise&quot; -l &quot;logs\sftpgo.log&quot; --service-user &quot;DOMAIN\username&quot; --service-password password
 </code></pre>
 <p>The installer registers SFTPGo as a Windows service only during the initial installation. Future updates will not modify the existing service configuration.</p>
+<p>To install on systems without a GUI (e.g., Windows Server Core), run the installer with the following flag:</p>
+<pre><code class="language-shell">sftpgo_windows_x86_64.exe /VERYSILENT
+</code></pre>
+<p>No progress or confirmation will be shown during installation. To confirm it completed successfully, check that the Windows service was registered:</p>
+<pre><code class="language-shell">Get-Service -Name &quot;sftpgo&quot;
+</code></pre>
+<p>The installer is built with Inno Setup. For a full list of supported command-line options, see the <a href="https://jrsoftware.org/ishelp/index.php?topic=setupcmdline" target="_blank">official documentation</a>.</p>
 <h3 id="docker">Docker</h3>
-<p>For setup instructions, image details, and access to the private registry, please refer to the dedicated <a href="../docker/">Docker page</a>.</p>
+<p>For setup instructions, image details, and access to our Docker registry, please refer to the dedicated <a href="../docker/">Docker page</a>.</p>
 <h3 id="adding-a-license-key">Adding a license key</h3>
 <p>Without a valid license, the application will operate under the <a href="https://sftpgo.com/on-premises" target="_blank">Starter license tier</a>, with the following additional limitations:</p>
 <ul>
