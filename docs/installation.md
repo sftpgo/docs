@@ -64,12 +64,10 @@ SFTPGo Enterprise can be installed on Linux, Windows, and in containerized envir
 
 - APT and YUM repositories are available for Debian-based and RHEL-based distributions.
 - Windows installers are provided for direct setup on Windows systems.
-- A private Docker registry is available.
+- A Docker registry is available.
 
-A license key is required to unlock advanced features and to access the private Docker repository.
+A license key is required to unlock advanced features and to access our Docker repository.
 Licenses can be purchased or a free trial activated directly from our [website](https://sftpgo.com/on-premises){:target="_blank"}.
-
-After completing a purchase or starting a trial, you will receive credentials to access the private Docker registry.
 
 Without a valid license, the application will operate under the [Starter license tier](https://sftpgo.com/on-premises), with the following additional limitations:
 
