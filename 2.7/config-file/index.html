@@ -1,0 +1,2578 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs.sftpgo.com/2.7/config-file/">
+      
+      
+        <link rel="prev" href="../cli/">
+      
+      
+        <link rel="next" href="../env-vars/">
+      
+      
+      <link rel="icon" href="../assets/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.18">
+    
+    
+      
+        <title>Configuration file - SFTPGo documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  <meta name="keywords" content="SFTP, FTP, SCP, WebDAV, S3, Google Cloud Storage, Azure Blob, 2FA, Data At Rest Encryption, file sharing, transfer, secure, SaaS, SFTP as a service, FTP as a service, On-premise, SFTP Managed service, FTP Managed service, REST API">
+  <meta name="description" content="Fully featured and highly configurable SFTP server with HTTP/S Web UI, FTP/S and WebDAV - As a Managed Service, On-premise, Cloud, Hybrid Cloud - Data at Rest Encryption, S3, Google Cloud, Azure Blob.">
+  <meta property="og:title" content="SFTP & FTP as a Managed Service (SaaS) and On-premise">
+  <meta property="og:url" content="https://docs.sftpgo.com">
+  <meta property="og:description" content="Fully featured and highly configurable SFTP server with HTTP/S Web UI, FTP/S and WebDAV - As a Managed Service, On-premise, Cloud, Hybrid Cloud - Data at Rest Encryption, S3, Google Cloud, Azure Blob.">
+  <meta property="og:image" content="https://docs.sftpgo.com/latest/assets/logo.png">
+  <meta name="twitter:title" content="SFTP & FTP as a Managed Service (SaaS) and On-premise">
+  <meta name="twitter:description" content="Fully featured and highly configurable SFTP server with HTTP/S Web UI, FTP/S and WebDAV - As a Managed Service, On-premise, Cloud, Hybrid Cloud - Data at Rest Encryption, S3, Google Cloud, Azure Blob.">
+  <meta name="twitter:image" content="https://docs.sftpgo.com/latest/assets/logo.png">
+  <meta name="twitter:card" content="summary">
+
+   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#configuration-file" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="SFTPGo documentation" class="md-header__button md-logo" aria-label="SFTPGo documentation" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            SFTPGo documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Configuration file
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="SFTPGo documentation" class="md-nav__button md-logo" aria-label="SFTPGo documentation" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    SFTPGo documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    What is SFTPGo?
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Features
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Getting Started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../initial-configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Feature overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Docker
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data-provider/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Data provider management
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Tutorials
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Tutorials
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/lets-encrypt-certificate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Let's Encrypt TLS Certificates
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/two-factor-authentication/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Two-factor Authentication
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/sftp-google-cloud/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SFTPGo on Google Cloud Platform
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/eventmanager/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Event Manager
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/postgresql-s3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SFTPGo with PostgreSQL data provider and S3 backend
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Configuration
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Configuration
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Command line options
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Configuration file
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Configuration file
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#common" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#acme" class="md-nav__link">
+    <span class="md-ellipsis">
+      ACME
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sshsftp-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      SSH/SFTP server
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ftp-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      FTP server
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#webdav-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      WebDAV Server
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-provider" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data provider
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#http-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTP server
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#telemetry" class="md-nav__link">
+    <span class="md-ellipsis">
+      Telemetry
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#http-clients" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTP clients
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Commands
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kms" class="md-nav__link">
+    <span class="md-ellipsis">
+      KMS
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multi-factor-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multi-factor authentication
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#smtp" class="md-nav__link">
+    <span class="md-ellipsis">
+      SMTP
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plugins" class="md-nav__link">
+    <span class="md-ellipsis">
+      Plugins
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../env-vars/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Environment variables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../web-interfaces/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Web UIs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../password/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Password Hashing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Key Management Services
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtual-folders/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Virtual Folders
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../groups/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Groups
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../roles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Roles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../defender/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Brute force protection
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eventmanager/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Event Manager
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../oidc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    OpenID Connect
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rest-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    REST API
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rate-limiting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Rate limiting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Plugin system
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../logs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Logs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../metrics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Metrics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_17" >
+        
+          
+          <label class="md-nav__link" for="__nav_17" id="__nav_17_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Protocols
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_17_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_17">
+            <span class="md-nav__icon md-icon"></span>
+            Protocols
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ssh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SSH
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ftp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    FTP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../webdav/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    WebDAV
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_18" >
+        
+          
+          <label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Storage providers
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_18_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_18">
+            <span class="md-nav__icon md-icon"></span>
+            Storage providers
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../localfs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Local filesystem
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    S3
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../google-cloud-storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Google Cloud
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../azure-blob-storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Azure Blob
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dare/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Data At Rest Encryption
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sftpfs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SFTP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../httpfs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    HTTPFs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_19" >
+        
+          
+          <label class="md-nav__link" for="__nav_19" id="__nav_19_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Hooks
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_19_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_19">
+            <span class="md-nav__icon md-icon"></span>
+            Hooks
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../external-auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    External Authentication
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../keyboard-interactive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Keyboard Interactive Authentication
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dynamic-user-mod/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Dynamic user creation or modification
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../custom-actions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Custom Actions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../post-connect-hook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Post-connect
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../post-login-hook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Post-login
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../post-disconnect-hook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Post-disconnect
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../check-password-hook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Check password
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../profiling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Profiling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../build-from-source/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Build from source
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#common" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#acme" class="md-nav__link">
+    <span class="md-ellipsis">
+      ACME
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sshsftp-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      SSH/SFTP server
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ftp-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      FTP server
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#webdav-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      WebDAV Server
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-provider" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data provider
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#http-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTP server
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#telemetry" class="md-nav__link">
+    <span class="md-ellipsis">
+      Telemetry
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#http-clients" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTP clients
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Commands
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kms" class="md-nav__link">
+    <span class="md-ellipsis">
+      KMS
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multi-factor-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multi-factor authentication
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#smtp" class="md-nav__link">
+    <span class="md-ellipsis">
+      SMTP
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plugins" class="md-nav__link">
+    <span class="md-ellipsis">
+      Plugins
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="configuration-file">Configuration file</h1>
+<p>The default configuration file is <a href="https://github.com/drakkan/sftpgo/blob/main/sftpgo.json" target="_blank">sftpgo.json</a> and is divided in several sections.</p>
+<h2 id="common">Common</h2>
+<p>Supported configuration parameters for the <code>common</code> section:</p>
+<ul>
+<li><code>idle_timeout</code>, integer. Time in minutes after which an idle client will be disconnected. 0 means disabled. Default: 15</li>
+<li><code>upload_mode</code> integer. <code>0</code> means standard: the files are uploaded directly to the requested path. <code>1</code> means atomic: files are uploaded to a temporary path and renamed to the requested path when the client ends the upload. Atomic mode avoids problems such as a web server that serves partial files when the files are being uploaded. In atomic mode, if there is an upload error, the temporary file is deleted and so the requested upload path will not contain a partial file. <code>2</code> means atomic with resume support: same as atomic but if there is an upload error, the temporary file is renamed to the requested path and not deleted. This way, a client can reconnect and resume the upload. <code>4</code> means files for S3 backend are stored even if a client-side upload error is detected. <code>8</code> means files for Google Cloud Storage backend are stored even if a client-side upload error is detected. <code>16</code> means files for Azure Blob backend are stored even if a client-side upload error is detected. Ignored for SFTP backend if buffering is enabled. The flags can be combined, if you provide both <code>1</code> and <code>2</code>, <code>2</code> will be used. Default: <code>0</code></li>
+<li><code>actions</code>, struct. It contains the command to execute and/or the HTTP URL to notify and the trigger conditions. See <a href="../custom-actions/">Custom Actions</a> for more details<ul>
+<li><code>execute_on</code>, list of strings. Valid values are <code>pre-download</code>, <code>download</code>, <code>first-download</code>, <code>pre-upload</code>, <code>upload</code>, <code>first-upload</code>, <code>pre-delete</code>, <code>delete</code>, <code>rename</code>, <code>mkdir</code>, <code>rmdir</code>, <code>ssh_cmd</code>, <code>copy</code>. Leave empty to disable actions.</li>
+<li><code>execute_sync</code>, list of strings. Actions, defined in the <code>execute_on</code> list above, to be performed synchronously. The <code>pre-*</code> actions are always executed synchronously while the other ones are asynchronous. Executing an action synchronously means that SFTPGo will not return a result code to the client (which is waiting for it) until your hook have completed its execution. Leave empty to execute only the defined <code>pre-*</code> hook synchronously</li>
+<li><code>hook</code>, string. Absolute path to the command to execute or HTTP URL to notify.</li>
+</ul>
+</li>
+<li><code>setstat_mode</code>, integer. 0 means "normal mode": requests for changing permissions, owner/group and access/modification times are executed. 1 means "ignore mode": requests for changing permissions, owner/group and access/modification times are silently ignored. 2 means "ignore mode if not supported": requests for changing permissions and owner/group are silently ignored for cloud filesystems and executed for local/SFTP filesystem.</li>
+<li><code>rename_mode</code>, integer. By default (<code>0</code>), renaming of non-empty directories is not allowed for cloud storage providers (S3, GCS, Azure Blob). Set to <code>1</code> to enable recursive renames for these providers, they may be slow, there is no atomic rename API like for local filesystem, so SFTPGo will recursively list the directory contents and do a rename for each entry (partial renaming and incorrect disk quota updates are possible in error cases). Default <code>0</code>.</li>
+<li><code>resume_max_size</code>, integer. defines the maximum size allowed, in bytes, to resume uploads on storage backends with immutable objects. By default, resuming uploads is not allowed for cloud storage providers (S3, GCS, Azure Blob) because SFTPGo must rewrite the entire file. Set to a value greater than 0 to allow resuming uploads of files smaller than or equal to the defined size. Please note that uploads for these backends are still atomic, the client must intentionally upload a portion of the target file and then resume uploading.. Default <code>0</code>.</li>
+<li><code>temp_path</code>, string. Defines the path for temporary files such as those used for atomic uploads or file pipes. If you set this option you must make sure that the defined path exists, is accessible for writing by the user running SFTPGo, and is on the same filesystem as the users home directories otherwise the renaming for atomic uploads will become a copy and therefore may take a long time. The temporary files are not namespaced. The default is generally fine. Leave empty for the default.</li>
+<li><code>proxy_protocol</code>, integer. Support for <a href="https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt" target="_blank">HAProxy PROXY protocol</a>. If you are running SFTPGo behind a proxy server such as HAProxy, AWS ELB or NGINX, and your proxy is not able to preserve the IP address of clients, you can enable the proxy protocol. It provides a convenient way to safely transport connection information such as a client's address across multiple layers of NAT or TCP proxies to get the real client IP address instead of the proxy IP. Both protocol versions 1 and 2 are supported. If the proxy protocol is enabled in SFTPGo then you have to enable the protocol in your proxy configuration too. For example, for HAProxy, add <code>send-proxy</code> or <code>send-proxy-v2</code> to each server configuration line. The PROXY protocol is supported for SSH/SFTP and FTP/S. The following modes are supported:<ul>
+<li>0, disabled</li>
+<li>1, enabled. If the upstream IP is not allowed to send a proxy header, the header will be ignored. Using this mode does not mean that we can accept connections with and without the proxy header. We always try to read the proxy header and we ignore it if the upstream IP is not allowed to send a proxy header. Set <code>proxy_skipped</code> if you want to allow some IPs/networks to connect without sending a proxy header and without SFTPGo trying to read it</li>
+<li>2, required. If the upstream IP is not allowed to send a proxy header, the connection will be rejected if a proxy header is found. We always try to read the proxy header. Set <code>proxy_skipped</code> if you want to allow some IPs/networks to connect without sending a proxy header and without SFTPGo trying to read it</li>
+</ul>
+</li>
+<li><code>proxy_allowed</code>, list of IP addresses and IP ranges allowed to send the proxy header:<ul>
+<li>If <code>proxy_protocol</code> is set to 1 and we receive a proxy header from an IP that is not in the list then the connection will be accepted and the header will be ignored</li>
+<li>If <code>proxy_protocol</code> is set to 2 and we receive a proxy header from an IP that is not in the list then the connection will be rejected</li>
+</ul>
+</li>
+<li><code>proxy_skipped</code>, list of IP address and IP ranges for which not to read the proxy header</li>
+<li><code>startup_hook</code>, string. Absolute path to an external program or an HTTP URL to invoke as soon as SFTPGo starts. If you define an HTTP URL it will be invoked using a <code>GET</code> request. Please note that SFTPGo services may not yet be available when this hook is run. Leave empty do disable</li>
+<li><code>post_connect_hook</code>, string. Absolute path to the command to execute or HTTP URL to notify. See <a href="../post-connect-hook/">Post-connect hook</a> for more details. Leave empty to disable</li>
+<li><code>post_disconnect_hook</code>, string. Absolute path to the command to execute or HTTP URL to notify. See <a href="../post-disconnect-hook/">Post-disconnect hook</a> for more details. Leave empty to disable</li>
+<li><code>max_total_connections</code>, integer. Maximum number of concurrent client connections. 0 means unlimited. Default: <code>0</code>.</li>
+<li><code>max_per_host_connections</code>, integer.  Maximum number of concurrent client connections from the same host (IP). If the defender is enabled, exceeding this limit will generate <code>score_limit_exceeded</code> events and thus hosts that repeatedly exceed the max allowed connections can be automatically blocked. 0 means unlimited. Default: <code>20</code>.</li>
+<li><code>allowlist_status</code>, integer. Set to <code>1</code> to enable the allow list. The allow list can be populated using the WebAdmin or the REST API. If enabled, only the listed IPs/networks can access the configured services, all other client connections will be dropped before they even try to authenticate. Ensure to populate your allow list before enabling this setting. In multi-nodes setups, the list entries propagation between nodes may take some minutes. Default: <code>0</code>.</li>
+<li><code>allow_self_connections</code>, integer. Allow users on this instance to use other users/virtual folders on this instance as storage backend. Enable this setting if you know what you are doing. Set to <code>1</code> to enable. Default: <code>0</code>.</li>
+<li><code>umask</code>, string. Set the file mode creation mask, for example <code>002</code>. Leave blank to use the system umask. Supported on *NIX platforms. Default: blank.</li>
+<li><code>server_version</code>, string. Allow some degree of customization for the advertised software version. Set to <code>short</code> to hide the SFTPGo version number, if different from <code>short</code> the default will be used. Default: blank.</li>
+<li><code>tz</code>, string. Defines the time zone to use for the EventManager scheduler and to control time-based access restrictions. Set to <code>local</code> to use the server's local time, otherwise UTC will be used. Default: blank.</li>
+<li><code>metadata</code>, struct containing the configuration for managing the Cloud Storage backends metadata.<ul>
+<li><code>read</code>, integer. Set to <code>1</code> to read metadata before downloading files from Cloud Storage backends and making them available in notification events. Default: <code>0</code>.</li>
+</ul>
+</li>
+<li><code>defender</code>, struct containing the defender configuration. See <a href="../defender/">Defender</a> for more details.<ul>
+<li><code>enabled</code>, boolean. Default <code>false</code>.</li>
+<li><code>driver</code>, string. Supported drivers are <code>memory</code> and <code>provider</code>. The <code>provider</code> driver will use the configured data provider to store defender events and it is supported for <code>MySQL</code>, <code>PostgreSQL</code> and <code>CockroachDB</code> data providers. Using the <code>provider</code> driver you can share the defender events among multiple SFTPGO instances. For a single instance the <code>memory</code> driver will be much faster. Default: <code>memory</code>.</li>
+<li><code>ban_time</code>, integer. Ban time in minutes. Default: <code>30</code>.</li>
+<li><code>ban_time_increment</code>, integer. Ban time increment, as a percentage, if a banned host tries to connect again. Default: <code>50</code>.</li>
+<li><code>threshold</code>, integer. Threshold value for banning a client. Default: <code>15</code>.</li>
+<li><code>score_invalid</code>, integer. Score for invalid login attempts, eg. non-existent user accounts. Default: <code>2</code>.</li>
+<li><code>score_valid</code>, integer. Score for valid login attempts, eg. user accounts that exist. Default: <code>1</code>.</li>
+<li><code>score_limit_exceeded</code>, integer. Score for hosts that exceeded the configured rate limits or the maximum, per-host, allowed connections. Default: <code>3</code>.</li>
+<li><code>score_no_auth</code>, defines the score for clients disconnected without any authentication attempt. Default: <code>0</code>.</li>
+<li><code>observation_time</code>, integer. Defines the time window, in minutes, for tracking client errors. A host is banned if it has exceeded the defined threshold during the last observation time minutes. Default: <code>30</code>.</li>
+<li><code>entries_soft_limit</code>, integer. Ignored for <code>provider</code> driver. Default: <code>100</code>.</li>
+<li><code>entries_hard_limit</code>, integer. The number of banned IPs and host scores kept in memory will vary between the soft and hard limit for <code>memory</code> driver. If you use the <code>provider</code> driver, this setting will limit the number of entries to return when you ask for the entire host list from the defender. Default: <code>150</code>.</li>
+<li><code>login_delay</code>, struct containing the configuration to impose a delay between login attempts:<ul>
+<li><code>success</code>, integer. Defines the number of milliseconds to pause prior to allowing a successful login. <code>0</code> means disabled. Default: <code>0</code>.</li>
+<li><code>password_failed</code>, integer. Defines the number of milliseconds to pause prior to reporting a failed password/interactive login. <code>0</code> means disabled. Default: <code>1000</code>.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>rate_limiters</code>, list of structs containing the rate limiters configuration. Take a look <a href="../rate-limiting/">here</a> for more details. Each struct has the following fields:<ul>
+<li><code>average</code>, integer. Average defines the maximum rate allowed. 0 means disabled. Default: 0</li>
+<li><code>period</code>, integer. Period defines the period as milliseconds. The rate is actually defined by dividing average by period Default: 1000 (1 second).</li>
+<li><code>burst</code>, integer. Burst defines the maximum number of requests allowed to go through in the same arbitrarily small period of time. Default: 1</li>
+<li><code>type</code>, integer. 1 means a global rate limiter, independent from the source host. 2 means a per-ip rate limiter. Default: 2</li>
+<li><code>protocols</code>, list of strings. Available protocols are <code>SSH</code>, <code>FTP</code>, <code>DAV</code>, <code>HTTP</code>. By default all supported protocols are enabled</li>
+<li><code>generate_defender_events</code>, boolean. If <code>true</code>, the defender is enabled, and this is not a global rate limiter, a new defender event will be generated each time the configured limit is exceeded. Default <code>false</code></li>
+<li><code>entries_soft_limit</code>, integer.</li>
+<li><code>entries_hard_limit</code>, integer. The number of per-ip rate limiters kept in memory will vary between the soft and hard limit</li>
+</ul>
+</li>
+<li><code>event_manager</code>, struct containing the configuration for the EventManager<ul>
+<li><code>enabled_commands</code>, list of strings. Absolute path to system commands that can be executed through Event Manager. An empty list means that no commands are allowed to be executed. <img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/26a0.svg" title=":warning:" /> Allowing system command could pose a security risk. Default: empty</li>
+</ul>
+</li>
+</ul>
+<h2 id="acme">ACME</h2>
+<p>Automatic Certificate Management Environment (ACME) protocol configuration. To obtain the certificates the first time you have to configure the ACME protocol and execute the <code>sftpgo acme run</code> command or use the WebAdmin UI. The SFTPGo service will take care of the automatic renewal of certificates for the configured domains.</p>
+<p>Supported configuration parameters for the <code>acme</code> section:</p>
+<ul>
+<li><code>domains</code>, list of domains for which to obtain certificates. If a single certificate is to be valid for multiple domains specify the names separated by commas or spaces, for example: <code>example.com,www.example.com</code> or <code>example.com www.example.com</code>. An empty list means that ACME protocol is disabled. Default: empty.</li>
+<li><code>email</code>, string. Email used for registration and recovery contact. Default: empty.</li>
+<li><code>key_type</code>, string. Key type to use for private keys. Supported values: <code>2048</code> (RSA 2048), <code>3072</code> (RSA 3072), <code>4096</code> (RSA 4096), <code>8192</code> (RSA 8192), <code>P256</code> (EC 256), <code>P384</code> (EC 384). Default: <code>4096</code></li>
+<li><code>certs_path</code>, string. Directory, absolute or relative to the configuration directory, to use for storing certificates and related data.</li>
+<li><code>ca_endpoint</code>, string. Default: <code>https://acme-v02.api.letsencrypt.org/directory</code>.</li>
+<li><code>renew_days</code>, integer. The number of days left on a certificate to renew it. Default: <code>30</code>.</li>
+<li><code>http01_challenge</code>, configuration for <code>HTTP-01</code> challenge type, the following fields are supported:<ul>
+<li><code>port</code>, integer. This challenge is expected to run on port <code>80</code>. If you set a port other than <code>80</code> you have to proxy the path <code>/.well-known/acme-challenge</code> from the port <code>80</code> to the configured port. Default: <code>80</code>.</li>
+<li><code>proxy_header</code>, string. Validate against this HTTP header when solving HTTP based challenges behind a reverse proxy. Empty means <code>Host</code>. Default: empty.</li>
+<li><code>webroot</code>, string. Set the absolute path to the webroot folder to use for HTTP based challenges to write directly in a file in <code>.well-known/acme-challenge</code>. Setting a <code>webroot</code> disables the built-in server (the <code>port</code> setting is ignored) and expects the given directory to be publicly served, on port <code>80</code>, with access to <code>.well-known/acme-challenge</code>. If <code>webroot</code> is empty and <code>port</code> is <code>0</code> the <code>HTTP-01</code> challenge is disabled. Default: empty.</li>
+</ul>
+</li>
+<li><code>tls_alpn01_challenge</code>, configuration for <code>TLS-ALPN-01</code> challenge type, the following fields are supported:<ul>
+<li><code>port</code>, integer. This challenge is expected to run on port <code>443</code>. <code>0</code> means <code>TLS-ALPN-01</code> is disabled. Default: <code>0</code>.</li>
+</ul>
+</li>
+</ul>
+<h2 id="sshsftp-server">SSH/SFTP server</h2>
+<p>Supported configuration parameters for the <code>sftpd</code> section:</p>
+<ul>
+<li><code>bindings</code>, list of structs. Each struct has the following fields:<ul>
+<li><code>port</code>, integer. The port used for serving SFTP requests. 0 means disabled. Default: 2022</li>
+<li><code>address</code>, string. Leave blank to listen on all available network interfaces. Default: ""</li>
+<li><code>apply_proxy_config</code>, boolean. If enabled the common proxy configuration, if any, will be applied. Default <code>true</code></li>
+</ul>
+</li>
+<li><code>max_auth_tries</code> integer. Maximum number of authentication attempts permitted per connection. If set to a negative number, the number of attempts is unlimited. If set to zero, the number of attempts is limited to 6.</li>
+<li><code>host_keys</code>, list of strings. It contains the daemon's private host keys. Each host key can be defined as a path relative to the configuration directory or an absolute one. If empty, the daemon will search or try to generate <code>id_rsa</code>, <code>id_ecdsa</code> and <code>id_ed25519</code> keys inside the configuration directory. If you configure absolute paths to files named <code>id_rsa</code>, <code>id_ecdsa</code> and/or <code>id_ed25519</code> then SFTPGo will try to generate these keys using the default settings.</li>
+<li><code>host_certificates</code>, list of strings. Public host certificates. Each certificate can be defined as a path relative to the configuration directory or an absolute one. Certificate's public key must match a private host key otherwise it will be silently ignored. Default: empty.</li>
+<li><code>host_key_algorithms</code>, list of strings. Public key algorithms that the server will accept for host key authentication. The supported values are: <code>rsa-sha2-512-cert-v01@openssh.com</code>, <code>rsa-sha2-256-cert-v01@openssh.com</code>, <code>ssh-rsa-cert-v01@openssh.com</code>, <code>ssh-dss-cert-v01@openssh.com</code>, <code>ecdsa-sha2-nistp256-cert-v01@openssh.com</code>, <code>ecdsa-sha2-nistp384-cert-v01@openssh.com</code>, <code>ecdsa-sha2-nistp521-cert-v01@openssh.com</code>, <code>ssh-ed25519-cert-v01@openssh.com</code>, <code>ecdsa-sha2-nistp256</code>, <code>ecdsa-sha2-nistp384</code>, <code>ecdsa-sha2-nistp521</code>, <code>rsa-sha2-512</code>, <code>rsa-sha2-256</code>, <code>ssh-rsa</code>, <code>ssh-dss</code>, <code>ssh-ed25519</code>. Certificate algorithms are listed for backward compatibility purposes only, they are not used. Default values: <code>rsa-sha2-512</code>, <code>rsa-sha2-256</code>, <code>ecdsa-sha2-nistp256</code>, <code>ecdsa-sha2-nistp384</code>, <code>ecdsa-sha2-nistp521</code>, <code>ssh-ed25519</code>.</li>
+<li><code>kex_algorithms</code>, list of strings. Available KEX (Key Exchange) algorithms in preference order. Leave empty to use default values. The supported values are: <code>mlkem768x25519-sha256</code>, <code>curve25519-sha256</code> (will also enable the alias <code>curve25519-sha256@libssh.org</code>), <code>ecdh-sha2-nistp256</code>, <code>ecdh-sha2-nistp384</code>, <code>ecdh-sha2-nistp521</code>, <code>diffie-hellman-group14-sha256</code>, <code>diffie-hellman-group16-sha512</code>, <code>diffie-hellman-group14-sha1</code>, <code>diffie-hellman-group1-sha1</code>, <code>diffie-hellman-group-exchange-sha256</code>, <code>diffie-hellman-group-exchange-sha1</code>. Default values: <code>mlkem768x25519-sha256</code>, <code>curve25519-sha256</code>, <code>ecdh-sha2-nistp256</code>, <code>ecdh-sha2-nistp384</code>, <code>ecdh-sha2-nistp521</code>, <code>diffie-hellman-group14-sha256</code>,  <code>diffie-hellman-group-exchange-sha256</code>. SHA512 based KEXs are disabled by default because they are slow.</li>
+<li><code>ciphers</code>, list of strings. Allowed ciphers in preference order. Leave empty to use default values. The supported values are: <code>aes128-gcm@openssh.com</code>, <code>aes256-gcm@openssh.com</code>, <code>chacha20-poly1305@openssh.com</code>, <code>aes128-ctr</code>, <code>aes192-ctr</code>, <code>aes256-ctr</code>, <code>aes128-cbc</code>, <code>aes192-cbc</code>, <code>aes256-cbc</code>, <code>3des-cbc</code>, <code>arcfour256</code>, <code>arcfour128</code>, <code>arcfour</code>. Default values: <code>aes128-gcm@openssh.com</code>, <code>aes256-gcm@openssh.com</code>, <code>chacha20-poly1305@openssh.com</code>, <code>aes128-ctr</code>, <code>aes192-ctr</code>, <code>aes256-ctr</code>. Please note that the ciphers disabled by default are insecure, you should expect that an active attacker can recover plaintext if you enable them.</li>
+<li><code>macs</code>, list of strings. Available MAC (message authentication code) algorithms in preference order. Leave empty to use default values. The supported values are: <code>hmac-sha2-256-etm@openssh.com</code>, <code>hmac-sha2-256</code>, <code>hmac-sha2-512-etm@openssh.com</code>, <code>hmac-sha2-512</code>, <code>hmac-sha1</code>, <code>hmac-sha1-96</code>. Default values: <code>hmac-sha2-256-etm@openssh.com</code>, <code>hmac-sha2-256</code>.</li>
+<li><code>public_key_algorithms</code>, list of strings. Public key algorithms that the server will accept for client authentication. The supported values are: <code>ecdsa-sha2-nistp256</code>, <code>ecdsa-sha2-nistp384</code>, <code>ecdsa-sha2-nistp521</code>, <code>rsa-sha2-512</code>, <code>rsa-sha2-256</code>, <code>ssh-rsa</code>, <code>ssh-dss</code>, <code>ssh-ed25519</code>, <code>sk-ssh-ed25519@openssh.com</code>, <code>sk-ecdsa-sha2-nistp256@openssh.com</code>. Default values: <code>ecdsa-sha2-nistp256</code>, <code>ecdsa-sha2-nistp384</code>, <code>ecdsa-sha2-nistp521</code>, <code>rsa-sha2-512</code>, <code>rsa-sha2-256</code>, <code>ssh-ed25519</code>, <code>sk-ssh-ed25519@openssh.com</code>, <code>sk-ecdsa-sha2-nistp256@openssh.com</code>.</li>
+<li><code>trusted_user_ca_keys</code>, list of public keys paths of certificate authorities that are trusted to sign user certificates for authentication. The paths can be absolute or relative to the configuration directory.</li>
+<li><code>revoked_user_certs_file</code>, path to a file containing the revoked user certificates. The path can be absolute or relative to the configuration directory. It must contain a JSON list with the public key fingerprints of the revoked certificates. Example content: <code>["SHA256:bsBRHC/xgiqBJdSuvSTNpJNLTISP/G356jNMCRYC5Es","SHA256:119+8cL/HH+NLMawRsJx6CzPF1I3xC+jpM60bQHXGE8"]</code>. The revocation list can be reloaded on demand sending a <code>SIGHUP</code> signal on Unix based systems and a <code>paramchange</code> request to the running service on Windows. Default: "".</li>
+<li><code>login_banner_file</code>, path to the login banner file. The contents of the specified file, if any, are sent to the remote user before authentication is allowed. It can be a path relative to the config dir or an absolute one. Leave empty to disable login banner.</li>
+<li><code>enabled_ssh_commands</code>, list of enabled SSH commands. <code>*</code> enables all supported commands. More information can be found <a href="../ssh/#ssh-commands">here</a>.</li>
+<li><code>keyboard_interactive_authentication</code>, boolean. This setting specifies whether keyboard interactive authentication is allowed. If no keyboard interactive hook or auth plugin is defined the default is to prompt for the user password and then the one time authentication code, if defined. Default: <code>true</code>.</li>
+<li><code>keyboard_interactive_auth_hook</code>, string. Absolute path to an external program or an HTTP URL to invoke for keyboard interactive authentication. See <a href="../keyboard-interactive/">Keyboard Interactive Authentication</a> for more details.</li>
+<li><code>password_authentication</code>, boolean. Set to false to disable password authentication. This setting will disable multi-step authentication method using public key + password too. It is useful for public key only configurations if you need to manage old clients that will not attempt to authenticate with public keys if the password login method is advertised. Default: <code>true</code>.</li>
+</ul>
+<h2 id="ftp-server">FTP server</h2>
+<p>Supported configuration parameters for the <code>ftpd</code> section:</p>
+<ul>
+<li><code>bindings</code>, list of structs. Each struct has the following fields:<ul>
+<li><code>port</code>, integer. The port used for serving FTP requests. 0 means disabled. Default: 0.</li>
+<li><code>address</code>, string. Leave blank to listen on all available network interfaces. Default: "".</li>
+<li><code>apply_proxy_config</code>, boolean. If enabled the common proxy configuration, if any, will be applied. Please note that we expect the proxy header on control and data connections. Default <code>true</code>.</li>
+<li><code>tls_mode</code>, integer. 0 means accept both cleartext and encrypted sessions. 1 means TLS is required for both control and data connection. 2 means implicit TLS.Please check that a proper TLS config is in place if you set <code>tls_mode</code> is different from 0.</li>
+<li><code>certificate_file</code>, string. Binding specific TLS certificate. This can be an absolute path or a path relative to the config dir.</li>
+<li><code>certificate_key_file</code>, string. Binding specific private key matching the above certificate. This can be an absolute path or a path relative to the config dir. If not set the global ones will be used, if any.</li>
+<li><code>min_tls_version</code>, integer. Defines the minimum version of TLS to be enabled. <code>12</code> means TLS 1.2 (and therefore TLS 1.2 and TLS 1.3 will be enabled),<code>13</code> means TLS 1.3, <code>10</code> means TLS 1.0, <code>11</code> means TLS 1.1. Default: <code>12</code>.</li>
+<li><code>force_passive_ip</code>, ip address. External IP address for passive connections. Leave empty to autodetect. If not empty, it must be a valid IPv4 address. Default: "".</li>
+<li><code>passive_ip_overrides</code>, list of struct that allows to return a different passive ip based on the client IP address. Each struct has the following fields:<ul>
+<li><code>networks</code>, list of strings. Each string must define a network in CIDR notation, for example 192.168.1.0/24.</li>
+<li><code>ip</code>, string. Passive IP to return if the client IP address belongs to the defined networks. Empty means autodetect.</li>
+</ul>
+</li>
+<li><code>passive_host</code>, string. Hostname for passive connections. This hostname will be resolved each time a passive connection is requested and this can, depending on the DNS configuration, take a noticeable amount of time. Enable this setting only if you have a dynamic IP address. Default: "".</li>
+<li><code>client_auth_type</code>, integer. Set to <code>1</code> to require a client certificate and verify it. Set to <code>2</code> to request a client certificate during the TLS handshake and verify it if given, in this mode the client is allowed not to send a certificate. At least one certification authority must be defined in order to verify client certificates. If no certification authority is defined, this setting is ignored. Default: 0.</li>
+<li><code>tls_cipher_suites</code>, list of strings. List of supported cipher suites for TLS version 1.2 and below. If empty, a default list of secure cipher suites is used, with a preference order based on hardware performance. Note that TLS 1.3 ciphersuites are not configurable. The supported ciphersuites names are defined <a href="https://github.com/golang/go/blob/master/src/crypto/tls/cipher_suites.go#L53" target="_blank">here</a>. Any invalid name will be silently ignored. The order matters, the ciphers listed first will be the preferred ones. Default: empty.</li>
+<li><code>passive_connections_security</code>, integer. Defines the security checks for passive data connections. Set to <code>0</code> to require matching peer IP addresses of control and data connection. Set to <code>1</code> to disable any checks. Please note that if you run the FTP service behind a proxy you must enable the proxy protocol for control and data connections. Default: <code>0</code>.</li>
+<li><code>active_connections_security</code>, integer. Defines the security checks for active data connections. The supported values are the same as described for <code>passive_connections_security</code>. Please note that disabling the security checks you will make the FTP service vulnerable to bounce attacks on active data connections, so change the default value only if you are on a trusted/internal network. Default: <code>0</code>.</li>
+<li><code>debug</code>, boolean. If enabled any FTP command will be logged. This will generate a lot of logs. Enable only if you are investigating a client compatibility issue or something similar. You shouldn't leave this setting enabled for production servers. Default <code>false</code>.</li>
+</ul>
+</li>
+<li><code>banner_file</code>, path to the banner file. The contents of the specified file, if any, are displayed when someone connects to the server. It can be a path relative to the config dir or an absolute one. Leave empty to disable.</li>
+<li><code>active_transfers_port_non_20</code>, boolean. Do not impose the port 20 for active data transfers. Enabling this option allows to run SFTPGo with less privilege. Default: <code>true</code>.</li>
+<li><code>passive_port_range</code>, struct containing the key <code>start</code> and <code>end</code>. Port Range for data connections. Random if not specified. Default range is 50000-50100.</li>
+<li><code>disable_active_mode</code>, boolean. Set to <code>true</code> to disable active FTP, default <code>false</code>.</li>
+<li><code>enable_site</code>, boolean. Set to true to enable the FTP SITE command. We support <code>chmod</code> and <code>symlink</code> if SITE support is enabled. Default <code>false</code></li>
+<li><code>hash_support</code>, integer. Set to <code>1</code> to enable FTP commands that allow to calculate the hash value of files. These FTP commands will be enabled: <code>HASH</code>, <code>XCRC</code>, <code>MD5/XMD5</code>, <code>XSHA/XSHA1</code>, <code>XSHA256</code>, <code>XSHA512</code>. Please keep in mind that to calculate the hash we need to read the whole file, for remote backends this means downloading the file, for the encrypted backend this means decrypting the file. Default <code>0</code>.</li>
+<li><code>combine_support</code>, integer. Set to 1 to enable support for the non standard <code>COMB</code> FTP command. Combine is only supported for local filesystem, for cloud backends it has no advantage as it will download the partial files and will upload the combined one. Cloud backends natively support multipart uploads. Default <code>0</code>.</li>
+<li><code>certificate_file</code>, string. Certificate for FTPS. This can be an absolute path or a path relative to the config dir.</li>
+<li><code>certificate_key_file</code>, string. Private key matching the above certificate. This can be an absolute path or a path relative to the config dir. A certificate and the private key are required to enable explicit and implicit TLS. Certificate and key files can be reloaded on demand sending a <code>SIGHUP</code> signal on Unix based systems and a <code>paramchange</code> request to the running service on Windows. The certificates are also polled for changes every 8 hours.</li>
+<li><code>ca_certificates</code>, list of strings. Set of root certificate authorities to be used to verify client certificates.</li>
+<li><code>ca_revocation_lists</code>, list of strings. Set a revocation lists, one for each root CA, to be used to check if a client certificate has been revoked. The revocation lists can be reloaded on demand sending a <code>SIGHUP</code> signal on Unix based systems and a <code>paramchange</code> request to the running service on Windows.</li>
+</ul>
+<h2 id="webdav-server">WebDAV Server</h2>
+<p>Supported configuration parameters for the <code>webdavd</code> section:</p>
+<ul>
+<li><code>bindings</code>, list of structs. Each struct has the following fields:<ul>
+<li><code>port</code>, integer. The port used for serving WebDAV requests. 0 means disabled. Default: 0.</li>
+<li><code>address</code>, string. Leave blank to listen on all available network interfaces. Default: "".</li>
+<li><code>enable_https</code>, boolean. Set to <code>true</code> and provide both a certificate and a key file to enable HTTPS connection for this binding. Default <code>false</code>.</li>
+<li><code>certificate_file</code>, string. Binding specific TLS certificate. This can be an absolute path or a path relative to the config dir.</li>
+<li><code>certificate_key_file</code>, string. Binding specific private key matching the above certificate. This can be an absolute path or a path relative to the config dir. If not set the global ones will be used, if any.</li>
+<li><code>min_tls_version</code>, integer. Defines the minimum version of TLS to be enabled. <code>12</code> means TLS 1.2 (and therefore TLS 1.2 and TLS 1.3 will be enabled),<code>13</code> means TLS 1.3, <code>10</code> means TLS 1.0, <code>11</code> means TLS 1.1. Default: <code>12</code>.</li>
+<li><code>client_auth_type</code>, integer. Set to <code>1</code> to require a client certificate and verify it. Set to <code>2</code> to request a client certificate during the TLS handshake and verify it if given, in this mode the client is allowed not to send a certificate. At least one certification authority must be defined in order to verify client certificates. If no certification authority is defined, this setting is ignored. Default: 0.</li>
+<li><code>tls_cipher_suites</code>, list of strings. List of supported cipher suites for TLS version 1.2 and below. If empty, a default list of secure cipher suites is used, with a preference order based on hardware performance. Note that TLS 1.3 ciphersuites are not configurable. The supported ciphersuites names are defined <a href="https://github.com/golang/go/blob/master/src/crypto/tls/cipher_suites.go#L53" target="_blank">here</a>. Any invalid name will be silently ignored. The order matters, the ciphers listed first will be the preferred ones. Default: empty.</li>
+<li><code>tls_protocols</code>, list of string. HTTPS protocols in preference order. Supported values: <code>http/1.1</code>, <code>h2</code>. Default: <code>http/1.1</code>, <code>h2</code>.</li>
+<li><code>prefix</code>, string. Prefix for WebDAV resources, if empty WebDAV resources will be available at the <code>/</code> URI. If defined it must be an absolute URI, for example <code>/dav</code>. Default: "".</li>
+<li><code>proxy_mode</code>, integer. Set to <code>1</code> to use the proxy protocol configuration defined within the <code>common</code> section instead of the proxy header configuration. Default: <code>0</code>.</li>
+<li><code>proxy_allowed</code>, list of IP addresses and IP ranges allowed to set client IP proxy header such as <code>X-Forwarded-For</code>. Any client IP proxy headers, if set on requests from a connection address not in this list, will be silently ignored. Default: empty.</li>
+<li><code>client_ip_proxy_header</code>, string. Defines the allowed client IP proxy header such as <code>X-Forwarded-For</code>, <code>X-Real-IP</code> etc. Default: empty</li>
+<li><code>client_ip_header_depth</code>, integer. Some client IP headers such as <code>X-Forwarded-For</code> can contain multiple IP address, this setting define the position to trust starting from the right. For example if we have: <code>10.0.0.1,11.0.0.1,12.0.0.1,13.0.0.1</code> and the depth is <code>0</code>, SFTPGo will use <code>13.0.0.1</code> as client IP, if depth is <code>1</code>, <code>12.0.0.1</code> will be used and so on. Default: <code>0</code>.</li>
+<li><code>disable_www_auth_header</code>, boolean. Set to <code>true</code> to not add the WWW-Authenticate header after an authentication failure, only the <code>401</code> status code will be sent. Default: <code>false</code>.</li>
+</ul>
+</li>
+<li><code>certificate_file</code>, string. Certificate for WebDAV over HTTPS. This can be an absolute path or a path relative to the config dir.</li>
+<li><code>certificate_key_file</code>, string. Private key matching the above certificate. This can be an absolute path or a path relative to the config dir. A certificate and a private key are required to enable HTTPS connections. Certificate and key files can be reloaded on demand sending a <code>SIGHUP</code> signal on Unix based systems and a <code>paramchange</code> request to the running service on Windows.</li>
+<li><code>ca_certificates</code>, list of strings. Set of root certificate authorities to be used to verify client certificates.</li>
+<li><code>ca_revocation_lists</code>, list of strings. Set a revocation lists, one for each root CA, to be used to check if a client certificate has been revoked. The revocation lists can be reloaded on demand sending a <code>SIGHUP</code> signal on Unix based systems and a <code>paramchange</code> request to the running service on Windows. The certificates are also polled for changes every 8 hours.</li>
+<li><code>cors</code> struct containing CORS configuration. SFTPGo uses <a href="https://github.com/rs/cors" target="_blank">Go CORS handler</a>, please refer to upstream documentation for fields meaning and their default values.<ul>
+<li><code>enabled</code>, boolean, set to true to enable CORS.</li>
+<li><code>allowed_origins</code>, list of strings.</li>
+<li><code>allowed_methods</code>, list of strings.</li>
+<li><code>allowed_headers</code>, list of strings.</li>
+<li><code>exposed_headers</code>, list of strings.</li>
+<li><code>allow_credentials</code> boolean.</li>
+<li><code>max_age</code>, integer.</li>
+<li><code>options_passthrough</code>, boolean.</li>
+<li><code>options_success_status</code>, integer.</li>
+<li><code>allow_private_network</code>, boolean.</li>
+</ul>
+</li>
+<li><code>cache</code> struct containing cache configurations.<ul>
+<li><code>users</code>, cache configuration for the authenticated users.<ul>
+<li><code>expiration_time</code>, integer. Expiration time, in minutes, for the cached users. 0 means unlimited. Default: 0.</li>
+<li><code>max_size</code>, integer. Maximum number of users to cache. 0 means unlimited. Default: 50.</li>
+</ul>
+</li>
+<li><code>mime_types</code>, cache configuration for mime types.<ul>
+<li><code>enabled</code>, boolean, set to true to enable mime types caching. Default: <code>true</code>.</li>
+<li><code>max_size</code>, integer. Maximum number of mime types to cache. 0 means no cache. Default: 1000.</li>
+<li><code>custom_mappings</code>, additional mime types mapping. This is a platform independet way to add few additional mappings. You can set a limited number of mappings here, if you want to add a large list use the method provided by the OS of your choice. List of struct, each struct has the following fields:<ul>
+<li><code>ext</code>, string, file extension including the dot, for example <code>.json</code></li>
+<li><code>mime</code>, string, mime type, for example <code>application/json</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="data-provider">Data provider</h2>
+<p>Supported configuration parameters for the <code>data_provider</code> section:</p>
+<ul>
+<li><code>driver</code>, string. Supported drivers are <code>sqlite</code>, <code>mysql</code>, <code>postgresql</code>, <code>cockroachdb</code>, <code>bolt</code>, <code>memory</code></li>
+<li><code>name</code>, string. Database name. For driver <code>sqlite</code> this can be the database name relative to the config dir or the absolute path to the SQLite database. For driver <code>memory</code> this is the (optional) path relative to the config dir or the absolute path to the provider dump, obtained using the <code>dumpdata</code> REST API, to load. This dump will be loaded at startup and can be reloaded on demand sending a <code>SIGHUP</code> signal on Unix based systems and a <code>paramchange</code> request to the running service on Windows. The <code>memory</code> provider will not modify the provided file so quota usage and last login will not be persisted. If you plan to use a SQLite database over a <code>cifs</code> network share (this is not recommended in general) you must use the <code>nobrl</code> mount option otherwise you will get the <code>database is locked</code> error. Some users reported that the <code>bolt</code> provider works fine over <code>cifs</code> shares.</li>
+<li><code>host</code>, string. Database host. For <code>postgresql</code> and <code>cockroachdb</code> drivers you can specify multiple hosts separated by commas. Leave empty for drivers <code>sqlite</code>, <code>bolt</code> and <code>memory</code></li>
+<li><code>port</code>, integer. Database port. Leave empty for drivers <code>sqlite</code>, <code>bolt</code> and <code>memory</code></li>
+<li><code>username</code>, string. Database user. Leave empty for drivers <code>sqlite</code>, <code>bolt</code> and <code>memory</code></li>
+<li><code>password</code>, string. Database password. Leave empty for drivers <code>sqlite</code>, <code>bolt</code> and <code>memory</code></li>
+<li><code>sslmode</code>, integer. Used for drivers <code>mysql</code> and <code>postgresql</code>. 0 disable TLS connections, 1 require TLS, 2 set TLS mode to <code>verify-ca</code> for driver <code>postgresql</code> and <code>skip-verify</code> for driver <code>mysql</code>, 3 set TLS mode to <code>verify-full</code> for driver <code>postgresql</code> and <code>preferred</code> for driver <code>mysql</code>, 4 set the TLS mode to <code>prefer</code> for driver <code>postgresql</code>, 5 set the TLS mode to <code>allow</code> for driver <code>postgresql</code></li>
+<li><code>root_cert</code>, string. Path to the root certificate authority used to verify that the server certificate was signed by a trusted CA</li>
+<li><code>disable_sni</code>, boolean. Allows to opt out Server Name Indication (SNI) for TLS connections. Default: <code>false</code></li>
+<li><code>target_session_attrs</code>, string. This is a <code>postgresql</code> and <code>cockroachdb</code> specific option. It determines whether the session must have certain properties to be acceptable. It's typically used in combination with multiple host names to select the first acceptable alternative among several hosts. Supported values: <code>any</code>, <code>read-write</code>, <code>read-only</code>, <code>primary</code>, <code>standby</code>, <code>prefer-standby</code>. If empty, <code>any</code> is assumed. If you explicitly set <code>any</code> the connections will be randomly distributed among the specified hosts</li>
+<li><code>client_cert</code>, string. Path to the client certificate for two-way TLS authentication</li>
+<li><code>client_key</code>,string. Path to the client key for two-way TLS authentication</li>
+<li><code>connection_string</code>, string. Provide a custom database connection string. If not empty, this connection string will be used instead of building one using the previous parameters. Leave empty for drivers <code>bolt</code> and <code>memory</code></li>
+<li><code>sql_tables_prefix</code>, string. Prefix for SQL tables</li>
+<li><code>track_quota</code>, integer. Set the preferred mode to track users quota between the following choices:<ul>
+<li>0, disable quota tracking. REST API to scan users home directories/virtual folders and update quota will do nothing</li>
+<li>1, quota is updated each time a user uploads or deletes a file, even if the user has no quota restrictions</li>
+<li>2, quota is updated each time a user uploads or deletes a file, but only for users with quota restrictions and for virtual folders. With this configuration, the <code>quota scan</code> and <code>folder_quota_scan</code> REST API can still be used to periodically update space usage for users without quota restrictions and for folders</li>
+</ul>
+</li>
+<li><code>delayed_quota_update</code>, integer. This configuration parameter defines the number of seconds to accumulate quota updates. If there are a lot of close uploads, accumulating quota updates can save you many queries to the data provider. If you want to track quotas, a scheduled quota update is recommended in any case, the stored quota may be incorrect for several reasons, such as an unexpected shutdown while uploading files, temporary provider failures, files copied outside of SFTPGo, and so on. You can use the <a href="../eventmanager/">eventmanager</a> to schedule a periodic quota update. 0 means immediate quota update.</li>
+<li><code>pool_size</code>, integer. Sets the maximum number of open connections for <code>mysql</code> and <code>postgresql</code> driver. Default 0 (unlimited)</li>
+<li><code>users_base_dir</code>, string. Users default base directory. If no home dir is defined while adding a new user, and this value is a valid absolute path, then the user home dir will be automatically defined as the path obtained joining the base dir and the username</li>
+<li><code>actions</code>, struct. It contains the command to execute and/or the HTTP URL to notify and the trigger conditions. See <a href="../custom-actions/">Custom Actions</a> for more details<ul>
+<li><code>execute_on</code>, list of strings. Valid values are <code>add</code>, <code>update</code>, <code>delete</code>. <code>update</code> action will not be fired for internal updates such as the last login or the user quota fields.</li>
+<li><code>execute_for</code>, list of strings. Defines the provider objects that trigger the action. Valid values are <code>user</code>, <code>folder</code>, <code>group</code>, <code>admin</code>, <code>api_key</code>, <code>share</code>, <code>event_action</code>, <code>event_rule</code>.</li>
+<li><code>hook</code>, string. Absolute path to the command to execute or HTTP URL to notify.</li>
+</ul>
+</li>
+<li><code>external_auth_hook</code>, string. Absolute path to an external program or an HTTP URL to invoke for users authentication. See <a href="../external-auth/">External Authentication</a> for more details. Leave empty to disable.</li>
+<li><code>external_auth_scope</code>, integer. 0 means all supported authentication scopes (passwords, public keys and keyboard interactive). 1 means passwords only. 2 means public keys only. 4 means key keyboard interactive only. 8 means TLS certificate. The flags can be combined, for example 6 means public keys and keyboard interactive</li>
+<li><code>credentials_path</code>, string. It defines the directory for storing user provided credential files such as Google Cloud Storage credentials. This can be an absolute path or a path relative to the config dir</li>
+<li><code>pre_login_hook</code>, string. Absolute path to an external program or an HTTP URL to invoke to modify user details just before the login. See <a href="../dynamic-user-mod/">Dynamic user modification</a> for more details. Leave empty to disable.</li>
+<li><code>post_login_hook</code>, string. Absolute path to an external program or an HTTP URL to invoke to notify a successful or failed login. See <a href="../post-login-hook/">Post-login hook</a> for more details. Leave empty to disable.</li>
+<li><code>post_login_scope</code>, defines the scope for the post-login hook. 0 means notify both failed and successful logins. 1 means notify failed logins. 2 means notify successful logins.</li>
+<li><code>check_password_hook</code>, string.  Absolute path to an external program or an HTTP URL to invoke to check the user provided password. See <a href="../check-password-hook/">Check password hook</a> for more details. Leave empty to disable.</li>
+<li><code>check_password_scope</code>, defines the scope for the check password hook. 0 means all protocols, 1 means SSH, 2 means FTP, 4 means WebDAV. You can combine the scopes, for example 6 means FTP and WebDAV.</li>
+<li><code>password_hashing</code>, struct. It contains the configuration parameters to be used to generate the password hash. SFTPGo can verify passwords in several formats and uses, by default, the <code>bcrypt</code> algorithm to hash passwords in plain-text before storing them inside the data provider. These options allow you to customize how the hash is generated.<ul>
+<li><code>argon2_options</code>, struct containing the options for argon2id hashing algorithm. The <code>memory</code> and <code>iterations</code> parameters control the computational cost of hashing the password. The higher these figures are, the greater the cost of generating the hash and the longer the runtime. It also follows that the greater the cost will be for any attacker trying to guess the password. If the code is running on a machine with multiple cores, then you can decrease the runtime without reducing the cost by increasing the <code>parallelism</code> parameter. This controls the number of threads that the work is spread across.<ul>
+<li><code>memory</code>, unsigned integer. The amount of memory used by the algorithm (in kibibytes). Default: 65536.</li>
+<li><code>iterations</code>, unsigned integer. The number of iterations over the memory. Default: 1.</li>
+<li><code>parallelism</code>. unsigned 8 bit integer. The number of threads (or lanes) used by the algorithm. Default: 2.</li>
+</ul>
+</li>
+<li><code>bcrypt_options</code>, struct containing the options for bcrypt hashing algorithm<ul>
+<li><code>cost</code>, integer between 4 and 31. Default: 10</li>
+</ul>
+</li>
+<li><code>algo</code>, string. Algorithm to use for hashing passwords. Available algorithms: <code>argon2id</code>, <code>bcrypt</code>. For bcrypt hashing we use the <code>$2a$</code> prefix. Default: <code>bcrypt</code></li>
+</ul>
+</li>
+<li><code>password_validation</code> struct. It defines the password validation rules for admins and protocol users.<ul>
+<li><code>admins</code>, struct. It defines the password validation rules for SFTPGo admins.<ul>
+<li><code>min_entropy</code>, float. Defines the minimum password entropy. Take a look <a href="https://github.com/wagslane/go-password-validator#what-entropy-value-should-i-use" target="_blank">here</a> for more details. <code>0</code> means disabled, any password will be accepted. Default: <code>0</code>.</li>
+</ul>
+</li>
+<li><code>users</code>, struct. It defines the password validation rules for SFTPGo protocol users.<ul>
+<li><code>min_entropy</code>, float. This value is used as fallback if no more specific password strength is set at user/group level. Default: <code>0</code>.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>password_caching</code>, boolean. Verifying argon2id passwords has a high memory and computational cost, verifying bcrypt passwords has a high computational cost, by enabling, in memory, password caching you reduce these costs. Default: <code>true</code></li>
+<li><code>update_mode</code>, integer. Defines how the database will be initialized/updated. 0 means automatically. 1 means manually using the initprovider sub-command.</li>
+<li><code>create_default_admin</code>, boolean. Before you can use SFTPGo you need to create an admin account. If you open the admin web UI, a setup screen will guide you in creating the first admin account. You can automatically create the first admin account by enabling this setting and setting the environment variables <code>SFTPGO_DEFAULT_ADMIN_USERNAME</code> and <code>SFTPGO_DEFAULT_ADMIN_PASSWORD</code>. You can also create the first admin by loading initial data. This setting has no effect if an admin account is already found within the data provider. Default <code>false</code>.</li>
+<li><code>naming_rules</code>, integer. Naming rules for usernames, folder, group, role and object names in general. <code>0</code> means no rules. <code>1</code> means you can use any UTF-8 character. The names are used in URIs for REST API and Web admin. If not set only unreserved URI characters are allowed: ALPHA / DIGIT / "-" / "." / "_" / "~". <code>2</code> means names are converted to lowercase before saving/matching and so case insensitive matching is possible. <code>4</code> means trimming trailing and leading white spaces before saving/matching, the WebAdmin needs this setting to work properly. Rules can be combined, for example <code>3</code> means both converting to lowercase and allowing any UTF-8 character. Enabling these options for existing installations could be backward incompatible, some users could be unable to login, for example existing users with mixed cases in their usernames. You have to ensure that all existing users respect the defined rules. Default: <code>5</code>.</li>
+<li><code>is_shared</code>, integer. If the data provider is shared across multiple SFTPGo instances, set this parameter to <code>1</code>. <code>MySQL</code>, <code>PostgreSQL</code> and <code>CockroachDB</code> can be shared, this setting is ignored for other data providers. For shared data providers, active transfers are persisted in the database and thus quota checks between ongoing transfers will work cross multiple instances. Password reset requests and OIDC tokens/states are also persisted in the database if the provider is shared. For shared data providers, scheduled event actions are only executed on a single SFTPGo instance by default, you can override this behavior on a per-action basis. The database table <code>shared_sessions</code> is used only to store temporary sessions. In performance critical installations, you might consider using a database-specific optimization, for example you might use an <code>UNLOGGED</code> table for PostgreSQL. This optimization in only required in very limited use cases. Default: <code>0</code>.</li>
+<li><code>node</code>, struct. Node-specific configurations to allow inter-node communications. If your provider is shared across multiple nodes, the nodes can exchange information to present a uniform view for node-specific data. The current implementation allows to obtain active connections from all nodes. Nodes connect to each other using the REST API.<ul>
+<li><code>host</code>, string. IP address or hostname that other nodes can use to connect to this node via REST API. Empty means inter-node communications disabled. Default: empty.</li>
+<li><code>port</code>, integer. The port that other nodes can use to connect to this node via REST API. Default: <code>0</code></li>
+<li><code>proto</code>, string. Supported values <code>http</code> or <code>https</code>. For <code>https</code> the configurations for http clients is used, so you can, for example, enable mutual TLS authentication. Default: <code>http</code></li>
+</ul>
+</li>
+<li><code>backups_path</code>, string. Path to the backup directory. This can be an absolute path or a path relative to the config dir. We don't allow backups in arbitrary paths for security reasons.</li>
+</ul>
+<h2 id="http-server">HTTP server</h2>
+<p>Supported configuration parameters for the <code>httpd</code> section (REST API, WebAdmin, WebClient):</p>
+<ul>
+<li><code>bindings</code>, list of structs. Each struct has the following fields:<ul>
+<li><code>port</code>, integer. The port used for serving HTTP requests. Default: 8080.</li>
+<li><code>address</code>, string. Leave blank to listen on all available network interfaces. On *NIX you can specify an absolute path to listen on a Unix-domain socket Default: blank.</li>
+<li><code>enable_web_admin</code>, boolean. Set to <code>false</code> to disable the built-in web admin for this binding. You also need to define <code>templates_path</code> and <code>static_files_path</code> to use the built-in web admin interface. Default <code>true</code>.</li>
+<li><code>enable_web_client</code>, boolean. Set to <code>false</code> to disable the built-in web client for this binding. You also need to define <code>templates_path</code> and <code>static_files_path</code> to use the built-in web client interface. Default <code>true</code>.</li>
+<li><code>enable_rest_api</code>, boolean. Set to <code>false</code> to disable REST API. Default <code>true</code>.</li>
+<li><code>enabled_login_methods</code>, integer. Defines the login methods available for the WebAdmin and WebClient UIs. <code>0</code> means any configured method: username/password login form and OIDC, if enabled. <code>1</code> means OIDC for the WebAdmin UI. <code>2</code> means OIDC for the WebClient UI. <code>4</code> means login form for the WebAdmin UI. <code>8</code> means login form for the WebClient UI. You can combine the values. For example <code>3</code> means that you can only login using OIDC on both WebClient and WebAdmin UI. DEPRECATED: use <code>disabled_login_methods</code>. Default: <code>0</code>.</li>
+<li><code>disabled_login_methods</code>, integer. Defines the disabled login methods. <code>0</code> means all available login methods are enabled. <code>1</code> means OIDC for the WebAdmin UI. <code>2</code> means OIDC for the WebClient UI. <code>4</code> means login form for the WebAdmin UI. <code>8</code> means login form for the WebClient UI. You can combine the values. <code>16</code> means the admin token endpoint for REST API. <code>32</code> means the user token endpoint for REST API. <code>64</code> means admin API key login. <code>128</code> means user API key login. For example <code>252</code> means that you can only login using OIDC on both WebClient and WebAdmin UI. Default: <code>0</code></li>
+<li><code>enable_https</code>, boolean. Set to <code>true</code> and provide both a certificate and a key file to enable HTTPS connection for this binding. Default <code>false</code>.</li>
+<li><code>certificate_file</code>, string. Binding specific TLS certificate. This can be an absolute path or a path relative to the config dir.</li>
+<li><code>certificate_key_file</code>, string. Binding specific private key matching the above certificate. This can be an absolute path or a path relative to the config dir. If not set the global ones will be used, if any.</li>
+<li><code>min_tls_version</code>, integer. Defines the minimum version of TLS to be enabled. <code>12</code> means TLS 1.2 (and therefore TLS 1.2 and TLS 1.3 will be enabled),<code>13</code> means TLS 1.3, <code>10</code> means TLS 1.0, <code>11</code> means TLS 1.1. Default: <code>12</code>.</li>
+<li><code>client_auth_type</code>, integer. Set to <code>1</code> to require client certificate authentication in addition to JWT/Web authentication. You need to define at least a certificate authority for this to work. Default: 0.</li>
+<li><code>tls_cipher_suites</code>, list of strings. List of supported cipher suites for TLS version 1.2 and below. If empty, a default list of secure cipher suites is used, with a preference order based on hardware performance. Note that TLS 1.3 ciphersuites are not configurable. The supported ciphersuites names are defined <a href="https://github.com/golang/go/blob/master/src/crypto/tls/cipher_suites.go#L53" target="_blank">here</a>. Any invalid name will be silently ignored. The order matters, the ciphers listed first will be the preferred ones. Default: empty.</li>
+<li><code>tls_protocols</code>, list of string. HTTPS protocols in preference order. Supported values: <code>http/1.1</code>, <code>h2</code>. Default: <code>http/1.1</code>, <code>h2</code>.</li>
+<li><code>proxy_mode</code>, integer. Set to <code>1</code> to use the proxy protocol configuration defined within the <code>common</code> section instead of the proxy header configuration. Default: <code>0</code>.</li>
+<li><code>proxy_allowed</code>, list of IP addresses and IP ranges allowed to set client IP proxy header such as <code>X-Forwarded-For</code>, <code>X-Real-IP</code> and any other headers defined in the <code>security</code> section. Any of the indicated headers, if set on requests from a connection address not in this list, will be silently ignored. Default: empty.</li>
+<li><code>client_ip_proxy_header</code>, string. Defines the allowed client IP proxy header such as <code>X-Forwarded-For</code>, <code>X-Real-IP</code> etc. Default: empty</li>
+<li><code>client_ip_header_depth</code>, integer. Some client IP headers such as <code>X-Forwarded-For</code> can contain multiple IP address, this setting define the position to trust starting from the right. For example if we have: <code>10.0.0.1,11.0.0.1,12.0.0.1,13.0.0.1</code> and the depth is <code>0</code>, SFTPGo will use <code>13.0.0.1</code> as client IP, if depth is <code>1</code>, <code>12.0.0.1</code> will be used and so on. Default: <code>0</code>.</li>
+<li><code>hide_login_url</code>, integer. If both web admin and web client are enabled each login page will show a link to the other one. This setting allows to hide this link. 0 means that the login links are displayed on both admin and client login page. This is the default. 1 means that the login link to the web client login page is hidden on admin login page. 2 means that the login link to the web admin login page is hidden on client login page. The flags can be combined, for example 3 will disable both login links.</li>
+<li><code>render_openapi</code>, boolean. Set to <code>false</code> to disable serving of the OpenAPI schema and renderer. Default <code>true</code>.</li>
+<li><code>languages</code>, list of strings. Supporrted values: <code>en</code>, <code>it</code>, <code>de</code>, <code>fr</code>. Default: <code>en</code>.</li>
+<li><code>oidc</code>, struct. Defines the OpenID connect configuration. OpenID integration allows you to map your identity provider users to SFTPGo users and so you can login to SFTPGo Web Client and Web Admin user interfaces using your identity provider. The following fields are supported:<ul>
+<li><code>config_url</code>, string. Identifier for the service. If defined, SFTPGo will add <code>/.well-known/openid-configuration</code> to this url and attempt to retrieve the provider configuration on startup. SFTPGo will refuse to start if it fails to connect to the specified URL. Default: blank.</li>
+<li><code>client_id</code>, string. Defines the application's ID. Default: blank.</li>
+<li><code>client_secret</code>, string. Defines the application's secret. Default: blank.</li>
+<li><code>client_secret_file</code>, string. Defines the path to a file containing the application secret. This can be an absolute path or a path relative to the config dir. If not empty, it takes precedence over <code>client_secret</code>. Default: blank.</li>
+<li><code>redirect_base_url</code>, string. Defines the base URL to redirect to after OpenID authentication. The suffix <code>/web/oidc/redirect</code> will be added to this base URL, adding also the <code>web_root</code> if configured. Default: blank.</li>
+<li><code>username_field</code>, string. Defines the ID token claims field to map to the SFTPGo username. Default: blank.</li>
+<li><code>scopes</code>, list of strings. Request the OAuth provider to provide the scope information from an authenticated users. The <code>openid</code> scope is mandatory. Default: <code>"openid", "profile", "email"</code>.</li>
+<li><code>role_field</code>, string. Defines the optional ID token claims field to map to a SFTPGo role. If the defined ID token claims field is set to <code>admin</code> the authenticated user is mapped to an SFTPGo admin. You don't need to specify this field if you want to use OpenID only for the Web Client UI. If the field is inside a nested structure, you can use the dot notation to traverse the structures. Default: blank.</li>
+<li><code>implicit_roles</code>, boolean. If set, the <code>role_field</code> is ignored and the SFTPGo role is assumed based on the login link used. Default: <code>false</code>.</li>
+<li><code>custom_fields</code>, list of strings. Custom token claims fields to pass to the pre-login hook. Default: empty.</li>
+<li><code>insecure_skip_signature_check</code>, boolean. This setting causes SFTPGo to skip JWT signature validation. It's intended for special cases where providers, such as Azure, use the <code>none</code> algorithm. Skipping the signature validation can cause security issues. Default: <code>false</code>.</li>
+<li><code>debug</code>, boolean. If set, the received id tokens will be logged at debug level. Default: <code>false</code>.</li>
+</ul>
+</li>
+<li><code>security</code>, struct. Defines security headers to add to HTTP responses and allows to restrict allowed hosts. The following parameters are supported:<ul>
+<li><code>enabled</code>, boolean. Set to <code>true</code> to enable security configurations. Default: <code>false</code>.</li>
+<li><code>allowed_hosts</code>, list of strings. Fully qualified domain names that are allowed. An empty list allows any and all host names. Default: empty.</li>
+<li><code>allowed_hosts_are_regex</code>, boolean. Determines if the provided allowed hosts contains valid regular expressions. Default: <code>false</code>.</li>
+<li><code>hosts_proxy_headers</code>, list of string. Defines a set of header keys that may hold a proxied hostname value for the request, for example <code>X-Forwarded-Host</code>. Default: empty.</li>
+<li><code>https_redirect</code>, boolean. Set to <code>true</code> to redirect HTTP requests to HTTPS. If you redirect from port <code>80</code> and you get your TLS certificates using the built-in ACME protocol and the <code>HTTP-01</code> challenge type, you need to use the webroot method and set the ACME web root to a path writable by SFTPGo in order to renew your certificates. Default: <code>false</code>.</li>
+<li><code>https_host</code>, string. Defines the host name that is used to redirect HTTP requests to HTTPS. Default is blank, which indicates to use the same host. For example, if <code>https_redirect</code> is enabled and <code>https_host</code> is blank, a request for <code>http://127.0.0.1/web/client/login</code> will be redirected to <code>https://127.0.0.1/web/client/login</code>, if <code>https_host</code> is set to <code>www.example.com</code> the same request will be redirected to <code>https://www.example.com/web/client/login</code>.</li>
+<li><code>https_proxy_headers</code>, list of struct, each struct contains the fields <code>key</code> and <code>value</code>. Defines a a list of header keys with associated values that would indicate a valid https request. For example <code>key</code> could be <code>X-Forwarded-Proto</code> and <code>value</code> <code>https</code>. Default: empty.</li>
+<li><code>sts_seconds</code>, integer. Defines the max-age of the <code>Strict-Transport-Security</code> header. This header will be included for <code>https</code> responses or for HTTP request if the request includes a defined HTTPS proxy header. Default: <code>0</code>, which would NOT include the header.</li>
+<li><code>sts_include_subdomains</code>, boolean. Set to <code>true</code>, the <code>includeSubdomains</code> will be appended to the <code>Strict-Transport-Security</code> header. Default: <code>false</code>.</li>
+<li><code>sts_preload</code>, boolean. Set to true, the <code>preload</code> flag will be appended to the <code>Strict-Transport-Security</code> header. Default: <code>false</code>.</li>
+<li><code>content_type_nosniff</code>, boolean. Set to <code>true</code> to add the <code>X-Content-Type-Options</code> header with the value <code>nosniff</code>. Default: <code>false</code>.</li>
+<li><code>content_security_policy</code>, string. Allows to set the <code>Content-Security-Policy</code> header value. Default: blank.</li>
+<li><code>permissions_policy</code>, string. Allows to set the <code>Permissions-Policy</code> header value. Default: blank.</li>
+<li><code>cross_origin_opener_policy</code>, string. Allows to set the <code>Cross-Origin-Opener-Policy</code> header value. Default: blank.</li>
+<li><code>cross_origin_resource_policy</code>, string. Allows to set the <code>Cross-Origin-Resource-Policy</code> header value. Default: blank.</li>
+<li><code>cross_origin_embedder_policy</code>, string. Allows to set the <code>Cross-Origin-Embedder-Policy</code> header value. Default: blank.</li>
+<li><code>referrer_policy</code>, string. Allows to set the <code>Referrer-Policy</code> header value. Default: blank.</li>
+<li><code>cache_control</code>, string. Allows to set the <code>Cache-Control</code> header. Set to <code>private</code> to disable caching for dynamic pages. Default: blank.</li>
+</ul>
+</li>
+<li><code>branding</code>, struct. Defines the supported customizations to suit your brand. It contains the <code>web_admin</code> and <code>web_client</code> structs that define customizations for the WebAdmin and the WebClient UIs. Each customization struct contains the following fields:<ul>
+<li><code>name</code>, string. Defines the UI name</li>
+<li><code>short_name</code>, string. Defines the short name to show next to the logo image and on the login page</li>
+<li><code>favicon_path</code>, string. Path to the favicon relative to <code>static_files_path</code>. For example, if you create a directory named <code>branding</code> inside the static dir and put the <code>favicon.png</code> file in it, you must set <code>/branding/favicon.png</code> as path.</li>
+<li><code>logo_path</code>, string. Path to your logo relative to <code>static_files_path</code>. The preferred image size is 256x256 pixel</li>
+<li><code>disclaimer_name</code>, string. Name for your optional disclaimer</li>
+<li><code>disclaimer_path</code>, string. Path to the HTML page with the disclaimer relative to <code>static_files_path</code> or an absolute URL (http or https).</li>
+<li><code>default_css</code>, list of strings. Optional path to custom CSS files, relative to <code>static_files_path</code>, which replaces the default CSS</li>
+<li><code>extra_css</code>, list of strings. Defines the paths, relative to <code>static_files_path</code>, to additional CSS files</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>templates_path</code>, string. Path to the HTML web templates. This can be an absolute path or a path relative to the config dir</li>
+<li><code>static_files_path</code>, string. Path to the static files for the web interface. This can be an absolute path or a path relative to the config dir. If both <code>templates_path</code> and <code>static_files_path</code> are empty the built-in web interface will be disabled</li>
+<li><code>openapi_path</code>, string. Path to the directory that contains the OpenAPI schema and the default renderer. This can be an absolute path or a path relative to the config dir. If empty the OpenAPI schema and the renderer will not be served regardless of the <code>render_openapi</code> directive</li>
+<li><code>web_root</code>, string.  Defines a base URL for the web admin and client interfaces. If empty web admin and client resources will be available at the root ("/") URI. If defined it must be an absolute URI or it will be ignored</li>
+<li><code>certificate_file</code>, string. Certificate for HTTPS. This can be an absolute path or a path relative to the config dir.</li>
+<li><code>certificate_key_file</code>, string. Private key matching the above certificate. This can be an absolute path or a path relative to the config dir. If both the certificate and the private key are provided, you can enable HTTPS for the configured bindings. Certificate and key files can be reloaded on demand sending a <code>SIGHUP</code> signal on Unix based systems and a <code>paramchange</code> request to the running service on Windows. The certificates are also polled for changes every 8 hours.</li>
+<li><code>ca_certificates</code>, list of strings. Set of root certificate authorities to be used to verify client certificates.</li>
+<li><code>ca_revocation_lists</code>, list of strings. Set a revocation lists, one for each root CA, to be used to check if a client certificate has been revoked. The revocation lists can be reloaded on demand sending a <code>SIGHUP</code> signal on Unix based systems and a <code>paramchange</code> request to the running service on Windows.</li>
+<li><code>signing_passphrase</code>, string. Passphrase to use to derive the signing key for JWT and CSRF tokens. If empty a random signing key will be generated each time SFTPGo starts. If you set a signing passphrase you should consider rotating it periodically for added security.</li>
+<li><code>signing_passphrase_file</code>, string. Defines the path to a file containing the signing passphrase. This can be an absolute path or a path relative to the config dir. If not empty, it takes precedence over <code>signing_passphrase</code>. Default: blank.</li>
+<li><code>token_validation</code>, integer. Defines how to validate JWT tokens, cookies and CSRF tokens. By default a token must be used by the same IP for which it was issued, set to <code>1</code> to disable this requirement. Set to <code>2</code> to invalidate admin and user tokens issued before the last update. Flags can be combined. Default: <code>0</code>.</li>
+<li><code>cookie_lifetime</code>, integer. Defines the duration in minutes for WebAdmin and WebClient cookies. Cookies are automatically refreshed if there is user activity and the maximum duration is 12 hours. An invalid value is silently ignored. Maximum allowed value <code>720</code>, default: <code>20</code>.</li>
+<li><code>share_cookie_lifetime</code>, integer. Defines the duration in minutes for public sharing cookies. An invalid value is silently ignored. Maximum allowed value <code>720</code>, default: <code>120</code>.</li>
+<li><code>jwt_lifetime</code>, integer. Defines the duration in minutes for REST API tokens. An invalid value is silently ignored. Maximum allowed value <code>720</code>, default: <code>20</code>.</li>
+<li><code>max_upload_file_size</code>, integer. Defines the maximum request body size, in bytes, for Web Client/API HTTP upload requests. <code>0</code> means no limit. Default: <code>0</code>.</li>
+<li><code>cors</code> struct containing CORS configuration. SFTPGo uses <a href="https://github.com/rs/cors" target="_blank">Go CORS handler</a>, please refer to upstream documentation for fields meaning and their default values.<ul>
+<li><code>enabled</code>, boolean, set to <code>true</code> to enable CORS.</li>
+<li><code>allowed_origins</code>, list of strings.</li>
+<li><code>allowed_methods</code>, list of strings.</li>
+<li><code>allowed_headers</code>, list of strings.</li>
+<li><code>exposed_headers</code>, list of strings.</li>
+<li><code>allow_credentials</code> boolean.</li>
+<li><code>max_age</code>, integer.</li>
+<li><code>options_passthrough</code>, boolean.</li>
+<li><code>options_success_status</code>, integer.</li>
+<li><code>allow_private_network</code>, boolean.</li>
+</ul>
+</li>
+<li><code>setup</code> struct containing configurations for the initial setup screen<ul>
+<li><code>installation_code</code>, string. If set, this installation code will be required when creating the first admin account. Please note that even if set using an environment variable this field is read at SFTPGo startup and not at runtime. This is not a license key or similar, the purpose here is to prevent anyone who can access to the initial setup screen from creating an admin user. Default: blank.</li>
+<li><code>installation_code_hint</code>, string. Description for the installation code input field. Default: <code>Installation code</code>.</li>
+</ul>
+</li>
+<li><code>hide_support_link</code>, boolean. If set, the link to the <a href="https://github.com/drakkan/sftpgo?tab=readme-ov-file#sponsors">sponsors section</a> will not appear on the setup screen page. Default: <code>false</code>.</li>
+</ul>
+<h2 id="telemetry">Telemetry</h2>
+<p>Supported configuration parameters for the <code>telemetry</code> section:</p>
+<ul>
+<li><code>bind_port</code>, integer. The port used for serving HTTP requests. Set to 0 to disable HTTP server. Default: 0</li>
+<li><code>bind_address</code>, string. Leave blank to listen on all available network interfaces. On *NIX you can specify an absolute path to listen on a Unix-domain socket. Default: <code>127.0.0.1</code></li>
+<li><code>enable_profiler</code>, boolean. Enable the built-in profiler. Default <code>false</code></li>
+<li><code>auth_user_file</code>, string. Path to a file used to store usernames and passwords for basic authentication. This can be an absolute path or a path relative to the config dir. We support HTTP basic authentication, and the file format must conform to the one generated using the Apache <code>htpasswd</code> tool. The supported password formats are bcrypt (<code>$2y$</code> prefix) and md5 crypt (<code>$apr1$</code> prefix). If empty, HTTP authentication is disabled. Authentication will be always disabled for the <code>/healthz</code> endpoint.</li>
+<li><code>certificate_file</code>, string. Certificate for HTTPS. This can be an absolute path or a path relative to the config dir.</li>
+<li><code>certificate_key_file</code>, string. Private key matching the above certificate. This can be an absolute path or a path relative to the config dir. If both the certificate and the private key are provided, the server will expect HTTPS connections. Certificate and key files can be reloaded on demand sending a <code>SIGHUP</code> signal on Unix based systems and a <code>paramchange</code> request to the running service on Windows.</li>
+<li><code>min_tls_version</code>, integer. Defines the minimum version of TLS to be enabled. <code>12</code> means TLS 1.2 (and therefore TLS 1.2 and TLS 1.3 will be enabled),<code>13</code> means TLS 1.3, <code>10</code> means TLS 1.0, <code>11</code> means TLS 1.1. Default: <code>12</code>.</li>
+<li><code>tls_cipher_suites</code>, list of strings. List of supported cipher suites for TLS version 1.2 and below. If empty, a default list of secure cipher suites is used, with a preference order based on hardware performance. Note that TLS 1.3 ciphersuites are not configurable. The supported ciphersuites names are defined <a href="https://github.com/golang/go/blob/master/src/crypto/tls/cipher_suites.go#L53" target="_blank">here</a>. Any invalid name will be silently ignored. The order matters, the ciphers listed first will be the preferred ones. Default: empty.</li>
+<li><code>tls_protocols</code>, list of string. HTTPS protocols in preference order. Supported values: <code>http/1.1</code>, <code>h2</code>. Default: <code>http/1.1</code>, <code>h2</code>.</li>
+</ul>
+<p>The telemetry server publishes the following endpoints:</p>
+<ul>
+<li><code>/healthz</code>, health information (for health checks)</li>
+<li><code>/metrics</code>, Prometheus metrics</li>
+<li><code>/debug/pprof</code>, if enabled via the <code>enable_profiler</code> configuration key, for profiling, more details <a href="../profiling/">here</a></li>
+</ul>
+<h2 id="http-clients">HTTP clients</h2>
+<p>HTTP clients are used for executing hooks. Some hooks use a retryable HTTP client, for these hooks you can configure the time between retries and the number of retries. Please check the hook specific documentation to understand which hooks use a retryable HTTP client.</p>
+<p>Supported configuration parameters for the <code>http</code> section:</p>
+<ul>
+<li><code>timeout</code>, float. Timeout specifies a time limit, in seconds, for requests. For requests with retries this is the timeout for a single request</li>
+<li><code>retry_wait_min</code>, integer. Defines the minimum waiting time between attempts in seconds.</li>
+<li><code>retry_wait_max</code>, integer. Defines the maximum waiting time between attempts in seconds. The backoff algorithm will perform exponential backoff based on the attempt number and limited by the provided minimum and maximum durations.</li>
+<li><code>retry_max</code>, integer. Defines the maximum number of retries if the first request fails.</li>
+<li><code>ca_certificates</code>, list of strings. List of paths to extra CA certificates to trust. The paths can be absolute or relative to the config dir. Adding trusted CA certificates is a convenient way to use self-signed certificates without defeating the purpose of using TLS.</li>
+<li><code>certificates</code>, list of certificate for mutual TLS. Each certificate is a struct with the following fields:<ul>
+<li><code>cert</code>, string. Path to the certificate file. The path can be absolute or relative to the config dir.</li>
+<li><code>key</code>, string. Path to the key file. The path can be absolute or relative to the config dir.</li>
+</ul>
+</li>
+<li><code>skip_tls_verify</code>, boolean. if enabled the HTTP client accepts any TLS certificate presented by the server and any host name in that certificate. In this mode, TLS is susceptible to man-in-the-middle attacks. This should be used only for testing.</li>
+<li><code>headers</code>, list of structs. You can define a list of http headers to add to each hook. Each struct has the following fields:<ul>
+<li><code>key</code>, string</li>
+<li><code>value</code>, string. The header is silently ignored if <code>key</code> or <code>value</code> are empty</li>
+<li><code>url</code>, string, optional. If not empty, the header will be added only if the request URL starts with the one specified here</li>
+</ul>
+</li>
+</ul>
+<h2 id="commands">Commands</h2>
+<p>External commands are used for executing hooks.
+Supported configuration parameters for the <code>command</code> section:</p>
+<ul>
+<li><code>timeout</code>, integer. Timeout specifies a time limit, in seconds, to execute external commands. Valid range: <code>1-300</code>. Default: <code>30</code></li>
+<li><code>env</code>, list of strings. Environment variables to pass to all the external commands. Global environment variables are cleared, for security reasons, you have to explicitly set any environment variable such as <code>PATH</code> etc. if you need them. Each entry is of the form <code>key=value</code>. Do not use environment variables prefixed with <code>SFTPGO_</code> to avoid conflicts with environment variables that SFTPGo hooks can set. Default: empty</li>
+<li><code>commands</code>, list of structs. Allow to customize configuration per-command. Each struct has the following fields:<ul>
+<li><code>path</code>, string. Define the command path as defined in the hook configuration</li>
+<li><code>timeout</code>, integer. This value overrides the global timeout if set</li>
+<li><code>env</code>, list of strings. These values are added to the environment variables defined for all commands, if any. Default: empty</li>
+<li><code>args</code>, list of strings. Arguments to pass to the command identified by <code>path</code>. Default: empty</li>
+<li><code>hook</code>, string. If not empty this configuration only apply to the specified hook name. Supported hook names: <code>fs_actions</code>, <code>provider_actions</code>, <code>startup</code>, <code>post_connect</code>, <code>post_disconnect</code>, <code>data_retention</code>, <code>check_password</code>, <code>pre_login</code>, <code>post_login</code>, <code>external_auth</code>, <code>keyboard_interactive</code>. Default: empty</li>
+</ul>
+</li>
+</ul>
+<h2 id="kms">KMS</h2>
+<p>Supported configuration parameters for the <code>kms</code> section:</p>
+<ul>
+<li><code>secrets</code><ul>
+<li><code>url</code>, string. Defines the URI to the KMS service. Default: blank.</li>
+<li><code>master_key</code>, string. Defines the master encryption key as string. Default: blank.</li>
+<li><code>master_key_path</code>, string. Defines the absolute path to a file containing the master encryption key. If not empty, it takes precedence over <code>master_key</code>. Default: blank.</li>
+</ul>
+</li>
+</ul>
+<h2 id="multi-factor-authentication">Multi-factor authentication</h2>
+<p>Supported configuration parameters for the <code>mfa</code> section:</p>
+<ul>
+<li><code>totp</code>, list of struct that define settings for time-based one time passwords (RFC 6238). Each struct has the following fields:<ul>
+<li><code>name</code>, string. Unique configuration name. This name should not be changed if there are users or admins using the configuration. The name is not visible to the authentication apps. Default: <code>Default</code>.</li>
+<li><code>issuer</code>, string. Name of the issuing Organization/Company. Default: <code>SFTPGo</code>.</li>
+<li><code>algo</code>, string. Algorithm to use for HMAC. The supported algorithms are: <code>sha1</code>, <code>sha256</code>, <code>sha512</code>. Currently Google Authenticator app on iPhone seems to only support <code>sha1</code>, please check the compatibility with your target apps/device before setting a different algorithm. You can also define multiple configurations, for example one that uses <code>sha256</code> or <code>sha512</code> and another one that uses <code>sha1</code> and instruct your users to use the appropriate configuration for their devices/apps. The algorithm should not be changed if there are users or admins using the configuration. Default: <code>sha1</code>.</li>
+</ul>
+</li>
+</ul>
+<h2 id="smtp">SMTP</h2>
+<p>SMTP configuration enables SFTPGo email sending capabilities.
+Supported configuration parameters for the <code>smtp</code> section:</p>
+<ul>
+<li><code>host</code>, string. Location of SMTP email server. Leave empty to disable email sending capabilities. Default: blank.</li>
+<li><code>port</code>, integer. Port of SMTP email server.</li>
+<li><code>from</code>, string. From address, for example <code>SFTPGo &lt;sftpgo@example.com&gt;</code>. Many SMTP servers reject emails without a <code>From</code> header so, if not set, SFTPGo will try to use the username as fallback, this may or may not be appropriate. Default: blank</li>
+<li><code>user</code>, string. SMTP username. Default: blank</li>
+<li><code>password</code>, string. SMTP password. Leaving both username and password empty the SMTP authentication will be disabled. Default: blank</li>
+<li><code>auth_type</code>, integer. 0 means <code>Plain</code>, 1 means <code>Login</code>, 2 means <code>CRAM-MD5</code>, 3 means <code>XOAUTH2</code>. Default: <code>0</code>.</li>
+<li><code>encryption</code>, integer. 0 means no encryption, 1 means <code>TLS</code>, 2 means <code>STARTTLS</code>. Default: <code>0</code>.</li>
+<li><code>domain</code>, string. Domain to use for <code>HELO</code> command, if empty <code>localhost</code> will be used. Default: blank.</li>
+<li><code>templates_path</code>, string. Path to the email templates. This can be an absolute path or a path relative to the config dir. Templates are searched within a subdirectory named "email" in the specified path. You can customize the email templates by simply specifying an alternate path and putting your custom templates there.</li>
+<li><code>debug</code>, integer. Set to <code>1</code> to enable SMTP debug. Default: <code>0</code>.</li>
+<li><code>oauth2</code>, struct containing OAuth2 related configurations:<ul>
+<li><code>provider</code>, integer, 0 means <code>Google</code>, 1 means <code>Microsoft</code>. Default: <code>0</code>.</li>
+<li><code>tenant</code>, string. Azure Active Directory tenant for the Microsoft provider. Typical values are <code>common</code>, <code>organizations</code>, <code>consumers</code> or tenant identifier. If empty <code>common</code> is used. Default: blank.</li>
+<li><code>client_id</code>, string. Default: blank.</li>
+<li><code>client_secret</code>, string. Default: blank.</li>
+<li><code>refresh_token</code>, string. Default: blank.</li>
+</ul>
+</li>
+</ul>
+<h2 id="plugins">Plugins</h2>
+<p>The <code>plugins</code> section allow to configure a list of external plugins. <img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/26a0.svg" title=":warning:" /> Please note that the plugin system is experimental, the configuration parameters and interfaces may change in a backward incompatible way in future. Each plugin is configured using a struct with the following fields:</p>
+<ul>
+<li><code>type</code>, string. Defines the plugin type. Supported types: <code>notifier</code>, <code>kms</code>, <code>auth</code>, <code>eventsearcher</code>, <code>ipfilter</code>.</li>
+<li><code>notifier_options</code>, struct. Defines the options for notifier plugins.<ul>
+<li><code>fs_events</code>, list of strings. Defines the filesystem events that will be notified to this plugin.</li>
+<li><code>provider_events</code>, list of strings. Defines the provider events that will be notified to this plugin.</li>
+<li><code>provider_objects</code>, list if strings. Defines the provider objects that will be notified to this plugin.</li>
+<li><code>log_events</code>, list of integers. Defines the log events that will be notified to this plugin. <code>1</code> means "Login failed", <code>2</code> means "Login with non-existent user", <code>3</code> means "No login tried", <code>4</code> means "Algorithm negotiation failed", <code>5</code> means "Login succeeded".</li>
+<li><code>retry_max_time</code>, integer. Defines the maximum number of seconds an event can be late. SFTPGo adds a timestamp to each event and add to an internal queue any events that a the plugin fails to handle (the plugin returns an error or it is not running). If a plugin fails to handle an event that is too late, based on this configuration, it will be discarded. SFTPGo will try to resend queued events every 30 seconds. 0 means no retry.</li>
+<li><code>retry_queue_max_size</code>, integer. Defines the maximum number of events that the internal queue can hold. Once the queue is full, the events that cannot be sent to the plugin will be discarded. 0 means no limit.</li>
+</ul>
+</li>
+<li><code>kms_options</code>, struct. Defines the options for kms plugins.<ul>
+<li><code>scheme</code>, string. KMS scheme. Supported schemes are: <code>awskms</code>, <code>gcpkms</code>, <code>hashivault</code>, <code>azurekeyvault</code>.</li>
+<li><code>encrypted_status</code>, string. Encrypted status for a KMS secret. Supported statuses are: <code>AWS</code>, <code>GCP</code>, <code>VaultTransit</code>, <code>AzureKeyVault</code>.</li>
+</ul>
+</li>
+<li><code>auth_options</code>, struct. Defines the options for auth plugins.<ul>
+<li><code>scope</code>, integer. 1 means passwords only. 2 means public keys only. 4 means key keyboard interactive only. 8 means TLS certificate. The flags can be combined, for example 6 means public keys and keyboard interactive. The scope must be explicit, <code>0</code> is not a valid option.</li>
+</ul>
+</li>
+<li><code>cmd</code>, string. Path to the plugin executable.</li>
+<li><code>args</code>, list of strings. Optional arguments to pass to the plugin executable.</li>
+<li><code>sha256sum</code>, string. SHA256 checksum for the plugin executable. If not empty it will be used to verify the integrity of the executable.</li>
+<li><code>auto_mtls</code>, boolean. If enabled the client and the server automatically negotiate mutual TLS for transport authentication. This ensures that only the original client will be allowed to connect to the server, and all other connections will be rejected. The client will also refuse to connect to any server that isn't the original instance started by the client.</li>
+<li><code>env_prefix</code>, string. Defines the prefix for env vars to pass from the SFTPGo process environment to the plugin. Set to <code>none</code> to not pass any environment variable, set to <code>*</code> to pass all environment variables. If empty, the prefix is returned as the plugin name in uppercase with <code>-</code> replaced with <code>_</code> and a trailing <code>_</code>. For example if the plugin name is <code>sftpgo-plugin-eventsearch</code> the prefix will be <code>SFTPGO_PLUGIN_EVENTSEARCH_</code></li>
+<li><code>env_vars</code>, list of strings. Additional environment variable names to pass from the SFTPGo process environment to the plugin.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://sftpgo.com" target="_blank" rel="noopener" title="SFTPGo Website" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.36 14c.08-.66.14-1.32.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2m-5.15 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95a8.03 8.03 0 0 1-4.33 3.56M14.34 14H9.66c-.1-.66-.16-1.32-.16-2s.06-1.35.16-2h4.68c.09.65.16 1.32.16 2s-.07 1.34-.16 2M12 19.96c-.83-1.2-1.5-2.53-1.91-3.96h3.82c-.41 1.43-1.08 2.76-1.91 3.96M8 8H5.08A7.92 7.92 0 0 1 9.4 4.44C8.8 5.55 8.35 6.75 8 8m-2.92 8H8c.35 1.25.8 2.45 1.4 3.56A8 8 0 0 1 5.08 16m-.82-2C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2M12 4.03c.83 1.2 1.5 2.54 1.91 3.97h-3.82c.41-1.43 1.08-2.77 1.91-3.97M18.92 8h-2.95a15.7 15.7 0 0 0-1.38-3.56c1.84.63 3.37 1.9 4.33 3.56M12 2C6.47 2 2 6.5 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/drakkan/sftpgo" target="_blank" rel="noopener" title="SFTPGo code repository" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+    
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
+</html>
