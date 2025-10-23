@@ -4,12 +4,12 @@ SFTPGo provides an official Docker image, it is available on both [Docker Hub](h
 
 ## Supported tags and respective Dockerfile links
 
-- [v2.6.6, v2.6, v2, latest](https://github.com/drakkan/sftpgo/blob/2.6.x/Dockerfile){:target="_blank"}
-- [v2.6.6-plugins, v2.6-plugins, v2-plugins, plugins](https://github.com/drakkan/sftpgo/blob/2.6.x/Dockerfile){:target="_blank"}
-- [v2.6.6-alpine, v2.6-alpine, v2-alpine, alpine](https://github.com/drakkan/sftpgo/blob/2.6.x/Dockerfile.alpine){:target="_blank"}
-- [v2.6.6-slim, v2.6-slim, v2-slim, slim](https://github.com/drakkan/sftpgo/blob/2.6.x/Dockerfile){:target="_blank"}
-- [v2.6.6-alpine-slim, v2.6-alpine-slim, v2-alpine-slim, alpine-slim](https://github.com/drakkan/sftpgo/blob/2.6.x/Dockerfile.alpine){:target="_blank"}
-- [v2.6.6-distroless-slim, v2.6-distroless-slim, v2-distroless-slim, distroless-slim](https://github.com/drakkan/sftpgo/blob/2.6.x/Dockerfile.distroless){:target="_blank"}
+- [v2.7.0, v2.7, v2, latest](https://github.com/drakkan/sftpgo/blob/2.7.x/Dockerfile){:target="_blank"}
+- [v2.7.0-plugins, v2.7-plugins, v2-plugins, plugins](https://github.com/drakkan/sftpgo/blob/2.7.x/Dockerfile){:target="_blank"}
+- [v2.7.0-alpine, v2.7-alpine, v2-alpine, alpine](https://github.com/drakkan/sftpgo/blob/2.7.x/Dockerfile.alpine){:target="_blank"}
+- [v2.7.0-slim, v2.7-slim, v2-slim, slim](https://github.com/drakkan/sftpgo/blob/2.7.x/Dockerfile){:target="_blank"}
+- [v2.7.0-alpine-slim, v2.7-alpine-slim, v2-alpine-slim, alpine-slim](https://github.com/drakkan/sftpgo/blob/2.7.x/Dockerfile.alpine){:target="_blank"}
+- [v2.7.0-distroless-slim, v2.7-distroless-slim, v2-distroless-slim, distroless-slim](https://github.com/drakkan/sftpgo/blob/2.7.x/Dockerfile.distroless){:target="_blank"}
 - [edge](https://github.com/drakkan/sftpgo/blob/main/Dockerfile){:target="_blank"}
 - [edge-plugins](https://github.com/drakkan/sftpgo/blob/main/Dockerfile){:target="_blank"}
 - [edge-alpine](https://github.com/drakkan/sftpgo/blob/main/Dockerfile.alpine){:target="_blank"}
