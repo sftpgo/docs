@@ -60,6 +60,7 @@ Supported distributions:
 - Debian 10 "buster"
 - Debian 11 "bullseye"
 - Debian 12 "bookworm"
+- Debian 13 "trixie"
 
 Import the public key used by the package management system:
 
