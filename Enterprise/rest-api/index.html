@@ -1831,13 +1831,13 @@
 
 
 <h1 id="rest-api">REST API</h1>
-<p>SFTPGo provides a comprehensive REST API that enables full programmatic control over both administrative tasks and user operations. This API allows administrators to manage users, groups, virtual folders, quotas, and system settings, while end users can perform file uploads, downloads, share management, and more — all remotely and securely.</p>
+<p>SFTPGo provides a comprehensive REST API that enables full programmatic control of the system. When authenticated as an administrator, you can manage users, groups, virtual folders, quotas, and system settings. When authenticated as a regular user, you can perform file uploads and downloads, manage shares, and handle other file-related operations.</p>
 <h2 id="security-and-authentication">Security and Authentication</h2>
 <p>The REST API is secured using JSON Web Tokens (JWT) or API key authentication. We strongly recommend to enable HTTPS to protect data in transit. For enhanced security, client certificate authentication can also be configured in conjunction with JWT, adding an additional layer of trust verification.</p>
 <h2 id="configuration">Configuration</h2>
 <p>The REST API feature can be enabled or disabled through the <code>httpd</code> configuration section on a per-binding basis, giving you flexibility in controlling API availability.</p>
 <h2 id="documentation-and-client-generation">Documentation and Client Generation</h2>
-<p>Complete and up-to-date API documentation is available in <a href="https://sftpgo.com/rest-api" target="_blank">OpenAPI format</a>. This allows developers to explore the full range of endpoints, request parameters, and response formats.</p>
+<p>Complete and up-to-date API documentation is available in <a href="https://sftpgo.com/rest-api" target="_blank">OpenAPI format</a>, allowing developers to explore all endpoints, request parameters, and response formats.</p>
 <p>Using this OpenAPI specification, you can easily generate client libraries or custom integrations in your preferred programming languages. Tools such as <a href="https://github.com/swagger-api/swagger-codegen" target="_blank">Swagger Codegen</a> and <a href="https://openapi-generator.tech/" target="_blank">OpenAPI Generator</a> support generating clients ranging from Python, Java, and JavaScript to simple bash scripts, streamlining the integration process.</p>
 
 

@@ -1827,6 +1827,9 @@ Of course you can also set environment variables with the method provided by the
 <li><code>SFTPGO_HOOK__S3_CHECK_PARENT_DIR</code>, set to <code>1</code> to prevent uploads to non-existent directories when using S3 backends, emulating the behavior of a local filesystem. By default, uploads to non-existent directories are allowed on cloud storage backends due to their flat structure.</li>
 <li><code>SFTPGO_HOOK__GCS_CHECK_PARENT_DIR</code>, set to <code>1</code> to prevent uploads to non-existent directories when using Google Cloud Storage backends.</li>
 <li><code>SFTPGO_HOOK__AZBLOB_CHECK_PARENT_DIR</code>, set to <code>1</code> to prevent uploads to non-existent directories when using Azure Blob Storage backends.</li>
+<li><code>SFTPGO_HOOK__EXTRACT_MAX_COMPRESSION_RATIO</code>, sets the maximum allowed compression ratio for extracted ZIP files. Default: <code>60</code>.</li>
+<li><code>SFTPGO_HOOK__EXTRACT_MAX_FILES</code>, sets the maximum number of files allowed in a ZIP archive. Default: <code>1000</code>.</li>
+<li><code>SFTPGO_HOOK__EXTRACT_MAX_SIZE</code>, sets the maximum total uncompressed size allowed for a ZIP archive in MB. Default: <code>1024</code>.</li>
 </ul>
 
 

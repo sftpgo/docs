@@ -1942,7 +1942,7 @@ The following trigger events are supported:</p>
 <li><code>HTTP notification</code>. You can notify an HTTP/S endpoing via GET, POST, PUT, DELETE methods. You can define custom headers, query parameters and a body for POST and PUT request. Placeholders are supported for username, body, header and query parameter values.</li>
 <li><code>Command execution</code>. You can launch custom commands passing parameters via environment variables. Placeholders are supported for environment variable values. <img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/26a0.svg" title=":warning:" /> Allowing any system command could pose a security risk, they are disabled by default.</li>
 <li><code>Email notification</code>. Placeholders are supported in subject and body. The email will be sent as plain text. For this action to work you have to configure an SMTP server in the SFTPGo configuration file.</li>
-<li><code>Backup</code>. A backup will be saved in the configured backup directory. The backup will contain the week day and the hour in the file name.</li>
+<li><code>Backup</code>. A backup will be saved in the configured backup directory. The backup will contain the week day, the hour and the minute in the file name.</li>
 <li><code>Rotate log file</code>. If file logging is enabled, the log file will be rotated regardless of its size.</li>
 <li><code>User quota reset</code>. The quota used by users will be updated based on current usage.</li>
 <li><code>Folder quota reset</code>. The quota used by virtual folders will be updated based on current usage.</li>
@@ -1958,7 +1958,13 @@ The following trigger events are supported:</p>
 <li><code>Create directories</code>. You can create one or more directories including sub-directories.</li>
 <li><code>Path exists</code>. Check if the specified path exists.</li>
 <li><code>Copy</code>. You can copy one or more files or directories.</li>
-<li><code>Compress paths</code>. You can compress (currently as zip) ore or more files and directories.</li>
+<li><code>Compress</code>. You can compress (currently as zip) ore or more files and directories.</li>
+<li><code>Extract</code>. Allows extraction of ZIP archives. To mitigate common ZIP-based attacks, several limits are enforced, which can be adjusted via <a href="../env-vars/">environment variables</a>:<ul>
+<li>Maximum allowed compression ratio: 60.</li>
+<li>Maximum number of files: 1000.</li>
+<li>Maximum uncompressed size: 1 GB.</li>
+</ul>
+</li>
 <li><code>PGP</code> encryption and decryption, allowing you to secure your files using either password-based encryption or PGP key pairs. This includes the ability to sign and verify digital signatures, ensuring both the authenticity and integrity of your data throughout the process.</li>
 <li><code>Metadata Check</code> verifies whether a specified metadata key exists and matches a configured value, or whether it is absent. To check for non-existence, leave the value field empty. If the condition is not met, the check is retried until the specified timeout is reached (if greater than zero). This action is supported for cloud storage backends.</li>
 </ul>
@@ -1987,7 +1993,13 @@ The following trigger events are supported:</p>
 <li><code>{{.Email}}</code>. For filesystem events, this is the email associated with the user performing the action. For the provider events, this is the email associated with the affected user or admin. Blank in all other cases. Format: string.</li>
 <li><code>{{.Timestamp}}</code>. Event timestamp. Format: time object. A time object has several useful methods: <code>UTC</code>, <code>Local</code>, <code>Unix</code>, <code>UnixMilli</code>, <code>Year</code>, <code>Month</code>, <code>Day</code>, <code>Hour</code>, <code>Minute</code>, and <code>Second</code>.</li>
 <li><code>{{.UID}}</code>. Unique ID. Format: string.</li>
-<li><code>{{.Object}}</code>. Provider object data with sensitive fields removed. It’s an object that includes a <code>JSON</code> method to get its JSON representation. For example, use <code>"ObjectJSON": {{.Object.JSON}}</code>. If you need the JSON as a string, use <code>"ObjectString": {{.Object.JSON | toJson}}</code>.</li>
+<li><code>{{.Object}}</code>. Provider object data with sensitive fields removed. It’s an object that includes a <code>JSON</code> method to get its JSON representation. For example, use <code>"ObjectJSON": {{.Object.JSON}}</code>. If you need the JSON as a string, use <code>"ObjectString": {{.Object.JSON | toJson}}</code>. This placeholder also allow to access some inner objects:<ul>
+<li><code>Share</code>, if the event is related to a share. For example <code>{{.Object.Share.ExpiresAt}}</code> or <code>{{.Object.Share.Scope}</code>.</li>
+<li><code>User</code>, if the event is related to a user.</li>
+<li><code>Admin</code>, if the event is related to an admin.</li>
+<li><code>Group</code>, if the event is related to a group.</li>
+</ul>
+</li>
 <li><code>{{.RetentionReports}}</code>. Data retention reports as zip compressed CSV files. Supported as email attachment, file path for multipart HTTP request and as single parameter for HTTP requests body. Data retention reports contain details on the number of files deleted and the total size deleted for each folder. Format: string</li>
 <li><code>{{.IDPFields}}</code>. Custom fields from the Identity Provider. Format: object. The structure depends on the specific custom claims configured in your Identity Provider.</li>
 <li><code>{{.Metadata}}</code>. Cloud storage metadata represented as key/value pairs, where both keys and values are strings. You can use <code>range</code> to iterate over the keys and values.</li>
@@ -2040,6 +2052,7 @@ The following trigger events are supported:</p>
 <li><code>createDict</code> builds a map from alternating key-value pairs. Example: <code>{{- $statusMap := createDict 1 "OK" 2 "KO" -}}</code> creates a map where 1 maps to "OK" and 2 maps to "KO".</li>
 <li><code>mapToString</code> looks up a value in a map by a given key. Example: <code>{{ (mapToString .Status $statusMap) | toJson }}</code> returns the string mapped to <code>.Status</code> in $statusMap, encoded as JSON.</li>
 <li><code>humanizeBytes</code> converts a numeric byte value into a human-readable string with appropriate units (e.g., KB, MB, GB). It formats the input size by scaling it down and appending the correct unit suffix to improve readability. For example, an input of 10000 bytes is rendered as 10 KB. Example: <code>{{ humanizeBytes .FileSize }}</code>.</li>
+<li><code>fromMillis</code> converts a Unix timestamp expressed in milliseconds into time object. Example: <code>(fromMillis $admin.CreatedAt).Format "2006-01-02 15:04:05"</code></li>
 </ul>
 <p>Some more examples.</p>
 <p>This example shows how to build a JSON object, such as the body of an HTTP request, using advanced template features.</p>
