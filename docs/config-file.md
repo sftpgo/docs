@@ -104,6 +104,8 @@ Supported configuration parameters for the `sftpd` section:
 - `public_key_algorithms`, list of strings. Public key algorithms that the server will accept for client authentication. The supported values are: `ecdsa-sha2-nistp256`, `ecdsa-sha2-nistp384`, `ecdsa-sha2-nistp521`, `rsa-sha2-512`, `rsa-sha2-256`, `ssh-rsa`, `ssh-dss`, `ssh-ed25519`, `sk-ssh-ed25519@openssh.com`, `sk-ecdsa-sha2-nistp256@openssh.com`. Default values: `ecdsa-sha2-nistp256`, `ecdsa-sha2-nistp384`, `ecdsa-sha2-nistp521`, `rsa-sha2-512`, `rsa-sha2-256`, `ssh-ed25519`, `sk-ssh-ed25519@openssh.com`, `sk-ecdsa-sha2-nistp256@openssh.com`.
 - `trusted_user_ca_keys`, list of public keys paths of certificate authorities that are trusted to sign user certificates for authentication. The paths can be absolute or relative to the configuration directory.
 - `revoked_user_certs_file`, path to a file containing the revoked user certificates. The path can be absolute or relative to the configuration directory. It must contain a JSON list with the public key fingerprints of the revoked certificates. Example content: `["SHA256:bsBRHC/xgiqBJdSuvSTNpJNLTISP/G356jNMCRYC5Es","SHA256:119+8cL/HH+NLMawRsJx6CzPF1I3xC+jpM60bQHXGE8"]`. The revocation list can be reloaded on demand sending a `SIGHUP` signal on Unix based systems and a `paramchange` request to the running service on Windows. Default: "".
+- `opkssh_path`, absolute path to the `opkssh` binary used for [OpenPubkey SSH](https://github.com/openpubkey/opkssh){:target="_blank"} integration. SFTPGo is typically run under a dedicated user (for example, the `sftpgo` system user on Linux). Ensure that this user has the appropriate system-level permissions to access the `opkssh` binary and its associated configuration files. The `trusted_user_ca_keys` and `opkssh_path` settings are mutually exclusive. Default: "".
+- `opkssh_checksum`, expected SHA256 checksum of the `opkssh` binary. It is verified at application startup. Default: "".
 - `login_banner_file`, path to the login banner file. The contents of the specified file, if any, are sent to the remote user before authentication is allowed. It can be a path relative to the config dir or an absolute one. Leave empty to disable login banner.
 - `enabled_ssh_commands`, list of enabled SSH commands. `*` enables all supported commands. [More information](ssh.md#ssh-commands).
 - `keyboard_interactive_authentication`, boolean. This setting specifies whether keyboard interactive authentication is allowed. If no keyboard interactive hook or auth plugin is defined the default is to prompt for the user password and then the one time authentication code, if defined. Default: `true`.
@@ -237,11 +239,21 @@ Supported configuration parameters for the `data_provider` section:
   - `bcrypt_options`, struct containing the options for bcrypt hashing algorithm
     - `cost`, integer between 4 and 31. Default: 10
   - `algo`, string. Algorithm to use for hashing passwords. Available algorithms: `argon2id`, `bcrypt`. For bcrypt hashing we use the `$2a$` prefix. Default: `bcrypt`
-- `password_validation` struct. It defines the password validation rules for admins and protocol users.
+- `password_validation` struct. It defines the password validation rules for admins and protocol users. Prefer the entropy based approach to the static rules as it evaluates the overall cryptographic strength of passwords and provides stronger security.
   - `admins`, struct. It defines the password validation rules for SFTPGo admins.
     - `min_entropy`, float. Defines the minimum password entropy. [More details](https://github.com/wagslane/go-password-validator#what-entropy-value-should-i-use){:target="_blank"}. `0` means disabled, any password will be accepted. Default: `0`.
+    - `length`, integer. Defines the minimum password length. Default: `0`.
+    - `uppers`, integer. Defines the minimum number of uppercase characters. Default: `0`.
+    - `lowers`, integer. Defines the minimum number of lowercase characters. Default: `0`.
+    - `digits`, integer. Defines the minimum number of digits. Default: `0`.
+    - `specials`, integer. Defines the minimum number of special characters. Default: `0`.
   - `users`, struct. It defines the password validation rules for SFTPGo protocol users.
     - `min_entropy`, float. This value is used as fallback if no more specific password strength is set at user/group level. Default: `0`.
+    - `length`, integer. Defines the minimum password length. Default: `0`.
+    - `uppers`, integer. Defines the minimum number of uppercase characters. Default: `0`.
+    - `lowers`, integer. Defines the minimum number of lowercase characters. Default: `0`.
+    - `digits`, integer. Defines the minimum number of digits. Default: `0`.
+    - `specials`, integer. Defines the minimum number of special characters. Default: `0`.
 - `password_caching`, boolean. Verifying argon2id passwords has a high memory and computational cost, verifying bcrypt passwords has a high computational cost, by enabling, in memory, password caching you reduce these costs. Default: `true`
 - `update_mode`, integer. Defines how the database will be initialized/updated. 0 means automatically. 1 means manually using the initprovider sub-command.
 - `create_default_admin`, boolean. Before you can use SFTPGo you need to create an admin account. If you open the admin web UI, a setup screen will guide you in creating the first admin account. You can automatically create the first admin account by enabling this setting and setting the environment variables `SFTPGO_DEFAULT_ADMIN_USERNAME` and `SFTPGO_DEFAULT_ADMIN_PASSWORD`. You can also create the first admin by loading initial data. This setting has no effect if an admin account is already found within the data provider. Default `false`.

@@ -9,6 +9,29 @@ Upgrading to the Enterprise edition of SFTPGo is supported starting from Open So
 
 If you're migrating from an open-source installation, please follow the guide here: [**Migration from Open-Source 2.6.x to Enterprise**](tutorials/migrating.md)
 
+## Update November 7, 2025 - v2.7.20251107
+
+### New features
+
+- New storage backend: Added FTP as a storage backend. This allows using an external FTP server for storage, as well as integrating FTP virtual folders with the EventManager to push or pull files over FTP/S.
+- REST API: Added the `/api/v2/saas/usage` endpoint to retrieve storage and bandwidth usage for SFTPGo SaaS deployments.
+- Added static password validation rules to enforce minimum length, uppercase, lowercase, digit, and special character requirements.
+While this feature was introduced following multiple requests, we still recommend using the password strength setting instead, as it evaluates the overall cryptographic strength of passwords and provides stronger security.
+- SSH: When the `Enforce secure algorithms` setting is enabled, public key signature algorithms are now also validated.
+- Auth plugin: Import email addresses from Active Directory when creating SFTPGo users.
+- EventManager: Added a new action for extracting ZIP archives.
+- EventManager: Added `fromMillis` helper function to easily convert Unix timestamp expressed in milliseconds into time objects.
+- EventManager: Scheduling rules now support minute-level precision.
+- SFTPD: Added support for [OpenPubkey SSH](https://github.com/openpubkey/opkssh){:target="_blank"}, enabling tighter integration between OpenID Connect and SFTP.
+- JWT: Replaced [lestrrat-go/jwx](https://github.com/lestrrat-go/jwx){:target="_blank"} with a lightweight wrapper around [go-jose](https://github.com/go-jose/go-jose){:target="_blank"}. Implementing our own wrapper simplifies the codebase and improves maintainability. Moreover, go-jose depends only on the standard library, resulting in a leaner dependency that still meets all our requirements.
+
+### Bug fixes
+
+- Enforced password validation rules also when applied through a group.
+- Upload Resume: Improved and finalized the fix introduced in `v2.7.20251009`.
+- Fixed an issue where `X-Forwarded-For` headers containing a port number were not handled correctly.
+- IP addresses in the trusted list were never blocked, but they were still counted toward auto-blocking, which caused confusion.
+
 ## Update October 9, 2025 - v2.7.20251009
 
 ### New features
