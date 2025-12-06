@@ -1,13 +1,34 @@
 # Environment variables
 
-You can override all the available [configuration options](config-file.md) and [command line options](cli.md) using environment variables. SFTPGo will check for environment variables with a name matching the key uppercased and prefixed with the `SFTPGO_`. You need to use `__` to traverse a struct.
-
-Let's see some examples:
-
-- To set the `port` for the first sftpd binding, you need to define the env var `SFTPGO_SFTPD__BINDINGS__0__PORT`
-- To set the `execute_on` actions, you need to define the env var `SFTPGO_COMMON__ACTIONS__EXECUTE_ON`. For example `SFTPGO_COMMON__ACTIONS__EXECUTE_ON=upload,download`
-
 The configuration file can change between different versions and merging your custom settings with the default configuration file, after updating SFTPGo, may be time-consuming. For this reason we suggest to set your custom settings using environment variables. This eliminates the need to merge your changes with the default configuration file after each update, you have to just check that your custom configuration keys still exists.
+
+You can override all the available [configuration options](config-file.md) using environment variables.
+
+## Syntax
+
+**SFTPGo will check for environment variables with a name matching the key uppercased and prefixed with `SFTPGO_`. Use `__` to traverse into a struct.** For example:
+
+- To set `common.proxy_protocol` to `1`, define the env var `SFTPGO_COMMON__PROXY_PROTOCOL` with value `1`.
+- To set `webdavd.cors.enabled` to `true`, define the env var `SFTPGO_WEBDAVD__CORS__ENABLED` with value `true`.
+
+For options that are list-like, use the following syntax depending on the item type:
+
+**If the option is a list of simple values (booleans, numbers, strings), the list items should be comma-separated.** For example:
+
+- To set `common.actions.execute_on` to `["upload", "download"]`, define the env var `SFTPGO_COMMON__ACTIONS__EXECUTE_ON` with value `upload,download`.
+- To set `common.event_manager.enabled_commands` to `["/usr/bin/touch", "/usr/bin/mkdir", "/usr/bin/rm"]`, define the env var `SFTPGO_COMMON__EVENT_MANAGER__ENABLED_COMMANDS` with value `/usr/bin/touch,/usr/bin/mkdir,/usr/bin/rm`.
+
+**If the option is a list of structs, set each struct field with separate env vars, using the list index as the key to traverse into each item struct.** For example:
+
+- To set `sftpd.bindings[0].port` to `22`, define the env var `SFTPGO_SFTPD__BINDINGS__0__PORT` with value `22`.
+- To set `command.commands` to `[{"path": "/usr/bin/date"}, {"path: "/usr/bin/ping", "args": ["-c5", "example.com"]}]`, define the env vars:
+  - `SFTPGO_COMMAND__COMMANDS__0__PATH` with value `/usr/bin/date`,
+  - `SFTPGO_COMMAND__COMMANDS__1__PATH` with value `/usr/bin/ping`, and
+  - `SFTPGO_COMMAND__COMMANDS__1__ARGS` with value `-c5,example.com`.
+
+Notice how `command.commands[1].args` is itself a list of strings, so the value of `SFTPGO_COMMAND__COMMANDS__1__ARGS` is a comma-separated list.
+
+## Variable sources
 
 Setting configuration options from environment variables is natural in Docker/Kubernetes.
 If you install SFTPGo on Linux using the official deb/rpm packages you can set your custom environment variables in the file `/etc/sftpgo/sftpgo.env` (create this file if it does not exist, it is defined as `EnvironmentFile` in the SFTPGo systemd unit).
