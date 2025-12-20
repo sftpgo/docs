@@ -87,6 +87,42 @@ This type of share combines the capabilities of both read-only and write-only sh
 
 ![WebClient read write share](../assets/img/webclient_read_write_share.png){data-gallery="webclient-rw-share"}
 
+## Delegating Share Management
+
+By default, a public share is managed only by the user who created it. However, in collaborative environments, you may need to allow colleagues to manage your shares for example, to extend an expiration date or revoke access while you are on vacation.
+
+SFTPGo allows you to associate one or more groups with a share. When a share is assigned to a group, other users within that group (who have the necessary permissions) can view and manage the share, with specific limitations to ensure security and data consistency.
+
+This feature ensures business continuity and allows teams to collaboratively manage external data exchange without relying on a single account.
+
+Only the owner can modify the shared paths (files and folders) and change the group associations. File paths are tied to the specific context of the user who created the share (e.g., a virtual path like `/docs` may map to different storage backends, or to different locations within the same backend, depending on the user).
+
+To enable share delegation, a specific configuration is required on the server side (WebAdmin), which then enables the feature for users in the WebClient.
+
+### Administrator Configuration (WebAdmin)
+
+Administrators can define the Share Policy within the "Advanced settings" section of a group's configuration. The policy controls how shares created by group members are automatically associated with the group.
+
+The policy consists of the Permissions granted to other group members (Read, Edit, Delete) and the Mode:
+
+- **Enforced**: The share policy is mandatory. Every share created by a user in this group is automatically associated with the group using the defined permissions. The user cannot remove this association.
+- **Suggested**: The share policy is pre-selected by default when creating a share, but the user is free to modify the permissions or remove the group association entirely.
+
+![WebAdmin Share Policy](../assets/img/share_policy.png){data-gallery="webadmin-share-policy"}
+
+### User Experience (WebClient)
+
+When users create or edit a share in the WebClient UI, they can control the group access based on the policy configured by the administrator.
+
+![WebClient Group Access](../assets/img/share_group_access.png){data-gallery="webclient-group-access"}
+
+In the example above, the "Read" permission was granted for "group1". This results in the following behavior:
+
+- Visibility: All members of "group1" will see this share in their list, in addition to the shares they created themselves.
+- Access: Because only "Read" was granted, they can view the share details (e.g., the link) but cannot modify its settings or delete it.
+
+If "Edit" or "Delete" permissions were granted, members of "group1" would also be able to modify the share's settings (such as the expiration date) or revoke the share entirely.
+
 ## Automatically Send Share Links
 
 Administrators can configure an EventManager rule and corresponding action from the WebAdmin UI to automatically send an email notification to all email addresses associated with a share whenever a new share is created.

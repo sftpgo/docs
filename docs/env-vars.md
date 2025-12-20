@@ -37,3 +37,11 @@ Some additional environment variables are available:
 - `SFTPGO_HOOK__EXTRACT_MAX_COMPRESSION_RATIO`, sets the maximum allowed compression ratio for extracted ZIP files. Default: `60`.
 - `SFTPGO_HOOK__EXTRACT_MAX_FILES`, sets the maximum number of files allowed in a ZIP archive. Default: `1000`.
 - `SFTPGO_HOOK__EXTRACT_MAX_SIZE`, sets the maximum total uncompressed size allowed for a ZIP archive in MB. Default: `1024`.
+- `SFTPGO_HOOK__PASSWORD_EXPIRATION_EMAIL_SUBJECT`, allows customizing the subject line of the password expiration notification email. Default: `SFTPGo password expiration notification`.
+- `SFTPGO_HOOK__PASSWORD_FORGOT_EMAIL_SUBJECT`, allows customizing the subject line of the “forgot password” email sent to users. Default: `Email Verification Code for <username>`.
+- `SFTPGO_HOOK__SHARE_CODE_EMAIL_SUBJECT`, allows customizing the subject line of emails containing share codes for shares. Default: `Share access code`.
+- `SFTPGO_HOOK__DISABLE_DOT_ENTRIES`, set to `1` to hide `.` and `..` entries from SFTP directory listings.
+- `SFTPGO_HOOK__OAUTH2_DISABLE_PKCE`, set to `1` to disable PKCE for OAuth2 authentication flows used by IMAP and SMTP.
+- `SFTPGO_HOOK__HAS_SHARE_LEGAL_AGREEMENT`, set to `1` to display a legal agreement can be displayed before granting access to the share by external users.
+- `SFTPGO_HOOK_SHARE_LEGAL_TMPL_PATH`, set to the path of a custom HTML template for the share agreement. We recommend using the default template as a starting point, which is typically located at `/usr/share/sftpgo/templates/webclient/sharelegal.html` or an equivalent path depending on the installation method.
+- `SFTPGO_HOOK__ENABLE_OIDC_UI`, set to 1 to add the OpenID Connect configuration section for the first binding in the WebAdmin UI. If more than an OpenID Connect configuration is required, use the configuration file or environment variables to override it instead.

@@ -9,6 +9,26 @@ Upgrading to the Enterprise edition of SFTPGo is supported starting from Open So
 
 If you're migrating from an open-source installation, please follow the guide here: [**Migration from Open-Source 2.6.x to Enterprise**](tutorials/migrating.md)
 
+## Update December xx, 2025 - v2.7.202512xx
+
+### New features
+
+- EventManager: Added `IMAP` action allowing to automatically retrieves email attachments from IMAP mailboxes and makes them available in SFTPGo. Attachments can be placed in a user’s home directory or mapped into a virtual folder, enabling seamless ingestion of files delivered via email.
+- EventManager: Removed hard-coded subjects for emails generated from filesystem templates (outside EventManager) and made them configurable via [environment variables](env-vars.md#additional-environment-variables).
+EventManager: Added an `ICAP` action to enable integration with ICAP servers for antivirus scanning and DLP checks as part of SFTPGo rules, with automatic handling based on scan results (block, adapt, quarantine, or trigger notifications).
+- SFTPD: Allow to [hide dot directory entries](env-vars.md#additional-environment-variables).
+- Shares: Added support for associating groups with shares. This allows permissions to read, update, and delete shares to be granted to members of the same group, facilitating team [collaboration and delegation](./tutorials/shares.md#delegating-share-management).
+
+### Bug fixes
+
+- EventManager: optimized filtering by pushing queries down to the database when no wildcards are used, also resolving certain incorrect results for inverse matches.
+- PreLogin hook: Previously, partial user objects were accepted, which could lead to inconsistent updates (e.g., merging instead of replacing per-directory permissions). Now, the hook requires either a complete user object or an empty response if no modifications are needed.
+
+### Backward incompatible changes
+
+- Enforced stricter validation for usernames and object names: Control characters, `/`, and `\` are now rejected. These characters are included, URL-encoded, in request paths (e.g., `/web/admin/user/<username>`) and can be misinterpreted by some older proxy servers, potentially causing request routing issues.
+- OAuth2: PKCE is now enabled by default to improve security. If you are connecting to a legacy OAuth2/OIDC endpoint, you can disable PKCE in your [configuration](./config-file.md#http-server).
+
 ## Update November 7, 2025 - v2.7.20251107
 
 ### New features

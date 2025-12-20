@@ -35,6 +35,9 @@ Key Enhancements:
 - WOPI protocol integration, allowing in-browser document editing and real-time collaboration directly within the SFTPGo WebClient. Multiple users can edit the same document simultaneously, with live updates for all participants.
 - Email-based authentication for public shares, enhancing security and access control.
 - Numerous additional customization options and configuration improvements across the platform.
+- Additional storage backends.
+- Automatic file ingestion from IMAP mailbox attachments.
+- ICAP integration for antivirus and DLP scanning.
 - Support included.
 
 The open-source version of SFTPGo will continue to be maintained and updated with bug fixes and improvements, ensuring both versions remain reliable and functional.

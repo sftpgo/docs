@@ -76,6 +76,8 @@ Supported actions:
     - Maximum uncompressed size: 1 GB.
   - `PGP` encryption and decryption, allowing you to secure your files using either password-based encryption or PGP key pairs. This includes the ability to sign and verify digital signatures, ensuring both the authenticity and integrity of your data throughout the process.
   - `Metadata Check` verifies whether a specified metadata key exists and matches a configured value, or whether it is absent. To check for non-existence, leave the value field empty. If the condition is not met, the check is retried until the specified timeout is reached (if greater than zero). This action is supported for cloud storage backends.
+  - `IMAP`. Enables integration with IMAP mailboxes. This feature allows you to automatically fetch email attachments from IMAP mailboxes and make them available within SFTPGo, either inside a user’s home directory or mapped into a virtual folder. Attachments can be periodically synchronized, enabling seamless ingestion of files delivered via email.
+  - `ICAP`. Enables integration with ICAP servers to perform antivirus scanning and DLP checks as part of SFTPGo rules. After a file upload, the file can be streamed to an ICAP server for inspection. Depending on the scan result, different actions can be performed automatically, such as deleting the original file, moving it to a quarantine directory or virtual folder, or replacing it with the modified content returned by the ICAP server.
 
 In actions, you can hard-code values such as file paths or email addresses. While this may work in some cases, it's generally better to use dynamic values that adapt to the specific context of the action. This is where dynamic placeholders come in. Placeholders allow you to insert values that are automatically replaced at runtime. They follow the format `{{.FieldName}}` and enable your actions to be more flexible and reusable.
 
@@ -144,6 +146,8 @@ Supported built-in functions:
 
 - `toJson` converts any value to its JSON representation; since `.VirtualPath` is a string, `{ "path": {{ toJson .VirtualPath }} }` outputs `{ "path": "/mydir/myfile.txt" }`, and since `.Metadata` is a map of strings, `{{ toJson .Metadata }}` outputs `{"author":"alice","version":"1.0"}`. Using `toJson` ensures that strings are always correctly quoted and special characters properly escaped for safe inclusion in JSON.
 - `toJsonUnquoted` works like `toJson`, but if the input is a string, it returns the JSON value without the surrounding quotes; for other types it behaves like  `toJson`. This is useful when you want to concatenate a dynamic JSON string with fixed text without extra quotes. Example: `{ "out_dir": "/basedir/{{ toJsonUnquoted .ObjectName }}" }` outputs `{"out_dir": "/basedir/myfile.txt"}`.
+- `toBase64` converts a string value to its Base64 representation.
+- `toHex` converts a string value to its hexadecimal representation.
 - `urlEscape` encodes a string for safe use in query parameters Example: `{{ urlEscape .Email }}` outputs `user%40example.com`).
 - `urlPathEscape` encodes a string for safe use in URL paths. Exammple: `{{ urlPathEscape .VirtualPath }}` outputs: `folder%20name%2Ffile.txt`.
 - `pathDir` returns the directory part of a path. Example: if `.VirtualPath` is `/a/b/file.txt`, `{{ pathDir .VirtualPath }}` outputs `/a/b`.
