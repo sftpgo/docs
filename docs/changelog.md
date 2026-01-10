@@ -9,15 +9,23 @@ Upgrading to the Enterprise edition of SFTPGo is supported starting from Open So
 
 If you're migrating from an open-source installation, please follow the guide here: [**Migration from Open-Source 2.6.x to Enterprise**](tutorials/migrating.md)
 
-## Update December xx, 2025 - v2.7.202512xx
+## Update January xx, 2026 - v2.7.20260110
 
 ### New features
 
 - EventManager: Added `IMAP` action allowing to automatically retrieves email attachments from IMAP mailboxes and makes them available in SFTPGo. Attachments can be placed in a user’s home directory or mapped into a virtual folder, enabling seamless ingestion of files delivered via email.
 - EventManager: Removed hard-coded subjects for emails generated from filesystem templates (outside EventManager) and made them configurable via [environment variables](env-vars.md#additional-environment-variables).
-EventManager: Added an `ICAP` action to enable integration with ICAP servers for antivirus scanning and DLP checks as part of SFTPGo rules, with automatic handling based on scan results (block, adapt, quarantine, or trigger notifications).
+- EventManager: Added an `ICAP` action to enable integration with ICAP servers for antivirus scanning and DLP checks as part of SFTPGo rules, with automatic handling based on scan results (block, adapt, quarantine, or trigger notifications).
+- EventManager: Added `ShareExpiration` action to automate [share lifecycle management](tutorials/shares.md#automating-share-lifecycle-management). It enables expiration based on inactivity thresholds or token exhaustion, with support for pre-expiration warnings (`AdvanceNotice`) and soft deletes (`GracePeriod`). The action handles group shares by notifying all members during the warning phase while restricting the deletion event to the share owner.
 - SFTPD: Allow to [hide dot directory entries](env-vars.md#additional-environment-variables).
 - Shares: Added support for associating groups with shares. This allows permissions to read, update, and delete shares to be granted to members of the same group, facilitating team [collaboration and delegation](./tutorials/shares.md#delegating-share-management).
+- OIDC: Added support for configuring the claim values used to map an OIDC-authenticated user to an SFTPGo admin. Previously, only the fixed value `admin` was accepted and could not be customized.
+- OIDC: Added support for `max_age` and `prompt` parameters to enforce re-authentication based on session age and control the login/consent interaction.
+- WebAdmin UI / REST API: Added support for configuring [request size limits](env-vars.md#additional-environment-variables). Previously, the maximum size for HTTP request payloads was fixed at 1 MB.
+- WebClient: Added support for cloning shares.
+- WebAdmin / WebClient: Added Chinese and Spanish translations.
+- Web UI: Added a new option in the Branding section that allows hiding the WebAdmin or WebClient link from the login page.
+- Users: Added support for multiple custom placeholders (up to 10), which can be referenced in group configurations as `%custom1%`, `%custom2%`, and so on.
 
 ### Bug fixes
 
@@ -28,6 +36,8 @@ EventManager: Added an `ICAP` action to enable integration with ICAP servers for
 
 - Enforced stricter validation for usernames and object names: Control characters, `/`, and `\` are now rejected. These characters are included, URL-encoded, in request paths (e.g., `/web/admin/user/<username>`) and can be misinterpreted by some older proxy servers, potentially causing request routing issues.
 - OAuth2: PKCE is now enabled by default to improve security. If you are connecting to a legacy OAuth2/OIDC endpoint, you can disable PKCE in your [configuration](./config-file.md#http-server).
+- OIDC: Matching of role claim values used to map an OIDC-authenticated user to an SFTPGo admin is now case-insensitive.
+- Public Shares API: The file upload endpoint has been updated from `POST /api/v2/shares/{id}/{filePath}` to `POST /api/v2/shares/{id}/files/{filePath}`. Previously, the file path was required to be a single, fully URL-encoded segment (e.g. `dir%2Ffile.txt`). The new endpoint supports standard slash-delimited paths (e.g. `dir/file.txt`). This change resolves 404 errors that could occur in edge cases with the previous URL structure.
 
 ## Update November 7, 2025 - v2.7.20251107
 

@@ -62,6 +62,7 @@ Supported actions:
 - `Password expiration check`. You can send an email notification to users whose password is about to expire.
 - `User expiration check`. You can receive notifications with expired users.
 - `User inactivity check`. Allow to disable or delete inactive users.
+- `Share expiration check`. Automated lifecycle management for shares based on inactivity, expiration or max tokens. You can configure an inactivity threshold, an advance notice period (to trigger events before expiration), and a grace period (soft delete). Use the Split events option to generate individual events for each share, enabling 1-to-1 notifications. For group shares, warning events are generated for all members, while the deletion event is executed for the share owner.
 - `Identity Provider account check`. You can create/update accounts for users/admins logging in using an Identity Provider.
 - `Filesystem`. For these actions, the required permissions are automatically granted. This is the same as executing the actions from an SFTP client and the same restrictions applies. Supported actions:
   - `Rename`. You can rename one or more files or directories.
@@ -104,7 +105,7 @@ We use Go’s template system under the hood. For a comprehensive overview, plea
 - `{{.Email}}`. For filesystem events, this is the email associated with the user performing the action. For the provider events, this is the email associated with the affected user or admin. Blank in all other cases. Format: string.
 - `{{.Timestamp}}`. Event timestamp. Format: time object. A time object has several useful methods: `UTC`, `Local`, `Unix`, `UnixMilli`, `Year`, `Month`, `Day`, `Hour`, `Minute`, and `Second`.
 - `{{.UID}}`. Unique ID. Format: string.
-- `{{.Object}}`. Provider object data with sensitive fields removed. It’s an object that includes a `JSON` method to get its JSON representation. For example, use `"ObjectJSON": {{.Object.JSON}}`. If you need the JSON as a string, use `"ObjectString": {{.Object.JSON | toJson}}`. This placeholder also allow to access some inner objects:
+- `{{.Object}}`. Provider object data with sensitive fields removed. It’s an object that includes a `JSON` method to get its JSON representation. For example, use `"ObjectJSON": {{.Object.JSON}}`. If you need the JSON as a string, use `"ObjectString": {{.Object.JSON | toJson}}`. This placeholder also allow to access some inner objects. The fields available for inner objects match those documented in the [REST API](https://sftpgo.com/rest-api){:target="_blank"}, but use PascalCase, for example: `CreatedAt`, `Description`, and so on. The following objects can be used:
   - `Share`, if the event is related to a share. For example `{{.Object.Share.ExpiresAt}}` or `{{.Object.Share.Scope}`.
   - `User`, if the event is related to a user.
   - `Admin`, if the event is related to an admin.
@@ -112,6 +113,25 @@ We use Go’s template system under the hood. For a comprehensive overview, plea
 - `{{.RetentionReports}}`. Data retention reports as zip compressed CSV files. Supported as email attachment, file path for multipart HTTP request and as single parameter for HTTP requests body. Data retention reports contain details on the number of files deleted and the total size deleted for each folder. Format: string
 - `{{.IDPFields}}`. Custom fields from the Identity Provider. Format: object. The structure depends on the specific custom claims configured in your Identity Provider.
 - `{{.Metadata}}`. Cloud storage metadata represented as key/value pairs, where both keys and values are strings. You can use `range` to iterate over the keys and values.
+- `{{.RetentionChecks}}`. List of executed retention checks. This placeholder is populated for the `Data retention check` action. Format: list of objects. Each item contains the following fields:
+  - `Username`, string.
+  - `Email`, list of strings.
+  - `ActionName` string.
+  - `Type`, integer. Supported values: `0` (delete), `1` (archive).
+  - `Results` list of objects, where each object represents the result for a specific folder and contains:
+    - `Path`, string.
+    - `Retention`, integer (hours).
+    - `DeletedFiles`, integer.
+    - `DeletedSize`, integer (bytes)
+    - `Elapsed`, integer (nanoseconds).
+    - `Info`, string
+    - `Error`, string
+- `{{.ShareExpirationChecks}}`. List of executed share expiration checks. This placeholder is populated for the `Share expiration check` action. Each item is an object containing two fields: `User` and `Results`. `Results` is a list of `ShareExpirationResult` objects (see `{{.ShareExpirationResult}}` below for the structure details). For the `User` struct and the `Share` struct inside `ShareExpirationResult`, the fields available match those documented in the [REST API](https://sftpgo.com/rest-api){:target="_blank"}, but use PascalCase (e.g., `CreatedAt`, `Description`). Format: list of objects.
+- `{{.ShareExpirationResult}}`. The specific result of a share expiration check. This placeholder is available **only** when `Split events` is enabled for the `Share expiration check` action. In this mode, the event is triggered individually for each result, and standard placeholders like `{{.Name}}` and `{{.Email}}` are automatically updated to match the user associated with this result. The object contains the following fields:
+  - `Share`: The full share object. Fields match those documented in the [REST API](https://sftpgo.com/rest-api){:target="_blank"}, but use PascalCase (e.g., `{{.ShareExpirationResult.Share.Name}}`, `{{.ShareExpirationResult.Share.UsedTokens}}`).
+  - `Action`: The action taken (integer). Supported values: `1` (notify), `2` (delete).
+  - `Reason`: The reason for the action (string). Possible values: `max_tokens`, `expiration_date`, `inactivity`.
+  - `Expiration`: The calculated expiration time (time object).
 
 The `{{.Timestamp}}` time object provides several useful methods:
 

@@ -40,22 +40,56 @@ Loading data from a provider independent JSON dump is supported from the previou
 
 ## Downgrading
 
-If for some reason you want to downgrade SFTPGo, you may need to downgrade your data provider schema and data as well. You can use the `revertprovider` command for this task.
+If you need to downgrade SFTPGo to a previous version, simply replacing the binary is not enough. You must also revert the database schema and data to make them compatible with the older version.
 
-As for upgrading, SFTPGo supports downgrading from the previous release branch to the current one.
+Newer versions of SFTPGo often introduce changes to the data provider (database), such as new tables or columns. Older binaries do not know how to handle these changes and will fail to start if the database schema version is higher than what they expect.
 
-So, if you plan to downgrade from 2.3.x to 2.2.x, before uninstalling 2.3.x version, you can prepare your data provider executing the following command from the configuration directory:
+To handle this, you can use the `revertprovider` command.
+
+:warning: Before proceeding, strictly backup your database. You can also create a database-independent backup (JSON format) from the "Maintenance" section of the WebAdmin or using the REST API. Downgrading the schema involves dropping tables or columns added in the newer version, resulting in irreversible data loss for those specific fields.
+
+### How to use revertprovider
+
+You must execute this command before uninstalling the current (newer) version of SFTPGo. The current binary contains the logic necessary to revert the changes it applied.
+
+Run the command from your configuration directory:
 
 ```shell
-sftpgo revertprovider
+sftpgo revertprovider --to-version <VERSION_NUMBER>
 ```
 
-Take a look at the CLI usage to learn how to specify a configuration file:
+You can verify the command options and defaults using:
 
 ```shell
 sftpgo revertprovider --help
 ```
 
-The `revertprovider` command is not supported for the memory provider.
+### Schema Versions
 
-Please note that we only support the current release branch and the current main branch, if you find a bug it is better to report it rather than downgrading to an older unsupported version.
+The `--to-version` parameter accepts an integer representing the internal schema version you want to target. The current schema version is 34.
+
+Here are the supported target versions for downgrading:
+
+- **34 (Current)**: The latest schema version.
+- **33 (v2.7.x)**: **Default value.** Target this version to downgrade to v2.7.x.
+- **30, 31, 32 (Intermediate)**: Intermediate schema versions between v2.6.x and v2.7.x.
+- **29 (v2.6.x)**: Target this version to downgrade to v2.6.x.
+
+### Example
+
+If you are currently running the latest version (Schema 34) and want to downgrade to v2.6.x, you must revert the database schema to version 29.
+
+- Stop the SFTPGo service.
+- Run the revert command:
+
+```shell
+sftpgo revertprovider --to-version 29
+```
+
+- Uninstall the current SFTPGo binary.
+- Install SFTPGo v2.6.x.
+- Start the service.
+
+Note: The `revertprovider` command is not supported (and not needed) for the memory provider, as data is not persisted.
+
+Support Policy: Please note that we officially support only the current release branch and the main branch. If you are downgrading because you found a bug, we strongly encourage you to report the issue so we can fix it, rather than reverting to an older, unsupported version.

@@ -66,3 +66,5 @@ Some additional environment variables are available:
 - `SFTPGO_HOOK__HAS_SHARE_LEGAL_AGREEMENT`, set to `1` to display a legal agreement can be displayed before granting access to the share by external users.
 - `SFTPGO_HOOK_SHARE_LEGAL_TMPL_PATH`, set to the path of a custom HTML template for the share agreement. We recommend using the default template as a starting point, which is typically located at `/usr/share/sftpgo/templates/webclient/sharelegal.html` or an equivalent path depending on the installation method.
 - `SFTPGO_HOOK__ENABLE_OIDC_UI`, set to 1 to add the OpenID Connect configuration section for the first binding in the WebAdmin UI. If more than an OpenID Connect configuration is required, use the configuration file or environment variables to override it instead.
+- `SFTPGO_HOOK__HTTPD_MAX_REQUEST_SIZE`. Allows configuring the maximum size of HTTP requests in MB. Default: 1 MB. :warning: Increasing this value may expose the server to large payloads, which can impact memory usage or allow denial-of-service attacks.
+- `SFTPGO_HOOK__HTTPD_MAX_RESTORE_SIZE`. Allows configuring the maximum size of a backup to restore in MB. Default: 20 MB.

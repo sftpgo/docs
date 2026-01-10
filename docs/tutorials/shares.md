@@ -95,7 +95,7 @@ SFTPGo allows you to associate one or more groups with a share. When a share is 
 
 This feature ensures business continuity and allows teams to collaboratively manage external data exchange without relying on a single account.
 
-Only the owner can modify the shared paths (files and folders) and change the group associations. File paths are tied to the specific context of the user who created the share (e.g., a virtual path like `/docs` may map to different storage backends, or to different locations within the same backend, depending on the user).
+Only the owner can modify shared paths (files and folders), access scope (read/write), and group associations. File paths are tied to the specific context of the user who created the share (e.g., a virtual path like `/docs` may map to different storage backends, or to different locations within the same backend, depending on the user).
 
 To enable share delegation, a specific configuration is required on the server side (WebAdmin), which then enables the feature for users in the WebClient.
 
@@ -125,7 +125,7 @@ If "Edit" or "Delete" permissions were granted, members of "group1" would also b
 
 ## Automatically Send Share Links
 
-Administrators can configure an EventManager rule and corresponding action from the WebAdmin UI to automatically send an email notification to all email addresses associated with a share whenever a new share is created.
+Administrators can configure an Event Manager rule and corresponding action from the WebAdmin UI to automatically send an email notification to all email addresses associated with a share whenever a new share is created.
 The email includes the access link, ensuring that recipients are promptly notified without requiring any manual steps.
 
 From the WebAdmin UI, create an email action similar to the example below.
@@ -146,7 +146,7 @@ Where:
 - `{{.ObjectName}}` expands to the ID of the share.
 - The `urlPathEscape` helper function ensures the share ID is properly URL-encoded.
 
-Finally, create an EventManager rule that triggers this action whenever a new share is created.
+Finally, create an Event Manager rule that triggers this action whenever a new share is created.
 
 ![WebAdmin rule add share notification](../assets/img/webadmin_rule_add_share_notification.png){data-gallery="webadmin-add-share-notify"}
 ![WebAdmin rule add share notification1](../assets/img/webadmin_rule_add_share_notification1.png){data-gallery="webadmin-add-share-notify"}
@@ -155,7 +155,7 @@ Finally, create an EventManager rule that triggers this action whenever a new sh
 
 SFTPGo allows administrators to configure notifications when an external user uploads or downloads a file through a share.
 
-For example, you can set up an EventManager rule and action to automatically send an email notification to the SFTPGo user who created the share.
+For example, you can set up an Event Manager rule and action to automatically send an email notification to the SFTPGo user who created the share.
 The notification can include:
 
 - The name and details of the file uploaded or downloaded.
@@ -175,3 +175,95 @@ Here is an example rule to execute the above action.
 ![WebAdmin share event rule](../assets/img/webadmin_share_event_rule.png){data-gallery="webadmin-share-event-notify"}
 
 Naturally, all operations performed on shares, including uploads and downloads, also recorded in the audit logs.
+
+## Automating Share Lifecycle Management
+
+SFTPGo can automatically manage the lifecycle of public shares to ensure security and compliance. By using the Event Manager, administrators can configure rules to detect shares that are inactive, about to expire, or have exhausted their allowed tokens, and take appropriate actions (such as sending a notification or deleting the share).
+
+### Step 1: Create the Expiration Check Action
+
+First, you need to define the criteria for what constitutes an "expired" or "inactive" share.
+
+1. Go to **EventManager** -> **Actions** and click **Add**.
+2. Select **Share expiration check** as the action type.
+3. Configure the following parameters:
+   - **Inactivity threshold**: Defines the validity period (in days) for shares **without an explicit expiration date**. The expiration is calculated based on the last usage time (or the creation time if the share has never been used). If set to 0, automatic expiration based on inactivity is disabled.
+   - **Advance notice**: How many days before the actual expiration (or the calculated inactivity expiration) to trigger a "notification" event.
+   - **Grace period**: How many days to keep an expired share in the database before permanently deleting it (Soft Delete).
+   - **Split events**:
+     - If **enabled**: The action triggers a separate event for every single share/user found. This populates the `{{.ShareExpirationResult}}` placeholder, making it ideal for **Email notifications** where you need the context of a specific share owner.
+     - If **disabled**: The action generates a single event containing the results of all checks. The `{{.ShareExpirationChecks}}` list is always available in both modes, but this mode is ideal for **HTTP webhooks** or admin reports where you want to process all data in bulk.
+
+### Step 2: Configure the Notification (Email or HTTP)
+
+Once the check is performed, you usually want to do something with the results. You can chain a second action to handle this.
+
+#### Scenario A: Email Notification to Share Owners
+
+If you enabled **Split events** in the previous step, you can send a personalized email to the user who created the share (and all group members if the share is in "warning" state).
+
+Create an **Email** action with the following template:
+
+**Subject:**
+
+```text
+Update regarding your shared files
+```
+
+**Body:**
+
+```text
+Hello {{.Name}},
+
+The following share requires your attention:
+
+Share Name: {{.ShareExpirationResult.Share.Name}}
+ID: {{.ShareExpirationResult.Share.ShareID}}
+Expiration Date: {{.ShareExpirationResult.Expiration.Format "2006-01-02"}}
+
+Status: {{ if eq .ShareExpirationResult.Action 1}}Expiring soon{{else}}Expired and deleted{{end}}
+Reason: {{.ShareExpirationResult.Reason}}
+
+{{if eq .ShareExpirationResult.Action 1 -}}
+Please extend the expiration date if you wish to keep this share active.
+{{- else -}}
+This share has been removed permanently.
+{{- end}}
+```
+
+#### Scenario B: HTTP Report to an External System
+
+If you **disabled** "Split events", you receive a list of all checks in a single payload. You can send this to an external webhook for auditing.
+
+Create an **HTTP** action with a JSON body like this:
+
+```json
+{
+  "timestamp": "{{.Timestamp.Format "2006-01-02T15:04:05Z07:00"}}",
+  "report": {{ toJson .ShareExpirationChecks }}
+}
+```
+
+The `{{.ShareExpirationChecks}}` placeholder will expand to a JSON array containing the users and their respective share results.
+
+### Step 3: Define the Rule
+
+Finally, create a Rule to execute these actions periodically.
+
+1. Go to **Event Manager** -> **Rules** and click **Add**.
+2. **Trigger**: Select **Schedule**.
+3. **Schedule**: Define how often to run the check (e.g., daily at 02:00 AM).
+4. **Actions**: Add the actions created in the previous steps in the following order:
+   1. The **Share expiration check** action.
+   2. The **Notification** action (Email or HTTP).
+
+### How it works
+
+When the rule executes:
+
+1. SFTPGo scans all shares that meet the rules' conditions.
+2. If a share is within the **Advance notice** window, it is flagged with `Action: 1` (Notify).
+3. If a share has passed its expiration (plus the **Grace period**), it is flagged with `Action: 2` (Delete) and removed from the database.
+4. If **Split events** is active:
+   - **Individual** actions are executed for the notification step.
+   - **Group Shares**: If a share belongs to a group and is in the "Notify" state, the event is expanded to **all group members** so everyone is aware. If the share is in the "Delete" state, the event is executed **only for the owner** to avoid redundant notifications.

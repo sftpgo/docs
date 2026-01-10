@@ -33,6 +33,7 @@ SFTPGo Enterprise offerings on AWS Marketplace:
 - [SFTPGo Enterprise - Premium](https://aws.amazon.com/marketplace/pp/prodview-ocwppyuudgbz2){:target="_blank"}
 - [SFTPGo Enterprise - Starter (arm64)](https://aws.amazon.com/marketplace/pp/prodview-ukjjbuggrxrlw){:target="_blank"}
 - [SFTPGo Enterprise - Premium (arm64)](https://aws.amazon.com/marketplace/pp/prodview-6fcfsxgzfx3yu){:target="_blank"}
+- [SFTPGo Enterprise - Container](https://aws.amazon.com/marketplace/pp/prodview-y2aqp5bjdjdvu){:target="_blank"}
 
 Prior to the general availability of SFTPGo Enterprise, we released some offerings based on the open-source version of SFTPGo. While these remain fully supported, we recommend migrating to the Enterprise edition for improved performance and more advanced features. You can view all of our supported offerings using [this link](https://aws.amazon.com/marketplace/seller-profile?id=6e849ab8-70a6-47de-9a43-13c3fa849335){:target="_blank"}.
 
@@ -40,14 +41,15 @@ Prior to the general availability of SFTPGo Enterprise, we released some offerin
 
 SFTPGo Enterprise offerings on Azure Marketplace:
 
-- [SFTPGo Enterprise for Linux](https://azuremarketplace.microsoft.com/marketplace/apps/eliamarzia1667381463185.sftpgo_enterprise_linux){:target="_blank"}
-- [SFTPGo Enterprise for Windows](https://azuremarketplace.microsoft.com/marketplace/apps/eliamarzia1667381463185.sftpgo_enterprise_windows){:target="_blank"}
+- [SFTPGo Enterprise for Linux](https://marketplace.microsoft.com/product/virtual-machines/eliamarzia1667381463185.sftpgo_enterprise_linux){:target="_blank"}
+- [SFTPGo Enterprise for Windows](https://marketplace.microsoft.com/product/virtual-machines/eliamarzia1667381463185.sftpgo_enterprise_windows){:target="_blank"}
+- [SFTPGo Enterprise for AKS](https://marketplace.microsoft.com/product/container/eliamarzia1667381463185.sftpgo_enterprise_aks){:target="_blank"}
 
 Prior to the general availability of SFTPGo Enterprise, we released some offerings based on the open-source version of SFTPGo. While these remain fully supported, we recommend migrating to the Enterprise edition for improved performance and more advanced features. Here is the list of additional supported offer:
 
-- [SFTPGo for Linux](https://azuremarketplace.microsoft.com/marketplace/apps/eliamarzia1667381463185.sftpgo_linux){:target="_blank"}
-- [SFTPGo for Windows](https://azuremarketplace.microsoft.com/marketplace/apps/eliamarzia1667381463185.sftpgo_windows){:target="_blank"}
-- [SFTPGo for AKS](https://azuremarketplace.microsoft.com/marketplace/apps/eliamarzia1667381463185.sftpgo_aks){:target="_blank"}
+- [SFTPGo Open Source for Linux](https://marketplace.microsoft.com/product/virtual-machines/eliamarzia1667381463185.sftpgo_linux){:target="_blank"}
+- [SFTPGo Open Source for Windows](https://marketplace.microsoft.com/product/virtual-machines/eliamarzia1667381463185.sftpgo_windows){:target="_blank"}
+- [SFTPGo Open Source for AKS](https://marketplace.microsoft.com/product/containers/eliamarzia1667381463185.sftpgo_aks){:target="_blank"}
 
 ### Google Cloud
 
@@ -169,7 +171,7 @@ sudo systemctl enable sftpgo
 
 ### Windows
 
-You can download the latest Windows installer using [this link](https://download.sftpgo.com/windows/sftpgo_windows_x86_64.exe){:target="_blank"}. The installer includes the plugins and will automatically register SFTPGo as a Windows service, starting it immediately after installation.
+You can download the latest Windows installer using [this link](https://download.sftpgo.com/windows/sftpgo_windows_x86_64.exe){:target="_blank"}. The installer includes the plugins and will automatically register SFTPGo as a Windows service, starting it immediately after installation. Alternatively, SFTPGo can also be installed using **winget** with the following command: `winget install -e --id drakkan.SFTPGoEnterprise`.
 
 By default, the service runs under the Local System account. However, you can configure it to run under a different user account either through the built-in Windows Services UI or via the command line, as shown below:
 

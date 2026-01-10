@@ -33,7 +33,7 @@ Key Enhancements:
 - A more powerful EventManager, enabling advanced and flexible automation workflows.
 - PGP encryption and decryption.
 - WOPI protocol integration, allowing in-browser document editing and real-time collaboration directly within the SFTPGo WebClient. Multiple users can edit the same document simultaneously, with live updates for all participants.
-- Email-based authentication for public shares, enhancing security and access control.
+- Email-based authentication and group delegation for public shares, enhancing security and access control.
 - Numerous additional customization options and configuration improvements across the platform.
 - Additional storage backends.
 - Automatic file ingestion from IMAP mailbox attachments.
@@ -48,4 +48,4 @@ The Enterprise version is offered under a [proprietary license](https://sftpgo.c
 
 ## Copyright
 
-Copyright (C) 2019 - 2025 Nicola Murino
+Copyright (C) 2019 - 2026 Nicola Murino
