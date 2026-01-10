@@ -159,7 +159,7 @@ You can download and install the Windows installer from our [release](https://gi
 Other options:
 
 - The portable [release](https://github.com/drakkan/sftpgo/releases){:target="_blank"} to run SFTPGo on demand.
-- The [winget](https://docs.microsoft.com/en-us/windows/package-manager/winget/install){:target="_blank"} package to install and run SFTPGo as a Windows service: `winget install SFTPGo`.
+- The [winget](https://docs.microsoft.com/en-us/windows/package-manager/winget/install){:target="_blank"} package to install and run SFTPGo as a Windows service: `winget install -e --id drakkan.SFTPGo`.
 - The [Chocolatey package](https://community.chocolatey.org/packages/sftpgo){:target="_blank"} to install and run SFTPGo as a Windows service.
 
 ## macOS
