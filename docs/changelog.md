@@ -9,7 +9,7 @@ Upgrading to the Enterprise edition of SFTPGo is supported starting from Open So
 
 If you're migrating from an open-source installation, please follow the guide here: [**Migration from Open-Source 2.6.x to Enterprise**](tutorials/migrating.md)
 
-## Update January xx, 2026 - v2.7.20260110
+## Update January 10, 2026 - v2.7.20260110
 
 ### New features
 
