@@ -511,6 +511,39 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Downgrading">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-use-revertprovider" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to use revertprovider
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schema-versions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schema Versions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -1796,6 +1829,39 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Downgrading">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-use-revertprovider" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to use revertprovider
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schema-versions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schema Versions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -1838,16 +1904,42 @@ Some examples for supported upgrade paths are:</p>
 <p>So if, for example, you want to upgrade from 2.0.x to 2.2.x, you must first install version 2.1.x, update the data provider (automatically, by starting SFTPGo or manually using the <code>initprovider</code> command) and finally install the version 2.2.x. It is recommended to always install the latest available minor version, ie do not install 2.1.0 if 2.1.2 is available.</p>
 <p>Loading data from a provider independent JSON dump is supported from the previous release branch to the current one too. After upgrading SFTPGo it is advisable to regenerate the JSON dump from the new version.</p>
 <h2 id="downgrading">Downgrading</h2>
-<p>If for some reason you want to downgrade SFTPGo, you may need to downgrade your data provider schema and data as well. You can use the <code>revertprovider</code> command for this task.</p>
-<p>As for upgrading, SFTPGo supports downgrading from the previous release branch to the current one.</p>
-<p>So, if you plan to downgrade from 2.3.x to 2.2.x, before uninstalling 2.3.x version, you can prepare your data provider executing the following command from the configuration directory:</p>
-<pre><code class="language-shell">sftpgo revertprovider
+<p>If you need to downgrade SFTPGo to a previous version, simply replacing the binary is not enough. You must also revert the database schema and data to make them compatible with the older version.</p>
+<p>Newer versions of SFTPGo often introduce changes to the data provider (database), such as new tables or columns. Older binaries do not know how to handle these changes and will fail to start if the database schema version is higher than what they expect.</p>
+<p>To handle this, you can use the <code>revertprovider</code> command.</p>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/26a0.svg" title=":warning:" /> Before proceeding, strictly backup your database. You can also create a database-independent backup (JSON format) from the "Maintenance" section of the WebAdmin or using the REST API. Downgrading the schema involves dropping tables or columns added in the newer version, resulting in irreversible data loss for those specific fields.</p>
+<h3 id="how-to-use-revertprovider">How to use revertprovider</h3>
+<p>You must execute this command before uninstalling the current (newer) version of SFTPGo. The current binary contains the logic necessary to revert the changes it applied.</p>
+<p>Run the command from your configuration directory:</p>
+<pre><code class="language-shell">sftpgo revertprovider --to-version &lt;VERSION_NUMBER&gt;
 </code></pre>
-<p>Take a look at the CLI usage to learn how to specify a configuration file:</p>
+<p>You can verify the command options and defaults using:</p>
 <pre><code class="language-shell">sftpgo revertprovider --help
 </code></pre>
-<p>The <code>revertprovider</code> command is not supported for the memory provider.</p>
-<p>Please note that we only support the current release branch and the current main branch, if you find a bug it is better to report it rather than downgrading to an older unsupported version.</p>
+<h3 id="schema-versions">Schema Versions</h3>
+<p>The <code>--to-version</code> parameter accepts an integer representing the internal schema version you want to target. The current schema version is 34.</p>
+<p>Here are the supported target versions for downgrading:</p>
+<ul>
+<li><strong>34 (Current)</strong>: The latest schema version.</li>
+<li><strong>33 (v2.7.x)</strong>: <strong>Default value.</strong> Target this version to downgrade to v2.7.x.</li>
+<li><strong>30, 31, 32 (Intermediate)</strong>: Intermediate schema versions between v2.6.x and v2.7.x.</li>
+<li><strong>29 (v2.6.x)</strong>: Target this version to downgrade to v2.6.x.</li>
+</ul>
+<h3 id="example">Example</h3>
+<p>If you are currently running the latest version (Schema 34) and want to downgrade to v2.6.x, you must revert the database schema to version 29.</p>
+<ul>
+<li>Stop the SFTPGo service.</li>
+<li>Run the revert command:</li>
+</ul>
+<pre><code class="language-shell">sftpgo revertprovider --to-version 29
+</code></pre>
+<ul>
+<li>Uninstall the current SFTPGo binary.</li>
+<li>Install SFTPGo v2.6.x.</li>
+<li>Start the service.</li>
+</ul>
+<p>Note: The <code>revertprovider</code> command is not supported (and not needed) for the memory provider, as data is not persisted.</p>
+<p>Support Policy: Please note that we officially support only the current release branch and the main branch. If you are downgrading because you found a bug, we strongly encourage you to report the issue so we can fix it, rather than reverting to an older, unsupported version.</p>
 
 
 

@@ -1951,6 +1951,7 @@ The following trigger events are supported:</p>
 <li><code>Password expiration check</code>. You can send an email notification to users whose password is about to expire.</li>
 <li><code>User expiration check</code>. You can receive notifications with expired users.</li>
 <li><code>User inactivity check</code>. Allow to disable or delete inactive users.</li>
+<li><code>Share expiration check</code>. Automated lifecycle management for shares based on inactivity, expiration or max tokens. You can configure an inactivity threshold, an advance notice period (to trigger events before expiration), and a grace period (soft delete). Use the Split events option to generate individual events for each share, enabling 1-to-1 notifications. For group shares, warning events are generated for all members, while the deletion event is executed for the share owner.</li>
 <li><code>Identity Provider account check</code>. You can create/update accounts for users/admins logging in using an Identity Provider.</li>
 <li><code>Filesystem</code>. For these actions, the required permissions are automatically granted. This is the same as executing the actions from an SFTP client and the same restrictions applies. Supported actions:<ul>
 <li><code>Rename</code>. You can rename one or more files or directories.</li>
@@ -1967,6 +1968,8 @@ The following trigger events are supported:</p>
 </li>
 <li><code>PGP</code> encryption and decryption, allowing you to secure your files using either password-based encryption or PGP key pairs. This includes the ability to sign and verify digital signatures, ensuring both the authenticity and integrity of your data throughout the process.</li>
 <li><code>Metadata Check</code> verifies whether a specified metadata key exists and matches a configured value, or whether it is absent. To check for non-existence, leave the value field empty. If the condition is not met, the check is retried until the specified timeout is reached (if greater than zero). This action is supported for cloud storage backends.</li>
+<li><code>IMAP</code>. Enables integration with IMAP mailboxes. This feature allows you to automatically fetch email attachments from IMAP mailboxes and make them available within SFTPGo, either inside a user’s home directory or mapped into a virtual folder. Attachments can be periodically synchronized, enabling seamless ingestion of files delivered via email.</li>
+<li><code>ICAP</code>. Enables integration with ICAP servers to perform antivirus scanning and DLP checks as part of SFTPGo rules. After a file upload, the file can be streamed to an ICAP server for inspection. Depending on the scan result, different actions can be performed automatically, such as deleting the original file, moving it to a quarantine directory or virtual folder, or replacing it with the modified content returned by the ICAP server.</li>
 </ul>
 </li>
 </ul>
@@ -1993,7 +1996,7 @@ The following trigger events are supported:</p>
 <li><code>{{.Email}}</code>. For filesystem events, this is the email associated with the user performing the action. For the provider events, this is the email associated with the affected user or admin. Blank in all other cases. Format: string.</li>
 <li><code>{{.Timestamp}}</code>. Event timestamp. Format: time object. A time object has several useful methods: <code>UTC</code>, <code>Local</code>, <code>Unix</code>, <code>UnixMilli</code>, <code>Year</code>, <code>Month</code>, <code>Day</code>, <code>Hour</code>, <code>Minute</code>, and <code>Second</code>.</li>
 <li><code>{{.UID}}</code>. Unique ID. Format: string.</li>
-<li><code>{{.Object}}</code>. Provider object data with sensitive fields removed. It’s an object that includes a <code>JSON</code> method to get its JSON representation. For example, use <code>"ObjectJSON": {{.Object.JSON}}</code>. If you need the JSON as a string, use <code>"ObjectString": {{.Object.JSON | toJson}}</code>. This placeholder also allow to access some inner objects:<ul>
+<li><code>{{.Object}}</code>. Provider object data with sensitive fields removed. It’s an object that includes a <code>JSON</code> method to get its JSON representation. For example, use <code>"ObjectJSON": {{.Object.JSON}}</code>. If you need the JSON as a string, use <code>"ObjectString": {{.Object.JSON | toJson}}</code>. This placeholder also allow to access some inner objects. The fields available for inner objects match those documented in the <a href="https://sftpgo.com/rest-api" target="_blank">REST API</a>, but use PascalCase, for example: <code>CreatedAt</code>, <code>Description</code>, and so on. The following objects can be used:<ul>
 <li><code>Share</code>, if the event is related to a share. For example <code>{{.Object.Share.ExpiresAt}}</code> or <code>{{.Object.Share.Scope}</code>.</li>
 <li><code>User</code>, if the event is related to a user.</li>
 <li><code>Admin</code>, if the event is related to an admin.</li>
@@ -2003,6 +2006,31 @@ The following trigger events are supported:</p>
 <li><code>{{.RetentionReports}}</code>. Data retention reports as zip compressed CSV files. Supported as email attachment, file path for multipart HTTP request and as single parameter for HTTP requests body. Data retention reports contain details on the number of files deleted and the total size deleted for each folder. Format: string</li>
 <li><code>{{.IDPFields}}</code>. Custom fields from the Identity Provider. Format: object. The structure depends on the specific custom claims configured in your Identity Provider.</li>
 <li><code>{{.Metadata}}</code>. Cloud storage metadata represented as key/value pairs, where both keys and values are strings. You can use <code>range</code> to iterate over the keys and values.</li>
+<li><code>{{.RetentionChecks}}</code>. List of executed retention checks. This placeholder is populated for the <code>Data retention check</code> action. Format: list of objects. Each item contains the following fields:<ul>
+<li><code>Username</code>, string.</li>
+<li><code>Email</code>, list of strings.</li>
+<li><code>ActionName</code> string.</li>
+<li><code>Type</code>, integer. Supported values: <code>0</code> (delete), <code>1</code> (archive).</li>
+<li><code>Results</code> list of objects, where each object represents the result for a specific folder and contains:<ul>
+<li><code>Path</code>, string.</li>
+<li><code>Retention</code>, integer (hours).</li>
+<li><code>DeletedFiles</code>, integer.</li>
+<li><code>DeletedSize</code>, integer (bytes)</li>
+<li><code>Elapsed</code>, integer (nanoseconds).</li>
+<li><code>Info</code>, string</li>
+<li><code>Error</code>, string</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>{{.ShareExpirationChecks}}</code>. List of executed share expiration checks. This placeholder is populated for the <code>Share expiration check</code> action. Each item is an object containing two fields: <code>User</code> and <code>Results</code>. <code>Results</code> is a list of <code>ShareExpirationResult</code> objects (see <code>{{.ShareExpirationResult}}</code> below for the structure details). For the <code>User</code> struct and the <code>Share</code> struct inside <code>ShareExpirationResult</code>, the fields available match those documented in the <a href="https://sftpgo.com/rest-api" target="_blank">REST API</a>, but use PascalCase (e.g., <code>CreatedAt</code>, <code>Description</code>). Format: list of objects.</li>
+<li><code>{{.ShareExpirationResult}}</code>. The specific result of a share expiration check. This placeholder is available <strong>only</strong> when <code>Split events</code> is enabled for the <code>Share expiration check</code> action. In this mode, the event is triggered individually for each result, and standard placeholders like <code>{{.Name}}</code> and <code>{{.Email}}</code> are automatically updated to match the user associated with this result. The object contains the following fields:<ul>
+<li><code>Share</code>: The full share object. Fields match those documented in the <a href="https://sftpgo.com/rest-api" target="_blank">REST API</a>, but use PascalCase (e.g., <code>{{.ShareExpirationResult.Share.Name}}</code>, <code>{{.ShareExpirationResult.Share.UsedTokens}}</code>).</li>
+<li><code>Action</code>: The action taken (integer). Supported values: <code>1</code> (notify), <code>2</code> (delete).</li>
+<li><code>Reason</code>: The reason for the action (string). Possible values: <code>max_tokens</code>, <code>expiration_date</code>, <code>inactivity</code>.</li>
+<li><code>Expiration</code>: The calculated expiration time (time object).</li>
+</ul>
+</li>
 </ul>
 <p>The <code>{{.Timestamp}}</code> time object provides several useful methods:</p>
 <ul>
@@ -2033,6 +2061,8 @@ The following trigger events are supported:</p>
 <ul>
 <li><code>toJson</code> converts any value to its JSON representation; since <code>.VirtualPath</code> is a string, <code>{ "path": {{ toJson .VirtualPath }} }</code> outputs <code>{ "path": "/mydir/myfile.txt" }</code>, and since <code>.Metadata</code> is a map of strings, <code>{{ toJson .Metadata }}</code> outputs <code>{"author":"alice","version":"1.0"}</code>. Using <code>toJson</code> ensures that strings are always correctly quoted and special characters properly escaped for safe inclusion in JSON.</li>
 <li><code>toJsonUnquoted</code> works like <code>toJson</code>, but if the input is a string, it returns the JSON value without the surrounding quotes; for other types it behaves like  <code>toJson</code>. This is useful when you want to concatenate a dynamic JSON string with fixed text without extra quotes. Example: <code>{ "out_dir": "/basedir/{{ toJsonUnquoted .ObjectName }}" }</code> outputs <code>{"out_dir": "/basedir/myfile.txt"}</code>.</li>
+<li><code>toBase64</code> converts a string value to its Base64 representation.</li>
+<li><code>toHex</code> converts a string value to its hexadecimal representation.</li>
 <li><code>urlEscape</code> encodes a string for safe use in query parameters Example: <code>{{ urlEscape .Email }}</code> outputs <code>user%40example.com</code>).</li>
 <li><code>urlPathEscape</code> encodes a string for safe use in URL paths. Exammple: <code>{{ urlPathEscape .VirtualPath }}</code> outputs: <code>folder%20name%2Ffile.txt</code>.</li>
 <li><code>pathDir</code> returns the directory part of a path. Example: if <code>.VirtualPath</code> is <code>/a/b/file.txt</code>, <code>{{ pathDir .VirtualPath }}</code> outputs <code>/a/b</code>.</li>

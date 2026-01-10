@@ -839,6 +839,24 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#syntax" class="md-nav__link">
+    <span class="md-ellipsis">
+      Syntax
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#variable-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Variable sources
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#additional-environment-variables" class="md-nav__link">
     <span class="md-ellipsis">
       Additional environment variables
@@ -1772,6 +1790,24 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#syntax" class="md-nav__link">
+    <span class="md-ellipsis">
+      Syntax
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#variable-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Variable sources
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#additional-environment-variables" class="md-nav__link">
     <span class="md-ellipsis">
       Additional environment variables
@@ -1797,13 +1833,32 @@
 
 
 <h1 id="environment-variables">Environment variables</h1>
-<p>You can override all the available <a href="../config-file/">configuration options</a> and <a href="../cli/">command line options</a> using environment variables. SFTPGo will check for environment variables with a name matching the key uppercased and prefixed with the <code>SFTPGO_</code>. You need to use <code>__</code> to traverse a struct.</p>
-<p>Let's see some examples:</p>
-<ul>
-<li>To set the <code>port</code> for the first sftpd binding, you need to define the env var <code>SFTPGO_SFTPD__BINDINGS__0__PORT</code></li>
-<li>To set the <code>execute_on</code> actions, you need to define the env var <code>SFTPGO_COMMON__ACTIONS__EXECUTE_ON</code>. For example <code>SFTPGO_COMMON__ACTIONS__EXECUTE_ON=upload,download</code></li>
-</ul>
 <p>The configuration file can change between different versions and merging your custom settings with the default configuration file, after updating SFTPGo, may be time-consuming. For this reason we suggest to set your custom settings using environment variables. This eliminates the need to merge your changes with the default configuration file after each update, you have to just check that your custom configuration keys still exists.</p>
+<p>You can override all the available <a href="../config-file/">configuration options</a> using environment variables.</p>
+<h2 id="syntax">Syntax</h2>
+<p><strong>SFTPGo will check for environment variables with a name matching the key uppercased and prefixed with <code>SFTPGO_</code>. Use <code>__</code> to traverse into a struct.</strong> For example:</p>
+<ul>
+<li>To set <code>common.proxy_protocol</code> to <code>1</code>, define the env var <code>SFTPGO_COMMON__PROXY_PROTOCOL</code> with value <code>1</code>.</li>
+<li>To set <code>webdavd.cors.enabled</code> to <code>true</code>, define the env var <code>SFTPGO_WEBDAVD__CORS__ENABLED</code> with value <code>true</code>.</li>
+</ul>
+<p>For options that are list-like, use the following syntax depending on the item type:</p>
+<p><strong>If the option is a list of simple values (booleans, numbers, strings), the list items should be comma-separated.</strong> For example:</p>
+<ul>
+<li>To set <code>common.actions.execute_on</code> to <code>["upload", "download"]</code>, define the env var <code>SFTPGO_COMMON__ACTIONS__EXECUTE_ON</code> with value <code>upload,download</code>.</li>
+<li>To set <code>common.event_manager.enabled_commands</code> to <code>["/usr/bin/touch", "/usr/bin/mkdir", "/usr/bin/rm"]</code>, define the env var <code>SFTPGO_COMMON__EVENT_MANAGER__ENABLED_COMMANDS</code> with value <code>/usr/bin/touch,/usr/bin/mkdir,/usr/bin/rm</code>.</li>
+</ul>
+<p><strong>If the option is a list of structs, set each struct field with separate env vars, using the list index as the key to traverse into each item struct.</strong> For example:</p>
+<ul>
+<li>To set <code>sftpd.bindings[0].port</code> to <code>22</code>, define the env var <code>SFTPGO_SFTPD__BINDINGS__0__PORT</code> with value <code>22</code>.</li>
+<li>To set <code>command.commands</code> to <code>[{"path": "/usr/bin/date"}, {"path: "/usr/bin/ping", "args": ["-c5", "example.com"]}]</code>, define the env vars:<ul>
+<li><code>SFTPGO_COMMAND__COMMANDS__0__PATH</code> with value <code>/usr/bin/date</code>,</li>
+<li><code>SFTPGO_COMMAND__COMMANDS__1__PATH</code> with value <code>/usr/bin/ping</code>, and</li>
+<li><code>SFTPGO_COMMAND__COMMANDS__1__ARGS</code> with value <code>-c5,example.com</code>.</li>
+</ul>
+</li>
+</ul>
+<p>Notice how <code>command.commands[1].args</code> is itself a list of strings, so the value of <code>SFTPGO_COMMAND__COMMANDS__1__ARGS</code> is a comma-separated list.</p>
+<h2 id="variable-sources">Variable sources</h2>
 <p>Setting configuration options from environment variables is natural in Docker/Kubernetes.
 If you install SFTPGo on Linux using the official deb/rpm packages you can set your custom environment variables in the file <code>/etc/sftpgo/sftpgo.env</code> (create this file if it does not exist, it is defined as <code>EnvironmentFile</code> in the SFTPGo systemd unit).
 SFTPGo also reads files inside the <code>env.d</code> directory relative to config dir and then exports the valid variables into environment variables if they are not already set. With this method you can override any configuration options, set environment variables for SFTPGo plugins but you cannot set command flags because these files are read after that SFTPGo starts and the config dir must already be set.
@@ -1830,6 +1885,16 @@ Of course you can also set environment variables with the method provided by the
 <li><code>SFTPGO_HOOK__EXTRACT_MAX_COMPRESSION_RATIO</code>, sets the maximum allowed compression ratio for extracted ZIP files. Default: <code>60</code>.</li>
 <li><code>SFTPGO_HOOK__EXTRACT_MAX_FILES</code>, sets the maximum number of files allowed in a ZIP archive. Default: <code>1000</code>.</li>
 <li><code>SFTPGO_HOOK__EXTRACT_MAX_SIZE</code>, sets the maximum total uncompressed size allowed for a ZIP archive in MB. Default: <code>1024</code>.</li>
+<li><code>SFTPGO_HOOK__PASSWORD_EXPIRATION_EMAIL_SUBJECT</code>, allows customizing the subject line of the password expiration notification email. Default: <code>SFTPGo password expiration notification</code>.</li>
+<li><code>SFTPGO_HOOK__PASSWORD_FORGOT_EMAIL_SUBJECT</code>, allows customizing the subject line of the “forgot password” email sent to users. Default: <code>Email Verification Code for &lt;username&gt;</code>.</li>
+<li><code>SFTPGO_HOOK__SHARE_CODE_EMAIL_SUBJECT</code>, allows customizing the subject line of emails containing share codes for shares. Default: <code>Share access code</code>.</li>
+<li><code>SFTPGO_HOOK__DISABLE_DOT_ENTRIES</code>, set to <code>1</code> to hide <code>.</code> and <code>..</code> entries from SFTP directory listings.</li>
+<li><code>SFTPGO_HOOK__OAUTH2_DISABLE_PKCE</code>, set to <code>1</code> to disable PKCE for OAuth2 authentication flows used by IMAP and SMTP.</li>
+<li><code>SFTPGO_HOOK__HAS_SHARE_LEGAL_AGREEMENT</code>, set to <code>1</code> to display a legal agreement can be displayed before granting access to the share by external users.</li>
+<li><code>SFTPGO_HOOK_SHARE_LEGAL_TMPL_PATH</code>, set to the path of a custom HTML template for the share agreement. We recommend using the default template as a starting point, which is typically located at <code>/usr/share/sftpgo/templates/webclient/sharelegal.html</code> or an equivalent path depending on the installation method.</li>
+<li><code>SFTPGO_HOOK__ENABLE_OIDC_UI</code>, set to 1 to add the OpenID Connect configuration section for the first binding in the WebAdmin UI. If more than an OpenID Connect configuration is required, use the configuration file or environment variables to override it instead.</li>
+<li><code>SFTPGO_HOOK__HTTPD_MAX_REQUEST_SIZE</code>. Allows configuring the maximum size of HTTP requests in MB. Default: 1 MB. <img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/26a0.svg" title=":warning:" /> Increasing this value may expose the server to large payloads, which can impact memory usage or allow denial-of-service attacks.</li>
+<li><code>SFTPGO_HOOK__HTTPD_MAX_RESTORE_SIZE</code>. Allows configuring the maximum size of a backup to restore in MB. Default: 20 MB.</li>
 </ul>
 
 

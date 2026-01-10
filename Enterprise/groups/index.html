@@ -1750,7 +1750,7 @@
 <ul>
 <li>home dir, if set for the group will replace the one defined for the user. The <code>%username%</code> placeholder is replaced with the username, the <code>%role%</code> placeholder will be replaced with the role name</li>
 <li>filesystem config, if the provider set for the group is different from the "local provider" will replace the one defined for the user. The <code>%username%</code> and <code>%role%</code> placeholders will be replaced with the username and role name within the defined "prefix", for any vfs, and the "username" for the SFTP filesystem config</li>
-<li>max sessions, quota size/files, upload/download bandwidth, upload/download/total data transfer, max upload size, external auth cache time, ftp_security, default shares expiration, max shares expiration, password expiration, password strength: if they are set to <code>0</code> for the user they are replaced with the value set for the group, if different from <code>0</code>. The password strength defined at group level is only enforce when users change their password</li>
+<li>max sessions, quota size/files, upload/download bandwidth, upload/download/total data transfer, max upload size, external auth cache time, ftp_security, default shares expiration, max shares expiration, password expiration, password strength, passsord validation rules: if they are set to <code>0</code> for the user they are replaced with the value set for the group, if different from <code>0</code>. The password strength defined at group level is only enforce when users change their password</li>
 <li>expires_in, if defined and the user does not have an expiration date set, defines the expiration of the account in number of days from the creation date</li>
 <li>TLS username, check password hook disabled, pre-login hook disabled, external auth hook disabled, filesystem checks disabled, allow API key authentication, anonymous user: if they are not set for the user they are replaced with the value set for the group</li>
 <li>starting directory, if the user does not have a starting directory set, the value set for the group is used, if any. The <code>%username%</code> placeholder is replaced with the username, the <code>%role%</code> placeholder will be replaced with the role name</li>
@@ -1764,6 +1764,7 @@
 <li>denied login methods and protocols</li>
 <li>two factor auth protocols</li>
 <li>web client/REST API permissions</li>
+<li>Share Policy</li>
 </ul>
 <p>The settings from the primary group are always merged first. no setting is inherited from "membership" groups.</p>
 <p>The final settings are a combination of the user settings and the group ones.
