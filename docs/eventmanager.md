@@ -132,6 +132,7 @@ We use Go’s template system under the hood. For a comprehensive overview, plea
   - `Action`: The action taken (integer). Supported values: `1` (notify), `2` (delete).
   - `Reason`: The reason for the action (string). Possible values: `max_tokens`, `expiration_date`, `inactivity`.
   - `Expiration`: The calculated expiration time (time object).
+- `{{.Shares}}`: A lazily populated field, rendered only for filesystem actions. It is populated with the shares associated with the path on which the filesystem action was executed. The `Load` method can be used to retrieve the shares. For example, to collect all email addresses associated with the shares where a new file is uploaded: `{{ range .Shares.Load }}{{ range .Options.Emails }}{{ . }},{{ end }}{{ end }}`.
 
 The `{{.Timestamp}}` time object provides several useful methods:
 

@@ -9,6 +9,19 @@ Upgrading to the Enterprise edition of SFTPGo is supported starting from Open So
 
 If you're migrating from an open-source installation, please follow the guide here: [**Migration from Open-Source 2.6.x to Enterprise**](tutorials/migrating.md)
 
+## Update January 20, 2026 - v2.7.20260120
+
+### New features
+
+- Hooks: Added the ability to automatically create virtual folders from the pre-login and pre-auth hooks by setting the `SFTPGO_HOOK__AUTO_FOLDERS` environment variable to `1`.
+- Pre-login hook: Added support for returning a different username than the one used during login.
+- EventManaged: Added the `{{.Shares}}` lazy placeholder to retrieve the shares associated with the path on which the filesystem action was executed.
+
+### Bug fixes
+
+- Data Provider: Fixed lock handling issues during migrations.
+- Shares: Fixed a bug introduced in v2.7.20260110 that prevented uploads to write-only shares from the WebClient.
+
 ## Update January 10, 2026 - v2.7.20260110
 
 ### New features

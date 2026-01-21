@@ -68,3 +68,4 @@ Some additional environment variables are available:
 - `SFTPGO_HOOK__ENABLE_OIDC_UI`, set to 1 to add the OpenID Connect configuration section for the first binding in the WebAdmin UI. If more than an OpenID Connect configuration is required, use the configuration file or environment variables to override it instead.
 - `SFTPGO_HOOK__HTTPD_MAX_REQUEST_SIZE`. Allows configuring the maximum size of HTTP requests in MB. Default: 1 MB. :warning: Increasing this value may expose the server to large payloads, which can impact memory usage or allow denial-of-service attacks.
 - `SFTPGO_HOOK__HTTPD_MAX_RESTORE_SIZE`. Allows configuring the maximum size of a backup to restore in MB. Default: 20 MB.
+- `SFTPGO_HOOK__AUTO_FOLDERS`. Set to `1` to automatically create virtual folders based on the reply from pre-login and pre-auth hooks. This will cause a database upsert for each returned folder.
