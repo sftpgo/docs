@@ -3257,11 +3257,12 @@ We encourage you to check back regularly to stay up to date with the latest chan
 <li>Hooks: Added the ability to automatically create virtual folders from the pre-login and pre-auth hooks by setting the <code>SFTPGO_HOOK__AUTO_FOLDERS</code> environment variable to <code>1</code>.</li>
 <li>Pre-login hook: Added support for returning a different username than the one used during login.</li>
 <li>EventManaged: Added the <code>{{.Shares}}</code> lazy placeholder to retrieve the shares associated with the path on which the filesystem action was executed.</li>
+<li>REST API: Introduced the ability to change the log level dynamically without restarting the service.</li>
 </ul>
 <h3 id="bug-fixes">Bug fixes</h3>
 <ul>
-<li>Data Provider: Fixed lock handling issues during migrations.</li>
-<li>Shares: Fixed a bug introduced in v2.7.20260110 that prevented uploads to write-only shares from the WebClient.</li>
+<li>Data Provider: Fixed lock handling issues during migrations that could affect MySQL when migrations are executed concurrently by multiple instances.</li>
+<li>Shares: Fixed a bug introduced in <code>v2.7.20260110</code> that prevented uploads to write-only shares from the WebClient.</li>
 </ul>
 <h2 id="update-january-10-2026-v2720260110">Update January 10, 2026 - v2.7.20260110</h2>
 <h3 id="new-features_1">New features</h3>
