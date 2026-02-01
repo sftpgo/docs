@@ -16,11 +16,12 @@ If you're migrating from an open-source installation, please follow the guide he
 - Hooks: Added the ability to automatically create virtual folders from the pre-login and pre-auth hooks by setting the `SFTPGO_HOOK__AUTO_FOLDERS` environment variable to `1`.
 - Pre-login hook: Added support for returning a different username than the one used during login.
 - EventManaged: Added the `{{.Shares}}` lazy placeholder to retrieve the shares associated with the path on which the filesystem action was executed.
+- REST API: Introduced the ability to change the log level dynamically without restarting the service.
 
 ### Bug fixes
 
-- Data Provider: Fixed lock handling issues during migrations.
-- Shares: Fixed a bug introduced in v2.7.20260110 that prevented uploads to write-only shares from the WebClient.
+- Data Provider: Fixed lock handling issues during migrations that could affect MySQL when migrations are executed concurrently by multiple instances.
+- Shares: Fixed a bug introduced in `v2.7.20260110` that prevented uploads to write-only shares from the WebClient.
 
 ## Update January 10, 2026 - v2.7.20260110
 
