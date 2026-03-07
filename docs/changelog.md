@@ -9,6 +9,44 @@ Upgrading to the Enterprise edition of SFTPGo is supported starting from Open So
 
 If you're migrating from an open-source installation, please follow the guide here: [**Migration from Open-Source 2.6.x to Enterprise**](tutorials/migrating.md)
 
+## Update March 7, 2026 - v2.7.20260307
+
+### New features
+
+- WebClient/REST API: Added support for the TUS resumable upload protocol, enabling chunked, resumable uploads and improving compatibility with services such as Cloudflare and other proxy/CDN environments.
+- WebAdmin: Added a dedicated API Keys section to create and manage API keys directly from the UI. Previously, they could only be managed via the REST API.
+- OIDC: Added role mapping for SFTPGo users, with full support for overlapping Admin and User roles in the Web UI. Fully backward compatible with existing setups.
+- OIDC: added support for explicitly specifying the token issuer URL for verifying received ID tokens, useful for certain off-spec OpenID Connect providers.
+- WebUI: Refactored the HTML editor to improve maintainability and security.
+- WebClient: Added a diff viewer in the editor to compare different file versions.
+- REST API: Added support for retrieving file checksums.
+- SFTPD: Added support for `SSH_FXP_STAT/FSTAT` calls on ongoing uploads to atomic storage backends, where files remain invisible until the upload completes. Applies to requests from the same connection that initiated the upload.
+- SFTPD: Added banners to inform users of fatal error conditions.
+- SFTPD: Added support for managing host keys and host certificates directly from the WebAdmin UI.
+- Google Cloud Storage backend: Added support for configuring the Universe Domain to allow connections to custom Google Cloud environments (e.g., Google Distributed Cloud or Sovereign Clouds).
+- S3 and Azure Blob backends: improved memory usage efficiency for small file transfers. Similar optimizations were already in place for the Google Cloud Storage backend.
+- Cloud Backends: Improved performance and memory efficiency of the internal cache, resulting in noticeable gains under heavy load.
+- Background tasks: Optimized query logic, delivering significant performance improvements in large-scale installations.
+- Event Manager: Added `stringContains` and `slicesContains` helper functions.
+- Keyboard Interactive Hook: Added support for returning a custom error message and terminating the connection.
+- Shares: Added `base_url` configuration option to define the external base URL used when generating public links. This setting overrides the default browser-based detection and is useful when SFTPGo is deployed behind reverse proxies, load balancers, or in NAT environments.
+
+### Bug fixes
+
+- SFTPD: Fixed the `SSH_FXP_REALPATH` response for the root path of virtual folders.
+- FTPD: fixed an issue that could cause newly connected, unauthenticated clients to be disconnected prematurely.
+- Fixed an issue where JSON dumps containing command actions failed to load correctly at startup when loaded as initial data.
+
+### Security fix
+
+- Fixed a potential path traversal and permission bypass involving specially crafted paths. CVE-2026-30914.
+
+### Backward incompatible changes
+
+- Google Cloud Storage: Starting from this version, GCS backends require standard Service Account JSON keys (`"type": "service_account"`) by default. Other credential types (`authorized_user`, `external_account`, `impersonated_service_account`) are no longer supported by default. This change improves security (mitigating risks such as SSRF) and stability by preventing the use of temporary or externally managed credentials.Users relying on non-standard JSON credentials must migrate to a Service Account key or switch to [Application Default Credentials](https://docs.cloud.google.com/docs/authentication/application-default-credentials). The previous behavior can be restored by setting the `SFTPGO_HOOK__GCS_TRUSTED_JSON_CREDENTIALS` environment variable to `1`.
+- API Keys: Expiration dates can no longer be extended once set; they can only be shortened.
+- Unified path handling: Prior to this release, the backslash character (`\`) was treated differently depending on the host operating system: on Linux, it was considered a standard character within a file or directory name, while on Windows, it acted as a path separator. We have now unified path handling across all platforms. Moving forward, both forward slashes (`/`) and backslashes (`\`) are strictly evaluated as path separators, independently of the underlying OS.
+
 ## Update January 20, 2026 - v2.7.20260120
 
 ### New features
@@ -45,6 +83,10 @@ If you're migrating from an open-source installation, please follow the guide he
 
 - EventManager: optimized filtering by pushing queries down to the database when no wildcards are used, also resolving certain incorrect results for inverse matches.
 - PreLogin hook: Previously, partial user objects were accepted, which could lead to inconsistent updates (e.g., merging instead of replacing per-directory permissions). Now, the hook requires either a complete user object or an empty response if no modifications are needed.
+
+### Security fix
+
+- Fixed placeholder sanitization in group home directories and key prefixes. CVE-2026-30915.
 
 ### Backward incompatible changes
 

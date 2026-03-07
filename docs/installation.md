@@ -25,6 +25,8 @@ SFTPGo Enterprise is available on major cloud marketplaces, allowing you to quic
 
 Marketplace offerings are available in plans that correspond to our Starter and Premium [on-premises](https://sftpgo.com/on-premises){:target="_blank"} tiers. For advanced requirements, a private offer can be arranged to provide the full capabilities of the Ultimate tier.
 
+**Note**: For all SFTPGo Enterprise marketplace offerings, the license is included as part of the subscription; no separate license purchase is required.
+
 ### AWS
 
 SFTPGo Enterprise offerings on AWS Marketplace:

@@ -176,15 +176,17 @@ Supported built-in functions:
 - `pathExt` returns the file extension. Example: if `.VirtualPath` is `/a/b/file.txt`, `{{ pathExt .VirtualPath }}` outputs `.txt`.
 - `pathJoin` joins multiple path segments into a clean path. Example: `{{ pathJoin (stringSlice "/a" .VirtualPath "final") }}` with `.VirtualPath` as `b/c` outputs `/a/b/c/final`.
 - `filePathJoin` joins multiple elements into a clean filesystem path using the correct separator for the OS. It’s similar to pathJoin, but `filePathJoin` should be used for real filesystem paths like `.FsPath`, while `pathJoin` is for virtual paths like `.VirtualPath`.
-- `stringSlice` creates a list of strings. Example: `{{ pathJoin (stringSlice "/a" .VirtualPath "final") }}` with `.VirtualPath` as `b/c` outputs `/a/b/c/final`; it's useful when you need to pass multiple strings as a slice to functions like `pathJoin` or `filePathJoin`.
+- `stringSlice` creates a list of strings. Example: `{{ pathJoin (stringSlice "/a" .VirtualPath "final") }}` with `.VirtualPath` as `b/c` outputs `/a/b/c/final`; it's useful when you need to pass multiple strings as a slice to functions like `pathJoin` or `filePathJoin`.`
 - `stringJoin` joins a list of strings into one string with a specified separator. Example: `{{ stringJoin .Errors ", " }}`.
 - `stringTrimSuffix` removes a specified suffix from a string if present. Example: `{{ stringTrimSuffix .VirtualPath ".jpg" }}`.
 - `stringTrimPrefix` removes a specified prefix from a string if present.
 - `stringReplace` replaces all occurrences of a substring with another string. Example: `{{ stringReplace .VirtualPath "/dir1" "/dir2" }}`.
 - `stringHasPrefix` checks if a string starts with a specified prefix. Example: `{{- if stringHasPrefix .VirtualPath "/dir2" -}}found{{- end -}}`.
 - `stringHasSuffix` checks if a string ends with a specified suffix.
+- `stringContains` checks whether a string contains the specified substring.
 - `stringToLower` converts a string to lowercase. Example: `{{ stringToLower .VirtualPath }}`.
 - `stringToUpper` converts a string to uppercase.
+- `slicesContains` checks whether a slice contains the specified element.
 - `createDict` builds a map from alternating key-value pairs. Example: `{{- $statusMap := createDict 1 "OK" 2 "KO" -}}` creates a map where 1 maps to "OK" and 2 maps to "KO".
 - `mapToString` looks up a value in a map by a given key. Example: `{{ (mapToString .Status $statusMap) | toJson }}` returns the string mapped to `.Status` in $statusMap, encoded as JSON.
 - `humanizeBytes` converts a numeric byte value into a human-readable string with appropriate units (e.g., KB, MB, GB). It formats the input size by scaling it down and appending the correct unit suffix to improve readability. For example, an input of 10000 bytes is rendered as 10 KB. Example: `{{ humanizeBytes .FileSize }}`.
