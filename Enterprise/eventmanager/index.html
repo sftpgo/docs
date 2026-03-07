@@ -2418,15 +2418,17 @@ The following trigger events are supported:</p>
 <li><code>pathExt</code> returns the file extension. Example: if <code>.VirtualPath</code> is <code>/a/b/file.txt</code>, <code>{{ pathExt .VirtualPath }}</code> outputs <code>.txt</code>.</li>
 <li><code>pathJoin</code> joins multiple path segments into a clean path. Example: <code>{{ pathJoin (stringSlice "/a" .VirtualPath "final") }}</code> with <code>.VirtualPath</code> as <code>b/c</code> outputs <code>/a/b/c/final</code>.</li>
 <li><code>filePathJoin</code> joins multiple elements into a clean filesystem path using the correct separator for the OS. It’s similar to pathJoin, but <code>filePathJoin</code> should be used for real filesystem paths like <code>.FsPath</code>, while <code>pathJoin</code> is for virtual paths like <code>.VirtualPath</code>.</li>
-<li><code>stringSlice</code> creates a list of strings. Example: <code>{{ pathJoin (stringSlice "/a" .VirtualPath "final") }}</code> with <code>.VirtualPath</code> as <code>b/c</code> outputs <code>/a/b/c/final</code>; it's useful when you need to pass multiple strings as a slice to functions like <code>pathJoin</code> or <code>filePathJoin</code>.</li>
+<li><code>stringSlice</code> creates a list of strings. Example: <code>{{ pathJoin (stringSlice "/a" .VirtualPath "final") }}</code> with <code>.VirtualPath</code> as <code>b/c</code> outputs <code>/a/b/c/final</code>; it's useful when you need to pass multiple strings as a slice to functions like <code>pathJoin</code> or <code>filePathJoin</code>.`</li>
 <li><code>stringJoin</code> joins a list of strings into one string with a specified separator. Example: <code>{{ stringJoin .Errors ", " }}</code>.</li>
 <li><code>stringTrimSuffix</code> removes a specified suffix from a string if present. Example: <code>{{ stringTrimSuffix .VirtualPath ".jpg" }}</code>.</li>
 <li><code>stringTrimPrefix</code> removes a specified prefix from a string if present.</li>
 <li><code>stringReplace</code> replaces all occurrences of a substring with another string. Example: <code>{{ stringReplace .VirtualPath "/dir1" "/dir2" }}</code>.</li>
 <li><code>stringHasPrefix</code> checks if a string starts with a specified prefix. Example: <code>{{- if stringHasPrefix .VirtualPath "/dir2" -}}found{{- end -}}</code>.</li>
 <li><code>stringHasSuffix</code> checks if a string ends with a specified suffix.</li>
+<li><code>stringContains</code> checks whether a string contains the specified substring.</li>
 <li><code>stringToLower</code> converts a string to lowercase. Example: <code>{{ stringToLower .VirtualPath }}</code>.</li>
 <li><code>stringToUpper</code> converts a string to uppercase.</li>
+<li><code>slicesContains</code> checks whether a slice contains the specified element.</li>
 <li><code>createDict</code> builds a map from alternating key-value pairs. Example: <code>{{- $statusMap := createDict 1 "OK" 2 "KO" -}}</code> creates a map where 1 maps to "OK" and 2 maps to "KO".</li>
 <li><code>mapToString</code> looks up a value in a map by a given key. Example: <code>{{ (mapToString .Status $statusMap) | toJson }}</code> returns the string mapped to <code>.Status</code> in $statusMap, encoded as JSON.</li>
 <li><code>humanizeBytes</code> converts a numeric byte value into a human-readable string with appropriate units (e.g., KB, MB, GB). It formats the input size by scaling it down and appending the correct unit suffix to improve readability. For example, an input of 10000 bytes is rendered as 10 KB. Example: <code>{{ humanizeBytes .FileSize }}</code>.</li>

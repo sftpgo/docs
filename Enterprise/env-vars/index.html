@@ -2271,6 +2271,8 @@ Of course you can also set environment variables with the method provided by the
 <li><code>SFTPGO_HOOK__HTTPD_MAX_REQUEST_SIZE</code>. Allows configuring the maximum size of HTTP requests in MB. Default: 1 MB. <img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Increasing this value may expose the server to large payloads, which can impact memory usage or allow denial-of-service attacks.</li>
 <li><code>SFTPGO_HOOK__HTTPD_MAX_RESTORE_SIZE</code>. Allows configuring the maximum size of a backup to restore in MB. Default: 20 MB.</li>
 <li><code>SFTPGO_HOOK__AUTO_FOLDERS</code>. Set to <code>1</code> to automatically create virtual folders based on the reply from pre-login and pre-auth hooks. This will cause a database upsert for each returned folder.</li>
+<li><code>SFTPGO_HOOK__GCS_TRUSTED_JSON_CREDENTIALS</code>. Set to <code>1</code> to allow the use of any JSON-based credential file for Google Cloud Storage (GCS) backends. When enabled, SFTPGo will accept JSON credentials beyond the standard service account formats, useful in trusted environments. Use with caution, as this bypasses stricter validation.</li>
+<li><code>SFTPGO_HOOK__HTTPD_MAX_EDIT_SIZE</code>. Override the maximum file size viewable in the built-in web editor. Range 1–10. Default 2 (MB).</li>
 </ul>
 
 
