@@ -1,3 +1,7 @@
+---
+description: "Run a custom action after a successful or failed login in SFTPGo. Use for audit logging, notifications, or adaptive security."
+---
+
 # Post-login hook
 
 This hook is executed after a login or after closing a connection for authentication timeout. Defining an appropriate `post_login_scope` you can get notifications for failed logins, successful logins or both.

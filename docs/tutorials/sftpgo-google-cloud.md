@@ -1,3 +1,7 @@
+---
+description: "Deploy SFTPGo on Google Cloud Platform via the Cloud Marketplace. Available in Starter and Premium tiers with Google Cloud Storage integration."
+---
+
 # SFTPGo on Google Cloud Platform
 
 SFTPGo is available on Google Cloud Marketplace:
@@ -13,8 +17,8 @@ The Premium tier is designed for deployments that require advanced features and 
 - Additional storage backends: Amazon S3 (Compatible), Azure Blob Storage, other SFTP servers.
 - PGP encryption/decryption.
 - Advanced automation through the EventManager.
-- Plugin for Geo-IP filtering via plugins.
-- Plugin for event publishing to systems like Amazon SNS, RabbitMQ, NATS, Kafka, and other publish/subscribe platforms.
+- Geo-IP filtering via plugin.
+- Event publishing to systems like Amazon SNS, RabbitMQ, NATS, Kafka, and other publish/subscribe platforms via plugin.
 
 :information_source: We also offer SFTPGo Standard and Professional editions, both based on the open-source version of SFTPGo. These editions were introduced before the availability of SFTPGo Enterprise and remain fully supported. However, we recommend transitioning to the Starter or Premium tiers to take full advantage of the enhanced features and improved performance provided by SFTPGo Enterprise.
 
@@ -52,9 +56,10 @@ By clicking on the deployed **Compute Engine**, you can view the IP address of y
 
 ## Create the initial administrator account
 
-Before you can use SFTPGo you need to create an admin account, so open **http://your_instance_IP:8080/web/admin** in your web browser, replacing `your instance IP` with the IP address of your instance.
+Before you can use SFTPGo you need to create an admin account, so open **http://your_instance_IP:8080/web/admin** in your web browser.
 
-![Setup](../assets/img/setup.png){data-gallery="setup"}
+![Setup](../assets/img/setup.png#only-light){data-gallery="setup"}
+![Setup](../assets/img/setup-dark.png#only-dark){data-gallery="setup"}
 
 After creating the admin account you will be automatically logged in and redirected to the page to set up two-factor authentication. Setting up two-factor authentication is optional.
 

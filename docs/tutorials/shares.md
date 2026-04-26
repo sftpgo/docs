@@ -1,3 +1,7 @@
+---
+description: "Configure public file shares in SFTPGo with password protection, email authentication, expiration policies, group-based governance, and path restrictions."
+---
+
 # Public Shares
 
 Public shares are a quick and secure way to share files directly from the WebClient UI without creating user accounts, making collaboration with external contacts simple and efficient.
@@ -87,6 +91,28 @@ This type of share combines the capabilities of both read-only and write-only sh
 
 ![WebClient read write share](../assets/img/webclient_read_write_share.png){data-gallery="webclient-rw-share"}
 
+## Restricting Shareable Paths
+
+Administrators can restrict which virtual paths users are allowed to share by configuring the **Denied share paths** filter. This can be set directly on a user or inherited from a group.
+
+When a path is denied, the user cannot create shares for that exact path or any sub-path. For example:
+
+- Denying `/` blocks sharing the root directory, but sub-directories like `/docs` or `/projects` can still be shared.
+- Denying `/backup` blocks sharing `/backup`, `/backup/daily`, `/backup/daily/file.txt`, and any other path under `/backup`.
+- Denying `/vfolder` blocks sharing a specific virtual folder and its contents.
+
+To configure denied share paths, open the user or group settings in the WebAdmin UI and look for the **Denied share paths** field in the "Profile" section. Enter one or more virtual paths separated by commas.
+
+When configured at the group level, the denied paths are inherited by all users in the group and merged with any user-level restrictions.
+
+## Restricting Share Scopes
+
+Administrators can also restrict which share scopes (read, write, read/write) users are allowed to use by configuring the **Denied share scopes** filter.
+
+For example, denying the "read/write" scope forces users to create either read-only or write-only shares, but not combined read/write shares. This is useful when you want to enforce a clear separation between upload-only and download-only shares.
+
+If all three scopes are denied, sharing is completely disabled for the user — equivalent to setting the "shares-disabled" web client option.
+
 ## Delegating Share Management
 
 By default, a public share is managed only by the user who created it. However, in collaborative environments, you may need to allow colleagues to manage your shares for example, to extend an expiration date or revoke access while you are on vacation.
@@ -174,7 +200,7 @@ Here is an example rule to execute the above action.
 
 ![WebAdmin share event rule](../assets/img/webadmin_share_event_rule.png){data-gallery="webadmin-share-event-notify"}
 
-Naturally, all operations performed on shares, including uploads and downloads, also recorded in the audit logs.
+Naturally, all operations performed on shares, including uploads and downloads, are also recorded in the audit logs.
 
 ## Automating Share Lifecycle Management
 

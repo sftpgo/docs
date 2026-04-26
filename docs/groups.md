@@ -1,46 +1,80 @@
+---
+description: "Manage SFTPGo users efficiently with groups. Define permissions, virtual folders, bandwidth limits, and policies once, then apply to multiple users."
+---
+
 # Groups
 
 Using groups simplifies the administration of multiple accounts by letting you assign settings once to a group, instead of multiple times to each individual user.
 
 SFTPGo supports the following types of groups:
 
-- primary groups
-- secondary groups
-- membership groups
+| Type | Per user | Description |
+| ------ | ---------- | ------------- |
+| **Primary** | At most one | Provides the base configuration. Primary group settings are merged first and can override user defaults. |
+| **Secondary** | Any number | Adds incremental settings (virtual folders, permissions, filters) on top of the primary group and user settings. Cannot override the root path (`/`). |
+| **Membership** | Any number | Indicates group membership only. No settings are inherited. |
 
-A user can be a member of a primary group and many secondary and membership groups. Depending on the group type, the settings are inherited differently.
+:warning: SFTPGo groups are completely unrelated to system groups. There is no need to create Linux/Windows groups to use SFTPGo groups.
 
-:warning: SFTPGo groups are completely unrelated to system groups. Therefore, it is not necessary to add Linux/Windows groups to use SFTPGo groups.
+## Settings inherited from the primary group
 
-The following settings are inherited from the primary group:
+The following settings are taken from the primary group when the corresponding user value is not set (zero, empty, or unset):
 
-- home dir, if set for the group will replace the one defined for the user. The `%username%` placeholder is replaced with the username, the `%role%` placeholder will be replaced with the role name
-- filesystem config, if the provider set for the group is different from the "local provider" will replace the one defined for the user. The `%username%` and `%role%` placeholders will be replaced with the username and role name within the defined "prefix", for any vfs, and the "username" for the SFTP filesystem config
-- max sessions, quota size/files, upload/download bandwidth, upload/download/total data transfer, max upload size, external auth cache time, ftp_security, default shares expiration, max shares expiration, password expiration, password strength, passsord validation rules: if they are set to `0` for the user they are replaced with the value set for the group, if different from `0`. The password strength defined at group level is only enforce when users change their password
-- expires_in, if defined and the user does not have an expiration date set, defines the expiration of the account in number of days from the creation date
-- TLS username, check password hook disabled, pre-login hook disabled, external auth hook disabled, filesystem checks disabled, allow API key authentication, anonymous user: if they are not set for the user they are replaced with the value set for the group
-- starting directory, if the user does not have a starting directory set, the value set for the group is used, if any. The `%username%` placeholder is replaced with the username, the `%role%` placeholder will be replaced with the role name
+| Setting | Merge rule | Notes |
+| --------- | ----------- | ------- |
+| **Home directory** | Replaces the user's home dir if set in the group. | `%username%` and `%role%` placeholders are supported. |
+| **Filesystem config** | Replaces the user's filesystem if the group's provider is different from "local". | `%username%` and `%role%` placeholders are replaced in the key prefix and SFTP/HTTP username. |
+| **Max sessions** | Used if the user's value is `0`. |
+| **Quota size / files** | Used if the user's value is `0`. |
+| **Upload / download bandwidth** | Used if the user's value is `0`. |
+| **Upload / download / total data transfer** | Used if the user has no main data transfer limits set. |
+| **Max upload file size** | Used if the user's value is `0`. |
+| **External auth cache time** | Used if the user's value is `0`. |
+| **FTP security** | Used if the user's value is `0`. |
+| **Default / max shares expiration** | Used if the user's value is `0`. |
+| **Password expiration** | Used if the user's value is `0`. |
+| **Password strength** | Used if the user's value is `0`. | Enforced whenever a password is set (admin create/update, user self-change, password reset, share password). Falls back to the system-level default if both the user and the primary group set it to `0`. Secondary groups are ignored for password rules. See [Password validation](password.md#password-validation). |
+| **Password validation rules** | Each field (length, uppers, lowers, digits, specials) is used if the user's corresponding field is `0`. | Falls back to the system-level default for any field that is `0` at both the user and primary-group level. |
+| **Expires in** | Sets the user's expiration date (days from creation) if the user has no expiration set. |
+| **Starting directory** | Used if the user has no starting directory set. | `%username%` and `%role%` placeholders are supported. |
+| **TLS username** | Used if not set for the user. |
+| **Enforce secure algorithms** | Used if not set for the user. |
+| **Hook overrides** | Used if not set for the user. | Check password hook disabled, pre-login hook disabled, external auth hook disabled. |
+| **Filesystem checks disabled** | Used if not set for the user. |
+| **Allow API key authentication** | Used if not set for the user. |
+| **Anonymous user** | Used if not set for the user. |
 
-The following settings are inherited from the primary and secondary groups:
+## Settings inherited from primary and secondary groups
 
-- virtual folders, file patterns, permissions: they are added to the user configuration if the user does not already have a setting for the configured path. The `/` path is ignored for secondary groups. The `%username%`  and `%role%` placeholders are replaced with the username and role name within the virtual path, the defined "prefix", for any vfs, and the "username" for the SFTP and HTTP filesystem config
-- per-source bandwidth limits
-- per-source data transfer limits
-- allowed/denied IPs
-- denied login methods and protocols
-- two factor auth protocols
-- web client/REST API permissions
-- Share Policy
+The following settings are **additive** — they are appended to the user's configuration from both the primary and secondary groups. The primary group is always merged first.
 
-The settings from the primary group are always merged first. no setting is inherited from "membership" groups.
+| Setting | Merge rule |
+| --------- | ----------- |
+| **Virtual folders** | Added if the user does not already have a folder at the same virtual path. The `/` path is only inherited from the primary group. `%username%` and `%role%` placeholders are replaced in the virtual path, key prefix, and SFTP/HTTP username. |
+| **Permissions** | Added if the user does not already have permissions for the same path. The `/` path is only inherited from the primary group. |
+| **File patterns** | Added if the user does not already have patterns for the same path. The `/` path is only inherited from the primary group. |
+| **Per-source bandwidth limits** | Appended to the user's list. |
+| **Per-source data transfer limits** | Appended to the user's list. |
+| **Allowed / denied IPs** | Appended to the user's list. |
+| **Denied login methods** | Appended to the user's list. |
+| **Denied protocols** | Appended to the user's list. |
+| **Two-factor auth protocols** | Appended to the user's list. |
+| **Web client / REST API permissions** | Appended to the user's list. |
+| **Share policies** | Appended to the user's list. |
+| **Access time restrictions** | Appended to the user's list. |
 
-The final settings are a combination of the user settings and the group ones.
-For example you can define the following groups:
+No settings are inherited from **membership** groups.
 
-- "group1", it has a virtual directory to mount on `/vdir1`
-- "group2", it has a virtual directory to mount on `/vdir2`
-- "group3", it has a virtual directory to mount on `/vdir3`
+## Example
 
-If you define users with a virtual directory to mount on `/vdir` and make them member of all the above groups, they will have virtual directories mounted on `/vdir`, `/vdir1`, `/vdir2`, `/vdir3`. If users already have a virtual directory to mount on `/vdir1`, the group's one will be ignored.
+You can define the following groups:
 
-Please note that if the same virtual path is set in more than one secondary group the behavior is undefined. For example if a user is a member of two secondary groups and each secondary group defines a virtual folder to mount on the `/vdir2` path, the virtual folder mounted on `/vdir2` may change with every login.
+- "group1" has a virtual directory mounted on `/vdir1`
+- "group2" has a virtual directory mounted on `/vdir2`
+- "group3" has a virtual directory mounted on `/vdir3`
+
+If you create users with a virtual directory mounted on `/vdir` and make them members of all three groups, they will have virtual directories at `/vdir`, `/vdir1`, `/vdir2`, and `/vdir3`. If a user already has a virtual directory at `/vdir1`, the group's folder for that path is ignored.
+
+:warning: If the same virtual path is defined in more than one secondary group, the behavior is undefined — the folder mounted at that path may change between logins.
+
+See the [Groups tutorial](tutorials/groups-example.md) for a step-by-step example with screenshots.

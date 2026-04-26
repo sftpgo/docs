@@ -1,3 +1,7 @@
+---
+description: "Release notes and changelog for SFTPGo Enterprise — new features, improvements, and bug fixes for each version."
+---
+
 # Release Notes
 
 This page provides a concise overview of the new features, improvements and bug fixes introduced in each SFTPGo Enterprise release.
@@ -8,6 +12,60 @@ We encourage you to check back regularly to stay up to date with the latest chan
 Upgrading to the Enterprise edition of SFTPGo is supported starting from Open Source release 2.6.x.
 
 If you're migrating from an open-source installation, please follow the guide here: [**Migration from Open-Source 2.6.x to Enterprise**](tutorials/migrating.md)
+
+## Update April 26, 2026 - v2.7.20260426
+
+### New features
+
+- Event Manager: Added Event Report action. Generates aggregated reports of filesystem events grouped by user via the eventsearcher plugin. Supports configurable time windows, action/status filters, and per-user or aggregated delivery. The generated reports can be used in subsequent actions, for example to send email notifications with CSV attachments or to post structured data to HTTP webhooks.
+- Event Manager: Enhanced the filesystem Copy action with source disposition, glob patterns, retry, and continue-on-error support:
+  - **Source disposition**: optionally delete or move source files after a successful copy, per entry. Move supports both same-filesystem (atomic rename) and cross-filesystem (streaming copy + delete) targets. Eliminates race conditions in copy-then-delete workflows.
+  - **Glob patterns**: source paths can use wildcards in the last component (e.g., `/inbox/*.csv`). Only matching files are processed.
+  - **Per-file retry**: configurable retry count (0–5) with a fixed 5-second delay. Applied independently to each file copy and disposition operation.
+  - **Continue on error**: when enabled, the action processes all files even if some fail, collecting errors for reporting at the end.
+- Event Manager: The filesystem Delete action now supports trailing `/` to delete directory contents without removing the directory itself (e.g., `/inbox/` removes all files and subdirectories inside `/inbox` but keeps the directory).
+- Event Manager: Added `fromNanos` helper function to easily convert Unix timestamp expressed in nanoseconds into time objects.
+- Event Manager: Added `Initiator` template variable for provider events. Exposes the full object (User or Admin) of the entity that initiated the action.
+- Event Manager: Added [Execute before file publish](./execute-before-file-publish.md) option for upload event actions. Runs actions on the temporary atomic upload file before it becomes visible to other users. Supports both asynchronous mode (client receives immediate OK) and synchronous mode (client waits for action result). Designed for antivirus scanning (ICAP), content validation, DLP checks, and other pre-publication processing. Works on all storage backends.
+- WebClient: Added `shares-policy-change-disabled` option. When set (on user or inherited from group), hides the share group policy UI and ensures only enforced policies are applied, preventing users from adding or modifying group bindings on their shares.
+- WebAdmin: Added password expiration column to the users list. Displays the expiration date calculated from the user's last password change and the configured expiration policy.
+- Shares: Added [denied share paths](tutorials/shares.md#restricting-shareable-paths) filter. Administrators can define virtual paths that users are not allowed to share, configurable per-user or inherited from groups.
+- Shares: Added [share restriction filters](tutorials/shares.md#restricting-shareable-paths) for paths and scopes. Administrators can define virtual paths that users are not allowed to share, and restrict which share scopes (read, write, read/write) are available. Both settings are configurable per-user or inherited from groups. When all scopes are denied, sharing is completely disabled.
+- Event Manager: Path filter conditions can now optionally [match on the filesystem path](eventmanager.md#path-filters) instead of the virtual path. This allows filtering by physical storage location, bucket name, Windows drive letter, or UNC path. Each pattern can independently target the virtual or filesystem path. Backslashes in patterns are auto-normalized to forward slashes. Matching is case-sensitive on all platforms.
+- WebAdmin: Added language configuration section to the global configs page. Allows administrators to select which UI languages are enabled system-wide. When configured, overrides per-binding language settings across all instances.
+- WebAdmin: Added TLS certificate configuration section to the global configs page. Allows administrators to upload a TLS certificate and private key directly from the UI, with per-protocol selection (HTTPS, FTPS, WebDAV). The certificate replaces the global file-based certificate for the selected protocols. Existing certificates can be updated without a service restart. Mutually exclusive with automatic certificates (Let's Encrypt/ACME).
+- Automatic Certificates (ACME): Certificates, account keys, and registration data are now stored in the database instead of on disk. This enables stateless deployments (containers) and proper cluster operation. Existing on-disk data is automatically migrated to the database on the next certificate renewal check. Certificate renewal uses database-level optimistic locking for cluster-safe coordination, replacing the previous file-based lock.
+- Event Manager: Improved scheduled rule concurrency guard. Rules with `GuardFromConcurrentExecution` now release the task lock immediately after completion, allowing other nodes to execute the rule without waiting for the timeout period.
+- WebAdmin: Added [email templates](email-templates.md) configuration section to the global configs page. Allows administrators to customize the subject and HTML body of system-sent emails (password reset, password expiration, one-time access codes) directly from the UI, with a visual HTML editor. Both subject and body support Go template placeholders (e.g., `{{.Username}}`, `{{.Code}}`). When configured, overrides the built-in default templates across all instances.
+- HTTPD: Added `disable_auto_tls` option for bindings. When set, automatic TLS certificates (from the WebAdmin TLS configuration or ACME) will not be applied to the binding. Useful for bindings dedicated to intra-node communication in cluster setups.
+- HTTP client: Added `skip_tls_verify_for_urls` configuration option. Allows disabling TLS certificate verification for specific URL prefixes instead of globally.
+- OIDC: Added support for PKCE-only authentication without a client secret, enabling integration with public OAuth2 clients. When the client secret is omitted, SFTPGo uses PKCE exclusively to secure the authorization code exchange.
+- Metrics: Added per-user Prometheus metrics — uploads, downloads, bandwidth, active connections, and login success/failure tracked per username. Always enabled when the telemetry server is active. See the [metrics documentation](metrics.md) for details.
+- Metrics: Added filesystem operation metrics (`sftpgo_fs_ops_total`) tracking rename, delete, rmdir, copy, and mkdir operations across all protocols and event manager actions.
+- Metrics: Added per-backend transfer and metadata operation metrics with label-based filtering. See the [metrics documentation](metrics.md) for the complete list.
+- S3: Added configurable `checksum_algorithm` (CRC32, CRC32C, CRC64NVME, SHA1, SHA256) for upload integrity verification. When set, checksums are computed and sent with uploads and copies so S3 can verify payload integrity. Empty by default for maximum compatibility with S3-compatible services.
+- Azure Blob: Uploads now send a CRC64 transactional checksum for server-side verification of each block. Can be disabled via the `SFTPGO_HOOK__AZBLOB__DISABLE_CHECKSUM` environment variable.
+- WebAdmin: Added a "Test connection" button in the filesystem configuration section of user, group, and folder edit pages. Verifies connectivity, authentication, and configured-path access for remote backends (S3, Google Cloud Storage, Azure Blob, SFTP, FTP, HTTP) without transferring files.
+
+### Bug fixes
+
+- Event Manager: Fixed execution of source-only folder actions (delete, exist, mkdir, rename, metadata check). When a source virtual folder is configured, these actions now correctly execute once instead of per-user.
+- Event Manager: Fixed provider event role filtering. Role-restricted admins now see events for their tenant's users and admins even when the event is triggered by a global admin; the `role` field on provider events now identifies the affected object's tenant instead of the executor's role.
+- HTTP client: Fixed URL prefix matching for headers and TLS verify exceptions. Matching now requires a boundary character (`/`, `?`, `#`) or exact match. Default ports are normalized (`https://host:443` is equivalent to `https://host`).
+- TUS: Fixed the `Location` header in upload creation responses to respect `X-Forwarded-Proto` from trusted proxies. When running behind a TLS-terminating reverse proxy (e.g., Cloudflare), the header used `http://` instead of `https://`, causing browsers to block subsequent upload requests as mixed content.
+
+### Breaking changes
+
+Overhauled Prometheus metrics. This is a **breaking change** for existing dashboards and alerts — all metric names have been updated. See the [metrics documentation](metrics.md) for the complete list of new metric names.
+
+- Renamed byte counters to follow Prometheus conventions: `sftpgo_upload_size` → `sftpgo_upload_size_bytes` (same for all download/backend size metrics).
+- Replaced 24 individual login counters with a single `sftpgo_login_total{method, result}` CounterVec.
+- Replaced per-backend counters (S3, GCS, Azure, SFTPFs, HTTPFs) with `sftpgo_backend_*{backend}` CounterVec metrics. Added FTPFs backend tracking.
+- Replaced per-backend metadata operation counters with `sftpgo_backend_ops_total{backend, operation}` and `sftpgo_backend_ops_errors_total{backend, operation}`.
+- Removed SSH command metrics (`sftpgo_ssh_commands_total`, `sftpgo_ssh_command_errors_total`).
+- Removed HTTP request metrics (`sftpgo_http_req_total`, `sftpgo_http_req_ok_total`, `sftpgo_http_client_errors_total`, `sftpgo_http_server_errors_total`).
+
+Provider event notifications (plugin notifier, HTTP hook, command hook) now report the `role` of the affected object (user's or admin's tenant) instead of the executing admin's role. This aligns with the Event Manager `role_names` filter and role-scoped provider event search. External consumers that relied on the previous executor-role semantic will see a different value.
 
 ## Update March 7, 2026 - v2.7.20260307
 
@@ -43,7 +101,7 @@ If you're migrating from an open-source installation, please follow the guide he
 
 ### Backward incompatible changes
 
-- Google Cloud Storage: Starting from this version, GCS backends require standard Service Account JSON keys (`"type": "service_account"`) by default. Other credential types (`authorized_user`, `external_account`, `impersonated_service_account`) are no longer supported by default. This change improves security (mitigating risks such as SSRF) and stability by preventing the use of temporary or externally managed credentials.Users relying on non-standard JSON credentials must migrate to a Service Account key or switch to [Application Default Credentials](https://docs.cloud.google.com/docs/authentication/application-default-credentials). The previous behavior can be restored by setting the `SFTPGO_HOOK__GCS_TRUSTED_JSON_CREDENTIALS` environment variable to `1`.
+- Google Cloud Storage: Starting from this version, GCS backends require standard Service Account JSON keys (`"type": "service_account"`) by default. Other credential types (`authorized_user`, `external_account`, `impersonated_service_account`) are no longer supported by default. This change improves security (mitigating risks such as SSRF) and stability by preventing the use of temporary or externally managed credentials. Users relying on non-standard JSON credentials must migrate to a Service Account key or switch to [Application Default Credentials](https://docs.cloud.google.com/docs/authentication/application-default-credentials). The previous behavior can be restored by setting the `SFTPGO_HOOK__GCS_TRUSTED_JSON_CREDENTIALS` environment variable to `1`.
 - API Keys: Expiration dates can no longer be extended once set; they can only be shortened.
 - Unified path handling: Prior to this release, the backslash character (`\`) was treated differently depending on the host operating system: on Linux, it was considered a standard character within a file or directory name, while on Windows, it acted as a path separator. We have now unified path handling across all platforms. Moving forward, both forward slashes (`/`) and backslashes (`\`) are strictly evaluated as path separators, independently of the underlying OS.
 
@@ -53,7 +111,7 @@ If you're migrating from an open-source installation, please follow the guide he
 
 - Hooks: Added the ability to automatically create virtual folders from the pre-login and pre-auth hooks by setting the `SFTPGO_HOOK__AUTO_FOLDERS` environment variable to `1`.
 - Pre-login hook: Added support for returning a different username than the one used during login.
-- EventManaged: Added the `{{.Shares}}` lazy placeholder to retrieve the shares associated with the path on which the filesystem action was executed.
+- EventManager: Added the `{{.Shares}}` lazy placeholder to retrieve the shares associated with the path on which the filesystem action was executed.
 - REST API: Introduced the ability to change the log level dynamically without restarting the service.
 
 ### Bug fixes
@@ -65,11 +123,11 @@ If you're migrating from an open-source installation, please follow the guide he
 
 ### New features
 
-- EventManager: Added `IMAP` action allowing to automatically retrieves email attachments from IMAP mailboxes and makes them available in SFTPGo. Attachments can be placed in a user’s home directory or mapped into a virtual folder, enabling seamless ingestion of files delivered via email.
+- EventManager: Added `IMAP` action allowing to automatically retrieve email attachments from IMAP mailboxes and makes them available in SFTPGo. Attachments can be placed in a user’s home directory or mapped into a virtual folder, enabling seamless ingestion of files delivered via email.
 - EventManager: Removed hard-coded subjects for emails generated from filesystem templates (outside EventManager) and made them configurable via [environment variables](env-vars.md#additional-environment-variables).
 - EventManager: Added an `ICAP` action to enable integration with ICAP servers for antivirus scanning and DLP checks as part of SFTPGo rules, with automatic handling based on scan results (block, adapt, quarantine, or trigger notifications).
 - EventManager: Added `ShareExpiration` action to automate [share lifecycle management](tutorials/shares.md#automating-share-lifecycle-management). It enables expiration based on inactivity thresholds or token exhaustion, with support for pre-expiration warnings (`AdvanceNotice`) and soft deletes (`GracePeriod`). The action handles group shares by notifying all members during the warning phase while restricting the deletion event to the share owner.
-- SFTPD: Allow to [hide dot directory entries](env-vars.md#additional-environment-variables).
+- SFTPD: Added the ability to [hide dot directory entries](env-vars.md#additional-environment-variables).
 - Shares: Added support for associating groups with shares. This allows permissions to read, update, and delete shares to be granted to members of the same group, facilitating team [collaboration and delegation](./tutorials/shares.md#delegating-share-management).
 - OIDC: Added support for configuring the claim values used to map an OIDC-authenticated user to an SFTPGo admin. Previously, only the fixed value `admin` was accepted and could not be customized.
 - OIDC: Added support for `max_age` and `prompt` parameters to enforce re-authentication based on session age and control the login/consent interaction.
@@ -146,7 +204,7 @@ While this feature was introduced following multiple requests, we still recommen
 ### Documentation
 
 - Added a tutorial on [public shares](./tutorials/shares.md).
-- Expanded the Event Manager tutorial with a [PGP](./tutorials/eventmanager.md#pgp-compatible-encryption-and-decryption) usage example.
+- Expanded the Event Manager tutorial with a [PGP](./tutorials/eventmanager-pgp.md) usage example.
 
 ## Update August 31, 2025 - v2.7.20250831
 
@@ -156,7 +214,7 @@ While this feature was introduced following multiple requests, we still recommen
 - SFTP storage backend: Added support for SOCKS proxy versions v4 and v4a.
 - Preserve sort order for related folders and groups, improving compatibility and predictability when used with the Terraform provider.
 - Cluster mode: ensures near real-time propagation of event rule updates, IP lists, and license changes across all cluster nodes.
-- Password hashing: Introduced general support for importing password using the `yescrypt` format.
+- Password hashing: Introduced general support for importing passwords using the `yescrypt` format.
 - EventManager: Added "Metadata Check" action to verify the presence or value of a metadata key in cloud storage backends, with optional retries and timeout.
 
 ### Bug fixes
@@ -174,7 +232,7 @@ While this feature was introduced following multiple requests, we still recommen
 
 ### New features
 
-- EventManager: Completely rewritten the action placeholder system to significantly improve flexibility. Please refer to the [documentation](eventmanager.md) for details and migration steps. Note that this change may break compatibility in some cases. Don’t hesitate to contact us if you need assistance migrating your actions.
+- EventManager: Completely rewritten the action placeholder system to significantly improve flexibility. Please refer to the [migration guide](migration.md) for details and migration steps. Note that this change may break compatibility in some cases. Don’t hesitate to contact us if you need assistance migrating your actions.
 - EventManager: Added an optional archive folder to the data retention action, enabling files to be moved to the specified virtual folder instead of being deleted.
 - Users: Added support for a custom placeholder value set in user configurations. It can be referenced as `%custom1%` within group configurations.
 - User Templates: Added support for password change requirement option.
@@ -192,14 +250,14 @@ While this feature was introduced following multiple requests, we still recommen
 ### Backward incompatible changes
 
 - EventManager: Removed the Data Retention API. You can achieve equivalent functionality using the Data Retention Check action.
-- EventManager: Removed several placeholders. Refer to the [migration guide](eventmanager.md#migration-from-previous-versions-or-the-open-source-edition) to update your existing actions accordingly.
+- EventManager: Removed several placeholders. Refer to the [migration guide](migration.md) to update your existing actions accordingly.
 - SFTPFs: Removed the root directory existence check. If a root path is configured, it is now assumed to exist, avoiding redundant and time-consuming validations. This change improves login times in environments with multiple virtual folders backed by SFTP, particularly when one or more of the backend SFTP storage endpoints are unreachable or experiencing timeouts.
 
 ## Update July 2, 2025 - v2.7.20250702
 
 ### New features
 
-- EventManager: Added support for folder integration to simplify pushing files to external SFTP servers and other storage backends, either after an upload or on a scheduled basis. Tutorials have been updated [with examples](tutorials/eventmanager.md#virtual-folders-integration) demonstrating folders integration.
+- EventManager: Added support for folder integration to simplify pushing files to external SFTP servers and other storage backends, either after an upload or on a scheduled basis. Tutorials have been updated [with examples](tutorials/eventmanager-folders.md) demonstrating folders integration.
 - WebAdmin: Added the ability to disable password authentication for administrators. This is useful if you want to enforce API key–only access or restrict login to OpenID Connect.
 - Audit Log: Log entries for configuration changes now include details about the specific modified section.
 - Terraform Provider: Updated to fully support SFTPGo Enterprise.
@@ -212,7 +270,7 @@ While this feature was introduced following multiple requests, we still recommen
 ### New features
 
 - Google Cloud Storage: Added support for Hierarchical Namespace enabled buckets.
-- OIDC: UI display name is now configurable. The label "Sign in with OpenID" on the login screen is now configurable. You can change `OpenID` to something else.
+- OIDC: The label "Sign in with OpenID" on the login screen is now configurable.
 - OIDC: added support for discovery when the issuer URL and discovery URL differ (e.g. Azure B2C). This behavior is disabled by default and can be enabled by setting the environment variable `SFTPGO_HTTPD__BINDINGS__0__OIDC__INSECURE_ISSUER_URL` to `1`.
 - FTPD: implemented the STRU command to improve compatibility with legacy FTP clients.
 - Shares: added audit logging for legal agreement acceptance.
@@ -241,7 +299,7 @@ While this feature was introduced following multiple requests, we still recommen
 
 ### New features
 
-- EventManager: All placeholder names must now include a leading dot, changing from `{{PlaceholderName}}` to `{{.PlaceholderName}}`. For example, use `{{.VirtualPath}}` instead of `{{VirtualPath}}`. Existig actions are automatically migrated to the new format. When adding new actions, make sure to use the new format. This change is a preparation to improve flexibility in the future, allowing for features like conditions, loops, and other advanced options.
+- EventManager: All placeholder names must now include a leading dot, changing from `{{PlaceholderName}}` to `{{.PlaceholderName}}`. For example, use `{{.VirtualPath}}` instead of `{{VirtualPath}}`. Existing actions are automatically migrated to the new format. When adding new actions, make sure to use the new format. This change is a preparation to improve flexibility in the future, allowing for features like conditions, loops, and other advanced options.
 - EventManager: Added support for PGP encryption and decryption.
 - HTTPD: Allowed to configure the `Referrer-Policy` header.
 - SFTPD: Added support for Post-Quantum Traditional Hybrid Key Exchange through the newly added algorithm `mlkem768x25519-sha256`.
@@ -319,7 +377,7 @@ Additionally, you can configure the lifetime of WOPI access tokens (default is 3
 
 - WebUI: the column visibility feature now hides the correct columns even after reordering table columns.
 - WebUI: fixed context menu activation in user lists and other tables. In some edge cases the menu was not displayed because it was activated too early in the page rendering.
-- WebUI: hidden some advanced settings like part size and concurrency for cloud storage backends. They are confusing for users and the values ​​are closely related to instance resources, so now they are adjusted automatically.
+- WebUI: hidden some advanced settings like part size and concurrency for cloud storage backends. They are confusing for users and the values are closely related to instance resources, so now they are adjusted automatically.
 
 ## Other additions compared to the Open Source edition
 

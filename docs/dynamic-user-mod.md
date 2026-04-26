@@ -1,3 +1,7 @@
+---
+description: "Dynamically create or modify SFTPGo users before login using external programs or HTTP hooks for just-in-time provisioning."
+---
+
 # Dynamic user creation or modification
 
 Dynamic user creation or modification is supported via an external program or an HTTP URL that can be invoked just before the user login.

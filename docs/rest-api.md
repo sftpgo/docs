@@ -1,3 +1,7 @@
+---
+description: "SFTPGo REST API reference: manage users, groups, folders, event rules, and perform file operations. Supports JWT and API key authentication."
+---
+
 # REST API
 
 SFTPGo provides a comprehensive REST API that enables full programmatic control of the system. The API is divided into two distinct areas:
@@ -18,6 +22,65 @@ The REST API feature can be enabled or disabled through the `httpd` configuratio
 Complete and up-to-date API documentation is available in [OpenAPI format](https://sftpgo.com/rest-api){:target="_blank"}, allowing developers to explore all endpoints, request parameters, and response formats.
 
 Using this OpenAPI specification, you can easily generate client libraries or custom integrations in your preferred programming languages. Tools such as [Swagger Codegen](https://github.com/swagger-api/swagger-codegen){:target="_blank"} and [OpenAPI Generator](https://openapi-generator.tech/){:target="_blank"} support generating clients ranging from Python, Java, and JavaScript to simple bash scripts, streamlining the integration process.
+
+## API Key Authentication
+
+API keys provide a long-lived alternative to JWT tokens for REST API authentication. They are ideal for automated scripts, CI/CD pipelines, and service-to-service integrations where repeatedly obtaining short-lived tokens is impractical.
+
+### Creating an API key
+
+API keys can be created and managed from the WebAdmin UI under **Server Manager > API Keys**, or via the REST API itself.
+
+Each API key has a **scope** that determines what it can access:
+
+| Scope | Description |
+| ------- | ------------- |
+| **Admin** | Grants access to the Admin API. If an admin username is specified, the key acts as that admin; if left empty, it is valid for any admin. |
+| **User** | Grants access to the User API. If a username is specified, the key acts as that user; if left empty, it is valid for any user. |
+
+Additional settings:
+
+- **Expiration date** — Optional. Once set, the expiration can be shortened but not extended.
+- **Description** — Optional free-text description.
+
+:warning: The full API key is shown **only once** at creation time. Store it securely — it cannot be retrieved later.
+
+### Enabling API key authentication
+
+API key authentication must be explicitly enabled for each user or admin that needs it:
+
+- **Admins**: In the WebAdmin, edit the admin and enable **Allow API key authentication**.
+- **Users**: In the WebAdmin, edit the user and enable **Allow API key authentication** in the user profile section. This option can also be inherited from a group.
+
+### Using an API key
+
+Pass the API key in the `X-SFTPGO-API-KEY` HTTP header. No token exchange is needed — the key authenticates directly.
+
+```shell
+# Admin API: list users
+curl -s -H "X-SFTPGO-API-KEY: <your-api-key>" \
+  "${ENDPOINT}/api/v2/users" | jq .
+
+# User API: list directory contents
+curl -s -H "X-SFTPGO-API-KEY: <your-api-key>" \
+  "${ENDPOINT}/api/v2/user/dirs" | jq .
+```
+
+For keys created without a specific username or admin, you must specify the target account by appending it to the API key value, separated by a dot:
+
+```shell
+# User API: act as user "alice" with a generic user-scoped key
+curl -s -H "X-SFTPGO-API-KEY: <your-api-key>.alice" \
+  "${ENDPOINT}/api/v2/user/dirs" | jq .
+
+# Admin API: act as admin "operator" with a generic admin-scoped key
+curl -s -H "X-SFTPGO-API-KEY: <your-api-key>.operator" \
+  "${ENDPOINT}/api/v2/users" | jq .
+```
+
+When the key is bound to a specific user or admin, the bound account is always used and the suffix is ignored.
+
+:information_source: API key authentication is subject to the same Defender and rate-limiting rules as other authentication methods. Invalid keys are counted toward the auto-blocking threshold.
 
 ## Examples
 

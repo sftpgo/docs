@@ -1,67 +1,57 @@
+---
+description: "Configure per-protocol and per-IP rate limiting in SFTPGo to protect against brute-force attacks and request flooding."
+---
+
 # Rate limiting
 
-Rate limiting allows to control the number of requests going to the SFTPGo services.
+Rate limiting controls the number of requests reaching SFTPGo services. It helps protect against brute-force attacks, credential stuffing, and accidental overload.
 
-SFTPGo implements a [token bucket](https://en.wikipedia.org/wiki/Token_bucket){:target="_blank"} initially full and refilled at the configured rate. The `burst` configuration parameter defines the size of the bucket. The rate is defined by dividing `average` by `period`, so for a rate below 1 req/s, one needs to define a period larger than a second.
+SFTPGo implements a [token bucket](https://en.wikipedia.org/wiki/Token_bucket){:target="_blank"} algorithm. The bucket starts full and is refilled at the configured rate. The `burst` parameter defines the bucket size (the maximum number of requests that can be served instantly). The rate is calculated by dividing `average` by `period` — for example, `average=100` and `period=1000` (milliseconds) results in 100 requests per second.
 
-Requests that exceed the configured limit will be delayed or denied if they exceed the maximum delay time.
+Requests that exceed the configured limit are delayed. If the required delay exceeds the maximum allowed (internally computed, capped at 10 seconds), the request is rejected.
 
-SFTPGo allows to define per-protocol rate limiters so you can have different configurations for different protocols.
+## Protocols
 
-The supported protocols are:
+Rate limiters are configured per-protocol. The supported protocols are:
 
-- `SSH`, includes SFTP and SSH commands
-- `FTP`, includes FTP, FTPES, FTPS
-- `DAV`, WebDAV
-- `HTTP`, REST API and web admin
+- **SSH** — includes SFTP and SSH commands
+- **FTP** — includes FTP, FTPES, FTPS
+- **DAV** — WebDAV
+- **HTTP** — REST API and web interfaces
 
-You can also define two types of rate limiters:
+## Limiter types
 
-- global, it is independent from the source host and therefore define an aggregate limit for the configured protocol/s
-- per-host, this type of rate limiter can be connected to the built-in [defender](./defender.md) and generate `score_limit_exceeded` events and thus hosts that repeatedly exceed the configured limit can be automatically blocked
+You can define two types of rate limiters:
 
-If you configure a per-host rate limiter, SFTPGo will keep a rate limiter in memory for each host that connects to the service, you can limit the memory usage using the `entries_soft_limit` and `entries_hard_limit` configuration keys.
+- **Global** (`type: 1`) — applies an aggregate limit across all clients for the configured protocols. Useful for protecting overall server capacity.
+- **Per-host** (`type: 2`) — maintains a separate rate limiter for each client IP address. Can be connected to the built-in [defender](defender.md) to automatically block hosts that repeatedly exceed the limit.
 
-You can exclude a list of IP addresses and IP ranges from rate limiters by adding them to rate limites allow list using the WebAdmin UI or the REST API. In multi-nodes setups, the list entries propagation between nodes may take some minutes.
+For per-host limiters, SFTPGo keeps a rate limiter in memory for each connecting host. Use `entries_soft_limit` and `entries_hard_limit` to control memory usage: when the number of tracked hosts exceeds the soft limit, the least recently used entries are removed; the hard limit is the absolute maximum.
 
-You can define as many rate limiters as you want, but keep in mind that if you define multiple rate limiters each request will be checked against all the configured limiters and so it can potentially be delayed multiple times. Let's clarify with an example, here is a configuration that defines a global rate limiter and a per-host rate limiter for the SSH and FTP protocols:
+## Exemptions
 
-```json
-"rate_limiters": [
-    {
-      "average": 100,
-      "period": 1000,
-      "burst": 1,
-      "type": 1,
-      "protocols": [
-        "SSH",
-        "FTP",
-        "DAV",
-        "HTTP"
-      ],
-      "generate_defender_events": false,
-      "entries_soft_limit": 100,
-      "entries_hard_limit": 150
-    },
-    {
-      "average": 10,
-      "period": 1000,
-      "burst": 1,
-      "type": 2,
-      "protocols": [
-        "SSH",
-        "FTP"
-      ],
-      "generate_defender_events": true,
-      "entries_soft_limit": 100,
-      "entries_hard_limit": 150
-    }
-]
-```
+You can exempt IP addresses from rate limiting in two ways:
 
-Alternatively (recommended), you can use environment variables by creating the file `/etc/sftpgo/env.d/rate-limiting.env` with the following content.
+- Add them to the **Rate limiters safe list** via the WebAdmin UI or REST API.
+- Add them to the **Trusted list**, which also exempts them from other restrictions.
+
+In multi-node setups, list entry propagation between nodes may take some minutes.
+
+## Configuration
+
+Rate limiting is disabled by default (`average: 0`). You can define multiple rate limiters — each request is checked against all matching limiters.
+
+The following example defines two rate limiters:
+
+1. A **global** limiter allowing 100 requests/second across all protocols.
+2. A **per-host** limiter allowing 10 requests/second per IP for SSH and FTP, with defender integration enabled.
+
+### Using environment variables (recommended)
+
+Create the file `/etc/sftpgo/env.d/rate-limiting.env`:
 
 ```shell
+# Global rate limiter: 100 req/s for all protocols
 SFTPGO_COMMON__RATE_LIMITERS__0__AVERAGE=100
 SFTPGO_COMMON__RATE_LIMITERS__0__PERIOD=1000
 SFTPGO_COMMON__RATE_LIMITERS__0__BURST=1
@@ -70,6 +60,8 @@ SFTPGO_COMMON__RATE_LIMITERS__0__PROTOCOLS=SSH,FTP,DAV,HTTP
 SFTPGO_COMMON__RATE_LIMITERS__0__GENERATE_DEFENDER_EVENTS=0
 SFTPGO_COMMON__RATE_LIMITERS__0__ENTRIES_SOFT_LIMIT=100
 SFTPGO_COMMON__RATE_LIMITERS__0__ENTRIES_HARD_LIMIT=150
+
+# Per-host rate limiter: 10 req/s per IP for SSH and FTP
 SFTPGO_COMMON__RATE_LIMITERS__1__AVERAGE=10
 SFTPGO_COMMON__RATE_LIMITERS__1__PERIOD=1000
 SFTPGO_COMMON__RATE_LIMITERS__1__BURST=1
@@ -80,6 +72,50 @@ SFTPGO_COMMON__RATE_LIMITERS__1__ENTRIES_SOFT_LIMIT=100
 SFTPGO_COMMON__RATE_LIMITERS__1__ENTRIES_HARD_LIMIT=150
 ```
 
-We have a global rate limiter that limit the aggregate rate for the all the services to 100 req/s and an additional rate limiter that limits `SSH` and `FTP` protocols to 10 req/s per host.
-With this configuration, when a client connects via SSH and FTP will be limited first by the global rate limiter and then by the per host rate limiter.
-Clients connecting via WebDAV or HTTP will be checked only against the global rate limiter.
+### Using the configuration file
+
+```json
+{
+  "common": {
+    "rate_limiters": [
+      {
+        "average": 100,
+        "period": 1000,
+        "burst": 1,
+        "type": 1,
+        "protocols": ["SSH", "FTP", "DAV", "HTTP"],
+        "generate_defender_events": false,
+        "entries_soft_limit": 100,
+        "entries_hard_limit": 150
+      },
+      {
+        "average": 10,
+        "period": 1000,
+        "burst": 1,
+        "type": 2,
+        "protocols": ["SSH", "FTP"],
+        "generate_defender_events": true,
+        "entries_soft_limit": 100,
+        "entries_hard_limit": 150
+      }
+    ]
+  }
+}
+```
+
+With this configuration, SSH and FTP clients are checked first against the global limiter (100 req/s total) and then against the per-host limiter (10 req/s per IP). WebDAV and HTTP clients are only checked against the global limiter.
+
+## Configuration reference
+
+| Parameter | Type | Default | Description |
+| --------- | ---- | ------- | ----------- |
+| `average` | integer | `0` | Maximum number of requests allowed in the given period. `0` disables the rate limiter. |
+| `period` | integer | `1000` | Time window in milliseconds. Must be at least `100`. |
+| `burst` | integer | `1` | Maximum number of requests that can be served instantly (bucket size). Must be at least `1`. |
+| `type` | integer | `2` | `1` = global (aggregate across all clients), `2` = per-host (per client IP). |
+| `protocols` | list of strings | all | Protocols this limiter applies to: `SSH`, `FTP`, `DAV`, `HTTP`. |
+| `generate_defender_events` | boolean | `false` | Generate defender events when the limit is exceeded. Only meaningful for per-host limiters. |
+| `entries_soft_limit` | integer | `100` | Per-host only. Number of tracked hosts after which least recently used entries are evicted. |
+| `entries_hard_limit` | integer | `150` | Per-host only. Absolute maximum number of tracked hosts. Must be greater than `entries_soft_limit`. |
+
+Full configuration details are available in the [configuration file reference](config-file.md).

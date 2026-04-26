@@ -1,3 +1,7 @@
+---
+description: "SFTPGo structured JSON logging: transfer logs, SSH command logs, HTTP request logs, and connection events for auditing and monitoring."
+---
+
 # Logs
 
 SFTPGo logs a stream of JSON structs. Each struct has a `sender` field that identifies the log type.
@@ -13,7 +17,7 @@ The logs can be divided into the following categories:
 - `connection_id`, string, optional
 - `message` string
 
-**transfer logs**, SFTP/SCP transfer logs:
+**transfer logs**, upload/download transfer logs:
 
 - `sender` string. `Upload` or `Download`
 - `time` string. Date/time with millisecond precision
@@ -27,12 +31,14 @@ The logs can be divided into the following categories:
 - `connection_id` string. Unique connection identifier
 - `protocol` string. `SFTP`, `SCP`, `SSH`, `FTP`, `HTTP`, `HTTPShare`, `DAV`, `DataRetention`, `EventAction`
 - `ftp_mode`, string. `active` or `passive`. Included only for `FTP` protocol
+- `ext_username`, string. The external user identifier, for example the email address for share access with email authentication. Included if available
 - `error`, string. Included if there is a transfer error
 
-**command logs**, SFTP/SCP command logs:
+**command logs**, filesystem command logs:
 
 - `sender` string. `Rename`, `Rmdir`, `Mkdir`, `Symlink`, `Remove`, `Chmod`, `Chown`, `Chtimes`, `Truncate`, `Copy`, `SSHCommand`
-- `level` string-
+- `time` string. Date/time with millisecond precision
+- `level` string
 - `local_addr` string. IP/port of the local address the connection arrived on. For example `127.0.0.1:1234`
 - `remote_addr` string. IP and, optionally, port of the remote client. For example `127.0.0.1:1234` or `127.0.0.1`
 - `username`, string
@@ -58,13 +64,12 @@ The logs can be divided into the following categories:
 - `remote_addr` string. IP and, optionally, port of the remote client. For example `127.0.0.1:1234` or `127.0.0.1`
 - `proto` string, for example `HTTP/1.1`
 - `method` string. HTTP method (`GET`, `POST`, `PUT`, `DELETE` etc.)
-- `request_id` string. Omitted in telemetry logs
+- `request_id` string. Unique request identifier
 - `user_agent` string
 - `uri` string. Full uri
 - `resp_status` integer. HTTP response status code
 - `resp_size` integer. Size in bytes of the HTTP response
 - `elapsed_ms` int64. Elapsed time, as milliseconds, to complete the request
-- `request_id` string. Unique request identifier
 - `tls_ver` string. TLS version. Added for HTTPS
 - `cipher_suite` string. Negotiated cipher suite. Added for HTTPS
 - `kex` string. Key exchange mechanism. Added for HTTPS

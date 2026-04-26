@@ -1,3 +1,7 @@
+---
+description: "Configure Key Management Services in SFTPGo for encrypting stored secrets. Supports local encryption and cloud KMS providers."
+---
+
 # Key Management Services
 
 SFTPGo stores sensitive data such as Cloud account credentials or passphrases to derive per-object encryption keys. These data are stored as ciphertext and only loaded to RAM in plaintext when needed.
@@ -23,7 +27,17 @@ For compatibility with SFTPGo versions 1.2.x and before we also support encrypti
 
 ### Cloud providers
 
-Several cloud providers are supported using the [sftpgo-plugin-kms](https://github.com/sftpgo/sftpgo-plugin-kms){:target="_blank"}.
+The following cloud KMS providers are supported via the KMS plugin:
+
+- Google Cloud KMS
+- AWS KMS
+- Azure Key Vault
+- HashiCorp Vault
+- Oracle Key Vault
+
+All cloud providers that offer managed identity (Google Cloud, AWS, Azure, Oracle) are supported through their respective default credential chains.
+
+See [Cloud KMS Providers](plugins/kms-providers.md) for detailed configuration instructions.
 
 ### Notes
 

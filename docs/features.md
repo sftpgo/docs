@@ -1,43 +1,134 @@
-# Main Features
+---
+description: "SFTPGo features: secure file transfer, workflow automation, encryption, audit logging, SSO, cloud storage, HA clustering, Kubernetes, and Terraform IaC support."
+---
 
-- Serving local filesystem, encrypted local filesystem, S3 Compatible Object Storage, Google Cloud Storage, Azure Blob Storage or other SFTP accounts over SFTP, SCP, FTP, WebDAV, HTTPS.
-- Users are stored in a supported data provider—such as SQLite, MySQL, PostgreSQL, CockroachDB, Bolt, or in-memory storage—and each user’s access is restricted to their own home directory or designated section of a storage bucket.
-- Granular access control: per-user and per-directory permissions.
-- Encryption at REST and in Motion.
-- Audit logs and reporting.
-- Password, public key and certificate authentication.
-- Multi-factor and multi-step authentication. Authentication methods can be customized on a per-user basis.
-- Per-user and per-directory data retention rules to automatically delete or archive old files.
-- Real-time monitor of active connections.
-- Quota Management: Each account can have a disk quota, defined by maximum total storage size and/or maximum number of files.
-- Bandwidth Throttling: Upload and download speeds can be limited separately, with the ability to apply different settings based on the client’s IP address.
-- Data Transfer Limits: Total bandwidth usage can be restricted, either as a combined limit or with separate thresholds for uploads and downloads. These limits can also be customized per client IP and reset via the REST API or the EventManager.
-- [WebAdmin UI](web-interfaces.md#webadmin) to easily manage users, groups, folders and connections.
-- [WebClient UI](web-interfaces.md#webclient) so that end users can change their credentials, manage and share their files in the browser.
-- [Virtual folders](virtual-folders.md): these are special folders that connect to any supported storage backend, allowing you to make different types of storage available to users at specific folder paths. For example, a user might access an S3 bucket mapped to one folder path while also having an encrypted local filesystem available at another. Virtual folders can be either private (for a single user) or shared among multiple users. In addition, virtual folders can be used to automate actions based on events. For example, after a file is uploaded, it can be automatically copied or moved to an external SFTP server, an S3 bucket, or transferred on a set schedule. This makes it easier to manage files across different storage services without manual intervention.
-- Simplified user administrations using [groups](groups.md): you assign settings once to a group, instead of multiple times to each individual user.
-- [Roles](roles.md) enable the creation of restricted administrators who are only permitted to create and manage users with the same assigned role. Allowing to delegate users administration.
-- The [Event Manager](eventmanager.md) makes it possible to set up automated actions based on server activity—such as when files are uploaded, downloaded, or deleted—as well as on defined schedules. This feature can be used to streamline operations, for example by automatically sending notifications or moving files to other storage systems, without requiring manual intervention.
-- LDAP/Active directory users.
-- [OpenID connect](oidc.md) Single Sign-On supporting many Identity Providers including Microsoft Entra ID, Google Identity Platform, Amazon Cognito, Auth0, Okta, OneLogin, Jump Cloud, Ping Identity, Keycloak and many others.
-- Custom authentication via [external programs/HTTP API](external-auth.md).
-- Dynamic user creation or modification before login via [external programs/HTTP API](dynamic-user-mod.md).
-- Let’s Encrypt TLS certificates for HTTPS and FTPS/FTPES.
-- Geo-IP filtering.
-- Per-user and global IP filters and trusted lists.
-- Per-protocol rate limiting.
-- Automatically disactivate or deleted inactive users.
-- Automatically terminating idle connections.
-- Automatic blocklist management using the built-in [defender](defender.md), which helps protect the server against brute-force attempts.
-- Ability to configure and tune ciphers, host keys, key exchanges, message authentication codes and other algorithms.
-- Support for strict Content Security Policies for WebAdmin and WebClient UI: no `unsafe-eval` and `usafe-inline` are required.
-- Access time restrictions.
-- Branding: custom logo and name in Web interfaces.
-- REST API designed for both administrators and end users. Administrators can fully manage the system through the API—creating and managing users, groups, virtual folders, and more—while end users can access and interact with their files securely. This API allows for easy integration with other applications and supports automated workflows to streamline file handling and system administration.
-- Infrastructure as Code: [Terraform provider](https://registry.terraform.io/providers/drakkan/sftpgo/latest){:target="_blank"}.
-- Configurable [custom commands and/or HTTP hooks](custom-actions.md) on upload, pre-upload, download, pre-download, delete, pre-delete, rename, mkdir, rmdir on SSH commands and on user add, update and delete.
-- Support for HAProxy PROXY protocol: you can proxy and/or load balance the SFTP/SCP/FTP service without losing the information about the client's address.
-- Easy [migration](https://github.com/drakkan/sftpgo/tree/main/examples/convertusers){:target="_blank"} from Linux system user accounts.
-- [Portable mode](cli.md#portable-mode): a convenient way to share a single directory on demand.
-- [Prometheus metrics](metrics.md).
-- Performance analysis using built-in [profiler](profiling.md).
+# Features
+
+SFTPGo provides enterprise-grade managed file transfer capabilities: multi-protocol secure access, event-driven workflow automation, data-at-rest encryption, centralized audit logging, granular access controls, and integration with cloud storage and identity providers.
+
+## Protocols
+
+SFTPGo provides access to files through multiple protocols. Users, permissions, storage backends, and event rules apply consistently across all of them.
+
+- [SFTP/SCP](ssh.md) over SSH, with post-quantum hybrid key exchange (`mlkem768x25519-sha256`), configurable ciphers, KEX, MACs, and host key algorithms.
+- [FTP/FTPS](ftp.md) with explicit and implicit TLS, mutual TLS authentication, and session reuse.
+- [WebDAV](webdav.md) over HTTP/HTTPS with lock support.
+- Built-in [WebClient](web-interfaces.md#webclient) over HTTPS for browser-based file management and sharing.
+- [TUS](https://tus.io/){:target="_blank"} resumable upload protocol for chunked, resumable uploads via the WebClient and the REST API. Improves reliability in unstable network conditions and compatibility with proxy/CDN environments such as Cloudflare.
+- Support for [HAProxy PROXY protocol](config-file.md) to preserve client IP addresses behind load balancers and proxies.
+
+## Storage backends
+
+SFTPGo abstracts storage so that users and administrators work with a unified interface regardless of where files physically reside. Multiple backends can be combined within the same installation — even for the same user via virtual folders.
+
+- [Local filesystem](localfs.md) with per-user home directory isolation.
+- [Data At Rest Encryption](dare.md) (CryptFs) — transparent AES-256-GCM / ChaCha20-Poly1305 encryption on the local filesystem.
+- [S3-compatible object storage](s3.md) (AWS S3, Wasabi, Backblaze B2, etc.) with multipart transfers, SSE-C encryption, and IAM role support.
+- [Google Cloud Storage](google-cloud-storage.md) with Hierarchical Namespace (HNS) support.
+- [Azure Blob Storage](azure-blob-storage.md) with shared key, SAS, and default Azure credential authentication.
+- [Remote SFTP servers](sftpfs.md) as storage, with optional buffering, SOCKS proxy support, and configurable concurrency.
+- [Remote FTP servers](ftpfs.md) as storage, with explicit and implicit TLS support.
+- [Custom HTTP backends](httpfs.md) via a REST API contract, for integration with arbitrary storage systems.
+- [Virtual folders](virtual-folders.md) to map directories from any supported backend into a user's namespace. Virtual folders can be private or shared, each with independent quota.
+
+## Authentication and security
+
+SFTPGo supports a wide range of authentication methods and security controls, from standard password/key authentication to enterprise SSO and automatic threat mitigation.
+
+- Password, public key, and certificate authentication for SSH. Password and mutual TLS for FTP and WebDAV.
+- Multi-factor authentication (TOTP) compatible with Microsoft Authenticator, Google Authenticator, Authy, and similar apps.
+- Multi-step authentication — combine methods per user (e.g., public key + password).
+- [OpenID Connect](oidc.md) Single Sign-On, supporting Microsoft Entra ID, Google, Amazon Cognito, Auth0, Okta, OneLogin, JumpCloud, Ping Identity, Keycloak, and others. Supports [PKCE without client secret](oidc.md#pkce-without-client-secret) for public OAuth2 clients.
+- LDAP/Active Directory integration for user authentication and group mapping.
+- Custom authentication via [external programs or HTTP hooks](external-auth.md).
+- Dynamic user creation or modification before login via [pre-login hooks](dynamic-user-mod.md).
+- Geo-IP filtering to allow or deny access by country.
+- Per-user and global IP allow/deny lists with a trusted list that bypasses the defender and rate limiting.
+- Automatic brute-force protection via the built-in [defender](defender.md) with configurable scoring and ban policies.
+- Per-protocol [rate limiting](rate-limiting.md) with per-IP and global limiters.
+- Strict Content Security Policy support — no `unsafe-eval` or `unsafe-inline` required.
+- Configurable SSH algorithms (ciphers, KEX, MACs, host keys) with per-user enforcement of secure algorithms.
+- Post-quantum hybrid key exchange for SSH (`mlkem768x25519-sha256`) and TLS 1.3 (X25519MLKEM768), protecting file transfers against future quantum computing threats while remaining fully backward compatible.
+- Let's Encrypt TLS certificates via built-in ACME protocol for HTTPS, FTPS, and WebDAV. TLS certificates can also be uploaded directly from the WebAdmin UI.
+- Access time restrictions per user.
+
+## User and access management
+
+SFTPGo provides granular control over what each user can do, where they can store files, and how much they can transfer.
+
+- Users stored in SQLite, MySQL, PostgreSQL, CockroachDB, Bolt, or in-memory, each restricted to their home directory or bucket prefix.
+- Granular per-user and per-directory permissions (list, download, upload, overwrite, delete, create directories, rename, create symlinks, chmod).
+- [Groups](groups.md) to define settings once and apply them to multiple users (primary, secondary, and membership groups with inheritance rules).
+- [Roles](roles.md) for delegated administration — restricted administrators who can only manage users with the same role.
+- Disk quota management per user and per virtual folder (total size and/or file count).
+- Bandwidth throttling with separate upload/download limits, configurable per client IP.
+- Transfer quota with combined or separate upload/download limits, resettable via REST API or Event Manager.
+- Automatic deactivation or deletion of inactive users.
+- Automatic termination of idle connections.
+
+## Sharing
+
+Users can securely share files and folders with external parties via the WebClient, with fine-grained controls over access and lifecycle.
+
+- Public file and folder shares via HTTP/S links, with configurable limits (download/upload count, expiration date, source IP restrictions).
+- Password and email-based authentication for public shares.
+- Group-based share delegation and [governance policies](tutorials/shares.md).
+- [Denied share paths](tutorials/shares.md#restricting-shareable-paths) — administrators can block specific virtual paths from being shared, per-user or inherited from groups.
+- [Denied share scopes](tutorials/shares.md#restricting-shareable-paths) — restrict which share types (read, write, read/write) are available. When all scopes are denied, sharing is completely disabled.
+- Share lifecycle management with inactivity thresholds, advance notice, and grace periods.
+- Share cloning for quickly creating variants of existing shares.
+
+## Automation
+
+The [Event Manager](eventmanager.md) is SFTPGo's automation engine — it lets administrators define rules that react to events and execute actions automatically, with full [template](placeholders.md) support.
+
+- Triggers: file operations (`upload`, `download`, `delete`, `rename`, `copy`, `mkdir`, `rmdir`), provider changes (`add`, `update`, `delete`), schedules, IP blocks, certificate renewals, on-demand, and Identity Provider logins.
+- Filesystem actions: [copy](filesystem-actions.md#copy) (with source disposition, glob patterns, per-file retries, continue-on-error), [rename, delete](filesystem-actions.md#delete) (including directory contents), [compress](filesystem-actions.md#compress) (ZIP), [extract](filesystem-actions.md#extract) (ZIP), create directories, path existence checks.
+- [Virtual folder integration](eventmanager.md#virtual-folders) for cross-backend operations (e.g., copy uploads to a different S3 bucket, push files to an external SFTP server, archive to a remote location).
+- [Execute Before File Publish](execute-before-file-publish.md): staged upload actions that scan or validate files before they become visible (e.g., antivirus via ICAP, content validation).
+- [ICAP integration](filesystem-actions.md#icap) for antivirus scanning and DLP checks on all storage backends, with quarantine support via virtual folders.
+- [IMAP integration](filesystem-actions.md#imap) for automatic ingestion of email attachments.
+- PGP encryption and decryption with optional signing and signature verification.
+- [Event reports](event-report.md) for periodic digest notifications of filesystem activity, with per-user split reports and CSV attachments.
+- Data retention with per-directory policies — expired files can be automatically [deleted or archived](tutorials/eventmanager-retention.md) to a virtual folder.
+- [Auto provisioning](tutorials/eventmanager-idp.md) — automatically create user accounts when they log in through an Identity Provider.
+- Notifications via email, HTTP webhooks, and command execution, with customizable templates.
+- Path filter conditions can match on [virtual path or filesystem path](eventmanager.md#path-filters), enabling filtering by physical storage location.
+- Configurable [custom commands and HTTP hooks](custom-actions.md) for file and provider operations.
+
+See the [Event Manager tutorials](tutorials/eventmanager.md) for step-by-step guides covering common workflows.
+
+## Web interfaces
+
+SFTPGo includes two web interfaces, both with dark and light themes and support for six languages (English, Italian, German, French, Spanish, Chinese Simplified).
+
+- [WebAdmin](web-interfaces.md#webadmin) for centralized management of users, groups, virtual folders, event rules, and server configuration. Includes a global [configurations page](initial-configuration.md#configuration) for managing SMTP, OIDC, LDAP, TLS certificates, email templates, and language settings directly from the UI.
+- [WebClient](web-interfaces.md#webclient) with browser-based file management, credential management, two-factor authentication setup, and file sharing.
+- WOPI protocol integration for in-browser document editing and real-time collaboration (e.g., with Collabora Online).
+- Branding: custom logo, name, favicon, and login page disclaimer for both interfaces.
+
+## High availability and deployment
+
+SFTPGo is designed to scale from a single instance to large distributed deployments.
+
+- Multi-node clustering with near real-time propagation of configuration changes across all nodes.
+- Native Kubernetes support with an official [Helm chart](installation.md).
+- Available on the [AWS Marketplace](tutorials/sftpgo-aws.md), [Azure Marketplace](installation.md#azure), and [Google Cloud Marketplace](tutorials/sftpgo-google-cloud.md).
+- Runs on Linux, Windows, macOS, and FreeBSD — from embedded devices to cloud infrastructure.
+- [Docker images](docker.md) for containerized deployments.
+
+## Administration and operations
+
+- [REST API](rest-api.md) for full system management and end-user file operations, with OpenAPI documentation. Supports JWT and [API key](rest-api.md#api-key-authentication) authentication. API keys can be created and managed from the WebAdmin UI.
+- [Terraform provider](https://registry.terraform.io/providers/drakkan/sftpgo/latest){:target="_blank"} for Infrastructure as Code — manage users, groups, folders, and event rules declaratively.
+- Real-time monitoring of active connections.
+- [Audit logs](plugins/audit-logs.md) with structured JSON output for file transfers, logins, SSH commands, and HTTP requests. Searchable from the WebAdmin UI.
+- [Prometheus metrics](metrics.md) for monitoring and alerting, including per-user transfer metrics.
+- TLS certificate management directly from the WebAdmin UI, as an alternative to Let's Encrypt/ACME.
+- Built-in [profiler](profiling.md) for performance analysis.
+- [Portable mode](cli.md#portable-mode) for quick, on-demand file sharing from a single directory.
+
+## Integration and extensibility
+
+- [Plugin system](plugins.md) for audit logs, LDAP authentication, GeoIP filtering, cloud KMS, and pub/sub event forwarding.
+- Migration tools for importing users from [Linux system accounts](https://github.com/drakkan/sftpgo/tree/main/examples/convertusers){:target="_blank"}.

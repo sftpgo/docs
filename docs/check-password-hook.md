@@ -1,3 +1,7 @@
+---
+description: "Validate SFTPGo passwords with an external hook. Useful for password+OTP on protocols that do not support keyboard-interactive authentication."
+---
+
 # Check password hook
 
 This hook allows you to externally check the provided password, its main use case is to allow to easily support things like password+OTP for protocols without keyboard interactive support such as FTP and WebDAV. You can ask your users to login using a string consisting of a fixed password and a One Time Token, you can verify the token inside the hook and ask to SFTPGo to verify the fixed part.

@@ -1,27 +1,64 @@
-# HTTP/S storage backend
+---
+description: "Use a custom HTTP/S service as an SFTPGo storage backend via a simple REST API contract."
+---
 
-SFTPGo can use custom storage backend implementations compliant with the REST API [documented here](https://github.com/drakkan/sftpgo/blob/main/openapi/httpfs.yaml){:target="_blank"}.
+# HTTP as storage backend
 
-:warning: HTTPFs is a work in progress and makes no API stability promises.
+SFTPGo can use a custom HTTP/S service as a storage backend. This allows you to integrate SFTPGo with any storage system by implementing a simple REST API.
 
-The only required parameter is the HTTP/S endpoint that SFTPGo must use to make API calls.
-If you define `http://127.0.0.1:9999/api/v1` as endpoint, SFTPGo will add the API path, for example for the `stat` API it will invoke `http://127.0.0.1:9999/api/v1/stat/{name}`.
+:warning: The HTTP filesystem backend is a work in progress. The API interface may change in a backward-incompatible way in future releases.
 
-You can set a `username` and/or a `password` to instruct SFTPGo to use the basic authentication, or you can set an API key to instruct SFTPGo to add it to each API call in the `X-API-KEY` HTTP header.
+## Configuration
 
-Here is a mapping between HTTP response codes and protocol errors:
+| Parameter | Description |
+| ----------- | ------------- |
+| **Endpoint** | Base URL of the HTTP backend (e.g., `https://storage.example.com/api`). Required. |
+| **Username** | Username for HTTP Basic authentication. Optional. |
+| **Password** | Password for HTTP Basic authentication. Optional. |
+| **API key** | API key sent via the `X-API-KEY` header. Optional. Can be used in addition to or instead of Basic authentication. |
+| **Equality check mode** | How to determine if two configurations point to the same server: `0` (default) requires only the endpoint to match; `1` also requires the username to match. Used for rename operations across configurations. |
+| **Skip TLS verify** | Accept any TLS certificate. :warning: Only for testing — susceptible to man-in-the-middle attacks. |
 
-- `401`, `403` mean permission denied error
-- `404`, means not found error
-- `501`, means not supported error
-- `200`, `201`, mean no error
-- any other response code means a generic error
+The password and API key are stored encrypted according to your [KMS configuration](kms.md).
 
-HTTPFs can also connect to UNIX domain sockets. To use UNIX domain sockets you need to set an endpoint with the following conventions:
+### Unix domain socket support
 
-- the URL schema can be `http` or `https` as usual.
-- The URL host must be `unix`.
-- The socket path is mandatory and is set using the `socket_path` query parameter. The path must be query escaped.
-- The optional API prefix can be set using the `api_prefix` query parameter. The prefix must be query escaped.
+The endpoint can point to a Unix domain socket instead of a TCP address:
 
-Here is an example endpoint for UNIX domain socket connections: `http://unix?socket_path=%2Ftmp%2Fsftpgofs.sock&api_prefix=%2Fapi%2Fv1`. In this case we are connecting using the `HTTP` protocol to the socket `/tmp/sftpgofs.sock` and we use the `/api/v1` prefix for API URLs.
+```shell
+http://unix?socket_path=/path/to/socket&api_prefix=/api
+https://unix?socket_path=/path/to/socket&api_prefix=/api
+```
+
+The `socket_path` parameter must be an absolute path. The `api_prefix` is prepended to all request paths.
+
+## API contract
+
+The HTTP backend must implement a set of REST endpoints. SFTPGo appends the operation path to the configured endpoint URL. The [OpenAPI schema](https://github.com/drakkan/sftpgo/blob/main/openapi/httpfs.yaml){:target="_blank"} defines the full API contract.
+
+Key endpoints:
+
+| Method | Path | Description |
+| -------- | ------ | ------------- |
+| GET | `/stat/{name}` | File/directory metadata |
+| GET | `/open/{name}?offset={offset}` | Download file (with optional offset) |
+| POST | `/create/{name}` | Upload file |
+| PATCH | `/rename/{name}?target={target}` | Rename/move |
+| DELETE | `/remove/{name}` | Delete |
+| POST | `/mkdir/{name}` | Create directory |
+| PATCH | `/chmod/{name}?mode={mode}` | Change permissions |
+| PATCH | `/chtimes/{name}` | Change timestamps |
+| PATCH | `/truncate/{name}?size={size}` | Truncate file |
+| GET | `/readdir/{name}` | List directory |
+| GET | `/dirsize/{name}` | Directory size |
+| GET | `/statvfs/{name}` | Filesystem stats |
+
+SFTPGo maps HTTP status codes to filesystem errors: `404` = file not found, `501` = not supported, `403` = permission denied, etc.
+
+## Limitations
+
+- Upload resume is not supported.
+- Atomic uploads are not supported.
+- Opening a file for both reading and writing at the same time is not supported.
+- `chown` and `symlink` are not supported.
+- Virtual folders are not supported on this backend.

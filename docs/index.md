@@ -1,50 +1,50 @@
+---
+description: "SFTPGo — managed file transfer (MFT) platform with SFTP, FTP/S, WebDAV, HTTPS. HA clustering, Kubernetes, Terraform, SSO, cloud storage, automation, audit logging."
+---
+
 # What is SFTPGo?
 
-SFTPGo is a managed, event-driven file transfer solution that abstracts storage backends and provides access to files through its built-in WebClient over HTTPS, as well as via standard SFTP, SCP, FTP/S, and WebDAV protocols.
+SFTPGo is a fully featured, open-core managed file transfer (MFT) platform. It provides secure file exchange over SFTP, SCP, FTP/S, WebDAV, and a built-in HTTPS WebClient, with support for local and cloud storage backends.
 
-With SFTPGo you can leverage local and cloud storage backends for exchanging and storing files internally or with business partners using the same tools and processes you are already familiar with.
+SFTPGo is built around a few core principles:
 
-The WebAdmin UI allows to easily create and manage your users, folders, groups and other resources.
+- **Protocol-agnostic access.** Users can connect via SFTP, SCP, FTP/S, WebDAV, or the built-in web interface — the same files and permissions apply across all protocols.
+- **Storage abstraction.** Local filesystem, encrypted filesystem, S3-compatible storage, Google Cloud Storage, Azure Blob, and remote SFTP/FTP servers are all supported as storage backends, including within the same installation.
+- **Event-driven automation.** The [Event Manager](eventmanager.md) allows administrators to define rules that react to file operations, provider changes, or schedules — enabling automated workflows such as notifications, cross-backend file transfers, antivirus scanning, data retention, PGP encryption, and more.
+- **Security and compliance.** Data-at-rest encryption, [audit logging](plugins/audit-logs.md), brute-force protection, geo-IP filtering, post-quantum cryptography for SSH and HTTPS, and fine-grained access controls help meet regulatory requirements. Authentication supports passwords, public keys, certificates, multi-factor, LDAP/Active Directory, and OpenID Connect (SSO).
 
-The WebClient UI allows end users to change their credentials, browse and manage their files in the browser and setup two-factor authentication which works with Microsoft Authenticator, Google Authenticator, Authy and other compatible apps.
+SFTPGo is designed for high availability: it supports multi-node clustering with near real-time configuration propagation, runs natively on Kubernetes (with an official Helm chart), and is available on the AWS, Azure, and Google Cloud marketplaces. A [Terraform provider](https://registry.terraform.io/providers/drakkan/sftpgo/latest){:target="_blank"} is available for Infrastructure as Code workflows.
 
-SFTPGo in short:
+The WebAdmin interface provides centralized management for users, groups, virtual folders, event rules, and server configuration. The WebClient gives end users a browser-based file manager with credential management, two-factor authentication, and secure file sharing.
 
-- Event driven file transfer solution.
-- Multiple protocols: SFTP, SCP, FTP/S, WebDAV, HTTP/S, REST API.
-- Multiple storage backends: S3 Compatible, Google Cloud Storage, Azure Blob, other SFTP servers, local filesystem, encrypted local filesystem.
-- Multiple data providers: SQLite, MySQL, PostresSQL, CockroachDB, Bolt and in-memory.
-- Extensible via plugins and hooks.
-- It works everywhere: on small embedded devices or large Kubernetes clusters. On Linux, Windows, macOS, FreeBSD. On x86, arm, ppc64.
+**Ready to get started?** See the [installation guide](installation.md) and then the [Getting Started](initial-configuration.md) walkthrough. For a complete feature list, see [Features](features.md).
 
-![Architectural overview](assets/img/sftpgo%20architecture.png){data-gallery="architecture"}
+**Using an AI assistant?** The project publishes an AI-agent-agnostic skill that teaches Claude Code, Cursor, Copilot, ChatGPT, Gemini, and compatible models how to produce correct SFTPGo configuration, REST API payloads, and Event Action templates. See [AI Assistants](ai-assistants.md) for install instructions.
 
-## Enterprise edition
+![Architectural overview](assets/img/sftpgo%20architecture.png#only-light){data-gallery="architecture"}
+![Architectural overview](assets/img/sftpgo%20architecture-dark.png#only-dark){data-gallery="architecture"}
 
-This documentation applies to the Enterprise edition of SFTPGo. If you're using the Open Source edition, please refer to the [corresponding documentation](/latest/){:target="_blank"}.
+## Open Source and Enterprise editions
 
-SFTPGo Enterprise is an enhanced version of the open-source SFTPGo, based on its core functionality, and tailored for organizations that require more advanced features, improved performance and a commercially licensed solution.
+SFTPGo is available in two editions:
 
-New features are regularly added to the Enterprise edition, which may or may not be backported to the open-source edition.
+- The **Open Source edition** is released under the AGPLv3 license. It includes the full protocol stack, storage backends, WebAdmin and WebClient interfaces, basic Event Manager automation, OpenID Connect support, and the REST API. Documentation for the Open Source edition is available [here](/latest/){:target="_blank"}.
+- The **Enterprise edition** is offered under a [proprietary license](https://sftpgo.com/assets/LICENSE.pdf){:target="_blank"} that removes the AGPLv3 restrictions. It includes commercial support and additional features.
 
-Key Enhancements:
+This documentation covers the Enterprise edition.
 
-- Significant performance improvements for cloud storage backends — up to 70% faster when transferring many small files.
-- A more powerful EventManager, enabling advanced and flexible automation workflows.
-- PGP encryption and decryption.
-- WOPI protocol integration, allowing in-browser document editing and real-time collaboration directly within the SFTPGo WebClient. Multiple users can edit the same document simultaneously, with live updates for all participants.
-- Email-based authentication and group delegation for public shares, enhancing security and access control.
-- Numerous additional customization options and configuration improvements across the platform.
-- Additional storage backends.
-- Automatic file ingestion from IMAP mailbox attachments.
-- ICAP integration for antivirus and DLP scanning.
-- Support included.
+### What Enterprise adds
 
-The open-source version of SFTPGo will continue to be maintained and updated with bug fixes and improvements, ensuring both versions remain reliable and functional.
+| Area | Enterprise additions |
+| ------ | --------------------- |
+| **Event Manager** | Full [template engine](placeholders.md) with helper functions, conditions, and loops. [Virtual folder integration](eventmanager.md#virtual-folders) for cross-backend operations. Additional actions: [ICAP](filesystem-actions.md#icap) (antivirus/DLP), [IMAP](filesystem-actions.md#imap) (email ingestion), [event reports](event-report.md), PGP encryption/decryption. [Execute Before File Publish](execute-before-file-publish.md) for staged upload processing. Enhanced [copy action](filesystem-actions.md#copy) with source disposition, glob patterns, and retries. Data retention with [archival](tutorials/eventmanager-retention.md). |
+| **OpenID Connect** | Configurable [role mapping](oidc.md#role-mapping), [PKCE without client secret](oidc.md#pkce-without-client-secret), session control (`max_age`, `prompt`), Azure B2C compatibility, customizable login labels. |
+| **WebClient** | [WOPI](initial-configuration.md#document-editing-and-collaboration) document editing and real-time collaboration. [TUS](https://tus.io/){:target="_blank"} resumable uploads for reliability through proxies/CDNs. |
+| **Sharing** | Email-based authentication. Group-based delegation and [governance policies](tutorials/shares.md). [Path and scope restrictions](tutorials/shares.md#restricting-shareable-paths). |
+| **Storage** | Optimized cloud backend performance (up to 70% faster for small files). In-memory transfers (no local temp storage). GCS [Hierarchical Namespace](google-cloud-storage.md). SFTP backend [SOCKS proxy](sftpfs.md). [FTP as storage backend](ftpfs.md). |
+| **Administration** | [Clustering](features.md#administration-and-operations) with near real-time propagation. Extended [WebAdmin configuration](features.md#web-interfaces): OIDC, LDAP, Geo-IP, TLS certificates, email templates, SSH host keys — all from the UI. [API key management](rest-api.md#api-key-authentication) from the UI. |
 
-## Licensing
-
-The Enterprise version is offered under a [proprietary license](https://sftpgo.com/assets/LICENSE.pdf){:target="_blank"} that removes the restrictions of the open-source AGPLv3.
+Both editions are actively maintained. The Open Source edition receives regular bug fixes and improvements. New features are developed primarily for the Enterprise edition and may be backported to the Open Source edition over time.
 
 ## Copyright
 

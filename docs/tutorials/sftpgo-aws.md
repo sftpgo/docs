@@ -1,3 +1,7 @@
+---
+description: "Deploy SFTPGo on AWS via the Marketplace. Available in Starter and Premium tiers with S3 integration and arm64 support."
+---
+
 # SFTPGo on AWS
 
 SFTPGo is available on AWS Marketplace:
@@ -7,16 +11,16 @@ SFTPGo is available on AWS Marketplace:
 - [SFTPGo Enterprise - Starter (arm64)](https://aws.amazon.com/marketplace/pp/prodview-ukjjbuggrxrlw){:target="_blank"}
 - [SFTPGo Enterprise - Premium (arm64)](https://aws.amazon.com/marketplace/pp/prodview-6fcfsxgzfx3yu){:target="_blank"}
 
-The Starter tier is a cost-effective solution for small to medium-scale file transfer environments. It supports unlimited users and connections, with up to 20 concurrent uploads and downloads. Storage options include local filesystem or Google Cloud buckets. Detailed audit logs are also available directly within the WebAdmin UI.
+The Starter tier is a cost-effective solution for small to medium-scale file transfer environments. It supports unlimited users and connections, with up to 20 concurrent uploads and downloads. Storage options include local filesystem or S3 buckets. Detailed audit logs are also available directly within the WebAdmin UI.
 
 The Premium tier is designed for deployments that require advanced features and greater flexibility. It includes all capabilities of the Starter tier, plus the following features:
 
 - Unlimited users and connections, with up to 100 concurrent uploads and downloads.
-- Additional storage backends: Amazon S3 (Compatible), Azure Blob Storage, other SFTP servers.
+- Additional storage backends: Google Cloud Storage, Azure Blob Storage, other SFTP servers.
 - PGP encryption/decryption.
 - Advanced automation through the EventManager.
-- Plugin for Geo-IP filtering via plugins.
-- Plugin for event publishing to systems like Amazon SNS, RabbitMQ, NATS, Kafka, and other publish/subscribe platforms.
+- Geo-IP filtering via plugin.
+- Event publishing to systems like Amazon SNS, RabbitMQ, NATS, Kafka, and other publish/subscribe platforms via plugin.
 
 :information_source: We also offer the open-source version of SFTPGo on AWS Marketplaces. These offers were introduced before the availability of SFTPGo Enterprise and remain fully supported. However, we recommend transitioning to the Starter or Premium tiers to take full advantage of the enhanced features and improved performance provided by SFTPGo Enterprise.
 
@@ -46,15 +50,13 @@ Additionally you may consider to add:
 
 After deploying the virtual machine make note of its IP address and instance ID.
 
-![Running instance](../assets/img/aws_subscribe.png){data-gallery="instance"}
+![Running instance](../assets/img/aws-instance.png){data-gallery="instance"}
 
 ## Create the initial administrator account
 
-Before you can use SFTPGo you need to create an admin account, so open **http://your_instance_IP:8080/web/admin** in your web browser, replacing `Your instance ID` with the ID of your instance, which you can find in the AWS Console.
+Before you can use SFTPGo you need to create an admin account, so open **http://your_instance_IP:8080/web/admin** in your web browser, replacing `your_instance_IP` with the IP address of your instance, which you can find in the AWS Console. The Instance ID is required to validate your installation.
 
 ![Setup](../assets/img/aws_setup.png){data-gallery="setup"}
-
-The instance ID is required to validate your installation.
 
 After creating the admin account you will be automatically logged in and redirected to the page to set up two-factor authentication. Setting up two-factor authentication is optional.
 

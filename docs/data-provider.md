@@ -1,28 +1,41 @@
+---
+description: "Initialize and manage the SFTPGo data provider. Supports SQLite, PostgreSQL, MySQL, CockroachDB, and Bolt databases for user and configuration storage."
+---
+
 # Data provider initialization and management
 
-Before starting the SFTPGo server please make sure that the configured data provider is properly initialized/updated.
+**In the default configuration, you do not need to initialize the data provider manually.** SFTPGo creates the schema on first startup and applies any pending migrations on every subsequent startup, provided the configured credentials can issue DDL on the target database. Just point SFTPGo at an empty database (or accept the default SQLite file) and start the service.
 
-For PostgreSQL, MySQL and CockroachDB providers, you need to create the configured database. For SQLite, the configured database will be automatically created at startup. Memory and bolt data providers do not require any initialization but they could require an update to the existing data after upgrading SFTPGo.
+What you do need to provide yourself:
 
-SFTPGo will attempt to automatically detect if the data provider is initialized/updated and if not, will attempt to initialize/ update it on startup as needed.
+- **PostgreSQL, MySQL, CockroachDB**: create the empty database (or schema) and a user with sufficient privileges before starting SFTPGo.
+- **SQLite**: the database file is created automatically.
+- **Memory and bolt**: no database to create. After an SFTPGo upgrade the existing data may be migrated automatically on first startup.
 
-Alternately, you can create/update the required data provider structures yourself using the `initprovider` command.
+For step-by-step setup instructions for each database, see [Configuration examples](configuration-examples.md#database-providers).
 
-For example, you can simply execute the following command from the configuration directory:
+## Running initprovider manually
+
+`initprovider` is a one-shot command that performs the same schema creation and migration that SFTPGo normally does at startup. You only need it when you have set `update_mode` to `1` — that is, when you explicitly disable automatic checks/updates so that migrations cannot run under the service's own credentials. Common reasons:
+
+- The runtime database account has intentionally limited privileges (no DDL) and a separate ops role owns schema evolution.
+- You want to gate upgrades behind a human-approved step rather than letting them run at service startup.
+
+In that mode, run `initprovider` as the privileged role before starting the new version:
 
 ```bash
 sftpgo initprovider
 ```
 
-Take a look at the CLI usage to learn how to specify a different configuration file:
+See the available options with:
 
 ```bash
 sftpgo initprovider --help
 ```
 
-You can disable automatic data provider checks/updates at startup by setting the `update_mode` configuration key to `1`.
+With `update_mode = 0` (the default) running `initprovider` is harmless — it just performs the same work the next startup would have done — but it is not required.
 
-:warning: Please note that some data providers (e.g. MySQL and CockroachDB) do not support schema changes within a transaction, this means that you may end up with an inconsistent schema if migrations are forcibly aborted. CockroachDB doesn't support database-level locks, so make sure you don't execute migrations concurrently.
+:warning: Some data providers (e.g. MySQL and CockroachDB) do not support schema changes within a transaction, so a forcibly-aborted migration can leave the schema in an inconsistent state. CockroachDB also does not implement `pg_advisory_lock`, which means migrations cannot be serialized at the database level: make sure only one SFTPGo instance runs migrations against CockroachDB at a time — either by starting instances sequentially, or by setting `update_mode` to `1` on every instance and running `initprovider` from a single operator job.
 
 ## Upgrading
 
@@ -32,9 +45,9 @@ Some examples for supported upgrade paths are:
 - from 2.1.x to 2.2.x
 - from 2.2.x to 2.3.x and so on.
 
-For supported upgrade paths, the data and schema are migrated automatically when SFTPGo starts, alternatively you can use the `initprovider` command before starting SFTPGo.
+For supported upgrade paths the data and schema are migrated automatically when SFTPGo starts (or by running `initprovider` manually if you opted into `update_mode = 1`).
 
-So if, for example, you want to upgrade from 2.0.x to 2.2.x, you must first install version 2.1.x, update the data provider (automatically, by starting SFTPGo or manually using the `initprovider` command) and finally install the version 2.2.x. It is recommended to always install the latest available minor version, ie do not install 2.1.0 if 2.1.2 is available.
+So if, for example, you want to upgrade from 2.0.x to 2.2.x, you must first install version 2.1.x, let it update the data provider (automatically at startup, or manually via `initprovider` if you run in manual mode), and finally install version 2.2.x. It is recommended to always install the latest available minor version — do not install 2.1.0 if 2.1.2 is available.
 
 Loading data from a provider independent JSON dump is supported from the previous release branch to the current one too. After upgrading SFTPGo it is advisable to regenerate the JSON dump from the new version.
 

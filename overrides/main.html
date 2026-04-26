@@ -1,14 +1,94 @@
 {% extends "base.html" %}
 
+{#-
+  Override Material's site_meta block to:
+    1. Keep credit to MkDocs and Material but strip the exact versions, which
+       could help an attacker match against known CVEs.
+    2. Avoid duplicating <meta name="description"> — we emit it in {% block extrahead %} below
+       from page.meta.description with a config.site_description fallback.
+  We preserve charset, viewport, and the canonical link which Material normally emits here.
+-#}
+{% block site_meta %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  {%- if page and page.canonical_url %}
+  <link rel="canonical" href="{{ page.canonical_url }}">
+  {%- endif %}
+  <meta name="generator" content="mkdocs, mkdocs-material">
+{% endblock %}
+
 {% block extrahead %}
-  <meta name="keywords" content="SFTP, FTP, SCP, WebDAV, S3, Google Cloud Storage, Azure Blob, 2FA, Data At Rest Encryption, file sharing, transfer, secure, SaaS, SFTP as a service, FTP as a service, On-premise, SFTP Managed service, FTP Managed service, REST API">
-  <meta name="description" content="Fully featured and highly configurable SFTP server with HTTP/S Web UI, FTP/S and WebDAV - As a Managed Service, On-premise, Cloud, Hybrid Cloud - Data at Rest Encryption, S3, Google Cloud, Azure Blob.">
-  <meta property="og:title" content="SFTP & FTP as a Managed Service (SaaS) and On-premise">
-  <meta property="og:url" content="https://docs.sftpgo.com">
-  <meta property="og:description" content="Fully featured and highly configurable SFTP server with HTTP/S Web UI, FTP/S and WebDAV - As a Managed Service, On-premise, Cloud, Hybrid Cloud - Data at Rest Encryption, S3, Google Cloud, Azure Blob.">
-  <meta property="og:image" content="https://docs.sftpgo.com/latest/assets/logo.png">
-  <meta name="twitter:title" content="SFTP & FTP as a Managed Service (SaaS) and On-premise">
-  <meta name="twitter:description" content="Fully featured and highly configurable SFTP server with HTTP/S Web UI, FTP/S and WebDAV - As a Managed Service, On-premise, Cloud, Hybrid Cloud - Data at Rest Encryption, S3, Google Cloud, Azure Blob.">
-  <meta name="twitter:image" content="https://docs.sftpgo.com/latest/assets/logo.png">
-  <meta name="twitter:card" content="summary">
+  {%- set page_description = page.meta.description if page.meta and page.meta.description else config.site_description -%}
+  {%- set page_url = page.canonical_url if page.canonical_url else config.site_url -%}
+  {%- set page_title = page.title if page.title else config.site_name -%}
+
+  <meta name="keywords" content="SFTPGo, SFTP server, FTP server, SCP, WebDAV, S3, Google Cloud Storage, Azure Blob, Managed File Transfer, MFT, 2FA, Data At Rest Encryption, file sharing, secure file transfer, SaaS, on-premise, REST API, Kubernetes, Helm chart, OIDC, LDAP">
+  <meta name="description" content="{{ page_description }}">
+  <meta property="og:title" content="{{ page_title }} - {{ config.site_name }}">
+  <meta property="og:url" content="{{ page_url }}">
+  <meta property="og:description" content="{{ page_description }}">
+  <meta property="og:image" content="https://sftpgo.com/assets/img/og-image.png">
+  <meta property="og:type" content="article">
+  <meta name="twitter:title" content="{{ page_title }} - {{ config.site_name }}">
+  <meta name="twitter:description" content="{{ page_description }}">
+  <meta name="twitter:image" content="https://sftpgo.com/assets/img/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://sftpgo.com/#organization",
+        "name": "SFTPGo",
+        "alternateName": "SOFTWARE ENGINEERING S.R.L.",
+        "url": "https://sftpgo.com",
+        "logo": "https://sftpgo.com/assets/img/logo.png",
+        "sameAs": [
+          "https://github.com/drakkan/sftpgo",
+          "https://github.com/sftpgo",
+          "https://www.linkedin.com/company/107964786/"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://docs.sftpgo.com/enterprise/#website",
+        "url": "https://docs.sftpgo.com/enterprise/",
+        "name": "SFTPGo Enterprise Documentation",
+        "description": "Official documentation for the SFTPGo Enterprise edition — a managed file transfer (MFT) platform with SFTP, FTP/S, WebDAV, and HTTPS support.",
+        "inLanguage": "en",
+        "publisher": { "@id": "https://sftpgo.com/#organization" },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://docs.sftpgo.com/enterprise/?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "TechArticle",
+        "headline": {{ page_title | tojson }},
+        "description": {{ page_description | tojson }},
+        "image": "https://sftpgo.com/assets/img/og-image.png",
+        "url": "{{ page_url }}",
+        "inLanguage": "en",
+        {#- Plugin emits "YYYY-MM-DD HH:MM:SS" in UTC with type:iso_datetime.
+            Convert to strict ISO 8601 ("YYYY-MM-DDTHH:MM:SSZ") required by schema.org. -#}
+        {%- set page_created_raw = page.meta.git_creation_date_localized_raw_iso_datetime if page.meta and page.meta.git_creation_date_localized_raw_iso_datetime else None -%}
+        {%- set page_modified_raw = page.meta.git_revision_date_localized_raw_iso_datetime if page.meta and page.meta.git_revision_date_localized_raw_iso_datetime else None -%}
+        {%- set page_created = (page_created_raw | replace(' ', 'T')) ~ 'Z' if page_created_raw else None -%}
+        {%- set page_modified = (page_modified_raw | replace(' ', 'T')) ~ 'Z' if page_modified_raw else None -%}
+        {%- if page_created %}
+        "datePublished": {{ page_created | tojson }},
+        {%- endif %}
+        {%- if page_modified %}
+        "dateModified": {{ page_modified | tojson }},
+        {%- endif %}
+        "author": { "@id": "https://sftpgo.com/#organization" },
+        "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
+        "publisher": { "@id": "https://sftpgo.com/#organization" }
+      }
+    ]
+  }
+  </script>
 {% endblock %}

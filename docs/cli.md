@@ -1,3 +1,7 @@
+---
+description: "SFTPGo command-line reference: start the server, configure logging, load data, manage the Windows service, and use portable mode."
+---
+
 # Command line options
 
 The SFTPGo executable can be used this way:
@@ -43,7 +47,7 @@ To start the SFTPGo server you can use the `serve` command. It supports the foll
 - `--log-max-backups` int. Maximum number of old log files to retain. Default 5 or the value of `SFTPGO_LOG_MAX_BACKUPS` environment variable. It is unused if `log-file-path` is empty.
 - `--log-max-size` int. Maximum size in megabytes of the log file before it gets rotated. Default 10 or the value of `SFTPGO_LOG_MAX_SIZE` environment variable. It is unused if `log-file-path` is empty.
 - `--log-level` string. Set the log level. Supported values: `debug`, `info`, `warn`, `error`. Default `debug` or the value of `SFTPGO_LOG_LEVEL` environment variable.
-- `--log-utc-time` boolean. Enable UTC time for logging. Default `false` or the value of `SFTPGO_LOG_UTC_TIME` environment variable (1 or `true`, 0 or `false`)
+- `--log-utc-time` boolean. Enable UTC time for logging. Default `false` or the value of `SFTPGO_LOG_UTC_TIME` environment variable (1 or `true`, 0 or `false`).
 
 Log file can be rotated on demand sending a `SIGUSR1` signal on Unix based systems and using the command `sftpgo service rotatelogs` on Windows.
 
@@ -271,6 +275,29 @@ PS> netsh advfirewall firewall add rule name="SFTPGo Service" dir=in action=allo
 Or through the Windows Firewall GUI.
 
 The Windows installer will register the service and allow network access for it automatically.
+
+## Resetting an administrator password
+
+If you lose access to an administrator account you can reset its password from the host where SFTPGo is running. The command works by reading the data provider configuration directly and updating the admin record:
+
+```shell
+sftpgo resetpwd --admin <username>
+```
+
+You will be prompted interactively for the new password (and a confirmation). As a safety measure, two-factor authentication is disabled on the administrator whose password is reset — the admin can re-enable 2FA from the WebAdmin after logging in with the new password.
+
+Notes and limitations:
+
+- **Not supported for the memory data provider** (nothing is persisted).
+- **For embedded data providers (bolt, SQLite)** stop the running SFTPGo service first, otherwise the database can become corrupted (a single-writer restriction).
+- **For shared data providers (PostgreSQL, MySQL, CockroachDB)** the command can be run while SFTPGo is serving — no downtime required.
+- Pass `-c`/`--config-dir` (or `SFTPGO_CONFIG_DIR`) if the config directory is not the current working directory.
+
+On Windows, run the command from an elevated PowerShell (the service account must have access to the data provider):
+
+```powershell
+& "C:\Program Files\SFTPGo\sftpgo.exe" resetpwd --admin yourname -c "C:\ProgramData\SFTPGo Enterprise"
+```
 
 ## Other commands
 

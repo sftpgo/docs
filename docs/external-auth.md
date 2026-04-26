@@ -1,3 +1,7 @@
+---
+description: "Authenticate SFTPGo users via external programs or HTTP endpoints. Supports LDAP, Active Directory, custom databases, and any external identity source."
+---
+
 # External Authentication
 
 To enable external authentication, you must set the absolute path of your authentication program or an HTTP URL using the `external_auth_hook` key in your configuration file.

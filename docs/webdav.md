@@ -1,35 +1,69 @@
+---
+description: "SFTPGo WebDAV server configuration: HTTPS, CORS, file locking, and client compatibility (Windows, macOS, Linux)."
+---
+
 # WebDAV
 
-The `WebDAV` support can be enabled by configuring one or more `bindings` inside the `webdavd` configuration section.
+SFTPGo includes a WebDAV server that can be enabled by configuring one or more bindings in the `webdavd` [configuration](config-file.md) section. WebDAV provides HTTP-based file access, making it compatible with a wide range of clients and operating systems.
 
-Each user can access their home directory using the path `http/s://<SFTPGo ip>:<WevDAVPORT>/<prefix>`. By default `prefix` is empty. If you define a prefix it must be an absolute URI, for example `/dav`.
+Each user accesses their home directory at `http(s)://<host>:<port>/<prefix>`. The default prefix is empty (resources at `/`); a custom prefix can be set per-binding (e.g., `/dav`).
 
-WebDAV is quite a different protocol than SFTP/FTP, there is no session concept, each command is a separate HTTP request and must be authenticated, to improve performance SFTPGo caches authenticated users. This way SFTPGo don't need to do a dataprovider query and a password check for each request.
+## Authentication
 
-The user caching configuration allows to set:
+WebDAV supports the same authentication methods as FTP:
 
-- `expiration_time` in minutes. If a user is cached for more than the specified minutes it will be removed from the cache and a new dataprovider query will be performed. Please note that the `last_login` field will not be updated and `external_auth_hook`, `pre_login_hook` and `check_password_hook` will not be executed if the user is obtained from the cache.
-- `max_size`. Maximum number of users to cache. When this limit is reached the user with the oldest expiration date will be removed from the cache. 0 means no limit however the cache size cannot exceed the number of users so if you have a small number of users you can set this value to 0.
+- **Password** — HTTP Basic authentication.
+- **TLS certificate** — Mutual TLS with client certificate validation.
+- **Certificate + password** — Combined authentication.
 
-Users are automatically removed from the cache after an update/delete.
+### User caching
 
-WebDAV protocol requires the MIME type for each file. SFTPGo will first try to guess the MIME type by extension. If this fails it will send a `HEAD` request for Cloud backends and, as last resort, it will try to guess the MIME type reading the first 512 bytes of the file. This may slow down the directory listing, especially for Cloud based backends, if you have directories containing many files with unregistered extensions. To mitigate this problem, you can enable caching of MIME types so that the MIME type detection is done only once.
+Unlike SFTP and FTP, WebDAV has no persistent session — each HTTP request is independently authenticated. To avoid repeated database queries and password hash computations, SFTPGo caches authenticated users in memory.
 
-The MIME types caching configurations allows to set the maximum number of MIME types to cache. Once the cache reaches the configured maximum size no new MIME types will be added. The MIME types cache  is a non-persistent in-memory cache. If you need a persistent cache add your MIME types to `/etc/mime.types` on Linux or inside the registry on Windows.
+The cache is configured in the `webdavd` section:
 
-WebDAV should work as expected for most use cases but there are some minor issues and some missing features.
+- **Expiration time** — How long (in minutes) a cached user remains valid. After expiration, the next request triggers a fresh database query. `0` means no expiration. Note: while a user is cached, `last_login` is not updated and `external_auth_hook`, `pre_login_hook`, and `check_password_hook` are not executed.
+- **Max size** — Maximum number of cached users. When the limit is reached, the oldest entry is evicted. `0` means no limit (capped by the total number of users).
 
-If you use WebDAV behind a reverse proxy ensure to preserve the `Host` header or `COPY`/`MOVE` operations will fail. For example for apache you have to set `ProxyPreserveHost On`.
+Users are automatically removed from the cache on update or delete.
 
-Know issues:
+## MIME type detection
 
-- removing a directory tree on Cloud Storage backends could generate a `not found` error when removing the last (virtual) directory. This happens if the client cycles the directories tree itself and removes files and directories one by one instead of issuing a single remove command
-- to be able to properly list a directory you need to grant both `list` and `download` permissions and to be able to upload files you need to gran both `list` and `upload` permissions
-- if a file or a directory cannot be accessed, for example due to OS permissions issues or because a mapped path for a virtual folder is a missing, it will be omitted from the directory listing. If there is a different error then the whole directory listing will fail. This behavior is different from SFTP/FTP where you will be able to see the problematic file/directory in the directory listing, you will only get an error if you try to access it
-- if you use the native Windows client please check its usage and pay particular attention to the [registry settings](https://docs.microsoft.com/en-us/iis/publish/using-webdav/using-the-webdav-redirector#webdav-redirector-registry-settings){:target="_blank"}. The default file size limit is 50MB and if you don't configure SFTPGo to use HTTPS you have to set `BasicAuthLevel` to `2`
+WebDAV requires a MIME type for each file. SFTPGo uses the following detection strategy:
 
-SFTPGo has a minimal implementation for [Dead Properties](https://tools.ietf.org/html/rfc4918#section-3){:target="_blank"}. We support setting the last modification time and we return the value in the "live" properties, so basically we don't store anything.
+1. **Extension-based** — Guesses the MIME type from the file extension.
+2. **HEAD request** — For cloud storage backends, issues a HEAD request to retrieve the content type.
+3. **Content sniffing** — As a last resort, reads the first 512 bytes to detect the type.
 
-To properly support dead properties we need a design decision, probably the best solution is to write a plugin and store them inside a supported data provider.
+Steps 2 and 3 may slow down directory listings for directories with many files having unregistered extensions. To mitigate this, enable **MIME type caching** — once detected, the MIME type is cached in memory and reused. You can also add custom extension-to-MIME mappings in the configuration, or register them at the OS level (`/etc/mime.types` on Linux, the registry on Windows).
 
-SFTPGo also supports setting the modification time using the `X-OC-Mtime` header. Nextcloud compatible clients set this header.
+## Lock support
+
+SFTPGo implements WebDAV locking (LOCK/UNLOCK methods) with an in-memory lock manager. Exclusive write locks are supported. Each authenticated user gets a dedicated lock manager instance, and locks are properly cleaned up when resources are deleted or renamed.
+
+## Reverse proxy
+
+When running WebDAV behind a reverse proxy:
+
+- Configure `proxy_allowed` and `client_ip_proxy_header` on the binding to ensure SFTPGo sees real client IP addresses.
+- **Preserve the `Host` header** — WebDAV `COPY` and `MOVE` operations will fail if the Host header is rewritten. For Apache, set `ProxyPreserveHost On`.
+- Alternatively, set `proxy_mode` to `1` to use the PROXY protocol instead of HTTP headers.
+
+## CORS
+
+CORS (Cross-Origin Resource Sharing) can be configured per-binding for browser-based WebDAV clients. The configuration is in the `cors` section of each `webdavd` binding. See the [configuration reference](config-file.md) for all available options.
+
+## Known issues and limitations
+
+- **Directory removal on cloud backends** — Removing a directory tree may produce a "not found" error when deleting the last (virtual) directory, if the client removes files and directories individually instead of issuing a single remove command.
+- **Permission requirements** — Listing a directory requires both `list` and `download` permissions. Uploading files requires both `list` and `upload` permissions.
+- **Error handling in listings** — If a file or directory is inaccessible (e.g., OS permissions, missing virtual folder path), it is silently omitted from the listing. A different error causes the entire listing to fail. This differs from SFTP/FTP, where inaccessible entries still appear in listings.
+- **Dead properties** — SFTPGo has a minimal implementation: modification time can be set and is returned in live properties, but arbitrary dead properties are not persisted.
+- **PROPFIND Depth** — `Depth: 0` and `Depth: 1` are supported. `Depth: infinity` is not allowed.
+
+### Windows native client
+
+The Windows WebDAV redirector has specific limitations. Please review the [registry settings](https://docs.microsoft.com/en-us/iis/publish/using-webdav/using-the-webdav-redirector#webdav-redirector-registry-settings){:target="_blank"} carefully:
+
+- The default file size limit is **50 MB** — increase `FileSizeLimitInBytes` if needed.
+- If SFTPGo is not configured with HTTPS, set `BasicAuthLevel` to `2` to allow Basic authentication over HTTP.

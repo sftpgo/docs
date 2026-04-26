@@ -1,21 +1,34 @@
+---
+description: "Use a remote SFTP server as storage for SFTPGo accounts, with optional buffering for improved performance and SOCKS proxy support."
+---
+
 # SFTP as storage backend
 
-An SFTP account on another server can be used as storage for an SFTPGo account, so the remote SFTP server can be accessed in a similar way to the local file system.
+A remote SFTP server can be used as storage for an SFTPGo account, allowing users to transparently access files hosted on the remote server through any SFTPGo-supported protocol.
 
-Here are the supported configuration parameters:
+## Configuration
 
-- `Endpoint`, ssh endpoint as `host:port`
-- `Username`
-- `Password`
-- `PrivateKey` and optionally the `Passphrase` used to protect it
-- `Fingerprints`
-- `SFTP root directory`
-- `SOCKS proxy`, optional SOCKS4, SOCKS4a, or SOCKS5 proxy.
-- `BufferSize`
+| Parameter | Description |
+| ----------- | ------------- |
+| **Endpoint** | SSH endpoint as `host:port`. If the port is omitted, it defaults to `22`. Required. |
+| **Username** | Username on the remote SFTP server. Required. |
+| **Password** | SSH password. At least one of password or private key must be provided. If both are set, the private key is tried first. |
+| **Private key** | SSH private key in PEM format (see example below). At least one of password or private key must be provided. |
+| **Key passphrase** | Passphrase for encrypted private keys. Only needed if the private key is passphrase-protected. |
+| **Fingerprints** | SHA256 fingerprints of the remote server's host key. Optional but highly recommended: if provided, the connection is rejected unless one of the fingerprints matches the server's host key. |
+| **SFTP root directory** | Path prefix on the remote server. If set, all operations are restricted to this path and its subdirectories. Do not set this inside a symlinked directory. Defaults to `/`. |
+| **Buffer size** | Buffer size in MB for read/write operations (0–16). See [Buffering](#buffering) below. |
+| **Equality check mode** | How to determine if two configurations point to the same server: `0` (default) requires both endpoint and username to match; `1` requires only the endpoint to match. Used for rename operations across configurations. |
+| **SOCKS proxy** | Optional SOCKS proxy address. Supported formats: `socks5://host:port`, `socks4://host:port`, `socks4a://host:port`. |
+| **SOCKS username** / **SOCKS password** | Optional credentials for SOCKS proxy authentication. |
 
-The mandatory parameters are the endpoint, the username and a password or a private key. If you define both a password and a private key the key is tried first. The provided private key should be PEM encoded, something like this:
+The password, private key, key passphrase, and SOCKS password are stored encrypted according to your [KMS configuration](kms.md).
 
-```shell
+### Private key format
+
+The private key should be PEM encoded:
+
+```text
 -----BEGIN OPENSSH PRIVATE KEY-----
 b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
 QyNTUxOQAAACA8LWc4SahqKkAr4L3rS19w1Vt8/IAf4th2FZmf+PJ/vwAAAJBvnZIJb52S
@@ -25,12 +38,30 @@ W3z8gB/i2HYVmZ/48n+/AAAACW5pY29sYUBwMQECAwQ=
 -----END OPENSSH PRIVATE KEY-----
 ```
 
-The password and the private key are stored as ciphertext according to your [KMS configuration](kms.md).
+## Buffering
 
-SHA256 fingerprints for remote server host keys are optional but highly recommended: if you provide one or more fingerprints the server host key will be verified against them and the connection will be denied if none of the fingerprints provided match that for the server host key.
+By default (`Buffer size = 0`), SFTPGo communicates with the remote SFTP server using direct, unbuffered I/O.
 
-Specifying a prefix you can restrict all operations to a given path within the remote SFTP server. If you set a prefix make sure it is not inside a symlinked directory or it is a symlink itself.
+When buffering is enabled (buffer size 1–16 MB), reads and writes are split into multiple concurrent requests. This improves transfer performance over high-latency networks by overlapping round-trip times.
 
-Buffering can be enabled by setting a buffer size (in MB) greater than 0. By enabling buffering, the reads and writes, from/to the remote SFTP server, are split in multiple concurrent requests and this allows data to be transferred at a faster rate, over high latency networks, by overlapping round-trip times. With buffering enabled, resuming uploads and truncate are not supported and a file cannot be opened for both reading and writing at the same time. 0 means disabled.
+However, enabling buffering has trade-offs:
 
-Some SFTP servers (eg. AWS Transfer) do not support opening files read/write at the same time, you can enable buffering to work with them.
+- Upload resume is not supported.
+- Atomic uploads are not supported.
+- A file cannot be opened for both reading and writing at the same time.
+
+Some SFTP servers (e.g., AWS Transfer) do not support opening files in read/write mode simultaneously. Enabling buffering provides a workaround.
+
+## Concurrent reads
+
+By default, SFTPGo uses concurrent reads when downloading files from the remote SFTP server. Some SFTP servers automatically delete files after a download — if you use such a server, disable concurrent reads to ensure compatibility.
+
+## Connection management
+
+SFTPGo maintains a pool of cached SFTP connections. Idle connections are reused across transfers and cleaned up after 30 seconds of inactivity. Self-connections (an SFTPFs backend pointing back to the same SFTPGo instance) are detected and rejected unless `allow_self_connections` is explicitly enabled in the [configuration](config-file.md).
+
+## Limitations
+
+- `chown` is not supported.
+- `readlink` on cloud storage symlinks is not supported.
+- Clients that require advanced filesystem-like features (e.g., `sshfs`) are not supported when buffering is enabled.

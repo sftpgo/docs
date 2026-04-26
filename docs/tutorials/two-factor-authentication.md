@@ -1,3 +1,7 @@
+---
+description: "Enable two-factor authentication (TOTP) in SFTPGo for users and administrators, compatible with Google Authenticator, Microsoft Authenticator, and Authy."
+---
+
 # Two-factor Authentication (2FA)
 
 Two-factor authentication (also known as 2FA) is a subset of multi-factor authentication. It allows SFTPGo users and admins to enable additional protection for their account by requiring a combination of two different authentication factors:

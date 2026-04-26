@@ -1,3 +1,7 @@
+---
+description: "Migrate from SFTPGo Open-Source 2.6.x to SFTPGo Enterprise with full database compatibility. Step-by-step guide for Linux, Windows, and Docker."
+---
+
 # Migrating from SFTPGo Open-Source to Enterprise Edition
 
 Migration to the **SFTPGo Enterprise Edition** is supported starting from **open-source version 2.6.x**.
@@ -23,14 +27,12 @@ This process can be completed from the "Maintenance" page in the WebAdmin interf
 
 ![Maintenance](../assets/img/maintenance.png){data-gallery="maintenance"}
 
-After upgrading, you may need to migrate your existing actions to the new Event Manager format (see link above).
-
 ## Post-Upgrade
 
 After upgrading, you may need to migrate your existing actions to the new Event Manager format.
 
 For detailed instructions, refer to the documentation for action migration:
-[Event Manager - Migration from previous versions or the open-source edition](../eventmanager.md#migration-from-previous-versions-or-the-open-source-edition)
+[Event Manager - Migration from previous versions or the open-source edition](../migration.md)
 
 ## Notes
 

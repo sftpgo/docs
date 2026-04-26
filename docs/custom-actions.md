@@ -1,3 +1,7 @@
+---
+description: "Execute custom programs or HTTP webhooks on SFTPGo file and provider events for integration with external systems."
+---
+
 # Custom Actions
 
 SFTPGo can notify filesystem and provider events using custom actions. A custom action can be an external program or an HTTP URL.
@@ -109,7 +113,7 @@ If the `hook` defines a path to an external program, then this program can read 
 - `SFTPGO_PROVIDER_OBJECT_NAME`, unique identifier for the affected object, for example username or key id
 - `SFTPGO_PROVIDER_USERNAME`, the admin username that executed the action. There are two special usernames: `__self__` identifies a user/admin that updates itself and `__system__` identifies an action that does not have an explicit executor associated with it, for example users/admins can be added/updated by loading them from initial data
 - `SFTPGO_PROVIDER_IP`, the action was executed from this IP address
-- `SFTPGO_PROVIDER_ROLE`, the action was executed by an admin with this role
+- `SFTPGO_PROVIDER_ROLE`, role of the tenant that owns the affected object (user's or admin's role). Empty for objects without a role.
 - `SFTPGO_PROVIDER_TIMESTAMP`, event timestamp as nanoseconds since epoch
 - `SFTPGO_PROVIDER_OBJECT`, object serialized as JSON with sensitive fields removed
 

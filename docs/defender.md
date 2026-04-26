@@ -1,3 +1,7 @@
+---
+description: "Protect SFTPGo against brute-force and denial-of-service attacks with the built-in defender. Configurable scoring, banning, and IP allow/deny lists."
+---
+
 # Defender
 
 The built-in `defender` allows you to configure an auto-blocking policy for SFTPGo and thus helps to prevent DoS (Denial of Service) and brute force password guessing.
@@ -19,6 +23,8 @@ And then you can configure:
 - `threshold`, defines the threshold value before banning a host.
 - `ban_time`, defines the time to ban a client, as minutes
 
+:warning: All time values (`ban_time`, `observation_time`) are **integers in minutes** — fractional values such as `0.5` are not accepted. The minimum usable value is `1`. For example, to ban for one day set `ban_time=1440`.
+
 So a host is banned, for `ban_time` minutes, if the sum of the scores has exceeded the defined threshold during the last observation time minutes.
 
 By defining the scores, each type of event can be weighted. Let's see an example: if `score_invalid` is 3 and `threshold` is 8, a host will be banned after 3 login attempts with an non-existent user within the configured `observation_time`.
@@ -33,15 +39,59 @@ SFTPGo can store host scores and banned hosts in memory or within the configured
 The `provider` driver is useful if you want to share the defender data across multiple SFTPGo instances and it requires a shared or distributed data provider: `MySQL`, `PostgreSQL` and `CockroachDB` are supported.
 If you set the `provider` driver, the defender implementation may do many database queries (at least one query every time a new client connects to check if it is banned), if you have a single SFTPGo instance the `memory` driver is recommended.
 
-For the `memory` driver, you can limit the memory usage using the `entries_soft_limit` and `entries_hard_limit` configuration keys.
-
 The `provider` driver will periodically clean up expired hosts and events.
 
-Using the WebAdmin UI or REST API you can:
+## Memory limits (`entries_soft_limit`, `entries_hard_limit`)
 
-- list hosts within the defender's lists
-- remove hosts from the defender's lists
+These two keys apply only to the `memory` driver and cap how many host scores and banned IPs SFTPGo keeps in RAM. When the number of tracked entries exceeds `entries_hard_limit`, the oldest entries are evicted until the count drops back to `entries_soft_limit`. Defaults are `100` / `150` — reasonable for most deployments. Raise them if you run a large public-facing instance that receives many distinct attacker IPs and you want longer history; lower them on memory-constrained hosts. They do not affect the security of the defender, only how much history it keeps.
 
-The `defender` can also check permanent block and safe lists of IP addresses/networks. You can define these lists using the WebAdmin UI or the REST API. In multi-nodes setups, the list entries propagation between nodes may take some minutes.
+The `provider` driver ignores `entries_soft_limit` (state is stored in the database); `entries_hard_limit` is used only to cap list-all API responses.
 
-The `defender` also allow to delay reporting failed authentications as a way to slow down password guessing attempts.
+## Login delay
+
+The defender can also impose a **login delay** — a configurable pause before reporting an authentication outcome. This slows down password-guessing bots and can mask the difference between valid and invalid usernames.
+
+- `login_delay.password_failed` — milliseconds to wait before returning the error on a failed password/interactive login. Default `1000` (1 second). Set to `0` to disable.
+- `login_delay.success` — milliseconds to wait before granting a successful login. Default `0` (disabled). Set a non-zero value to neutralize timing attacks that try to distinguish valid from invalid usernames by response time.
+
+See the `login_delay` settings in the [configuration reference](config-file.md) for the full schema.
+
+## Managing the defender from the WebAdmin
+
+Defender parameters (scores, threshold, `ban_time`, `observation_time`, `login_delay`, memory limits) are configured via the configuration file or environment variables. The WebAdmin is used to view and manage the IP lists under the **IP Manager** section:
+
+- **Auto Block List** — appears once the defender is enabled. Lists dynamically banned IPs with their ban expiration. Click the **X** icon on a row to lift the ban (useful for false positives).
+- **IP Lists** — always available (independent of the defender). Permanent entries you maintain by hand, each with a **mode**: `Deny` (always block), `Allow` (always permit). Entries can be a single IP or a CIDR network.
+
+![Defender Auto Block List](assets/img/defender-auto-block-list.png){data-gallery="defender-auto-block-list"}
+
+The same operations are available via REST API — see `/defender/hosts` and `/ip-lists` in the OpenAPI specification.
+
+## Configuration example
+
+A reasonable starting configuration using environment variables:
+
+```shell
+SFTPGO_COMMON__DEFENDER__ENABLED=true
+SFTPGO_COMMON__DEFENDER__BAN_TIME=30
+SFTPGO_COMMON__DEFENDER__BAN_TIME_INCREMENT=50
+SFTPGO_COMMON__DEFENDER__THRESHOLD=8
+SFTPGO_COMMON__DEFENDER__OBSERVATION_TIME=15
+SFTPGO_COMMON__DEFENDER__SCORE_VALID=1
+SFTPGO_COMMON__DEFENDER__SCORE_INVALID=3
+SFTPGO_COMMON__DEFENDER__SCORE_NO_AUTH=0
+SFTPGO_COMMON__DEFENDER__SCORE_LIMIT_EXCEEDED=3
+```
+
+With this configuration:
+
+- A host is banned for **30 minutes** if its score exceeds **8** within a **15-minute** window.
+- Three login attempts with a non-existent user (score 3 each = 9) will trigger a ban.
+- Eight login attempts with a valid username but wrong password (score 1 each = 8) will also trigger a ban.
+- If the banned host tries again, the ban is extended by 50% (15 additional minutes).
+
+For multi-instance deployments, switch to the `provider` driver to share defender state across all nodes:
+
+```shell
+SFTPGO_COMMON__DEFENDER__DRIVER=provider
+```

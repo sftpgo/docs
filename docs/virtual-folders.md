@@ -1,3 +1,7 @@
+---
+description: "Map directories from any storage backend into SFTPGo user namespaces using virtual folders. Supports S3, Azure, GCS, SFTP, and local filesystems."
+---
+
 # Virtual Folders
 
 Virtual folders act as flexible links to any supported storage backend, making that storage accessible to users at specific folder paths within their file system. This means you can present different storage systems—like local disks, cloud buckets, or external SFTP servers—as if they were simple folders, tailored to each user’s needs.
@@ -10,13 +14,19 @@ SFTPGo will try to automatically create any missing parent directory for the con
 
 For each virtual folder, the following properties can be configured:
 
-- `folder_name`, is the ID for an existing folder. The folder structure contains the absolute filesystem path to map as virtual folder
-- `filesystem`, local, cloud storage backend or a different SFTP server.
-- `virtual_path`, absolute path seen by SFTPGo users where the mapped path is accessible.
-- `quota_size`, maximum size allowed as bytes. 0 means unlimited, -1 included in user quota,
-- `quota_files`, maximum number of files allowed. 0 means unlimited, -1 included in user quota.
+| Property | Description |
+| ---------- | ------------- |
+| **Folder name** | Unique identifier for the folder. |
+| **Filesystem** | Storage backend: local, cloud (S3, GCS, Azure Blob), remote SFTP/FTP, encrypted, or HTTP. |
+| **Virtual path** | Absolute path seen by SFTPGo users where the folder is mounted (e.g., `/shared`). |
+| **Quota size** | Maximum size in bytes. `0` = unlimited, `-1` = included in the user's overall quota. |
+| **Quota files** | Maximum number of files. `0` = unlimited, `-1` = included in the user's overall quota. |
 
-For example if a folder is configured to use `/tmp/mapped` or `C:\mapped` as filesystem path and `/vfolder` as virtual path then SFTPGo users can access `/tmp/mapped` or `C:\mapped` via the `/vfolder` virtual path.
+For example, if a folder uses `/srv/data/shared` as its filesystem path and `/shared` as the virtual path, SFTPGo users can access `/srv/data/shared` via the `/shared` virtual path.
+
+It is also possible to mount a virtual folder at the user's root path (`/`). This can be useful for sharing the same storage across multiple users — the user's own root filesystem is hidden in this case.
+
+See the [Getting Started guide](initial-configuration.md#virtual-folders-and-permissions) for an introduction with screenshots.
 
 Nested SFTP folders using the same SFTPGo instance (identified using the host keys) are not allowed as they could cause infinite SFTP loops.
 
@@ -36,8 +46,6 @@ If you create virtual folders that point to nested or overlapping paths, the quo
 
 When you upload a file to folder2, only its quota will be updated, while the quota for folder1 will not reflect this change. This behavior is allowed to provide greater flexibility, but if you want to enforce accurate disk quotas in SFTPGo, it’s best to avoid using folders with nested paths.
 Although this example refers to local folders, the same principle applies to cloud storage backends.
-
-It is allowed to mount a virtual folder in the user's root path (`/`). This might be useful if you want to share the same virtual folder between different users. In this case the user's root filesystem is hidden from the virtual folder.
 
 Using the REST API you can:
 

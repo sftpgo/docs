@@ -1,3 +1,7 @@
+---
+description: "Run a custom action when a new connection is established in SFTPGo, before authentication. Use for IP-based access control or logging."
+---
+
 # Post-connect hook
 
 This hook is executed as soon as a new connection is established. It notifies the connection's IP address and protocol. Based on the received response, the connection is accepted or rejected. Combining this hook with the [Post-login hook](post-login-hook.md) you can implement your own (even for Protocol) blocklist/allowlist of IP addresses.
