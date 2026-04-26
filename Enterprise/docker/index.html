@@ -1,28 +1,13 @@
 <!DOCTYPE html><html lang="en" class="no-js"><head>
     
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width,initial-scale=1">
-      
-      
-      
-        <link rel="canonical" href="https://docs.sftpgo.com/Enterprise/docker/">
-      
-      
-        <link rel="prev" href="../initial-configuration/">
-      
-      
-        <link rel="next" href="../data-provider/">
-      
-      
-        
-      
-      
-      <link rel="icon" href="../assets/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
-    
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="canonical" href="https://docs.sftpgo.com/Enterprise/docker/">
+  <meta name="generator" content="mkdocs, mkdocs-material">
+
     
       
-        <title>Docker - SFTPGo documentation</title>
+        <title>Docker - SFTPGo docs</title>
       
     
     
@@ -42,7 +27,7 @@
       
         
         
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
@@ -53,17 +38,65 @@
       
 
     
-    
-  <meta name="keywords" content="SFTP, FTP, SCP, WebDAV, S3, Google Cloud Storage, Azure Blob, 2FA, Data At Rest Encryption, file sharing, transfer, secure, SaaS, SFTP as a service, FTP as a service, On-premise, SFTP Managed service, FTP Managed service, REST API">
-  <meta name="description" content="Fully featured and highly configurable SFTP server with HTTP/S Web UI, FTP/S and WebDAV - As a Managed Service, On-premise, Cloud, Hybrid Cloud - Data at Rest Encryption, S3, Google Cloud, Azure Blob.">
-  <meta property="og:title" content="SFTP &amp; FTP as a Managed Service (SaaS) and On-premise">
-  <meta property="og:url" content="https://docs.sftpgo.com">
-  <meta property="og:description" content="Fully featured and highly configurable SFTP server with HTTP/S Web UI, FTP/S and WebDAV - As a Managed Service, On-premise, Cloud, Hybrid Cloud - Data at Rest Encryption, S3, Google Cloud, Azure Blob.">
-  <meta property="og:image" content="https://docs.sftpgo.com/latest/assets/logo.png">
-  <meta name="twitter:title" content="SFTP &amp; FTP as a Managed Service (SaaS) and On-premise">
-  <meta name="twitter:description" content="Fully featured and highly configurable SFTP server with HTTP/S Web UI, FTP/S and WebDAV - As a Managed Service, On-premise, Cloud, Hybrid Cloud - Data at Rest Encryption, S3, Google Cloud, Azure Blob.">
-  <meta name="twitter:image" content="https://docs.sftpgo.com/latest/assets/logo.png">
-  <meta name="twitter:card" content="summary">
+    <meta name="keywords" content="SFTPGo, SFTP server, FTP server, SCP, WebDAV, S3, Google Cloud Storage, Azure Blob, Managed File Transfer, MFT, 2FA, Data At Rest Encryption, file sharing, secure file transfer, SaaS, on-premise, REST API, Kubernetes, Helm chart, OIDC, LDAP">
+  <meta name="description" content="Run SFTPGo Enterprise with Docker or Kubernetes. Pull from the official registry, configure with environment variables, deploy with Docker Compose or Helm chart.">
+  <meta property="og:title" content="Docker - SFTPGo docs">
+  <meta property="og:url" content="https://docs.sftpgo.com/Enterprise/docker/">
+  <meta property="og:description" content="Run SFTPGo Enterprise with Docker or Kubernetes. Pull from the official registry, configure with environment variables, deploy with Docker Compose or Helm chart.">
+  <meta property="og:image" content="https://sftpgo.com/assets/img/og-image.png">
+  <meta property="og:type" content="article">
+  <meta name="twitter:title" content="Docker - SFTPGo docs">
+  <meta name="twitter:description" content="Run SFTPGo Enterprise with Docker or Kubernetes. Pull from the official registry, configure with environment variables, deploy with Docker Compose or Helm chart.">
+  <meta name="twitter:image" content="https://sftpgo.com/assets/img/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://sftpgo.com/#organization",
+        "name": "SFTPGo",
+        "alternateName": "SOFTWARE ENGINEERING S.R.L.",
+        "url": "https://sftpgo.com",
+        "logo": "https://sftpgo.com/assets/img/logo.png",
+        "sameAs": [
+          "https://github.com/drakkan/sftpgo",
+          "https://github.com/sftpgo",
+          "https://www.linkedin.com/company/107964786/"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://docs.sftpgo.com/enterprise/#website",
+        "url": "https://docs.sftpgo.com/enterprise/",
+        "name": "SFTPGo Enterprise Documentation",
+        "description": "Official documentation for the SFTPGo Enterprise edition — a managed file transfer (MFT) platform with SFTP, FTP/S, WebDAV, and HTTPS support.",
+        "inLanguage": "en",
+        "publisher": { "@id": "https://sftpgo.com/#organization" },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://docs.sftpgo.com/enterprise/?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "TechArticle",
+        "headline": "Docker",
+        "description": "Run SFTPGo Enterprise with Docker or Kubernetes. Pull from the official registry, configure with environment variables, deploy with Docker Compose or Helm chart.",
+        "image": "https://sftpgo.com/assets/img/og-image.png",
+        "url": "https://docs.sftpgo.com/Enterprise/docker/",
+        "inLanguage": "en",
+        "datePublished": "2024-04-25T16:47:14Z",
+        "dateModified": "2026-04-26T15:47:01Z",
+        "author": { "@id": "https://sftpgo.com/#organization" },
+        "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
+        "publisher": { "@id": "https://sftpgo.com/#organization" }
+      }
+    ]
+  }
+  </script>
 
   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
             html.glightbox-open { overflow: initial; height: 100%; }
@@ -103,7 +136,7 @@
       
     </div>
     
-      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden="">
         
       </div>
     
@@ -114,7 +147,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="SFTPGo documentation" class="md-header__button md-logo" aria-label="SFTPGo documentation" data-md-component="logo">
+    <a href=".." title="SFTPGo docs" class="md-header__button md-logo" aria-label="SFTPGo docs" data-md-component="logo">
       
   <img src="../assets/logo.png" alt="logo">
 
@@ -127,7 +160,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            SFTPGo documentation
+            SFTPGo docs
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -148,7 +181,7 @@
     
     <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo" aria-label="Switch to light mode" type="radio" name="__palette" id="__palette_0">
     
-      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden="">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"></path></svg>
       </label>
     
@@ -158,7 +191,7 @@
     
     <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo" aria-label="Switch to dark mode" type="radio" name="__palette" id="__palette_1">
     
-      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden="">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
       </label>
     
@@ -168,7 +201,7 @@
     
     <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo" aria-label="Switch to system preference" type="radio" name="__palette" id="__palette_2">
     
-      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden="">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
       </label>
     
@@ -191,7 +224,7 @@
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
       <label class="md-search__icon md-icon" for="__search">
         
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
@@ -200,7 +233,7 @@
       </label>
       <nav class="md-search__options" aria-label="Search">
         
-          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard="" data-clipboard-text="" data-md-component="search-share" tabindex="-1">
             
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"></path></svg>
           </a>
@@ -215,7 +248,7 @@
       
     </form>
     <div class="md-search__output">
-      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
         <div class="md-search-result" data-md-component="search-result">
           <div class="md-search-result__meta">
             Initializing search
@@ -254,15 +287,15 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="SFTPGo documentation" class="md-nav__button md-logo" aria-label="SFTPGo documentation" data-md-component="logo">
+    <a href=".." title="SFTPGo docs" class="md-nav__button md-logo" aria-label="SFTPGo docs" data-md-component="logo">
       
   <img src="../assets/logo.png" alt="logo">
 
     </a>
-    SFTPGo documentation
+    SFTPGo docs
   </label>
   
-  <ul class="md-nav__list" data-md-scrollfix>
+  <ul class="md-nav__list" data-md-scrollfix="">
     
       
       
@@ -332,7 +365,88 @@
   <span class="md-ellipsis">
     
   
-    Main Features
+    Features
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../documentation-map/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documentation Map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compliance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security &amp; Compliance
   
 
     
@@ -362,10 +476,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked="">
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
             
   
   
@@ -383,8 +497,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_4">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -392,7 +506,7 @@
   
 
           </label>
-          <ul class="md-nav__list" data-md-scrollfix>
+          <ul class="md-nav__list" data-md-scrollfix="">
             
               
                 
@@ -409,34 +523,6 @@
     
   
     Installation
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../initial-configuration/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Feature overview
   
 
     
@@ -514,7 +600,7 @@
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
   <a href="#latest-tags" class="md-nav__link">
@@ -672,13 +758,118 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#helm-chart" class="md-nav__link">
+  <a href="#kubernetes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Helm Chart
+        Kubernetes
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Kubernetes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installing-the-chart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installing the chart
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exposing-sftp-externally" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exposing SFTP externally
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#persistence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Persistence
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#health-probes-and-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Health probes and metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#license-key-and-secrets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        License key and secrets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#host-keys-across-replicas-and-restarts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Host keys across replicas and restarts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-provider" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data provider
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#marketplace-container-offerings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Marketplace container offerings
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -686,6 +877,62 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../initial-configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Initial Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration-examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -741,10 +988,148 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8">
         
           
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Core concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtual-folders/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Virtual Folders
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../groups/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Groups
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../roles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9">
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
             
   
   
@@ -762,8 +1147,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -771,7 +1156,7 @@
   
 
           </label>
-          <ul class="md-nav__list" data-md-scrollfix>
+          <ul class="md-nav__list" data-md-scrollfix="">
             
               
                 
@@ -836,34 +1221,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/two-factor-authentication/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Two-factor Authentication
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../tutorials/shares/" class="md-nav__link">
         
   
@@ -892,14 +1249,42 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/eventmanager/" class="md-nav__link">
+      <a href="../tutorials/groups-example/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Event Manager
+    Groups &amp; Simplified Admin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/oauth2-smtp-imap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OAuth2 for SMTP &amp; IMAP
   
 
     
@@ -975,15 +1360,62 @@
   
   
   
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_8">
+        
+          
+          <label class="md-nav__link" for="__nav_9_8" id="__nav_9_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event Manager
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Event Manager
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
-      <a href="../tutorials/postgresql-s3/" class="md-nav__link">
+      <a href="../tutorials/eventmanager/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    SFTPGo with PostgreSQL data provider and S3 backend
+    Getting Started
   
 
     
@@ -992,6 +1424,294 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/eventmanager-backup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Daily Backups
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/eventmanager-auto-dirs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Automatic Folder Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/eventmanager-notifications/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Upload Notifications &amp; Webhooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/eventmanager-idp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auto Provisioning via IdP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/eventmanager-retention/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Retention
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/eventmanager-copy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Copy &amp; Archive Workflows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/eventmanager-icap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Antivirus Scanning (ICAP)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/eventmanager-pgp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PGP Encryption &amp; Decryption
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/eventmanager-folders/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Virtual Folders Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/eventmanager-recycle-bin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recycle Bin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -1019,10 +1739,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10">
         
           
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
             
   
   
@@ -1040,8 +1760,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1049,7 +1769,7 @@
   
 
           </label>
-          <ul class="md-nav__list" data-md-scrollfix>
+          <ul class="md-nav__list" data-md-scrollfix="">
             
               
                 
@@ -1170,6 +1890,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../email-templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Email Templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../password/" class="md-nav__link">
         
   
@@ -1219,306 +1967,37 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/kms-providers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cloud KMS Providers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../virtual-folders/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Virtual Folders
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../groups/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Groups
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../roles/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Roles
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../defender/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Brute force protection
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../eventmanager/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Event Manager
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../oidc/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    OpenID Connect
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../rest-api/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    REST API
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../rate-limiting/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Rate limiting
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../plugins/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Plugin system
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../logs/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Logs
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../metrics/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Metrics
-  
-
-    
-  </span>
-  
-  
-
-      </a>
     </li>
   
 
@@ -1538,10 +2017,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_18">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11">
         
           
-          <label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
             
   
   
@@ -1559,8 +2038,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_18_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_18">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1568,7 +2047,7 @@
   
 
           </label>
-          <ul class="md-nav__list" data-md-scrollfix>
+          <ul class="md-nav__list" data-md-scrollfix="">
             
               
                 
@@ -1584,7 +2063,7 @@
   <span class="md-ellipsis">
     
   
-    SSH
+    SSH/SFTP
   
 
     
@@ -1612,7 +2091,7 @@
   <span class="md-ellipsis">
     
   
-    FTP
+    FTP/FTPS
   
 
     
@@ -1676,10 +2155,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_19">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12">
         
           
-          <label class="md-nav__link" for="__nav_19" id="__nav_19_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
             
   
   
@@ -1697,8 +2176,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_19_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_19">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1706,7 +2185,7 @@
   
 
           </label>
-          <ul class="md-nav__list" data-md-scrollfix>
+          <ul class="md-nav__list" data-md-scrollfix="">
             
               
                 
@@ -1751,6 +2230,34 @@
     
   
     S3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s3-compatible-services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S3-compatible services
   
 
     
@@ -1883,6 +2390,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../ftpfs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FTP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../httpfs/" class="md-nav__link">
         
   
@@ -1926,10 +2461,840 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_20">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13">
         
           
-          <label class="md-nav__link" for="__nav_20" id="__nav_20_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentication &amp; SSO
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Authentication &amp; SSO
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../oidc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenID Connect
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/ldap-auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LDAP / Active Directory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/two-factor-authentication/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Two-factor Authentication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14">
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event Manager
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Event Manager
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eventmanager/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../placeholders/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Placeholders &amp; Templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../filesystem-actions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filesystem Actions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../event-report/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event Report
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../execute-before-file-publish/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Execute Before File Publish
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../migration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migration Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15">
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security &amp; Protection
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Security &amp; Protection
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../defender/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Brute Force Protection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rate-limiting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rate Limiting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/audit-logs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Audit Logs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/geoip-filter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GeoIP Filtering
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16">
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Observability
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Observability
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../logs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Logs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../metrics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metrics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../profiling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Profiling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_17">
+        
+          
+          <label class="md-nav__link" for="__nav_17" id="__nav_17_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration &amp; Automation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_17_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_17">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Integration &amp; Automation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rest-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    REST API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai-assistants/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Assistants
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plugins Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/pubsub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pub/Sub Event Forwarding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_18">
+        
+          
+          <label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="0">
             
   
   
@@ -1947,8 +3312,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_20_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_20">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_18_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_18">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1956,7 +3321,7 @@
   
 
           </label>
-          <ul class="md-nav__list" data-md-scrollfix>
+          <ul class="md-nav__list" data-md-scrollfix="">
             
               
                 
@@ -2189,33 +3554,6 @@
   
 
     
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../profiling/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Profiling
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
   </ul>
 </nav>
                   </div>
@@ -2240,7 +3578,7 @@
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
   <a href="#latest-tags" class="md-nav__link">
@@ -2398,13 +3736,118 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#helm-chart" class="md-nav__link">
+  <a href="#kubernetes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Helm Chart
+        Kubernetes
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Kubernetes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installing-the-chart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installing the chart
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exposing-sftp-externally" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exposing SFTP externally
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#persistence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Persistence
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#health-probes-and-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Health probes and metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#license-key-and-secrets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        License key and secrets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#host-keys-across-replicas-and-restarts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Host keys across replicas and restarts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-provider" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data provider
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#marketplace-container-offerings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Marketplace container offerings
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2477,10 +3920,10 @@
 <p>SFTPGo Enterprise is accessible through our Docker repository: <code>registry.sftpgo.com/sftpgo</code></p>
 <h2 id="latest-tags">Latest tags</h2>
 <ul>
-<li>registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260307</li>
-<li>registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260307-plugins</li>
-<li>registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260307-distroless</li>
-<li>registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260307-distroless-plugins</li>
+<li>registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260426</li>
+<li>registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260426-plugins</li>
+<li>registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260426-distroless</li>
+<li>registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260426-distroless-plugins</li>
 </ul>
 <h2 id="how-to-use-the-sftpgo-image">How to use the SFTPGo image</h2>
 <h3 id="start-a-sftpgo-server-instance">Start a <code>sftpgo</code> server instance</h3>
@@ -2572,10 +4015,157 @@ USER 1100:1100
 <p>Distroless variant contains only a statically linked sftpgo binary and its minimal runtime dependencies and so it doesn't allow shell access (no shell is installed).
 SQLite support is disabled since it requires CGO and so a C runtime which is not installed.
 The default data provider is <code>bolt</code>, all the supported data providers except <code>sqlite</code> work.</p>
+<p><img alt="💡" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f4a1.svg" title=":bulb:"> When running cloud-backend users (S3, GCS, Azure Blob) on distroless or other minimal containers with a read-only or ephemeral filesystem, enable in-memory transfer pipes so no writable temp directory is needed:</p>
+<pre><code class="language-shell">SFTPGO_HOOK__MEMORY_PIPES__ENABLED=1
+</code></pre>
+<p>Without this, uploads against cloud users may fail when SFTPGo cannot create a file-backed pipe. This is the default in SFTPGo cloud-marketplace offerings.</p>
 <h3 id="sftpgoversion-distroless-plugins"><code>sftpgo:&lt;version&gt;-distroless-plugins</code></h3>
 <p>These tags provide the distroless image with the addition of open source and proprietary plugins installed in <code>/usr/local/bin</code>.</p>
-<h2 id="helm-chart">Helm Chart</h2>
-<p>An helm chart is <a href="https://artifacthub.io/packages/helm/sftpgo/sftpgo" target="_blank">available</a>. You can customize the Docker image to use in the <code>values.yaml</code>.</p>
+<h2 id="kubernetes">Kubernetes</h2>
+<p>SFTPGo can be deployed on Kubernetes using the official <a href="https://github.com/sftpgo/helm-chart" target="_blank">Helm chart</a>.</p>
+<h3 id="installing-the-chart">Installing the chart</h3>
+<pre><code class="language-shell">helm install sftpgo oci://ghcr.io/sftpgo/helm-charts/sftpgo
+</code></pre>
+<h3 id="configuration_1">Configuration</h3>
+<p>The chart is configured through <code>values.yaml</code>. You can override values at install time:</p>
+<pre><code class="language-shell">helm install sftpgo oci://ghcr.io/sftpgo/helm-charts/sftpgo -f my-values.yaml
+</code></pre>
+<p>Key configuration options:</p>
+<pre><code class="language-yaml"># Number of replicas for high availability
+replicaCount: 2
+
+# Use the Enterprise image with plugins
+image:
+  repository: registry.sftpgo.com/sftpgo/sftpgo
+  tag: v2.7.20260426-plugins
+
+# Enable protocols
+sftpd:
+  enabled: true
+  port: 2022
+
+ftpd:
+  enabled: false
+  port: 2021
+
+webdavd:
+  enabled: false
+  port: 8081
+
+httpd:
+  enabled: true
+  port: 8080
+
+# Pass SFTPGo configuration as environment variables
+env:
+  SFTPGO_DATA_PROVIDER__DRIVER: postgresql
+  SFTPGO_DATA_PROVIDER__NAME: sftpgo
+  SFTPGO_DATA_PROVIDER__HOST: postgres-host
+  SFTPGO_DATA_PROVIDER__PORT: "5432"
+
+# Or reference Kubernetes secrets for sensitive values
+envFrom:
+  - secretRef:
+      name: sftpgo-db-credentials
+</code></pre>
+<h3 id="exposing-sftp-externally">Exposing SFTP externally</h3>
+<p>SFTP, FTP, and WebDAV are plain TCP protocols (not HTTP), so they cannot be exposed through a standard HTTP / Layer 7 Ingress controller. Use a Kubernetes <strong>Service</strong> of type <code>LoadBalancer</code> (on cloud providers) or <code>NodePort</code> for external access. The HTTP-based WebAdmin and WebClient, on the other hand, can be fronted by an Ingress.</p>
+<p>A typical shape:</p>
+<pre><code class="language-yaml">service:
+  sftpd:
+    type: LoadBalancer
+    port: 22            # external port
+    annotations:
+      # Cloud-specific annotations go here, for example:
+      # service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+      # service.beta.kubernetes.io/azure-load-balancer-resource-group: "mygroup"
+
+  httpd:
+    type: ClusterIP     # exposed via Ingress below
+
+ingress:
+  httpd:
+    enabled: true
+    className: nginx
+    hosts:
+      - host: sftpgo.example.com
+        paths: ["/"]
+    tls:
+      - secretName: sftpgo-tls
+        hosts: [sftpgo.example.com]
+</code></pre>
+<p>An NGINX Ingress controller with the <a href="https://kubernetes.github.io/ingress-nginx/user-guide/exposing-tcp-udp-services/" target="_blank">TCP services ConfigMap</a> can forward a low-level TCP port to the SFTP service if a dedicated LoadBalancer is not an option, but a cloud LoadBalancer (NLB on AWS, TCP LB on Azure / GCP) is the usual choice.</p>
+<h3 id="persistence">Persistence</h3>
+<p>On a local filesystem backend, users' home directories must survive pod restarts. Mount a <code>PersistentVolumeClaim</code> for <code>/srv/sftpgo</code>:</p>
+<pre><code class="language-yaml">persistence:
+  enabled: true
+  accessMode: ReadWriteOnce
+  size: 100Gi
+  storageClassName: standard
+</code></pre>
+<p>If you run <strong>cloud-backend users only</strong> (S3 / GCS / Azure Blob, with no local user home directories), the home PVC is optional — enable <a href="../env-vars/">in-memory transfer pipes</a> instead so SFTPGo does not need writable local scratch space:</p>
+<pre><code class="language-yaml">env:
+  SFTPGO_HOOK__MEMORY_PIPES__ENABLED: "1"
+</code></pre>
+<p>For multi-replica deployments that share the same local files, you need a <code>ReadWriteMany</code> storage class (e.g. EFS on AWS, Azure Files, Filestore on GCP). For cloud-backend-only deployments there is no shared state on the filesystem, so <code>ReadWriteOnce</code> per-pod ephemeral volumes are enough.</p>
+<h3 id="health-probes-and-metrics">Health probes and metrics</h3>
+<p>The chart wires up liveness and readiness probes automatically against the built-in telemetry server, which is <strong>always enabled on port 10000</strong> inside the pod (the chart sets <code>SFTPGO_TELEMETRY__BIND_PORT=10000</code> and exposes a named port <code>telemetry</code>). You do not need to configure probes by hand — they point at <code>/healthz</code> on that port.</p>
+<p>The same port serves Prometheus metrics at <code>/metrics</code> (see <a href="../metrics/">Metrics</a>) and the profiler at <code>/debug/pprof</code> (when <code>enable_profiler</code> is set — see <a href="../profiling/">Profiling</a>). If you run the Prometheus Operator, enable the bundled <code>PodMonitor</code>:</p>
+<pre><code class="language-yaml">podMonitor:
+  enabled: true
+</code></pre>
+<h3 id="license-key-and-secrets">License key and secrets</h3>
+<p>Ship the license key and database password through a Kubernetes <code>Secret</code>:</p>
+<pre><code class="language-yaml">envFrom:
+  - secretRef:
+      name: sftpgo-secrets
+
+# Secret (created separately):
+# apiVersion: v1
+# kind: Secret
+# metadata:
+#   name: sftpgo-secrets
+# type: Opaque
+# stringData:
+#   SFTPGO_LICENSE_KEY: XXXX-XXXX-XXXX-XXXX
+#   SFTPGO_DATA_PROVIDER__PASSWORD: your-db-password
+</code></pre>
+<h3 id="host-keys-across-replicas-and-restarts">Host keys across replicas and restarts</h3>
+<p>SFTPGo generates per-instance SSH host keys the first time it starts if none are configured. In Kubernetes (and in any ephemeral / multi-replica deployment) that default is problematic: each replica ends up with its own keys, and clients see a key-mismatch warning as they hit different pods.</p>
+<p>There are two clean ways to share the same host keys across pods:</p>
+<ol>
+<li><strong>Store host keys in the data provider (recommended).</strong> In the WebAdmin, go to <strong>Server Manager → Configurations → SFTP</strong> and paste the private keys directly; SFTPGo stores them encrypted in the database and every replica that connects to the shared data provider loads the same set. This approach also works on Linux and Windows installs — it removes any need to synchronize key files on the filesystem, and the keys survive container rebuilds.</li>
+<li><strong>Mount keys as a Kubernetes Secret and reference them from the config.</strong> Classic pattern, useful if you prefer keeping keys outside the database or you're managing them with an external tool (sealed-secrets, external-secrets, cert-manager for host certificates, etc.):<p>```yaml
+  # Create the secret once:
+  # kubectl create secret generic sftpgo-host-keys \
+  #   --from-file=id_rsa=./id_rsa \
+  #   --from-file=id_ecdsa=./id_ecdsa \
+  #   --from-file=id_ed25519=./id_ed25519</p>
+<p>extraVolumes:
+    - name: host-keys
+      secret:
+        secretName: sftpgo-host-keys
+        defaultMode: 0400</p>
+<p>extraVolumeMounts:
+    - name: host-keys
+      mountPath: /etc/sftpgo/host-keys
+      readOnly: true</p>
+<p>env:
+    SFTPGO_SFTPD__HOST_KEYS: "/etc/sftpgo/host-keys/id_rsa,/etc/sftpgo/host-keys/id_ecdsa,/etc/sftpgo/host-keys/id_ed25519"
+  ```</p>
+<p>(Field names follow the Helm chart conventions; check the chart documentation for the exact names.)</p>
+</li>
+</ol>
+<p>Rotate by updating the Secret (or the WebAdmin entry) and reloading SFTPGo.</p>
+<h3 id="data-provider">Data provider</h3>
+<p>SQLite works for single-replica deployments but is not suitable for multi-replica: with more than one replica, point SFTPGo at an external PostgreSQL, MySQL, or CockroachDB instance (managed DB services or an in-cluster database operator). See <a href="../data-provider/">Data provider management</a> for the migration / concurrency considerations.</p>
+<p>For the full list of configurable values, see the chart <a href="https://github.com/sftpgo/helm-chart" target="_blank">documentation</a>.</p>
+<h3 id="marketplace-container-offerings">Marketplace container offerings</h3>
+<p>SFTPGo is also available as a managed container offering on cloud marketplaces:</p>
+<ul>
+<li><strong>AWS</strong>: <a href="https://aws.amazon.com/marketplace/pp/prodview-y2aqp5bjdjdvu" target="_blank">SFTPGo Enterprise - Container</a> for Amazon ECS and EKS.</li>
+<li><strong>Azure</strong>: <a href="https://marketplace.microsoft.com/product/container/eliamarzia1667381463185.sftpgo_enterprise_aks" target="_blank">SFTPGo Enterprise for AKS</a> for Azure Kubernetes Service.</li>
+</ul>
 
 
 
@@ -2583,6 +4173,38 @@ The default data provider is <code>bolt</code>, all the supported data providers
 
 
 
+  
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 26, 2026 15:47:01 UTC">2026-04-26 15:47:01</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Created">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"></path></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 25, 2024 16:47:14 UTC">2024-04-25 16:47:14</span>
+  </span>
+
+    
+    
+    
+  </aside>
 
 
 

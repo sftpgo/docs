@@ -1,28 +1,13 @@
 <!DOCTYPE html><html lang="en" class="no-js"><head>
     
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width,initial-scale=1">
-      
-      
-      
-        <link rel="canonical" href="https://docs.sftpgo.com/Enterprise/tutorials/eventmanager/">
-      
-      
-        <link rel="prev" href="../shares/">
-      
-      
-        <link rel="next" href="../sftpgo-google-cloud/">
-      
-      
-        
-      
-      
-      <link rel="icon" href="../../assets/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
-    
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="canonical" href="https://docs.sftpgo.com/Enterprise/tutorials/eventmanager/">
+  <meta name="generator" content="mkdocs, mkdocs-material">
+
     
       
-        <title>Event Manager - SFTPGo documentation</title>
+        <title>Getting Started - SFTPGo docs</title>
       
     
     
@@ -42,7 +27,7 @@
       
         
         
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
@@ -53,17 +38,65 @@
       
 
     
-    
-  <meta name="keywords" content="SFTP, FTP, SCP, WebDAV, S3, Google Cloud Storage, Azure Blob, 2FA, Data At Rest Encryption, file sharing, transfer, secure, SaaS, SFTP as a service, FTP as a service, On-premise, SFTP Managed service, FTP Managed service, REST API">
-  <meta name="description" content="Fully featured and highly configurable SFTP server with HTTP/S Web UI, FTP/S and WebDAV - As a Managed Service, On-premise, Cloud, Hybrid Cloud - Data at Rest Encryption, S3, Google Cloud, Azure Blob.">
-  <meta property="og:title" content="SFTP &amp; FTP as a Managed Service (SaaS) and On-premise">
-  <meta property="og:url" content="https://docs.sftpgo.com">
-  <meta property="og:description" content="Fully featured and highly configurable SFTP server with HTTP/S Web UI, FTP/S and WebDAV - As a Managed Service, On-premise, Cloud, Hybrid Cloud - Data at Rest Encryption, S3, Google Cloud, Azure Blob.">
-  <meta property="og:image" content="https://docs.sftpgo.com/latest/assets/logo.png">
-  <meta name="twitter:title" content="SFTP &amp; FTP as a Managed Service (SaaS) and On-premise">
-  <meta name="twitter:description" content="Fully featured and highly configurable SFTP server with HTTP/S Web UI, FTP/S and WebDAV - As a Managed Service, On-premise, Cloud, Hybrid Cloud - Data at Rest Encryption, S3, Google Cloud, Azure Blob.">
-  <meta name="twitter:image" content="https://docs.sftpgo.com/latest/assets/logo.png">
-  <meta name="twitter:card" content="summary">
+    <meta name="keywords" content="SFTPGo, SFTP server, FTP server, SCP, WebDAV, S3, Google Cloud Storage, Azure Blob, Managed File Transfer, MFT, 2FA, Data At Rest Encryption, file sharing, secure file transfer, SaaS, on-premise, REST API, Kubernetes, Helm chart, OIDC, LDAP">
+  <meta name="description" content="Event Manager tutorials for SFTPGo: automate backups, notifications, data retention, antivirus scanning, and file transfer workflows.">
+  <meta property="og:title" content="Getting Started - SFTPGo docs">
+  <meta property="og:url" content="https://docs.sftpgo.com/Enterprise/tutorials/eventmanager/">
+  <meta property="og:description" content="Event Manager tutorials for SFTPGo: automate backups, notifications, data retention, antivirus scanning, and file transfer workflows.">
+  <meta property="og:image" content="https://sftpgo.com/assets/img/og-image.png">
+  <meta property="og:type" content="article">
+  <meta name="twitter:title" content="Getting Started - SFTPGo docs">
+  <meta name="twitter:description" content="Event Manager tutorials for SFTPGo: automate backups, notifications, data retention, antivirus scanning, and file transfer workflows.">
+  <meta name="twitter:image" content="https://sftpgo.com/assets/img/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://sftpgo.com/#organization",
+        "name": "SFTPGo",
+        "alternateName": "SOFTWARE ENGINEERING S.R.L.",
+        "url": "https://sftpgo.com",
+        "logo": "https://sftpgo.com/assets/img/logo.png",
+        "sameAs": [
+          "https://github.com/drakkan/sftpgo",
+          "https://github.com/sftpgo",
+          "https://www.linkedin.com/company/107964786/"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://docs.sftpgo.com/enterprise/#website",
+        "url": "https://docs.sftpgo.com/enterprise/",
+        "name": "SFTPGo Enterprise Documentation",
+        "description": "Official documentation for the SFTPGo Enterprise edition — a managed file transfer (MFT) platform with SFTP, FTP/S, WebDAV, and HTTPS support.",
+        "inLanguage": "en",
+        "publisher": { "@id": "https://sftpgo.com/#organization" },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://docs.sftpgo.com/enterprise/?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "TechArticle",
+        "headline": "Getting Started",
+        "description": "Event Manager tutorials for SFTPGo: automate backups, notifications, data retention, antivirus scanning, and file transfer workflows.",
+        "image": "https://sftpgo.com/assets/img/og-image.png",
+        "url": "https://docs.sftpgo.com/Enterprise/tutorials/eventmanager/",
+        "inLanguage": "en",
+        "datePublished": "2024-04-25T16:47:14Z",
+        "dateModified": "2026-04-26T15:47:01Z",
+        "author": { "@id": "https://sftpgo.com/#organization" },
+        "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
+        "publisher": { "@id": "https://sftpgo.com/#organization" }
+      }
+    ]
+  }
+  </script>
 
   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
             html.glightbox-open { overflow: initial; height: 100%; }
@@ -94,7 +127,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#event-manager" class="md-skip">
+        <a href="#event-manager-tutorials" class="md-skip">
           Skip to content
         </a>
       
@@ -103,7 +136,7 @@
       
     </div>
     
-      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden="">
         
       </div>
     
@@ -114,7 +147,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="SFTPGo documentation" class="md-header__button md-logo" aria-label="SFTPGo documentation" data-md-component="logo">
+    <a href="../.." title="SFTPGo docs" class="md-header__button md-logo" aria-label="SFTPGo docs" data-md-component="logo">
       
   <img src="../../assets/logo.png" alt="logo">
 
@@ -127,13 +160,13 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            SFTPGo documentation
+            SFTPGo docs
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Event Manager
+              Getting Started
             
           </span>
         </div>
@@ -148,7 +181,7 @@
     
     <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo" aria-label="Switch to light mode" type="radio" name="__palette" id="__palette_0">
     
-      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden="">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"></path></svg>
       </label>
     
@@ -158,7 +191,7 @@
     
     <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo" aria-label="Switch to dark mode" type="radio" name="__palette" id="__palette_1">
     
-      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden="">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
       </label>
     
@@ -168,7 +201,7 @@
     
     <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo" aria-label="Switch to system preference" type="radio" name="__palette" id="__palette_2">
     
-      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden="">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
       </label>
     
@@ -191,7 +224,7 @@
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
       <label class="md-search__icon md-icon" for="__search">
         
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
@@ -200,7 +233,7 @@
       </label>
       <nav class="md-search__options" aria-label="Search">
         
-          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard="" data-clipboard-text="" data-md-component="search-share" tabindex="-1">
             
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"></path></svg>
           </a>
@@ -215,7 +248,7 @@
       
     </form>
     <div class="md-search__output">
-      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
         <div class="md-search-result" data-md-component="search-result">
           <div class="md-search-result__meta">
             Initializing search
@@ -254,15 +287,15 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="SFTPGo documentation" class="md-nav__button md-logo" aria-label="SFTPGo documentation" data-md-component="logo">
+    <a href="../.." title="SFTPGo docs" class="md-nav__button md-logo" aria-label="SFTPGo docs" data-md-component="logo">
       
   <img src="../../assets/logo.png" alt="logo">
 
     </a>
-    SFTPGo documentation
+    SFTPGo docs
   </label>
   
-  <ul class="md-nav__list" data-md-scrollfix>
+  <ul class="md-nav__list" data-md-scrollfix="">
     
       
       
@@ -332,7 +365,88 @@
   <span class="md-ellipsis">
     
   
-    Main Features
+    Features
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../documentation-map/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documentation Map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../compliance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security &amp; Compliance
   
 
     
@@ -360,10 +474,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7">
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
             
   
   
@@ -381,8 +495,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -390,7 +504,7 @@
   
 
           </label>
-          <ul class="md-nav__list" data-md-scrollfix>
+          <ul class="md-nav__list" data-md-scrollfix="">
             
               
                 
@@ -427,14 +541,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../initial-configuration/" class="md-nav__link">
+      <a href="../../docker/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Feature overview
+    Docker
   
 
     
@@ -455,14 +569,42 @@
   
   
     <li class="md-nav__item">
-      <a href="../../docker/" class="md-nav__link">
+      <a href="../../initial-configuration/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Docker
+    Initial Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../configuration-examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration Examples
   
 
     
@@ -515,6 +657,144 @@
       
   
   
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8">
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Core concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../virtual-folders/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Virtual Folders
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../groups/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Groups
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../roles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
     
   
   
@@ -528,10 +808,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" checked="">
         
           
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
             
   
   
@@ -549,8 +829,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_5">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_9">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -558,7 +838,7 @@
   
 
           </label>
-          <ul class="md-nav__list" data-md-scrollfix>
+          <ul class="md-nav__list" data-md-scrollfix="">
             
               
                 
@@ -623,34 +903,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../two-factor-authentication/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Two-factor Authentication
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../shares/" class="md-nav__link">
         
   
@@ -676,44 +928,17 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Event Manager
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../groups-example/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Event Manager
+    Groups &amp; Simplified Admin
   
 
     
@@ -722,131 +947,34 @@
   
 
       </a>
-      
-        
+    </li>
+  
 
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+              
+            
+              
+                
   
   
   
+  
+    <li class="md-nav__item">
+      <a href="../oauth2-smtp-imap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
     
   
+    OAuth2 for SMTP &amp; IMAP
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#preliminary-note" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Preliminary Note
-      
-    </span>
-  </a>
+
+    
+  </span>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#daily-backups" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Daily backups
-      
-    </span>
-  </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#automatically-create-a-folder-structure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Automatically create a folder structure
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#upload-notifications" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Upload notifications
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#pgp-compatible-encryption-and-decryption" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        PGP-compatible Encryption and Decryption
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#virtual-folders-integration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Virtual folders integration
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Virtual folders integration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#scenario-1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Scenario 1
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#scenario-2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Scenario 2
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#recycle-bin" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Recycle Bin
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
+
+      </a>
     </li>
   
 
@@ -912,17 +1040,93 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../postgresql-s3/" class="md-nav__link">
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_8" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_9_8" id="__nav_9_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event Manager
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_8_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_9_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Event Manager
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
   <span class="md-ellipsis">
     
   
-    SFTPGo with PostgreSQL data provider and S3 backend
+    Getting Started
   
 
     
@@ -931,6 +1135,336 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#tutorials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tutorials
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#smtp-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SMTP Configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eventmanager-backup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Daily Backups
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eventmanager-auto-dirs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Automatic Folder Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eventmanager-notifications/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Upload Notifications &amp; Webhooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eventmanager-idp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auto Provisioning via IdP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eventmanager-retention/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Retention
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eventmanager-copy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Copy &amp; Archive Workflows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eventmanager-icap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Antivirus Scanning (ICAP)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eventmanager-pgp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PGP Encryption &amp; Decryption
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eventmanager-folders/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Virtual Folders Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eventmanager-recycle-bin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recycle Bin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -958,10 +1492,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10">
         
           
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
             
   
   
@@ -979,8 +1513,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -988,7 +1522,7 @@
   
 
           </label>
-          <ul class="md-nav__list" data-md-scrollfix>
+          <ul class="md-nav__list" data-md-scrollfix="">
             
               
                 
@@ -1109,6 +1643,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../email-templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Email Templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../password/" class="md-nav__link">
         
   
@@ -1158,306 +1720,37 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../plugins/kms-providers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cloud KMS Providers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../virtual-folders/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Virtual Folders
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../groups/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Groups
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../roles/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Roles
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../defender/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Brute force protection
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../eventmanager/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Event Manager
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../oidc/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    OpenID Connect
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../rest-api/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    REST API
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../rate-limiting/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Rate limiting
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../plugins/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Plugin system
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../logs/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Logs
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../metrics/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Metrics
-  
-
-    
-  </span>
-  
-  
-
-      </a>
     </li>
   
 
@@ -1477,10 +1770,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_18">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11">
         
           
-          <label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
             
   
   
@@ -1498,8 +1791,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_18_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_18">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1507,7 +1800,7 @@
   
 
           </label>
-          <ul class="md-nav__list" data-md-scrollfix>
+          <ul class="md-nav__list" data-md-scrollfix="">
             
               
                 
@@ -1523,7 +1816,7 @@
   <span class="md-ellipsis">
     
   
-    SSH
+    SSH/SFTP
   
 
     
@@ -1551,7 +1844,7 @@
   <span class="md-ellipsis">
     
   
-    FTP
+    FTP/FTPS
   
 
     
@@ -1615,10 +1908,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_19">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12">
         
           
-          <label class="md-nav__link" for="__nav_19" id="__nav_19_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
             
   
   
@@ -1636,8 +1929,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_19_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_19">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1645,7 +1938,7 @@
   
 
           </label>
-          <ul class="md-nav__list" data-md-scrollfix>
+          <ul class="md-nav__list" data-md-scrollfix="">
             
               
                 
@@ -1690,6 +1983,34 @@
     
   
     S3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../s3-compatible-services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S3-compatible services
   
 
     
@@ -1822,6 +2143,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../ftpfs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FTP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../httpfs/" class="md-nav__link">
         
   
@@ -1865,10 +2214,840 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_20">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13">
         
           
-          <label class="md-nav__link" for="__nav_20" id="__nav_20_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentication &amp; SSO
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Authentication &amp; SSO
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../oidc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenID Connect
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../plugins/ldap-auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LDAP / Active Directory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../two-factor-authentication/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Two-factor Authentication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14">
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event Manager
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Event Manager
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../eventmanager/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../placeholders/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Placeholders &amp; Templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../filesystem-actions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filesystem Actions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../event-report/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event Report
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../execute-before-file-publish/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Execute Before File Publish
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../migration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migration Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15">
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security &amp; Protection
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Security &amp; Protection
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../defender/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Brute Force Protection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rate-limiting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rate Limiting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../plugins/audit-logs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Audit Logs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../plugins/geoip-filter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GeoIP Filtering
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16">
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Observability
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Observability
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Logs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../metrics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metrics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../profiling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Profiling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_17">
+        
+          
+          <label class="md-nav__link" for="__nav_17" id="__nav_17_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration &amp; Automation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_17_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_17">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Integration &amp; Automation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rest-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    REST API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai-assistants/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Assistants
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../plugins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plugins Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../plugins/pubsub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pub/Sub Event Forwarding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_18">
+        
+          
+          <label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="0">
             
   
   
@@ -1886,8 +3065,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_20_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_20">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_18_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_18">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1895,7 +3074,7 @@
   
 
           </label>
-          <ul class="md-nav__list" data-md-scrollfix>
+          <ul class="md-nav__list" data-md-scrollfix="">
             
               
                 
@@ -2128,33 +3307,6 @@
   
 
     
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../profiling/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Profiling
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
   </ul>
 </nav>
                   </div>
@@ -2179,24 +3331,13 @@
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#preliminary-note" class="md-nav__link">
+  <a href="#tutorials" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Preliminary Note
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#daily-backups" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Daily backups
+        Tutorials
       
     </span>
   </a>
@@ -2204,82 +3345,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#automatically-create-a-folder-structure" class="md-nav__link">
+  <a href="#smtp-configuration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Automatically create a folder structure
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#upload-notifications" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Upload notifications
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#pgp-compatible-encryption-and-decryption" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        PGP-compatible Encryption and Decryption
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#virtual-folders-integration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Virtual folders integration
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Virtual folders integration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#scenario-1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Scenario 1
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#scenario-2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Scenario 2
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#recycle-bin" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Recycle Bin
+        SMTP Configuration
       
     </span>
   </a>
@@ -2341,6 +3410,24 @@
   
 
       
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="./" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Event Manager
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
     </ol>
   </nav>
 
@@ -2351,17 +3438,29 @@
 
 
 
-<h1 id="event-manager">Event Manager</h1>
-<p>The Event Manager enables administrators to automate server operations by configuring HTTP notifications, executing commands, sending email alerts, and more—based on server events or scheduled triggers.</p>
-<p>At its core, the Event Manager consists of two main components: rules and actions.</p>
+<h1 id="event-manager-tutorials">Event Manager Tutorials</h1>
+<p>The Event Manager enables administrators to automate server operations by configuring HTTP notifications, executing commands, sending email alerts, and more — based on server events or scheduled triggers.</p>
+<p>At its core, the Event Manager consists of two main components: <strong>rules</strong> and <strong>actions</strong>.</p>
 <ul>
-<li>Rules define the conditions that determine when an action should be executed. Think of a rule as a "when this happens, and these conditions are met, then do that" type of logic.</li>
-<li>Actions are the tasks carried out when a rule is triggered. These actions can be dynamically customized using placeholders—variables that represent contextual data related to the event (such as file name, username, or file size). To further tailor these values, SFTPGo provides helper functions that format or transform placeholders directly within your templates. For a complete list of placeholders and helper functions, see the <a href="../../eventmanager/">documentation</a>.</li>
+<li><strong>Rules</strong> define the conditions that determine when an action should be executed. Think of a rule as a "when this happens, and these conditions are met, then do that" type of logic.</li>
+<li><strong>Actions</strong> are the tasks carried out when a rule is triggered. These actions can be dynamically customized using placeholders — variables that represent contextual data related to the event (such as file name, username, or file size). To further tailor these values, SFTPGo provides helper functions that format or transform placeholders directly within your templates. For a complete list of placeholders and helper functions, see the <a href="../../placeholders/">Placeholders &amp; Templates</a> reference.</li>
 </ul>
-<p>Let's see some common use cases.</p>
-<h2 id="preliminary-note">Preliminary Note</h2>
-<p>We will use email actions in the following paragraphs, so let's assume you have a working SMTP configuration.
-You can adapt the following snippet to configure an SMTP server using environment variables.</p>
+<h2 id="tutorials">Tutorials</h2>
+<p>The following step-by-step tutorials cover common use cases:</p>
+<ul>
+<li><a href="../eventmanager-backup/"><strong>Daily Backups</strong></a> — Schedule automatic data backups with email notifications.</li>
+<li><a href="../eventmanager-auto-dirs/"><strong>Automatic Folder Structure</strong></a> — Create a standard folder structure for new users.</li>
+<li><a href="../eventmanager-notifications/"><strong>Upload Notifications</strong></a> — Receive email notifications after uploads, and send custom data to external webhooks.</li>
+<li><a href="../eventmanager-idp/"><strong>Auto Provisioning via Identity Provider</strong></a> — Automatically create user accounts when they log in through an external IdP.</li>
+<li><a href="../eventmanager-retention/"><strong>Data Retention</strong></a> — Automatically delete or archive files older than a configurable threshold.</li>
+<li><a href="../eventmanager-copy/"><strong>Copy &amp; Archive Workflows</strong></a> — Copy files with glob patterns, source disposition, and cross-backend transfers.</li>
+<li><a href="../eventmanager-icap/"><strong>Antivirus Scanning (ICAP)</strong></a> — Scan uploaded files before they become visible, using ICAP with Execute Before File Publish.</li>
+<li><a href="../eventmanager-pgp/"><strong>PGP Encryption and Decryption</strong></a> — Automatically encrypt or decrypt files after upload using PGP keys.</li>
+<li><a href="../eventmanager-folders/"><strong>Virtual Folders Integration</strong></a> — Copy files across storage backends and outside a user's security context.</li>
+<li><a href="../eventmanager-recycle-bin/"><strong>Recycle Bin</strong></a> — Move files to a recycle folder instead of deleting them permanently.</li>
+</ul>
+<h2 id="smtp-configuration">SMTP Configuration</h2>
+<p>Many tutorials use email actions. Make sure you have a working SMTP configuration. You can configure it using environment variables:</p>
 <pre><code class="language-shell">SFTPGO_SMTP__HOST="your smtp server host"
 SFTPGO_SMTP__FROM="SFTPGo &lt;sftpgo@example.com&gt;"
 SFTPGO_SMTP__USER=sftpgo@example.com
@@ -2369,167 +3468,7 @@ SFTPGO_SMTP__PASSWORD="your password"
 SFTPGO_SMTP__AUTH_TYPE=1 # change based on what your server supports
 SFTPGO_SMTP__ENCRYPTION=2 # change based on what your server supports
 </code></pre>
-<p>SFTPGo supports several placeholders for event actions. You can see all supported placeholders by clicking on the "info" icon at the top right of the add/update action page.</p>
-<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> The SMTP server can also be configured directly through the WebAdmin UI by navigating to Server Manager -&gt; Configurations -&gt; SMTP.</p>
-<h2 id="daily-backups">Daily backups</h2>
-<p>You can schedule SFTPGo data backups (users, folders, groups, admins etc.) on a regular basis, such as daily.</p>
-<p>From the WebAdmin expand the <code>Event Manager</code> section, select <code>Event actions</code> and add a new action.
-Create an action named <code>backup</code> and set the type to <code>Backup</code>.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/backup-action.png" data-desc-position="bottom" data-gallery="backup"><img alt="Backup action" data-gallery="backup" src="../../assets/img/backup-action.png"></a></p>
-<p>Create another action named <code>backup notification</code>, set the type to <code>Email</code> and fill the recipient/s.
-As email subject set <code>Backup notification</code>.
-As email body set <code>Backup done {{ stringJoin .Errors ", " }}</code>. The <code>stringJoin</code> function joins all error messages in the <code>.Errors</code> list using a comma and space as a separator. If no errors occurred, the resulting string will be empty.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/backup-notification-action.png" data-desc-position="bottom" data-gallery="backup-notification"><img alt="Backup notification action" data-gallery="backup-notification" src="../../assets/img/backup-notification-action.png"></a></p>
-<p>Now select <code>Event rules</code> and create a rule named <code>Daily backup</code>, select <code>Schedule</code> as trigger and schedule a backup at midnight UTC time.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/daily-backup-schedule.png" data-desc-position="bottom" data-gallery="schedule"><img alt="Daily backup schedule" data-gallery="schedule" src="../../assets/img/daily-backup-schedule.png"></a></p>
-<p>As actions select <code>backup</code> and <code>backup notification</code>.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/daily-backup-actions.png" data-desc-position="bottom" data-gallery="backup-actions"><img alt="Daily backup actions" data-gallery="backup-actions" src="../../assets/img/daily-backup-actions.png"></a></p>
-<p>Done! SFTPGo will make a new backup every day and you will receive an email with the status of the backup. The backup will be saved on the server side in the configured backup directory. The backup files will have names like this <code>backup_&lt;week day&gt;_&lt;hour&gt;.json</code>.</p>
-<h2 id="automatically-create-a-folder-structure">Automatically create a folder structure</h2>
-<p>Suppose you want to automatically create the folders <code>in</code> and <code>out</code> when you create new users.</p>
-<p>From the WebAdmin expand the <code>Event Manager</code> section, select <code>Event actions</code> and add a new action.
-Create an action named <code>create dirs</code>, with the settings you can see in the following screen.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/create-dirs-action.png" data-desc-position="bottom" data-gallery="create-dir-action"><img alt="Create dirs action" data-gallery="create-dir-action" src="../../assets/img/create-dirs-action.png"></a></p>
-<p>Create another action named <code>create dirs failure notification</code>, set the type to <code>Email</code> and fill the recipient/s.
-As email subject set <code>Unable to create dirs for user {{.ObjectName}}</code>.
-As email body set <code>Errors: {{ stringJoin .Errors ", " }}</code>.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/create-dirs-failure-notification.png" data-desc-position="bottom" data-gallery="create-dir-failure-action"><img alt="Create dirs notification" data-gallery="create-dir-failure-action" src="../../assets/img/create-dirs-failure-notification.png"></a></p>
-<p>Now select <code>Event rules</code> and create a rule named <code>Create dirs for users</code>, select <code>Provider event</code> as trigger, <code>add</code> as provider event and <code>user</code> as object filters.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/create-dirs-rule.png" data-desc-position="bottom" data-gallery="create-dir-rule"><img alt="Create dirs rule" data-gallery="create-dir-rule" src="../../assets/img/create-dirs-rule.png"></a></p>
-<p>As actions select <code>create dirs</code> and <code>create dirs failure notification</code>, check <code>Is failure action</code> for the notification action.
-This way you will only be notified by email if an error occurs.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/create-dirs-rule-actions.png" data-desc-position="bottom" data-gallery="create-dir-rule-action"><img alt="Create dirs rule actions" data-gallery="create-dir-rule-action" src="../../assets/img/create-dirs-rule-actions.png"></a></p>
-<p>Done! Create a new user and check that the defined directories are automatically created.</p>
-<h2 id="upload-notifications">Upload notifications</h2>
-<p>Let's see how you can receive an email notification after each upload and, optionally, the uploaded file as well.</p>
-<p>From the WebAdmin expand the <code>Event Manager</code> section, select <code>Event actions</code> and add a new action.
-Create an action named <code>upload notification</code> with the settings you can see in the following screen.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/upload-notification.png" data-desc-position="bottom" data-gallery="upload-notification"><img alt="Upload notification action" data-gallery="upload-notification" src="../../assets/img/upload-notification.png"></a></p>
-<p>You can optionally add the uploaded file as an attachment but note that SFTPGo allows you to attach a maximum of 10MB. Then the action will fail for files bigger than 10MB.</p>
-<p>Now select <code>Event rules</code> and create a rule named <code>Upload rule</code>, select <code>Filesystem events</code> as trigger and <code>upload</code> as filesystem event.
-You can also filters events based on protocol, user and group name, filepath shell-like patterns, file size. We omit these additional filters for simplicity.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/upload-rule.png" data-desc-position="bottom" data-gallery="upload-rule"><img alt="Upload rule" data-gallery="upload-rule" src="../../assets/img/upload-rule.png"></a></p>
-<p>As actions, select <code>upload notification</code>.
-Done! Try uploading a new file and you will receive the configured email notification.</p>
-<h2 id="pgp-compatible-encryption-and-decryption">PGP-compatible Encryption and Decryption</h2>
-<p>PGP is a widely adopted encryption standard that ensures data confidentiality and integrity. By encrypting files before they're shared and decrypting them upon receipt, PGP protects valuable business information from unauthorized access or tampering.</p>
-<p>By using PGP actions, you can automatically encrypt or decrypt files immediately after upload.
-This supports secure, automated workflows for both sending and receiving files:</p>
-<ul>
-<li><strong>Encrypting files for an external party</strong>:
-The external party generates a PGP key pair and shares their public key.
-SFTPGo is configured to automatically encrypt uploaded files using the public key.
-The trading partner downloads the files and decrypts them using their private key.</li>
-<li><strong>Decrypting files from an external party</strong>:
-You share your public key with the external party and ask them to encrypt files before uploading.
-SFTPGo automatically decrypts the files after upload using your private key.
-The files are then available in plain form for further processing.</li>
-</ul>
-<p>This setup ensures end-to-end file security with minimal manual intervention.</p>
-<p>PGP actions require either a password or a key pair. When using a key pair:</p>
-<ul>
-<li>For encryption, the public key is required, and the private, if provided, will be used for signing.</li>
-<li>For decryption, the private key is required, and the public key, if provided, will be used for signature verification.</li>
-</ul>
-<p>The following example demonstrates how to configure an action to automatically encrypt files after upload. A similar approach can be used to set up automatic decryption.</p>
-<p>From the WebAdmin expand the "Event Manager" section, select "Actions" and add a new action. Create an action named <code>PGP encryption</code> set the type to <code>Filesystem</code>, the Filesystem action to <code>PGP</code> and the Public Key, like this.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/pgp_ecrypt.png" data-desc-position="bottom" data-gallery="pgp-enc"><img alt="PGP encryption" data-gallery="pgp-enc" src="../../assets/img/pgp_ecrypt.png"></a></p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/pgp_ecrypt_paths.png" data-desc-position="bottom" data-gallery="pgp-enc"><img alt="PGP encryption paths" data-gallery="pgp-enc" src="../../assets/img/pgp_ecrypt_paths.png"></a></p>
-<p>The source path is defined as <code>/{{.VirtualPath}}</code>, and the target path as <code>/{{.VirtualPath}}.pgp</code>. For example, a file named <code>file.txt</code> will be encrypted and stored as <code>file.txt.pgp</code>.</p>
-<p>Now define a rule that execute this action after uploads. Additional actions can be configured as part of the rule, such as deleting the original plain text file upon successful encryption and/or sending an email notification.</p>
-<h2 id="virtual-folders-integration">Virtual folders integration</h2>
-<p>Using virtual folders with the EventManager unlocks powerful automation workflows, such as copying uploaded files to different storage locations—either within the same backend (but outside the user’s security context) or to an external server or cloud storage provider. These operations can be triggered by events like file uploads or scheduled tasks, and they require no custom scripting or complex setup.</p>
-<p>Let’s explore a few example scenarios to see how this feature can be used in practice.</p>
-<h3 id="scenario-1">Scenario 1</h3>
-<p>We have the following scenario.</p>
-<ul>
-<li>The user <code>ukg</code> has the key prefix set to <code>ukg/</code> so it can only access this folder.</li>
-</ul>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/ukgfs.png" data-desc-position="bottom" data-gallery="ukgfs"><img alt="UKG Filesystem" data-gallery="ukgfs" src="../../assets/img/ukgfs.png"></a></p>
-<ul>
-<li>The user <code>vista</code> has the key prefix set to <code>vista/</code> so it can only access this folder.</li>
-</ul>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/vistafs.png" data-desc-position="bottom" data-gallery="vistafs"><img alt="Vista Filesystem" data-gallery="vistafs" src="../../assets/img/vistafs.png"></a></p>
-<p>Each time the user <code>ukg</code> uploads files to the <code>/inbound</code> folder that:</p>
-<ul>
-<li>start with <code>vista_</code>, and</li>
-<li>end with <code>.csv</code></li>
-</ul>
-<p>we want to automatically copy those files to the <code>/outbound</code> folder of the user <code>vista</code>.</p>
-<p>To achieve this, we need to define a copy action that runs after each upload. By default, actions are executed within the security context of the user who performed the upload. Since the user <code>ukg</code> is restricted to their own directory and cannot access the <code>vista</code> user's folder, this operation would normally be blocked.</p>
-<p>To support this use case, we define a virtual folder with permissions to access the <code>vista</code> user’s directory. The copy action is then configured to use this virtual folder as the destination, allowing the operation to succeed outside the security context of the <code>ukg</code> user.</p>
-<p>Create a folder named <code>storage</code> without setting a key prefix. This gives the folder visibility over the entire storage and allows it to be reused for other actions. Of course, if needed, you can also assign a key prefix to restrict access to a specific portion of the storage.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/storagefolder.png" data-desc-position="bottom" data-gallery="storagefolder"><img alt="Storage folder" data-gallery="storagefolder" src="../../assets/img/storagefolder.png"></a></p>
-<p>In the EventManager section, create a new action of type <code>Filesystem</code> and choose <code>Copy</code> as the action type.
-Set the source path to <code>/inbound/{{.ObjectName}}</code> and the target path to <code>/vista/outbound/{{.ObjectName}}</code>.
-Finally, select <code>storage</code> as the target folder.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/copyaction.png" data-desc-position="bottom" data-gallery="copyaction"><img alt="Copy action" data-gallery="copyaction" src="../../assets/img/copyaction.png"></a></p>
-<p>Explore the details:</p>
-<ul>
-<li>The source path is set to <code>/inbound/{{.ObjectName}}</code>. The placeholder <code>{{.ObjectName}}</code> is replaced with the file name—for example, if a file is uploaded to <code>/inbound/test.csv</code>, it becomes <code>test.csv</code>. Alternatively, you can use the more generic <code>{{.VirtualPath}}</code> placeholder, which would resolve to <code>/inbound/test.csv</code> in the same scenario.</li>
-<li>The target folder is set to <code>storage</code>, so the target path is relative to that folder.</li>
-<li>The target path is <code>/vista/outbound/{{.ObjectName}}</code>. This means that if the user <code>ukg</code> uploads the file <code>/inbound/test.csv</code>, it will be copied to <code>/vista/outbound/test.csv</code>.</li>
-</ul>
-<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> All paths are relative. For example, if the storage folder had a key prefix set to <code>vista/</code>, the correct target path would be <code>/outbound/{{.ObjectName}}</code> instead.</p>
-<p>Finally, define a rule to execute this action after each upload.</p>
-<p>Set <code>Filesystem events</code> as trigger and <code>upload</code> as event.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/uploadrule1.png" data-desc-position="bottom" data-gallery="upload-rule1"><img alt="Upload rule1" data-gallery="upload-rule1" src="../../assets/img/uploadrule1.png"></a></p>
-<p>In the <code>Name filters</code> section, you can restrict which users the rule applies to. In this case, we specify <code>ukg</code>, but you can also define multiple users or patterns—for example, <code>user*</code> matches all usernames that start with <code>user</code>.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/uploadrule2.png" data-desc-position="bottom" data-gallery="upload-rule2"><img alt="Upload rule2" data-gallery="upload-rule2" src="../../assets/img/uploadrule2.png"></a></p>
-<p>Similar filters can be applied based on groups or roles as well.</p>
-<p>We also want to restrict the rule to files uploaded to the <code>/inbound</code> folder that start with <code>vista_</code> and end with <code>.csv</code>. To do this, configure the following path filters.</p>
-<ul>
-<li><code>/inbound/vista_*</code></li>
-<li><code>/inbound/*.csv</code></li>
-</ul>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/uploadrule3.png" data-desc-position="bottom" data-gallery="upload-rule3"><img alt="Upload rule3" data-gallery="upload-rule3" src="../../assets/img/uploadrule3.png"></a></p>
-<p>Keep in mind that paths are relative, not absolute.</p>
-<p>Finally select the <code>copy</code> action and save the rule.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/uploadrule4.png" data-desc-position="bottom" data-gallery="upload-rule4"><img alt="Upload rule4" data-gallery="upload-rule4" src="../../assets/img/uploadrule4.png"></a></p>
-<p>That's it! Now upload some test files to confirm everything works as expected. For example:</p>
-<ul>
-<li>Files uploaded outside of <code>/inbound</code> → the action will not be triggered.</li>
-<li>Files in <code>/inbound</code> with the correct prefix and extension → the action will be triggered.</li>
-<li>Files in <code>/inbound</code> with a .txt extension → the action will not be triggered.</li>
-<li>Files in a subdirectory like <code>/inbound/subdir</code>, even with the correct extension → the action will not be triggered, we haven't used the double asterisk syntax to match subdirectories.</li>
-</ul>
-<h3 id="scenario-2">Scenario 2</h3>
-<p>Each time the user <code>vista</code> uploads files with <code>.csv</code> or <code>.xml</code> extensions to the <code>/inbound</code> folder, we want to automatically transfer these files to the <code>/push</code> directory on an external SFTP server.</p>
-<p>This is very similar to the <code>Scenario 1</code>, we have to define a copy action and a target folder using the external SFTP server as storage backend.</p>
-<p>Create a folder that is backed by the remote SFTP server.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/sftpfolder.png" data-desc-position="bottom" data-gallery="sftp-folder"><img alt="SFTP folder" data-gallery="sftp-folder" src="../../assets/img/sftpfolder.png"></a></p>
-<p>This time, we've set the SFTP root directory to <code>/push</code>, which restricts the folder's access to that directory. As a result, the target paths defined in the copy action are relative to <code>/push</code>.</p>
-<p>For the action configuration:</p>
-<ul>
-<li>Set the source path to <code>/{{.VirtualPath}}</code>.</li>
-<li>Set the target path to <code>/{{.ObjectName}}</code>. Since the SFTP folder uses <code>/push</code> as its root directory, this path is relative to <code>/push</code>.</li>
-</ul>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/sftpcopy.png" data-desc-position="bottom" data-gallery="sftp-copy"><img alt="SFTP Copy action" data-gallery="sftp-copy" src="../../assets/img/sftpcopy.png"></a></p>
-<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> The <code>push</code> folder must already exist on the remote SFTP server for the action to succeed.</p>
-<p>For the rule:</p>
-<ul>
-<li>we use <code>vista</code> as name filter so that the action will be executed only for this user</li>
-<li><code>/inbound/*.csv</code> and <code>/inbound/*.xml</code> as path filters to limit the execution to these file extension</li>
-<li>select <code>sftp copy</code> as the action.</li>
-</ul>
-<p>That's it! Now upload some test files to confirm everything works as expected.</p>
-<h2 id="recycle-bin">Recycle Bin</h2>
-<p>Let's see how we can configure a Recycle Bin style function where files are not deleted strait away, but instead moved to a separate folder.</p>
-<p>To easily apply the Recycle Bin to multiple users we will create a virtual folder and a group, this way all users who belong to the group will have a Recycle Bin.</p>
-<p>Create a virtual folder named <code>recycle</code> with the settings you can see in the following screen.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/recycle-folder.png" data-desc-position="bottom" data-gallery="recycle-folder"><img alt="Recycle folder" data-gallery="recycle-folder" src="../../assets/img/recycle-folder.png"></a></p>
-<p>Create a group named <code>recycle</code> with the settings you can see in the following screen.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/recycle-group.png" data-desc-position="bottom" data-gallery="recycle-group"><img alt="Recycle group" data-gallery="recycle-group" src="../../assets/img/recycle-group.png"></a></p>
-<p>Make your users members of the <code>recycle</code> group.</p>
-<p>From the WebAdmin expand the <code>Event Manager</code> section, select <code>Event actions</code> and add a new action.
-Create an action named <code>move to recycle</code> with the settings you can see in the following screen.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/recycle-move-action.png" data-desc-position="bottom" data-gallery="recycle-move-action"><img alt="Recycle move action" data-gallery="recycle-move-action" src="../../assets/img/recycle-move-action.png"></a></p>
-<p>Now select <code>Event rules</code> and create a rule named <code>Recycle rule</code>, select <code>Filesystem events</code> as trigger, <code>pre-delete</code> as filesystem event and exclude the <code>/recycle</code> path.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/recycle-rule.png" data-desc-position="bottom" data-gallery="recycle-rule"><img alt="Recycle rule" data-gallery="recycle-rule" src="../../assets/img/recycle-rule.png"></a></p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/recycle-rule-path.png" data-desc-position="bottom" data-gallery="recycle-rule-path"><img alt="Recycle rule exclude path" data-gallery="recycle-rule-path" src="../../assets/img/recycle-rule-path.png"></a></p>
-<p>As actions, select <code>move to recycle</code> and set <code>Execute sync</code>.</p>
-<p>Done! Try deleting a file, it will be moved to the Recycle Bin.</p>
-<p>You can also add a scheduled event rule to automatically delete files older than a configurable time from the <code>/recycle</code> folder.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> The SMTP server can also be configured directly through the WebAdmin UI by navigating to <strong>Server Manager &gt; Configurations &gt; SMTP</strong>.</p>
 
 
 
@@ -2537,6 +3476,38 @@ Create an action named <code>move to recycle</code> with the settings you can se
 
 
 
+  
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 26, 2026 15:47:01 UTC">2026-04-26 15:47:01</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Created">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"></path></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 25, 2024 16:47:14 UTC">2024-04-25 16:47:14</span>
+  </span>
+
+    
+    
+    
+  </aside>
 
 
 

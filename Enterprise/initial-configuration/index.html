@@ -1,28 +1,13 @@
 <!DOCTYPE html><html lang="en" class="no-js"><head>
     
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width,initial-scale=1">
-      
-      
-      
-        <link rel="canonical" href="https://docs.sftpgo.com/Enterprise/initial-configuration/">
-      
-      
-        <link rel="prev" href="../installation/">
-      
-      
-        <link rel="next" href="../docker/">
-      
-      
-        
-      
-      
-      <link rel="icon" href="../assets/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
-    
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="canonical" href="https://docs.sftpgo.com/Enterprise/initial-configuration/">
+  <meta name="generator" content="mkdocs, mkdocs-material">
+
     
       
-        <title>Feature overview - SFTPGo documentation</title>
+        <title>Initial Setup - SFTPGo docs</title>
       
     
     
@@ -42,7 +27,7 @@
       
         
         
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
@@ -53,17 +38,65 @@
       
 
     
-    
-  <meta name="keywords" content="SFTP, FTP, SCP, WebDAV, S3, Google Cloud Storage, Azure Blob, 2FA, Data At Rest Encryption, file sharing, transfer, secure, SaaS, SFTP as a service, FTP as a service, On-premise, SFTP Managed service, FTP Managed service, REST API">
-  <meta name="description" content="Fully featured and highly configurable SFTP server with HTTP/S Web UI, FTP/S and WebDAV - As a Managed Service, On-premise, Cloud, Hybrid Cloud - Data at Rest Encryption, S3, Google Cloud, Azure Blob.">
-  <meta property="og:title" content="SFTP &amp; FTP as a Managed Service (SaaS) and On-premise">
-  <meta property="og:url" content="https://docs.sftpgo.com">
-  <meta property="og:description" content="Fully featured and highly configurable SFTP server with HTTP/S Web UI, FTP/S and WebDAV - As a Managed Service, On-premise, Cloud, Hybrid Cloud - Data at Rest Encryption, S3, Google Cloud, Azure Blob.">
-  <meta property="og:image" content="https://docs.sftpgo.com/latest/assets/logo.png">
-  <meta name="twitter:title" content="SFTP &amp; FTP as a Managed Service (SaaS) and On-premise">
-  <meta name="twitter:description" content="Fully featured and highly configurable SFTP server with HTTP/S Web UI, FTP/S and WebDAV - As a Managed Service, On-premise, Cloud, Hybrid Cloud - Data at Rest Encryption, S3, Google Cloud, Azure Blob.">
-  <meta name="twitter:image" content="https://docs.sftpgo.com/latest/assets/logo.png">
-  <meta name="twitter:card" content="summary">
+    <meta name="keywords" content="SFTPGo, SFTP server, FTP server, SCP, WebDAV, S3, Google Cloud Storage, Azure Blob, Managed File Transfer, MFT, 2FA, Data At Rest Encryption, file sharing, secure file transfer, SaaS, on-premise, REST API, Kubernetes, Helm chart, OIDC, LDAP">
+  <meta name="description" content="Get started with SFTPGo: create your first admin, configure users, set up storage backends, enable SMTP, and explore the WebAdmin and WebClient interfaces.">
+  <meta property="og:title" content="Initial Setup - SFTPGo docs">
+  <meta property="og:url" content="https://docs.sftpgo.com/Enterprise/initial-configuration/">
+  <meta property="og:description" content="Get started with SFTPGo: create your first admin, configure users, set up storage backends, enable SMTP, and explore the WebAdmin and WebClient interfaces.">
+  <meta property="og:image" content="https://sftpgo.com/assets/img/og-image.png">
+  <meta property="og:type" content="article">
+  <meta name="twitter:title" content="Initial Setup - SFTPGo docs">
+  <meta name="twitter:description" content="Get started with SFTPGo: create your first admin, configure users, set up storage backends, enable SMTP, and explore the WebAdmin and WebClient interfaces.">
+  <meta name="twitter:image" content="https://sftpgo.com/assets/img/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://sftpgo.com/#organization",
+        "name": "SFTPGo",
+        "alternateName": "SOFTWARE ENGINEERING S.R.L.",
+        "url": "https://sftpgo.com",
+        "logo": "https://sftpgo.com/assets/img/logo.png",
+        "sameAs": [
+          "https://github.com/drakkan/sftpgo",
+          "https://github.com/sftpgo",
+          "https://www.linkedin.com/company/107964786/"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://docs.sftpgo.com/enterprise/#website",
+        "url": "https://docs.sftpgo.com/enterprise/",
+        "name": "SFTPGo Enterprise Documentation",
+        "description": "Official documentation for the SFTPGo Enterprise edition — a managed file transfer (MFT) platform with SFTP, FTP/S, WebDAV, and HTTPS support.",
+        "inLanguage": "en",
+        "publisher": { "@id": "https://sftpgo.com/#organization" },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://docs.sftpgo.com/enterprise/?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "TechArticle",
+        "headline": "Initial Setup",
+        "description": "Get started with SFTPGo: create your first admin, configure users, set up storage backends, enable SMTP, and explore the WebAdmin and WebClient interfaces.",
+        "image": "https://sftpgo.com/assets/img/og-image.png",
+        "url": "https://docs.sftpgo.com/Enterprise/initial-configuration/",
+        "inLanguage": "en",
+        "datePublished": "2024-04-25T16:47:14Z",
+        "dateModified": "2026-04-26T15:47:01Z",
+        "author": { "@id": "https://sftpgo.com/#organization" },
+        "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
+        "publisher": { "@id": "https://sftpgo.com/#organization" }
+      }
+    ]
+  }
+  </script>
 
   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
             html.glightbox-open { overflow: initial; height: 100%; }
@@ -94,7 +127,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#feature-overview" class="md-skip">
+        <a href="#getting-started" class="md-skip">
           Skip to content
         </a>
       
@@ -103,7 +136,7 @@
       
     </div>
     
-      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden="">
         
       </div>
     
@@ -114,7 +147,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="SFTPGo documentation" class="md-header__button md-logo" aria-label="SFTPGo documentation" data-md-component="logo">
+    <a href=".." title="SFTPGo docs" class="md-header__button md-logo" aria-label="SFTPGo docs" data-md-component="logo">
       
   <img src="../assets/logo.png" alt="logo">
 
@@ -127,13 +160,13 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            SFTPGo documentation
+            SFTPGo docs
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Feature overview
+              Initial Setup
             
           </span>
         </div>
@@ -148,7 +181,7 @@
     
     <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo" aria-label="Switch to light mode" type="radio" name="__palette" id="__palette_0">
     
-      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden="">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"></path></svg>
       </label>
     
@@ -158,7 +191,7 @@
     
     <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo" aria-label="Switch to dark mode" type="radio" name="__palette" id="__palette_1">
     
-      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden="">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
       </label>
     
@@ -168,7 +201,7 @@
     
     <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo" aria-label="Switch to system preference" type="radio" name="__palette" id="__palette_2">
     
-      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden="">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
       </label>
     
@@ -191,7 +224,7 @@
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
       <label class="md-search__icon md-icon" for="__search">
         
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
@@ -200,7 +233,7 @@
       </label>
       <nav class="md-search__options" aria-label="Search">
         
-          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard="" data-clipboard-text="" data-md-component="search-share" tabindex="-1">
             
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"></path></svg>
           </a>
@@ -215,7 +248,7 @@
       
     </form>
     <div class="md-search__output">
-      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
         <div class="md-search-result" data-md-component="search-result">
           <div class="md-search-result__meta">
             Initializing search
@@ -254,15 +287,15 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="SFTPGo documentation" class="md-nav__button md-logo" aria-label="SFTPGo documentation" data-md-component="logo">
+    <a href=".." title="SFTPGo docs" class="md-nav__button md-logo" aria-label="SFTPGo docs" data-md-component="logo">
       
   <img src="../assets/logo.png" alt="logo">
 
     </a>
-    SFTPGo documentation
+    SFTPGo docs
   </label>
   
-  <ul class="md-nav__list" data-md-scrollfix>
+  <ul class="md-nav__list" data-md-scrollfix="">
     
       
       
@@ -332,7 +365,88 @@
   <span class="md-ellipsis">
     
   
-    Main Features
+    Features
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../documentation-map/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documentation Map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compliance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security &amp; Compliance
   
 
     
@@ -362,10 +476,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked="">
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
             
   
   
@@ -383,8 +497,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_4">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -392,7 +506,7 @@
   
 
           </label>
-          <ul class="md-nav__list" data-md-scrollfix>
+          <ul class="md-nav__list" data-md-scrollfix="">
             
               
                 
@@ -409,6 +523,34 @@
     
   
     Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docker
   
 
     
@@ -445,7 +587,7 @@
   <span class="md-ellipsis">
     
   
-    Feature overview
+    Initial Setup
   
 
     
@@ -463,7 +605,7 @@
   <span class="md-ellipsis">
     
   
-    Feature overview
+    Initial Setup
   
 
     
@@ -486,13 +628,13 @@
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#initial-configuration" class="md-nav__link">
+  <a href="#create-an-admin-account" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Initial configuration
+        Create an admin account
       
     </span>
   </a>
@@ -500,44 +642,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#adding-a-license-key" class="md-nav__link">
+  <a href="#create-your-first-user" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Adding a license key
+        Create your first user
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#creating-users" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Creating users
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Creating users">
+    <nav class="md-nav" aria-label="Create your first user">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#creating-users-with-a-cloud-storage-backend" class="md-nav__link">
+  <a href="#test-the-connection" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Creating users with a Cloud Storage backend
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#creating-users-with-a-local-encrypted-backend-data-at-rest-encryption" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Creating users with a local encrypted backend (Data At Rest Encryption)
+        Test the connection
       
     </span>
   </a>
@@ -558,14 +678,25 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="WebClient">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#explore-sftpgos-capabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Explore SFTPGo's capabilities
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Explore SFTPGo's capabilities">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#file-and-folder-management" class="md-nav__link">
+  <a href="#storage-backends" class="md-nav__link">
     <span class="md-ellipsis">
       
-        File and Folder Management
+        Storage backends
       
     </span>
   </a>
@@ -573,10 +704,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#document-editing-collaboration" class="md-nav__link">
+  <a href="#virtual-folders-and-permissions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Document Editing &amp; Collaboration
+        Virtual folders and permissions
       
     </span>
   </a>
@@ -584,10 +715,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#two-factor-authentication" class="md-nav__link">
+  <a href="#groups-and-roles" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Two factor authentication
+        Groups and roles
       
     </span>
   </a>
@@ -595,60 +726,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#sharing" class="md-nav__link">
+  <a href="#event-manager" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Sharing
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#virtual-permissions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Virtual permissions
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#virtual-folders" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Virtual folders
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#groups" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Groups
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Groups">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#usage-example" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Usage example
+        Event Manager
       
     </span>
   </a>
@@ -656,10 +737,54 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#simplify-user-page" class="md-nav__link">
+  <a href="#security" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Simplify user page
+        Security
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#single-sign-on-with-openid-connect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Single Sign-On with OpenID Connect
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rest-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        REST API
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#document-editing-and-collaboration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Document editing and collaboration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#additional-protocols" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Additional protocols
       
     </span>
   </a>
@@ -683,74 +808,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#configuration-parameters" class="md-nav__link">
+  <a href="#configuration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Configuration parameters
+        Configuration
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Configuration parameters">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#use-postgresql-data-provider" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Use PostgreSQL data provider
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#use-mysqlmariadb-data-provider" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Use MySQL/MariaDB data provider
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#use-cockroachdb-data-provider" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Use CockroachDB data provider
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#enable-ftp-service" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Enable FTP service
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#enable-webdav-service" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Enable WebDAV service
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -770,14 +834,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../docker/" class="md-nav__link">
+      <a href="../configuration-examples/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Docker
+    Configuration Examples
   
 
     
@@ -841,10 +905,148 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8">
         
           
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Core concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtual-folders/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Virtual Folders
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../groups/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Groups
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../roles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9">
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
             
   
   
@@ -862,8 +1064,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -871,7 +1073,7 @@
   
 
           </label>
-          <ul class="md-nav__list" data-md-scrollfix>
+          <ul class="md-nav__list" data-md-scrollfix="">
             
               
                 
@@ -936,34 +1138,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/two-factor-authentication/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Two-factor Authentication
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../tutorials/shares/" class="md-nav__link">
         
   
@@ -992,14 +1166,42 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/eventmanager/" class="md-nav__link">
+      <a href="../tutorials/groups-example/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Event Manager
+    Groups &amp; Simplified Admin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/oauth2-smtp-imap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OAuth2 for SMTP &amp; IMAP
   
 
     
@@ -1075,15 +1277,62 @@
   
   
   
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_8">
+        
+          
+          <label class="md-nav__link" for="__nav_9_8" id="__nav_9_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event Manager
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Event Manager
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
-      <a href="../tutorials/postgresql-s3/" class="md-nav__link">
+      <a href="../tutorials/eventmanager/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    SFTPGo with PostgreSQL data provider and S3 backend
+    Getting Started
   
 
     
@@ -1092,6 +1341,294 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/eventmanager-backup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Daily Backups
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/eventmanager-auto-dirs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Automatic Folder Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/eventmanager-notifications/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Upload Notifications &amp; Webhooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/eventmanager-idp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auto Provisioning via IdP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/eventmanager-retention/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Retention
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/eventmanager-copy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Copy &amp; Archive Workflows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/eventmanager-icap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Antivirus Scanning (ICAP)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/eventmanager-pgp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PGP Encryption &amp; Decryption
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/eventmanager-folders/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Virtual Folders Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/eventmanager-recycle-bin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recycle Bin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -1119,10 +1656,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10">
         
           
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
             
   
   
@@ -1140,8 +1677,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1149,7 +1686,7 @@
   
 
           </label>
-          <ul class="md-nav__list" data-md-scrollfix>
+          <ul class="md-nav__list" data-md-scrollfix="">
             
               
                 
@@ -1270,6 +1807,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../email-templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Email Templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../password/" class="md-nav__link">
         
   
@@ -1319,306 +1884,37 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/kms-providers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cloud KMS Providers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../virtual-folders/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Virtual Folders
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../groups/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Groups
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../roles/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Roles
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../defender/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Brute force protection
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../eventmanager/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Event Manager
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../oidc/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    OpenID Connect
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../rest-api/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    REST API
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../rate-limiting/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Rate limiting
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../plugins/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Plugin system
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../logs/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Logs
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../metrics/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Metrics
-  
-
-    
-  </span>
-  
-  
-
-      </a>
     </li>
   
 
@@ -1638,10 +1934,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_18">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11">
         
           
-          <label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
             
   
   
@@ -1659,8 +1955,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_18_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_18">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1668,7 +1964,7 @@
   
 
           </label>
-          <ul class="md-nav__list" data-md-scrollfix>
+          <ul class="md-nav__list" data-md-scrollfix="">
             
               
                 
@@ -1684,7 +1980,7 @@
   <span class="md-ellipsis">
     
   
-    SSH
+    SSH/SFTP
   
 
     
@@ -1712,7 +2008,7 @@
   <span class="md-ellipsis">
     
   
-    FTP
+    FTP/FTPS
   
 
     
@@ -1776,10 +2072,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_19">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12">
         
           
-          <label class="md-nav__link" for="__nav_19" id="__nav_19_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
             
   
   
@@ -1797,8 +2093,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_19_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_19">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1806,7 +2102,7 @@
   
 
           </label>
-          <ul class="md-nav__list" data-md-scrollfix>
+          <ul class="md-nav__list" data-md-scrollfix="">
             
               
                 
@@ -1851,6 +2147,34 @@
     
   
     S3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../s3-compatible-services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S3-compatible services
   
 
     
@@ -1983,6 +2307,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../ftpfs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FTP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../httpfs/" class="md-nav__link">
         
   
@@ -2026,10 +2378,840 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_20">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13">
         
           
-          <label class="md-nav__link" for="__nav_20" id="__nav_20_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentication &amp; SSO
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Authentication &amp; SSO
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../oidc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenID Connect
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/ldap-auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LDAP / Active Directory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/two-factor-authentication/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Two-factor Authentication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14">
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event Manager
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Event Manager
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eventmanager/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../placeholders/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Placeholders &amp; Templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../filesystem-actions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filesystem Actions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../event-report/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Event Report
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../execute-before-file-publish/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Execute Before File Publish
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../migration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migration Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15">
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security &amp; Protection
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Security &amp; Protection
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../defender/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Brute Force Protection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rate-limiting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rate Limiting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/audit-logs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Audit Logs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/geoip-filter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GeoIP Filtering
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16">
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Observability
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Observability
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../logs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Logs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../metrics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metrics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../profiling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Profiling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_17">
+        
+          
+          <label class="md-nav__link" for="__nav_17" id="__nav_17_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration &amp; Automation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_17_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_17">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Integration &amp; Automation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rest-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    REST API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai-assistants/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Assistants
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plugins Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/pubsub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pub/Sub Event Forwarding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_18">
+        
+          
+          <label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="0">
             
   
   
@@ -2047,8 +3229,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_20_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_20">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_18_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_18">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -2056,7 +3238,7 @@
   
 
           </label>
-          <ul class="md-nav__list" data-md-scrollfix>
+          <ul class="md-nav__list" data-md-scrollfix="">
             
               
                 
@@ -2289,33 +3471,6 @@
   
 
     
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../profiling/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Profiling
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
   </ul>
 </nav>
                   </div>
@@ -2340,13 +3495,13 @@
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#initial-configuration" class="md-nav__link">
+  <a href="#create-an-admin-account" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Initial configuration
+        Create an admin account
       
     </span>
   </a>
@@ -2354,44 +3509,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#adding-a-license-key" class="md-nav__link">
+  <a href="#create-your-first-user" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Adding a license key
+        Create your first user
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#creating-users" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Creating users
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Creating users">
+    <nav class="md-nav" aria-label="Create your first user">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#creating-users-with-a-cloud-storage-backend" class="md-nav__link">
+  <a href="#test-the-connection" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Creating users with a Cloud Storage backend
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#creating-users-with-a-local-encrypted-backend-data-at-rest-encryption" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Creating users with a local encrypted backend (Data At Rest Encryption)
+        Test the connection
       
     </span>
   </a>
@@ -2412,14 +3545,25 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="WebClient">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#explore-sftpgos-capabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Explore SFTPGo's capabilities
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Explore SFTPGo's capabilities">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#file-and-folder-management" class="md-nav__link">
+  <a href="#storage-backends" class="md-nav__link">
     <span class="md-ellipsis">
       
-        File and Folder Management
+        Storage backends
       
     </span>
   </a>
@@ -2427,10 +3571,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#document-editing-collaboration" class="md-nav__link">
+  <a href="#virtual-folders-and-permissions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Document Editing &amp; Collaboration
+        Virtual folders and permissions
       
     </span>
   </a>
@@ -2438,10 +3582,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#two-factor-authentication" class="md-nav__link">
+  <a href="#groups-and-roles" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Two factor authentication
+        Groups and roles
       
     </span>
   </a>
@@ -2449,60 +3593,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#sharing" class="md-nav__link">
+  <a href="#event-manager" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Sharing
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#virtual-permissions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Virtual permissions
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#virtual-folders" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Virtual folders
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#groups" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Groups
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Groups">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#usage-example" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Usage example
+        Event Manager
       
     </span>
   </a>
@@ -2510,10 +3604,54 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#simplify-user-page" class="md-nav__link">
+  <a href="#security" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Simplify user page
+        Security
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#single-sign-on-with-openid-connect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Single Sign-On with OpenID Connect
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rest-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        REST API
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#document-editing-and-collaboration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Document editing and collaboration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#additional-protocols" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Additional protocols
       
     </span>
   </a>
@@ -2537,74 +3675,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#configuration-parameters" class="md-nav__link">
+  <a href="#configuration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Configuration parameters
+        Configuration
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Configuration parameters">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#use-postgresql-data-provider" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Use PostgreSQL data provider
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#use-mysqlmariadb-data-provider" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Use MySQL/MariaDB data provider
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#use-cockroachdb-data-provider" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Use CockroachDB data provider
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#enable-ftp-service" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Enable FTP service
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#enable-webdav-service" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Enable WebDAV service
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -2673,48 +3750,28 @@
 
 
 
-<h1 id="feature-overview">Feature overview</h1>
-<p>We assume that you have installed SFTPGo and it is up and running, so let's explore the main features and concepts.</p>
-<h2 id="initial-configuration">Initial configuration</h2>
-<p>Before you can use SFTPGo you need to create an admin account, so open <a href="http://127.0.0.1:8080/web" target="_blank">http://127.0.0.1:8080/web/admin</a> in your web browser, replacing <code>127.0.0.1</code> with the appropriate IP address if SFTPGo is not running on localhost.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/setup.png" data-desc-position="bottom" data-gallery="setup"><img alt="Setup" data-gallery="setup" src="../assets/img/setup.png"></a></p>
-<p>After creating the admin account you will be automatically logged in and redirected to the page to set up two-factor authentication. Setting up two-factor authentication is optional.</p>
+<h1 id="getting-started">Getting Started</h1>
+<p>This guide walks you through the initial setup and introduces the main capabilities of SFTPGo. We assume you have already <a href="../installation/">installed</a> SFTPGo and it is running.</p>
+<h2 id="create-an-admin-account">Create an admin account</h2>
+<p>Open <a href="http://127.0.0.1:8080/web" target="_blank">http://127.0.0.1:8080/web/admin</a> in your browser (replace <code>127.0.0.1</code> with the appropriate address if SFTPGo is not running on localhost).</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/setup.png#only-light" data-desc-position="bottom" data-gallery="setup"><img alt="Setup" data-gallery="setup" src="../assets/img/setup.png#only-light"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/setup-dark.png#only-dark" data-desc-position="bottom" data-gallery="setup"><img alt="Setup" data-gallery="setup" src="../assets/img/setup-dark.png#only-dark"></a></p>
+<p>After creating the admin account you are automatically logged in and redirected to the two-factor authentication setup page. Two-factor authentication is optional and can be configured later.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/initial-screen.png" data-desc-position="bottom" data-gallery="initial screen"><img alt="Initial Screen" data-gallery="initial screen" src="../assets/img/initial-screen.png"></a></p>
-<p>The web admin is now available at the following URL:</p>
-<p><a href="http://127.0.0.1:8080/web/admin" target="_blank">http://127.0.0.1:8080/web/admin</a></p>
-<p>From the <code>Status</code> page you see the active services.</p>
+<p>From the <strong>Status</strong> page you can see the active services and their configuration. The default configuration enables the SFTP service on port <code>2022</code> and uses an embedded data provider (<code>SQLite</code> or <code>bolt</code> based on the target OS and architecture).</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/status.png" data-desc-position="bottom" data-gallery="status"><img alt="Status" data-gallery="status" src="../assets/img/status.png"></a></p>
-<p>The default configuration enables the SFTP service on port <code>2022</code> and uses an embedded data provider (<code>SQLite</code> or <code>bolt</code> based on the target OS and architecture).</p>
-<h2 id="adding-a-license-key">Adding a license key</h2>
-<p>Without a valid license, the application will operate under the <a href="https://sftpgo.com/on-premises" target="_blank">Starter license tier</a>, with the following additional limitations:</p>
-<ul>
-<li>Concurrent transfers are limited to 2.</li>
-<li>Plugin support is disabled.</li>
-</ul>
-<p>You can view your license status and add a new license key from the WebAdmin UI by navigating to Server Manager =&gt; License.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/license.png" data-desc-position="bottom" data-gallery="license"><img alt="License" data-gallery="license" src="../assets/img/license.png"></a></p>
-<p>For unattended or CLI-based setups, the license key can also be activated by setting the <code>SFTPGO_LICENSE_KEY</code> environment variable.</p>
-<pre><code class="language-shell">SFTPGO_LICENSE_KEY=XXXX-XXXX-XXXX-XXXX
-</code></pre>
-<h2 id="creating-users">Creating users</h2>
-<p>Let's create our first local user:</p>
-<ul>
-<li>from the <code>Users</code> page click the <code>+</code> icon to open the <code>Add user page</code></li>
-<li>the only required fields are the <code>Username</code> and a <code>Password</code> or a <code>Public key</code></li>
-<li>if you are on Windows or you installed SFTPGo manually and no <code>users_base_dir</code> is defined in your configuration file you also have to set a <code>Home Dir</code>. It must be an absolute path, for example <code>/srv/sftpgo/data/username</code> on Linux or <code>C:\sftpgo\data\username</code> on Windows. SFTPGo will try to automatically create the home directory, if missing, when the user logs in. Each user can only access files and folders inside its home directory.</li>
-<li>click <code>Save</code></li>
-</ul>
+<h2 id="create-your-first-user">Create your first user</h2>
+<p>Navigate to <strong>Users</strong> and click the <code>+</code> icon to add a new user.</p>
+<p>The minimum required fields are <strong>Username</strong> and a <strong>Password</strong> or <strong>Public key</strong> (at least one).</p>
+<p>If you installed SFTPGo from the official packages on Linux, the default <code>users_base_dir</code> is <code>/srv/sftpgo/data</code>, so the home directory is automatically set to <code>/srv/sftpgo/data/&lt;username&gt;</code>. If you installed manually or on Windows and no <code>users_base_dir</code> is configured, you must also specify the <strong>Home Dir</strong> as an absolute path (e.g., <code>/srv/sftpgo/data/username</code> or <code>C:\sftpgo\data\username</code>).</p>
+<p>SFTPGo automatically creates the home directory when the user logs in for the first time.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/add-user.png" data-desc-position="bottom" data-gallery="add-user"><img alt="Add user" data-gallery="add-user" src="../assets/img/add-user.png"></a></p>
-<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Please note that, on Linux, SFTPGo runs using a dedicated system user and group called <code>sftpgo</code>, for added security. If you want to be able to use directories outside the <code>/srv/sftpgo</code> path you need to set the appropriate system level permissions. For example if you define <code>/home/username/test</code> as home dir you have to create this directory yourself, if it doesn't exist, and set the appropriate system-level permissions:</p>
-<pre><code class="language-shell">sudo mkdir /home/username/test
-sudo chown sftpgo:sftpgo /home/username/test
-</code></pre>
-<p>You also need to make sure that the <code>sftpgo</code> system user has at least the read permission for any parent directory, so in the example above <code>/home/username</code> and <code>/home</code> must not have <code>0700</code> permissions.</p>
-<p>Now test the new user, we use the <code>sftp</code> CLI here, you can use any SFTP client.</p>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> On Linux, SFTPGo runs as a dedicated <code>sftpgo</code> system user for security. To use directories outside <code>/srv/sftpgo</code>, you must set the appropriate system-level permissions. Parent directories must also be readable by the <code>sftpgo</code> user.</p>
+<h3 id="test-the-connection">Test the connection</h3>
+<p>Connect with any SFTP client. Here we use the <code>sftp</code> CLI:</p>
 <pre><code class="language-shell">$ sftp -P 2022 nicola@127.0.0.1
 nicola@127.0.0.1's password:
 Connected to 127.0.0.1.
-sftp&gt; ls
 sftp&gt; put file.txt
 Uploading file.txt to /file.txt
 file.txt                                      100% 4034     3.9MB/s   00:00
@@ -2725,455 +3782,91 @@ sftp&gt; cd adir/
 sftp&gt; put file.txt
 Uploading file.txt to /adir/file.txt
 file.txt                                      100% 4034     4.0MB/s   00:00
-sftp&gt; ls
-file.txt
-sftp&gt; get file.txt
-Fetching /adir/file.txt to file.txt
-/adir/file.txt                                100% 4034     1.9MB/s   00:00
 </code></pre>
-<p>It worked! We can upload/download files and create directories.</p>
-<h3 id="creating-users-with-a-cloud-storage-backend">Creating users with a Cloud Storage backend</h3>
-<p>The procedure is similar to the one described for local users, you have only specify the Cloud Storage backend and its credentials.</p>
-<p>The screenshot below shows an example configuration for an S3 backend.</p>
+<h2 id="webclient">WebClient</h2>
+<p>Users can log in to the WebClient at <a href="http://127.0.0.1:8080/web/client" target="_blank">http://127.0.0.1:8080/web/client</a> to manage their files directly in the browser.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/web-client-files.png" data-desc-position="bottom" data-gallery="client-files"><img alt="WebClient files" data-gallery="client-files" src="../assets/img/web-client-files.png"></a></p>
+<p>From the WebClient, users can:</p>
+<ul>
+<li><strong>Upload and download</strong> files via drag &amp; drop or the upload button, create/rename/delete folders, move/copy, search, and preview files.</li>
+<li><strong>Share files and folders</strong> via secure HTTP/S links — with configurable access scope (read/write), password protection, email-based authentication, IP restrictions, and expiration dates.</li>
+<li><strong>Update credentials</strong> and configure <a href="../tutorials/two-factor-authentication/">two-factor authentication</a>.</li>
+</ul>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/webclient_add_share.png" data-desc-position="bottom" data-gallery="webclient-share"><img alt="WebClient add share" data-gallery="webclient-share" src="../assets/img/webclient_add_share.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/webclient_config_share.png" data-desc-position="bottom" data-gallery="webclient-config-share"><img alt="WebClient configure share" data-gallery="webclient-config-share" src="../assets/img/webclient_config_share.png"></a></p>
+<p>External users authenticate with their email address and receive a one-time code to access the shared content.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/webclient_share_auth.png" data-desc-position="bottom" data-gallery="webclient-share-auth"><img alt="WebClient share login" data-gallery="webclient-share-auth" src="../assets/img/webclient_share_auth.png"></a></p>
+<p>For advanced sharing options (group-based delegation, governance policies, path and scope restrictions), see the <a href="../tutorials/shares/">Shares tutorial</a>.</p>
+<h2 id="explore-sftpgos-capabilities">Explore SFTPGo's capabilities</h2>
+<p>Now that you have a working setup, here is an overview of the key features that make SFTPGo a complete file transfer solution.</p>
+<h3 id="storage-backends">Storage backends</h3>
+<p>SFTPGo supports multiple storage backends — you can mix them within the same installation, even for the same user via virtual folders.</p>
+<ul>
+<li><strong><a href="../s3/">AWS S3</a></strong> (and S3-compatible services like MinIO, Wasabi, Backblaze B2)</li>
+<li><strong><a href="../google-cloud-storage/">Google Cloud Storage</a></strong> — with Hierarchical Namespace support</li>
+<li><strong><a href="../azure-blob-storage/">Azure Blob Storage</a></strong></li>
+<li><strong><a href="../sftpfs/">Remote SFTP</a></strong> and <strong><a href="../ftpfs/">FTP</a></strong> servers as storage</li>
+<li><strong><a href="../dare/">Data At Rest Encryption</a></strong> — transparent AES-256-GCM encryption on local storage</li>
+<li><strong><a href="../httpfs/">Custom HTTP backends</a></strong> for integration with arbitrary storage systems</li>
+</ul>
+<p>Setting a <strong>Key Prefix</strong> restricts a user to a specific path within a bucket, allowing multiple users to share the same bucket securely.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/s3-user-1.png" data-desc-position="bottom" data-gallery="s3-user"><img alt="S3 user" data-gallery="s3-user" src="../assets/img/s3-user-1.png"></a>
 <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/s3-user-2.png" data-desc-position="bottom" data-gallery="s3-user"><img alt="S3 user" data-gallery="s3-user" src="../assets/img/s3-user-2.png"></a></p>
-<p>The screenshot below shows an example configuration for an Azure Blob Storage backend.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/az-user-1.png" data-desc-position="bottom" data-gallery="az-user"><img alt="Azure Blob user" data-gallery="az-user" src="../assets/img/az-user-1.png"></a>
-<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/az-user-2.png" data-desc-position="bottom" data-gallery="az-user"><img alt="Azure Blob user" data-gallery="az-user" src="../assets/img/az-user-2.png"></a></p>
-<p>The screenshot below shows an example configuration for a Google Cloud Storage backend.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/gcs-user.png" data-desc-position="bottom" data-gallery="gcs-user"><img alt="Google Cloud user" data-gallery="gcs-user" src="../assets/img/gcs-user.png"></a></p>
-<p>The screenshot below shows an example configuration for an SFTP server as storage backend.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/sftp-user.png" data-desc-position="bottom" data-gallery="sftp-user"><img alt="User using another SFTP server as storage backend" data-gallery="sftp-user" src="../assets/img/sftp-user.png"></a></p>
-<p>Setting a <code>Key Prefix</code> you restrict the user to a specific "sub-folder" in the bucket, so that the same bucket can be shared among different users.</p>
-<h3 id="creating-users-with-a-local-encrypted-backend-data-at-rest-encryption">Creating users with a local encrypted backend (Data At Rest Encryption)</h3>
-<p>The procedure is similar to the one described for local users, you have only specify the encryption passphrase.
-The screenshot below shows an example configuration.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/local-encrypted.png" data-desc-position="bottom" data-gallery="cryptfs-user"><img alt="User with cryptfs backend" data-gallery="cryptfs-user" src="../assets/img/local-encrypted.png"></a></p>
-<p>More details about <a href="../dare/">Data At Rest Encryption</a>.</p>
-<h2 id="webclient">WebClient</h2>
-<p>Users created via the WebAdmin UI can also log in to the WebClient UI to browse and manage their files directly in the browser. They can update their credentials and enable two-factor authentication, which is compatible with Microsoft Authenticator, Google Authenticator, Authy, and other apps that support standard TOTP.</p>
-<p>From the WebClient, authorized users can securely share files and folders via HTTP/S links. Sharing options include setting download/upload limits, password protection, email-based authentication, IP address restrictions, and automatic expiration dates.</p>
-<p>The WebClient interface is available at the following URL:</p>
-<p><a href="http://127.0.0.1:8080/web/client" target="_blank">http://127.0.0.1:8080/web/client</a></p>
-<h3 id="file-and-folder-management">File and Folder Management</h3>
-<p>The WebClient allows users to easily manage files and folders within their SFTPGo storage from the "Files" section.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/web-client-files.png" data-desc-position="bottom" data-gallery="client-files"><img alt="WebClient files" data-gallery="client-files" src="../assets/img/web-client-files.png"></a></p>
-<p>Key functionalities:</p>
-<ul>
-<li>Upload: Drag &amp; drop or use the upload button to add single or multiple files.</li>
-<li>Download: Download individual files or multiple items as a zipped archive.</li>
-<li>Folders: Create, rename, and delete folders to organize your content.</li>
-<li>Rename/Delete: Rename or delete files and folders via the context menu.</li>
-<li>Move/Copy: Move or copy files and folders.</li>
-<li>Search: Quickly find files and folders using the search bar.</li>
-<li>Preview: Preview supported file types directly in the browser.</li>
-</ul>
-<h3 id="document-editing-collaboration">Document Editing &amp; Collaboration</h3>
-<p>Document Editing &amp; Collaboration can be added as a separate add-on to any license.</p>
-<p>This feature enables seamless document editing, and real-time collaboration directly within the SFTPGo WebClient. Multiple users can work on the same document simultaneously, with live updates visible to everyone as changes are made.</p>
-<p>To use this feature, you will need to deploy a compatible WOPI document server in your environment, such as <a href="https://www.collaboraonline.com/" target="_blank">Collabora Online</a>, the open-source office suite based on LibreOffice. We are an official partner of Collabora and offer first-class support for integrating with it.</p>
-<p>Virtual folders can be created for sharing among multiple users, enabling collaboration on the documents stored within them.</p>
-<p>To start editing and collaborating on a .docx, .xlsx, or .pptx files (or their open formats), simply click the 'eye' icon next to the file in the list.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/view_doc.png" data-desc-position="bottom" data-gallery="view-doc"><img alt="View document" data-gallery="view-doc" src="../assets/img/view_doc.png"></a></p>
-<p>The Collabora Online editor will open directly in your browser.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/collabora.png" data-desc-position="bottom" data-gallery="doc-editor"><img alt="Collabora Online editor" data-gallery="doc-editor" src="../assets/img/collabora.png"></a></p>
-<p>This powerful, web-based office suite allows you to view, edit, and collaborate on documents in real time, without needing to download or install anything. It supports rich editing features for text documents, spreadsheets and presentations, ensuring full compatibility with Microsoft Office formats.</p>
-<p>The licensing model is per-user. When a user opens a document, one of the available licenses is automatically assigned to them. If no document is opened for three consecutive days, the license is automatically released and available for a different users.</p>
-<p>If you've purchased the add-on for fewer users than the total number of users in your installation, you can restrict access by disabling WOPI for specific users or groups in the "ACLs" section.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/disable_wopi.png" data-desc-position="bottom"><img alt="Disable WOPI" src="../assets/img/disable_wopi.png"></a></p>
-<h3 id="two-factor-authentication">Two factor authentication</h3>
-<p>For detailed, step-by-step instructions, please refer to the dedicated <a href="../tutorials/two-factor-authentication/#enable-2fa-for-users">Two-Factor Authentication tutorial</a>.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/web-client-two-factor-auth.png" data-desc-position="bottom" data-gallery="webclient-2fa"><img alt="WebClient two-factor authentication" data-gallery="webclient-2fa" src="../assets/img/web-client-two-factor-auth.png"></a></p>
-<h3 id="sharing">Sharing</h3>
-<p>The WebClient allows users to securely share files and folders via HTTP/S links. Each share can be customized with advanced options to control access and improve security.</p>
-<p>To share a file or folder, select the desired item and click the three-dot menu on the left. Then choose the 'Share' option from the menu.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/webclient_add_share.png" data-desc-position="bottom" data-gallery="webclient-share"><img alt="WebClient add share" data-gallery="webclient-share" src="../assets/img/webclient_add_share.png"></a></p>
-<p>Configure the sharing options, such as the access scope—read, write, or read/write—to define what actions recipients are allowed to perform. You can also enable email-based authentication to restrict access to specific recipients.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/webclient_config_share.png" data-desc-position="bottom" data-gallery="webclient-config-share"><img alt="WebClient add share" data-gallery="webclient-config-share" src="../assets/img/webclient_config_share.png"></a></p>
-<p>Share the link with external users.</p>
-<p>Bonus: Configure an EventManager rule to automatically send email notifications to recipients whenever a new share is created.</p>
-<p>External users will be prompted to enter their email address and will receive a one-time authentication code, valid for a limited time, to access the shared content.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/webclient_share_auth.png" data-desc-position="bottom" data-gallery="webclient-share-auth"><img alt="WebClient share login" data-gallery="webclient-share-auth" src="../assets/img/webclient_share_auth.png"></a></p>
-<h2 id="virtual-permissions">Virtual permissions</h2>
-<p>SFTPGo supports per directory virtual permissions. For each user you have to specify global permissions and then override them on a per-directory basis.</p>
-<p>Take a look at the following screens.</p>
+<p>Data At Rest Encryption is configured the same way — select the encrypted local filesystem backend and set a passphrase:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/local-encrypted.png" data-desc-position="bottom" data-gallery="cryptfs-user"><img alt="Encrypted filesystem" data-gallery="cryptfs-user" src="../assets/img/local-encrypted.png"></a></p>
+<h3 id="virtual-folders-and-permissions">Virtual folders and permissions</h3>
+<p><a href="../virtual-folders/">Virtual folders</a> map paths in a user's namespace to directories outside their home or on different storage backends. This allows combining local storage, S3 buckets, and remote SFTP servers under a single user, each with independent quota limits.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/add-folder.png" data-desc-position="bottom" data-gallery="add-folder"><img alt="Add folder" data-gallery="add-folder" src="../assets/img/add-folder.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/virtual-folders.png" data-desc-position="bottom" data-gallery="virtual-folders"><img alt="Virtual Folders" data-gallery="virtual-folders" src="../assets/img/virtual-folders.png"></a></p>
+<p>SFTPGo also supports <a href="../virtual-folders/">per-directory permissions</a>. Each user has global permissions that can be overridden on specific paths — for example, full access by default but read-only on <code>/reports</code>.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/virtual-permissions.png" data-desc-position="bottom" data-gallery="virtual-perms"><img alt="Permissions" data-gallery="virtual-perms" src="../assets/img/virtual-permissions.png"></a></p>
-<p>This user has full access as default (<code>*</code>), can only list and download from <code>/read-only</code> path and has no permissions at all for the <code>/subdir</code> path.</p>
-<p>Let's test it. We use the <code>sftp</code> CLI here, you can use any SFTP client.</p>
-<pre><code class="language-shell">$ sftp -P 2022 nicola@127.0.0.1
-Connected to 127.0.0.1.
-sftp&gt; ls
-adir        file.txt    read-only   subdir
-sftp&gt; put file.txt
-Uploading file.txt to /file.txt
-file.txt                                                                  100% 4034    19.4MB/s   00:00
-sftp&gt; rm file.txt
-Removing /file.txt
-sftp&gt; ls
-adir        read-only   subdir
-sftp&gt; cd read-only/
-sftp&gt; ls
-file.txt
-sftp&gt; put file1.txt
-Uploading file1.txt to /read-only/file1.txt
-remote open("/read-only/file1.txt"): Permission denied
-sftp&gt; get file.txt
-Fetching /read-only/file.txt to file.txt
-/read-only/file.txt                                                       100% 4034     2.2MB/s   00:00
-sftp&gt; cd ..
-sftp&gt; ls
-adir        read-only   subdir
-sftp&gt; cd /subdir
-sftp&gt; ls
-remote readdir("/subdir"): Permission denied
-</code></pre>
-<p>as you can see it worked as expected.</p>
-<h2 id="virtual-folders">Virtual folders</h2>
-<p>A virtual folder is a mapping between a SFTPGo virtual path and a filesystem path outside the user home directory or on a different storage provider.
-Therefore, there is no need to create virtual folders for the users home directory or for directories within the users home directory.</p>
-<p>From the web admin interface click <code>Folders</code> and then the <code>+</code> icon.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/add-folder.png" data-desc-position="bottom" data-gallery="add-folder"><img alt="Add folder" data-gallery="add-folder" src="../assets/img/add-folder.png"></a></p>
-<p>To create a local folder you need to specify a <code>Name</code> and an <code>Absolute path</code>. For other backends you have to specify the backend type and its credentials, this is the same procedure already detailed for creating users with cloud backends.</p>
-<p>Suppose we created two virtual folders name <code>localfolder</code> and <code>minio</code> as you can see in the following screen.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/folders.png" data-desc-position="bottom" data-gallery="folders"><img alt="Folders" data-gallery="folders" src="../assets/img/folders.png"></a></p>
+<h3 id="groups-and-roles">Groups and roles</h3>
+<p><a href="../groups/">Groups</a> simplify administration by defining settings once (home directory, storage backend, quotas, permissions, virtual folders) and applying them to multiple users. SFTPGo supports primary, secondary, and membership groups, each with different inheritance rules.</p>
+<p><a href="../roles/">Roles</a> enable delegated administration — restricted administrators who can only manage users within their scope.</p>
+<p>For a complete walkthrough, see the <a href="../tutorials/groups-example/">Groups tutorial</a>.</p>
+<h3 id="event-manager">Event Manager</h3>
+<p>The <a href="../eventmanager/">Event Manager</a> is SFTPGo's automation engine. It lets you define rules that react to events (file uploads, user creation, schedules, and more) and execute actions automatically.</p>
+<p>Common use cases:</p>
 <ul>
-<li><code>localfolder</code> uses the local filesystem as storage backend</li>
-<li><code>minio</code> uses MinIO (S3 compatible) as storage backend</li>
+<li><strong>Upload notifications</strong> — send an email or call a webhook whenever a file is uploaded.</li>
+<li><strong>Antivirus scanning</strong> — scan files with ICAP before they become visible to other users.</li>
+<li><strong>Data retention</strong> — automatically delete or archive files older than a configurable threshold.</li>
+<li><strong>Auto provisioning</strong> — create user accounts automatically when they log in through an Identity Provider.</li>
+<li><strong>Cross-backend transfers</strong> — copy uploaded files to a different S3 bucket, archive to an external SFTP server, or compress files into ZIP archives.</li>
+<li><strong>Recycle bin</strong> — move files to a recycle folder instead of deleting them.</li>
+<li><strong>PGP encryption/decryption</strong> — automatically encrypt or decrypt files after upload.</li>
 </ul>
-<p>Now, click <code>Users</code>, on the left menu, select a user and click the <code>Edit</code> icon, to update the user and associate the virtual folders.</p>
-<p>Virtual folders must be referenced using their unique name and you can map them on a configurable virtual path. Take a look at the following screenshot.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/virtual-folders.png" data-desc-position="bottom" data-gallery="virtual-folders"><img alt="Virtual Folders" data-gallery="virtual-folders" src="../assets/img/virtual-folders.png"></a></p>
-<p>We mapped the folder named <code>localfolder</code> on the path <code>/vdirlocal</code> (this must be an absolute UNIX path on Windows too) and the folder named <code>minio</code> on the path <code>/vdirminio</code>. For <code>localfolder</code> the quota usage is included within the user quota, while for the <code>minio</code> folder we defined separate quota limits: at most 2 files and at most 100MB, whichever is reached first.</p>
-<p>The folder <code>minio</code> can be shared with other users and we can define different quota limits on a per-user basis. The folder <code>localfolder</code> is considered private since we have included its quota limits within those of the user, if we share them with other users we will break quota calculation.</p>
-<p>Let's test these virtual folders. We use the <code>sftp</code> CLI here, you can use any SFTP client.</p>
-<pre><code class="language-shell">$ sftp -P 2022 nicola@127.0.0.1
-nicola@127.0.0.1's password:
-Connected to 127.0.0.1.
-sftp&gt; ls
-adir        read-only   subdir      vdirlocal   vdirminio
-sftp&gt; cd vdirlocal
-sftp&gt; put file.txt
-Uploading file.txt to /vdirlocal/file.txt
-file.txt                                                                  100% 4034    17.3MB/s   00:00
-sftp&gt; ls
-file.txt
-sftp&gt; cd ..
-sftp&gt; cd vdirminio/
-sftp&gt; put file.txt
-Uploading file.txt to /vdirminio/file.txt
-file.txt                                                                  100% 4034     4.8MB/s   00:00
-sftp&gt; ls
-file.txt
-sftp&gt; put file.txt file1.txt
-Uploading file.txt to /vdirminio/file1.txt
-file.txt                                                                  100% 4034     2.8MB/s   00:00
-sftp&gt; put file.txt file2.txt
-Uploading file.txt to /vdirminio/file2.txt
-remote open("/vdirminio/file2.txt"): Failure
-sftp&gt; quit
-</code></pre>
-<p>The last upload failed since we exceeded the number of files quota limit.</p>
-<h2 id="groups">Groups</h2>
-<p>Using groups simplifies the administration of multiple SFTPGo users: you can assign settings once to a group, instead of multiple times to each individual user.</p>
-<p>SFTPGo supports the following types of groups:</p>
+<p>All actions support <a href="../placeholders/">placeholders and templates</a> with full Go template syntax — conditions, loops, and helper functions.</p>
+<p>See the <a href="../tutorials/eventmanager/">Event Manager tutorials</a> for step-by-step guides.</p>
+<h3 id="security">Security</h3>
+<p>SFTPGo provides multiple layers of security:</p>
 <ul>
-<li>primary groups</li>
-<li>secondary groups</li>
-<li>membership groups</li>
+<li><strong><a href="../defender/">Brute force protection</a></strong> — the built-in Defender automatically blocks IP addresses after repeated failed login attempts, with configurable scoring and ban policies.</li>
+<li><strong><a href="../rate-limiting/">Rate limiting</a></strong> — per-protocol, per-IP and global rate limiters.</li>
+<li><strong>Geo-IP filtering</strong> — allow or deny access by country.</li>
+<li><strong>IP allow/deny lists</strong> — per-user and global, with a trusted list that bypasses blocking.</li>
+<li><strong><a href="../tutorials/two-factor-authentication/">Two-factor authentication</a></strong> — TOTP-based, compatible with Microsoft Authenticator, Google Authenticator, Authy, and similar apps.</li>
+<li><strong>Access time restrictions</strong> — limit when users can connect.</li>
+<li><strong>Configurable SSH algorithms</strong> — ciphers, KEX, MACs, host keys, with per-user enforcement of secure algorithms.</li>
+<li><strong>TLS certificates</strong> — configurable from the WebAdmin UI or via the built-in Let's Encrypt/ACME integration.</li>
 </ul>
-<p>A user can be a member of a primary group and many secondary and membership groups. Depending on the group type, the settings are inherited differently, <a href="../groups/">more details</a>.</p>
-<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> SFTPGo groups are completely unrelated to system groups. Therefore, it is not necessary to add Linux/Windows groups to use SFTPGo groups.</p>
-<h3 id="usage-example">Usage example</h3>
-<p>Suppose you have the following requirements:</p>
-<ul>
-<li>each user must be restricted to a local home directory containing the username as last element of the path, for example <code>/srv/sftpgo/data/&lt;username&gt;</code></li>
-<li>for each user, the maximum upload size for a single file must be limited to 1GB</li>
-<li>each user must have an S3 virtual folder available in the path <code>/s3&lt;username&gt;</code> and each user can only access a specified "prefix" of the S3 bucket. It must not be able to access other users' files</li>
-<li>each user must have an S3 virtual folder available in the path <code>/shared</code>. This is a folder shared with other users</li>
-<li>a group of users can only download and list contents in the <code>/shared</code> path while another group of users have full access</li>
-</ul>
-<p>We can easily meet these requirements by defining two groups.</p>
-<p>From the SFTPGo WebAdmin UI, click on <code>Folders</code> and then on the <code>+</code> icon.</p>
-<p>Create a folder named <code>S3private</code>.
-Set the storage to <code>AWS S3 (Compatible)</code> and fill the required parameters:</p>
-<ul>
-<li>bucket name</li>
-<li>region</li>
-<li>credentials: access key and access secret</li>
-</ul>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/s3-private-folder.png" data-desc-position="bottom" data-gallery="s3-private-folder"><img alt="S3Private folder" data-gallery="s3-private-folder" src="../assets/img/s3-private-folder.png"></a></p>
-<p>The important part is the <code>Key Prefix</code>, set it to <code>users/%username%/</code></p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/s3-key-prefix.png" data-desc-position="bottom" data-gallery="s3-key-prefix"><img alt="S3Private Key Prefix" data-gallery="s3-key-prefix" src="../assets/img/s3-key-prefix.png"></a></p>
-<p>The placeholder <code>%username%</code> will be replaced with the associated username.</p>
-<p>Create another folder named <code>S3shared</code> with the same settings as <code>S3private</code> but this time set the <code>Key Prefix</code> to <code>shared/</code>.
-The <code>Key Prefix</code> has no placeholder, so the folder will operate on a static path that won't change based on the associated user.</p>
-<p>Now click on <code>Groups</code> and then on the <code>+</code> icon and add a group named <code>Primary</code>.</p>
-<p>Set the <code>Home Dir</code> to <code>/srv/sftpgo/data/%username%</code>.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/add-group.png" data-desc-position="bottom" data-gallery="add-group"><img alt="Add group" data-gallery="add-group" src="../assets/img/add-group.png"></a></p>
-<p>As before, the placeholder <code>%username%</code> will be replaced with the associated username.</p>
-<p>Add the two virtual folders to this group and set the <code>Max file upload size</code> to 1GB.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/primary-group-settings.png" data-desc-position="bottom" data-gallery="primary-group-settings"><img alt="Primary group settings" data-gallery="primary-group-settings" src="../assets/img/primary-group-settings.png"></a></p>
-<p>Add a new group and name it <code>SharedReadOnly</code>, in the ACLs section set the permission on the <code>/shared</code> path so that read only access is granted.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/read-only-share.png" data-desc-position="bottom" data-gallery="read-only-share"><img alt="Read-only share" data-gallery="read-only-share" src="../assets/img/read-only-share.png"></a></p>
-<p>The group setup is now complete. We can now create our users and set the primary group to <code>Primary</code>.
-For the users who need read-only access to the <code>/shared</code> path we also have to set <code>SharedReadOnly</code> as a secondary group.</p>
-<p>You can now login with any SFTP client like FileZilla, WinSCP etc. and verify that the requirements are met.</p>
-<h3 id="simplify-user-page">Simplify user page</h3>
-<p>The add/update user page has many configuration options and can be intimidating for some administrators. We can hide most of the settings and automatically add groups to newly created users. This way the hidden settings are inherited from the automatically assigned groups and therefore administrators can add new users simply by setting the username and credentials.</p>
-<p>Click on <code>Admins</code> and then on the <code>+</code> icon and add an admin named <code>simply</code>.
-In the <code>Groups for users</code> section set <code>Primary</code> as primary group and <code>SharedReadOnly</code> as <code>seconday</code> group.
-In the <code>User page preferences</code> section hide all the sections.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/simplified-admin.png" data-desc-position="bottom" data-gallery="simplified-admin"><img alt="Simplified admin" data-gallery="simplified-admin" src="../assets/img/simplified-admin.png"></a></p>
-<p>Log in using the newly created administrator and try to add a new user. The user page is simplified as you can see in the following screen.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/add-user-simplified.png" data-desc-position="bottom" data-gallery="simplified-user"><img alt="Simplified user add" data-gallery="simplified-user" src="../assets/img/add-user-simplified.png"></a></p>
+<h3 id="single-sign-on-with-openid-connect">Single Sign-On with OpenID Connect</h3>
+<p>SFTPGo supports <a href="../oidc/">OpenID Connect</a> for Single Sign-On with external Identity Providers such as Microsoft Entra ID, Google, Okta, Keycloak, Auth0, and others. Users and administrators can log in to the WebAdmin and WebClient using their existing corporate credentials.</p>
+<p>Combined with the Event Manager's <a href="../tutorials/eventmanager-idp/">auto provisioning</a>, user accounts can be created automatically on first login — no manual setup required.</p>
+<h3 id="rest-api">REST API</h3>
+<p>The <a href="../rest-api/">REST API</a> provides full programmatic control over SFTPGo — manage users, groups, folders, event rules, and server configuration. End users can also use the API for file operations (upload, download, directory listing, sharing).</p>
+<p>The API supports JWT and <a href="../rest-api/#api-key-authentication">API key</a> authentication. An <a href="https://sftpgo.com/rest-api" target="_blank">OpenAPI specification</a> is available for client generation in any language.</p>
+<p>Infrastructure as Code is supported via the <a href="https://registry.terraform.io/providers/drakkan/sftpgo/latest" target="_blank">Terraform provider</a>.</p>
+<h3 id="document-editing-and-collaboration">Document editing and collaboration</h3>
+<p>With the WOPI add-on and a compatible document server (e.g., <a href="https://www.collaboraonline.com/" target="_blank">Collabora Online</a>), users can edit Office documents directly in the WebClient with real-time collaboration — multiple users can work on the same document simultaneously.</p>
+<h3 id="additional-protocols">Additional protocols</h3>
+<p>Beyond SFTP, SFTPGo supports <strong><a href="../ftp/">FTP/FTPS</a></strong> and <strong><a href="../webdav/">WebDAV</a></strong>. These protocols are disabled by default and can be enabled via configuration. The same users, permissions, storage backends, and event rules apply across all protocols.</p>
+<p>See <a href="../configuration-examples/">Configuration examples</a> for setup instructions.</p>
 <h2 id="custom-branding">Custom branding</h2>
-<p>From the "Server Manager" section, select "Configurations" and then "Branding". You can change the name, logo, favicon and add a disclaimer in the login section for both WebAdmin and WebClient. The disclaimer might be a URL to your Privacy Policy or something like that.</p>
-<h2 id="configuration-parameters">Configuration parameters</h2>
-<p>Until now we used the default configuration, to change the global service parameters you have to edit the configuration file, or set appropriate environment variables, and restart SFTPGo to apply the changes.</p>
-<p>A full explanation of all configuration parameters is available in the dedicated <a href="../config-file/">configuration file section</a>. Below, we’ll explore some common use cases.</p>
-<p>Keep in mind that SFTPGo can also be configured using environment variables — a convenient option, especially when running it in Docker.</p>
-<p>The default configuration file is <code>sftpgo.json</code> and it can be found within the <code>/etc/sftpgo</code> directory if you installed from Linux distro packages. On Windows the configuration file can be found within the <code>{commonappdata}\SFTPGo</code> directory where <code>{commonappdata}</code> is typically <code>C:\ProgramData</code>. SFTPGo also supports reading from TOML and YAML configuration files.</p>
-<p>The configuration file can change between different versions and merging your custom settings with the default configuration file, after updating SFTPGo, may be time-consuming. For this reason we suggest to set your custom settings using environment variables.
-If you install SFTPGo on Linux using the official deb/rpm packages you can set your custom environment variables in the file <code>/etc/sftpgo/sftpgo.env</code>.
-SFTPGo also reads files inside the <code>env.d</code> directory relative to config dir (<code>/etc/sftpgo/env.d</code> on Linux and <code>{commonappdata}\SFTPGo\env.d</code> on Windows) and then exports the valid variables into environment variables if they are not already set.
-Of course you can also set environment variables with the method provided by the operating system of your choice.</p>
-<p>The following snippets assume your are running SFTPGo on Linux but they can be easily adapted for other operating systems.</p>
-<h3 id="use-postgresql-data-provider">Use PostgreSQL data provider</h3>
-<p>Create a PostgreSQL database named <code>sftpgo</code> and a PostgreSQL user with the correct permissions, for example using the <code>psql</code> CLI.</p>
-<pre><code class="language-shell">sudo -i -u postgres psql
-CREATE DATABASE "sftpgo" WITH ENCODING='UTF8' CONNECTION LIMIT=-1;
-create user "sftpgo" with encrypted password 'your password here';
-grant all privileges on database "sftpgo" to "sftpgo";
-\q
-</code></pre>
-<p>You can open the SFTPGo configuration file, search for the <code>data_provider</code> section and change it as follow.</p>
-<pre><code class="language-json">  "data_provider": {
-    "driver": "postgresql",
-    "name": "sftpgo",
-    "host": "127.0.0.1",
-    "port": 5432,
-    "username": "sftpgo",
-    "password": "your password here",
-    ...
-}
-</code></pre>
-<p>Alternatively (recommended), you can use environment variables by creating the file <code>/etc/sftpgo/env.d/postgresql.env</code> with the following content.</p>
-<pre><code class="language-shell">SFTPGO_DATA_PROVIDER__DRIVER=postgresql
-SFTPGO_DATA_PROVIDER__NAME=sftpgo
-SFTPGO_DATA_PROVIDER__HOST=127.0.0.1
-SFTPGO_DATA_PROVIDER__PORT=5432
-SFTPGO_DATA_PROVIDER__USERNAME=sftpgo
-SFTPGO_DATA_PROVIDER__PASSWORD=your password here
-</code></pre>
-<p>Confirm that the database connection works by initializing the data provider.</p>
-<pre><code class="language-shell">$ sudo su - sftpgo -s /bin/bash -c 'sftpgo initprovider -c /etc/sftpgo'
-2021-05-19T22:21:54.000 INF Initializing provider: "postgresql" config file: "/etc/sftpgo/sftpgo.json"
-2021-05-19T22:21:54.000 INF updating database schema version: 8 -&gt; 9
-2021-05-19T22:21:54.000 INF Data provider successfully initialized/updated
-</code></pre>
-<p>Ensure that SFTPGo starts after the database service.</p>
-<pre><code class="language-shell">sudo systemctl edit sftpgo.service
-</code></pre>
-<p>And override the unit definition with the following snippet.</p>
-<pre><code class="language-shell">[Unit]
-After=postgresql.service
-</code></pre>
-<p>Restart SFTPGo to apply the changes.</p>
-<h3 id="use-mysqlmariadb-data-provider">Use MySQL/MariaDB data provider</h3>
-<p>Create a MySQL database named <code>sftpgo</code> and a MySQL user with the correct permissions, for example using the <code>mysql</code> CLI.</p>
-<pre><code class="language-shell">$ mysql -u root
-MariaDB [(none)]&gt; CREATE DATABASE sftpgo CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-Query OK, 1 row affected (0.000 sec)
-
-MariaDB [(none)]&gt; grant all privileges on sftpgo.* to sftpgo@localhost identified by 'your password here';
-Query OK, 0 rows affected (0.027 sec)
-
-MariaDB [(none)]&gt; quit
-Bye
-</code></pre>
-<p>You can open the SFTPGo configuration file, search for the <code>data_provider</code> section and change it as follow.</p>
-<pre><code class="language-json">  "data_provider": {
-    "driver": "mysql",
-    "name": "sftpgo",
-    "host": "127.0.0.1",
-    "port": 3306,
-    "username": "sftpgo",
-    "password": "your password here",
-    ...
-}
-</code></pre>
-<p>Alternatively (recommended), you can use environment variables by creating the file <code>/etc/sftpgo/env.d/mysql.env</code> with the following content.</p>
-<pre><code class="language-shell">SFTPGO_DATA_PROVIDER__DRIVER=mysql
-SFTPGO_DATA_PROVIDER__NAME=sftpgo
-SFTPGO_DATA_PROVIDER__HOST=127.0.0.1
-SFTPGO_DATA_PROVIDER__PORT=3306
-SFTPGO_DATA_PROVIDER__USERNAME=sftpgo
-SFTPGO_DATA_PROVIDER__PASSWORD=your password here
-</code></pre>
-<p>Confirm that the database connection works by initializing the data provider.</p>
-<pre><code class="language-shell">$ sudo su - sftpgo -s /bin/bash -c 'sftpgo initprovider -c /etc/sftpgo'
-2021-05-19T22:29:30.000 INF Initializing provider: "mysql" config file: "/etc/sftpgo/sftpgo.json"
-2021-05-19T22:29:30.000 INF updating database schema version: 8 -&gt; 9
-2021-05-19T22:29:30.000 INF Data provider successfully initialized/updated
-</code></pre>
-<p>Ensure that SFTPGo starts after the database service.</p>
-<pre><code class="language-shell">sudo systemctl edit sftpgo.service
-</code></pre>
-<p>And override the unit definition with the following snippet.</p>
-<pre><code class="language-shell">[Unit]
-After=mariadb.service
-</code></pre>
-<p>Restart SFTPGo to apply the changes.</p>
-<h3 id="use-cockroachdb-data-provider">Use CockroachDB data provider</h3>
-<p>We suppose you have installed CockroachDB this way:</p>
-<pre><code class="language-shell">sudo su
-export CRDB_VERSION=22.1.8 # set the latest available version here
-wget -qO- https://binaries.cockroachdb.com/cockroach-v${CRDB_VERSION}.linux-amd64.tgz | tar xvz
-cp -i cockroach-v${CRDB_VERSION}.linux-amd64/cockroach /usr/local/bin/
-mkdir -p /usr/local/lib/cockroach
-cp -i cockroach-v${CRDB_VERSION}.linux-amd64/lib/libgeos.so /usr/local/lib/cockroach/
-cp -i cockroach-v${CRDB_VERSION}.linux-amd64/lib/libgeos_c.so /usr/local/lib/cockroach/
-mkdir /var/lib/cockroach
-chown sftpgo:sftpgo /var/lib/cockroach
-mkdir -p /etc/cockroach/{certs,ca}
-chmod 700 /etc/cockroach/ca
-/usr/local/bin/cockroach cert create-ca --certs-dir=/etc/cockroach/certs --ca-key=/etc/cockroach/ca/ca.key
-/usr/local/bin/cockroach cert create-node localhost $(hostname) --certs-dir=/etc/cockroach/certs --ca-key=/etc/cockroach/ca/ca.key
-/usr/local/bin/cockroach cert create-client root --certs-dir=/etc/cockroach/certs --ca-key=/etc/cockroach/ca/ca.key
-chown -R sftpgo:sftpgo /etc/cockroach/certs
-exit
-</code></pre>
-<p>and you are running it using a systemd unit like this one:</p>
-<pre><code class="language-shell">[Unit]
-Description=Cockroach Database single node
-Requires=network.target
-[Service]
-Type=notify
-WorkingDirectory=/var/lib/cockroach
-ExecStart=/usr/local/bin/cockroach start-single-node --certs-dir=/etc/cockroach/certs --http-addr 127.0.0.1:8888 --listen-addr 127.0.0.1:26257 --cache=.25 --max-sql-memory=.25 --store=path=/var/lib/cockroach
-TimeoutStopSec=60
-Restart=always
-RestartSec=10
-StandardOutput=journal
-StandardError=journal
-User=sftpgo
-[Install]
-WantedBy=default.target
-</code></pre>
-<p>Create a CockroachDB database named <code>sftpgo</code>.</p>
-<pre><code class="language-shell">$ sudo /usr/local/bin/cockroach sql --certs-dir=/etc/cockroach/certs -e 'create database "sftpgo"'
-CREATE DATABASE
-
-Time: 13ms
-</code></pre>
-<p>You can open the SFTPGo configuration file, search for the <code>data_provider</code> section and change it as follow.</p>
-<pre><code class="language-json">  "data_provider": {
-    "driver": "cockroachdb",
-    "name": "sftpgo",
-    "host": "localhost",
-    "port": 26257,
-    "username": "root",
-    "password": "",
-    "sslmode": 3,
-    "root_cert": "/etc/cockroach/certs/ca.crt",
-    "client_cert": "/etc/cockroach/certs/client.root.crt",
-    "client_key": "/etc/cockroach/certs/client.root.key",
-    ...
-}
-</code></pre>
-<p>Alternatively (recommended), you can use environment variables by creating the file <code>/etc/sftpgo/env.d/cockroachdb.env</code> with the following content.</p>
-<pre><code class="language-shell">SFTPGO_DATA_PROVIDER__DRIVER=cockroachdb
-SFTPGO_DATA_PROVIDER__NAME=sftpgo
-SFTPGO_DATA_PROVIDER__HOST=localhost
-SFTPGO_DATA_PROVIDER__PORT=26257
-SFTPGO_DATA_PROVIDER__USERNAME=root
-SFTPGO_DATA_PROVIDER__SSLMODE=3
-SFTPGO_DATA_PROVIDER__ROOT_CERT="/etc/cockroach/certs/ca.crt"
-SFTPGO_DATA_PROVIDER__CLIENT_CERT="/etc/cockroach/certs/client.root.crt"
-SFTPGO_DATA_PROVIDER__CLIENT_KEY="/etc/cockroach/certs/client.root.key"
-</code></pre>
-<p>Confirm that the database connection works by initializing the data provider.</p>
-<pre><code class="language-shell">$ sudo su - sftpgo -s /bin/bash -c 'sftpgo initprovider -c /etc/sftpgo'
-2022-06-02T14:54:04.510 INF Initializing provider: "cockroachdb" config file: "/etc/sftpgo/sftpgo.json"
-2022-06-02T14:54:04.554 INF creating initial database schema, version 15
-2022-06-02T14:54:04.698 INF updating database schema version: 15 -&gt; 16
-2022-06-02T14:54:07.093 INF updating database schema version: 16 -&gt; 17
-2022-06-02T14:54:07.672 INF updating database schema version: 17 -&gt; 18
-2022-06-02T14:54:07.699 INF updating database schema version: 18 -&gt; 19
-2022-06-02T14:54:07.721 INF Data provider successfully initialized/updated
-</code></pre>
-<p>Ensure that SFTPGo starts after the database service.</p>
-<pre><code class="language-shell">sudo systemctl edit sftpgo.service
-</code></pre>
-<p>And override the unit definition with the following snippet.</p>
-<pre><code class="language-shell">[Unit]
-After=cockroachdb.service
-</code></pre>
-<p>Restart SFTPGo to apply the changes.</p>
-<h3 id="enable-ftp-service">Enable FTP service</h3>
-<p>You can set the configuration options to enable the FTP service by opening the SFTPGo configuration file, looking for the <code>ftpd</code> section and editing it as follows.</p>
-<pre><code class="language-json">  "ftpd": {
-    "bindings": [
-      {
-        "port": 2121,
-        "address": "",
-        "apply_proxy_config": true,
-        "tls_mode": 0,
-        "certificate_file": "",
-        "certificate_key_file": "",
-        "min_tls_version": 12,
-        "force_passive_ip": "",
-        "passive_ip_overrides": [],
-        "client_auth_type": 0,
-        "tls_cipher_suites": [],
-        "passive_connections_security": 0,
-        "active_connections_security": 0,
-        "debug": false
-      }
-    ],
-    "banner": "",
-    "banner_file": "",
-    "active_transfers_port_non_20": true,
-    "passive_port_range": {
-      "start": 50000,
-      "end": 50100
-    },
-    ...
-  }
-</code></pre>
-<p>Alternatively (recommended), you can use environment variables by creating the file <code>/etc/sftpgo/env.d/ftpd.env</code> with the following content.</p>
-<pre><code class="language-shell">SFTPGO_FTPD__BINDINGS__0__PORT=2121
-</code></pre>
-<p>Restart SFTPGo to apply the changes. The FTP service is now available on port <code>2121</code>.</p>
-<p>You can also configure the passive ports range (<code>50000-50100</code> by default), these ports must be reachable for passive FTP to work. If your FTP server is on the private network side of a NAT configuration you have to set <code>force_passive_ip</code> to your external IP address. You may also need to open the passive port range on your firewall.</p>
-<p>It is recommended that you provide a certificate and key file to allow FTP over TLS. You should prefer SFTP to FTP even if you configure TLS, please don't blindly enable the old FTP protocol.</p>
-<h3 id="enable-webdav-service">Enable WebDAV service</h3>
-<p>You can set the configuration options to enable the FTP service by opening the SFTPGo configuration file, looking for the <code>webdavd</code> section and editing it as follows.</p>
-<pre><code class="language-json">  "webdavd": {
-    "bindings": [
-      {
-        "port": 10080,
-        "address": "",
-        "enable_https": false,
-        "certificate_file": "",
-        "certificate_key_file": "",
-        "min_tls_version": 12,
-        "client_auth_type": 0,
-        "tls_cipher_suites": [],
-        "prefix": "",
-        "proxy_allowed": [],
-        "client_ip_proxy_header": "",
-        "client_ip_header_depth": 0,
-        "disable_www_auth_header": false
-      }
-    ],
-    ...
-  }
-</code></pre>
-<p>Alternatively (recommended), you can use environment variables by creating the file <code>/etc/sftpgo/env.d/webdavd.env</code> with the following content.</p>
-<pre><code class="language-shell">SFTPGO_WEBDAVD__BINDINGS__0__PORT=10080
-</code></pre>
-<p>Restart SFTPGo to apply the changes. The WebDAV service is now available on port <code>10080</code>. It is recommended that you provide a certificate and key file to allow WebDAV over https.</p>
+<p>From <strong>Server Manager &gt; Configurations &gt; Branding</strong>, you can customize the name, logo, favicon, and add a disclaimer (e.g., a link to your Privacy Policy) to the login page of both the WebAdmin and WebClient.</p>
+<h2 id="configuration">Configuration</h2>
+<p>SFTPGo can be configured via environment variables or a configuration file. We recommend environment variables — they are stable across versions and easy to manage.</p>
+<p>See the <a href="../config-file/">Configuration reference</a> for all parameters and <a href="../configuration-examples/">Configuration examples</a> for common setups (PostgreSQL, MySQL, FTP, WebDAV).</p>
 
 
 
@@ -3181,6 +3874,38 @@ After=cockroachdb.service
 
 
 
+  
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 26, 2026 15:47:01 UTC">2026-04-26 15:47:01</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Created">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"></path></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 25, 2024 16:47:14 UTC">2024-04-25 16:47:14</span>
+  </span>
+
+    
+    
+    
+  </aside>
 
 
 
