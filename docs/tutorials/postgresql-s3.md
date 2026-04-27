@@ -1,3 +1,7 @@
+---
+description: "Deploy open-source SFTPGo with PostgreSQL as data provider and S3-compatible object storage as backend."
+---
+
 # SFTPGo with PostgreSQL data provider and S3 backend
 
 This tutorial shows the installation of SFTPGo on Ubuntu 20.04 (Focal Fossa) with PostgreSQL data provider and S3 backend. SFTPGo will run as an unprivileged (non-root) user. We assume that you want to serve a single S3 bucket and you want to assign different "virtual folders" of this bucket to different SFTPGo virtual users.

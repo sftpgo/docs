@@ -1,3 +1,7 @@
+---
+description: "Open-source SFTPGo web interfaces: WebAdmin for centralized server management and WebClient for browser-based file management, sharing, and 2FA."
+---
+
 # Web UIs
 
 ## WebAdmin

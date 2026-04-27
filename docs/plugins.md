@@ -1,3 +1,7 @@
+---
+description: "Open-source SFTPGo plugin system: extend functionality with notifiers, KMS providers, authentication, event search, and IP filtering plugins."
+---
+
 # Plugin system
 
 SFTPGo's plugins are completely separate, standalone applications that SFTPGo executes and communicates with over RPC. This means the plugin process does not share the same memory space as SFTPGo and therefore can only access the interfaces and arguments given to it. This also means a crash in a plugin can not crash the entirety of SFTPGo.

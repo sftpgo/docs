@@ -1,3 +1,7 @@
+---
+description: "Open-source SFTPGo features: secure file transfer over SFTP, FTP/S, WebDAV, HTTPS, cloud storage backends, OIDC SSO, MFA, and event-driven automation."
+---
+
 # Features
 
 - Support for serving local filesystem, encrypted local filesystem, S3 Compatible Object Storage, Google Cloud Storage, Azure Blob Storage or other SFTP accounts over SFTP/SCP/FTP/WebDAV.

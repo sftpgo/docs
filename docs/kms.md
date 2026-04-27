@@ -1,3 +1,7 @@
+---
+description: "Configure Key Management Services in open-source SFTPGo for encrypting stored secrets. Supports local encryption and cloud KMS providers via plugin."
+---
+
 # Key Management Services
 
 SFTPGo stores sensitive data such as Cloud account credentials or passphrases to derive per-object encryption keys. These data are stored as ciphertext and only loaded to RAM in plaintext when needed.

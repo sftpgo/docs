@@ -1,3 +1,7 @@
+---
+description: "Use a remote SFTP server as storage in open-source SFTPGo, with optional buffering for improved performance."
+---
+
 # SFTP as storage backend
 
 An SFTP account on another server can be used as storage for an SFTPGo account, so the remote SFTP server can be accessed in a similar way to the local file system.

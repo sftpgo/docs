@@ -1,3 +1,7 @@
+---
+description: "Configure open-source SFTPGo using environment variables. Override any configuration option without editing the config file — ideal for Docker."
+---
+
 # Environment variables
 
 The configuration file can change between different versions and merging your custom settings with the default configuration file, after updating SFTPGo, may be time-consuming. For this reason we suggest to set your custom settings using environment variables. This eliminates the need to merge your changes with the default configuration file after each update, you have to just check that your custom configuration keys still exists.

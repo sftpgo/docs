@@ -1,3 +1,7 @@
+---
+description: "Deploy open-source SFTPGo on Google Cloud Platform using Google Cloud Storage as backend."
+---
+
 # SFTPGo on Google Cloud Platform
 
 SFTPGo is available on [Google Cloud Platform](https://console.cloud.google.com/marketplace/browse?filter=partner:SFTPGo%20Authors){:target="_blank"} as a virtual machine image. The following editions are available:

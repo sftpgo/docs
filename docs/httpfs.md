@@ -1,3 +1,7 @@
+---
+description: "Use a custom HTTP/S service as a storage backend in open-source SFTPGo via a simple REST API contract."
+---
+
 # HTTP/S storage backend
 
 SFTPGo can use custom storage backend implementations compliant with the REST API documented [here](https://github.com/drakkan/sftpgo/blob/main/openapi/httpfs.yaml){:target="_blank"}.

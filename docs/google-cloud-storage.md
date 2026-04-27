@@ -1,3 +1,7 @@
+---
+description: "Use Google Cloud Storage as a backend in open-source SFTPGo with service account credentials or automatic authentication."
+---
+
 # Google Cloud Storage backend
 
 To connect SFTPGo to Google Cloud Storage you can use use the Application Default Credentials (ADC) strategy to try to find your application's credentials automatically or you can explicitly provide a JSON credentials file that you can obtain from the Google Cloud Console. Take a look [here](https://cloud.google.com/docs/authentication/production#providing_credentials_to_your_application){:target="_blank"} for details.

@@ -1,3 +1,7 @@
+---
+description: "Monitor open-source SFTPGo with Prometheus metrics and the official Grafana dashboard. Track transfers, authentication, per-user activity, and backend operations."
+---
+
 # Metrics
 
 SFTPGo supports [Prometheus](https://prometheus.io/){:target="_blank"} metrics at the `/metrics` HTTP endpoint of the telemetry server.

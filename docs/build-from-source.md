@@ -1,3 +1,7 @@
+---
+description: "Build the open-source SFTPGo binary from source on Linux, Windows, macOS, and FreeBSD using Go."
+---
+
 # Build SFTPGo from source
 
 Download the sources and use `go build`.

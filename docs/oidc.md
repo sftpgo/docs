@@ -1,3 +1,7 @@
+---
+description: "Integrate open-source SFTPGo with OpenID Connect identity providers: Microsoft Entra ID, Google, Okta, Auth0, Keycloak, and more."
+---
+
 # OpenID Connect
 
 OpenID Connect integration allows you to map your identity provider users to SFTPGo admins/users,

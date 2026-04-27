@@ -1,3 +1,7 @@
+---
+description: "Open-source SFTPGo REST API reference: manage users, groups, folders, event rules, and perform file operations. Supports JWT and API key authentication."
+---
+
 # REST API
 
 SFTPGo supports REST API for pretty much everything, both for administrators and users.

@@ -1,3 +1,7 @@
+---
+description: "Initialize and manage the open-source SFTPGo data provider. Supports SQLite, PostgreSQL, MySQL, CockroachDB, and Bolt databases for user and configuration storage."
+---
+
 # Data provider initialization and management
 
 Before starting the SFTPGo server please make sure that the configured data provider is properly initialized/updated.

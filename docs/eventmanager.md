@@ -1,3 +1,7 @@
+---
+description: "Open-source SFTPGo Event Manager: automate file transfer workflows with rules triggered by uploads, downloads, schedules, and provider changes."
+---
+
 # Event Manager
 
 The Event Manager allows an administrator to configure HTTP notifications, commands execution, email notifications and carry out certain server operations based on server events or schedules.
