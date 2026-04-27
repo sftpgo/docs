@@ -1,31 +1,26 @@
+---
+description: "SFTPGo — open-source managed file transfer (MFT) solution with SFTP, FTP/S, WebDAV, HTTPS. Cloud storage backends, event-driven automation, multi-factor authentication, OIDC SSO."
+---
+
 # What is SFTPGo?
 
-SFTPGo is an event-driven file transfer solution. It support multiple protocols (SFTP, SCP, FTP/S, WebDAV, HTTP/S) and multiple storage backends.
+SFTPGo is a fully featured, open-source managed file transfer (MFT) solution. It provides secure file exchange over SFTP, SCP, FTP/S, WebDAV, and a built-in HTTPS WebClient, with support for local and cloud storage backends.
 
-With SFTPGo you can leverage local and cloud storage backends for exchanging and storing files internally or with business partners using the same tools and processes you are already familiar with.
+SFTPGo is built around a few core principles:
 
-The WebAdmin UI allows to easily create and manage your users, folders, groups and other resources.
+- **Protocol-agnostic access.** Users can connect via SFTP, SCP, FTP/S, WebDAV, or the built-in web interface — the same files and permissions apply across all protocols.
+- **Storage abstraction.** Local filesystem, encrypted filesystem, S3-compatible storage, Google Cloud Storage, Azure Blob, and remote SFTP servers are all supported as storage backends, including within the same installation.
+- **Event-driven automation.** The [Event Manager](eventmanager.md) allows administrators to define rules that react to file operations, provider changes, or schedules — enabling automated workflows such as notifications, cross-backend file transfers, data retention, and more.
+- **Security and access control.** Built-in [brute-force protection](defender.md), Geo-IP filtering (via plugin), per-protocol [rate limiting](rate-limiting.md), and fine-grained per-user/per-directory permissions. Authentication supports passwords, public keys, SSH certificates, multi-factor (TOTP), LDAP/Active Directory (via plugin), and [OpenID Connect](oidc.md) for SSO.
 
-The WebClient UI allows end users to change their credentials, browse and manage their files in the browser and setup two-factor authentication which works with Microsoft Authenticator, Google Authenticator, Authy and other compatible apps.
+SFTPGo runs everywhere: from small embedded devices to large clusters, on Linux, Windows, macOS and FreeBSD, on x86, ARM, and ppc64 architectures. Configuration data can be stored in SQLite, MySQL, PostgreSQL, CockroachDB, Bolt, or in-memory. A [Terraform provider](https://registry.terraform.io/providers/drakkan/sftpgo/latest){:target="_blank"} is available for Infrastructure as Code workflows.
 
-![Architectural overview](assets/img/sftpgo%20architecture.png){data-gallery="architecture"}
+The WebAdmin interface provides centralized management for users, groups, virtual folders, event rules, and server configuration. The [WebClient](web-interfaces.md#webclient) gives end users a browser-based file manager with credential management, two-factor authentication, and secure file sharing.
 
-## Support
+**Ready to get started?** See the [installation guide](installation.md) and then the [Getting Started](initial-configuration.md) walkthrough. For a complete feature list, see [Features](features.md).
 
-The open-source version of SFTPGo is free to use under the terms of its [license](#licensing). We are proud to provide a robust and fully functional edition that meets the needs of many production environments.
-
-While we do not offer direct free support, community support is available. You can use [GitHub Discussions](https://github.com/drakkan/sftpgo/discussions){:target="_blank"} to ask questions, share feedback and engage with other users of the project.
-
-If you require guaranteed support, expert guidance, or advanced features, consider using SFTPGo Enterprise: a commercially licensed edition of SFTPGo that extends the open source version with enterprise-only features and full support. SFTPGo Enterprise can be deployed both on-premises and as a fully managed SaaS. For more information, please visit [sftpgo.com](https://sftpgo.com){:target="_blank"}.
-
-SFTPGo is also offered as part of several paid services aiming to facilitate the installation and use of Open Source products or as part of paid software for self-hosted servers.
-These services and software are not endorsed by, nor affiliated with, us. What you pay does not include our support for SFTPGo.
-
-## Release Cadence
-
-SFTPGo follows a feature-driven release cycle rather than a fixed, time-based schedule. Currently, our primary development efforts are focused on the [Enterprise edition](https://docs.sftpgo.com/enterprise/#enterprise-edition){:target="_blank"}, which benefits from a faster release cadence and receives major new features (see [changelog](https://docs.sftpgo.com/enterprise/changelog/){:target="_blank"}).
-
-This open-source version of SFTPGo remains maintained and will continue to receive bug fixes and essential updates. However, not all enhancements introduced in the Enterprise edition will be available.
+![Architectural overview](assets/img/sftpgo%20architecture.png#only-light){data-gallery="architecture"}
+![Architectural overview](assets/img/sftpgo%20architecture-dark.png#only-dark){data-gallery="architecture"}
 
 ## Licensing
 
@@ -36,10 +31,8 @@ The [theme](https://keenthemes.com/products/templates-mega-bundle){:target="_bla
 - KeenThemes HTML/CSS/JS components are allowed for use only within the SFTPGo product and restricted to be used in a resealable HTML template that can compete with KeenThemes products anyhow.
 - The SFTPGo WebAdmin and WebClient user interfaces (HTML, CSS and JS components) based on this theme are allowed for use only within the SFTPGo product and therefore cannot be used in derivative works/products without an explicit grant from the [SFTPGo Team](mailto:support@sftpgo.com).
 
-For answers to common questions, please refer to our [compliance](https://sftpgo.com/compliance.html){:target="_blank"} page.
-
 **Note:** This content is provided for informational purposes only and does not constitute legal advice. If you have specific questions about license compliance or whether your particular use case is permitted, we recommend consulting your legal team.
 
 ## Copyright
 
-Copyright (C) 2019 - 2025 Nicola Murino
+Copyright (C) 2019 - 2026 Nicola Murino

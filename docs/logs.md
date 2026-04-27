@@ -1,3 +1,7 @@
+---
+description: "Open-source SFTPGo structured JSON logging: transfer logs, SSH command logs, HTTP request logs, and connection events for auditing and monitoring."
+---
+
 # Logs
 
 SFTPGo logs a stream of JSON structs. Each struct has a `sender` field that identifies the log type.

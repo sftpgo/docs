@@ -1,3 +1,7 @@
+---
+description: "Install open-source SFTPGo on Linux, Windows, macOS, FreeBSD, or Docker. Available via APT/YUM repos, official binaries, and Docker images."
+---
+
 # Installation
 
 SFTPGo runs on small embedded devices or large Kubernetes clusters. On Linux, Windows, macOS, FreeBSD. Other *BSD variants should work too.

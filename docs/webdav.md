@@ -1,3 +1,7 @@
+---
+description: "Open-source SFTPGo WebDAV server configuration: HTTPS, CORS, file locking, and client compatibility (Windows, macOS, Linux)."
+---
+
 # WebDAV
 
 The `WebDAV` support can be enabled by configuring one or more `bindings` inside the `webdavd` configuration section.

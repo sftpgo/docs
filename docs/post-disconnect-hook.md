@@ -1,3 +1,7 @@
+---
+description: "Run a custom action when an SSH or FTP connection is closed in open-source SFTPGo. Use for session logging or cleanup."
+---
+
 # Post-disconnect hook
 
 This hook is executed as soon as a SSH/FTP connection is closed. SSH is a multiplexing protocol, a client can open multiple channels on a single connection or can disconnect without opening any channels. For SSH-based connections (SFTP/SCP/SSH commands), SFTPGo notifies the disconnection of the channel so there is no exact match with the post-connect hook.

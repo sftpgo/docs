@@ -1,3 +1,7 @@
+---
+description: "Map directories from any storage backend into open-source SFTPGo user namespaces using virtual folders. Supports S3, Azure, GCS, SFTP, and local filesystems."
+---
+
 # Virtual Folders
 
 A virtual folder is a mapping between a SFTPGo virtual path and a filesystem path outside the user home directory or on a different storage provider.

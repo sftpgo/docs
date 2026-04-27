@@ -1,3 +1,7 @@
+---
+description: "Profile open-source SFTPGo performance with the built-in Go pprof endpoint. Collect CPU profiles, heap snapshots, goroutine dumps, and execution traces."
+---
+
 # Profiling SFTPGo
 
 The built-in profiler lets you collect CPU profiles, traces, allocations and heap profiles that allow to identify and correct specific bottlenecks.

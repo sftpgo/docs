@@ -1,3 +1,7 @@
+---
+description: "Run open-source SFTPGo with Docker. Configure with environment variables and deploy with Docker Compose."
+---
+
 # Docker
 
 SFTPGo provides an official Docker image, it is available on both [Docker Hub](https://hub.docker.com/r/drakkan/sftpgo){:target="_blank"} and on [GitHub Container Registry](https://github.com/users/drakkan/packages/container/package/sftpgo){:target="_blank"}.

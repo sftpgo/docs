@@ -1,3 +1,7 @@
+---
+description: "Open-source SFTPGo command-line reference: start the server, configure logging, load data, manage the Windows service, and use portable mode."
+---
+
 # Command line options
 
 The SFTPGo executable can be used this way:

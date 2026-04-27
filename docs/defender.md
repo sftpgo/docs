@@ -1,3 +1,7 @@
+---
+description: "Protect open-source SFTPGo against brute-force and denial-of-service attacks with the built-in defender. Configurable scoring, banning, and IP allow/deny lists."
+---
+
 # Defender
 
 The built-in `defender` allows you to configure an auto-blocking policy for SFTPGo and thus helps to prevent DoS (Denial of Service) and brute force password guessing.

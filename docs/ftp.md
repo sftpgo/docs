@@ -1,3 +1,7 @@
+---
+description: "Open-source SFTPGo FTP/FTPS server configuration: explicit and implicit TLS, passive mode, and client certificates."
+---
+
 # FTP
 
 The FTP server implementation supports [RFC 959](https://datatracker.ietf.org/doc/html/rfc959){:target="_blank"}.

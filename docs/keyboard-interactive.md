@@ -1,3 +1,7 @@
+---
+description: "Configure keyboard-interactive SSH authentication in open-source SFTPGo using external programs or HTTP hooks for custom challenge-response flows."
+---
+
 # Keyboard Interactive Authentication
 
 Keyboard interactive authentication is, in general, a series of questions asked by the server with responses provided by the client.

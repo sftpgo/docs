@@ -1,3 +1,7 @@
+---
+description: "Get started with open-source SFTPGo: create your first admin, configure users, set up storage backends, enable SMTP, and explore the WebAdmin and WebClient interfaces."
+---
+
 # Feature overview
 
 We assume that you have installed SFTPGo and it is up and running, so let's explore the main features and concepts.

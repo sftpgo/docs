@@ -1,3 +1,7 @@
+---
+description: "Enable transparent data-at-rest encryption in open-source SFTPGo. Files are encrypted with AES-256-GCM before writing to disk and decrypted on read."
+---
+
 # Data At Rest Encryption (DARE)
 
 SFTPGo supports data at-rest encryption via its `cryptfs` virtual file system, in this mode SFTPGo transparently encrypts and decrypts data (to/from the local disk) on-the-fly during uploads and/or downloads, making sure that the files at-rest on the server-side are always encrypted.

@@ -1,3 +1,7 @@
+---
+description: "Execute custom programs or HTTP webhooks on open-source SFTPGo file and provider events for integration with external systems."
+---
+
 # Custom Actions
 
 SFTPGo can notify filesystem and provider events using custom actions. A custom action can be an external program or an HTTP URL.

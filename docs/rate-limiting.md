@@ -1,3 +1,7 @@
+---
+description: "Configure per-protocol and per-IP rate limiting in open-source SFTPGo to protect against brute-force attacks and request flooding."
+---
+
 # Rate limiting
 
 Rate limiting allows to control the number of requests going to the SFTPGo services.

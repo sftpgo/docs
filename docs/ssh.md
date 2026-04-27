@@ -1,3 +1,7 @@
+---
+description: "Open-source SFTPGo SSH/SFTP server: host keys, ciphers, KEX algorithms, public key authentication, and post-quantum hybrid key exchange (mlkem768x25519)."
+---
+
 # SSH
 
 SFTPGo is mainly an SFTP server only a minimal set of SSH commands are supported. Shell login and forwarding are not currently supported.

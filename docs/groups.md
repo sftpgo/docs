@@ -1,3 +1,7 @@
+---
+description: "Manage users efficiently in open-source SFTPGo with groups. Define permissions, virtual folders, bandwidth limits, and policies once, then apply to multiple users."
+---
+
 # Groups
 
 Using groups simplifies the administration of multiple accounts by letting you assign settings once to a group, instead of multiple times to each individual user.

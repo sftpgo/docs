@@ -1,3 +1,7 @@
+---
+description: "Configure open-source SFTPGo using environment variables. Override any configuration option without editing the config file — ideal for Docker."
+---
+
 # Environment variables
 
 You can override all the available [configuration options](config-file.md) using environment variables. SFTPGo will check for environment variables with a name matching the key uppercased and prefixed with the `SFTPGO_`. You need to use `__` to traverse a struct.

@@ -1,3 +1,7 @@
+---
+description: "Use Azure Blob Storage as a backend in open-source SFTPGo with shared key, SAS token, or default Azure credential (Managed Identity) authentication."
+---
+
 # Azure Blob Storage backend
 
 To connect SFTPGo to Azure Blob Storage, you need to specify the access credentials. Azure Blob Storage has different options for credentials, we support:

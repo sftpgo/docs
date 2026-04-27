@@ -1,3 +1,7 @@
+---
+description: "Password hashing and validation in open-source SFTPGo. Supports bcrypt, argon2id, and additional formats for migration. Configurable strength policies."
+---
+
 # Supported Password Hashing Algorithms
 
 SFTPGo can verify passwords in several formats and uses, by default, the `bcrypt` algorithm to hash passwords in plain-text before storing them inside the data provider. Each hashing algorithm is identified by a prefix.

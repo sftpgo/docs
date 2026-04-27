@@ -1,3 +1,7 @@
+---
+description: "Obtain a free Let's Encrypt TLS certificate for open-source SFTPGo and configure automatic renewal for HTTPS, FTPS, and WebDAV."
+---
+
 # Securing SFTPGo with a free Let's Encrypt TLS Certificate
 
 This tutorial shows how to obtain and renew a free Let's encrypt TLS certificate for the SFTPGo Web UI and REST API, the WebDAV service and the FTP service.

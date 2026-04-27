@@ -1,3 +1,7 @@
+---
+description: "Delegate administration in open-source SFTPGo with roles. Restricted admins can only manage users that share their assigned role."
+---
+
 # Roles
 
 Roles can be assigned to users and administrators. Admins with a role are limited administrators, they can only view and manage users with their own role and they cannot have the following permissions:
