@@ -6,13 +6,17 @@
        could help an attacker match against known CVEs.
     2. Avoid duplicating <meta name="description"> — we emit it in {% block extrahead %} below
        from page.meta.description with a config.site_description fallback.
-  We preserve charset, viewport, and the canonical link which Material normally emits here.
+  We preserve charset, viewport, the canonical link, and the favicon which
+  Material normally emits here.
 -#}
 {% block site_meta %}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   {%- if page and page.canonical_url %}
   <link rel="canonical" href="{{ page.canonical_url }}">
+  {%- endif %}
+  {%- if config.theme.favicon %}
+  <link rel="icon" href="{{ config.theme.favicon | url }}">
   {%- endif %}
   <meta name="generator" content="mkdocs, mkdocs-material">
 {% endblock %}
