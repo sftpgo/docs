@@ -1,5 +1,5 @@
 site_name: SFTPGo docs
-site_url: 'https://docs.sftpgo.com'
+site_url: 'https://docs.sftpgo.com/enterprise/'
 site_description: 'SFTPGo is a managed file transfer (MFT) platform with SFTP, FTP/S, WebDAV, and HTTPS support. Features event-driven automation, audit logging, data-at-rest encryption, SSO, LDAP, cloud storage backends, HA clustering, Kubernetes, and Terraform (IaC).'
 
 nav:
