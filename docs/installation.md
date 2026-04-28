@@ -29,7 +29,7 @@ SFTPGo Enterprise is available on major cloud marketplaces, allowing you to quic
 
 Marketplace offerings are available in plans that correspond to our Starter and Premium [on-premises](https://sftpgo.com/on-premises){:target="_blank"} tiers. For advanced requirements, a private offer can be arranged to provide the full capabilities of the Ultimate tier.
 
-**Note**: For all SFTPGo Enterprise marketplace offerings, the license is included as part of the subscription; no separate license purchase is required.
+**Pricing and licensing.** All marketplace listings — both Enterprise and open-source-based — are billed entirely through the cloud provider; there is no separate fee from SFTPGo on top of the marketplace charge. The **Enterprise** listings include an activated SFTPGo Enterprise license: nothing else to purchase or activate. The **open-source-based** listings ship the SFTPGo Open Source edition (AGPLv3) and do not enable Enterprise features — to access those, switch to one of the Enterprise listings.
 
 ### AWS
 
@@ -77,9 +77,40 @@ Marketplace instances are ready to use out of the box. They ship with:
 - **In-memory transfer pipes enabled** (`SFTPGO_HOOK__MEMORY_PIPES__ENABLED=1`). This lets cloud-backend users (S3, GCS, Azure Blob) upload without needing a writable local scratch area, which matters on minimal VM images and container runtimes.
 - **Data provider preconfigured** for standalone use. The storage layer and the plugin event databases are supported and initialized on first boot — you do not need to stand up a separate database service. If you require high availability, point the data provider at a managed or clustered database of your choice.
 
-**Plugin slots by tier.** The Starter tier is limited to **2 active plugins** in total — the audit plugin counts as one of these slots, leaving one free for another plugin of your choice (for example LDAP authentication, Pub/Sub event forwarding, or a cloud KMS provider). Adding a third plugin on Starter requires either upgrading to Premium (unlimited plugins) or disabling the audit plugin to free its slot. Premium and higher tiers have no plugin limit.
+**Operating system.** AWS AMIs (both x86_64 and arm64) are based on **Amazon Linux 2023** (RHEL-based; package manager `dnf`). Azure and Google Cloud Linux VM images are based on **Debian 13** (`apt`-based).
+
+**Plugin slots by tier.** The Starter tier is limited to **2 active plugins** in total. The audit logs feature is implemented as two plugins (`eventstore` + `eventsearcher`) wired together — both must be loaded for it to work — so on Starter the audit-logs feature already fills both slots, and there is no spare slot for an additional plugin without disabling audit logs. Adding more plugins on Starter requires either upgrading to Premium (unlimited plugins) or disabling the audit plugins to free their slots. Premium and higher tiers have no plugin limit.
 
 **Making changes.** All marketplace defaults are standard SFTPGo settings and can be overridden with the usual mechanisms — WebAdmin configuration pages, environment variables (see [Environment variables](env-vars.md)), or drop-in env files under the config directory.
+
+### Updating marketplace instances
+
+Marketplace VM offerings stay current through the distribution's standard package manager — both the operating system and SFTPGo are updated through that channel. No bespoke update procedure is required.
+
+**Amazon Linux (AWS AMIs):**
+
+```shell
+sudo dnf update
+```
+
+**Debian (Azure / Google Cloud VMs):**
+
+```shell
+sudo apt update && sudo apt upgrade
+```
+
+The SFTPGo service is restarted automatically by the package's post-install scriptlet when the `sftpgo` package is upgraded.
+
+To verify that the SFTPGo OS package matches the latest available:
+
+```shell
+sudo dnf check-update sftpgo                # AWS
+apt list --upgradable 2>/dev/null | grep sftpgo   # Azure / GCP
+```
+
+Marketplace offerings hide the SFTPGo version in the WebAdmin by default. To check it, use `sftpgo --version` from the CLI, or read the `starting SFTPGo v2.7.x ...` line written to the log at service startup (`journalctl -u sftpgo` or the configured log file).
+
+For container-based marketplace listings the update procedure depends on the offering: the AWS Container listing distributes its images through the AWS marketplace registry and is updated by deploying the new image version published by the listing; the Azure AKS listing is a CNAB bundle and is upgraded through its CNAB mechanism. Follow the procedure documented on the relevant marketplace listing page.
 
 ## Linux, Windows, Docker
 
