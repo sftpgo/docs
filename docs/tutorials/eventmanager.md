@@ -22,6 +22,7 @@ The following step-by-step tutorials cover common use cases:
 - [**Data Retention**](eventmanager-retention.md) — Automatically delete or archive files older than a configurable threshold.
 - [**Copy & Archive Workflows**](eventmanager-copy.md) — Copy files with glob patterns, source disposition, and cross-backend transfers.
 - [**Antivirus Scanning (ICAP)**](eventmanager-icap.md) — Scan uploaded files before they become visible, using ICAP with Execute Before File Publish.
+- [**Upload Approval Workflow**](eventmanager-approval.md) — Hold uploads in a review area until a reviewer publishes them via share, push to a remote backend, or pull by a partner account.
 - [**PGP Encryption and Decryption**](eventmanager-pgp.md) — Automatically encrypt or decrypt files after upload using PGP keys.
 - [**Virtual Folders Integration**](eventmanager-folders.md) — Copy files across storage backends and outside a user's security context.
 - [**Recycle Bin**](eventmanager-recycle-bin.md) — Move files to a recycle folder instead of deleting them permanently.
