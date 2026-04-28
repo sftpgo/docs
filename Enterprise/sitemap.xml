@@ -1,331 +1,331 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/ai-assistants/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/ai-assistants/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/azure-blob-storage/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/azure-blob-storage/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/changelog/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/changelog/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/check-password-hook/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/check-password-hook/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/cli/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/cli/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/compliance/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/compliance/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/config-file/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/config-file/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/configuration-examples/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/configuration-examples/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/custom-actions/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/custom-actions/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/dare/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/dare/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/data-provider/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/data-provider/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/defender/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/defender/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/docker/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/docker/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/documentation-map/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/documentation-map/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/dynamic-user-mod/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/dynamic-user-mod/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/email-templates/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/email-templates/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/env-vars/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/env-vars/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/event-report/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/event-report/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/eventmanager/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/eventmanager/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/execute-before-file-publish/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/execute-before-file-publish/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/external-auth/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/external-auth/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/features/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/features/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/filesystem-actions/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/filesystem-actions/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/ftp/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/ftp/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/ftpfs/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/ftpfs/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/glossary/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/glossary/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/google-cloud-storage/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/google-cloud-storage/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/groups/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/groups/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/httpfs/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/httpfs/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/initial-configuration/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/initial-configuration/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/installation/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/installation/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/keyboard-interactive/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/keyboard-interactive/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/kms/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/kms/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/localfs/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/localfs/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/logs/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/logs/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/metrics/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/metrics/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/migration/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/migration/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/oidc/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/oidc/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/password/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/password/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/performance/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/performance/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/placeholders/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/placeholders/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/plugins/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/plugins/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/post-connect-hook/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/post-connect-hook/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/post-disconnect-hook/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/post-disconnect-hook/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/post-login-hook/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/post-login-hook/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/profiling/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/profiling/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/rate-limiting/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/rate-limiting/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/rest-api/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/rest-api/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/roles/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/roles/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/s3-compatible-services/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/s3-compatible-services/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/s3/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/s3/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/sftpfs/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/sftpfs/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/ssh/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/ssh/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/virtual-folders/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/virtual-folders/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/web-interfaces/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/web-interfaces/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/webdav/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/webdav/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/plugins/audit-logs/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/plugins/audit-logs/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/plugins/geoip-filter/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/plugins/geoip-filter/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/plugins/kms-providers/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/plugins/kms-providers/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/plugins/ldap-auth/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/plugins/ldap-auth/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/plugins/pubsub/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/plugins/pubsub/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/tutorials/eventmanager-approval/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/tutorials/eventmanager-approval/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/tutorials/eventmanager-auto-dirs/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/tutorials/eventmanager-auto-dirs/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/tutorials/eventmanager-backup/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/tutorials/eventmanager-backup/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/tutorials/eventmanager-copy/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/tutorials/eventmanager-copy/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/tutorials/eventmanager-folders/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/tutorials/eventmanager-folders/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/tutorials/eventmanager-icap/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/tutorials/eventmanager-icap/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/tutorials/eventmanager-idp/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/tutorials/eventmanager-idp/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/tutorials/eventmanager-notifications/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/tutorials/eventmanager-notifications/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/tutorials/eventmanager-pgp/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/tutorials/eventmanager-pgp/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/tutorials/eventmanager-recycle-bin/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/tutorials/eventmanager-recycle-bin/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/tutorials/eventmanager-retention/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/tutorials/eventmanager-retention/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/tutorials/eventmanager/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/tutorials/eventmanager/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/tutorials/groups-example/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/tutorials/groups-example/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/tutorials/lets-encrypt-certificate/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/tutorials/lets-encrypt-certificate/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/tutorials/migrating/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/tutorials/migrating/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/tutorials/oauth2-smtp-imap/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/tutorials/oauth2-smtp-imap/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/tutorials/sftpgo-aws/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/tutorials/sftpgo-aws/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/tutorials/sftpgo-google-cloud/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/tutorials/sftpgo-google-cloud/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/tutorials/shares/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/tutorials/shares/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
     <url>
-         <loc>https://docs.sftpgo.com/Enterprise/tutorials/two-factor-authentication/</loc>
+         <loc>https://docs.sftpgo.com/enterprise/Enterprise/tutorials/two-factor-authentication/</loc>
          <lastmod>2026-04-28</lastmod>
     </url>
 </urlset>
