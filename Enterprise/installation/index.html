@@ -90,7 +90,7 @@
         "url": "https://docs.sftpgo.com/Enterprise/installation/",
         "inLanguage": "en",
         "datePublished": "2024-04-25T16:47:14Z",
-        "dateModified": "2026-04-26T15:47:01Z",
+        "dateModified": "2026-04-28T09:15:58Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -636,6 +636,17 @@
     <span class="md-ellipsis">
       
         What is preconfigured on marketplace offerings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#updating-marketplace-instances" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Updating marketplace instances
       
     </span>
   </a>
@@ -1514,6 +1525,34 @@
     
   
     Antivirus Scanning (ICAP)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/eventmanager-approval/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Upload Approval Workflow
   
 
     
@@ -3549,6 +3588,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#updating-marketplace-instances" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Updating marketplace instances
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3736,7 +3786,7 @@ These versions <strong>do not include Enterprise features</strong> and are <stro
 <h2 id="commercial-marketplaces">Commercial Marketplaces</h2>
 <p>SFTPGo Enterprise is available on major cloud marketplaces, allowing you to quickly deploy pre-configured instances in your preferred environment. These offerings simplify installation and come with default settings, which can be easily adjusted to match your specific requirements.</p>
 <p>Marketplace offerings are available in plans that correspond to our Starter and Premium <a href="https://sftpgo.com/on-premises" target="_blank">on-premises</a> tiers. For advanced requirements, a private offer can be arranged to provide the full capabilities of the Ultimate tier.</p>
-<p><strong>Note</strong>: For all SFTPGo Enterprise marketplace offerings, the license is included as part of the subscription; no separate license purchase is required.</p>
+<p><strong>Pricing and licensing.</strong> All marketplace listings — both Enterprise and open-source-based — are billed entirely through the cloud provider; there is no separate fee from SFTPGo on top of the marketplace charge. The <strong>Enterprise</strong> listings include an activated SFTPGo Enterprise license: nothing else to purchase or activate. The <strong>open-source-based</strong> listings ship the SFTPGo Open Source edition (AGPLv3) and do not enable Enterprise features — to access those, switch to one of the Enterprise listings.</p>
 <h3 id="aws">AWS</h3>
 <p>SFTPGo Enterprise offerings on AWS Marketplace:</p>
 <ul>
@@ -3776,8 +3826,24 @@ These versions <strong>do not include Enterprise features</strong> and are <stro
 <li><strong>In-memory transfer pipes enabled</strong> (<code>SFTPGO_HOOK__MEMORY_PIPES__ENABLED=1</code>). This lets cloud-backend users (S3, GCS, Azure Blob) upload without needing a writable local scratch area, which matters on minimal VM images and container runtimes.</li>
 <li><strong>Data provider preconfigured</strong> for standalone use. The storage layer and the plugin event databases are supported and initialized on first boot — you do not need to stand up a separate database service. If you require high availability, point the data provider at a managed or clustered database of your choice.</li>
 </ul>
-<p><strong>Plugin slots by tier.</strong> The Starter tier is limited to <strong>2 active plugins</strong> in total — the audit plugin counts as one of these slots, leaving one free for another plugin of your choice (for example LDAP authentication, Pub/Sub event forwarding, or a cloud KMS provider). Adding a third plugin on Starter requires either upgrading to Premium (unlimited plugins) or disabling the audit plugin to free its slot. Premium and higher tiers have no plugin limit.</p>
+<p><strong>Operating system.</strong> AWS AMIs (both x86_64 and arm64) are based on <strong>Amazon Linux 2023</strong> (RHEL-based; package manager <code>dnf</code>). Azure and Google Cloud Linux VM images are based on <strong>Debian 13</strong> (<code>apt</code>-based).</p>
+<p><strong>Plugin slots by tier.</strong> The Starter tier is limited to <strong>2 active plugins</strong> in total. The audit logs feature is implemented as two plugins (<code>eventstore</code> + <code>eventsearcher</code>) wired together — both must be loaded for it to work — so on Starter the audit-logs feature already fills both slots, and there is no spare slot for an additional plugin without disabling audit logs. Adding more plugins on Starter requires either upgrading to Premium (unlimited plugins) or disabling the audit plugins to free their slots. Premium and higher tiers have no plugin limit.</p>
 <p><strong>Making changes.</strong> All marketplace defaults are standard SFTPGo settings and can be overridden with the usual mechanisms — WebAdmin configuration pages, environment variables (see <a href="../env-vars/">Environment variables</a>), or drop-in env files under the config directory.</p>
+<h3 id="updating-marketplace-instances">Updating marketplace instances</h3>
+<p>Marketplace VM offerings stay current through the distribution's standard package manager — both the operating system and SFTPGo are updated through that channel. No bespoke update procedure is required.</p>
+<p><strong>Amazon Linux (AWS AMIs):</strong></p>
+<pre><code class="language-shell">sudo dnf update
+</code></pre>
+<p><strong>Debian (Azure / Google Cloud VMs):</strong></p>
+<pre><code class="language-shell">sudo apt update &amp;&amp; sudo apt upgrade
+</code></pre>
+<p>The SFTPGo service is restarted automatically by the package's post-install scriptlet when the <code>sftpgo</code> package is upgraded.</p>
+<p>To verify that the SFTPGo OS package matches the latest available:</p>
+<pre><code class="language-shell">sudo dnf check-update sftpgo                # AWS
+apt list --upgradable 2&gt;/dev/null | grep sftpgo   # Azure / GCP
+</code></pre>
+<p>Marketplace offerings hide the SFTPGo version in the WebAdmin by default. To check it, use <code>sftpgo --version</code> from the CLI, or read the <code>starting SFTPGo v2.7.x ...</code> line written to the log at service startup (<code>journalctl -u sftpgo</code> or the configured log file).</p>
+<p>For container-based marketplace listings the update procedure depends on the offering: the AWS Container listing distributes its images through the AWS marketplace registry and is updated by deploying the new image version published by the listing; the Azure AKS listing is a CNAB bundle and is upgraded through its CNAB mechanism. Follow the procedure documented on the relevant marketplace listing page.</p>
 <h2 id="linux-windows-docker">Linux, Windows, Docker</h2>
 <p>SFTPGo Enterprise can be installed on Linux, Windows, and in containerized environments using Docker.</p>
 <ul>
@@ -3893,7 +3959,7 @@ C:\Program Files\SFTPGo&gt;sftpgo.exe service install -c "C:\ProgramData\SFTPGo 
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 26, 2026 15:47:01 UTC">2026-04-26 15:47:01</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 28, 2026 09:15:58 UTC">2026-04-28 09:15:58</span>
   </span>
 
     

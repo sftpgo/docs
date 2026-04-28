@@ -2,13 +2,13 @@
     
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link rel="canonical" href="https://docs.sftpgo.com/Enterprise/tutorials/sftpgo-aws/">
+  <link rel="canonical" href="https://docs.sftpgo.com/Enterprise/tutorials/eventmanager-approval/">
   <link rel="icon" href="../../assets/favicon.ico">
   <meta name="generator" content="mkdocs, mkdocs-material">
 
     
       
-        <title>SFTPGo on AWS - SFTPGo docs</title>
+        <title>Upload Approval Workflow - SFTPGo docs</title>
       
     
     
@@ -40,14 +40,14 @@
 
     
     <meta name="keywords" content="SFTPGo, SFTP server, FTP server, SCP, WebDAV, S3, Google Cloud Storage, Azure Blob, Managed File Transfer, MFT, 2FA, Data At Rest Encryption, file sharing, secure file transfer, SaaS, on-premise, REST API, Kubernetes, Helm chart, OIDC, LDAP">
-  <meta name="description" content="Deploy SFTPGo on AWS via the Marketplace. Available in Starter and Premium tiers with S3 integration and arm64 support.">
-  <meta property="og:title" content="SFTPGo on AWS - SFTPGo docs">
-  <meta property="og:url" content="https://docs.sftpgo.com/Enterprise/tutorials/sftpgo-aws/">
-  <meta property="og:description" content="Deploy SFTPGo on AWS via the Marketplace. Available in Starter and Premium tiers with S3 integration and arm64 support.">
+  <meta name="description" content="Configure an upload approval workflow in SFTPGo using virtual folders, group permissions, and event rules — uploaders deliver files into a review area, reviewers publish or forward them to internal shares or external systems.">
+  <meta property="og:title" content="Upload Approval Workflow - SFTPGo docs">
+  <meta property="og:url" content="https://docs.sftpgo.com/Enterprise/tutorials/eventmanager-approval/">
+  <meta property="og:description" content="Configure an upload approval workflow in SFTPGo using virtual folders, group permissions, and event rules — uploaders deliver files into a review area, reviewers publish or forward them to internal shares or external systems.">
   <meta property="og:image" content="https://sftpgo.com/assets/img/og-image.png">
   <meta property="og:type" content="article">
-  <meta name="twitter:title" content="SFTPGo on AWS - SFTPGo docs">
-  <meta name="twitter:description" content="Deploy SFTPGo on AWS via the Marketplace. Available in Starter and Premium tiers with S3 integration and arm64 support.">
+  <meta name="twitter:title" content="Upload Approval Workflow - SFTPGo docs">
+  <meta name="twitter:description" content="Configure an upload approval workflow in SFTPGo using virtual folders, group permissions, and event rules — uploaders deliver files into a review area, reviewers publish or forward them to internal shares or external systems.">
   <meta name="twitter:image" content="https://sftpgo.com/assets/img/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
 
@@ -84,13 +84,13 @@
       },
       {
         "@type": "TechArticle",
-        "headline": "SFTPGo on AWS",
-        "description": "Deploy SFTPGo on AWS via the Marketplace. Available in Starter and Premium tiers with S3 integration and arm64 support.",
+        "headline": "Upload Approval Workflow",
+        "description": "Configure an upload approval workflow in SFTPGo using virtual folders, group permissions, and event rules \u2014 uploaders deliver files into a review area, reviewers publish or forward them to internal shares or external systems.",
         "image": "https://sftpgo.com/assets/img/og-image.png",
-        "url": "https://docs.sftpgo.com/Enterprise/tutorials/sftpgo-aws/",
+        "url": "https://docs.sftpgo.com/Enterprise/tutorials/eventmanager-approval/",
         "inLanguage": "en",
-        "datePublished": "2025-09-05T16:45:53Z",
-        "dateModified": "2026-04-26T15:47:01Z",
+        "datePublished": "2026-04-28T09:15:58Z",
+        "dateModified": "2026-04-28T09:15:58Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -128,7 +128,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#sftpgo-on-aws" class="md-skip">
+        <a href="#upload-approval-workflow" class="md-skip">
           Skip to content
         </a>
       
@@ -167,7 +167,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              SFTPGo on AWS
+              Upload Approval Workflow
             
           </span>
         </div>
@@ -1013,37 +1013,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    SFTPGo on AWS
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../sftpgo-aws/" class="md-nav__link">
         
   
   
@@ -1059,59 +1032,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-      
-        <li class="md-nav__item">
-  <a href="#deploy-from-marketplace" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Deploy from Marketplace
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#create-the-initial-administrator-account" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Create the initial administrator account
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#licensed-features" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Licensed Features
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1121,18 +1041,20 @@
                 
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_8">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_8" checked="">
         
           
           <label class="md-nav__link" for="__nav_9_8" id="__nav_9_8_label" tabindex="0">
@@ -1153,7 +1075,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_8_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_8_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_9_8">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1392,10 +1314,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../eventmanager-approval/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Upload Approval Workflow
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1411,6 +1360,197 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-create-the-drop-folder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Create the Drop Folder
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-create-the-uploader-group" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Create the Uploader Group
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-create-the-reviewer-group" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Create the Reviewer Group
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-assign-users-to-groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Assign Users to Groups
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5-notify-reviewers-on-upload" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Notify Reviewers on Upload
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-6-publishing-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 6: Publishing Options
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 6: Publishing Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-a-push-to-a-remote-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option A: Push to a Remote Backend
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-b-pull-by-a-third-party-sftpgo-account" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option B: Pull by a Third-Party SFTPGo Account
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-c-publish-via-share" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option C: Publish via Share
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#notify-the-recipient" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notify the Recipient
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-the-reviewer-approves-a-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the Reviewer Approves a File
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#storage-backend-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Storage Backend Support
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-this-workflow-provides" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What This Workflow Provides
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-tutorials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Tutorials
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -3372,10 +3512,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#deploy-from-marketplace" class="md-nav__link">
+  <a href="#how-it-works" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Deploy from Marketplace
+        How It Works
       
     </span>
   </a>
@@ -3383,10 +3523,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#create-the-initial-administrator-account" class="md-nav__link">
+  <a href="#step-1-create-the-drop-folder" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Create the initial administrator account
+        Step 1: Create the Drop Folder
       
     </span>
   </a>
@@ -3394,10 +3534,148 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#licensed-features" class="md-nav__link">
+  <a href="#step-2-create-the-uploader-group" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Licensed Features
+        Step 2: Create the Uploader Group
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-create-the-reviewer-group" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Create the Reviewer Group
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-assign-users-to-groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Assign Users to Groups
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5-notify-reviewers-on-upload" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Notify Reviewers on Upload
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-6-publishing-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 6: Publishing Options
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 6: Publishing Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-a-push-to-a-remote-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option A: Push to a Remote Backend
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-b-pull-by-a-third-party-sftpgo-account" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option B: Pull by a Third-Party SFTPGo Account
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-c-publish-via-share" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option C: Publish via Share
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#notify-the-recipient" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notify the Recipient
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-the-reviewer-approves-a-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the Reviewer Approves a File
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#storage-backend-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Storage Backend Support
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-this-workflow-provides" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What This Workflow Provides
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-tutorials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Tutorials
       
     </span>
   </a>
@@ -3459,6 +3737,24 @@
   
 
       
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../eventmanager/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Event Manager
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
     </ol>
   </nav>
 
@@ -3469,53 +3765,210 @@
 
 
 
-<h1 id="sftpgo-on-aws">SFTPGo on AWS</h1>
-<p>SFTPGo is available on AWS Marketplace:</p>
+<h1 id="upload-approval-workflow">Upload Approval Workflow</h1>
+<p>This tutorial shows how to build a review-and-publish workflow using built-in SFTPGo features. An uploader drops files into a dedicated drop folder; a reviewer is notified by email; the reviewer then publishes the approved file by creating a share, by moving it to a delivery folder mapped to a remote backend, or by handing it off to a partner SFTPGo account for pull.</p>
+<p>The setup combines the following features:</p>
 <ul>
-<li><a href="https://aws.amazon.com/marketplace/pp/prodview-6pasgeptfjjf6" target="_blank">SFTPGo Enterprise - Starter</a></li>
-<li><a href="https://aws.amazon.com/marketplace/pp/prodview-ocwppyuudgbz2" target="_blank">SFTPGo Enterprise - Premium</a></li>
-<li><a href="https://aws.amazon.com/marketplace/pp/prodview-ukjjbuggrxrlw" target="_blank">SFTPGo Enterprise - Starter (arm64)</a></li>
-<li><a href="https://aws.amazon.com/marketplace/pp/prodview-6fcfsxgzfx3yu" target="_blank">SFTPGo Enterprise - Premium (arm64)</a></li>
+<li><strong>Virtual folders</strong> mounted on multiple groups so the right roles share the right storage: uploaders and reviewers see the same <code>/inbox</code>; under Option B, reviewers and partner accounts see the same <code>/delivery</code> (partners never see <code>/inbox</code>).</li>
+<li><strong>Per-folder permissions</strong> to give uploaders write-only access and reviewers full access.</li>
+<li><strong>Share filters</strong> (denied share paths or shares-disabled) to make sure only reviewers can publish content externally.</li>
+<li><strong>Event rules</strong> to notify reviewers when a new file is dropped, and optionally to notify partners when a file is ready.</li>
 </ul>
-<p>The Starter tier is a cost-effective solution for small to medium-scale file transfer environments. It supports unlimited users and connections, with up to 20 concurrent uploads and downloads. Storage options include local filesystem or S3 buckets. Detailed audit logs are also available directly within the WebAdmin UI.</p>
-<p>The Premium tier is designed for deployments that require advanced features and greater flexibility. It includes all capabilities of the Starter tier, plus the following features:</p>
+<h2 id="how-it-works">How It Works</h2>
+<ol>
+<li>The uploader writes a file into a virtual folder (for example <code>/inbox</code>). They have permission to upload but not to download, delete, or share — once the file is uploaded, it is out of their reach.</li>
+<li>An event rule fires on the upload and sends an email to the reviewer with the file path and uploader name.</li>
+<li>The reviewer opens <code>/inbox</code> and reviews the file (download, preview, etc.). The WebClient is the most convenient interface, but any SFTP, FTP, or WebDAV client works equally well — the reviewer can pick the tool they prefer.</li>
+<li>The reviewer publishes the file in one of three ways:
+    - <strong>Share</strong>: creates a share for the file directly from the WebClient.
+    - <strong>Push to a remote backend</strong>: moves the file to a delivery folder mapped to a remote SFTP, S3, Azure Blob, GCS, or FTP system.
+    - <strong>Pull by a partner account</strong>: moves the file to a delivery folder also visible to a separate SFTPGo account, used by the partner system for pull via SFTP/FTP/WebDAV.</li>
+</ol>
+<p>Once uploaded, the file is read-only from the uploader's perspective — they can see it in the directory listing but cannot download, overwrite, or delete it. The reviewer is the only person who decides whether and how the content leaves the system.</p>
+<h2 id="step-1-create-the-drop-folder">Step 1: Create the Drop Folder</h2>
+<p>From the WebAdmin, expand <strong>Virtual folders</strong> and create a new folder named <code>inbox</code> backed by the storage of your choice (local, S3, Azure, GCS, SFTP — any backend works).</p>
+<p>This folder will be mounted on both the uploader and reviewer groups so they share the same physical storage.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/approval-inbox-folder.png" data-desc-position="bottom" data-gallery="approval-inbox-folder"><img alt="Inbox virtual folder" data-gallery="approval-inbox-folder" src="../../assets/img/approval-inbox-folder.png"></a></p>
+<h2 id="step-2-create-the-uploader-group">Step 2: Create the Uploader Group</h2>
+<p>Create a group named <code>uploaders</code>. In the <strong>Virtual folders</strong> section, mount the <code>inbox</code> folder at <code>/inbox</code> with quota and ratio set to your needs.</p>
+<p>In the <strong>Permissions</strong> section, configure permissions per directory:</p>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Permissions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/inbox</code></td>
+<td><code>list, upload</code></td>
+</tr>
+</tbody>
+</table>
+<p>The uploader can list <code>/inbox</code> (required for the WebClient to navigate into the folder) and upload new files into it, but cannot download, delete, rename, or overwrite. Files become read-only from the uploader's point of view as soon as the upload completes — they appear in the listing but no further action is possible on them.</p>
+<p>In the <strong>ACLs</strong> section, restrict sharing:</p>
 <ul>
-<li>Unlimited users and connections, with up to 100 concurrent uploads and downloads.</li>
-<li>Additional storage backends: Google Cloud Storage, Azure Blob Storage, other SFTP servers.</li>
-<li>PGP encryption/decryption.</li>
-<li>Advanced automation through the EventManager.</li>
-<li>Geo-IP filtering via plugin.</li>
-<li>Event publishing to systems like Amazon SNS, RabbitMQ, NATS, Kafka, and other publish/subscribe platforms via plugin.</li>
+<li><strong>Web client options</strong>: enable <code>shares-disabled</code>.</li>
 </ul>
-<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> We also offer the open-source version of SFTPGo on AWS Marketplaces. These offers were introduced before the availability of SFTPGo Enterprise and remain fully supported. However, we recommend transitioning to the Starter or Premium tiers to take full advantage of the enhanced features and improved performance provided by SFTPGo Enterprise.</p>
-<h2 id="deploy-from-marketplace">Deploy from Marketplace</h2>
-<p>Access the SFTPGo offering of your choice in AWS Marketplace and click the <strong>Try for free</strong> button.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/aws_launch.png" data-desc-position="bottom" data-gallery="launch"><img alt="Launch" data-gallery="launch" src="../../assets/img/aws_launch.png"></a></p>
-<p>You will be redirected to the AWS subscription screen, where you can select the pricing model. SFTPGo offers use a usage-based pricing model, with the option to save by selecting an annual contract.</p>
-<p>After selecting your preferred pricing model, click “Subscribe” to complete the subscription.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/aws_subscribe.png" data-desc-position="bottom" data-gallery="subscribe"><img alt="Subscribe" data-gallery="subscribe" src="../../assets/img/aws_subscribe.png"></a></p>
-<p>Select your preferred AWS region and launch the SFTPGo offer from the EC2 console.
-The suggested security rules will allow the following ports:</p>
+<p>This prevents uploaders from creating any share, regardless of path. Alternatively, if uploaders should be able to share files outside <code>/inbox</code> (for example from their home directory), set <strong>Denied share paths</strong> to <code>/inbox</code> instead.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/approval-uploader-permissions.png" data-desc-position="bottom" data-gallery="approval-uploader-permissions"><img alt="Uploader group permissions" data-gallery="approval-uploader-permissions" src="../../assets/img/approval-uploader-permissions.png"></a></p>
+<h2 id="step-3-create-the-reviewer-group">Step 3: Create the Reviewer Group</h2>
+<p>Create a group named <code>reviewers</code>. Mount the same <code>inbox</code> folder at <code>/inbox</code> (same virtual folder, so both groups see the same files).</p>
+<p>In the <strong>Permissions</strong> section, grant full access:</p>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Permissions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/inbox</code></td>
+<td><code>*</code> (all permissions)</td>
+</tr>
+</tbody>
+</table>
+<p>In the <strong>Profile</strong> section, leave sharing enabled — reviewers can create shares for files in <code>/inbox</code>.</p>
+<p>If reviewers also have a delivery folder for forwarding files (see <a href="#step-6-publishing-options">Step 6</a>), mount that here as well with <code>*</code> permissions.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/approval-reviewer-permissions.png" data-desc-position="bottom" data-gallery="approval-reviewer-permissions"><img alt="Reviewer group permissions" data-gallery="approval-reviewer-permissions" src="../../assets/img/approval-reviewer-permissions.png"></a></p>
+<h2 id="step-4-assign-users-to-groups">Step 4: Assign Users to Groups</h2>
+<p>Assign uploader users to the <code>uploaders</code> group and reviewer users to the <code>reviewers</code> group as primary group membership. Each user inherits the group's virtual folders and permissions automatically — there is no per-user configuration to maintain.</p>
+<p>This makes scaling trivial: to onboard a new uploader, just create the user and add them to the <code>uploaders</code> group; the same applies for new reviewers (and, if Option B is configured, for new partner accounts in the <code>partners</code> group). To revoke access, remove the user from the group or delete the user — no permissions need to be recomputed.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Use <strong>secondary</strong> group membership if a user already has a primary group with their personal home directory and you only want to add the inbox access on top.</p>
+<h2 id="step-5-notify-reviewers-on-upload">Step 5: Notify Reviewers on Upload</h2>
+<p>From the WebAdmin, expand the <strong>Event Manager</strong> section and create a new email action named <code>notify reviewer</code>.</p>
+<p>Configure it as follows:</p>
 <ul>
-<li>TCP port 8080 is the default port for the SFTPGo WebAdmin and WebClient user interfaces. It will be used for the initial configuration.</li>
-<li>TCP port 2022 is the default port for the SFTP service.</li>
-<li>TCP port 22 is the port used for the SSH service (OpenSSH), which is useful for remote access and management of your virtual machine.</li>
+<li><strong>Recipients</strong>: the reviewer's email address (or use a distribution list).</li>
+<li><strong>Subject</strong>: <code>New file awaiting review: {{.ObjectName}}</code></li>
+<li><strong>Body</strong>:</li>
 </ul>
-<p>Additionally you may consider to add:</p>
+<pre><code class="language-shell">  User {{.Name}} uploaded a new file to the inbox.
+
+  File: {{.VirtualPath}}
+  Size: {{humanizeBytes .FileSize}}
+  Uploaded at: {{.Timestamp}}
+
+  Log in to the WebClient to review and publish: https://sftpgo.example.com/web/client/files?path=%2Finbox
+</code></pre>
+<p>Now create an event rule named <code>notify reviewer on inbox upload</code>:</p>
 <ul>
-<li>TCP port 80 (HTTP traffic from the Internet) is required to obtain and renew Let's Encrypt TLS certificates.</li>
-<li>TCP port 443 (HTTPS traffic from the Internet) is useful if you want enable HTTPS for the SFTPGo WebAdmin and WebClient and reconfigure SFTPGo to use the standard HTTPS port.</li>
+<li><strong>Trigger</strong>: Filesystem events</li>
+<li><strong>Events</strong>: <code>upload</code></li>
+<li><strong>Conditions</strong>:<ul>
+<li>add a group filter with pattern <code>uploaders</code> so the rule fires only for files dropped by uploader users — without this, a reviewer who uploads or copies a file into <code>/inbox</code> would also trigger a notification to themselves.</li>
+<li>add a path filter with pattern <code>/inbox/*</code> so only uploads into the inbox folder trigger the notification.</li>
 </ul>
-<p>After deploying the virtual machine make note of its IP address and instance ID.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/aws-instance.png" data-desc-position="bottom" data-gallery="instance"><img alt="Running instance" data-gallery="instance" src="../../assets/img/aws-instance.png"></a></p>
-<h2 id="create-the-initial-administrator-account">Create the initial administrator account</h2>
-<p>Before you can use SFTPGo you need to create an admin account, so open <strong>http://your_instance_IP:8080/web/admin</strong> in your web browser, replacing <code>your_instance_IP</code> with the IP address of your instance, which you can find in the AWS Console. The Instance ID is required to validate your installation.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/aws_setup.png" data-desc-position="bottom" data-gallery="setup"><img alt="Setup" data-gallery="setup" src="../../assets/img/aws_setup.png"></a></p>
-<p>After creating the admin account you will be automatically logged in and redirected to the page to set up two-factor authentication. Setting up two-factor authentication is optional.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/initial-screen.png" data-desc-position="bottom" data-gallery="initial-screen"><img alt="Initial screen" data-gallery="initial-screen" src="../../assets/img/initial-screen.png"></a></p>
-<h2 id="licensed-features">Licensed Features</h2>
-<p>You can view the enabled licensed features by navigating to the "License" section under "Server Manager".</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/gcp-license.png" data-desc-position="bottom" data-gallery="license"><img alt="License" data-gallery="license" src="../../assets/img/gcp-license.png"></a></p>
+</li>
+<li><strong>Actions</strong>: select <code>notify reviewer</code>.</li>
+</ul>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/approval-notification-rule1.png" data-desc-position="bottom" data-gallery="approval-notification-rule"><img alt="Notification rule1" data-gallery="approval-notification-rule" src="../../assets/img/approval-notification-rule1.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/approval-notification-rule2.png" data-desc-position="bottom" data-gallery="approval-notification-rule"><img alt="Notification rule2" data-gallery="approval-notification-rule" src="../../assets/img/approval-notification-rule2.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/approval-notification-rule3.png" data-desc-position="bottom" data-gallery="approval-notification-rule"><img alt="Notification rule3" data-gallery="approval-notification-rule" src="../../assets/img/approval-notification-rule3.png"></a></p>
+<h2 id="step-6-publishing-options">Step 6: Publishing Options</h2>
+<p>The reviewer can publish an approved file in three ways. Option C (share) is available out-of-the-box and requires no extra setup. Options A and B require mounting a <code>/delivery</code> virtual folder on the <code>reviewers</code> group.</p>
+<h3 id="option-a-push-to-a-remote-backend">Option A: Push to a Remote Backend</h3>
+<p>A virtual folder mapped directly to a remote system — SFTP server, S3 bucket, Azure container, GCS bucket, or FTP server. When the reviewer moves a file into <code>/delivery</code>, SFTPGo transfers it to the remote system.</p>
+<p>Example for SFTP delivery:</p>
+<ol>
+<li>Create a virtual folder named <code>delivery</code> with backend type <strong>SFTP</strong> and the partner's connection details (host, port, credentials, remote path prefix).</li>
+<li>Mount it at <code>/delivery</code> on the <code>reviewers</code> group with <code>*</code> permissions.</li>
+<li>Reviewers transfer files from <code>/inbox</code> to <code>/delivery</code> using the WebClient <strong>Copy</strong> action. The WebClient Copy action handles the cross-backend transfer (server-side download from the source backend + upload to the destination backend); after the copy completes, the reviewer deletes the original from <code>/inbox</code> to finish the move.</li>
+</ol>
+<p>The same approach works with any virtual folder backend: S3, Azure Blob, GCS, or FTP.</p>
+<h3 id="option-b-pull-by-a-third-party-sftpgo-account">Option B: Pull by a Third-Party SFTPGo Account</h3>
+<p>A virtual folder backed by local (or any) storage and mounted on <strong>two groups</strong>: the <code>reviewers</code> group (write access, to drop approved files) and a separate <code>partners</code> group (read access, used by the third-party recipient to pull files via SFTP).</p>
+<ol>
+<li>Create a virtual folder named <code>delivery</code> backed by the storage of your choice.</li>
+<li>Mount it at <code>/delivery</code> on the <code>reviewers</code> group with <code>*</code> permissions.</li>
+<li>Create a <code>partners</code> group, mount the same <code>delivery</code> folder at <code>/</code> (or wherever convenient) with <code>list, download, delete</code> permissions, and assign partner users to that group.</li>
+<li>Partner systems connect to SFTPGo via SFTP/FTP/WebDAV with the partner credentials and pull the approved files.</li>
+</ol>
+<p>This pattern keeps the partner credential surface inside SFTPGo — no need to manage outbound credentials to a remote server, and partner access can be revoked, audited, or IP-restricted using standard SFTPGo controls (defender, rate limiting, GeoIP filter, allowed IP/networks).</p>
+<h3 id="option-c-publish-via-share">Option C: Publish via Share</h3>
+<p>The reviewer creates a share for the file directly from the WebClient — no virtual folder configuration is needed. Shares support password protection, expiration, recipient email authentication, and automatic email delivery of the share link to one or more recipients. See the <a href="../shares/">Shares tutorial</a> for the full set of options, including how to send the share link automatically.</p>
+<h3 id="notify-the-recipient">Notify the Recipient</h3>
+<p>In option A or B, you can optionally trigger a notification when a file lands in <code>/delivery</code> so the recipient knows a file is ready:</p>
+<ul>
+<li><strong>Email</strong> to a partner contact, using the same email action pattern as Step 5.</li>
+<li><strong>HTTP webhook</strong> to the partner's API or a workflow engine, using an HTTP action.</li>
+</ul>
+<p>Create a separate event rule with trigger <code>upload</code>, path condition <code>/delivery/*</code>, group condition <code>reviewers</code>, and the desired notification action.</p>
+<h2 id="how-the-reviewer-approves-a-file">How the Reviewer Approves a File</h2>
+<p>Once notified, the reviewer connects to SFTPGo and navigates to <code>/inbox</code>. The WebClient is the easiest way to access the share dialog, but any SFTP/FTP/WebDAV client can be used for download, move, and delete operations.</p>
+<p><strong>To publish via share</strong> (Option C, WebClient only):</p>
+<ol>
+<li>Select the file.</li>
+<li>Click <strong>Share</strong>.</li>
+<li>Configure the share (expiration, password protection, recipient email authentication, etc.) and submit. The share link can be delivered automatically by email — see the <a href="../shares/">Shares tutorial</a>.</li>
+</ol>
+<p><strong>To publish via delivery folder</strong> (Option A or B):</p>
+<ol>
+<li>Select the file.</li>
+<li>Copy the file from <code>/inbox</code> to <code>/delivery</code>.</li>
+<li>The partner system receives the file (Option A) or pulls it from <code>/delivery</code> via SFTP/FTP/WebDAV (Option B).</li>
+</ol>
+<p><strong>To reject a file</strong>:</p>
+<ol>
+<li>Delete the file from <code>/inbox</code>.</li>
+</ol>
+<p>If you want the uploader to be notified of rejection, add a second event rule on the <code>delete</code> event with a path condition <code>/inbox/*</code> and an email action targeted at the uploader. The <code>delete</code> event includes <code>{{.Name}}</code> (the user who performed the delete — the reviewer) and <code>{{.ObjectName}}</code> so the message can read "Reviewer X has rejected your file Y".</p>
+<h2 id="storage-backend-support">Storage Backend Support</h2>
+<p>This workflow uses only standard SFTPGo features and works on every backend:</p>
+<table>
+<thead>
+<tr>
+<th>Backend</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Local filesystem</td>
+<td>Most common setup for the inbox folder</td>
+</tr>
+<tr>
+<td>Encrypted filesystem (CryptFs)</td>
+<td>Files at rest encrypted; reviewer reads through the same VFS</td>
+</tr>
+<tr>
+<td>AWS S3</td>
+<td>Cross-backend moves use server-side copy + delete</td>
+</tr>
+<tr>
+<td>Azure Blob, Google Cloud Storage</td>
+<td>Same as S3</td>
+</tr>
+<tr>
+<td>SFTP (remote)</td>
+<td>Works for both inbox and delivery folders</td>
+</tr>
+<tr>
+<td>FTP (remote)</td>
+<td>Works for both inbox and delivery folders</td>
+</tr>
+</tbody>
+</table>
+<h2 id="what-this-workflow-provides">What This Workflow Provides</h2>
+<ul>
+<li><strong>Separation of duties</strong>: uploaders cannot publish content; reviewers cannot upload through this path.</li>
+<li><strong>Email notification</strong> when a new file needs review.</li>
+<li><strong>Native interfaces</strong>: reviewers use the standard WebClient or any SFTP/FTP/WebDAV client — no special approval interface to learn.</li>
+<li><strong>Multiple publish paths</strong>: shares, push to remote backends, or pull by partner SFTPGo accounts.</li>
+<li><strong>Audit trail</strong>: all uploads, downloads, shares, moves, and deletes are recorded in the standard event log and can be searched via the eventsearcher plugin.</li>
+<li><strong>Group-based scaling</strong>: add or remove uploaders, reviewers, and partners by changing group membership; no per-user configuration.</li>
+</ul>
+<h2 id="related-tutorials">Related Tutorials</h2>
+<ul>
+<li><a href="../shares/">Shares</a> — full reference for share configuration, password protection, expiration, and automatic email delivery of share links.</li>
+<li><a href="../eventmanager-notifications/">Upload Notifications &amp; Webhooks</a> — more notification patterns.</li>
+<li><a href="../eventmanager-icap/">Antivirus Scanning (ICAP)</a> — combine with this workflow to scan files before they reach the inbox.</li>
+<li><a href="../eventmanager-retention/">Data Retention</a> — auto-expire pending files left unreviewed.</li>
+<li><a href="../eventmanager-copy/">Copy &amp; Archive Workflows</a> — server-side cross-backend transfers.</li>
+<li><a href="../eventmanager-folders/">Virtual Folders Integration</a> — more on cross-backend virtual folder usage.</li>
+</ul>
 
 
 
@@ -3538,7 +3991,7 @@ The suggested security rules will allow the following ports:</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 26, 2026 15:47:01 UTC">2026-04-26 15:47:01</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 28, 2026 09:15:58 UTC">2026-04-28 09:15:58</span>
   </span>
 
     
@@ -3548,7 +4001,7 @@ The suggested security rules will allow the following ports:</p>
     <span class="md-icon" title="Created">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 5, 2025 16:45:53 UTC">2025-09-05 16:45:53</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 28, 2026 09:15:58 UTC">2026-04-28 09:15:58</span>
   </span>
 
     
