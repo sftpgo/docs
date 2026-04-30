@@ -25,6 +25,7 @@ nav:
     - tutorials/shares.md
     - 'Groups & Simplified Admin': tutorials/groups-example.md
     - 'OAuth2 for SMTP & IMAP': tutorials/oauth2-smtp-imap.md
+    - 'Running behind Cloudflare': tutorials/cloudflare.md
     - tutorials/sftpgo-google-cloud.md
     - tutorials/sftpgo-aws.md
     - 'Event Manager':

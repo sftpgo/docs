@@ -20,6 +20,7 @@ Actions support dynamic **placeholders** — variables like `{{.Name}}`, `{{.Vir
 - [Data Retention](tutorials/eventmanager-retention.md)
 - [Copy & Archive Workflows](tutorials/eventmanager-copy.md)
 - [Antivirus Scanning (ICAP)](tutorials/eventmanager-icap.md)
+- [Upload Approval Workflow](eventmanager-approval.md)
 - [PGP Encryption & Decryption](tutorials/eventmanager-pgp.md)
 - [Virtual Folders Integration](tutorials/eventmanager-folders.md)
 - [Recycle Bin](tutorials/eventmanager-recycle-bin.md)
