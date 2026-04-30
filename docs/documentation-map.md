@@ -48,7 +48,7 @@ If you are looking for the definition of a term, see the [Glossary](glossary.md)
 | Configure SFTP/SCP (SSH) | [SSH](ssh.md) |
 | Configure FTP / FTPS | [FTP](ftp.md) |
 | Configure WebDAV | [WebDAV](webdav.md) |
-| Enable TUS resumable uploads | [Features](features.md) |
+| Enable TUS resumable uploads | [`upload_chunk_size`](config-file.md), [Running behind Cloudflare](tutorials/cloudflare.md) |
 
 ## Authentication
 
