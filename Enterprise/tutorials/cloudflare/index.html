@@ -2,20 +2,20 @@
     
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link rel="canonical" href="https://docs.sftpgo.com/enterprise/Enterprise/glossary/">
-  <link rel="icon" href="../assets/favicon.ico">
+  <link rel="canonical" href="https://docs.sftpgo.com/enterprise/Enterprise/tutorials/cloudflare/">
+  <link rel="icon" href="../../assets/favicon.ico">
   <meta name="generator" content="mkdocs, mkdocs-material">
 
     
       
-        <title>Glossary - SFTPGo docs</title>
+        <title>Running behind Cloudflare - SFTPGo docs</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -34,20 +34,20 @@
       
     
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
     
     <meta name="keywords" content="SFTPGo, SFTP server, FTP server, SCP, WebDAV, S3, Google Cloud Storage, Azure Blob, Managed File Transfer, MFT, 2FA, Data At Rest Encryption, file sharing, secure file transfer, SaaS, on-premise, REST API, Kubernetes, Helm chart, OIDC, LDAP">
-  <meta name="description" content="Glossary of SFTPGo-specific terms: groups, virtual folders, event rules, placeholders, roles, shares, plugins, and more.">
-  <meta property="og:title" content="Glossary - SFTPGo docs">
-  <meta property="og:url" content="https://docs.sftpgo.com/enterprise/Enterprise/glossary/">
-  <meta property="og:description" content="Glossary of SFTPGo-specific terms: groups, virtual folders, event rules, placeholders, roles, shares, plugins, and more.">
+  <meta name="description" content="Run SFTPGo behind Cloudflare with reliable browser uploads and accurate client IP addresses for the defender, rate limiter, and audit log.">
+  <meta property="og:title" content="Running behind Cloudflare - SFTPGo docs">
+  <meta property="og:url" content="https://docs.sftpgo.com/enterprise/Enterprise/tutorials/cloudflare/">
+  <meta property="og:description" content="Run SFTPGo behind Cloudflare with reliable browser uploads and accurate client IP addresses for the defender, rate limiter, and audit log.">
   <meta property="og:image" content="https://sftpgo.com/assets/img/og-image.png">
   <meta property="og:type" content="article">
-  <meta name="twitter:title" content="Glossary - SFTPGo docs">
-  <meta name="twitter:description" content="Glossary of SFTPGo-specific terms: groups, virtual folders, event rules, placeholders, roles, shares, plugins, and more.">
+  <meta name="twitter:title" content="Running behind Cloudflare - SFTPGo docs">
+  <meta name="twitter:description" content="Run SFTPGo behind Cloudflare with reliable browser uploads and accurate client IP addresses for the defender, rate limiter, and audit log.">
   <meta name="twitter:image" content="https://sftpgo.com/assets/img/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
 
@@ -91,13 +91,13 @@
       },
       {
         "@type": "TechArticle",
-        "headline": "Glossary",
-        "description": "Glossary of SFTPGo-specific terms: groups, virtual folders, event rules, placeholders, roles, shares, plugins, and more.",
+        "headline": "Running behind Cloudflare",
+        "description": "Run SFTPGo behind Cloudflare with reliable browser uploads and accurate client IP addresses for the defender, rate limiter, and audit log.",
         "image": "https://sftpgo.com/assets/img/og-image.png",
-        "url": "https://docs.sftpgo.com/enterprise/Enterprise/glossary/",
+        "url": "https://docs.sftpgo.com/enterprise/Enterprise/tutorials/cloudflare/",
         "inLanguage": "en",
-        "datePublished": "2026-04-26T15:47:01Z",
-        "dateModified": "2026-04-26T15:47:01Z",
+        "datePublished": "2026-04-30T12:30:19Z",
+        "dateModified": "2026-04-30T12:30:19Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -106,7 +106,7 @@
   }
   </script>
 
-  <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
             html.glightbox-open { overflow: initial; height: 100%; }
             .gslide-title { margin-top: 0px; user-select: text; }
             .gslide-desc { color: #666; user-select: text; }
@@ -135,7 +135,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#glossary" class="md-skip">
+        <a href="#running-sftpgo-behind-cloudflare" class="md-skip">
           Skip to content
         </a>
       
@@ -155,9 +155,9 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="SFTPGo docs" class="md-header__button md-logo" aria-label="SFTPGo docs" data-md-component="logo">
+    <a href="../.." title="SFTPGo docs" class="md-header__button md-logo" aria-label="SFTPGo docs" data-md-component="logo">
       
-  <img src="../assets/logo.png" alt="logo">
+  <img src="../../assets/logo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -174,7 +174,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Glossary
+              Running behind Cloudflare
             
           </span>
         </div>
@@ -295,9 +295,9 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="SFTPGo docs" class="md-nav__button md-logo" aria-label="SFTPGo docs" data-md-component="logo">
+    <a href="../.." title="SFTPGo docs" class="md-nav__button md-logo" aria-label="SFTPGo docs" data-md-component="logo">
       
-  <img src="../assets/logo.png" alt="logo">
+  <img src="../../assets/logo.png" alt="logo">
 
     </a>
     SFTPGo docs
@@ -312,7 +312,7 @@
   
   
     <li class="md-nav__item">
-      <a href=".." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   
@@ -339,7 +339,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../changelog/" class="md-nav__link">
+      <a href="../../changelog/" class="md-nav__link">
         
   
   
@@ -366,7 +366,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/" class="md-nav__link">
+      <a href="../../features/" class="md-nav__link">
         
   
   
@@ -393,7 +393,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../documentation-map/" class="md-nav__link">
+      <a href="../../documentation-map/" class="md-nav__link">
         
   
   
@@ -417,37 +417,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Glossary
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../glossary/" class="md-nav__link">
         
   
   
@@ -463,125 +436,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-      
-        <li class="md-nav__item">
-  <a href="#accounts" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Accounts
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#groups" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Groups
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#storage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Storage
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#access-control" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Access control
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#automation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Automation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#authentication" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Authentication
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#protection" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Protection
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#plugins-and-hooks" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Plugins and hooks
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#interfaces" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Interfaces
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -593,7 +447,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../compliance/" class="md-nav__link">
+      <a href="../../compliance/" class="md-nav__link">
         
   
   
@@ -667,7 +521,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../installation/" class="md-nav__link">
+      <a href="../../installation/" class="md-nav__link">
         
   
   
@@ -695,7 +549,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../docker/" class="md-nav__link">
+      <a href="../../docker/" class="md-nav__link">
         
   
   
@@ -723,7 +577,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../initial-configuration/" class="md-nav__link">
+      <a href="../../initial-configuration/" class="md-nav__link">
         
   
   
@@ -751,7 +605,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../configuration-examples/" class="md-nav__link">
+      <a href="../../configuration-examples/" class="md-nav__link">
         
   
   
@@ -779,7 +633,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../data-provider/" class="md-nav__link">
+      <a href="../../data-provider/" class="md-nav__link">
         
   
   
@@ -861,7 +715,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../virtual-folders/" class="md-nav__link">
+      <a href="../../virtual-folders/" class="md-nav__link">
         
   
   
@@ -889,7 +743,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../groups/" class="md-nav__link">
+      <a href="../../groups/" class="md-nav__link">
         
   
   
@@ -917,7 +771,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../roles/" class="md-nav__link">
+      <a href="../../roles/" class="md-nav__link">
         
   
   
@@ -949,18 +803,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" checked="">
         
           
           <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
@@ -981,7 +837,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_9">
             <span class="md-nav__icon md-icon"></span>
             
@@ -999,7 +855,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/migrating/" class="md-nav__link">
+      <a href="../migrating/" class="md-nav__link">
         
   
   
@@ -1027,7 +883,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/lets-encrypt-certificate/" class="md-nav__link">
+      <a href="../lets-encrypt-certificate/" class="md-nav__link">
         
   
   
@@ -1055,7 +911,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/shares/" class="md-nav__link">
+      <a href="../shares/" class="md-nav__link">
         
   
   
@@ -1083,7 +939,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/groups-example/" class="md-nav__link">
+      <a href="../groups-example/" class="md-nav__link">
         
   
   
@@ -1111,7 +967,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/oauth2-smtp-imap/" class="md-nav__link">
+      <a href="../oauth2-smtp-imap/" class="md-nav__link">
         
   
   
@@ -1136,10 +992,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../tutorials/cloudflare/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running behind Cloudflare
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1155,6 +1038,131 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#what-to-set" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What to set
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tls-termination-at-cloudflare" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TLS termination at Cloudflare
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How it works
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How it works">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#trusting-cloudflares-client-ip-header" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trusting Cloudflare's client IP header
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enabling-tus-uploads-on-the-binding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enabling TUS uploads on the binding
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verifying-the-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verifying the configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scope-of-these-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scope of these settings
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multi-instance-setups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multi-instance setups
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-pages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related pages
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1167,7 +1175,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/sftpgo-google-cloud/" class="md-nav__link">
+      <a href="../sftpgo-google-cloud/" class="md-nav__link">
         
   
   
@@ -1195,7 +1203,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/sftpgo-aws/" class="md-nav__link">
+      <a href="../sftpgo-aws/" class="md-nav__link">
         
   
   
@@ -1270,7 +1278,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/eventmanager/" class="md-nav__link">
+      <a href="../eventmanager/" class="md-nav__link">
         
   
   
@@ -1298,7 +1306,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/eventmanager-backup/" class="md-nav__link">
+      <a href="../eventmanager-backup/" class="md-nav__link">
         
   
   
@@ -1326,7 +1334,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/eventmanager-auto-dirs/" class="md-nav__link">
+      <a href="../eventmanager-auto-dirs/" class="md-nav__link">
         
   
   
@@ -1354,7 +1362,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/eventmanager-notifications/" class="md-nav__link">
+      <a href="../eventmanager-notifications/" class="md-nav__link">
         
   
   
@@ -1382,7 +1390,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/eventmanager-idp/" class="md-nav__link">
+      <a href="../eventmanager-idp/" class="md-nav__link">
         
   
   
@@ -1410,7 +1418,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/eventmanager-retention/" class="md-nav__link">
+      <a href="../eventmanager-retention/" class="md-nav__link">
         
   
   
@@ -1438,7 +1446,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/eventmanager-copy/" class="md-nav__link">
+      <a href="../eventmanager-copy/" class="md-nav__link">
         
   
   
@@ -1466,7 +1474,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/eventmanager-icap/" class="md-nav__link">
+      <a href="../eventmanager-icap/" class="md-nav__link">
         
   
   
@@ -1494,7 +1502,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/eventmanager-approval/" class="md-nav__link">
+      <a href="../eventmanager-approval/" class="md-nav__link">
         
   
   
@@ -1522,7 +1530,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/eventmanager-pgp/" class="md-nav__link">
+      <a href="../eventmanager-pgp/" class="md-nav__link">
         
   
   
@@ -1550,7 +1558,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/eventmanager-folders/" class="md-nav__link">
+      <a href="../eventmanager-folders/" class="md-nav__link">
         
   
   
@@ -1578,7 +1586,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/eventmanager-recycle-bin/" class="md-nav__link">
+      <a href="../eventmanager-recycle-bin/" class="md-nav__link">
         
   
   
@@ -1668,7 +1676,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../cli/" class="md-nav__link">
+      <a href="../../cli/" class="md-nav__link">
         
   
   
@@ -1696,7 +1704,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../config-file/" class="md-nav__link">
+      <a href="../../config-file/" class="md-nav__link">
         
   
   
@@ -1724,7 +1732,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../env-vars/" class="md-nav__link">
+      <a href="../../env-vars/" class="md-nav__link">
         
   
   
@@ -1752,7 +1760,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../web-interfaces/" class="md-nav__link">
+      <a href="../../web-interfaces/" class="md-nav__link">
         
   
   
@@ -1780,7 +1788,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../email-templates/" class="md-nav__link">
+      <a href="../../email-templates/" class="md-nav__link">
         
   
   
@@ -1808,7 +1816,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../password/" class="md-nav__link">
+      <a href="../../password/" class="md-nav__link">
         
   
   
@@ -1836,7 +1844,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../kms/" class="md-nav__link">
+      <a href="../../kms/" class="md-nav__link">
         
   
   
@@ -1864,7 +1872,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../plugins/kms-providers/" class="md-nav__link">
+      <a href="../../plugins/kms-providers/" class="md-nav__link">
         
   
   
@@ -1946,7 +1954,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ssh/" class="md-nav__link">
+      <a href="../../ssh/" class="md-nav__link">
         
   
   
@@ -1974,7 +1982,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ftp/" class="md-nav__link">
+      <a href="../../ftp/" class="md-nav__link">
         
   
   
@@ -2002,7 +2010,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../webdav/" class="md-nav__link">
+      <a href="../../webdav/" class="md-nav__link">
         
   
   
@@ -2084,7 +2092,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../localfs/" class="md-nav__link">
+      <a href="../../localfs/" class="md-nav__link">
         
   
   
@@ -2112,7 +2120,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../s3/" class="md-nav__link">
+      <a href="../../s3/" class="md-nav__link">
         
   
   
@@ -2140,7 +2148,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../s3-compatible-services/" class="md-nav__link">
+      <a href="../../s3-compatible-services/" class="md-nav__link">
         
   
   
@@ -2168,7 +2176,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../google-cloud-storage/" class="md-nav__link">
+      <a href="../../google-cloud-storage/" class="md-nav__link">
         
   
   
@@ -2196,7 +2204,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../azure-blob-storage/" class="md-nav__link">
+      <a href="../../azure-blob-storage/" class="md-nav__link">
         
   
   
@@ -2224,7 +2232,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../dare/" class="md-nav__link">
+      <a href="../../dare/" class="md-nav__link">
         
   
   
@@ -2252,7 +2260,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sftpfs/" class="md-nav__link">
+      <a href="../../sftpfs/" class="md-nav__link">
         
   
   
@@ -2280,7 +2288,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ftpfs/" class="md-nav__link">
+      <a href="../../ftpfs/" class="md-nav__link">
         
   
   
@@ -2308,7 +2316,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../httpfs/" class="md-nav__link">
+      <a href="../../httpfs/" class="md-nav__link">
         
   
   
@@ -2390,7 +2398,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../oidc/" class="md-nav__link">
+      <a href="../../oidc/" class="md-nav__link">
         
   
   
@@ -2418,7 +2426,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../plugins/ldap-auth/" class="md-nav__link">
+      <a href="../../plugins/ldap-auth/" class="md-nav__link">
         
   
   
@@ -2446,7 +2454,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/two-factor-authentication/" class="md-nav__link">
+      <a href="../two-factor-authentication/" class="md-nav__link">
         
   
   
@@ -2528,7 +2536,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../eventmanager/" class="md-nav__link">
+      <a href="../../eventmanager/" class="md-nav__link">
         
   
   
@@ -2556,7 +2564,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../placeholders/" class="md-nav__link">
+      <a href="../../placeholders/" class="md-nav__link">
         
   
   
@@ -2584,7 +2592,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../filesystem-actions/" class="md-nav__link">
+      <a href="../../filesystem-actions/" class="md-nav__link">
         
   
   
@@ -2612,7 +2620,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../event-report/" class="md-nav__link">
+      <a href="../../event-report/" class="md-nav__link">
         
   
   
@@ -2640,7 +2648,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../execute-before-file-publish/" class="md-nav__link">
+      <a href="../../execute-before-file-publish/" class="md-nav__link">
         
   
   
@@ -2668,7 +2676,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../migration/" class="md-nav__link">
+      <a href="../../migration/" class="md-nav__link">
         
   
   
@@ -2750,7 +2758,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../defender/" class="md-nav__link">
+      <a href="../../defender/" class="md-nav__link">
         
   
   
@@ -2778,7 +2786,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../rate-limiting/" class="md-nav__link">
+      <a href="../../rate-limiting/" class="md-nav__link">
         
   
   
@@ -2806,7 +2814,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../plugins/audit-logs/" class="md-nav__link">
+      <a href="../../plugins/audit-logs/" class="md-nav__link">
         
   
   
@@ -2834,7 +2842,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../plugins/geoip-filter/" class="md-nav__link">
+      <a href="../../plugins/geoip-filter/" class="md-nav__link">
         
   
   
@@ -2916,7 +2924,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../logs/" class="md-nav__link">
+      <a href="../../logs/" class="md-nav__link">
         
   
   
@@ -2944,7 +2952,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../metrics/" class="md-nav__link">
+      <a href="../../metrics/" class="md-nav__link">
         
   
   
@@ -2972,7 +2980,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../profiling/" class="md-nav__link">
+      <a href="../../profiling/" class="md-nav__link">
         
   
   
@@ -3054,7 +3062,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../rest-api/" class="md-nav__link">
+      <a href="../../rest-api/" class="md-nav__link">
         
   
   
@@ -3082,7 +3090,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ai-assistants/" class="md-nav__link">
+      <a href="../../ai-assistants/" class="md-nav__link">
         
   
   
@@ -3110,7 +3118,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../plugins/" class="md-nav__link">
+      <a href="../../plugins/" class="md-nav__link">
         
   
   
@@ -3138,7 +3146,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../plugins/pubsub/" class="md-nav__link">
+      <a href="../../plugins/pubsub/" class="md-nav__link">
         
   
   
@@ -3220,7 +3228,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../external-auth/" class="md-nav__link">
+      <a href="../../external-auth/" class="md-nav__link">
         
   
   
@@ -3248,7 +3256,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../keyboard-interactive/" class="md-nav__link">
+      <a href="../../keyboard-interactive/" class="md-nav__link">
         
   
   
@@ -3276,7 +3284,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../dynamic-user-mod/" class="md-nav__link">
+      <a href="../../dynamic-user-mod/" class="md-nav__link">
         
   
   
@@ -3304,7 +3312,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../custom-actions/" class="md-nav__link">
+      <a href="../../custom-actions/" class="md-nav__link">
         
   
   
@@ -3332,7 +3340,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../post-connect-hook/" class="md-nav__link">
+      <a href="../../post-connect-hook/" class="md-nav__link">
         
   
   
@@ -3360,7 +3368,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../post-login-hook/" class="md-nav__link">
+      <a href="../../post-login-hook/" class="md-nav__link">
         
   
   
@@ -3388,7 +3396,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../post-disconnect-hook/" class="md-nav__link">
+      <a href="../../post-disconnect-hook/" class="md-nav__link">
         
   
   
@@ -3416,7 +3424,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../check-password-hook/" class="md-nav__link">
+      <a href="../../check-password-hook/" class="md-nav__link">
         
   
   
@@ -3471,10 +3479,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#accounts" class="md-nav__link">
+  <a href="#what-to-set" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Accounts
+        What to set
       
     </span>
   </a>
@@ -3482,10 +3490,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#groups" class="md-nav__link">
+  <a href="#tls-termination-at-cloudflare" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Groups
+        TLS termination at Cloudflare
       
     </span>
   </a>
@@ -3493,10 +3501,49 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#storage" class="md-nav__link">
+  <a href="#how-it-works" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Storage
+        How it works
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How it works">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#trusting-cloudflares-client-ip-header" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trusting Cloudflare's client IP header
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enabling-tus-uploads-on-the-binding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enabling TUS uploads on the binding
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verifying-the-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verifying the configuration
       
     </span>
   </a>
@@ -3504,10 +3551,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#access-control" class="md-nav__link">
+  <a href="#scope-of-these-settings" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Access control
+        Scope of these settings
       
     </span>
   </a>
@@ -3515,10 +3562,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#automation" class="md-nav__link">
+  <a href="#multi-instance-setups" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Automation
+        Multi-instance setups
       
     </span>
   </a>
@@ -3526,43 +3573,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#authentication" class="md-nav__link">
+  <a href="#related-pages" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Authentication
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#protection" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Protection
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#plugins-and-hooks" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Plugins and hooks
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#interfaces" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Interfaces
+        Related pages
       
     </span>
   </a>
@@ -3587,6 +3601,46 @@
   
 
 
+  <nav class="md-path" aria-label="Navigation">
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    What is SFTPGo?
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../migrating/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Tutorials
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
               
               <article class="md-content__inner md-typeset">
                 
@@ -3594,83 +3648,51 @@
 
 
 
-<h1 id="glossary">Glossary</h1>
-<p>A reference of SFTPGo-specific terms. Use it to quickly disambiguate concepts that look similar but behave differently.</p>
-<h2 id="accounts">Accounts</h2>
-<p><strong>Admin</strong>
-: A privileged account that manages the server (users, groups, folders, rules, configuration). Admins sign in to the <a href="../web-interfaces/#webadmin">WebAdmin</a> or drive the <a href="../rest-api/">REST API</a>. Admins are stored separately from users and cannot transfer files.</p>
-<p><strong>User</strong>
-: An end-user account that signs in through one of the supported transfer protocols (SFTP, FTP/S, WebDAV, HTTPS, WebClient). Each user has a home directory, permissions, quotas, and an optional filesystem configuration.</p>
-<p><strong>Role</strong>
-: A label attached to users and admins that scopes who can manage whom and restricts resource visibility. See <a href="../roles/">Roles</a>.</p>
-<h2 id="groups">Groups</h2>
-<p><strong>Group</strong>
-: A reusable set of settings that can be applied to many users. Groups are unrelated to operating-system groups. See <a href="../groups/">Groups</a>.</p>
-<p><strong>Primary group</strong>
-: Each user can have <strong>at most one</strong>. Provides the base configuration: home directory, filesystem, quotas, default bandwidth. Group values apply when the corresponding user value is empty or zero.</p>
-<p><strong>Secondary group</strong>
-: Any number per user. Adds <strong>incremental</strong> settings: extra virtual folders, per-path permissions, IP filters, extra allowed patterns. Cannot override the root (<code>/</code>) path or the root filesystem.</p>
-<p><strong>Membership group</strong>
-: Any number per user. <strong>No settings are inherited</strong> — it is a pure tag, used for event-rule conditions (e.g. "only run this rule for members of group X").</p>
-<h2 id="storage">Storage</h2>
-<p><strong>Filesystem (backend / provider)</strong>
-: The storage system a user's home (or virtual folder) is backed by: local disk, encrypted local (CryptFs), S3, Azure Blob, Google Cloud Storage, SFTP, FTP, HTTP. Each backend has its own configuration shape. See <a href="../features/#storage-backends">Features → Storage backends</a>.</p>
-<p><strong>Virtual folder</strong>
-: A mount point that maps a path inside the user's namespace to any storage backend — even a different backend from the user's home. Enables cross-backend workflows (e.g. S3 bucket exposed under <code>/archive</code> while the user's home is on local disk). See <a href="../virtual-folders/">Virtual Folders</a>.</p>
-<p><strong>Folder (top-level resource)</strong>
-: The server-wide definition of a virtual folder (name + backend + mapped path). A <strong>virtual folder</strong> on a user or group is a reference to a folder plus the <em>virtual path</em> at which it is mounted. One folder can be referenced by many users.</p>
-<p><strong>Quota (dedicated vs shared)</strong>
-: A virtual folder's quota can be dedicated (the folder counts its own bytes/files) or shared with the user's own quota (value <code>-1</code>). Folders shared across users should always use a <strong>dedicated</strong> quota to keep counters accurate.</p>
-<p><strong>DARE / CryptFs</strong>
-: Data-At-Rest-Encryption. A local filesystem variant where every file is transparently encrypted with AEAD. See <a href="../dare/">DARE</a>.</p>
-<h2 id="access-control">Access control</h2>
-<p><strong>Permission</strong>
-: Per-path set of allowed operations (<code>list</code>, <code>upload</code>, <code>download</code>, <code>delete</code>, <code>rename</code>, etc.). Permissions are defined per virtual path; <code>/</code> is mandatory for every user.</p>
-<p><strong>DenyPolicy (hide)</strong>
-: A file-pattern filter setting. <code>default</code> denies access with a permission error; <code>hide</code> denies access AND hides the file from directory listings.</p>
-<p><strong>Share</strong>
-: A public or password-protected link that exposes a path (or selected files) to external recipients without requiring an SFTPGo account. Shares have a scope (read / write / read+write), optional password, expiration, IP restrictions, and optional email authentication. See <a href="../tutorials/shares/">Shares tutorial</a>.</p>
-<h2 id="automation">Automation</h2>
-<p><strong>Event Manager</strong>
-: The subsystem that runs <strong>rules → actions</strong> in response to events. See <a href="../eventmanager/">Event Manager</a>.</p>
-<p><strong>Event rule</strong>
-: <em>When</em> something happens. Binds a trigger, optional conditions, and an ordered list of actions.</p>
-<p><strong>Event action</strong>
-: <em>What</em> to do. Reusable unit: send an email or HTTP request, run a command, scan a file, copy/move files, apply retention, etc. Actions are referenced by one or more rules.</p>
-<p><strong>Trigger</strong>
-: The event type that fires a rule. Types: <em>Filesystem</em>, <em>Provider</em>, <em>Schedule</em>, <em>IP Blocked</em>, <em>Certificate</em>, <em>On-demand</em>, <em>Identity Provider login</em>.</p>
-<p><strong>Placeholder / Template</strong>
-: A <code>{{.VariableName}}</code> expression that is rendered at runtime with contextual data from the triggering event (e.g. <code>{{.Name}}</code>, <code>{{.VirtualPath}}</code>, <code>{{.FileSize}}</code>). Supports helper functions for formatting. See <a href="../placeholders/">Placeholders &amp; Templates</a>.</p>
-<p><strong>Staged upload</strong> (a.k.a. <em>execute before file publish</em>)
-: An event action mode where file actions run on the <em>temporary</em> uploaded file <strong>before</strong> it becomes visible to clients. Used to scan, sign, or transform files before they are published. See <a href="../execute-before-file-publish/">Execute Before File Publish</a>.</p>
-<h2 id="authentication">Authentication</h2>
-<p><strong>Data provider</strong>
-: The database SFTPGo uses to persist users, groups, admins, folders, shares, API keys, and event rules. Can be SQLite, MySQL, PostgreSQL, CockroachDB, or embedded Bolt/Memory. See <a href="../data-provider/">Data provider</a>.</p>
-<p><strong>External auth / Pre-login / Post-login hook</strong>
-: Mechanisms to integrate SFTPGo with an external identity source. <em>External auth</em> replaces the built-in check, <em>pre-login</em> modifies the user record before auth, <em>post-login</em> runs side effects after auth. Prefer <a href="../oidc/">Identity Provider login</a> + Event Manager for modern deployments.</p>
-<p><strong>API key</strong>
-: A non-interactive credential used by scripts and integrations to call the REST API without a password or interactive login.</p>
-<p><strong>IdP / OIDC</strong>
-: External Identity Provider integration via OpenID Connect. Covers Microsoft Entra ID, Google, Okta, Auth0, Keycloak, and any compatible OIDC provider. SFTPGo does <strong>not</strong> implement SAML. See <a href="../oidc/">OIDC</a>.</p>
-<h2 id="protection">Protection</h2>
-<p><strong>Defender</strong>
-: Built-in intrusion-detection that tracks failed logins per IP and blocks abusive sources. See <a href="../defender/">Defender</a>.</p>
-<p><strong>Rate limiting</strong>
-: Per-protocol limits on requests-per-second that can escalate to a Defender ban. See <a href="../rate-limiting/">Rate limiting</a>.</p>
-<p><strong>Bandwidth limit</strong>
-: Per-user / per-group upload and download throughput caps, expressed in KB/s.</p>
-<h2 id="plugins-and-hooks">Plugins and hooks</h2>
-<p><strong>Plugin</strong>
-: An external process (gRPC) that extends SFTPGo with custom behavior: additional KMS providers, authentication logic, notifications, metadata stores. See <a href="../plugins/">Plugins</a>.</p>
-<p><strong>Hook</strong>
-: A command or HTTP endpoint invoked by SFTPGo at a specific event (post-connect, post-disconnect, pre-login, post-login, check-password, pre-download, pre-upload, etc.). Hooks are a lightweight alternative to plugins.</p>
-<h2 id="interfaces">Interfaces</h2>
-<p><strong>WebAdmin</strong>
-: The browser interface for administrators to manage the server.</p>
-<p><strong>WebClient</strong>
-: The browser interface end-users log into to upload/download files, manage shares, and change their password.</p>
-<p><strong>REST API</strong>
-: The HTTP API exposed by the server for automation. The authoritative contract is the OpenAPI spec shipped in <code>openapi/openapi.yaml</code> (also published at <code>https://sftpgo.com/assets/openapi.yaml</code> for the latest release).</p>
+<h1 id="running-sftpgo-behind-cloudflare">Running SFTPGo behind Cloudflare</h1>
+<p>When SFTPGo's WebClient or REST API is exposed through Cloudflare, two things benefit from a small amount of configuration:</p>
+<ol>
+<li><strong>Large browser uploads</strong> — Cloudflare proxies impose a per-request body size cap that varies by plan. A standard upload of a file larger than the cap fails. The fix is to enable <strong>TUS</strong> on the SFTPGo binding: a resumable, chunked upload protocol that splits the file into smaller pieces fitting under the cap and resumes automatically if a chunk fails. Consult Cloudflare's documentation for the exact cap on your plan.</li>
+<li><strong>Real client IP addresses</strong> — by default, every request reaching SFTPGo appears to come from a Cloudflare edge IP. The defender, rate limiter, audit log, and IP-based allow/deny lists all become useless because every connection looks identical. Telling SFTPGo to trust Cloudflare's <code>CF-Connecting-IP</code> header restores the real client IP.</li>
+</ol>
+<p>You don't need to know the TUS protocol to use it: enable it on the binding and the WebClient picks it up automatically. REST API clients use it via libraries like <a href="https://github.com/tus/tus-js-client" target="_blank">tus-js-client</a> or by calling the <code>/api/v2/user/files/chunked-upload</code> and <code>/api/v2/shares-chunked-uploads</code> endpoints — see the <a href="../../rest-api/">REST API documentation</a> for the full request shape.</p>
+<h2 id="what-to-set">What to set</h2>
+<p>Add the following environment variables to your SFTPGo deployment. They configure binding <code>0</code> — adjust the <code>BINDINGS__0__</code> index if you need to apply this configuration to a different HTTP binding.</p>
+<pre><code class="language-bash">SFTPGO_HTTPD__BINDINGS__0__PROXY_ALLOWED="173.245.48.0/20,103.21.244.0/22,103.22.200.0/22,103.31.4.0/22,141.101.64.0/18,108.162.192.0/18,190.93.240.0/20,188.114.96.0/20,197.234.240.0/22,198.41.128.0/17,162.158.0.0/15,104.16.0.0/13,104.24.0.0/14,172.64.0.0/13,131.0.72.0/22"
+SFTPGO_HTTPD__BINDINGS__0__CLIENT_IP_PROXY_HEADER="CF-Connecting-IP"
+SFTPGO_HTTPD__BINDINGS__0__UPLOAD_CHUNK_SIZE=10
+</code></pre>
+<p>Restart SFTPGo to apply. The rest of this page explains each line.</p>
+<h2 id="tls-termination-at-cloudflare">TLS termination at Cloudflare</h2>
+<p>If your SFTPGo HTTPD binding runs on plain HTTP and Cloudflare terminates TLS at its edge (so traffic from Cloudflare to SFTPGo is HTTP), also set:</p>
+<pre><code class="language-bash">SFTPGO_HTTPD__BINDINGS__0__SECURITY__ENABLED=true
+SFTPGO_HTTPD__BINDINGS__0__SECURITY__HTTPS_PROXY_HEADERS__0__KEY="X-Forwarded-Proto"
+SFTPGO_HTTPD__BINDINGS__0__SECURITY__HTTPS_PROXY_HEADERS__0__VALUE="https"
+</code></pre>
+<p>This tells SFTPGo to treat requests carrying <code>X-Forwarded-Proto: https</code> as HTTPS even though the binding itself listens on plain HTTP, so that generated absolute URLs use <code>https://</code> and the <code>Secure</code> flag is set on cookies. Cloudflare adds this header on every proxied request, and <code>PROXY_ALLOWED</code> above already restricts who can set it. If your binding has its own TLS certificate (<code>enable_https = true</code>), skip this section.</p>
+<h2 id="how-it-works">How it works</h2>
+<h3 id="trusting-cloudflares-client-ip-header">Trusting Cloudflare's client IP header</h3>
+<p><code>PROXY_ALLOWED</code> is the list of upstream addresses SFTPGo accepts a client-IP header from. When a request comes from one of these IPs, SFTPGo reads the header named in <code>CLIENT_IP_PROXY_HEADER</code> and uses its value as the real client IP. Headers from any other upstream are silently ignored, so an attacker connecting directly cannot spoof their IP.</p>
+<p>The IP ranges above are Cloudflare's published IPv4 list. If your binding accepts IPv6 traffic, append the IPv6 ranges from <a href="https://www.cloudflare.com/ips/" target="_blank">https://www.cloudflare.com/ips/</a> to <code>PROXY_ALLOWED</code> as well.</p>
+<p><code>CF-Connecting-IP</code> is the header Cloudflare adds to every proxied request, containing the real client IP. The standard <code>X-Forwarded-For</code> works too, but <code>CF-Connecting-IP</code> carries a single IP address (no chain to parse) and Cloudflare overwrites any client-supplied value.</p>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Cloudflare updates its IP ranges occasionally. Check <a href="https://www.cloudflare.com/ips/" target="_blank">https://www.cloudflare.com/ips/</a> or <code>https://api.cloudflare.com/client/v4/ips</code> periodically and update <code>PROXY_ALLOWED</code> if the list changes. An outdated list means SFTPGo silently ignores the header for affected sources.</p>
+<h3 id="enabling-tus-uploads-on-the-binding">Enabling TUS uploads on the binding</h3>
+<p><code>UPLOAD_CHUNK_SIZE</code> is the chunk size, in MB, that the WebClient uses to split files. A value greater than zero enables the TUS endpoints on this binding for both the WebClient and the REST API; <code>0</code> disables TUS and the WebClient falls back to single-request uploads.</p>
+<p>When TUS is enabled, the WebClient splits each upload into chunks of the configured size and, within the server's idle timeout, resumes from the last completed chunk if a chunk fails (network drop, browser tab refresh, etc.).</p>
+<p>REST API clients can keep using single-request uploads (<code>POST /api/v2/user/files</code> for users, <code>POST /api/v2/shares/{id}</code> for shares) — the TUS endpoints exist alongside, not instead. The TUS protocol does not prescribe a chunk size; programmatic clients pick whatever suits them and do not read <code>upload_chunk_size</code>.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> TUS applies only to the WebClient and REST API. WebDAV uploads use plain <code>PUT</code>, while SFTP, SCP, and FTPS have their own resume mechanisms.</p>
+<h2 id="verifying-the-configuration">Verifying the configuration</h2>
+<p>After restart, log into the WebClient and upload a file larger than your Cloudflare body-size cap. In the browser's developer tools (Network tab), you should see a series of <code>PATCH</code> requests to <code>/web/client/chunked-upload/&lt;id&gt;</code> instead of a single multipart <code>POST</code>, each with a body at or below the configured chunk size.</p>
+<p>To verify the client IP is being captured correctly, check the logs. The IP shown should be the real public IP of the client, not a Cloudflare edge IP from the ranges in <code>PROXY_ALLOWED</code>.</p>
+<h2 id="scope-of-these-settings">Scope of these settings</h2>
+<p>The environment variables above target the SFTPGo HTTPD binding, which serves the <strong>WebAdmin</strong>, <strong>WebClient</strong>, and <strong>REST API</strong>. <strong>SFTP</strong> and <strong>FTP/S</strong> are not HTTP and do not pass through Cloudflare's HTTP proxy: they must reach SFTPGo directly, or be exposed through a TCP-level proxy.</p>
+<h2 id="multi-instance-setups">Multi-instance setups</h2>
+<p>In multi-instance deployments behind a load balancer, TUS upload state is held in memory on the instance that received the initial <code>POST</code>. Subsequent <code>PATCH</code> requests for the same upload must reach the same instance, otherwise they fail with <code>404</code>. Configure session affinity on your load balancer.</p>
+<h2 id="related-pages">Related pages</h2>
+<ul>
+<li><a href="../../config-file/">Configuration file reference</a> — full description of <code>proxy_allowed</code>, <code>client_ip_proxy_header</code>, <code>upload_chunk_size</code>, and other binding options.</li>
+<li><a href="../../env-vars/">Environment variables</a> — how <code>SFTPGO_HTTPD__BINDINGS__0__*</code> env vars map to the configuration file.</li>
+<li><a href="../../web-interfaces/">Web interfaces</a> — WebAdmin and WebClient overview.</li>
+</ul>
 
 
 
@@ -3693,7 +3715,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 26, 2026 15:47:01 UTC">2026-04-26 15:47:01</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 30, 2026 12:30:19 UTC">2026-04-30 12:30:19</span>
   </span>
 
     
@@ -3703,7 +3725,7 @@
     <span class="md-icon" title="Created">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 26, 2026 15:47:01 UTC">2026-04-26 15:47:01</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 30, 2026 12:30:19 UTC">2026-04-30 12:30:19</span>
   </span>
 
     
@@ -3767,10 +3789,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   
