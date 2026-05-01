@@ -13,6 +13,12 @@ Upgrading to the Enterprise edition of SFTPGo is supported starting from Open So
 
 If you're migrating from an open-source installation, please follow the guide here: [**Migration from Open-Source 2.6.x to Enterprise**](tutorials/migrating.md)
 
+## Update May xx, 2026 - v2.7.202605xx
+
+### New features
+
+- Shares: Added [allowed share paths](tutorials/shares.md#restricting-shareable-paths) filter, complementing the existing denied paths list. Administrators can define an allowlist of virtual paths within which shares may be created; paths outside the allowlist are rejected. The allowed and denied lists work together using longest-prefix matching, so a broad allowlist can be paired with narrower denied entries to carve out exceptions.
+
 ## Update April 26, 2026 - v2.7.20260426
 
 ### New features

@@ -93,7 +93,9 @@ This type of share combines the capabilities of both read-only and write-only sh
 
 ## Restricting Shareable Paths
 
-Administrators can restrict which virtual paths users are allowed to share by configuring the **Denied share paths** filter. This can be set directly on a user or inherited from a group.
+Administrators can restrict which virtual paths users are allowed to share by combining two filters: **Allowed share paths** (a positive list — when set, shares are accepted only within those subtrees) and **Denied share paths** (a negative list — paths that cannot be shared). Both can be set directly on a user or inherited from a group.
+
+### Denied share paths
 
 When a path is denied, the user cannot create shares for that exact path or any sub-path. For example:
 
@@ -101,9 +103,59 @@ When a path is denied, the user cannot create shares for that exact path or any 
 - Denying `/backup` blocks sharing `/backup`, `/backup/daily`, `/backup/daily/file.txt`, and any other path under `/backup`.
 - Denying `/vfolder` blocks sharing a specific virtual folder and its contents.
 
-To configure denied share paths, open the user or group settings in the WebAdmin UI and look for the **Denied share paths** field in the "Profile" section. Enter one or more virtual paths separated by commas.
+### Allowed share paths
 
-When configured at the group level, the denied paths are inherited by all users in the group and merged with any user-level restrictions.
+When the **Allowed share paths** list is non-empty, only paths at or below one of its entries can be shared. Useful when users have a broad home directory and you want to scope their sharing to specific subtrees:
+
+```
+/projects/team-shares
+/partners/external-shares
+```
+
+With this setting, a user can share `/projects/team-shares/report.pdf` or `/partners/external-shares/q4` but not `/`, `/projects/private`, or any sibling folder.
+
+The string `/` in the allowed list acts as a wildcard (matches any path). In the denied list, `/` matches the root only — preserving the behavior described above.
+
+### Combining the two lists
+
+When both lists are set, SFTPGo evaluates the share path with longest-prefix-match: the more specific entry wins. If the same path appears in both lists, the denied entry takes precedence. This lets you express common patterns:
+
+**Allowed subtree with a carve-out**
+
+```
+allowed: /projects
+denied:  /projects/confidential
+```
+
+`/projects` and most descendants are shareable; `/projects/confidential` and its descendants are not.
+
+**Default-allow with explicit blocks**
+
+```
+allowed: /
+denied:  /sensitive
+```
+
+Everything is shareable except `/sensitive` and its descendants.
+
+**Nested override**
+
+```
+allowed: /projects, /projects/confidential/public
+denied:  /projects/confidential
+```
+
+`/projects/confidential/public` is shareable (the more specific allow entry wins); other paths under `/projects/confidential` remain blocked.
+
+### Configuration and inheritance
+
+Both fields are textareas in the user or group settings under the "Profile" section of the WebAdmin UI. Enter one or more virtual paths separated by commas.
+
+When configured at the group level, both lists are inherited additively by group members and deduplicated with any user-level entries.
+
+:information_source: Group-level **Denied share paths** entries are enforced even when a user has the same path in their **Allowed share paths** list — the denied entry always takes precedence, so groups remain a reliable mechanism for hard share restrictions.
+
+:warning: Tightening either filter takes effect immediately, including for shares that already exist: if a previously-shared path is no longer allowed (or is now denied), the share starts returning 404 on next access until the filter is relaxed or the share is removed.
 
 ## Restricting Share Scopes
 
