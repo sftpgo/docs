@@ -27,7 +27,8 @@ The logs can be divided into the following categories:
 - `elapsed_ms`, int64. Elapsed time, as milliseconds, for the upload/download
 - `size_bytes`, int64. Size, as bytes, of the download/upload
 - `username`, string
-- `file_path` string
+- `file_path` string. Filesystem path
+- `virtual_path` string. Virtual path as seen by the protocol client
 - `connection_id` string. Unique connection identifier
 - `protocol` string. `SFTP`, `SCP`, `SSH`, `FTP`, `HTTP`, `HTTPShare`, `DAV`, `DataRetention`, `EventAction`
 - `ftp_mode`, string. `active` or `passive`. Included only for `FTP` protocol
@@ -42,8 +43,10 @@ The logs can be divided into the following categories:
 - `local_addr` string. IP/port of the local address the connection arrived on. For example `127.0.0.1:1234`
 - `remote_addr` string. IP and, optionally, port of the remote client. For example `127.0.0.1:1234` or `127.0.0.1`
 - `username`, string
-- `file_path` string
-- `target_path` string
+- `file_path` string. Filesystem path
+- `target_path` string. Filesystem target path. Set for `Rename`, `Symlink`, `Copy` and `SSHCommand` otherwise empty
+- `virtual_path` string. Virtual path as seen by the protocol client
+- `virtual_target_path` string. Virtual target path as seen by the protocol client. Set for `Rename`, `Symlink`, `Copy` and `SSHCommand` otherwise empty
 - `filemode` string. Valid for sender `Chmod` otherwise empty
 - `uid` integer. Valid for sender `Chown` otherwise -1
 - `gid` integer. Valid for sender `Chown` otherwise -1
@@ -82,7 +85,7 @@ The logs can be divided into the following categories:
 - `username`, string. Can be empty if the connection is closed before an authentication attempt
 - `client_ip` string.
 - `protocol` string. Possible values are `SSH`, `FTP`, `DAV`
-- `login_type` string. Can be `publickey`, `password`, `keyboard-interactive`, `publickey+password`, `publickey+keyboard-interactive` or `no_auth_tried`
+- `login_type` string. Can be `publickey`, `password`, `keyboard-interactive`, `publickey+password`, `publickey+keyboard-interactive`, `password+publickey`, `keyboard-interactive+publickey` or `no_auth_tried`
 - `error` string. Optional error description
 
 **login logs**, logs for successful logins

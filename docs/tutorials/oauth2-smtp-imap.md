@@ -147,7 +147,25 @@ When creating or editing an IMAP action in the Event Manager, set the **Auth typ
 
 The IMAP action form includes a **Get** button next to the OAuth2 Token field. Fill in the provider, client ID, and client secret, then click **Get**. SFTPGo redirects to the provider's consent screen. After granting access, a page is displayed with the refresh token — copy it (without quotes) and paste it into the **OAuth2 Token** field in the action form.
 
+:warning: For Microsoft, sign in as the user that owns the mailbox configured in the action's **Username** field, or as a delegate with Full Access on a shared mailbox — see [Shared mailboxes (Microsoft)](#shared-mailboxes-microsoft). The access token is bound to the signing-in identity; if that user has no access to the configured mailbox, IMAP returns `AUTHENTICATE failed` at runtime.
+
 ![OAuth2 flow completed](../assets/img/oauth2-flow-completed.png){data-gallery="oauth2-flow-imap"}
+
+### Shared mailboxes (Microsoft)
+
+A common pattern is a dedicated service mailbox (e.g., `inbound@yourdomain.com`) that receives files from external partners. Shared mailboxes have no password and cannot sign in directly, so OAuth2 authorization is performed by a delegate user that has Full Access on the shared mailbox.
+
+To configure IMAP OAuth2 against a shared mailbox:
+
+1. Set the IMAP action's **Username** field to the shared mailbox's email address (e.g., `inbound@yourdomain.com`). This is the address that goes into the SASL XOAUTH2 string the IMAP server validates.
+2. Grant a delegate user Full Access on the shared mailbox via Exchange Online PowerShell:
+
+    ```powershell
+    Add-MailboxPermission -Identity inbound@yourdomain.com -User delegate@yourdomain.com -AccessRights FullAccess
+    ```
+
+3. When clicking **Get** to obtain the refresh token, sign in with the **delegate** user — not with the shared mailbox account.
+4. If you change the delegate user later, the existing refresh token is bound to the previous identity and must be regenerated. Revoke the previous consent from [My Apps](https://myapps.microsoft.com/) (or have the admin remove the application from the user's permissions) and re-run **Get** signing in with the new delegate.
 
 ### Google Example: IMAP Action for Automatic Email Ingestion
 
@@ -156,7 +174,7 @@ A common use case is to automatically fetch email attachments and make them avai
 1. Create an IMAP action with OAuth2 authentication configured for Google.
 2. Set the endpoint to `imaps://imap.gmail.com:993`.
 3. Set the path template for where attachments should be saved (e.g., `/inbound/{{.ObjectName}}`).
-4. Create a scheduled rule to run the IMAP action periodically (e.g., every 5 minutes).
+4. Create a scheduled rule to run the IMAP action periodically (e.g., every 5 minutes). If you leave the IMAP action's target folder empty, attachments land in a user's home directory and you must add a name filter that identifies a single destination user. Set a target folder (a virtual folder) to write attachments to a shared destination instead, and the user filter becomes unnecessary.
 
 ### Refresh Token Rotation
 
@@ -173,4 +191,5 @@ No manual intervention is required after the initial setup.
 - **"Invalid redirect URI"**: The redirect URI in the provider must exactly match `https://<your-sftpgo-url>/web/admin/oauth2/redirect`. Check for trailing slashes and protocol (http vs https).
 - **Google "App not verified" warning**: For external apps in testing mode, only test users added to the OAuth consent screen can authorize. Publish the app to remove this restriction.
 - **Microsoft tenant errors**: Ensure the tenant ID matches your Azure AD directory. For personal Microsoft accounts, use `consumers` as the tenant.
+- **Microsoft `AUTHENTICATE failed` (IMAP) or `535 5.7.3 Authentication unsuccessful` (SMTP) despite a successful token refresh**: the token was issued correctly but Exchange Online rejected it because the signing-in user that authorized the OAuth flow has no access to the mailbox configured in the action's **Username** field. Revoke the previous consent from [My Apps](https://myapps.microsoft.com/) and re-run **Get**, signing in as the mailbox owner — or as a delegate with Full Access (IMAP) or Send As (SMTP) on the shared mailbox. The previous refresh token is bound to the wrong identity and must be replaced.
 - **Token expiration**: Client secrets in Azure AD expire. When they do, create a new secret and update it in SFTPGo. The refresh token itself is renewed automatically.

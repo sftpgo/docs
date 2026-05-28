@@ -77,9 +77,17 @@ Operation values: `rename`, `delete`, `rmdir`, `copy`, `mkdir`.
 - `sftpgo_login_total{method="...", result="..."}` — Login events by authentication method and result.
 - `sftpgo_no_auth_total` — Clients disconnected for inactivity before attempting authentication.
 
-Method values: `password`, `publickey`, `keyboard-interactive`, `publickey+password`, `publickey+keyboard-interactive`, `TLSCertificate`, `TLSCertificate+password`, `IDP`.
+Method values: `password`, `publickey`, `keyboard-interactive`, `publickey+password`, `publickey+keyboard-interactive`, `password+publickey`, `keyboard-interactive+publickey`, `TLSCertificate`, `TLSCertificate+password`, `IDP`.
 
 Result values: `attempt`, `ok`, `ko`.
+
+### Transfer admission
+
+- `sftpgo_transfer_admission_denied_total{operation="...", scope="..."}` — Transfers denied at admission time because a concurrent-transfer limit was reached. Operation values: `upload`, `download`, `task` (server-side operations: copy, extract, PGP, compress, ICAP, IMAP). Scope values: `user` (per-user `max_sessions`), `host` (`max_per_host_transfers`), `total` (`max_total_transfers`). Task admissions only have `scope="total"`.
+
+### Connection admission
+
+- `sftpgo_connection_admission_denied_total{protocol="...", scope="..."}` — Client connections denied at admission time. Protocol values: `ssh`, `ftp`, `http`, `webdav`. Scope values: `host` (`max_per_host_connections`), `total` (`max_total_connections`), `allowlist` (IP not in the configured allow list).
 
 ### Storage backend transfers
 

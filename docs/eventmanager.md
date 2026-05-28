@@ -20,7 +20,7 @@ Actions support dynamic **placeholders** — variables like `{{.Name}}`, `{{.Vir
 - [Data Retention](tutorials/eventmanager-retention.md)
 - [Copy & Archive Workflows](tutorials/eventmanager-copy.md)
 - [Antivirus Scanning (ICAP)](tutorials/eventmanager-icap.md)
-- [Upload Approval Workflow](eventmanager-approval.md)
+- [Upload Approval Workflow](tutorials/eventmanager-approval.md)
 - [PGP Encryption & Decryption](tutorials/eventmanager-pgp.md)
 - [Virtual Folders Integration](tutorials/eventmanager-folders.md)
 - [Recycle Bin](tutorials/eventmanager-recycle-bin.md)
@@ -91,7 +91,7 @@ Actions within a rule are executed **sequentially**, in the order they are liste
 
 - **Stop on failure** — If this action fails, skip all remaining actions in the rule.
 - **Failure action** — Mark an action so that it only executes when a previous (non-failure) action has failed. This is useful for error notifications. Note: a failure action runs when *another action in the rule* fails, not when the triggering event itself fails (e.g., a failed download still runs the main action, not the failure action).
-- **Execute sync** — For upload events, execute the action synchronously: the client waits for the action to complete before receiving a response. Required for pre-* events (pre-delete, pre-download, pre-upload). If pre-* sync actions succeed, the operation is allowed; otherwise the client receives a permission denied error. Be mindful of client timeouts for long-running actions.
+- **Execute sync** — For upload events, execute the action synchronously: the client waits for the action to complete before receiving a response. Required for pre-events (pre-delete, pre-download, pre-upload). If pre-* sync actions succeed, the operation is allowed; otherwise the client receives a permission denied error. Be mindful of client timeouts for long-running actions.
 - **Execute before file publish** — For upload events with atomic uploads enabled, run the action on the temporary file *before* it is renamed to its final path. The file remains invisible to other users during processing. On failure, the temporary file is deleted — the file never becomes visible. Useful for antivirus scanning (ICAP), content validation, or any processing that must complete before the file is accessible. Can be combined with "Execute sync" for client-side feedback. See [Execute Before File Publish](execute-before-file-publish.md) for details.
 
 If you run multiple SFTPGo instances connected to the same data provider, you can choose whether to allow simultaneous execution for scheduled rules.
@@ -122,7 +122,7 @@ The following action types are available. Actions marked with details links have
 
 | Action | Description |
 | -------- | ------------- |
-| **Backup** | Save a full data provider backup (users, folders, groups, admins, etc.) to the configured backup directory. The filename includes the day of the week, hour, and minute. |
+| **Backup** | Save a full data provider backup (users, folders, groups, admins, etc.) to the configured backup directory. The filename includes the day of the week, hour, and minute. Downstream actions in the same rule can attach the dump file to email or HTTP notifications, but cannot write to or delete files inside the backups directory. |
 | **Rotate log file** | Rotate the current log file regardless of its size (only when file-based logging is enabled). |
 | **User quota reset** | Recalculate the disk quota usage for matching users based on actual storage consumption. |
 | **Folder quota reset** | Recalculate the disk quota usage for matching virtual folders. |
@@ -144,7 +144,7 @@ Filesystem actions let you manipulate files and directories as part of an event 
 
 See the [Filesystem Actions](filesystem-actions.md) page for a complete reference with detailed options for each action type.
 
-Available operations: **Rename**, **Delete**, **Create directories**, **Path exists**, **Copy** (with source disposition, glob patterns, retries, and continue-on-error), **Compress** (ZIP), **Extract** (ZIP with security limits), **PGP** encryption/decryption with optional signing, **Metadata Check** (cloud backends), **IMAP** (fetch email attachments), **ICAP** (antivirus/DLP scanning).
+Available operations: **Rename**, **Delete** (with glob patterns), **Create directories**, **Path exists**, **Copy** (with source disposition, glob patterns, retries, and continue-on-error), **Compress** (ZIP), **Extract** (ZIP with security limits), **PGP** encryption/decryption with optional signing, per-entry source disposition, and glob patterns, **Metadata Check** (cloud backends), **IMAP** (fetch email attachments), **ICAP** (antivirus/DLP scanning).
 
 ### Integration and reporting
 
@@ -160,6 +160,17 @@ Virtual folders can be combined with filesystem actions to operate across storag
 - **Source folder** — Overrides the filesystem used to read source files. By default, actions operate on the triggering user's filesystem. Specifying a source folder lets you read from a different location — essential for scheduled tasks and advanced workflows where no user context is available.
 - **Target folder** — Overrides the filesystem used to write target files. This enables cross-backend operations such as copying uploads to a different S3 bucket, archiving files to an external SFTP server, or accessing restricted areas of the same storage backend.
 
-When **both** a source folder and a target folder are specified, the action runs as a **system action** — it executes once (not per-user) with a special system identity, regardless of how many users match the rule's conditions. When only one folder is specified, the action runs per-user as usual.
+When **both** a source folder and a target folder are specified, the action runs as a **system action** — it executes once (not per-user) with a special system identity, regardless of how many users match the rule's conditions.
+
+System actions describe shared resources, not real users — name, role, and group condition filters on the rule do not apply to them. If those filters are configured on a rule whose action runs in system context, the action is skipped with a "no ... executed" message. Use trigger and event-status filters to scope a system rule; reserve user/role/group filters for per-user rules.
 
 See the [Virtual Folders tutorial](tutorials/eventmanager-folders.md) for practical examples of virtual folder integration.
+
+## System-executed actions and chaining
+
+Some actions run in a **system context** rather than on behalf of a specific user — for example a filesystem action with both source and target folders set, an admin-driven provider operation issued from another rule, a folder-scoped data retention check, or any action chained from a rule that triggered as system. To keep rule graphs predictable and avoid cascading triggers, SFTPGo does not chain rules off the events that these actions produce:
+
+- **Provider events** generated by system-executed operations (user/group/admin/share add/update/delete performed from a rule, auto-disable from an IP-blocked rule, etc.) do not fire provider-event rules.
+- **Filesystem operations** performed by event actions (Filesystem actions, PGP, Compress, Data retention deletes, etc.) do not fire filesystem-event rules.
+
+If you need to perform multiple steps after a single trigger, list them as ordered actions on the **same** rule rather than relying on event chaining. Within a rule, actions execute in the configured order and pass shared context through placeholders.

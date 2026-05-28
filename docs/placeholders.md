@@ -23,7 +23,7 @@ SFTPGo uses Go's [text/template](https://pkg.go.dev/text/template){:target="_bla
 | `{{.FsPath}}` | string | Full filesystem path — e.g., `/home/user/documents/report.pdf` or the equivalent cloud storage key. |
 | `{{.VirtualTargetPath}}` | string | Virtual target path for rename and copy operations. |
 | `{{.FsTargetPath}}` | string | Full filesystem target path for rename and copy operations. |
-| `{{.ObjectName}}` | string | File or directory name (e.g., `report.pdf`), or the provider object name. For data retention actions, this is the username of the affected user. |
+| `{{.ObjectName}}` | string | File or directory name (e.g., `report.pdf`), or the provider object name. For data retention actions: the affected username (user-scoped) or the source folder name (folder-scoped). |
 | `{{.ObjectType}}` | string | Object type for provider events: `user`, `group`, `admin`, `folder`, `share`, etc. |
 | `{{.FileSize}}` | int64 | File size in bytes. |
 | `{{.Elapsed}}` | int64 | Elapsed time in milliseconds for filesystem events. |
@@ -103,14 +103,16 @@ These placeholders are populated by specific action types and are available to s
 
 #### `{{.RetentionChecks}}`
 
-Populated by the **Data retention check** action. List of retention check results, one per user. Each item contains:
+Populated by the **Data retention check** action. List of retention check results — one item per user for user-scoped retention, a single item for folder-scoped retention. Each item contains:
 
 | Field | Type | Description |
 | ------- | ------ | ------------- |
-| `Username` | string | The user whose files were checked. |
-| `Email` | list of strings | The user's email addresses. |
+| `Username` | string | User-scoped: the user whose files were checked. Folder-scoped: the canonical `__system__` identifier. |
+| `Folder` | string | Source folder name. Populated only for folder-scoped retention; empty for user-scoped. |
+| `Email` | list of strings | User's email addresses. Empty for folder-scoped retention. |
 | `ActionName` | string | The name of the retention action. |
 | `Type` | integer | `0` = delete, `1` = archive. |
+| `DryRun` | boolean | `true` if the action ran in dry-run mode (no files deleted, no archive copies). |
 | `Results` | list of objects | Per-folder results (see below). |
 
 Each item in `Results`:
@@ -126,6 +128,16 @@ Each item in `Results`:
 | `Error` | string | Error message, if any. |
 
 `{{.RetentionReports}}` is also available as an email attachment or HTTP multipart file containing compressed CSV reports.
+
+#### `{{.DryRun}}`
+
+Top-level boolean populated by the **Data retention check** action. `true` only when **every** retention check recorded on the rule ran in dry-run mode — designed as a fail-safe gate so notifications cannot mistake a real deletion for a preview when a rule chains multiple retention actions. Useful for prefixing a subject with `[DRY RUN]` only when no real cleanup happened:
+
+```text
+{{ if .DryRun }}[DRY RUN] {{ end }}Retention report
+```
+
+When a rule chains multiple Data Retention actions with different DryRun states, `{{.DryRun}}` reports `false`. To act on each retention action's individual mode, iterate `{{range .RetentionChecks}}` and read the per-entry `.DryRun`.
 
 #### `{{.ShareExpirationChecks}}`
 

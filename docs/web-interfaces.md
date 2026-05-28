@@ -31,6 +31,7 @@ With the default configuration, it is available at:
 Key capabilities:
 
 - **File management** — Upload, download, rename, delete, and create directories. Multiple files or folders can be downloaded as a single ZIP archive (non-regular files such as symlinks are silently skipped).
+- **File integrity** — Compute the SHA-256 hash of a file on demand, copy it, or download a checksum list verifiable with standard tools. See [File integrity](#file-integrity) below.
 - **Sharing** — Create HTTP/S links to share files and folders externally, with optional password or email-based authentication, IP restrictions, download/upload limits, and automatic expiration.
 - **Credentials** — Change password and manage public keys (public key management can be disabled per-user via permissions).
 - **Two-factor authentication** — Set up TOTP-based 2FA, compatible with Microsoft Authenticator, Google Authenticator, Authy, and similar apps.
@@ -41,6 +42,25 @@ The WebClient can be disabled:
 
 - **Globally** — Set `enable_web_client` to `false` in the `httpd` binding configuration.
 - **Per-user** — Add `HTTP` to the user's denied protocols list.
+
+### File integrity
+
+Compute the SHA-256 hash of stored files on demand, on any storage backend. For encrypted storage the hash is taken on the file content as the user sees it.
+
+- **Single file** — Choose **Compute hash** from the file actions menu. The dialog shows the hash; copy it or download it as `SHA256SUMS.txt`.
+- **Multiple files** — Select files and choose **Compute hash** from the bulk actions menu to download one `SHA256SUMS.txt` covering the selection.
+
+`SHA256SUMS.txt` is in the standard GNU coreutils format and verifies with common tools:
+
+```shell
+sha256sum -c SHA256SUMS.txt
+```
+
+`shasum -c` and `rclone --checkfile` accept it as well. The single-file **Copy** button copies the same `hash  filename` line (hash, two spaces, name), so the clipboard value is directly checkable. Use it to confirm a file after an upload or download, to give a recipient a checksum, or to check a set of files against a local manifest.
+
+:information_source: Computing a hash reads the whole file, so it counts as a download: it uses the user's download quota and bandwidth limits, requires the `download` permission, is written to the transfer log, and triggers `download` event rules — once per file in a multi-file selection.
+
+:warning: On cloud storage the read is billable egress. Cancelling a running computation stops the server-side read; bytes already read are still billed.
 
 ## Security
 

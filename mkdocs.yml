@@ -19,6 +19,7 @@ nav:
     - virtual-folders.md
     - groups.md
     - roles.md
+    - 'Admin Permissions': admin-permissions.md
   - 'Tutorials':
     - 'Migration from Open-Source 2.6.x to Enterprise': tutorials/migrating.md
     - "Let's Encrypt TLS Certificates": tutorials/lets-encrypt-certificate.md

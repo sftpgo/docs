@@ -116,8 +116,18 @@ Some additional environment variables are available, grouped by area.
 
 - `SFTPGO_HOOK__OAUTH2_DISABLE_PKCE`, set to `1` to disable PKCE for OAuth2 authentication flows used by IMAP and SMTP.
 - `SFTPGO_HOOK__ENABLE_OIDC_UI`, set to `1` to add the OpenID Connect configuration section for the first binding in the WebAdmin UI. If more than one OpenID Connect configuration is required, use the configuration file or environment variables to override it instead.
+- `SFTPGO_HOOK__ENABLE_LDAP_UI`, set to `1` to add the LDAP / Active Directory configuration section in the WebAdmin UI. Requires `SFTPGO_HOOK__AUTH_PLUGIN_PATH` to point to the `sftpgo-plugin-auth` binary. See [LDAP / Active Directory Authentication](plugins/ldap-auth.md#configuration-from-the-webadmin-ui).
+- `SFTPGO_HOOK__AUTH_PLUGIN_PATH`, absolute path to the `sftpgo-plugin-auth` binary, registered automatically when the LDAP configuration is set from the WebAdmin UI. Example on Linux: `/usr/bin/sftpgo-plugin-auth`. Example on Windows: `C:\\Program Files\\SFTPGo Enterprise\\sftpgo-plugin-auth.exe`.
 - `SFTPGO_HOOK__ENABLE_TLS_UI`, set to `1` to add the TLS certificate configuration section in the WebAdmin UI. Allows uploading a certificate and private key that will be used as the default TLS certificate for the selected protocols (HTTPS, FTPS, WebDAV). Mutually exclusive with automatic certificates (Let's Encrypt/ACME).
+
+### Admin permissions compatibility
+
+- `SFTPGO_HOOK__LEGACY_ADMIN_PERMS`, set to `1` to restore the umbrella semantics where the admin permissions `manage_groups` and `manage_folders` also grant view and delete on the respective catalogs, and admins without `view_groups` / `view_folders` can still attach groups and folders to users via the user save endpoints. Useful during the migration from the previous permission model to the new granular split. The flag will be removed in a future major version. See [Admin Permissions](admin-permissions.md) for the full granular model and recommended migration steps.
 
 ### Event manager
 
 - `SFTPGO_HOOK__EVENT_REPORT_MAX_RESULTS`, sets the maximum number of events loaded into memory when generating an event report. This is a server-side safety limit to prevent excessive memory usage regardless of the configured time window. Default: `10000`.
+
+### SSH server
+
+- `SFTPGO_HOOK__SSHD_UNAME_OUTPUT`, overrides the response returned by the emulated `uname` [SSH command](ssh.md#ssh-commands). SFTPGo does not execute the system `uname` binary: this string is what the server returns to the client. The value should follow the `uname -a` layout: `<kernel-name> <nodename> <kernel-release> <kernel-version> <machine> <operating-system>` (kernel-version can span multiple tokens). Standard flags select the matching field from this base string. Default: `Linux sftpgo 1.0.0 #1 SMP SFTPGo x86_64 GNU/Linux`. NUL bytes and embedded newlines are stripped, surrounding whitespace is trimmed and the value is capped at 4096 characters; if the result is empty the default is kept and a warning is logged.

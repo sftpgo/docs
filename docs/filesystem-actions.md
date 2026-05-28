@@ -17,6 +17,12 @@ Filesystem actions can operate across storage backends and outside a user's secu
 
 When **both** folders are specified, the action runs **once** as a system action, regardless of matching users. When only one folder is specified, the action runs per-user.
 
+Action-specific rules apply to source-only configurations:
+
+- **Rename**, **Delete**, **Create directories**, **Path exists**, **Metadata Check**: always run once as a system action when only the source folder is set — these actions only touch the source filesystem.
+- **PGP** (both encrypt and decrypt) and **Compress**: rejected at save time. These actions produce derived output that has no sensible per-user destination when the source is shared. To run them in place inside a single shared folder, set both **source folder** and **target folder** to the same value — explicit configuration of intent.
+- **Copy**, **Extract**: source-only runs per-user. This is the documented "distribute a shared resource into every user's home" pattern.
+
 See the [Virtual Folders tutorial](tutorials/eventmanager-folders.md) for practical examples of virtual folder workflows.
 
 ## Rename
@@ -37,6 +43,15 @@ Use a **trailing slash** on the path to delete the *contents* of a directory wit
 - `/inbox` — deletes the `/inbox` directory and everything in it.
 
 This is useful for cleanup actions that need to empty a directory periodically while preserving the directory structure.
+
+### Glob patterns
+
+The path can use **wildcards in the last path component** to match multiple entries:
+
+- `/inbox/*.tmp` — deletes every `.tmp` file directly under `/inbox/`.
+- `/logs/2025-??.log` — deletes log files matching the pattern.
+
+Wildcards (`*`, `?`, `[…]`) match files and directories at the same level — subdirectories are removed recursively, files (and symlinks) are unlinked. Subdirectories are **not** descended into for further matching. The wildcard cannot be combined with a trailing slash on the same entry.
 
 ## Create directories
 
@@ -106,10 +121,47 @@ When using a key pair:
 - **Encryption**: the public key is required. If a private key is also provided, it is used to **sign** the encrypted output.
 - **Decryption**: the private key is required. If a public key is also provided, it is used to **verify** the signature.
 
-Source and target paths support placeholders. A common pattern is to encrypt an uploaded file and store it with a `.pgp` extension:
+Each entry defines a source path and a target path; both support placeholders. A common pattern is to encrypt an uploaded file and store it with a `.pgp` extension:
 
 - Source: `/{{.VirtualPath}}`
 - Target: `/{{.VirtualPath}}.pgp`
+
+### Single file vs. directory target
+
+When the source is a literal file path, the target can be either:
+
+- A **literal file path** — the encrypted/decrypted output is written to that exact path.
+- A **directory path ending with `/`** — the output filename is derived from the source: encrypt appends `.pgp` (e.g., `report.csv` → `report.csv.pgp`); decrypt strips the last extension when present (`report.csv.pgp` → `report.csv`) or appends `.dec` when the source has no extension (`secret` → `secret.dec`). The root path `/` is a valid directory target (output lands in the user's home root).
+
+:warning: When the target is built from placeholders such as `{{ pathDir .VirtualPath }}`, always include the trailing `/` (`/{{ pathDir .VirtualPath }}/`). The renderer can produce a parent directory like `/inbox`; without an explicit trailing slash, that is interpreted as a literal output filename, which can overwrite or collide with an existing directory.
+
+:warning: PGP overwrites the target without prompting when a file with the derived output name already exists. This is independent of where the target points; the risk is more visible with a broad target like `/` because the destination namespace is wider.
+
+### Glob patterns
+
+The source path can use **wildcards in the last path component** to encrypt or decrypt multiple files in one entry:
+
+- `/inbox/*.csv` — process every `.csv` file under `/inbox/`.
+- `/data/report_??.txt` — process files matching the pattern.
+- `/*.png` paired with target `/` — encrypt every `.png` at the home root in place; outputs land beside the originals as `.png.pgp`.
+
+When the source contains a wildcard the target **must** end with `/` (the output name is derived per file, as described above). Subdirectories and special files are silently skipped. Zero matches is not an error.
+
+When the target directory equals the source directory, the runtime rejects patterns that would re-match their own output (for example `*` or `*.pgp` with encrypt, `*` with decrypt) before processing any file. Narrow patterns such as `*.csv` with encrypt are accepted because the appended `.pgp` suffix shifts the output out of the matching set.
+
+The source path cannot be the root (`/`) — PGP requires a regular file, and the root is a directory.
+
+### Source disposition (After encrypt/decrypt)
+
+Configured **per entry**, mirroring the [Copy](#copy) action:
+
+| Option | Behavior |
+| -------- | ---------- |
+| **Keep source** (default) | The source file is left unchanged. |
+| **Delete source** | The source file is removed after a successful encrypt/decrypt. |
+| **Move source** | The source file is moved to a specified path. Same semantics as Copy: same-resource moves use an atomic rename, cross-resource moves fall back to copy + delete. The move target supports placeholders. |
+
+Per-entry configuration matters in scheduled batch workflows where different sources need different post-processing — for example, encrypt confidential reports and delete the originals, while keeping plaintext templates in place.
 
 See the [PGP tutorial](tutorials/eventmanager-pgp.md) for step-by-step encryption and decryption examples.
 
@@ -127,7 +179,9 @@ Integrates with IMAP mailboxes to fetch email attachments and make them availabl
 
 This enables automated ingestion of files delivered via email — for example, receiving invoices or reports as email attachments and making them available for download via SFTP.
 
-When a **target folder** is specified, the action runs as a system action (once, not per-user).
+When a **target folder** is specified, the action runs as a system action (once, not per-user) and writes attachments into the shared folder.
+
+When the target folder is left empty, attachments are written to a user's home directory. For trigger types that carry a user (filesystem events, provider events with a user object), that user is the destination. For scheduled rules, configure a name, role, or group filter that uniquely identifies a single user; with a wildcard or empty filter the destination user is undefined and the action may fail with "no matching user found".
 
 ## ICAP
 

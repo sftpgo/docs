@@ -16,16 +16,16 @@ WebDAV supports the same authentication methods as FTP:
 - **TLS certificate** — Mutual TLS with client certificate validation.
 - **Certificate + password** — Combined authentication.
 
-### User caching
+### Authentication and per-user state
 
-Unlike SFTP and FTP, WebDAV has no persistent session — each HTTP request is independently authenticated. To avoid repeated database queries and password hash computations, SFTPGo caches authenticated users in memory.
+Unlike SFTP and FTP, WebDAV has no persistent session — each HTTP request is independently authenticated. SFTPGo loads the user from the data provider on every request, applying group settings and policies fresh.
 
-The cache is configured in the `webdavd` section:
+WebDAV LOCK state, however, must persist across requests: a `LOCK` issued by one request returns a token that subsequent `PUT`/`MOVE`/`UNLOCK` requests need to present. To support this, SFTPGo keeps a per-username in-memory `LockSystem`. Configuration lives in the `webdavd.cache.lock_systems` section:
 
-- **Expiration time** — How long (in minutes) a cached user remains valid. After expiration, the next request triggers a fresh database query. `0` means no expiration. Note: while a user is cached, `last_login` is not updated and `external_auth_hook`, `pre_login_hook`, and `check_password_hook` are not executed.
-- **Max size** — Maximum number of cached users. When the limit is reached, the oldest entry is evicted. `0` means no limit (capped by the total number of users).
+- **Idle timeout** — Period in minutes after which a `LockSystem` with no active locks becomes eligible for eviction by the periodic prune. Default `60`. `0` disables the periodic prune.
+- **Max size** — Maximum number of cached `LockSystems`. When the cap is reached, the least-recently-used entry without active locks is evicted; entries that hold active locks are never displaced. Default `1000`.
 
-Users are automatically removed from the cache on update or delete.
+A `LockSystem` is removed when the corresponding user is deleted. It is preserved across user updates and across protocol-level authentication failures, so a transient configuration change does not invalidate active locks.
 
 ## MIME type detection
 

@@ -24,7 +24,8 @@ If you are looking for the definition of a term, see the [Glossary](glossary.md)
 | Create a user (any backend) | [Getting Started](initial-configuration.md), [REST API](rest-api.md) |
 | Use groups to centralize settings | [Groups](groups.md), [Groups tutorial](tutorials/groups-example.md) |
 | Understand primary vs secondary vs membership groups | [Groups](groups.md) |
-| Delegate admin duties to scoped administrators | [Roles](roles.md) |
+| Delegate admin duties to scoped administrators | [Roles](roles.md), [Admin Permissions](admin-permissions.md) |
+| Grant specific admin capabilities (helpdesk, catalog steward, provisioning bot) | [Admin Permissions](admin-permissions.md) |
 | Let users self-change their password | [WebClient](web-interfaces.md#webclient) |
 
 ## Storage backends

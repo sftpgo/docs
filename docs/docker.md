@@ -8,10 +8,10 @@ SFTPGo Enterprise is accessible through our Docker repository: `registry.sftpgo.
 
 ## Latest tags
 
-- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260426
-- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260426-plugins
-- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260426-distroless
-- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260426-distroless-plugins
+- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260528
+- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260528-plugins
+- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260528-distroless
+- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260528-distroless-plugins
 
 ## How to use the SFTPGo image
 
@@ -193,7 +193,7 @@ replicaCount: 2
 # Use the Enterprise image with plugins
 image:
   repository: registry.sftpgo.com/sftpgo/sftpgo
-  tag: v2.7.20260426-plugins
+  tag: v2.7.20260528-plugins
 
 # Enable protocols
 sftpd:

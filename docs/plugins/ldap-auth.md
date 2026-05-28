@@ -30,9 +30,83 @@ Install the `sftpgo-plugins` package as described in [Audit Logs - Installation]
 
 ## Configuration
 
-:warning: Any configuration change described below requires a service restart to take effect (e.g. `systemctl restart sftpgo`).
+There are two alternative ways to configure LDAP. Pick **one**:
 
-### Basic setup with Active Directory
+- **WebAdmin UI** — you set two environment variables to enable the LDAP section in the WebAdmin and register the plugin; every LDAP setting is then entered through the form. The configuration is persisted in the database (encrypted where appropriate) and replicated across HA nodes. The form exposes URL, Base DN, Bind DN, password, search query, group attributes, primary/secondary/membership group prefixes, and skip TLS verify.
+- **Environment variables / configuration file** — every option is set through environment variables (or, for multi-directory federation, a JSON configuration file). Required when you need advanced options that the form does not expose: STARTTLS, custom CA certificates, authentication caching, base directory for auto-created users, user-must-pre-exist mode, multi-directory federation.
+
+:warning: Any configuration change requires a service restart to take effect (e.g. `systemctl restart sftpgo` on Linux, `Restart-Service sftpgo` on Windows).
+
+### Configuration from the WebAdmin UI
+
+To enable the LDAP section in **Server Manager > Configurations**, set these two environment variables before starting SFTPGo:
+
+| Variable | Purpose |
+| -------- | ------- |
+| `SFTPGO_HOOK__ENABLE_LDAP_UI=1` | Adds the LDAP configuration accordion to the WebAdmin Configurations page |
+| `SFTPGO_HOOK__AUTH_PLUGIN_PATH` | Absolute path to the `sftpgo-plugin-auth` binary that SFTPGo will register as the authentication plugin |
+
+#### Linux
+
+Edit `/etc/sftpgo/sftpgo.env` (create it if missing — it is the `EnvironmentFile` of the systemd unit) and add:
+
+```shell
+SFTPGO_HOOK__ENABLE_LDAP_UI=1
+SFTPGO_HOOK__AUTH_PLUGIN_PATH=/usr/bin/sftpgo-plugin-auth
+```
+
+Then restart the service:
+
+```shell
+systemctl restart sftpgo
+```
+
+#### Windows
+
+Create the file `C:\ProgramData\SFTPGo Enterprise\env.d\ldap.txt` (create the `env.d` directory if missing) with the following content:
+
+```shell
+SFTPGO_HOOK__ENABLE_LDAP_UI=1
+SFTPGO_HOOK__AUTH_PLUGIN_PATH="C:\\Program Files\\SFTPGo Enterprise\\sftpgo-plugin-auth.exe"
+```
+
+Then restart the service from an elevated PowerShell:
+
+```powershell
+Restart-Service sftpgo
+```
+
+Adjust the plugin path if you installed SFTPGo Enterprise to a different directory. Backslashes inside double-quoted values must be doubled (`\\`) because the env file parser treats `\` as an escape character; alternatively, use single quotes (`'C:\Program Files\SFTPGo Enterprise\sftpgo-plugin-auth.exe'`) to disable escaping.
+
+#### Filling in the form
+
+After the restart, open the WebAdmin and go to **Server Manager > Configurations > LDAP**. Fill in the form and click **Submit**. A service restart is required to apply the changes (the WebAdmin shows a notice).
+
+![LDAP configuration in WebAdmin](../assets/img/ldap-config-ui.png){data-gallery="ldap-ui"}
+
+Recommended values for **Active Directory**:
+
+| Field | Example value |
+| ----- | ------------- |
+| URL | `ldaps://dc01.example.com:636` (or `ldap://dc01.example.com:389` if you also set `SFTPGO_PLUGIN_AUTH_STARTTLS=1`) |
+| Base DN | `dc=example,dc=com` |
+| Bind DN | `cn=sftpgo-reader,ou=Service Accounts,dc=example,dc=com` |
+| Password | the bind account password |
+| Search query | leave empty to use the default AD query, or set a custom one (must contain `%username%`) |
+| Group attributes | `memberOf` |
+| Primary / Secondary / Membership group prefix | set as needed — see [Group mapping](#group-mapping) |
+
+For **OpenLDAP** set the search query to `(&(objectClass=posixAccount)(uid=%username%))`.
+
+:information_source: The form does **not** cover `STARTTLS`, custom CA certificates, the user-must-pre-exist mode, the auto-created users base directory, authentication caching, and multi-directory federation. If you need any of these, switch to the [environment variables approach](#configuration-via-environment-variables) — the two paths are mutually exclusive.
+
+For Active Directory on port 389, using `ldaps://dc01.example.com:636` is the simplest way to get a secure connection without STARTTLS, keeping the UI path viable.
+
+### Configuration via environment variables
+
+This approach gives full control over every option and is the right choice for multi-directory federation, fully unattended setups, or whenever the form does not expose a setting you need. Do **not** combine it with `SFTPGO_HOOK__ENABLE_LDAP_UI=1`: register the plugin yourself through the `SFTPGO_PLUGINS__N__*` variables shown below.
+
+#### Basic setup with Active Directory
 
 This example connects SFTPGo to a single Active Directory server.
 
@@ -79,7 +153,7 @@ For **OpenLDAP**, set a custom search query:
 SFTPGO_PLUGIN_AUTH_LDAP_SEARCH_QUERY="(&(objectClass=posixAccount)(uid=%username%))"
 ```
 
-### Secure connections
+#### Secure connections
 
 **STARTTLS** (recommended for AD on port 389):
 

@@ -10,7 +10,7 @@ To enable dynamic user modification, you must set the absolute path of your prog
 The external program can read the following environment variables to get info about the user trying to login:
 
 - `SFTPGO_LOGIND_USER`, it contains the user trying to login serialized as JSON. A JSON serialized user id equal to zero means the user does not exist inside SFTPGo
-- `SFTPGO_LOGIND_METHOD`, possible values are: `password`, `publickey`, `keyboard-interactive`, `TLSCertificate`, `IDP` (external identity provider) or empty if the hook is executed after receiving the FTP `USER` command
+- `SFTPGO_LOGIND_METHOD`, possible values are: `password`, `publickey`, `keyboard-interactive`, `TLSCertificate`, `IDP` (external identity provider) or empty if the hook is executed after receiving the FTP `USER` command. For [multi-step authentication](ssh.md#multi-step-authentication) the hook is invoked once per step with the single-step factor (`password`, `publickey` or `keyboard-interactive`); the combined name (e.g. `publickey+password`) is not exposed to the pre-login hook.
 - `SFTPGO_LOGIND_IP`, ip address of the user trying to login
 - `SFTPGO_LOGIND_PROTOCOL`, possible values are `SSH`, `FTP`, `DAV`, `HTTP`, `OIDC` (OpenID Connect)
 
@@ -36,5 +36,7 @@ For SFTPGo users (not admins) authenticating using an external identity provider
 If you enable FTP and allow both encrypted and plain text sessions, the pre-login hook is executed after receiving the FTP `USER` command. If you return an SFTPGo user with `ftp_security` set to `1` and the FTP session is not encrypted, it will be terminated. In this case where the pre-login hook is executed even if an external authentication hook is defined.
 
 You can disable the hook on a per-user basis.
+
+You can also instruct SFTPGo to skip the pre-login hook for recently active users by setting `pre_login_cache_time` (seconds) on the user object. While the user's last login is within the configured window the hook is bypassed. This is useful for protocols like WebDAV where every HTTP request re-authenticates and the hook would otherwise fire on every request. Set to `0` (default) to always run the hook.
 
 The structure for SFTPGo users can be found within the [OpenAPI schema](https://sftpgo.com/rest-api){:target="_blank"}.

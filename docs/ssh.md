@@ -28,12 +28,16 @@ SFTPGo supports multiple authentication methods, which can be combined for multi
 
 Authentication methods can be chained — for example, requiring both a public key **and** a password. When a user is configured for multi-step authentication, the SSH server returns a "partial success" after the first method succeeds, prompting the client for the next step.
 
-Supported combinations:
+Supported combinations (the first listed factor is the one the client must offer first):
 
-- Public key + password
-- Public key + keyboard-interactive
+- `publickey+password` — public key, then password
+- `publickey+keyboard-interactive` — public key, then keyboard-interactive
+- `password+publickey` — password, then public key.
+- `keyboard-interactive+publickey` — keyboard-interactive, then public key.
 
-Multi-step authentication can be configured per-user via the `denied_login_methods` filter.
+Each combination is a separate entry in the `denied_login_methods` filter. To allow both orderings, leave both entries out of the denylist; clients can then choose either ordering. To force only one direction, deny the unwanted variant explicitly.
+
+:information_source: When a single-step method is also allowed (for example, the user has neither `publickey` nor `publickey+password` in the denylist), the single-step method is sufficient on its own — the second factor is not required. To force multi-step, deny every single-step method (`publickey`, `password`, `keyboard-interactive`) and leave only the desired multi-step combinations enabled.
 
 ## Cryptographic algorithms
 
@@ -67,7 +71,7 @@ If no host keys are configured, SFTPGo automatically generates `id_rsa`, `id_ecd
 
 ## SSH commands
 
-SFTPGo supports a limited set of SSH commands for specific use cases. These commands are executed within the user's security context (permissions, quotas, and home directory restrictions apply).
+SFTPGo supports a limited set of SSH commands for specific use cases. All commands are **emulated internally in Go** — SFTPGo never spawns the corresponding system binaries (`scp`, `md5sum`, `uname`, …) and does not require them to be installed on the host. Operations are executed within the user's security context (permissions, quotas, and home directory restrictions apply) and work consistently across all storage backends, including remote and encrypted ones.
 
 | Command | Default | Description |
 | --------- | --------- | ------------- |
@@ -81,6 +85,7 @@ SFTPGo supports a limited set of SSH commands for specific use cases. These comm
 | `pwd` | Enabled | Print working directory (always returns `/`, for client compatibility). |
 | `sftpgo-copy` | — | Server-side copy of files and directories. Usage: `sftpgo-copy <source> <destination>`. |
 | `sftpgo-remove` | — | Server-side recursive removal of files and directories. Usage: `sftpgo-remove <path>`. Does not support removing across virtual folder boundaries. |
+| `uname` | — | Synthetic response for client probes that issue `uname` over SSH (e.g. some backup integrations). SFTPGo does not execute the system `uname` binary; it returns a fixed `uname -a`-style string. The default base is `Linux sftpgo 1.0.0 #1 SMP SFTPGo x86_64 GNU/Linux` (no real host data exposed) and can be overridden via [`SFTPGO_HOOK__SSHD_UNAME_OUTPUT`](env-vars.md). Standard flags (`-a`, `-s`, `-n`, `-r`, `-v`, `-m`, `-p`, `-i`, `-o` and their long forms) extract the matching field from the base string. |
 
 Commands not in the default list must be explicitly enabled in the [configuration](config-file.md). Set `enabled_ssh_commands` to `*` to enable all supported commands.
 

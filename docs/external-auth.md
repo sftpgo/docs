@@ -43,7 +43,7 @@ If authentication succeeds the HTTP response code must be 200 and the response b
 
 If the authentication fails the HTTP response code must be != 200 or the returned SFTPGo user must have an empty username.
 
-If the hook returns a user who is only allowed to authenticate using public key + password (multi step authentication), your hook will be invoked for each authentication step, so it must validate the public key and password separately. SFTPGo will take care that the client uses the allowed sequence.
+If the hook returns a user who is only allowed to authenticate via [multi-step authentication](ssh.md#multi-step-authentication) (`publickey+password`, `publickey+keyboard-interactive`, `password+publickey` or `keyboard-interactive+publickey`), the hook is invoked **once per step** with the credential for that step only — `SFTPGO_AUTHD_PASSWORD` / `SFTPGO_AUTHD_PUBLIC_KEY` / `SFTPGO_AUTHD_KEYBOARD_INTERACTIVE` carries just the factor being verified, and the hook must validate each factor independently. The hook does not see the combined method name (e.g. `publickey+password`); SFTPGo enforces the allowed sequence and records the combined method at the end of the flow (for example in the [post-login hook](post-login-hook.md)).
 
 Actions defined for users added/updated will not be executed in this case and an already logged in user with the same username will not be disconnected.
 

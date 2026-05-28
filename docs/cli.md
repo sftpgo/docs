@@ -12,6 +12,7 @@ Usage:
 
 Available Commands:
   acme           Obtain TLS certificates from ACME-based CAs like Let's Encrypt
+  convertnames   Convert existing names to conform to the configured naming rules
   gen            A collection of useful generators
   help           Help about any command
   initprovider   Initialize and/or updates the configured data provider
@@ -298,6 +299,34 @@ On Windows, run the command from an elevated PowerShell (the service account mus
 ```powershell
 & "C:\Program Files\SFTPGo\sftpgo.exe" resetpwd --admin yourname -c "C:\ProgramData\SFTPGo Enterprise"
 ```
+
+## Converting names to the configured naming rules
+
+The `naming_rules` data provider setting (see [config file](config-file.md)) normalizes usernames, folder, group, role, event action and event rule names before they are saved and looked up. Enabling lowercase or trim on an installation that already holds names which do not conform makes those objects unreachable: the lookup is normalized while the stored row is not. The `convertnames` command reconciles the stored data with the configured rules:
+
+```shell
+sftpgo convertnames
+```
+
+By default the command only reports the names it would convert and any blocking conflict, and never modifies the data. Review the report, then apply it:
+
+```shell
+sftpgo convertnames --execute
+```
+
+The `--execute` flag can also be set with the `SFTPGO_CONVERTNAMES_EXECUTE` environment variable.
+
+Each name is converted with a single statement that changes only the name column. The operation is idempotent: if it stops on an error, the names already converted stay committed and you can fix the cause and run it again to convert the rest.
+
+A blocking conflict is reported when two distinct names would collapse to the same value once the rules are applied (for example `Team` and `team` with the lowercase rule), or when the target name is still held by a soft-deleted row pending purge. Resolve these by hand before running `--execute`.
+
+Notes and limitations:
+
+- **Not supported for the memory data provider** (nothing is persisted).
+- **Conversion is available for the SQL data providers** (SQLite, PostgreSQL, MySQL/MariaDB, CockroachDB). On bolt the report is produced and the conversion step is skipped.
+- :warning: Run the command while the SFTPGo instance is stopped. With SQLite a running server can modify the same database concurrently, and an embedded database must be reachable exclusively by the command.
+- With PostgreSQL, MySQL and CockroachDB the default collation is case-insensitive, so mixed-case names keep resolving and converting is portability oriented; it matters when moving to a case-sensitive provider.
+- Pass `-c`/`--config-dir` (or `SFTPGO_CONFIG_DIR`) if the config directory is not the current working directory.
 
 ## Other commands
 
