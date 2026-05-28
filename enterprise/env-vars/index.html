@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/env-vars/",
         "inLanguage": "en",
         "datePublished": "2024-04-25T16:47:14Z",
-        "dateModified": "2026-04-26T15:47:01Z",
+        "dateModified": "2026-05-28T08:42:58Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -779,6 +779,34 @@
     
   
     Roles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../admin-permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Admin Permissions
   
 
     
@@ -1751,10 +1779,32 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#admin-permissions-compatibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Admin permissions compatibility
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#event-manager" class="md-nav__link">
     <span class="md-ellipsis">
       
         Event manager
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ssh-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SSH server
       
     </span>
   </a>
@@ -3612,10 +3662,32 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#admin-permissions-compatibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Admin permissions compatibility
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#event-manager" class="md-nav__link">
     <span class="md-ellipsis">
       
         Event manager
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ssh-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SSH server
       
     </span>
   </a>
@@ -3795,11 +3867,21 @@ SFTPGO_PLUGINS__0__AUTO_MTLS=1
 <ul>
 <li><code>SFTPGO_HOOK__OAUTH2_DISABLE_PKCE</code>, set to <code>1</code> to disable PKCE for OAuth2 authentication flows used by IMAP and SMTP.</li>
 <li><code>SFTPGO_HOOK__ENABLE_OIDC_UI</code>, set to <code>1</code> to add the OpenID Connect configuration section for the first binding in the WebAdmin UI. If more than one OpenID Connect configuration is required, use the configuration file or environment variables to override it instead.</li>
+<li><code>SFTPGO_HOOK__ENABLE_LDAP_UI</code>, set to <code>1</code> to add the LDAP / Active Directory configuration section in the WebAdmin UI. Requires <code>SFTPGO_HOOK__AUTH_PLUGIN_PATH</code> to point to the <code>sftpgo-plugin-auth</code> binary. See <a href="../plugins/ldap-auth/#configuration-from-the-webadmin-ui">LDAP / Active Directory Authentication</a>.</li>
+<li><code>SFTPGO_HOOK__AUTH_PLUGIN_PATH</code>, absolute path to the <code>sftpgo-plugin-auth</code> binary, registered automatically when the LDAP configuration is set from the WebAdmin UI. Example on Linux: <code>/usr/bin/sftpgo-plugin-auth</code>. Example on Windows: <code>C:\\Program Files\\SFTPGo Enterprise\\sftpgo-plugin-auth.exe</code>.</li>
 <li><code>SFTPGO_HOOK__ENABLE_TLS_UI</code>, set to <code>1</code> to add the TLS certificate configuration section in the WebAdmin UI. Allows uploading a certificate and private key that will be used as the default TLS certificate for the selected protocols (HTTPS, FTPS, WebDAV). Mutually exclusive with automatic certificates (Let's Encrypt/ACME).</li>
+</ul>
+<h3 id="admin-permissions-compatibility">Admin permissions compatibility</h3>
+<ul>
+<li><code>SFTPGO_HOOK__LEGACY_ADMIN_PERMS</code>, set to <code>1</code> to restore the umbrella semantics where the admin permissions <code>manage_groups</code> and <code>manage_folders</code> also grant view and delete on the respective catalogs, and admins without <code>view_groups</code> / <code>view_folders</code> can still attach groups and folders to users via the user save endpoints. Useful during the migration from the previous permission model to the new granular split. The flag will be removed in a future major version. See <a href="../admin-permissions/">Admin Permissions</a> for the full granular model and recommended migration steps.</li>
 </ul>
 <h3 id="event-manager">Event manager</h3>
 <ul>
 <li><code>SFTPGO_HOOK__EVENT_REPORT_MAX_RESULTS</code>, sets the maximum number of events loaded into memory when generating an event report. This is a server-side safety limit to prevent excessive memory usage regardless of the configured time window. Default: <code>10000</code>.</li>
+</ul>
+<h3 id="ssh-server">SSH server</h3>
+<ul>
+<li><code>SFTPGO_HOOK__SSHD_UNAME_OUTPUT</code>, overrides the response returned by the emulated <code>uname</code> <a href="../ssh/#ssh-commands">SSH command</a>. SFTPGo does not execute the system <code>uname</code> binary: this string is what the server returns to the client. The value should follow the <code>uname -a</code> layout: <code>&lt;kernel-name&gt; &lt;nodename&gt; &lt;kernel-release&gt; &lt;kernel-version&gt; &lt;machine&gt; &lt;operating-system&gt;</code> (kernel-version can span multiple tokens). Standard flags select the matching field from this base string. Default: <code>Linux sftpgo 1.0.0 #1 SMP SFTPGo x86_64 GNU/Linux</code>. NUL bytes and embedded newlines are stripped, surrounding whitespace is trimmed and the value is capped at 4096 characters; if the result is empty the default is kept and a warning is logged.</li>
 </ul>
 
 
@@ -3823,7 +3905,7 @@ SFTPGO_PLUGINS__0__AUTO_MTLS=1
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 26, 2026 15:47:01 UTC">2026-04-26 15:47:01</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="May 28, 2026 08:42:58 UTC">2026-05-28 08:42:58</span>
   </span>
 
     

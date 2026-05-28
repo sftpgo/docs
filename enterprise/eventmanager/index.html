@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/eventmanager/",
         "inLanguage": "en",
         "datePublished": "2024-04-25T16:47:14Z",
-        "dateModified": "2026-04-30T12:30:19Z",
+        "dateModified": "2026-05-28T08:42:58Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -779,6 +779,34 @@
     
   
     Roles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../admin-permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Admin Permissions
   
 
     
@@ -2615,6 +2643,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#system-executed-actions-and-chaining" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System-executed actions and chaining
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3717,6 +3756,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#system-executed-actions-and-chaining" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System-executed actions and chaining
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3798,7 +3848,7 @@
 <li><a href="../tutorials/eventmanager-retention/">Data Retention</a></li>
 <li><a href="../tutorials/eventmanager-copy/">Copy &amp; Archive Workflows</a></li>
 <li><a href="../tutorials/eventmanager-icap/">Antivirus Scanning (ICAP)</a></li>
-<li><a href="eventmanager-approval.md">Upload Approval Workflow</a></li>
+<li><a href="../tutorials/eventmanager-approval/">Upload Approval Workflow</a></li>
 <li><a href="../tutorials/eventmanager-pgp/">PGP Encryption &amp; Decryption</a></li>
 <li><a href="../tutorials/eventmanager-folders/">Virtual Folders Integration</a></li>
 <li><a href="../tutorials/eventmanager-recycle-bin/">Recycle Bin</a></li>
@@ -3904,7 +3954,7 @@
 <ul>
 <li><strong>Stop on failure</strong> — If this action fails, skip all remaining actions in the rule.</li>
 <li><strong>Failure action</strong> — Mark an action so that it only executes when a previous (non-failure) action has failed. This is useful for error notifications. Note: a failure action runs when <em>another action in the rule</em> fails, not when the triggering event itself fails (e.g., a failed download still runs the main action, not the failure action).</li>
-<li><strong>Execute sync</strong> — For upload events, execute the action synchronously: the client waits for the action to complete before receiving a response. Required for pre-<em> events (pre-delete, pre-download, pre-upload). If pre-</em> sync actions succeed, the operation is allowed; otherwise the client receives a permission denied error. Be mindful of client timeouts for long-running actions.</li>
+<li><strong>Execute sync</strong> — For upload events, execute the action synchronously: the client waits for the action to complete before receiving a response. Required for pre-events (pre-delete, pre-download, pre-upload). If pre-* sync actions succeed, the operation is allowed; otherwise the client receives a permission denied error. Be mindful of client timeouts for long-running actions.</li>
 <li><strong>Execute before file publish</strong> — For upload events with atomic uploads enabled, run the action on the temporary file <em>before</em> it is renamed to its final path. The file remains invisible to other users during processing. On failure, the temporary file is deleted — the file never becomes visible. Useful for antivirus scanning (ICAP), content validation, or any processing that must complete before the file is accessible. Can be combined with "Execute sync" for client-side feedback. See <a href="../execute-before-file-publish/">Execute Before File Publish</a> for details.</li>
 </ul>
 <p>If you run multiple SFTPGo instances connected to the same data provider, you can choose whether to allow simultaneous execution for scheduled rules.</p>
@@ -3953,7 +4003,7 @@
 <tbody>
 <tr>
 <td><strong>Backup</strong></td>
-<td>Save a full data provider backup (users, folders, groups, admins, etc.) to the configured backup directory. The filename includes the day of the week, hour, and minute.</td>
+<td>Save a full data provider backup (users, folders, groups, admins, etc.) to the configured backup directory. The filename includes the day of the week, hour, and minute. Downstream actions in the same rule can attach the dump file to email or HTTP notifications, but cannot write to or delete files inside the backups directory.</td>
 </tr>
 <tr>
 <td><strong>Rotate log file</strong></td>
@@ -4007,7 +4057,7 @@
 <h3 id="filesystem-actions">Filesystem actions</h3>
 <p>Filesystem actions let you manipulate files and directories as part of an event rule. SFTPGo grants the required permissions automatically — the behavior is equivalent to performing the same operations from an SFTP client, with the same restrictions.</p>
 <p>See the <a href="../filesystem-actions/">Filesystem Actions</a> page for a complete reference with detailed options for each action type.</p>
-<p>Available operations: <strong>Rename</strong>, <strong>Delete</strong>, <strong>Create directories</strong>, <strong>Path exists</strong>, <strong>Copy</strong> (with source disposition, glob patterns, retries, and continue-on-error), <strong>Compress</strong> (ZIP), <strong>Extract</strong> (ZIP with security limits), <strong>PGP</strong> encryption/decryption with optional signing, <strong>Metadata Check</strong> (cloud backends), <strong>IMAP</strong> (fetch email attachments), <strong>ICAP</strong> (antivirus/DLP scanning).</p>
+<p>Available operations: <strong>Rename</strong>, <strong>Delete</strong> (with glob patterns), <strong>Create directories</strong>, <strong>Path exists</strong>, <strong>Copy</strong> (with source disposition, glob patterns, retries, and continue-on-error), <strong>Compress</strong> (ZIP), <strong>Extract</strong> (ZIP with security limits), <strong>PGP</strong> encryption/decryption with optional signing, per-entry source disposition, and glob patterns, <strong>Metadata Check</strong> (cloud backends), <strong>IMAP</strong> (fetch email attachments), <strong>ICAP</strong> (antivirus/DLP scanning).</p>
 <h3 id="integration-and-reporting">Integration and reporting</h3>
 <table>
 <thead>
@@ -4033,8 +4083,16 @@
 <li><strong>Source folder</strong> — Overrides the filesystem used to read source files. By default, actions operate on the triggering user's filesystem. Specifying a source folder lets you read from a different location — essential for scheduled tasks and advanced workflows where no user context is available.</li>
 <li><strong>Target folder</strong> — Overrides the filesystem used to write target files. This enables cross-backend operations such as copying uploads to a different S3 bucket, archiving files to an external SFTP server, or accessing restricted areas of the same storage backend.</li>
 </ul>
-<p>When <strong>both</strong> a source folder and a target folder are specified, the action runs as a <strong>system action</strong> — it executes once (not per-user) with a special system identity, regardless of how many users match the rule's conditions. When only one folder is specified, the action runs per-user as usual.</p>
+<p>When <strong>both</strong> a source folder and a target folder are specified, the action runs as a <strong>system action</strong> — it executes once (not per-user) with a special system identity, regardless of how many users match the rule's conditions.</p>
+<p>System actions describe shared resources, not real users — name, role, and group condition filters on the rule do not apply to them. If those filters are configured on a rule whose action runs in system context, the action is skipped with a "no ... executed" message. Use trigger and event-status filters to scope a system rule; reserve user/role/group filters for per-user rules.</p>
 <p>See the <a href="../tutorials/eventmanager-folders/">Virtual Folders tutorial</a> for practical examples of virtual folder integration.</p>
+<h2 id="system-executed-actions-and-chaining">System-executed actions and chaining</h2>
+<p>Some actions run in a <strong>system context</strong> rather than on behalf of a specific user — for example a filesystem action with both source and target folders set, an admin-driven provider operation issued from another rule, a folder-scoped data retention check, or any action chained from a rule that triggered as system. To keep rule graphs predictable and avoid cascading triggers, SFTPGo does not chain rules off the events that these actions produce:</p>
+<ul>
+<li><strong>Provider events</strong> generated by system-executed operations (user/group/admin/share add/update/delete performed from a rule, auto-disable from an IP-blocked rule, etc.) do not fire provider-event rules.</li>
+<li><strong>Filesystem operations</strong> performed by event actions (Filesystem actions, PGP, Compress, Data retention deletes, etc.) do not fire filesystem-event rules.</li>
+</ul>
+<p>If you need to perform multiple steps after a single trigger, list them as ordered actions on the <strong>same</strong> rule rather than relying on event chaining. Within a rule, actions execute in the configured order and pass shared context through placeholders.</p>
 
 
 
@@ -4057,7 +4115,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 30, 2026 12:30:19 UTC">2026-04-30 12:30:19</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="May 28, 2026 08:42:58 UTC">2026-05-28 08:42:58</span>
   </span>
 
     

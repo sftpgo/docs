@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/defender/",
         "inLanguage": "en",
         "datePublished": "2024-04-25T16:47:14Z",
-        "dateModified": "2026-04-26T15:47:01Z",
+        "dateModified": "2026-05-28T08:42:58Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -779,6 +779,34 @@
     
   
     Roles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../admin-permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Admin Permissions
   
 
     
@@ -3549,9 +3577,9 @@
 <p>A banned IP has no score, it makes no sense to accumulate host events in memory for an already banned IP address.</p>
 <p>If an already banned client tries to log in again, its ban time will be incremented according the <code>ban_time_increment</code> configuration.</p>
 <p>The <code>ban_time_increment</code> is calculated as percentage of <code>ban_time</code>, so if <code>ban_time</code> is 30 minutes and <code>ban_time_increment</code> is 50 the host will be banned for additionally 15 minutes. You can also specify values greater than 100 for <code>ban_time_increment</code> if you want to increase the penalty for already banned hosts.</p>
-<p>SFTPGo can store host scores and banned hosts in memory or within the configured data provider according to the <code>driver</code> set in the <code>defender</code> configuration section. The available drivers are <code>memory</code> and <code>provider</code>.
-The <code>provider</code> driver is useful if you want to share the defender data across multiple SFTPGo instances and it requires a shared or distributed data provider: <code>MySQL</code>, <code>PostgreSQL</code> and <code>CockroachDB</code> are supported.
-If you set the <code>provider</code> driver, the defender implementation may do many database queries (at least one query every time a new client connects to check if it is banned), if you have a single SFTPGo instance the <code>memory</code> driver is recommended.</p>
+<p>SFTPGo can store host scores and banned hosts in memory or within the configured data provider according to the <code>driver</code> set in the <code>defender</code> configuration section. The available drivers are <code>memory</code> and <code>provider</code>.</p>
+<p>The <code>provider</code> driver persists scores and bans in the database, so the auto-blocklist survives restarts. Supported data providers: <code>SQLite</code>, <code>MySQL</code>, <code>PostgreSQL</code>, <code>CockroachDB</code>. Use <code>SQLite</code> for a single instance that needs persistence across restarts; use <code>MySQL</code>, <code>PostgreSQL</code>, or <code>CockroachDB</code> to share defender state across multiple SFTPGo instances.</p>
+<p>The <code>provider</code> driver issues a database query at least every time a new client connects (to check if the IP is banned). The <code>memory</code> driver is the fastest option and is the right choice when persistence across restarts is not required.</p>
 <p>The <code>provider</code> driver will periodically clean up expired hosts and events.</p>
 <h2 id="memory-limits-entries_soft_limit-entries_hard_limit">Memory limits (<code>entries_soft_limit</code>, <code>entries_hard_limit</code>)</h2>
 <p>These two keys apply only to the <code>memory</code> driver and cap how many host scores and banned IPs SFTPGo keeps in RAM. When the number of tracked entries exceeds <code>entries_hard_limit</code>, the oldest entries are evicted until the count drops back to <code>entries_soft_limit</code>. Defaults are <code>100</code> / <code>150</code> — reasonable for most deployments. Raise them if you run a large public-facing instance that receives many distinct attacker IPs and you want longer history; lower them on memory-constrained hosts. They do not affect the security of the defender, only how much history it keeps.</p>
@@ -3567,7 +3595,7 @@ If you set the <code>provider</code> driver, the defender implementation may do 
 <p>Defender parameters (scores, threshold, <code>ban_time</code>, <code>observation_time</code>, <code>login_delay</code>, memory limits) are configured via the configuration file or environment variables. The WebAdmin is used to view and manage the IP lists under the <strong>IP Manager</strong> section:</p>
 <ul>
 <li><strong>Auto Block List</strong> — appears once the defender is enabled. Lists dynamically banned IPs with their ban expiration. Click the <strong>X</strong> icon on a row to lift the ban (useful for false positives).</li>
-<li><strong>IP Lists</strong> — always available (independent of the defender). Permanent entries you maintain by hand, each with a <strong>mode</strong>: <code>Deny</code> (always block), <code>Allow</code> (always permit). Entries can be a single IP or a CIDR network.</li>
+<li><strong>IP Lists</strong> — always available (independent of the defender). Permanent entries you maintain by hand, each with a <strong>mode</strong>: <code>Deny</code> (always block), <code>Allow</code> (always permit). Entries can be a single IP or a CIDR network. When an address is covered by several entries, the most specific one (longest network prefix) wins, so a narrow allow entry overrides a broader deny and vice versa.</li>
 </ul>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/defender-auto-block-list.png" data-desc-position="bottom" data-gallery="defender-auto-block-list"><img alt="Defender Auto Block List" data-gallery="defender-auto-block-list" src="../assets/img/defender-auto-block-list.png"></a></p>
 <p>The same operations are available via REST API — see <code>/defender/hosts</code> and <code>/ip-lists</code> in the OpenAPI specification.</p>
@@ -3590,7 +3618,7 @@ SFTPGO_COMMON__DEFENDER__SCORE_LIMIT_EXCEEDED=3
 <li>Eight login attempts with a valid username but wrong password (score 1 each = 8) will also trigger a ban.</li>
 <li>If the banned host tries again, the ban is extended by 50% (15 additional minutes).</li>
 </ul>
-<p>For multi-instance deployments, switch to the <code>provider</code> driver to share defender state across all nodes:</p>
+<p>To persist defender state across restarts, or to share it across all nodes in a multi-instance deployment, switch to the <code>provider</code> driver (requires a SQL-based data provider):</p>
 <pre><code class="language-shell">SFTPGO_COMMON__DEFENDER__DRIVER=provider
 </code></pre>
 
@@ -3615,7 +3643,7 @@ SFTPGO_COMMON__DEFENDER__SCORE_LIMIT_EXCEEDED=3
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 26, 2026 15:47:01 UTC">2026-04-26 15:47:01</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="May 28, 2026 08:42:58 UTC">2026-05-28 08:42:58</span>
   </span>
 
     

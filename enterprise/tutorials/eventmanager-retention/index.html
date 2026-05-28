@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/tutorials/eventmanager-retention/",
         "inLanguage": "en",
         "datePublished": "2026-04-26T15:47:01Z",
-        "dateModified": "2026-04-26T15:47:01Z",
+        "dateModified": "2026-05-28T08:42:58Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -792,6 +792,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin-permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Admin Permissions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1361,6 +1389,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#folder-scoped-retention" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Folder-scoped retention
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1460,10 +1499,60 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Scoping the Rule">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#user-scoped-rule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        User-scoped rule
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#folder-scoped-rule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Folder-scoped rule
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#selecting-the-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Selecting the actions
+      
+    </span>
+  </a>
+  
 </li>
         
       </ul>
     </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dry-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dry run
+      
+    </span>
+  </a>
   
 </li>
       
@@ -3560,6 +3649,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#folder-scoped-retention" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Folder-scoped retention
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3659,10 +3759,60 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Scoping the Rule">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#user-scoped-rule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        User-scoped rule
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#folder-scoped-rule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Folder-scoped rule
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#selecting-the-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Selecting the actions
+      
+    </span>
+  </a>
+  
 </li>
         
       </ul>
     </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dry-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dry run
+      
+    </span>
+  </a>
   
 </li>
       
@@ -3763,7 +3913,13 @@
 <h1 id="data-retention">Data Retention</h1>
 <p>This tutorial shows how to configure automatic data retention policies that delete or archive files older than a configurable threshold. This is a common compliance and storage management requirement.</p>
 <h2 id="how-it-works">How It Works</h2>
-<p>The <strong>Data retention check</strong> action scans user directories and applies per-folder retention policies. Files older than the configured threshold are automatically removed or moved to an archive folder. The action generates a report that can be sent via email or webhook.</p>
+<p>The <strong>Data retention check</strong> action scans a directory tree and applies per-folder retention policies. Files older than the configured threshold are automatically removed or moved to an archive folder, and a report can be sent via email or webhook.</p>
+<p>The check runs in one of two modes, selected on the action itself:</p>
+<ul>
+<li><strong>User-scoped</strong> (default). The rule iterates over the matching users; configured paths are resolved relative to each user's home directory. Best when the retention is a property of the user — e.g. each user's <code>/inbox</code> or <code>/temp</code>.</li>
+<li><strong>Folder-scoped</strong>. The rule runs <strong>once</strong> as a system task on a single virtual folder, regardless of how many (or which) users have it mounted. Best when the retention belongs to a shared resource — a dropbox shared across users, a bucket prefix, or a whole storage area — and is independent of who happens to access it. See <a href="#folder-scoped-retention">Folder-scoped retention</a> below.</li>
+</ul>
+<p>The two modes share the same configuration screen and the same report shape; the only difference is whether you fill the <strong>Source folder</strong> field on the action.</p>
 <h2 id="step-1-create-a-data-retention-action">Step 1: Create a Data Retention Action</h2>
 <p>From the WebAdmin, expand the <strong>Event Manager</strong> section, select <strong>Event actions</strong> and add a new action.</p>
 <p>Create an action named <code>retention check</code>, set the type to <code>Data retention check</code>.</p>
@@ -3800,6 +3956,23 @@
 <h3 id="archive-instead-of-delete">Archive Instead of Delete</h3>
 <p>If you prefer to archive files instead of deleting them, specify an <strong>archive folder</strong>. Files are moved to the virtual folder instead of being permanently removed. This is useful for compliance scenarios where you need to keep files accessible but outside the user's working directories.</p>
 <p>The archive folder must be a virtual folder configured in SFTPGo — it can use any storage backend. For example, you could archive to a cheaper storage tier (e.g., S3 Glacier via lifecycle policies) while keeping the user's primary storage on standard S3.</p>
+<h3 id="folder-scoped-retention">Folder-scoped retention</h3>
+<p>Set a <strong>Source folder</strong> on the action when the retention policy belongs to a shared resource rather than to the users who happen to mount it. Common cases:</p>
+<ul>
+<li>A dropbox shared across multiple users — only the folder needs a retention window, not each consumer.</li>
+<li>A bucket prefix or a remote mount that contains long-lived data unrelated to any individual user.</li>
+<li>A whole storage area that needs a single retention sweep — define a virtual folder pointing at the storage root and use it as source.</li>
+</ul>
+<p>When a source folder is configured:</p>
+<ul>
+<li>The action runs <strong>once</strong> as a system task on the selected virtual folder, regardless of how many users have it mounted.</li>
+<li>Paths in the retention list are interpreted relative to the folder root (<code>/</code>, <code>/sub</code>, ...).</li>
+<li>Rule-level user filters (Name / Group / Role) are ignored — the policy belongs to the resource, not to its consumers.</li>
+<li>The retention report exposes the folder name in the <code>folder</code> field; downstream notifications can use <code>{{.Folder}}</code> in templates. <code>username</code> is always the canonical <code>__system__</code> identifier.</li>
+<li><code>{{.ObjectName}}</code> is set to the source folder name during the retention action (mirroring the user-scoped pattern where it is set to the username), so a single template like <code>Retention completed on {{.ObjectName}}</code> works for both modes.</li>
+<li><strong>Split events</strong> has no effect — there is no per-user expansion.</li>
+</ul>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> If you want files moved to a "trash" folder rather than deleted, configure the action's built-in <strong>Archive folder</strong> field (covered above). Like every other system-executed action, retention deletes do not fire filesystem-event rules — see <a href="../../eventmanager/#system-executed-actions-and-chaining">System-executed actions and chaining</a> — so a separate "rename on delete" rule will never run. The archive folder is the supported pattern.</p>
 <h2 id="step-2-optional-add-a-notification">Step 2 (optional): Add a notification</h2>
 <p>The rule is already usable with just the retention check created above — SFTPGo will run the cleanup on schedule and log the results. A notification is only needed if you want to be actively informed. If you don't need one, skip ahead to <a href="#step-3-create-a-scheduled-rule">Step 3</a>.</p>
 <p>Two notification channels are available: <strong>email</strong> and <strong>HTTP webhook</strong>. Pick the one that fits your workflow; you can also chain both on the same rule.</p>
@@ -3880,30 +4053,42 @@ User: {{ .Username }}
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/retention-schedule.png" data-desc-position="bottom" data-gallery="retention-schedule"><img alt="Retention schedule" data-gallery="retention-schedule" src="../../assets/img/retention-schedule.png"></a></p>
 <h3 id="scoping-the-rule">Scoping the Rule</h3>
 <p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> <strong>Paths go in the action, not in the rule.</strong> The paths to clean are configured inside the <code>Data retention check</code> action. The rule's <code>Name / Group / Role</code> filters select the <strong>users</strong> for which the action runs — they are <strong>not</strong> filters on file paths. Putting a path pattern like <code>/folder/*</code> under Name Filters makes the rule match zero users: it still fires on schedule, runs against nobody, and the notification email reports no deletions.</p>
-<p>Retention actions run in the <strong>user context</strong>: the path configured on the action is resolved relative to each matching user's home directory. For example, with a retention path of <code>/inbound</code>:</p>
+<p>How the rule selects what to clean depends on whether the action has a <strong>Source folder</strong> configured. Read the subsection that matches your action; the <a href="#selecting-the-actions">Selecting the actions</a> step at the end applies to both.</p>
+<h4 id="user-scoped-rule">User-scoped rule</h4>
+<p>This applies when the action has <strong>no</strong> Source folder. The check runs in the <strong>user context</strong>: the path configured on the action is resolved relative to each matching user's home directory. For example, with a retention path of <code>/inbound</code>:</p>
 <ul>
 <li>On Linux: <code>userA</code> (home <code>/sftpgo/userA</code>) → cleans <code>/sftpgo/userA/inbound</code>; <code>userB</code> (home <code>/sftpgo/userB</code>) → cleans <code>/sftpgo/userB/inbound</code>.</li>
 <li>On Windows: <code>userA</code> (home <code>C:\sftpgo\userA</code>) → cleans <code>C:\sftpgo\userA\inbound</code>; <code>userB</code> (home <code>C:\sftpgo\userB</code>) → cleans <code>C:\sftpgo\userB\inbound</code>.</li>
 </ul>
 <p>The path on the action is always written in virtual form with forward slashes (<code>/inbound</code>) regardless of the underlying platform — SFTPGo resolves it against each user's filesystem.</p>
-<p>If you want the retention check to run only for specific users or groups, add conditions in the rule:</p>
+<p>To restrict the check to specific users, add conditions on the rule:</p>
 <ul>
-<li><strong>Name filters</strong>: Specify usernames or patterns (e.g., <code>username1</code> or <code>customer_*</code>).</li>
-<li><strong>Group filters</strong>: Specify group names.</li>
-<li><strong>Role filters</strong>: Specify roles.</li>
+<li><strong>Name filters</strong>: usernames or patterns (e.g., <code>username1</code> or <code>customer_*</code>).</li>
+<li><strong>Group filters</strong>: group names.</li>
+<li><strong>Role filters</strong>: role names.</li>
 </ul>
 <p>If no filters are configured, the retention check runs for <strong>all users</strong>.</p>
 <p>When the same rule needs to apply to many users (e.g., all customers, all vendors), assigning those users to an SFTPGo <strong>group</strong> and filtering the rule by group is usually cleaner than maintaining a list of usernames or a wildcard pattern: new users inherit the policy automatically as soon as they join the group, and removing a user from the group takes them out of the rule with no rule edit.</p>
 <p>On instances with many users, prefer exact values (usernames, group names, or role names) over wildcard patterns — see <a href="../../eventmanager/#name-group-and-role-filters">Name, group, and role filters</a> for the reason.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/retention-rule-name-filter.png" data-desc-position="bottom" data-gallery="retention-rule-name-filter"><img alt="Retention rule name filter" data-gallery="retention-rule-name-filter" src="../../assets/img/retention-rule-name-filter.png"></a></p>
-<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> If you have a user with visibility over the entire storage (e.g., an admin-level user with no key prefix restriction), be careful:</p>
-<ul>
-<li><strong>To avoid unintended deletions</strong>: exclude that user using a name filter, or restrict the rule to specific users. Otherwise, the retention check running for that user could delete files belonging to other users.</li>
-<li><strong>To apply retention across the entire storage</strong>: restrict the rule to only that user using a name filter. This is useful when you want a single retention policy that cleans up all files older than a given threshold, regardless of which user uploaded them.</li>
-</ul>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> If any matching user has visibility over the entire storage (for example an admin-level user without key prefix restrictions), the retention check executed in their context will walk paths that span every other user's data. Either exclude that user with a name filter, restrict the rule to a  known set of users, or — for storage-wide sweeps that should not depend on any user identity — use a folder-scoped rule (next subsection).</p>
+<h4 id="folder-scoped-rule">Folder-scoped rule</h4>
+<p>This applies when the action has a <strong>Source folder</strong> configured (see <a href="#folder-scoped-retention">Folder-scoped retention</a> above). The check runs <strong>once</strong> as a system task on the selected virtual folder, regardless of how many users have it mounted.</p>
+<p>Rule-level <code>Name / Group / Role</code> filters are <strong>ignored</strong> — the policy belongs to the resource, not to its consumers — so you can leave them empty.</p>
+<p>This is also the recommended pattern for storage-wide retention sweeps — a single policy that cleans every file older than a given threshold regardless of which user uploaded it. Define a virtual folder pointing at the storage root, set it as the action's source folder, and the check runs once without depending on any user identity.</p>
+<h4 id="selecting-the-actions">Selecting the actions</h4>
 <p>As actions, select <code>retention check</code> — this is the only action strictly required. If you created a notification in Step 2, add it to the list as well (email, webhook, or both). Notification actions can be marked as <strong>Failure action</strong> if you only want to be alerted when something goes wrong.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/retention-rule-actions.png" data-desc-position="bottom" data-gallery="retention-rule-actions"><img alt="Retention rule actions" data-gallery="retention-rule-actions" src="../../assets/img/retention-rule-actions.png"></a></p>
-<p>Done! SFTPGo will run the retention check daily and send you a report with the results.</p>
+<h2 id="dry-run">Dry run</h2>
+<p>Enabling <strong>Dry run</strong> on the action produces the same report (counts, sizes, paths) as a normal run but performs no deletions and no archive copies. The report still flows through downstream email and HTTP-hook actions exactly like a real run.</p>
+<p>The intended workflow:</p>
+<ol>
+<li>Configure the action with the retention paths you plan to enforce, enable <strong>Dry run</strong>, and trigger it on demand or with a one-shot schedule.</li>
+<li>Review the report (delivered to your mailbox or your webhook).</li>
+<li>Once the policy matches expectations, disable <strong>Dry run</strong> and switch to the recurring schedule.</li>
+</ol>
+<p>Dry-run is also useful as a periodic sanity check alongside a real retention rule: a weekly dry-run rule with output piped to a different distribution list catches configuration drift (e.g., paths added that should not be in scope) before it causes data loss.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Dry run is transparent to the rest of the system: no <code>delete</code> event is sent to notifier plugins (such as the eventstore plugin), no filesystem-event rules are triggered, and no archive copy is performed. The only output is the retention report itself, which carries a <code>DryRun</code> flag — the recommended pattern is to gate notification subjects with <code>{{ if .DryRun }}[DRY RUN] {{ end }}</code> so preview reports cannot be mistaken for real ones.</p>
 <h2 id="note-on-file-modification-time">Note on File Modification Time</h2>
 <p>The retention check determines file age based on the <strong>last modification time</strong>. Be aware that clients can adjust this timestamp using the <code>chtimes</code> command (e.g., <code>touch -t</code> or SFTP <code>setstat</code>), which could cause files to be retained longer than expected — or deleted sooner.</p>
 <p>If this is a concern, you have two options:</p>
@@ -3936,7 +4121,7 @@ User: {{ .Username }}
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 26, 2026 15:47:01 UTC">2026-04-26 15:47:01</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="May 28, 2026 08:42:58 UTC">2026-05-28 08:42:58</span>
   </span>
 
     

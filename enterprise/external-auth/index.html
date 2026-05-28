@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/external-auth/",
         "inLanguage": "en",
         "datePublished": "2024-04-25T16:47:14Z",
-        "dateModified": "2026-04-26T15:47:01Z",
+        "dateModified": "2026-05-28T08:42:58Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -779,6 +779,34 @@
     
   
     Roles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../admin-permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Admin Permissions
   
 
     
@@ -3431,7 +3459,7 @@ The program must write, on its standard output:</p>
 <li>empty, the existing SFTPGo user does not need to be updated. Please note that in versions 2.0.x and earlier an empty response was interpreted as an authentication error</li>
 </ul>
 <p>If the authentication fails the HTTP response code must be != 200 or the returned SFTPGo user must have an empty username.</p>
-<p>If the hook returns a user who is only allowed to authenticate using public key + password (multi step authentication), your hook will be invoked for each authentication step, so it must validate the public key and password separately. SFTPGo will take care that the client uses the allowed sequence.</p>
+<p>If the hook returns a user who is only allowed to authenticate via <a href="../ssh/#multi-step-authentication">multi-step authentication</a> (<code>publickey+password</code>, <code>publickey+keyboard-interactive</code>, <code>password+publickey</code> or <code>keyboard-interactive+publickey</code>), the hook is invoked <strong>once per step</strong> with the credential for that step only — <code>SFTPGO_AUTHD_PASSWORD</code> / <code>SFTPGO_AUTHD_PUBLIC_KEY</code> / <code>SFTPGO_AUTHD_KEYBOARD_INTERACTIVE</code> carries just the factor being verified, and the hook must validate each factor independently. The hook does not see the combined method name (e.g. <code>publickey+password</code>); SFTPGo enforces the allowed sequence and records the combined method at the end of the flow (for example in the <a href="../post-login-hook/">post-login hook</a>).</p>
 <p>Actions defined for users added/updated will not be executed in this case and an already logged in user with the same username will not be disconnected.</p>
 <p>The program hook must finish within 30 seconds, the HTTP hook timeout will use the global configuration for HTTP clients.</p>
 <p>This method is slower than built-in authentication, but it's very flexible as anyone can easily write his own authentication hooks.
@@ -3481,7 +3509,7 @@ fi
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 26, 2026 15:47:01 UTC">2026-04-26 15:47:01</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="May 28, 2026 08:42:58 UTC">2026-05-28 08:42:58</span>
   </span>
 
     

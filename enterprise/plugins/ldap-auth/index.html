@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/plugins/ldap-auth/",
         "inLanguage": "en",
         "datePublished": "2026-04-26T15:47:01Z",
-        "dateModified": "2026-04-26T15:47:01Z",
+        "dateModified": "2026-05-28T08:42:58Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -779,6 +779,34 @@
     
   
     Roles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin-permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Admin Permissions
   
 
     
@@ -2368,6 +2396,68 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#configuration-from-the-webadmin-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration from the WebAdmin UI
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration from the WebAdmin UI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linux" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Linux
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#windows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Windows
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filling-in-the-form" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Filling in the form
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-via-environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration via environment variables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration via environment variables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#basic-setup-with-active-directory" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2386,6 +2476,11 @@
       
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -3580,6 +3675,68 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#configuration-from-the-webadmin-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration from the WebAdmin UI
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration from the WebAdmin UI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linux" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Linux
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#windows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Windows
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filling-in-the-form" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Filling in the form
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-via-environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration via environment variables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration via environment variables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#basic-setup-with-active-directory" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3598,6 +3755,11 @@
       
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -3803,8 +3965,97 @@
 <h2 id="installation">Installation</h2>
 <p>Install the <code>sftpgo-plugins</code> package as described in <a href="../audit-logs/#installation">Audit Logs - Installation</a>. The authentication plugin binary is <code>sftpgo-plugin-auth</code>.</p>
 <h2 id="configuration">Configuration</h2>
-<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Any configuration change described below requires a service restart to take effect (e.g. <code>systemctl restart sftpgo</code>).</p>
-<h3 id="basic-setup-with-active-directory">Basic setup with Active Directory</h3>
+<p>There are two alternative ways to configure LDAP. Pick <strong>one</strong>:</p>
+<ul>
+<li><strong>WebAdmin UI</strong> — you set two environment variables to enable the LDAP section in the WebAdmin and register the plugin; every LDAP setting is then entered through the form. The configuration is persisted in the database (encrypted where appropriate) and replicated across HA nodes. The form exposes URL, Base DN, Bind DN, password, search query, group attributes, primary/secondary/membership group prefixes, and skip TLS verify.</li>
+<li><strong>Environment variables / configuration file</strong> — every option is set through environment variables (or, for multi-directory federation, a JSON configuration file). Required when you need advanced options that the form does not expose: STARTTLS, custom CA certificates, authentication caching, base directory for auto-created users, user-must-pre-exist mode, multi-directory federation.</li>
+</ul>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Any configuration change requires a service restart to take effect (e.g. <code>systemctl restart sftpgo</code> on Linux, <code>Restart-Service sftpgo</code> on Windows).</p>
+<h3 id="configuration-from-the-webadmin-ui">Configuration from the WebAdmin UI</h3>
+<p>To enable the LDAP section in <strong>Server Manager &gt; Configurations</strong>, set these two environment variables before starting SFTPGo:</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SFTPGO_HOOK__ENABLE_LDAP_UI=1</code></td>
+<td>Adds the LDAP configuration accordion to the WebAdmin Configurations page</td>
+</tr>
+<tr>
+<td><code>SFTPGO_HOOK__AUTH_PLUGIN_PATH</code></td>
+<td>Absolute path to the <code>sftpgo-plugin-auth</code> binary that SFTPGo will register as the authentication plugin</td>
+</tr>
+</tbody>
+</table>
+<h4 id="linux">Linux</h4>
+<p>Edit <code>/etc/sftpgo/sftpgo.env</code> (create it if missing — it is the <code>EnvironmentFile</code> of the systemd unit) and add:</p>
+<pre><code class="language-shell">SFTPGO_HOOK__ENABLE_LDAP_UI=1
+SFTPGO_HOOK__AUTH_PLUGIN_PATH=/usr/bin/sftpgo-plugin-auth
+</code></pre>
+<p>Then restart the service:</p>
+<pre><code class="language-shell">systemctl restart sftpgo
+</code></pre>
+<h4 id="windows">Windows</h4>
+<p>Create the file <code>C:\ProgramData\SFTPGo Enterprise\env.d\ldap.txt</code> (create the <code>env.d</code> directory if missing) with the following content:</p>
+<pre><code class="language-shell">SFTPGO_HOOK__ENABLE_LDAP_UI=1
+SFTPGO_HOOK__AUTH_PLUGIN_PATH="C:\\Program Files\\SFTPGo Enterprise\\sftpgo-plugin-auth.exe"
+</code></pre>
+<p>Then restart the service from an elevated PowerShell:</p>
+<pre><code class="language-powershell">Restart-Service sftpgo
+</code></pre>
+<p>Adjust the plugin path if you installed SFTPGo Enterprise to a different directory. Backslashes inside double-quoted values must be doubled (<code>\\</code>) because the env file parser treats <code>\</code> as an escape character; alternatively, use single quotes (<code>'C:\Program Files\SFTPGo Enterprise\sftpgo-plugin-auth.exe'</code>) to disable escaping.</p>
+<h4 id="filling-in-the-form">Filling in the form</h4>
+<p>After the restart, open the WebAdmin and go to <strong>Server Manager &gt; Configurations &gt; LDAP</strong>. Fill in the form and click <strong>Submit</strong>. A service restart is required to apply the changes (the WebAdmin shows a notice).</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/ldap-config-ui.png" data-desc-position="bottom" data-gallery="ldap-ui"><img alt="LDAP configuration in WebAdmin" data-gallery="ldap-ui" src="../../assets/img/ldap-config-ui.png"></a></p>
+<p>Recommended values for <strong>Active Directory</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Example value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>URL</td>
+<td><code>ldaps://dc01.example.com:636</code> (or <code>ldap://dc01.example.com:389</code> if you also set <code>SFTPGO_PLUGIN_AUTH_STARTTLS=1</code>)</td>
+</tr>
+<tr>
+<td>Base DN</td>
+<td><code>dc=example,dc=com</code></td>
+</tr>
+<tr>
+<td>Bind DN</td>
+<td><code>cn=sftpgo-reader,ou=Service Accounts,dc=example,dc=com</code></td>
+</tr>
+<tr>
+<td>Password</td>
+<td>the bind account password</td>
+</tr>
+<tr>
+<td>Search query</td>
+<td>leave empty to use the default AD query, or set a custom one (must contain <code>%username%</code>)</td>
+</tr>
+<tr>
+<td>Group attributes</td>
+<td><code>memberOf</code></td>
+</tr>
+<tr>
+<td>Primary / Secondary / Membership group prefix</td>
+<td>set as needed — see <a href="#group-mapping">Group mapping</a></td>
+</tr>
+</tbody>
+</table>
+<p>For <strong>OpenLDAP</strong> set the search query to <code>(&amp;(objectClass=posixAccount)(uid=%username%))</code>.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> The form does <strong>not</strong> cover <code>STARTTLS</code>, custom CA certificates, the user-must-pre-exist mode, the auto-created users base directory, authentication caching, and multi-directory federation. If you need any of these, switch to the <a href="#configuration-via-environment-variables">environment variables approach</a> — the two paths are mutually exclusive.</p>
+<p>For Active Directory on port 389, using <code>ldaps://dc01.example.com:636</code> is the simplest way to get a secure connection without STARTTLS, keeping the UI path viable.</p>
+<h3 id="configuration-via-environment-variables">Configuration via environment variables</h3>
+<p>This approach gives full control over every option and is the right choice for multi-directory federation, fully unattended setups, or whenever the form does not expose a setting you need. Do <strong>not</strong> combine it with <code>SFTPGO_HOOK__ENABLE_LDAP_UI=1</code>: register the plugin yourself through the <code>SFTPGO_PLUGINS__N__*</code> variables shown below.</p>
+<h4 id="basic-setup-with-active-directory">Basic setup with Active Directory</h4>
 <p>This example connects SFTPGo to a single Active Directory server.</p>
 <pre><code class="language-shell"># LDAP connection
 SFTPGO_PLUGIN_AUTH_LDAP_URL="ldap://dc01.example.com:389"
@@ -3854,7 +4105,7 @@ SFTPGO_PLUGINS__0__AUTO_MTLS=1
 <p>For <strong>OpenLDAP</strong>, set a custom search query:</p>
 <pre><code class="language-shell">SFTPGO_PLUGIN_AUTH_LDAP_SEARCH_QUERY="(&amp;(objectClass=posixAccount)(uid=%username%))"
 </code></pre>
-<h3 id="secure-connections">Secure connections</h3>
+<h4 id="secure-connections">Secure connections</h4>
 <p><strong>STARTTLS</strong> (recommended for AD on port 389):</p>
 <pre><code class="language-shell">SFTPGO_PLUGIN_AUTH_STARTTLS=1
 </code></pre>
@@ -4093,7 +4344,7 @@ SFTPGO_PLUGIN_AUTH_MEMBERSHIP_GROUP_PREFIX="sftpgo-membership-"
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 26, 2026 15:47:01 UTC">2026-04-26 15:47:01</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="May 28, 2026 08:42:58 UTC">2026-05-28 08:42:58</span>
   </span>
 
     

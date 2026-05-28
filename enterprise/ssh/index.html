@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/ssh/",
         "inLanguage": "en",
         "datePublished": "2024-04-25T16:47:14Z",
-        "dateModified": "2026-04-26T15:47:01Z",
+        "dateModified": "2026-05-28T08:42:58Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -779,6 +779,34 @@
     
   
     Roles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../admin-permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Admin Permissions
   
 
     
@@ -3721,12 +3749,15 @@
 </table>
 <h3 id="multi-step-authentication">Multi-step authentication</h3>
 <p>Authentication methods can be chained — for example, requiring both a public key <strong>and</strong> a password. When a user is configured for multi-step authentication, the SSH server returns a "partial success" after the first method succeeds, prompting the client for the next step.</p>
-<p>Supported combinations:</p>
+<p>Supported combinations (the first listed factor is the one the client must offer first):</p>
 <ul>
-<li>Public key + password</li>
-<li>Public key + keyboard-interactive</li>
+<li><code>publickey+password</code> — public key, then password</li>
+<li><code>publickey+keyboard-interactive</code> — public key, then keyboard-interactive</li>
+<li><code>password+publickey</code> — password, then public key.</li>
+<li><code>keyboard-interactive+publickey</code> — keyboard-interactive, then public key.</li>
 </ul>
-<p>Multi-step authentication can be configured per-user via the <code>denied_login_methods</code> filter.</p>
+<p>Each combination is a separate entry in the <code>denied_login_methods</code> filter. To allow both orderings, leave both entries out of the denylist; clients can then choose either ordering. To force only one direction, deny the unwanted variant explicitly.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> When a single-step method is also allowed (for example, the user has neither <code>publickey</code> nor <code>publickey+password</code> in the denylist), the single-step method is sufficient on its own — the second factor is not required. To force multi-step, deny every single-step method (<code>publickey</code>, <code>password</code>, <code>keyboard-interactive</code>) and leave only the desired multi-step combinations enabled.</p>
 <h2 id="cryptographic-algorithms">Cryptographic algorithms</h2>
 <p>SFTPGo supports modern cryptographic algorithms with secure defaults. All algorithm lists are configurable via the <a href="../config-file/">configuration file</a>.</p>
 <h3 id="key-exchange-kex">Key exchange (KEX)</h3>
@@ -3747,7 +3778,7 @@
 <h3 id="host-keys">Host keys</h3>
 <p>If no host keys are configured, SFTPGo automatically generates <code>id_rsa</code>, <code>id_ecdsa</code>, and <code>id_ed25519</code> keys in the configuration directory. Host certificates are also supported — the certificate's public key must match a configured private host key.</p>
 <h2 id="ssh-commands">SSH commands</h2>
-<p>SFTPGo supports a limited set of SSH commands for specific use cases. These commands are executed within the user's security context (permissions, quotas, and home directory restrictions apply).</p>
+<p>SFTPGo supports a limited set of SSH commands for specific use cases. All commands are <strong>emulated internally in Go</strong> — SFTPGo never spawns the corresponding system binaries (<code>scp</code>, <code>md5sum</code>, <code>uname</code>, …) and does not require them to be installed on the host. Operations are executed within the user's security context (permissions, quotas, and home directory restrictions apply) and work consistently across all storage backends, including remote and encrypted ones.</p>
 <table>
 <thead>
 <tr>
@@ -3807,6 +3838,11 @@
 <td>—</td>
 <td>Server-side recursive removal of files and directories. Usage: <code>sftpgo-remove &lt;path&gt;</code>. Does not support removing across virtual folder boundaries.</td>
 </tr>
+<tr>
+<td><code>uname</code></td>
+<td>—</td>
+<td>Synthetic response for client probes that issue <code>uname</code> over SSH (e.g. some backup integrations). SFTPGo does not execute the system <code>uname</code> binary; it returns a fixed <code>uname -a</code>-style string. The default base is <code>Linux sftpgo 1.0.0 #1 SMP SFTPGo x86_64 GNU/Linux</code> (no real host data exposed) and can be overridden via <a href="../env-vars/"><code>SFTPGO_HOOK__SSHD_UNAME_OUTPUT</code></a>. Standard flags (<code>-a</code>, <code>-s</code>, <code>-n</code>, <code>-r</code>, <code>-v</code>, <code>-m</code>, <code>-p</code>, <code>-i</code>, <code>-o</code> and their long forms) extract the matching field from the base string.</td>
+</tr>
 </tbody>
 </table>
 <p>Commands not in the default list must be explicitly enabled in the <a href="../config-file/">configuration</a>. Set <code>enabled_ssh_commands</code> to <code>*</code> to enable all supported commands.</p>
@@ -3840,7 +3876,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 26, 2026 15:47:01 UTC">2026-04-26 15:47:01</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="May 28, 2026 08:42:58 UTC">2026-05-28 08:42:58</span>
   </span>
 
     

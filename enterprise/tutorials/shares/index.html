@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/tutorials/shares/",
         "inLanguage": "en",
         "datePublished": "2025-10-09T07:54:50Z",
-        "dateModified": "2026-04-26T15:47:01Z",
+        "dateModified": "2026-05-01T11:10:56Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -792,6 +792,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin-permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Admin Permissions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1050,6 +1078,56 @@
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Restricting Shareable Paths">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#denied-share-paths" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Denied share paths
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#allowed-share-paths" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Allowed share paths
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#combining-the-two-lists" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Combining the two lists
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-and-inheritance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration and inheritance
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -3698,6 +3776,56 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Restricting Shareable Paths">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#denied-share-paths" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Denied share paths
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#allowed-share-paths" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Allowed share paths
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#combining-the-two-lists" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Combining the two lists
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-and-inheritance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration and inheritance
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -3984,15 +4112,43 @@
 <p>This type of share combines the capabilities of both read-only and write-only shares, making it ideal for collaborative scenarios where external users need to both access and contribute files to a shared workspace.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/webclient_read_write_share.png" data-desc-position="bottom" data-gallery="webclient-rw-share"><img alt="WebClient read write share" data-gallery="webclient-rw-share" src="../../assets/img/webclient_read_write_share.png"></a></p>
 <h2 id="restricting-shareable-paths">Restricting Shareable Paths</h2>
-<p>Administrators can restrict which virtual paths users are allowed to share by configuring the <strong>Denied share paths</strong> filter. This can be set directly on a user or inherited from a group.</p>
+<p>Administrators can restrict which virtual paths users are allowed to share by combining two filters: <strong>Allowed share paths</strong> (a positive list — when set, shares are accepted only within those subtrees) and <strong>Denied share paths</strong> (a negative list — paths that cannot be shared). Both can be set directly on a user or inherited from a group.</p>
+<h3 id="denied-share-paths">Denied share paths</h3>
 <p>When a path is denied, the user cannot create shares for that exact path or any sub-path. For example:</p>
 <ul>
 <li>Denying <code>/</code> blocks sharing the root directory, but sub-directories like <code>/docs</code> or <code>/projects</code> can still be shared.</li>
 <li>Denying <code>/backup</code> blocks sharing <code>/backup</code>, <code>/backup/daily</code>, <code>/backup/daily/file.txt</code>, and any other path under <code>/backup</code>.</li>
 <li>Denying <code>/vfolder</code> blocks sharing a specific virtual folder and its contents.</li>
 </ul>
-<p>To configure denied share paths, open the user or group settings in the WebAdmin UI and look for the <strong>Denied share paths</strong> field in the "Profile" section. Enter one or more virtual paths separated by commas.</p>
-<p>When configured at the group level, the denied paths are inherited by all users in the group and merged with any user-level restrictions.</p>
+<h3 id="allowed-share-paths">Allowed share paths</h3>
+<p>When the <strong>Allowed share paths</strong> list is non-empty, only paths at or below one of its entries can be shared. Useful when users have a broad home directory and you want to scope their sharing to specific subtrees:</p>
+<pre><code>/projects/team-shares
+/partners/external-shares
+</code></pre>
+<p>With this setting, a user can share <code>/projects/team-shares/report.pdf</code> or <code>/partners/external-shares/q4</code> but not <code>/</code>, <code>/projects/private</code>, or any sibling folder.</p>
+<p>The string <code>/</code> in the allowed list acts as a wildcard (matches any path). In the denied list, <code>/</code> matches the root only — preserving the behavior described above.</p>
+<h3 id="combining-the-two-lists">Combining the two lists</h3>
+<p>When both lists are set, SFTPGo evaluates the share path with longest-prefix-match: the more specific entry wins. If the same path appears in both lists, the denied entry takes precedence. This lets you express common patterns:</p>
+<p><strong>Allowed subtree with a carve-out</strong></p>
+<pre><code>allowed: /projects
+denied:  /projects/confidential
+</code></pre>
+<p><code>/projects</code> and most descendants are shareable; <code>/projects/confidential</code> and its descendants are not.</p>
+<p><strong>Default-allow with explicit blocks</strong></p>
+<pre><code>allowed: /
+denied:  /sensitive
+</code></pre>
+<p>Everything is shareable except <code>/sensitive</code> and its descendants.</p>
+<p><strong>Nested override</strong></p>
+<pre><code>allowed: /projects, /projects/confidential/public
+denied:  /projects/confidential
+</code></pre>
+<p><code>/projects/confidential/public</code> is shareable (the more specific allow entry wins); other paths under <code>/projects/confidential</code> remain blocked.</p>
+<h3 id="configuration-and-inheritance">Configuration and inheritance</h3>
+<p>Both fields are textareas in the user or group settings under the "Profile" section of the WebAdmin UI. Enter one or more virtual paths separated by commas.</p>
+<p>When configured at the group level, both lists are inherited additively by group members and deduplicated with any user-level entries.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Group-level <strong>Denied share paths</strong> entries are enforced even when a user has the same path in their <strong>Allowed share paths</strong> list — the denied entry always takes precedence, so groups remain a reliable mechanism for hard share restrictions.</p>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Tightening either filter takes effect immediately, including for shares that already exist: if a previously-shared path is no longer allowed (or is now denied), the share starts returning 404 on next access until the filter is relaxed or the share is removed.</p>
 <h2 id="restricting-share-scopes">Restricting Share Scopes</h2>
 <p>Administrators can also restrict which share scopes (read, write, read/write) users are allowed to use by configuring the <strong>Denied share scopes</strong> filter.</p>
 <p>For example, denying the "read/write" scope forces users to create either read-only or write-only shares, but not combined read/write shares. This is useful when you want to enforce a clear separation between upload-only and download-only shares.</p>
@@ -4156,7 +4312,7 @@ This share has been removed permanently.
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 26, 2026 15:47:01 UTC">2026-04-26 15:47:01</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="May 1, 2026 11:10:56 UTC">2026-05-01 11:10:56</span>
   </span>
 
     

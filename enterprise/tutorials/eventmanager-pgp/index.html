@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/tutorials/eventmanager-pgp/",
         "inLanguage": "en",
         "datePublished": "2026-04-26T15:47:01Z",
-        "dateModified": "2026-04-26T15:47:01Z",
+        "dateModified": "2026-05-28T08:42:58Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -779,6 +779,34 @@
     
   
     Roles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin-permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Admin Permissions
   
 
     
@@ -1528,6 +1556,45 @@
     <span class="md-ellipsis">
       
         Step 2: Create an Upload Rule
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-scheduled-batch-encryption-with-wildcards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Scheduled Batch Encryption with Wildcards
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example: Scheduled Batch Encryption with Wildcards">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-create-a-batch-pgp-encryption-action" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Create a Batch PGP Encryption Action
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-schedule-the-action" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Schedule the Action
       
     </span>
   </a>
@@ -3575,6 +3642,45 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#example-scheduled-batch-encryption-with-wildcards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Scheduled Batch Encryption with Wildcards
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example: Scheduled Batch Encryption with Wildcards">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-create-a-batch-pgp-encryption-action" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Create a Batch PGP Encryption Action
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-schedule-the-action" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Schedule the Action
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3683,10 +3789,23 @@
 <li>Target path: <code>/{{.VirtualPath}}.pgp</code></li>
 </ul>
 <p>For example, a file named <code>file.txt</code> will be encrypted and stored as <code>file.txt.pgp</code>.</p>
+<p>A second common pattern is to write the encrypted output next to the source, letting SFTPGo derive the filename. To do this, use a directory target ending with <code>/</code>:</p>
+<ul>
+<li>Source path: <code>/{{.VirtualPath}}</code></li>
+<li>Target path: <code>/{{ pathDir .VirtualPath }}/</code></li>
+</ul>
+<p>Each matched file is written under the target directory with <code>.pgp</code> appended (<code>/inbox/file.txt</code> → <code>/inbox/file.txt.pgp</code>). The trailing <code>/</code> is required: without it, an upload like <code>/inbox/file.txt</code> would render the target to <code>/inbox</code> (a literal output filename).</p>
+<p>Each path entry has its own <strong>After encrypt/decrypt</strong> option that controls what happens to the source file once it has been processed:</p>
+<ul>
+<li><strong>Keep source</strong> (default) — the plaintext file is left in place.</li>
+<li><strong>Delete source</strong> — the plaintext file is removed after a successful encrypt.</li>
+<li><strong>Move source</strong> — the plaintext file is moved to a path you specify (placeholders supported).</li>
+</ul>
+<p>Configuring this per entry avoids a separate Delete action when you simply want to dispose of the original after encryption.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/pgp_encrypt_paths.png" data-desc-position="bottom" data-gallery="pgp-enc"><img alt="PGP encryption paths" data-gallery="pgp-enc" src="../../assets/img/pgp_encrypt_paths.png"></a></p>
 <h3 id="step-2-create-an-upload-rule">Step 2: Create an Upload Rule</h3>
 <p>Define a rule that executes this action after uploads. Select <code>Filesystem events</code> as trigger and <code>upload</code> as event.</p>
-<p>Additional actions can be configured as part of the rule, such as deleting the original plain text file upon successful encryption and/or sending an email notification.</p>
+<p>Additional actions can be configured as part of the rule, such as sending an email notification on success.</p>
 <h2 id="example-automatic-decryption-after-upload">Example: Automatic Decryption After Upload</h2>
 <p>This example shows how to automatically decrypt PGP-encrypted files upon upload, making the plaintext version available for further processing.</p>
 <h3 id="step-1-create-a-pgp-decryption-action">Step 1: Create a PGP Decryption Action</h3>
@@ -3701,7 +3820,21 @@
 <h3 id="step-2-create-an-upload-rule_1">Step 2: Create an Upload Rule</h3>
 <p>Define a rule that executes this action after uploads. Select <code>Filesystem events</code> as trigger and <code>upload</code> as event.</p>
 <p>You can add a path filter such as <code>*.pgp</code> to ensure the action only runs on encrypted files.</p>
-<p>Optionally, add a second action to delete the original <code>.pgp</code> file after successful decryption, keeping only the plaintext version.</p>
+<p>To remove the original <code>.pgp</code> file after a successful decryption, set the entry's <strong>After encrypt/decrypt</strong> option to <strong>Delete source</strong> — there is no need for a separate Delete action.</p>
+<h2 id="example-scheduled-batch-encryption-with-wildcards">Example: Scheduled Batch Encryption with Wildcards</h2>
+<p>When the same external party drops several files in a directory and you want to encrypt them all on a schedule, use a wildcard source and a directory target.</p>
+<h3 id="step-1-create-a-batch-pgp-encryption-action">Step 1: Create a Batch PGP Encryption Action</h3>
+<p>Create a PGP action as in the first example, then configure the paths:</p>
+<ul>
+<li>Source path: <code>/inbox/*.csv</code></li>
+<li>Target path: <code>/encrypted/</code></li>
+</ul>
+<p>The trailing <code>/</code> on the target marks it as a destination directory: each matched file is written under it with <code>.pgp</code> appended (e.g., <code>report.csv</code> → <code>/encrypted/report.csv.pgp</code>). Subdirectories of <code>/inbox/</code> are not descended into; zero matches is not an error.</p>
+<p>For batch workflows it is common to set <strong>After encrypt</strong> to <strong>Move source</strong> with a directory like <code>/processed</code> so that already-encrypted files are not picked up by the next run.</p>
+<h3 id="step-2-schedule-the-action">Step 2: Schedule the Action</h3>
+<p>Create a rule with a <strong>Schedule</strong> trigger (for example, hourly) and select the batch encryption action.</p>
+<p>If the inbox is reached through a <a href="../eventmanager-folders/">virtual folder</a>, assign that folder as <strong>Source folder</strong> on the action so it can find the files even though no user is logged in. The same per-entry disposition (Delete or Move) applies — typical setups archive originals to a dated path such as <code>/processed/{{ .Timestamp.Format "2006-01-02" }}</code>.</p>
+<p>A target folder is always required for PGP batch workflows. To run encrypt or decrypt <strong>in place</strong> inside a single shared folder, set both source folder and target folder to the same value — this declares the intent explicitly. Source-only configurations are rejected at save time.</p>
 
 
 
@@ -3724,7 +3857,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 26, 2026 15:47:01 UTC">2026-04-26 15:47:01</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="May 28, 2026 08:42:58 UTC">2026-05-28 08:42:58</span>
   </span>
 
     

@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/dynamic-user-mod/",
         "inLanguage": "en",
         "datePublished": "2024-04-25T16:47:14Z",
-        "dateModified": "2026-04-26T15:47:01Z",
+        "dateModified": "2026-05-28T08:42:58Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -779,6 +779,34 @@
     
   
     Roles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../admin-permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Admin Permissions
   
 
     
@@ -3399,7 +3427,7 @@ To enable dynamic user modification, you must set the absolute path of your prog
 <p>The external program can read the following environment variables to get info about the user trying to login:</p>
 <ul>
 <li><code>SFTPGO_LOGIND_USER</code>, it contains the user trying to login serialized as JSON. A JSON serialized user id equal to zero means the user does not exist inside SFTPGo</li>
-<li><code>SFTPGO_LOGIND_METHOD</code>, possible values are: <code>password</code>, <code>publickey</code>, <code>keyboard-interactive</code>, <code>TLSCertificate</code>, <code>IDP</code> (external identity provider) or empty if the hook is executed after receiving the FTP <code>USER</code> command</li>
+<li><code>SFTPGO_LOGIND_METHOD</code>, possible values are: <code>password</code>, <code>publickey</code>, <code>keyboard-interactive</code>, <code>TLSCertificate</code>, <code>IDP</code> (external identity provider) or empty if the hook is executed after receiving the FTP <code>USER</code> command. For <a href="../ssh/#multi-step-authentication">multi-step authentication</a> the hook is invoked once per step with the single-step factor (<code>password</code>, <code>publickey</code> or <code>keyboard-interactive</code>); the combined name (e.g. <code>publickey+password</code>) is not exposed to the pre-login hook.</li>
 <li><code>SFTPGO_LOGIND_IP</code>, ip address of the user trying to login</li>
 <li><code>SFTPGO_LOGIND_PROTOCOL</code>, possible values are <code>SSH</code>, <code>FTP</code>, <code>DAV</code>, <code>HTTP</code>, <code>OIDC</code> (OpenID Connect)</li>
 </ul>
@@ -3418,6 +3446,7 @@ In other words while using "External Authentication" the external program receiv
 <p>For SFTPGo users (not admins) authenticating using an external identity provider such as OpenID Connect, the pre-login hook will be executed after a successful authentication against the external IDP so that you can create/update the SFTPGo user matching the one authenticated against the identity provider. In this case where the pre-login hook is executed even if an external authentication hook is defined.</p>
 <p>If you enable FTP and allow both encrypted and plain text sessions, the pre-login hook is executed after receiving the FTP <code>USER</code> command. If you return an SFTPGo user with <code>ftp_security</code> set to <code>1</code> and the FTP session is not encrypted, it will be terminated. In this case where the pre-login hook is executed even if an external authentication hook is defined.</p>
 <p>You can disable the hook on a per-user basis.</p>
+<p>You can also instruct SFTPGo to skip the pre-login hook for recently active users by setting <code>pre_login_cache_time</code> (seconds) on the user object. While the user's last login is within the configured window the hook is bypassed. This is useful for protocols like WebDAV where every HTTP request re-authenticates and the hook would otherwise fire on every request. Set to <code>0</code> (default) to always run the hook.</p>
 <p>The structure for SFTPGo users can be found within the <a href="https://sftpgo.com/rest-api" target="_blank">OpenAPI schema</a>.</p>
 
 
@@ -3441,7 +3470,7 @@ In other words while using "External Authentication" the external program receiv
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 26, 2026 15:47:01 UTC">2026-04-26 15:47:01</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="May 28, 2026 08:42:58 UTC">2026-05-28 08:42:58</span>
   </span>
 
     

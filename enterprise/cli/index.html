@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/cli/",
         "inLanguage": "en",
         "datePublished": "2024-04-25T16:47:14Z",
-        "dateModified": "2026-04-26T15:47:01Z",
+        "dateModified": "2026-05-28T08:42:58Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -779,6 +779,34 @@
     
   
     Roles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../admin-permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Admin Permissions
   
 
     
@@ -1621,6 +1649,17 @@
     <span class="md-ellipsis">
       
         Resetting an administrator password
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#converting-names-to-the-configured-naming-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Converting names to the configured naming rules
       
     </span>
   </a>
@@ -3473,6 +3512,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#converting-names-to-the-configured-naming-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Converting names to the configured naming rules
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#other-commands" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3555,6 +3605,7 @@
 
 Available Commands:
   acme           Obtain TLS certificates from ACME-based CAs like Let's Encrypt
+  convertnames   Convert existing names to conform to the configured naming rules
   gen            A collection of useful generators
   help           Help about any command
   initprovider   Initialize and/or updates the configured data provider
@@ -3816,6 +3867,24 @@ Use "sftpgo service [command] --help" for more information about a command.
 <p>On Windows, run the command from an elevated PowerShell (the service account must have access to the data provider):</p>
 <pre><code class="language-powershell">&amp; "C:\Program Files\SFTPGo\sftpgo.exe" resetpwd --admin yourname -c "C:\ProgramData\SFTPGo Enterprise"
 </code></pre>
+<h2 id="converting-names-to-the-configured-naming-rules">Converting names to the configured naming rules</h2>
+<p>The <code>naming_rules</code> data provider setting (see <a href="../config-file/">config file</a>) normalizes usernames, folder, group, role, event action and event rule names before they are saved and looked up. Enabling lowercase or trim on an installation that already holds names which do not conform makes those objects unreachable: the lookup is normalized while the stored row is not. The <code>convertnames</code> command reconciles the stored data with the configured rules:</p>
+<pre><code class="language-shell">sftpgo convertnames
+</code></pre>
+<p>By default the command only reports the names it would convert and any blocking conflict, and never modifies the data. Review the report, then apply it:</p>
+<pre><code class="language-shell">sftpgo convertnames --execute
+</code></pre>
+<p>The <code>--execute</code> flag can also be set with the <code>SFTPGO_CONVERTNAMES_EXECUTE</code> environment variable.</p>
+<p>Each name is converted with a single statement that changes only the name column. The operation is idempotent: if it stops on an error, the names already converted stay committed and you can fix the cause and run it again to convert the rest.</p>
+<p>A blocking conflict is reported when two distinct names would collapse to the same value once the rules are applied (for example <code>Team</code> and <code>team</code> with the lowercase rule), or when the target name is still held by a soft-deleted row pending purge. Resolve these by hand before running <code>--execute</code>.</p>
+<p>Notes and limitations:</p>
+<ul>
+<li><strong>Not supported for the memory data provider</strong> (nothing is persisted).</li>
+<li><strong>Conversion is available for the SQL data providers</strong> (SQLite, PostgreSQL, MySQL/MariaDB, CockroachDB). On bolt the report is produced and the conversion step is skipped.</li>
+<li><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Run the command while the SFTPGo instance is stopped. With SQLite a running server can modify the same database concurrently, and an embedded database must be reachable exclusively by the command.</li>
+<li>With PostgreSQL, MySQL and CockroachDB the default collation is case-insensitive, so mixed-case names keep resolving and converting is portability oriented; it matters when moving to a case-sensitive provider.</li>
+<li>Pass <code>-c</code>/<code>--config-dir</code> (or <code>SFTPGO_CONFIG_DIR</code>) if the config directory is not the current working directory.</li>
+</ul>
 <h2 id="other-commands">Other commands</h2>
 <p>For other commands run <code>sftpgo &lt;command&gt; --help</code> to understand the usage.</p>
 
@@ -3840,7 +3909,7 @@ Use "sftpgo service [command] --help" for more information about a command.
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 26, 2026 15:47:01 UTC">2026-04-26 15:47:01</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="May 28, 2026 08:42:58 UTC">2026-05-28 08:42:58</span>
   </span>
 
     

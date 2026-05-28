@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/tutorials/oauth2-smtp-imap/",
         "inLanguage": "en",
         "datePublished": "2026-04-26T15:47:01Z",
-        "dateModified": "2026-04-26T15:47:01Z",
+        "dateModified": "2026-05-28T08:42:58Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -792,6 +792,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin-permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Admin Permissions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1204,6 +1232,17 @@
     <span class="md-ellipsis">
       
         Obtaining the Refresh Token
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shared-mailboxes-microsoft" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Shared mailboxes (Microsoft)
       
     </span>
   </a>
@@ -3780,6 +3819,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#shared-mailboxes-microsoft" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Shared mailboxes (Microsoft)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#google-example-imap-action-for-automatic-email-ingestion" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4114,14 +4164,30 @@
 <p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> For Microsoft, SFTPGo automatically requests the <code>IMAP.AccessAsUser.All</code> scope instead of <code>SMTP.Send</code>. If you are using the same Azure app registration for both SMTP and IMAP, make sure to add both <code>SMTP.Send</code> and <code>IMAP.AccessAsUser.All</code> to the API permissions and grant admin consent.</p>
 <h3 id="obtaining-the-refresh-token">Obtaining the Refresh Token</h3>
 <p>The IMAP action form includes a <strong>Get</strong> button next to the OAuth2 Token field. Fill in the provider, client ID, and client secret, then click <strong>Get</strong>. SFTPGo redirects to the provider's consent screen. After granting access, a page is displayed with the refresh token — copy it (without quotes) and paste it into the <strong>OAuth2 Token</strong> field in the action form.</p>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> For Microsoft, sign in as the user that owns the mailbox configured in the action's <strong>Username</strong> field, or as a delegate with Full Access on a shared mailbox — see <a href="#shared-mailboxes-microsoft">Shared mailboxes (Microsoft)</a>. The access token is bound to the signing-in identity; if that user has no access to the configured mailbox, IMAP returns <code>AUTHENTICATE failed</code> at runtime.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/oauth2-flow-completed.png" data-desc-position="bottom" data-gallery="oauth2-flow-imap"><img alt="OAuth2 flow completed" data-gallery="oauth2-flow-imap" src="../../assets/img/oauth2-flow-completed.png"></a></p>
+<h3 id="shared-mailboxes-microsoft">Shared mailboxes (Microsoft)</h3>
+<p>A common pattern is a dedicated service mailbox (e.g., <code>inbound@yourdomain.com</code>) that receives files from external partners. Shared mailboxes have no password and cannot sign in directly, so OAuth2 authorization is performed by a delegate user that has Full Access on the shared mailbox.</p>
+<p>To configure IMAP OAuth2 against a shared mailbox:</p>
+<ol>
+<li>Set the IMAP action's <strong>Username</strong> field to the shared mailbox's email address (e.g., <code>inbound@yourdomain.com</code>). This is the address that goes into the SASL XOAUTH2 string the IMAP server validates.</li>
+<li>
+<p>Grant a delegate user Full Access on the shared mailbox via Exchange Online PowerShell:</p>
+<p><code>powershell
+  Add-MailboxPermission -Identity inbound@yourdomain.com -User delegate@yourdomain.com -AccessRights FullAccess</code></p>
+</li>
+<li>
+<p>When clicking <strong>Get</strong> to obtain the refresh token, sign in with the <strong>delegate</strong> user — not with the shared mailbox account.</p>
+</li>
+<li>If you change the delegate user later, the existing refresh token is bound to the previous identity and must be regenerated. Revoke the previous consent from <a href="https://myapps.microsoft.com/">My Apps</a> (or have the admin remove the application from the user's permissions) and re-run <strong>Get</strong> signing in with the new delegate.</li>
+</ol>
 <h3 id="google-example-imap-action-for-automatic-email-ingestion">Google Example: IMAP Action for Automatic Email Ingestion</h3>
 <p>A common use case is to automatically fetch email attachments and make them available as files in SFTPGo.</p>
 <ol>
 <li>Create an IMAP action with OAuth2 authentication configured for Google.</li>
 <li>Set the endpoint to <code>imaps://imap.gmail.com:993</code>.</li>
 <li>Set the path template for where attachments should be saved (e.g., <code>/inbound/{{.ObjectName}}</code>).</li>
-<li>Create a scheduled rule to run the IMAP action periodically (e.g., every 5 minutes).</li>
+<li>Create a scheduled rule to run the IMAP action periodically (e.g., every 5 minutes). If you leave the IMAP action's target folder empty, attachments land in a user's home directory and you must add a name filter that identifies a single destination user. Set a target folder (a virtual folder) to write attachments to a shared destination instead, and the user filter becomes unnecessary.</li>
 </ol>
 <h3 id="refresh-token-rotation">Refresh Token Rotation</h3>
 <p>OAuth2 providers may rotate refresh tokens. SFTPGo handles this automatically:</p>
@@ -4136,6 +4202,7 @@
 <li><strong>"Invalid redirect URI"</strong>: The redirect URI in the provider must exactly match <code>https://&lt;your-sftpgo-url&gt;/web/admin/oauth2/redirect</code>. Check for trailing slashes and protocol (http vs https).</li>
 <li><strong>Google "App not verified" warning</strong>: For external apps in testing mode, only test users added to the OAuth consent screen can authorize. Publish the app to remove this restriction.</li>
 <li><strong>Microsoft tenant errors</strong>: Ensure the tenant ID matches your Azure AD directory. For personal Microsoft accounts, use <code>consumers</code> as the tenant.</li>
+<li><strong>Microsoft <code>AUTHENTICATE failed</code> (IMAP) or <code>535 5.7.3 Authentication unsuccessful</code> (SMTP) despite a successful token refresh</strong>: the token was issued correctly but Exchange Online rejected it because the signing-in user that authorized the OAuth flow has no access to the mailbox configured in the action's <strong>Username</strong> field. Revoke the previous consent from <a href="https://myapps.microsoft.com/">My Apps</a> and re-run <strong>Get</strong>, signing in as the mailbox owner — or as a delegate with Full Access (IMAP) or Send As (SMTP) on the shared mailbox. The previous refresh token is bound to the wrong identity and must be replaced.</li>
 <li><strong>Token expiration</strong>: Client secrets in Azure AD expire. When they do, create a new secret and update it in SFTPGo. The refresh token itself is renewed automatically.</li>
 </ul>
 
@@ -4160,7 +4227,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 26, 2026 15:47:01 UTC">2026-04-26 15:47:01</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="May 28, 2026 08:42:58 UTC">2026-05-28 08:42:58</span>
   </span>
 
     
