@@ -34,6 +34,9 @@ Supported configuration parameters for the `common` section:
 - `allow_self_connections`, integer. Allow users on this instance to use other users/virtual folders on this instance as storage backend. Enable this setting if you know what you are doing. Set to `1` to enable. Default: `0`.
 - `umask`, string. Set the file mode creation mask, for example `002`. Leave blank to use the system umask. Supported on *NIX platforms. Default: blank.
 - `server_version`, string. Allow some degree of customization for the advertised software version. Set to `short` to hide the SFTPGo version number, if different from `short` the default will be used. Default: blank.
+
+:information_source: The per-host and total connection caps are checked and applied without atomic coordination. Under bursts of near-simultaneous connections, the active count can briefly exceed the configured limit by a small number of connections before the rejection logic catches up. The window is narrow (no I/O between check and increment), so this is a hard cap only on average — not a strict hard cap on instantaneous peaks. If you need a strict atomic cap (e.g. to protect a downstream resource sized exactly to the limit), set the value below your target peak to leave headroom.
+
 - `metadata`, struct containing the configuration for managing the Cloud Storage backends metadata.
   - `read`, integer. Set to `1` to read metadata before downloading files from Cloud Storage backends and making them available in notification events. Default: `0`.
 - `defender`, struct containing the defender configuration. See [Defender](defender.md) for more details.
