@@ -1,5 +1,3 @@
 User-agent: *
-Disallow: /
-Allow: /enterprise/
 
 Sitemap: https://docs.sftpgo.com/enterprise/sitemap.xml
