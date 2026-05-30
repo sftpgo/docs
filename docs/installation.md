@@ -33,25 +33,7 @@ SFTPGo is available on [Google Cloud Marketplace](https://console.cloud.google.c
 
 ## Linux
 
-APT and YUM repositories are available through [Oregon State University's](https://osuosl.org/){:target="_blank"} free mirroring service. Special thanks to Lance Albertson, Director of the Oregon State University Open Source Lab.
-
 SFTPGo is included in some distro repositories, we only document packages that we maintain directly.
-
-### Ubuntu
-
-For Ubuntu a PPA is [available](https://launchpad.net/~sftpgo/+archive/ubuntu/sftpgo){:target="_blank"}.
-
-```shell
-sudo add-apt-repository ppa:sftpgo/sftpgo
-sudo apt update
-sudo apt install sftpgo
-```
-
-After installation SFTPGo should already be running with default configuration and configured to start automatically at boot, check its status using the following command:
-
-```shell
-systemctl status sftpgo
-```
 
 ### APT repo
 
@@ -60,11 +42,16 @@ Supported distributions:
 - Debian 10 "buster"
 - Debian 11 "bullseye"
 - Debian 12 "bookworm"
+- Debian 13 "trixie"
+- Ubuntu 20.04 "focal"
+- Ubuntu 22.04 "jammy"
+- Ubuntu 24.04 "noble"
+- Ubuntu 26.04 "resolute"
 
 Import the public key used by the package management system:
 
 ```shell
-curl -sS https://ftp.osuosl.org/pub/sftpgo/apt/gpg.key | sudo gpg --dearmor -o /usr/share/keyrings/sftpgo-archive-keyring.gpg
+curl -sS https://oss.sftpgo.com/apt/gpg.key | sudo gpg --dearmor -o /usr/share/keyrings/sftpgo-archive-keyring.gpg
 ```
 
 If you receive an error indicating that `gnupg` is not installed, you can install it using the following command:
@@ -77,7 +64,7 @@ Create the SFTPGo source list file:
 
 ```shell
 CODENAME=`lsb_release -c -s`
-echo "deb [signed-by=/usr/share/keyrings/sftpgo-archive-keyring.gpg] https://ftp.osuosl.org/pub/sftpgo/apt ${CODENAME} main" | sudo tee /etc/apt/sources.list.d/sftpgo.list
+echo "deb [signed-by=/usr/share/keyrings/sftpgo-archive-keyring.gpg] https://oss.sftpgo.com/apt ${CODENAME} main" | sudo tee /etc/apt/sources.list.d/sftpgo.list
 ```
 
 Reload the package database and install SFTPGo:
@@ -97,7 +84,7 @@ Create the SFTPGo repository:
 
 ```shell
 ARCH=`uname -m`
-curl -sS https://ftp.osuosl.org/pub/sftpgo/yum/${ARCH}/sftpgo.repo | sudo tee /etc/yum.repos.d/sftpgo.repo
+curl -sS https://oss.sftpgo.com/yum/${ARCH}/sftpgo.repo | sudo tee /etc/yum.repos.d/sftpgo.repo
 ```
 
 Reload the package database and install SFTPGo:
@@ -119,14 +106,14 @@ sudo systemctl enable sftpgo
 Import the public key used by the package management system:
 
 ```shell
-sudo rpm --import https://ftp.osuosl.org/pub/sftpgo/apt/gpg.key
+sudo rpm --import https://oss.sftpgo.com/yum/gpg.key
 ```
 
 Add the SFTPGo repository:
 
 ```shell
 ARCH=`uname -m`
-sudo zypper addrepo -f "https://ftp.osuosl.org/pub/sftpgo/yum/${ARCH}" sftpgo
+sudo zypper addrepo -f "https://oss.sftpgo.com/yum/${ARCH}" sftpgo
 ```
 
 Reload the package database and install SFTPGo:
