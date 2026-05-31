@@ -35,7 +35,7 @@ If you're migrating from an open-source installation, please follow the guide he
 ### Hardening
 
 - Event Manager: The synthetic user used by Backup chains is restricted to list and download permissions. Downstream actions can attach the dump file to email or HTTP notifications but cannot write to or delete files inside the backups directory, including the dump itself.
-- Data At Rest Encryption / S3 SSE-C: the CryptFs passphrase and the S3 SSE-C key are validated against a configurable minimum entropy ([`common.secret_min_entropy`](config-file.md), default 80 bits) when set or changed. These secrets are key material for at-rest encryption; a weak value could be brute-forced offline from leaked ciphertext. The check applies only to plain-text submissions, so secrets already stored are unaffected. See [Passphrase strength](dare.md#passphrase-strength).
+- Data At Rest Encryption / S3 SSE-C: the CryptFs passphrase and the S3 SSE-C key are validated against a configurable minimum entropy ([`common.secret_min_entropy`](config-file.md), default 80) when set or changed. These secrets are key material for at-rest encryption; a weak value could be brute-forced offline from leaked ciphertext. The check applies only to plain-text submissions, so secrets already stored are unaffected. See [Passphrase strength](dare.md#passphrase-strength).
 
 ### Bug fixes
 
@@ -44,6 +44,11 @@ If you're migrating from an open-source installation, please follow the guide he
 - Shares: the `max_tokens` usage limit is now enforced atomically. A race between concurrent share accesses could let the number of downloads/uploads exceed the configured maximum; the usage counter is now reserved with a conditional update so the limit holds under concurrency.
 - Transfer admission: `max_total_transfers`, `max_per_host_transfers` and the per-user `max_sessions` cap are now strictly enforced. Concurrent bursts could previously let the number of active transfers exceed the configured cap; the limits are now applied atomically. Denials surface via the new [`sftpgo_transfer_admission_denied_total`](metrics.md#transfer-admission) metric.
 - Connection admission: `max_per_host_connections` and `max_total_connections` are now strictly enforced under concurrent connection bursts. Denials surface via the new [`sftpgo_connection_admission_denied_total`](metrics.md#connection-admission) metric. HTTP and WebDAV now return `429 Too Many Requests` for cap-driven denials (previously `403 Forbidden` on HTTP and `503 Service Unavailable` on WebDAV); allow-list denials on WebDAV change from `503` to `403`. The `post_connect_hook` no longer fires for connections denied by the cap or allow list.
+
+### Security fixes
+
+- Path confinement bypass in the partial ZIP download of browsable shares (severity: Moderate). [CVE-2026-49244](https://github.com/drakkan/sftpgo/security/advisories/GHSA-h64p-8h4r-6gfh).
+- Stored XSS via the `inline` parameter on file download endpoints (severity: Low). [CVE-2026-49245](https://github.com/drakkan/sftpgo/security/advisories/GHSA-3vcg-pv95-pq54).
 
 ### Migration notes
 
