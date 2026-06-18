@@ -1,5 +1,7 @@
 # What is SFTPGo?
 
+> :warning: **SFTPGo 2.6.x is no longer maintained and receives no further updates, including security fixes.** This documentation is kept only as a reference for existing 2.6.x installations. Use the version selector to view the documentation for a maintained release and plan an upgrade to a supported version.
+
 SFTPGo is an event-driven file transfer solution. It support multiple protocols (SFTP, SCP, FTP/S, WebDAV, HTTP/S) and multiple storage backends.
 
 With SFTPGo you can leverage local and cloud storage backends for exchanging and storing files internally or with business partners using the same tools and processes you are already familiar with.
