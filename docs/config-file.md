@@ -411,6 +411,8 @@ The `admins` and `users` sub-sections behave differently:
 
 Node-specific configuration for inter-node communication. If your provider is shared across multiple nodes, nodes can exchange information to present a uniform view for node-specific data (e.g., active connections from all nodes). Nodes connect to each other using the REST API.
 
+:information_source: Inter-node communication provides a uniform *view* of the cluster; it does not pool *enforcement*. Resource and concurrency limits — such as per-user `max_sessions`, bandwidth limits, the per-host and total connection caps, and rate limits — are scoped to a single node: each node enforces them independently against the traffic it serves and does not coordinate them with other nodes, unless a setting is explicitly documented as cluster-wide. Plan capacity accordingly: a per-node limit of N can allow up to N times the number of nodes across the cluster.
+
 | Parameter | Type | Default | Description |
 | ----------- | ------ | --------- | ------------- |
 | `host` | string | empty | IP address or hostname that other nodes can use to connect to this node via REST API. Empty means inter-node communication is disabled. |
