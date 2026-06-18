@@ -32,7 +32,7 @@ Configuration parameters for the `common` section.
 | `server_version` | string | empty | Customize the advertised software version. `short` hides the version number; any other value falls back to the default. |
 | `tz` | string | empty | Time zone for the EventManager scheduler and time-based access restrictions. Set to `local` for server local time; otherwise UTC is used. |
 
-:information_source: The per-host and total connection caps are checked and applied without atomic coordination. Under bursts of near-simultaneous connections, the active count can briefly exceed the configured limit by a small number of connections before the rejection logic catches up. The window is narrow (no I/O between check and increment), so this is a hard cap only on average — not a strict hard cap on instantaneous peaks. If you need a strict atomic cap (e.g. to protect a downstream resource sized exactly to the limit), set the value below your target peak to leave headroom.
+:information_source: The per-user `max_sessions` limit and the per-host and total connection caps are checked and applied without atomic coordination. Under bursts of near-simultaneous connections, the active count can briefly exceed the configured limit by a small number of connections before the rejection logic catches up. The window is narrow (no I/O between check and increment), so this is a hard cap only on average — not a strict hard cap on instantaneous peaks. If you need a strict atomic cap (e.g. to protect a downstream resource sized exactly to the limit), set the value below your target peak to leave headroom.
 
 #### `upload_mode` flags
 
