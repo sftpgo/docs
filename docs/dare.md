@@ -22,3 +22,5 @@ The encrypted filesystem has some limitations compared to the local, unencrypted
 - Opening a file for both reading and writing at the same time is not supported and so clients that require advanced filesystem-like features such as `sshfs` are not supported too.
 - Truncate is not supported.
 - System commands are not supported: they will store data unencrypted.
+
+DARE encrypts file contents only and is backed by the local filesystem, so symbolic-link handling and per-directory permissions follow the [local filesystem](localfs.md) model, including the `symlink_mode` setting described in [Symbolic links and permissions](config-file.md#symbolic-links-and-permissions).
