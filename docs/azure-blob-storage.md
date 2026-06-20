@@ -16,6 +16,12 @@ SFTPGo supports three authentication methods:
 
 The account key and SAS URL are stored encrypted according to your [KMS configuration](kms.md).
 
+### Selecting a managed identity
+
+With the default credential chain, a host (Azure VM, AKS pod with workload identity, App Service, ...) authenticates through its managed identity. When a single system-assigned identity is in use, it is selected automatically. When more than one user-assigned managed identity is available, the credential cannot pick one on its own and you must indicate which one to use.
+
+Set the **Managed identity client ID** to the client ID of the user-assigned managed identity SFTPGo should authenticate with. This value applies only when account key and SAS URL are blank; leave it empty to keep the default credential chain behavior. Each storage configuration (user or virtual folder) can target a different managed identity, so a single SFTPGo instance can serve multiple identities.
+
 ## Configuration
 
 | Parameter | Description |
@@ -24,8 +30,9 @@ The account key and SAS URL are stored encrypted according to your [KMS configur
 | **Account name** | Azure storage account name. Required when using shared key authentication. |
 | **Account key** | Storage account key. Leave blank to use SAS URL or default credentials. |
 | **SAS URL** | Shared Access Signature URL. Leave blank to use shared key or default credentials. |
+| **Managed identity client ID** | Client ID of the user-assigned managed identity to authenticate with. Set this when account key and SAS URL are blank and more than one user-assigned managed identity is available. |
 | **Endpoint** | Azure Blob Storage endpoint. Default: `blob.core.windows.net`. Set a custom endpoint for emulators like [Azurite](https://github.com/Azure/Azurite){:target="_blank"} (e.g., `http://127.0.0.1:10000`). |
-| **Key prefix** | Optional. Restricts the user to a "folder" within the container. Each user can only access objects under their assigned prefix. The prefix does not need to exist beforehand. |
+| **Key prefix** | Optional. Restricts the user to a "folder" within the container. Each user can only access objects under their assigned prefix. The prefix does not need to exist beforehand. It is normalized when saved: a leading `/` is removed, a trailing `/` is added, and `.`/`..` segments are resolved; a non-empty value that resolves to the container root is not allowed. |
 | **Access tier** | Blob [access tier](https://learn.microsoft.com/en-us/azure/storage/blobs/access-tiers-overview){:target="_blank"} for uploaded objects: `Hot`, `Cool`, or `Archive`. Leave blank for the container's default tier. |
 | **Skip TLS verify** | Accept any TLS certificate. :warning: Only for testing. |
 

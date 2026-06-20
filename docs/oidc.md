@@ -107,6 +107,34 @@ SFTPGo implements the following security measures for OIDC:
 - **Auth time validation** — when `max_age` is configured, the `auth_time` claim is checked with a 60-second clock skew tolerance.
 - **Session cookies** — set with `HttpOnly`, `Secure`, and `SameSite=Lax` attributes.
 
+## OIDC and local credentials
+
+OpenID Connect authenticates the **web session** only. The mapped account is a regular SFTPGo user or admin, so it keeps its own SFTPGo credentials (password, public keys) and its own set of allowed protocols. When those are present and permitted, they are independent authentication paths that work without OIDC:
+
+- A user with a password and/or public keys can connect over SSH/SFTP, FTP and WebDAV when the corresponding protocol and login method are allowed.
+- A user with a password can also sign in to the WebClient through the password login form when the `password` login method is allowed for HTTP.
+
+:warning: These credentials are stored in SFTPGo and follow the SFTPGo account lifecycle, not the Identity Provider's: disabling, locking or deleting the account in the IdP does not revoke them. The user keeps working over the allowed protocols until the SFTPGo account is updated.
+
+### Restrict an account to OIDC only
+
+Use the per-user (or per-group) login and protocol filters:
+
+- **WebClient via OIDC only** — keep the `HTTP` protocol allowed and add `password` to `denied_login_methods`. OIDC login keeps working; the password login form is rejected.
+
+    :warning: Do not add `HTTP` to `denied_protocols` for this purpose: OIDC web login runs over HTTP, so denying the protocol disables OIDC too.
+
+- **No direct SSH/SFTP, FTP or WebDAV** — add `SSH`, `FTP` and `DAV` to `denied_protocols`, or add `password`, `publickey` and `keyboard-interactive` to `denied_login_methods`.
+
+Applying these as group settings enforces the policy across many accounts at once.
+
+### Revoke access when the IdP account is invalidated
+
+SFTPGo does not poll the Identity Provider, so revoking an account that already has local credentials requires one of:
+
+- Disable (set the status to inactive) or delete the account through the [REST API](rest-api.md), driven by your IdP's user-lifecycle automation.
+- Gate access at login with an **Identity Provider login** Event Manager rule or a [pre-login hook](dynamic-user-mod.md). These run at OIDC login time, so combine them with the restrictions above when the account also allows SSH/FTP/WebDAV, otherwise direct protocol logins bypass the check.
+
 ## PKCE without client secret
 
 SFTPGo supports PKCE-only authentication, where the `client_secret` is omitted entirely. This is useful when the Identity Provider is configured with a **public client** (no client secret), which is common in scenarios where storing a secret securely is not practical or when the IdP policy mandates public clients.

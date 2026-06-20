@@ -13,6 +13,7 @@ SFTPGo provides a comprehensive set of security capabilities that can help organ
 | Encryption in transit | All supported protocols use encrypted transport: SFTP over SSH, FTP with explicit/implicit TLS, WebDAV over HTTPS, and the WebClient over HTTPS. Configurable cipher suites and TLS versions. Post-quantum hybrid key exchange is available for both [SSH](ssh.md) (`mlkem768x25519-sha256`) and TLS 1.3 (`X25519MLKEM768`), providing protection against future quantum computing threats while maintaining backward compatibility with existing clients. |
 | Encryption at rest | [Data At Rest Encryption](dare.md) (CryptFs) provides transparent AES-256-GCM encryption on the local filesystem. Cloud backends (S3, Azure Blob, GCS) support server-side encryption. |
 | Key management | Encryption keys can be managed locally or through cloud KMS providers (AWS KMS, Azure Key Vault, Google Cloud KMS, HashiCorp Vault, Oracle Key Vault). See [KMS](kms.md). |
+| FIPS 140-3 | [FIPS builds](fips.md) use a FIPS-validated cryptographic module and restrict TLS, SSH, password hashing, KMS, and data-at-rest encryption to FIPS-approved algorithms. |
 
 ## Audit logging
 

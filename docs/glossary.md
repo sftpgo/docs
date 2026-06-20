@@ -51,10 +51,10 @@ A reference of SFTPGo-specific terms. Use it to quickly disambiguate concepts th
 ## Access control
 
 **Permission**
-: Per-path set of allowed operations (`list`, `upload`, `download`, `delete`, `rename`, etc.). Permissions are defined per virtual path; `/` is mandatory for every user.
+: Per-path set of allowed operations (`list`, `upload`, `download`, `delete`, `rename`, etc.). Permissions are defined per virtual path; `/` is mandatory for every user. See [Access Control](access-control.md#per-directory-permissions).
 
 **DenyPolicy (hide)**
-: A file-pattern filter setting. `default` denies access with a permission error; `hide` denies access AND hides the file from directory listings.
+: A file-pattern filter setting. `default` denies access with a permission error; `hide` denies access AND hides the file from directory listings. See [Access Control](access-control.md#file-pattern-filters).
 
 **Share**
 : A public or password-protected link that exposes a path (or selected files) to external recipients without requiring an SFTPGo account. Shares have a scope (read / write / read+write), optional password, expiration, IP restrictions, and optional email authentication. See [Shares tutorial](tutorials/shares.md).
@@ -102,7 +102,7 @@ A reference of SFTPGo-specific terms. Use it to quickly disambiguate concepts th
 : Per-protocol limits on requests-per-second that can escalate to a Defender ban. See [Rate limiting](rate-limiting.md).
 
 **Bandwidth limit**
-: Per-user / per-group upload and download throughput caps, expressed in KB/s.
+: Per-user / per-group upload and download throughput caps, expressed in KB/s. Enforced as an aggregate across all of the user's concurrent transfers on a node, regardless of protocol or number of parallel transfers.
 
 ## Plugins and hooks
 

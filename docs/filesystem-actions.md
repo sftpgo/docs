@@ -8,6 +8,14 @@ Filesystem actions allow [Event Manager](eventmanager.md) rules to manipulate fi
 
 All filesystem actions support [placeholders](placeholders.md) in their path fields, making them fully dynamic. For example, you can use `{{.VirtualPath}}` to reference the file that triggered the event, or `{{.ObjectName}}` for just the filename.
 
+## Wildcards and placeholders
+
+Delete, Copy and PGP source paths support shell-style wildcards (`*`, `?`, `[...]`) in the last path component. Wildcards are part of the action definition: SFTPGo decides whether a source is a pattern or a literal path from the configured text, before placeholders are rendered. Placeholder output is always treated literally, so a source like `/{{.VirtualPath}}` targets the triggering file exactly, including filenames containing `[`, `*` or `?` (e.g. `report [2024].pdf`).
+
+To keep the two roles distinct, the last path component of a source accepts a wildcard or a placeholder, one per entry. Placeholders remain available in the directory components, e.g. `/{{.VirtualDirPath}}/*.csv`. Within a wildcard pattern, a backslash escapes the next metacharacter: `data \[v2\]*.csv` matches names starting with the literal `data [v2]`. To target a single static name containing `[`, `*` or `?`, match the metacharacter with a character class (`report [[]2024].pdf`) or pass the name through a placeholder.
+
+The trailing-slash directory marker follows the same rule: it is read from the configured text. Write it explicitly where directory semantics are intended — `/inbox/` to copy directory contents, `/backup/` or `/{{ pathDir .VirtualPath }}/` for a destination directory, `/quarantine/` for the ICAP quarantine directory. A placeholder whose rendered value ends with `/` (for example `pathDir` of a file at the root) keeps the path literal.
+
 ## Virtual folders
 
 Filesystem actions can operate across storage backends and outside a user's security context by using **virtual folders**:
@@ -22,6 +30,8 @@ Action-specific rules apply to source-only configurations:
 - **Rename**, **Delete**, **Create directories**, **Path exists**, **Metadata Check**: always run once as a system action when only the source folder is set — these actions only touch the source filesystem.
 - **PGP** (both encrypt and decrypt) and **Compress**: rejected at save time. These actions produce derived output that has no sensible per-user destination when the source is shared. To run them in place inside a single shared folder, set both **source folder** and **target folder** to the same value — explicit configuration of intent.
 - **Copy**, **Extract**: source-only runs per-user. This is the documented "distribute a shared resource into every user's home" pattern.
+
+When a source or target folder is configured, every path of that action stays inside the folder: a placeholder that renders `..` segments cannot climb above the folder, so the action always operates within the configured backend.
 
 See the [Virtual Folders tutorial](tutorials/eventmanager-folders.md) for practical examples of virtual folder workflows.
 
@@ -43,6 +53,8 @@ Use a **trailing slash** on the path to delete the *contents* of a directory wit
 - `/inbox` — deletes the `/inbox` directory and everything in it.
 
 This is useful for cleanup actions that need to empty a directory periodically while preserving the directory structure.
+
+The filesystem root, and a [virtual folder](#virtual-folders) mount point, can only have their contents deleted — they cannot be removed. `/` (or `/` resolved through a source folder) deletes the contents of that root and preserves it. An entry **without** the trailing slash whose placeholders resolve to the root or a mount point fails the action before deleting anything, rather than emptying the location and then failing on the final removal. To empty such a location, request contents deletion explicitly with a trailing `/`.
 
 ### Glob patterns
 
@@ -133,7 +145,7 @@ When the source is a literal file path, the target can be either:
 - A **literal file path** — the encrypted/decrypted output is written to that exact path.
 - A **directory path ending with `/`** — the output filename is derived from the source: encrypt appends `.pgp` (e.g., `report.csv` → `report.csv.pgp`); decrypt strips the last extension when present (`report.csv.pgp` → `report.csv`) or appends `.dec` when the source has no extension (`secret` → `secret.dec`). The root path `/` is a valid directory target (output lands in the user's home root).
 
-:warning: When the target is built from placeholders such as `{{ pathDir .VirtualPath }}`, always include the trailing `/` (`/{{ pathDir .VirtualPath }}/`). The renderer can produce a parent directory like `/inbox`; without an explicit trailing slash, that is interpreted as a literal output filename, which can overwrite or collide with an existing directory.
+:warning: When the target is built from placeholders such as `{{ pathDir .VirtualPath }}`, always include the trailing `/` (`/{{ pathDir .VirtualPath }}/`). The directory marker is read from the configured text: without it the target is a literal output filename, which can overwrite or collide with an existing directory.
 
 :warning: PGP overwrites the target without prompting when a file with the derived output name already exists. This is independent of where the target points; the risk is more visible with a broad target like `/` because the destination namespace is wider.
 
@@ -196,7 +208,7 @@ When an ICAP scan detects an issue, you can configure the response:
 | Policy | Behavior |
 | -------- | ---------- |
 | **Delete** | The file is removed immediately. |
-| **Quarantine** | The file is moved to a quarantine directory. By mapping the quarantine to a virtual folder, you can quarantine files to a different storage backend entirely (e.g., move infected files from the user's S3 bucket to a dedicated quarantine bucket). |
+| **Quarantine** | The file is moved to a quarantine directory. End the configured path with `/` (e.g. `/quarantine/`) to place files inside that directory even when it does not exist yet. By mapping the quarantine to a virtual folder, you can quarantine files to a different storage backend entirely (e.g., move infected files from the user's S3 bucket to a dedicated quarantine bucket). |
 | **No action** | The scan result is logged but the file is left in place. |
 
 ### Combined with Execute Before File Publish

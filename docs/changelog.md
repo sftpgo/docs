@@ -11,7 +11,41 @@ We encourage you to check back regularly to stay up to date with the latest chan
 
 Upgrading to the Enterprise edition of SFTPGo is supported starting from Open Source release 2.6.x.
 
-If you're migrating from an open-source installation, please follow the guide here: [**Migration from Open-Source 2.6.x to Enterprise**](tutorials/migrating.md)
+If you're migrating from an open-source installation, please follow the guide here: [**Migration from Open-Source to Enterprise Edition**](tutorials/migrating.md)
+
+## Update June 26, 2026 - v2.7.20260626
+
+### New features
+
+- **FIPS 140-3 mode**: dedicated [FIPS builds](fips.md) for Linux (`sftpgo-fips`/`sftpgo-plugins-fips`), [Windows](https://download.sftpgo.com/windows/sftpgo_windows_fips_x86_64.exe), and Docker (`-fips` image variants), compiled against a FIPS-validated cryptographic module. Part of the [Ultimate tier](https://sftpgo.com/on-premises); a FIPS build requires a license with the FIPS feature enabled. See [FIPS 140-3 mode](fips.md).
+- Bandwidth limits: per-user upload and download caps are now enforced as an aggregate across all of a user's concurrent transfers on an instance, instead of per transfer, so parallel transfers across handles or protocols stay within the configured rate. Per-source overrides aggregate within their own source group.
+- Azure Blob Storage: the [managed identity client ID](azure-blob-storage.md#selecting-a-managed-identity) can be set per storage, selecting which user-assigned identity SFTPGo authenticates with when the default Azure credential chain exposes more than one. Each user or virtual folder can target a different identity.
+- Password hashing: [PBKDF2-SHA256](password.md) is now selectable for hashing new passwords, alongside bcrypt and argon2id, with configurable iterations and salt length. Passwords stored in another supported format — including admin and share passwords — are transparently re-hashed to the configured algorithm at the next successful login.
+- Storage backends: the [FTP](ftpfs.md#remote-directory) and [HTTP](httpfs.md#remote-directory) backends can be scoped to a server-side **remote directory**, so users land in a sub-path of the remote tree. This is not a security boundary and is opt-in per backend via the new [`allow_remote_directory`](config-file.md) setting in the `common` section. Disabled by default.
+- SFTP backend: the new `disable concurrent writes` option forwards each upload write request to the remote server sequentially. Enable it for legacy servers that do not support SFTP pipelining.
+- LDAP authentication: a [role group prefix](plugins/ldap-auth.md#mapping-a-role) can map LDAP group membership to an SFTPGo role, enabling delegated multi-tenant administration. The matched role must already exist, and a user matching more than one role group is denied access.
+- KMS secret encryption: the new [`convertsecrets`](cli.md#re-encrypting-the-stored-secrets) command re-encrypts every stored secret onto a new master key and/or provider in a single pass, so you can rotate the KMS master key or migrate provider without losing access to the data. On a networked SQL database a [master key ring](config-file.md#master-key-ring) lets the running server decrypt the old and new key at once, for a rotation with no downtime.
+- Internationalization: added a [Hungarian](web-interfaces.md#internationalization) translation for the WebAdmin and WebClient UIs.
+- Symbolic links: the new [`symlink_mode`](config-file.md#symbolic-links-and-permissions) setting selects, per backend, whether clients holding the `create_symlinks` permission may create symbolic links — on the local filesystem, the SFTP backend, or both. It is disabled by default. Creating a link requires `create_symlinks` on both the link's directory and the directory it points into, so per-directory permissions are enforced consistently on the path the client requests.
+
+### Bug fixes
+
+- Event Manager: fixed a bug in the filesystem [Copy](filesystem-actions.md#copy), [PGP](filesystem-actions.md#pgp) and [Delete](filesystem-actions.md#delete) actions where, in some edge cases, a path could be incorrectly identified as a wildcard pattern, causing the action to silently match nothing.
+- SFTP: fixed a regression introduced in `v2.7.20260528` where a client opening multiple sessions on the same SSH connection could fail with a "user filesystem cache has been closed" error when one of the sessions ended.
+- Local filesystem: fixed an edge case in path resolution on Windows shares.
+
+### Backward incompatible changes
+
+- Event Manager: a filesystem [Copy](filesystem-actions.md#copy), [PGP](filesystem-actions.md#pgp) or [Delete](filesystem-actions.md#delete) action whose last path component combines a wildcard with a placeholder is now rejected on save or import. Existing rules of that shape keep working at runtime but must be rewritten on the next edit or data import.
+- KMS secret encryption: secrets sealed by the `builtin://` provider of open-source SFTPGo 1.2.x or earlier (deprecated since 2.0.0) now fail to decrypt with an error. Re-enter those credentials as plain text to re-encrypt them with the [current scheme](kms.md).
+- Cloud storage key prefix: the `key_prefix` of the [S3](s3.md), [Google Cloud Storage](google-cloud-storage.md) and [Azure Blob](azure-blob-storage.md) backends is now normalized consistently across the REST API, data import and the WebAdmin. A non-empty value that resolves to the storage root is now rejected. Existing configurations keep working at runtime; the check applies the next time one is saved or imported.
+- Symbolic links: creating symbolic links is now disabled by default. In earlier releases a client holding the `create_symlinks` permission could always create links; creation must now be enabled per backend with [`symlink_mode`](config-file.md#symbolic-links-and-permissions). In addition, creating a link now requires `create_symlinks` on both the link's directory and the directory it points into.
+
+### Migration notes
+
+- KMS secret encryption: new secrets are now sealed with [AES-256-GCM](kms.md) instead of NaCl secretbox. This is transparent on upgrade (each secret records its own scheme), but an older release cannot read the new format. Before **downgrading**, re-enter affected secrets as plain text on the old binary, or use [`convertsecrets`](cli.md#re-encrypting-the-stored-secrets) to migrate them back first.
+- Bandwidth limits: per-user caps now bound a user's combined transfer rate on a single instance, not each transfer. If you sized them expecting every transfer to reach the full rate, raise the limits for users that rely on concurrent transfers.
+- Symbolic links: creating symbolic links is disabled by default after upgrade. If any workflow relies on clients creating them, set [`symlink_mode`](config-file.md#symbolic-links-and-permissions) to enable the backends that need it: `1` for the local filesystem, `2` for the SFTP backend, `3` for both. Symbolic links already present on the storage continue to be followed regardless of this setting.
 
 ## Update May 28, 2026 - v2.7.20260528
 

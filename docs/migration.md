@@ -108,6 +108,14 @@ Individual field placeholders have been replaced by the generic `{{.IDPFields}}`
 
 Previously only string fields were available. Now all fields are propagated with their original types as defined in your Identity Provider.
 
+## Symbolic link creation
+
+If you are upgrading from an open-source release earlier than `v2.7.4`, note that **creating symbolic links is now disabled by default**. In earlier releases a client holding the `create_symlinks` permission could always create links; creation must now be enabled per backend through the new [`symlink_mode`](config-file.md#symbolic-links-and-permissions) setting in the `common` section.
+
+If any workflow relies on clients creating symbolic links, set `symlink_mode` to enable the backends that need it: `1` for the local filesystem, `2` for the SFTP backend, `3` for both. Leave it unset (`0`) to keep creation disabled, which is the recommended posture when no client needs to create links.
+
+Symbolic links already present on the storage continue to be followed regardless of this setting; `symlink_mode` controls only creation through SFTPGo. See [Symbolic links and permissions](config-file.md#symbolic-links-and-permissions) for the full model.
+
 ## Need help?
 
 If you need assistance migrating your actions, please don't hesitate to [contact us](https://sftpgo.com){:target="_blank"}.

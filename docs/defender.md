@@ -63,11 +63,11 @@ See the `login_delay` settings in the [configuration reference](config-file.md) 
 Defender parameters (scores, threshold, `ban_time`, `observation_time`, `login_delay`, memory limits) are configured via the configuration file or environment variables. The WebAdmin is used to view and manage the IP lists under the **IP Manager** section:
 
 - **Auto Block List** — appears once the defender is enabled. Lists dynamically banned IPs with their ban expiration. Click the **X** icon on a row to lift the ban (useful for false positives).
-- **IP Lists** — always available (independent of the defender). Permanent entries you maintain by hand, each with a **mode**: `Deny` (always block), `Allow` (always permit). Entries can be a single IP or a CIDR network. When an address is covered by several entries, the most specific one (longest network prefix) wins, so a narrow allow entry overrides a broader deny and vice versa.
+- **IP Lists** — always available (independent of the defender). Permanent entries you maintain by hand. The **Defender List** holds static rules for the defender: a `Deny` entry always blocks an address and an `Allow` entry always permits it, overriding a dynamic ban. When an address is covered by several entries, the most specific one (longest network prefix) wins, so a narrow allow overrides a broader deny and vice versa. See [IP Lists](ip-lists.md) for the Defender List and the other manually managed lists (Allow List, Trusted List, and Rate Limiters Safe List).
 
 ![Defender Auto Block List](assets/img/defender-auto-block-list.png){data-gallery="defender-auto-block-list"}
 
-The same operations are available via REST API — see `/defender/hosts` and `/ip-lists` in the OpenAPI specification.
+The same operations are available via REST API — see `/defender/hosts` and `/ip-lists` in the [REST API reference](https://sftpgo.com/rest-api){:target="_blank"}.
 
 ## Configuration example
 

@@ -23,7 +23,7 @@ The following settings are taken from the primary group when the corresponding u
 | Setting | Merge rule | Notes |
 | --------- | ----------- | ------- |
 | **Home directory** | Replaces the user's home dir if set in the group. | `%username%` and `%role%` placeholders are supported. |
-| **Filesystem config** | Replaces the user's filesystem if the group's provider is different from "local". | `%username%` and `%role%` placeholders are replaced in the key prefix and SFTP/HTTP username. |
+| **Filesystem config** | Replaces the user's filesystem if the group's provider is different from "local". | `%username%` and `%role%` placeholders are replaced in the key prefix, the FTP/HTTP remote directory, and the SFTP/FTP/HTTP username. |
 | **Max sessions** | Used if the user's value is `0`. |
 | **Quota size / files** | Used if the user's value is `0`. |
 | **Upload / download bandwidth** | Used if the user's value is `0`. |
@@ -50,7 +50,7 @@ The following settings are **additive** — they are appended to the user's conf
 
 | Setting | Merge rule |
 | --------- | ----------- |
-| **Virtual folders** | Added if the user does not already have a folder at the same virtual path. The `/` path is only inherited from the primary group. `%username%` and `%role%` placeholders are replaced in the virtual path, key prefix, and SFTP/HTTP username. |
+| **Virtual folders** | Added if the user does not already have a folder at the same virtual path. The `/` path is only inherited from the primary group. `%username%` and `%role%` placeholders are replaced in the virtual path, key prefix, FTP/HTTP remote directory, and SFTP/FTP/HTTP username. |
 | **Permissions** | Added if the user does not already have permissions for the same path. The `/` path is only inherited from the primary group. |
 | **File patterns** | Added if the user does not already have patterns for the same path. The `/` path is only inherited from the primary group. |
 | **Per-source bandwidth limits** | Appended to the user's list. |

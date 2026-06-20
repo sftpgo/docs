@@ -12,8 +12,9 @@ The preferred hashing algorithm can be configured in the `data_provider.password
 
 - **bcrypt** (default) — prefix `$2a$`. Configurable cost parameter (default: 10).
 - **argon2id** — prefix `$argon2id$`. Configurable memory, iterations, and parallelism.
+- **pbkdf2-sha256** — prefix `$pbkdf2-b64salt-sha256$`. PBKDF2 with HMAC-SHA256 and a random salt. Configurable iteration count (default: 600000) and salt length (default: 16 bytes, valid range 16--64).
 
-When users log in, if their password is stored with a different algorithm than the preferred one, SFTPGo automatically re-hashes it with the preferred algorithm. This upgrade happens transparently; the user does not need to change their password.
+When users log in, if their password is stored with a different algorithm than the preferred one, SFTPGo automatically re-hashes it with the preferred algorithm. This upgrade happens transparently; the user does not need to change their password. The same transparent upgrade applies to administrator and share passwords at their next successful verification. API keys keep the format they were generated with: generate a new key to adopt the preferred algorithm.
 
 ## Supported formats
 
@@ -40,7 +41,7 @@ If you set a password with one of these prefixes, it will not be re-hashed — S
 
 ## Password caching
 
-Verifying bcrypt and argon2id hashes is computationally expensive. SFTPGo caches verified passwords in memory to reduce CPU usage on repeated logins. Caching is enabled by default and can be disabled via the `data_provider.password_caching` [configuration option](config-file.md).
+Verifying bcrypt, argon2id, and pbkdf2-sha256 hashes is computationally expensive. SFTPGo caches verified passwords in memory to reduce CPU usage on repeated logins. Caching is enabled by default and can be disabled via the `data_provider.password_caching` [configuration option](config-file.md).
 
 ## Password validation
 

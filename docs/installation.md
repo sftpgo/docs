@@ -167,6 +167,12 @@ sudo apt update
 sudo apt install sftpgo
 ```
 
+For a [FIPS 140-3](fips.md) build, install the `sftpgo-fips` package instead, and `sftpgo-plugins-fips` for the bundled plugins:
+
+```shell
+sudo apt install sftpgo-fips sftpgo-plugins-fips
+```
+
 ### Yum repo
 
 The YUM repository can be used on generic Red Hat based distributions as well as on SUSE/openSUSE.
@@ -186,6 +192,8 @@ Reload the package database and install SFTPGo:
 sudo yum update
 sudo yum install sftpgo
 ```
+
+For a [FIPS 140-3](fips.md) build, install `sftpgo-fips` (and `sftpgo-plugins-fips` for the bundled plugins) instead of `sftpgo`.
 
 Start the SFTPGo service and enable it to start at system boot:
 
@@ -226,6 +234,8 @@ sudo systemctl enable sftpgo
 ### Windows
 
 You can download the latest Windows installer using [this link](https://download.sftpgo.com/windows/sftpgo_windows_x86_64.exe){:target="_blank"}. The installer includes the plugins and will automatically register SFTPGo as a Windows service, starting it immediately after installation. Alternatively, SFTPGo can also be installed using **winget** with the following command: `winget install -e --id drakkan.SFTPGoEnterprise`.
+
+For a [FIPS 140-3](fips.md) build, download the [FIPS installer](https://download.sftpgo.com/windows/sftpgo_windows_fips_x86_64.exe){:target="_blank"} instead.
 
 By default, the service runs under the Local System account. However, you can configure it to run under a different user account either through the built-in Windows Services UI or via the command line, as shown below:
 

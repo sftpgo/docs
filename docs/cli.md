@@ -13,11 +13,13 @@ Usage:
 Available Commands:
   acme           Obtain TLS certificates from ACME-based CAs like Let's Encrypt
   convertnames   Convert existing names to conform to the configured naming rules
+  convertsecrets Re-encrypt the stored KMS secrets with a new master key and/or provider
   gen            A collection of useful generators
   help           Help about any command
   initprovider   Initialize and/or updates the configured data provider
   ping           Issues an health check to SFTPGo
   portable       Serve a single directory/account
+  resetadmin     Restore access for the specified administrator
   resetprovider  Reset the configured provider, any data will be lost
   resetpwd       Reset the password for the specified administrator
   revertprovider Revert the configured data provider to a previous version
@@ -277,15 +279,29 @@ Or through the Windows Firewall GUI.
 
 The Windows installer will register the service and allow network access for it automatically.
 
-## Resetting an administrator password
+## Restoring access for an administrator
 
-If you lose access to an administrator account you can reset its password from the host where SFTPGo is running. The command works by reading the data provider configuration directly and updating the admin record:
+If you lose access to an administrator account you can restore it from the host where SFTPGo is running. The `resetadmin` command connects directly to the data provider, using the configuration file and any `SFTPGO_*` environment variable overrides, and updates the admin record. The flags select what to reset and can be combined:
 
 ```shell
-sftpgo resetpwd --admin <username>
+sftpgo resetadmin --admin <username> --reset-password
 ```
 
-You will be prompted interactively for the new password (and a confirmation). As a safety measure, two-factor authentication is disabled on the administrator whose password is reset — the admin can re-enable 2FA from the WebAdmin after logging in with the new password.
+prompts interactively for a new password (and a confirmation).
+
+```shell
+sftpgo resetadmin --admin <username> --reset-two-factor
+```
+
+disables two-factor authentication — useful when the admin knows the password but lost access to the second-factor device. The admin can re-enable 2FA from the WebAdmin after logging in.
+
+```shell
+sftpgo resetadmin --admin <username> --reset-restrictions
+```
+
+re-enables the administrator, clears its IP allow list and re-enables password authentication — useful when the admin is locked out by a misconfigured allow list, a disabled status, or password authentication turned off (for example an OpenID Connect-only admin whose identity provider is unavailable). Each removed restriction is printed to the console, including the previous allow list value so you can reconfigure it correctly after logging in. The password and the two-factor configuration are preserved.
+
+The legacy `resetpwd` command is kept for backward compatibility and is equivalent to `resetadmin --reset-password --reset-two-factor`.
 
 Notes and limitations:
 
@@ -297,7 +313,7 @@ Notes and limitations:
 On Windows, run the command from an elevated PowerShell (the service account must have access to the data provider):
 
 ```powershell
-& "C:\Program Files\SFTPGo\sftpgo.exe" resetpwd --admin yourname -c "C:\ProgramData\SFTPGo Enterprise"
+& "C:\Program Files\SFTPGo\sftpgo.exe" resetadmin --admin yourname --reset-password -c "C:\ProgramData\SFTPGo Enterprise"
 ```
 
 ## Converting names to the configured naming rules
@@ -327,6 +343,67 @@ Notes and limitations:
 - :warning: Run the command while the SFTPGo instance is stopped. With SQLite a running server can modify the same database concurrently, and an embedded database must be reachable exclusively by the command.
 - With PostgreSQL, MySQL and CockroachDB the default collation is case-insensitive, so mixed-case names keep resolving and converting is portability oriented; it matters when moving to a case-sensitive provider.
 - Pass `-c`/`--config-dir` (or `SFTPGO_CONFIG_DIR`) if the config directory is not the current working directory.
+
+## Re-encrypting the stored secrets
+
+The [KMS](kms.md) master key is global and is not stored with the secret: every stored secret is decrypted with the master key currently configured. Changing the master key in the configuration therefore makes the secrets encrypted with the previous key undecryptable. The provider, instead, is recorded per secret, so secrets encrypted by one provider keep being decrypted by it after the configured provider changes. The `convertsecrets` command re-encrypts every stored secret (user, admin, group and folder filesystem credentials, two-factor authentication secrets and recovery codes, event action and configuration secrets) onto a new master key and/or provider in a single pass, so you can rotate the master key or migrate provider without losing access to the data.
+
+Rotate the master key, for example to replace a weak one, keeping the current key in the configuration and passing the new one on the command line:
+
+```shell
+sftpgo convertsecrets --new-master-key <new-key>
+sftpgo convertsecrets --new-master-key-path /path/to/new-key
+```
+
+Migrate the secrets to a different provider, for example between `local` and the default `aes256gcm` in either direction:
+
+```shell
+sftpgo convertsecrets --target-provider aes256gcm
+```
+
+`--target-provider` also accepts the full provider URL of an external KMS, so you can migrate to or from one as long as the matching KMS plugin is configured (it is loaded before the secrets are touched):
+
+```shell
+sftpgo convertsecrets --target-provider "hashivault://my-key"
+```
+
+To re-encrypt the secrets without a master key, pass `--no-master-key`. This weakens confidentiality — the secrets become recoverable from a copy of the data store alone — and the command warns accordingly; it is mutually exclusive with `--new-master-key`/`--new-master-key-path`.
+
+The two can be combined. The current key/provider come from the loaded configuration and must be able to decrypt the existing secrets; the new key/provider come from the command line. By default the command only reports what would change; add `--execute` to perform the re-encryption:
+
+```shell
+sftpgo convertsecrets --new-master-key <new-key> --execute
+```
+
+After the run completes, update the `kms.secrets` configuration on every instance to the new key and/or provider, then restart. Keep the previous key available until you have verified the new configuration works: the backup written before `--execute` contains the secrets encrypted with the **previous** key, so restoring it requires the previous key in the configuration.
+
+:information_source: The KMS master key wraps the secrets stored in the data provider — including the **CryptFs passphrase**, which is itself stored as a KMS secret. `convertsecrets` re-wraps these secrets under the new master key without changing their values, so the CryptFs passphrase keeps deriving the same per-file keys and the encrypted files on disk are not affected. Changing the CryptFs passphrase value itself is a different operation that re-derives the file keys and requires re-uploading the affected files (see [Data At Rest Encryption](dare.md)).
+
+Notes and limitations:
+
+- **Available for the SQL data providers** (SQLite, PostgreSQL, MySQL/MariaDB, CockroachDB). The memory and bolt providers are outside the scope of the command.
+- :warning: With the embedded SQLite database, run the command while the SFTPGo instance is stopped: a running server can modify the same database file concurrently, and the file must be reachable exclusively by the command. With a networked SQL database (PostgreSQL, MySQL/MariaDB, CockroachDB) the command can run while the server, or the whole cluster, is live.
+- The operation is resumable and idempotent: an interrupted run can simply be re-executed, and secrets already on the target key and provider are detected and left unchanged. This holds for both a master-key rotation and a provider migration.
+- On a networked SQL database (PostgreSQL/MySQL/CockroachDB) the command can run while the server is live, whether it is a single instance or a cluster, but without a [master key ring](#rotating-the-master-key-without-downtime) a running instance still on the previous key can no longer decrypt the secrets already moved to the new key, so the credentials that need them in plain text fail until it is reconfigured and restarted. Configure the ring first, so the running instances can decrypt both keys while the secrets are migrated.
+- Unless `--skip-backup` is given, `--execute` first writes a full data provider backup (the same content as `dumpdata`) to a new file and never overwrites an existing one. Use `--backup-file` to choose the path.
+- A backup is strongly recommended before re-encrypting. Pass `--skip-backup` only if you maintain backups by other means. Restoring the backup with `loaddata` re-validates every entity, so entities that were valid when stored but no longer satisfy the current rules (for example a username that predates a stricter naming rule) may be rejected on restore even though `convertsecrets` itself preserves them.
+- Pass `-c`/`--config-dir` (or `SFTPGO_CONFIG_DIR`) if the config directory is not the current working directory.
+
+### Rotating the master key without downtime
+
+With the embedded SQLite database the simplest path is to stop the server, run `convertsecrets`, then start with the new key. On a networked SQL database (PostgreSQL, MySQL/MariaDB, CockroachDB) you can rotate the master key with no downtime using the [master key ring](config-file.md#master-key-ring), whether the deployment is a single instance or a cluster: a ring with the old key and the new key lets the running instances decrypt the secrets the rotation is still moving from one key to the other.
+
+The ring is the active key (`master_key`/`master_key_path`) plus the decrypt-only keys (`additional_master_keys`/`additional_master_keys_path`). Keeping `OLD` in the ring as decrypt-only while `NEW` encrypts lets the running instances decrypt the secrets the rotation is still moving:
+
+1. **Configure the ring.** Set `NEW` active and keep `OLD` as a decrypt-only key (`master_key: NEW`, `additional_master_keys: [OLD]`) and apply it with a restart. New writes are now encrypted with `NEW`, while existing `OLD` secrets stay readable through the decrypt-only key.
+2. **Re-encrypt.** Run `sftpgo convertsecrets --new-master-key <NEW> --execute`. It moves the remaining `OLD` secrets to `NEW` and can run while the deployment is live; no new `OLD` secrets are produced because the instances already encrypt with `NEW`.
+3. **Retire the old key.** Run `sftpgo convertsecrets --new-master-key <NEW>` (without `--execute`) and confirm it reports nothing left to convert, then remove `OLD` from `additional_master_keys` so only `NEW` is configured and apply it. The old key is gone.
+
+:information_source: In a cluster rolled one instance at a time, stage `NEW` as decrypt-only *before* step 1: roll out `master_key: OLD`, `additional_master_keys: [NEW]` to every instance first, so an instance still on the previous configuration can decrypt a secret another instance has already written with `NEW`. Promote `NEW` to active (step 1) only once every instance holds it.
+
+The two-key case above is the common one. The ring can hold more than two keys, so a second rotation can start before the previous old key is retired (`master_key: NEW2`, `additional_master_keys: [NEW1, OLD]`), and a store that accumulated secrets under several historical keys can be consolidated by keeping every key still needed in `additional_master_keys` until a single `convertsecrets` run moves them all onto the active key. A dry run reporting nothing left to convert is the signal that a decrypt-only key can be dropped.
+
+:warning: While the ring holds more than one key, a compromise of **any** key in the ring exposes the secrets. Keep the window short and remove the decrypt-only key as soon as step 3 confirms the migration is complete.
 
 ## Other commands
 

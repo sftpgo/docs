@@ -8,10 +8,14 @@ SFTPGo Enterprise is accessible through our Docker repository: `registry.sftpgo.
 
 ## Latest tags
 
-- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260528
-- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260528-plugins
-- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260528-distroless
-- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260528-distroless-plugins
+- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260626
+- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260626-plugins
+- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260626-distroless
+- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260626-distroless-plugins
+- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260626-fips
+- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260626-plugins-fips
+- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260626-distroless-fips
+- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260626-distroless-plugins-fips
 
 ## How to use the SFTPGo image
 
@@ -166,6 +170,10 @@ Without this, uploads against cloud users may fail when SFTPGo cannot create a f
 
 These tags provide the distroless image with the addition of open source and proprietary plugins installed in `/usr/local/bin`.
 
+### `sftpgo:<version>-fips`
+
+[FIPS 140-3](fips.md) variants are available for the standard and distroless images, with and without plugins: append `-fips` to the corresponding tag (for example `sftpgo:<version>-fips`, `sftpgo:<version>-distroless-fips`, `sftpgo:<version>-plugins-fips`). The binary is compiled against a FIPS-validated cryptographic module and the image runs with FIPS mode active, so only FIPS-approved algorithms are used. Review the [behavior in FIPS mode](fips.md#behavior-in-fips-mode) — notably the SSH host-key and TLS certificate requirements — before deploying.
+
 ## Kubernetes
 
 SFTPGo can be deployed on Kubernetes using the official [Helm chart](https://github.com/sftpgo/helm-chart){:target="_blank"}.
@@ -193,7 +201,7 @@ replicaCount: 2
 # Use the Enterprise image with plugins
 image:
   repository: registry.sftpgo.com/sftpgo/sftpgo
-  tag: v2.7.20260528-plugins
+  tag: v2.7.20260626-plugins
 
 # Enable protocols
 sftpd:

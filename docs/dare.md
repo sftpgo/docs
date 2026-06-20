@@ -14,6 +14,8 @@ SFTPGo uses `AES-256-GCM` or `ChaCha20-Poly1305` for authenticated encryption (A
 
 The file size visible to clients (via SFTP, FTP, etc.) is the **decrypted size**, automatically computed by SFTPGo. The actual on-disk size is slightly larger due to encryption overhead.
 
+DARE encrypts file contents only. The storage is backed by the local filesystem, so symbolic-link handling and per-directory permissions follow the [local filesystem](localfs.md#symbolic-links) model, including the `symlink_mode` setting described in [Symbolic links and permissions](config-file.md#symbolic-links-and-permissions).
+
 ## Configuration
 
 | Parameter | Description |

@@ -100,7 +100,7 @@ See the [Event Manager tutorials](tutorials/eventmanager.md) for step-by-step gu
 
 ## Web interfaces
 
-SFTPGo includes two web interfaces, both with dark and light themes and support for six languages (English, Italian, German, French, Spanish, Chinese Simplified).
+SFTPGo includes two web interfaces, both with dark and light themes and support for seven languages (English, Italian, German, French, Spanish, Hungarian, Chinese Simplified).
 
 - [WebAdmin](web-interfaces.md#webadmin) for centralized management of users, groups, virtual folders, event rules, and server configuration. Includes a global [configurations page](initial-configuration.md#configuration) for managing SMTP, OIDC, LDAP, TLS certificates, email templates, and language settings directly from the UI.
 - [WebClient](web-interfaces.md#webclient) with browser-based file management, credential management, two-factor authentication setup, and file sharing.
@@ -111,7 +111,7 @@ SFTPGo includes two web interfaces, both with dark and light themes and support 
 
 SFTPGo is designed to scale from a single instance to large distributed deployments.
 
-- Multi-node clustering with near real-time propagation of configuration changes across all nodes.
+- Multi-node clustering with near real-time propagation of configuration changes across all nodes. A *node* is a single SFTPGo instance — on Kubernetes, a pod (several can run on one Kubernetes worker node).
 - Native Kubernetes support with an official [Helm chart](installation.md).
 - Available on the [AWS Marketplace](tutorials/sftpgo-aws.md), [Azure Marketplace](installation.md#azure), and [Google Cloud Marketplace](tutorials/sftpgo-google-cloud.md).
 - Runs on Linux, Windows, macOS, and FreeBSD — from embedded devices to cloud infrastructure.

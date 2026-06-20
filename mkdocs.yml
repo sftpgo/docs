@@ -9,6 +9,7 @@ nav:
   - 'Documentation Map': documentation-map.md
   - glossary.md
   - 'Security & Compliance': compliance.md
+  - 'FIPS 140-3 Mode': fips.md
   - 'Getting Started':
     - installation.md
     - docker.md
@@ -16,12 +17,13 @@ nav:
     - 'Configuration Examples': configuration-examples.md
     - 'Data provider management': data-provider.md
   - 'Core concepts':
+    - 'Access Control': access-control.md
     - virtual-folders.md
     - groups.md
     - roles.md
     - 'Admin Permissions': admin-permissions.md
   - 'Tutorials':
-    - 'Migration from Open-Source 2.6.x to Enterprise': tutorials/migrating.md
+    - 'Migration from Open-Source to Enterprise': tutorials/migrating.md
     - "Let's Encrypt TLS Certificates": tutorials/lets-encrypt-certificate.md
     - tutorials/shares.md
     - 'Groups & Simplified Admin': tutorials/groups-example.md
@@ -77,6 +79,7 @@ nav:
     - 'Execute Before File Publish': execute-before-file-publish.md
     - 'Migration Guide': migration.md
   - 'Security & Protection':
+    - 'IP Lists': ip-lists.md
     - 'Brute Force Protection': defender.md
     - 'Rate Limiting': rate-limiting.md
     - 'Audit Logs': plugins/audit-logs.md

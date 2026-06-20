@@ -22,6 +22,8 @@ If you are looking for the definition of a term, see the [Glossary](glossary.md)
 | I want to... | Go to |
 | -------------- | ------- |
 | Create a user (any backend) | [Getting Started](initial-configuration.md), [REST API](rest-api.md) |
+| Restrict what a user can see and do (permissions, file patterns, isolation) | [Access Control](access-control.md) |
+| Expose only selected directories to a user | [Access Control](access-control.md), [Virtual Folders](virtual-folders.md) |
 | Use groups to centralize settings | [Groups](groups.md), [Groups tutorial](tutorials/groups-example.md) |
 | Understand primary vs secondary vs membership groups | [Groups](groups.md) |
 | Delegate admin duties to scoped administrators | [Roles](roles.md), [Admin Permissions](admin-permissions.md) |
@@ -96,6 +98,8 @@ If you are looking for the definition of a term, see the [Glossary](glossary.md)
 | I want to... | Go to |
 | -------------- | ------- |
 | Get TLS certificates automatically | [Let's Encrypt tutorial](tutorials/lets-encrypt-certificate.md) |
+| Allow access only from a curated set of IPs (default-deny) | [IP Lists](ip-lists.md) |
+| Exempt trusted IPs from banning, rate limiting, and GeoIP filtering | [IP Lists](ip-lists.md) |
 | Block brute-force attackers | [Defender](defender.md) |
 | Rate-limit requests | [Rate limiting](rate-limiting.md) |
 | Preserve client IPs behind a load balancer | [Configuration file](config-file.md) |

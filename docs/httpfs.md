@@ -18,6 +18,7 @@ SFTPGo can use a custom HTTP/S service as a storage backend. This allows you to 
 | **API key** | API key sent via the `X-API-KEY` header. Optional. Can be used in addition to or instead of Basic authentication. |
 | **Equality check mode** | How to determine if two configurations point to the same server: `0` (default) requires only the endpoint to match; `1` also requires the username to match. Used for rename operations across configurations. |
 | **Skip TLS verify** | Accept any TLS certificate. :warning: Only for testing — susceptible to man-in-the-middle attacks. |
+| **Remote directory** | Optional server-side path used as the starting directory for all operations. See [Remote directory](#remote-directory) below. |
 
 The password and API key are stored encrypted according to your [KMS configuration](kms.md).
 
@@ -31,6 +32,16 @@ https://unix?socket_path=/path/to/socket&api_prefix=/api
 ```
 
 The `socket_path` parameter must be an absolute path. The `api_prefix` is prepended to all request paths.
+
+## Remote directory
+
+By default, operations are relative to the resource root of the HTTP backend. Set a **Remote directory** to scope the backend to a sub-path, so users land directly in the right place: SFTPGo prepends it to the resource path of every request (the `{name}` segment). This is independent of the `api_prefix` endpoint option, which prefixes the HTTP route rather than the resource path; the two compose.
+
+:warning: The remote directory is **not a security boundary**. The HTTP backend is opaque to SFTPGo: if the server behind it is backed by a local filesystem, a server-side symlink under the remote directory may resolve outside it, and SFTPGo has no protocol-level way to detect this. Treat the remote directory as a convenience starting path, not a confinement.
+
+Because of this, the feature is opt-in at the deployment level: the `http` backend must be listed in the [`allow_remote_directory`](config-file.md) setting of the `common` configuration section. The remote directory is honored only while the backend is enabled — a connection using a stored configuration whose backend is not in the allow list is rejected, with the reason logged. The value is preserved on save and on backup restore, so disabling the backend does not break data import; in the WebAdmin the field is shown when the backend is enabled, or with a warning when a value is set while the backend is disabled, so it can be cleared.
+
+When the backend is defined at the group level, the remote directory supports the same placeholders as the cloud key prefix and the SFTP prefix (for example `%username%`, `%role%`, `%customN%`). The placeholders are resolved per user when the group settings are applied, so a single group configuration can scope each member to their own sub-path.
 
 ## API contract
 

@@ -20,7 +20,7 @@ GCS supports two authentication methods:
 | **Bucket** | Required. The GCS bucket to use. Must already exist. |
 | **Credentials** | Service account JSON credentials. Leave blank to use Application Default Credentials (set Automatic credentials to `1`). |
 | **Automatic credentials** | Set to `1` to use Application Default Credentials instead of explicit JSON credentials. |
-| **Key prefix** | Optional. Restricts the user to a "folder" within the bucket. Each user can only access objects under their assigned prefix. The prefix does not need to exist beforehand. |
+| **Key prefix** | Optional. Restricts the user to a "folder" within the bucket. Each user can only access objects under their assigned prefix. The prefix does not need to exist beforehand. It is normalized when saved: a leading `/` is removed, a trailing `/` is added, and `.`/`..` segments are resolved; a non-empty value that resolves to the bucket root is not allowed. |
 | **Storage class** | GCS [storage class](https://cloud.google.com/storage/docs/storage-classes){:target="_blank"} for uploaded objects (e.g., `STANDARD`, `NEARLINE`, `COLDLINE`, `ARCHIVE`). Leave blank for the bucket's default. |
 | **ACL** | Predefined [ACL](https://cloud.google.com/storage/docs/access-control/lists#predefined-acl){:target="_blank"} to apply to uploaded objects. Leave blank for the default. |
 | **Hierarchical Namespace** | Set to `1` to enable Hierarchical Namespace (HNS) support for buckets with this feature enabled. See below. |

@@ -20,7 +20,7 @@ When a user attempts to log in:
 2. It attempts to bind (authenticate) with the user's credentials.
 3. If authentication succeeds, the plugin maps LDAP attributes to an SFTPGo user.
 4. If the user does not exist in SFTPGo, it is created automatically (unless `--user-requirements` is set to `1`).
-5. On subsequent logins, the plugin updates the SFTPGo user if LDAP attributes (email, groups) have changed.
+5. On subsequent logins, the plugin updates the SFTPGo user if LDAP attributes (email, groups, role) have changed.
 
 Users created through LDAP have password change and password reset **disabled** in the WebClient, since password management should happen in the LDAP directory.
 
@@ -32,8 +32,8 @@ Install the `sftpgo-plugins` package as described in [Audit Logs - Installation]
 
 There are two alternative ways to configure LDAP. Pick **one**:
 
-- **WebAdmin UI** — you set two environment variables to enable the LDAP section in the WebAdmin and register the plugin; every LDAP setting is then entered through the form. The configuration is persisted in the database (encrypted where appropriate) and replicated across HA nodes. The form exposes URL, Base DN, Bind DN, password, search query, group attributes, primary/secondary/membership group prefixes, and skip TLS verify.
-- **Environment variables / configuration file** — every option is set through environment variables (or, for multi-directory federation, a JSON configuration file). Required when you need advanced options that the form does not expose: STARTTLS, custom CA certificates, authentication caching, base directory for auto-created users, user-must-pre-exist mode, multi-directory federation.
+- **WebAdmin UI** — you set two environment variables to enable the LDAP section in the WebAdmin and register the plugin; every LDAP setting is then entered through the form. The configuration is persisted in the database (encrypted where appropriate) and replicated across HA nodes. The form exposes URL, Base DN, Bind DN, password, search query, group attributes, primary/secondary/membership/role group prefixes, require group membership, require existing users, and skip TLS verify.
+- **Environment variables / configuration file** — every option is set through environment variables (or, for multi-directory federation, a JSON configuration file). Required when you need advanced options that the form does not expose: STARTTLS, custom CA certificates, authentication caching, base directory for auto-created users, multi-directory federation.
 
 :warning: Any configuration change requires a service restart to take effect (e.g. `systemctl restart sftpgo` on Linux, `Restart-Service sftpgo` on Windows).
 
@@ -94,11 +94,11 @@ Recommended values for **Active Directory**:
 | Password | the bind account password |
 | Search query | leave empty to use the default AD query, or set a custom one (must contain `%username%`) |
 | Group attributes | `memberOf` |
-| Primary / Secondary / Membership group prefix | set as needed — see [Group mapping](#group-mapping) |
+| Primary / Secondary / Membership / Role group prefix | set as needed — see [Group mapping](#group-mapping) |
 
 For **OpenLDAP** set the search query to `(&(objectClass=posixAccount)(uid=%username%))`.
 
-:information_source: The form does **not** cover `STARTTLS`, custom CA certificates, the user-must-pre-exist mode, the auto-created users base directory, authentication caching, and multi-directory federation. If you need any of these, switch to the [environment variables approach](#configuration-via-environment-variables) — the two paths are mutually exclusive.
+:information_source: The form does **not** cover `STARTTLS`, custom CA certificates, the auto-created users base directory, authentication caching, and multi-directory federation. If you need any of these, switch to the [environment variables approach](#configuration-via-environment-variables) — the two paths are mutually exclusive.
 
 For Active Directory on port 389, using `ldaps://dc01.example.com:636` is the simplest way to get a secure connection without STARTTLS, keeping the UI path viable.
 
@@ -213,6 +213,24 @@ A user who is a member of all three AD groups will be assigned to SFTPGo groups 
 
 :information_source: Prefix matching is case-insensitive. The corresponding SFTPGo groups must already exist; the plugin maps users to groups but does not create the groups.
 
+### Mapping a role
+
+The plugin can also assign an SFTPGo [role](../roles.md) from LDAP group membership, which is useful for delegated, multi-tenant administration. It reads the same group attribute used for group mapping and matches a dedicated prefix:
+
+```shell
+SFTPGO_PLUGIN_AUTH_ROLE_GROUP_PREFIX="sftpgo-role-"
+```
+
+A user who is a member of `CN=sftpgo-role-bank,OU=Groups,DC=example,DC=com` is assigned the SFTPGo role `sftpgo-role-bank`.
+
+An SFTPGo user can have only one role. Since the role drives tenant isolation, the plugin assigns it only when the membership is unambiguous:
+
+- Exactly one matching role group: the role is assigned.
+- No matching role group: the role is left empty (the user is managed by the super administrator).
+- More than one matching role group: the login is refused, to avoid an ambiguous cross-tenant assignment.
+
+:information_source: Prefix matching is case-insensitive and the role name is matched in lower case. The role must already exist in SFTPGo; the plugin assigns the role but does not create it. If the matched role does not exist, the user update fails and the login is rejected even when the credentials are valid. The role prefix must not overlap the group prefixes (no prefix can be a prefix of another), otherwise the configuration is rejected at startup. When this setting is empty the user's role is left untouched.
+
 ### Requiring group membership
 
 To deny access to users who are not members of any mapped group:
@@ -248,7 +266,7 @@ SFTPGO_PLUGIN_AUTH_CACHE_TIME=300
 
 This caches credentials for 300 seconds (5 minutes). During this period, the user can log in without contacting the LDAP server.
 
-:warning: Caching is automatically disabled when group mapping is configured. This ensures that group membership changes in LDAP are always reflected immediately.
+:warning: Caching is automatically disabled when group or role mapping is configured. This ensures that group membership and role changes in LDAP are always reflected immediately.
 
 ## High availability with multiple LDAP servers
 
@@ -320,6 +338,7 @@ The plugin tries the cached server first, then iterates through the remaining co
 | `SFTPGO_PLUGIN_AUTH_PRIMARY_GROUP_PREFIX` | `--primary-group-prefix` | Prefix for primary group mapping |
 | `SFTPGO_PLUGIN_AUTH_SECONDARY_GROUP_PREFIX` | `--secondary-group-prefix` | Prefix for secondary group mapping |
 | `SFTPGO_PLUGIN_AUTH_MEMBERSHIP_GROUP_PREFIX` | `--membership-group-prefix` | Prefix for membership group mapping |
+| `SFTPGO_PLUGIN_AUTH_ROLE_GROUP_PREFIX` | `--role-group-prefix` | Prefix for role mapping. A user matching more than one role group is refused |
 | `SFTPGO_PLUGIN_AUTH_REQUIRE_GROUPS` | `--require-groups` | Deny access if no groups match (default: `false`) |
 | `SFTPGO_PLUGIN_AUTH_USER_REQUIREMENTS` | `--user-requirements` | `0` = auto-create users, `1` = users must pre-exist |
 | `SFTPGO_PLUGIN_AUTH_STARTTLS` | `--starttls` | Use STARTTLS (`1` = enabled) |

@@ -94,6 +94,6 @@ When running behind a reverse proxy, configure `proxy_allowed` and `client_ip_pr
 
 ## Internationalization
 
-SFTPGo uses the [i18next](https://www.i18next.com/){:target="_blank"} framework for internationalization. The following languages are supported: English, Italian, German, French, Spanish, and Chinese (Simplified).
+SFTPGo uses the [i18next](https://www.i18next.com/){:target="_blank"} framework for internationalization. The following languages are supported: English, Italian, German, French, Spanish, Hungarian, and Chinese (Simplified).
 
 Translations are managed via [Crowdin](https://crowdin.com/project/sftpgo){:target="_blank"}.
