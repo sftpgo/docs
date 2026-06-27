@@ -2,13 +2,13 @@
     
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link rel="canonical" href="https://docs.sftpgo.com/enterprise/kms/">
+  <link rel="canonical" href="https://docs.sftpgo.com/enterprise/fips/">
   <link rel="icon" href="../assets/favicon.ico">
   <meta name="generator" content="mkdocs, mkdocs-material">
 
     
       
-        <title>Key Management Services - SFTPGo docs</title>
+        <title>FIPS 140-3 Mode - SFTPGo docs</title>
       
     
     
@@ -40,14 +40,14 @@
 
     
     <meta name="keywords" content="SFTPGo, SFTP server, FTP server, SCP, WebDAV, S3, Google Cloud Storage, Azure Blob, Managed File Transfer, MFT, 2FA, Data At Rest Encryption, file sharing, secure file transfer, SaaS, on-premise, REST API, Kubernetes, Helm chart, OIDC, LDAP">
-  <meta name="description" content="Configure Key Management Services in SFTPGo for encrypting stored secrets. Supports local encryption and cloud KMS providers.">
-  <meta property="og:title" content="Key Management Services - SFTPGo docs">
-  <meta property="og:url" content="https://docs.sftpgo.com/enterprise/kms/">
-  <meta property="og:description" content="Configure Key Management Services in SFTPGo for encrypting stored secrets. Supports local encryption and cloud KMS providers.">
+  <meta name="description" content="Run SFTPGo in FIPS 140-3 mode with a FIPS-validated cryptographic module. FIPS builds for Linux, Windows, and Docker use only approved algorithms.">
+  <meta property="og:title" content="FIPS 140-3 Mode - SFTPGo docs">
+  <meta property="og:url" content="https://docs.sftpgo.com/enterprise/fips/">
+  <meta property="og:description" content="Run SFTPGo in FIPS 140-3 mode with a FIPS-validated cryptographic module. FIPS builds for Linux, Windows, and Docker use only approved algorithms.">
   <meta property="og:image" content="https://sftpgo.com/assets/img/og-image.png">
   <meta property="og:type" content="article">
-  <meta name="twitter:title" content="Key Management Services - SFTPGo docs">
-  <meta name="twitter:description" content="Configure Key Management Services in SFTPGo for encrypting stored secrets. Supports local encryption and cloud KMS providers.">
+  <meta name="twitter:title" content="FIPS 140-3 Mode - SFTPGo docs">
+  <meta name="twitter:description" content="Run SFTPGo in FIPS 140-3 mode with a FIPS-validated cryptographic module. FIPS builds for Linux, Windows, and Docker use only approved algorithms.">
   <meta name="twitter:image" content="https://sftpgo.com/assets/img/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
 
@@ -91,12 +91,12 @@
       },
       {
         "@type": "TechArticle",
-        "headline": "Key Management Services",
-        "description": "Configure Key Management Services in SFTPGo for encrypting stored secrets. Supports local encryption and cloud KMS providers.",
+        "headline": "FIPS 140-3 Mode",
+        "description": "Run SFTPGo in FIPS 140-3 mode with a FIPS-validated cryptographic module. FIPS builds for Linux, Windows, and Docker use only approved algorithms.",
         "image": "https://sftpgo.com/assets/img/og-image.png",
-        "url": "https://docs.sftpgo.com/enterprise/kms/",
+        "url": "https://docs.sftpgo.com/enterprise/fips/",
         "inLanguage": "en",
-        "datePublished": "2024-04-25T16:47:14Z",
+        "datePublished": "2026-06-20T17:54:33Z",
         "dateModified": "2026-06-20T17:54:33Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
@@ -135,7 +135,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#key-management-services" class="md-skip">
+        <a href="#fips-140-3-mode" class="md-skip">
           Skip to content
         </a>
       
@@ -174,7 +174,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Key Management Services
+              FIPS 140-3 Mode
             
           </span>
         </div>
@@ -471,10 +471,37 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../fips/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FIPS 140-3 Mode
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -490,6 +517,109 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#what-fips-mode-provides" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What FIPS mode provides
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-a-fips-build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installing a FIPS build
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#behavior-in-fips-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Behavior in FIPS mode
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Behavior in FIPS mode">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#password-hashing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Password hashing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-at-rest-encryption-cryptfs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data-at-rest encryption (CryptFs)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tls-ftps-webdav-https-rest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TLS (FTPS, WebDAV, HTTPS, REST)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ssh-sftp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SSH (SFTP)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1555,20 +1685,18 @@
       
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" checked="">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11">
         
           
           <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
@@ -1589,7 +1717,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_11">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1772,37 +1900,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Key Management Services
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../kms/" class="md-nav__link">
         
   
   
@@ -1818,104 +1919,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-      
-        <li class="md-nav__item">
-  <a href="#supported-services-for-encryption-and-decryption" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Supported Services for encryption and decryption
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Supported Services for encryption and decryption">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#default-provider-aes-256-gcm" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Default provider (AES-256-GCM)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#local-provider-nacl-secretbox" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Local provider (NaCl secretbox)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#cloud-providers" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Cloud providers
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#re-encrypting-stored-secrets" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Re-encrypting stored secrets
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Re-encrypting stored secrets">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#notes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Notes
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -3563,72 +3566,77 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#supported-services-for-encryption-and-decryption" class="md-nav__link">
+  <a href="#what-fips-mode-provides" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Supported Services for encryption and decryption
+        What FIPS mode provides
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Supported Services for encryption and decryption">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#default-provider-aes-256-gcm" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Default provider (AES-256-GCM)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#local-provider-nacl-secretbox" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Local provider (NaCl secretbox)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#cloud-providers" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Cloud providers
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#re-encrypting-stored-secrets" class="md-nav__link">
+  <a href="#installing-a-fips-build" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Re-encrypting stored secrets
+        Installing a FIPS build
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Re-encrypting stored secrets">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#behavior-in-fips-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Behavior in FIPS mode
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Behavior in FIPS mode">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#notes" class="md-nav__link">
+  <a href="#password-hashing" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Notes
+        Password hashing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-at-rest-encryption-cryptfs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data-at-rest encryption (CryptFs)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tls-ftps-webdav-https-rest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TLS (FTPS, WebDAV, HTTPS, REST)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ssh-sftp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SSH (SFTP)
       
     </span>
   </a>
@@ -3658,46 +3666,6 @@
   
 
 
-  <nav class="md-path" aria-label="Navigation">
-    <ol class="md-path__list">
-      
-        
-  
-  
-    <li class="md-path__item">
-      <a href=".." class="md-path__link">
-        
-  <span class="md-ellipsis">
-    What is SFTPGo?
-  </span>
-
-      </a>
-    </li>
-  
-
-      
-      
-        
-  
-  
-    
-    
-      <li class="md-path__item">
-        <a href="../cli/" class="md-path__link">
-          
-  <span class="md-ellipsis">
-    Configuration
-  </span>
-
-        </a>
-      </li>
-    
-  
-
-      
-    </ol>
-  </nav>
-
               
               <article class="md-content__inner md-typeset">
                 
@@ -3705,48 +3673,29 @@
 
 
 
-<h1 id="key-management-services">Key Management Services</h1>
-<p>SFTPGo stores sensitive data such as Cloud account credentials or passphrases to derive per-object encryption keys. These data are stored as ciphertext and only loaded to RAM in plaintext when needed.</p>
-<h2 id="supported-services-for-encryption-and-decryption">Supported Services for encryption and decryption</h2>
-<p>The <code>secrets</code> section of the <code>kms</code> configuration allows to configure how to encrypt and decrypt sensitive data. The following configuration parameters are available:</p>
+<h1 id="fips-140-3-mode">FIPS 140-3 mode</h1>
+<p>SFTPGo can run in <strong>FIPS 140-3 mode</strong>, where every security boundary uses only cryptography provided by a FIPS-validated module. This is intended for deployments that must satisfy a FIPS 140-3 requirement (US federal, defense contractors, regulated industries).</p>
+<h2 id="what-fips-mode-provides">What FIPS mode provides</h2>
+<p>FIPS builds are compiled against the <strong>Go Cryptographic Module v1.0.0</strong> (CMVP certificate <a href="https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/5247" target="_blank">#5247</a>, <a href="https://csrc.nist.gov/projects/cryptographic-algorithm-validation-program/details?product=19371" target="_blank">CAVP A6650</a>). The module is a self-contained Go module — not an OpenSSL wrapper. In a FIPS build, FIPS mode is <strong>active by default</strong>: the module runs its power-on self-tests at startup and routes the approved algorithms through the validated implementation.</p>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> <strong>A license with the FIPS feature enabled is required.</strong> FIPS mode is part of the <a href="https://sftpgo.com/on-premises" target="_blank">Ultimate tier</a>: a FIPS build refuses to start unless the active license includes the FIPS feature. Make sure your license covers FIPS before deploying a FIPS build.</p>
+<h2 id="installing-a-fips-build">Installing a FIPS build</h2>
+<p>FIPS builds are distributed alongside the standard builds. See <a href="../installation/">Installation</a> for the package repositories and <a href="../docker/">Docker</a> for the image variants.</p>
 <ul>
-<li><code>url</code> defines the URI to the KMS service. If empty, the default <code>AES-256-GCM</code> provider is used.</li>
-<li><code>master_key</code> defines the active master encryption key as a string, used to encrypt and as the first key tried on decryption.</li>
-<li><code>master_key_path</code> defines the absolute path to a file containing the active master encryption key. This could be, for example, a docker secret or a file protected with filesystem level permissions. When set it takes precedence over <code>master_key</code>.</li>
-<li><code>additional_master_keys</code> is a list of decrypt-only master keys, tried in order only when the active key fails to decrypt a secret. They never encrypt and let the data store hold secrets written under more than one key during a key rotation. See the <a href="../config-file/#master-key-ring">master key ring</a>.</li>
-<li><code>additional_master_keys_path</code> defines the absolute path to a file holding additional decrypt-only master keys, one key per line, blank lines ignored. When set it takes precedence over <code>additional_master_keys</code>.</li>
+<li><strong>Linux (APT/YUM):</strong> install the <code>sftpgo-fips</code> package, plus <code>sftpgo-plugins-fips</code> for the bundled plugins.</li>
+<li><strong>Windows:</strong> download the <a href="https://download.sftpgo.com/windows/sftpgo_windows_fips_x86_64.exe" target="_blank">FIPS installer</a>.</li>
+<li><strong>Docker:</strong> use the <code>-fips</code> image variants (see <a href="../docker/#image-variants">Image variants</a>).</li>
 </ul>
-<h3 id="default-provider-aes-256-gcm">Default provider (AES-256-GCM)</h3>
-<p>If the <code>url</code> is empty (or set to <code>aes256gcm://</code>) SFTPGo encrypts secrets using <code>AES-256-GCM</code> authenticated encryption.</p>
-<p>For each secret a random salt is generated and the per-object encryption key is derived from it in the following way:</p>
-<ol>
-<li>a master key is provided: the encryption key is derived from the master key and the per-secret salt using the HMAC-based Extract-and-Expand Key Derivation Function (HKDF) as defined in <a href="http://tools.ietf.org/html/rfc5869" target="_blank">RFC 5869</a>. The master key is never stored alongside the ciphertext, so a compromise of the data store alone is not sufficient to decrypt the secrets.</li>
-<li>no master key is provided: the encryption key is derived from the per-secret salt alone. This is the default configuration.</li>
-</ol>
-<p>Without a master key the secrets are recoverable from a copy of the data store alone; set a master key to keep credentials confidential against a database or backup compromise. This is especially relevant for high-value, reusable credentials such as cloud account access keys.</p>
-<h3 id="local-provider-nacl-secretbox">Local provider (NaCl secretbox)</h3>
-<p>You can activate the local provider by setting <code>local://</code> as <code>url</code>. Internally it uses the <a href="https://pkg.go.dev/golang.org/x/crypto/nacl/secretbox" target="_blank">NaCl secret box</a> algorithm and the same key derivation scheme (HKDF, optional master key) described above. This was the default in previous SFTPGo versions; secrets already encrypted with it are transparently decrypted regardless of the currently configured provider.</p>
-<h3 id="cloud-providers">Cloud providers</h3>
-<p>The following cloud KMS providers are supported via the KMS plugin:</p>
-<ul>
-<li>Google Cloud KMS</li>
-<li>AWS KMS</li>
-<li>Azure Key Vault</li>
-<li>HashiCorp Vault</li>
-<li>Oracle Key Vault</li>
-</ul>
-<p>All cloud providers that offer managed identity (Google Cloud, AWS, Azure, Oracle) are supported through their respective default credential chains.</p>
-<p>See <a href="../plugins/kms-providers/">Cloud KMS Providers</a> for detailed configuration instructions.</p>
-<h2 id="re-encrypting-stored-secrets">Re-encrypting stored secrets</h2>
-<p>The master key is global and is <strong>not</strong> stored with the secret: every secret is decrypted with the master key currently configured. Changing the master key in the configuration therefore makes the secrets encrypted with the previous key undecryptable, and the users that need them in plain text can no longer log in. The provider, instead, is recorded per secret (by its status), so secrets encrypted by one provider keep being decrypted by it even after the configured provider changes.</p>
-<p>The <code>convertsecrets</code> command re-encrypts every stored secret onto a new master key and/or provider in a single pass, so you can rotate the master key or migrate provider without losing access to the data. To rotate the master key (for example to replace a weak one), keep the current key in the configuration so the existing secrets can still be decrypted, run the command with the new key, and only then update the configuration to the new key. To migrate to a different provider, run it with the target provider: a builtin one (<code>local</code> or <code>aes256gcm</code>) or the full provider URL of an external KMS whose plugin is configured. See <a href="../cli/#re-encrypting-the-stored-secrets">Re-encrypting the stored secrets</a> for the full usage. On a networked SQL database (PostgreSQL, MySQL/MariaDB, CockroachDB), whether a single instance or a cluster, you can rotate the master key with no downtime by configuring a <a href="../config-file/#master-key-ring">master key ring</a> so the running instances decrypt both keys while the secrets are migrated.</p>
-<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> The KMS master key wraps the secrets stored in the data provider — cloud credentials, two-factor secrets, and the <strong>CryptFs passphrase</strong>, which is itself stored as a KMS secret. <code>convertsecrets</code> re-wraps these secrets under the new master key <strong>without changing their values</strong>, so the CryptFs passphrase keeps deriving the same per-file keys and the encrypted files on disk are not affected. Changing the CryptFs passphrase value itself is a different operation: it re-derives the per-file keys and requires re-uploading the affected files (see <a href="../dare/">Data At Rest Encryption</a>).</p>
-<h3 id="notes">Notes</h3>
-<ul>
-<li>The KMS configuration is global.</li>
-<li>If you set a master key you will be unable to decrypt the data without this key and the SFTPGo users that need the data as plain text will be unable to login.</li>
-<li>You can start using the local provider and then switch to an external one but you can't switch between external providers and still be able to decrypt the data encrypted using the previous provider.</li>
-</ul>
+<p>No runtime configuration is required: installing a FIPS build is what selects FIPS mode.</p>
+<h2 id="behavior-in-fips-mode">Behavior in FIPS mode</h2>
+<p>In FIPS mode SFTPGo restricts itself to approved algorithms automatically; most of this needs no configuration.</p>
+<h3 id="password-hashing">Password hashing</h3>
+<p>Password hashing uses <strong>PBKDF2-SHA256</strong>, which is FIPS-approved.</p>
+<h3 id="data-at-rest-encryption-cryptfs">Data-at-rest encryption (CryptFs)</h3>
+<p><a href="../dare/">Encrypted folders</a> use <strong>AES-256-GCM</strong> in FIPS mode. On non-FIPS builds without AES hardware acceleration, SFTPGo may instead use ChaCha20-Poly1305; files encrypted that way cannot be read under FIPS mode and must be re-encrypted first. On hardware with AES-NI — the common case — existing files are already AES-256-GCM and are unaffected.</p>
+<h3 id="tls-ftps-webdav-https-rest">TLS (FTPS, WebDAV, HTTPS, REST)</h3>
+<p>Only approved TLS 1.2 and 1.3 cipher suites and signature algorithms are negotiated. Certificates may use <strong>RSA</strong> (2048-bit or larger), <strong>ECDSA</strong> (P-256/P-384/P-521), or <strong>Ed25519</strong> keys. Clients restricted to non-approved algorithms — notably ChaCha20-Poly1305, or TLS 1.1 and earlier — cannot connect.</p>
+<h3 id="ssh-sftp">SSH (SFTP)</h3>
+<p>Only approved SSH algorithms are negotiated. Host keys and user public keys may use <strong>RSA</strong>, <strong>ECDSA</strong>, or <strong>Ed25519</strong>; legacy DSA keys and SHA-1-based algorithms are not accepted. Modern key exchanges and AES-GCM/AES-CTR ciphers remain available, so current SSH clients connect without changes; only clients pinned to non-approved algorithms (for example ChaCha20-Poly1305) need reconfiguration.</p>
 
 
 
@@ -3779,7 +3728,7 @@
     <span class="md-icon" title="Created">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 25, 2024 16:47:14 UTC">2024-04-25 16:47:14</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="June 20, 2026 17:54:33 UTC">2026-06-20 17:54:33</span>
   </span>
 
     

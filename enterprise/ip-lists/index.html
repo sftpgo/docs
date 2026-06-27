@@ -2,13 +2,13 @@
     
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link rel="canonical" href="https://docs.sftpgo.com/enterprise/kms/">
+  <link rel="canonical" href="https://docs.sftpgo.com/enterprise/ip-lists/">
   <link rel="icon" href="../assets/favicon.ico">
   <meta name="generator" content="mkdocs, mkdocs-material">
 
     
       
-        <title>Key Management Services - SFTPGo docs</title>
+        <title>IP Lists - SFTPGo docs</title>
       
     
     
@@ -40,14 +40,14 @@
 
     
     <meta name="keywords" content="SFTPGo, SFTP server, FTP server, SCP, WebDAV, S3, Google Cloud Storage, Azure Blob, Managed File Transfer, MFT, 2FA, Data At Rest Encryption, file sharing, secure file transfer, SaaS, on-premise, REST API, Kubernetes, Helm chart, OIDC, LDAP">
-  <meta name="description" content="Configure Key Management Services in SFTPGo for encrypting stored secrets. Supports local encryption and cloud KMS providers.">
-  <meta property="og:title" content="Key Management Services - SFTPGo docs">
-  <meta property="og:url" content="https://docs.sftpgo.com/enterprise/kms/">
-  <meta property="og:description" content="Configure Key Management Services in SFTPGo for encrypting stored secrets. Supports local encryption and cloud KMS providers.">
+  <meta name="description" content="SFTPGo IP Lists explained: the Allow List for default-deny access control and the Trusted List for defender and rate-limiter exemptions. Enable, scope by protocol, and manage via WebAdmin or REST API.">
+  <meta property="og:title" content="IP Lists - SFTPGo docs">
+  <meta property="og:url" content="https://docs.sftpgo.com/enterprise/ip-lists/">
+  <meta property="og:description" content="SFTPGo IP Lists explained: the Allow List for default-deny access control and the Trusted List for defender and rate-limiter exemptions. Enable, scope by protocol, and manage via WebAdmin or REST API.">
   <meta property="og:image" content="https://sftpgo.com/assets/img/og-image.png">
   <meta property="og:type" content="article">
-  <meta name="twitter:title" content="Key Management Services - SFTPGo docs">
-  <meta name="twitter:description" content="Configure Key Management Services in SFTPGo for encrypting stored secrets. Supports local encryption and cloud KMS providers.">
+  <meta name="twitter:title" content="IP Lists - SFTPGo docs">
+  <meta name="twitter:description" content="SFTPGo IP Lists explained: the Allow List for default-deny access control and the Trusted List for defender and rate-limiter exemptions. Enable, scope by protocol, and manage via WebAdmin or REST API.">
   <meta name="twitter:image" content="https://sftpgo.com/assets/img/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
 
@@ -91,12 +91,12 @@
       },
       {
         "@type": "TechArticle",
-        "headline": "Key Management Services",
-        "description": "Configure Key Management Services in SFTPGo for encrypting stored secrets. Supports local encryption and cloud KMS providers.",
+        "headline": "IP Lists",
+        "description": "SFTPGo IP Lists explained: the Allow List for default-deny access control and the Trusted List for defender and rate-limiter exemptions. Enable, scope by protocol, and manage via WebAdmin or REST API.",
         "image": "https://sftpgo.com/assets/img/og-image.png",
-        "url": "https://docs.sftpgo.com/enterprise/kms/",
+        "url": "https://docs.sftpgo.com/enterprise/ip-lists/",
         "inLanguage": "en",
-        "datePublished": "2024-04-25T16:47:14Z",
+        "datePublished": "2026-06-20T17:54:33Z",
         "dateModified": "2026-06-20T17:54:33Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
@@ -135,7 +135,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#key-management-services" class="md-skip">
+        <a href="#ip-lists" class="md-skip">
           Skip to content
         </a>
       
@@ -174,7 +174,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Key Management Services
+              IP Lists
             
           </span>
         </div>
@@ -1555,20 +1555,18 @@
       
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" checked="">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11">
         
           
           <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
@@ -1589,7 +1587,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_11">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1772,37 +1770,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Key Management Services
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../kms/" class="md-nav__link">
         
   
   
@@ -1818,104 +1789,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-      
-        <li class="md-nav__item">
-  <a href="#supported-services-for-encryption-and-decryption" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Supported Services for encryption and decryption
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Supported Services for encryption and decryption">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#default-provider-aes-256-gcm" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Default provider (AES-256-GCM)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#local-provider-nacl-secretbox" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Local provider (NaCl secretbox)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#cloud-providers" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Cloud providers
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#re-encrypting-stored-secrets" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Re-encrypting stored secrets
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Re-encrypting stored secrets">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#notes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Notes
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -2764,18 +2637,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16" checked="">
         
           
           <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="0">
@@ -2796,7 +2671,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_16">
             <span class="md-nav__icon md-icon"></span>
             
@@ -2811,10 +2686,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../ip-lists/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IP Lists
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -2830,6 +2732,109 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#allow-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Allow List
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Allow List">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enabling-the-allow-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enabling the Allow List
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scoping-by-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scoping by protocol
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trusted-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trusted List
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#defender-list-and-rate-limiters-safe-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Defender List and Rate Limiters Safe List
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#managing-entries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Managing entries
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-default-deny-sftp-from-a-curated-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: default-deny SFTP from a curated list
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -3563,22 +3568,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#supported-services-for-encryption-and-decryption" class="md-nav__link">
+  <a href="#allow-list" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Supported Services for encryption and decryption
+        Allow List
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Supported Services for encryption and decryption">
+    <nav class="md-nav" aria-label="Allow List">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#default-provider-aes-256-gcm" class="md-nav__link">
+  <a href="#enabling-the-allow-list" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Default provider (AES-256-GCM)
+        Enabling the Allow List
       
     </span>
   </a>
@@ -3586,21 +3591,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#local-provider-nacl-secretbox" class="md-nav__link">
+  <a href="#scoping-by-protocol" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Local provider (NaCl secretbox)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#cloud-providers" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Cloud providers
+        Scoping by protocol
       
     </span>
   </a>
@@ -3613,30 +3607,46 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#re-encrypting-stored-secrets" class="md-nav__link">
+  <a href="#trusted-list" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Re-encrypting stored secrets
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Re-encrypting stored secrets">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#notes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Notes
+        Trusted List
       
     </span>
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#defender-list-and-rate-limiters-safe-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Defender List and Rate Limiters Safe List
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#managing-entries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Managing entries
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-default-deny-sftp-from-a-curated-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: default-deny SFTP from a curated list
+      
+    </span>
+  </a>
   
 </li>
       
@@ -3683,10 +3693,10 @@
     
     
       <li class="md-path__item">
-        <a href="../cli/" class="md-path__link">
+        <a href="./" class="md-path__link">
           
   <span class="md-ellipsis">
-    Configuration
+    Security &amp; Protection
   </span>
 
         </a>
@@ -3705,48 +3715,99 @@
 
 
 
-<h1 id="key-management-services">Key Management Services</h1>
-<p>SFTPGo stores sensitive data such as Cloud account credentials or passphrases to derive per-object encryption keys. These data are stored as ciphertext and only loaded to RAM in plaintext when needed.</p>
-<h2 id="supported-services-for-encryption-and-decryption">Supported Services for encryption and decryption</h2>
-<p>The <code>secrets</code> section of the <code>kms</code> configuration allows to configure how to encrypt and decrypt sensitive data. The following configuration parameters are available:</p>
+<h1 id="ip-lists">IP Lists</h1>
+<p>SFTPGo maintains permanent, manually curated lists of IP addresses and networks, managed from the WebAdmin under the <strong>IP Manager</strong> section or through the REST API (<code>/ip-lists</code>). They are independent of the <a href="../defender/">defender</a>, which builds its block list dynamically from failed logins.</p>
+<p>The IP Manager exposes four distinct lists, each with its own purpose. Choosing the right one is the most common source of confusion, so start here:</p>
+<table>
+<thead>
+<tr>
+<th>List</th>
+<th>Purpose</th>
+<th>Effect on a listed IP</th>
+<th>Entry modes</th>
+<th>How it activates</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Allow List</strong></td>
+<td>Access control (default-deny gate)</td>
+<td>The IP is <strong>permitted</strong> to connect; every IP not on the list is rejected before authentication</td>
+<td>Allow only</td>
+<td>Enabled by <code>allowlist_status</code></td>
+</tr>
+<tr>
+<td><strong>Trusted List</strong></td>
+<td>Exemption from protection layers</td>
+<td>The IP <strong>bypasses</strong> the defender, rate limiters, and IP-filtering plugins (such as GeoIP)</td>
+<td>Allow only</td>
+<td>Active whenever it contains entries</td>
+</tr>
+<tr>
+<td><strong>Defender List</strong></td>
+<td>Static block / permit rules for the <a href="../defender/">defender</a></td>
+<td><code>Deny</code> always blocks; <code>Allow</code> always permits</td>
+<td>Allow and Deny</td>
+<td>Active whenever it contains entries</td>
+</tr>
+<tr>
+<td><strong>Rate Limiters Safe List</strong></td>
+<td>Exemption from <a href="../rate-limiting/">rate limiting</a> only</td>
+<td>The IP is never delayed or rejected by rate limiters</td>
+<td>Allow only</td>
+<td>Active whenever it contains entries</td>
+</tr>
+</tbody>
+</table>
+<p>Each entry can be a single IP address or a CIDR network (for example <code>203.0.113.0/24</code>), in IPv4 or IPv6, and can be scoped to specific protocols.</p>
+<h2 id="allow-list">Allow List</h2>
+<p>The Allow List implements <strong>default-deny access control</strong>: when enabled, only the IP addresses and networks present in the list can reach SFTPGo's services; every other connection is dropped at connection time, before authentication. It protects all services — SFTP/SCP, FTP, WebDAV, and the HTTP interfaces (WebAdmin, WebClient, REST API).</p>
+<p>This is the right tool when you want to expose a service only to a known set of source IPs.</p>
+<h3 id="enabling-the-allow-list">Enabling the Allow List</h3>
+<p>The Allow List is consulted only when it is turned on through the <code>allowlist_status</code> setting. Set it in the configuration file:</p>
+<pre><code class="language-json">{
+  "common": {
+    "allowlist_status": 1
+  }
+}
+</code></pre>
+<p>or via environment variable:</p>
+<pre><code class="language-shell">SFTPGO_COMMON__ALLOWLIST_STATUS=1
+</code></pre>
+<p><code>0</code> (the default) disables the feature; <code>1</code> enables it.</p>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Populate the list with at least one allowed entry <strong>before</strong> enabling it, and make sure your own management IP is included. When the feature is enabled with an empty list, no address is listed, so every connection — including yours — is denied. Add the entries first, verify them, then set <code>allowlist_status</code> to <code>1</code>.</p>
+<h3 id="scoping-by-protocol">Scoping by protocol</h3>
+<p>Each entry applies to all protocols by default, or to a subset you select (SSH, FTP, WebDAV, HTTP). For example, you can allow an automation host for SFTP only while keeping it out of the HTTP interfaces. An entry that allows an IP for SSH does not, on its own, allow that IP for WebDAV.</p>
+<h2 id="trusted-list">Trusted List</h2>
+<p>The Trusted List is <strong>not</strong> an access-control mechanism — it never grants or denies access on its own. It is an <em>exemption</em> list: addresses on it bypass SFTPGo's protective layers. A trusted IP is:</p>
 <ul>
-<li><code>url</code> defines the URI to the KMS service. If empty, the default <code>AES-256-GCM</code> provider is used.</li>
-<li><code>master_key</code> defines the active master encryption key as a string, used to encrypt and as the first key tried on decryption.</li>
-<li><code>master_key_path</code> defines the absolute path to a file containing the active master encryption key. This could be, for example, a docker secret or a file protected with filesystem level permissions. When set it takes precedence over <code>master_key</code>.</li>
-<li><code>additional_master_keys</code> is a list of decrypt-only master keys, tried in order only when the active key fails to decrypt a secret. They never encrypt and let the data store hold secrets written under more than one key during a key rotation. See the <a href="../config-file/#master-key-ring">master key ring</a>.</li>
-<li><code>additional_master_keys_path</code> defines the absolute path to a file holding additional decrypt-only master keys, one key per line, blank lines ignored. When set it takes precedence over <code>additional_master_keys</code>.</li>
+<li>never banned by the <a href="../defender/">defender</a>, and its activity is not counted toward auto-blocking;</li>
+<li>never delayed or rejected by <a href="../rate-limiting/">rate limiters</a>;</li>
+<li>exempt from IP-filtering plugins, such as <a href="../plugins/geoip-filter/">GeoIP filtering</a>.</li>
 </ul>
-<h3 id="default-provider-aes-256-gcm">Default provider (AES-256-GCM)</h3>
-<p>If the <code>url</code> is empty (or set to <code>aes256gcm://</code>) SFTPGo encrypts secrets using <code>AES-256-GCM</code> authenticated encryption.</p>
-<p>For each secret a random salt is generated and the per-object encryption key is derived from it in the following way:</p>
+<p>Use it for trusted networks or monitoring hosts that you never want throttled or banned. The list is active whenever it contains entries; it has no enable/disable switch and accepts allow-mode entries only.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> The Trusted List does not put an IP on the Allow List. If the Allow List is enabled, a trusted IP must also be present on the Allow List to be able to connect.</p>
+<h2 id="defender-list-and-rate-limiters-safe-list">Defender List and Rate Limiters Safe List</h2>
+<p>The <strong>Defender List</strong> holds static rules for the <a href="../defender/">defender</a>. Each entry has a mode: <code>Deny</code> always blocks the address, <code>Allow</code> always permits it (overriding a dynamic ban). When an address is covered by several entries, the most specific one — the longest network prefix — wins, so a narrow <code>Allow</code> correctly overrides a broad <code>Deny</code> such as <code>0.0.0.0/0</code>, and vice versa.</p>
+<p>The <strong>Rate Limiters Safe List</strong> exempts addresses from <a href="../rate-limiting/">rate limiting</a> only, without affecting the defender or plugins. It is a narrower alternative to the Trusted List when you want to relax rate limits without disabling other protections.</p>
+<h2 id="managing-entries">Managing entries</h2>
+<p>Manage all four lists from the WebAdmin <strong>IP Manager → IP Lists</strong> page, selecting the list type from the dropdown, or through the REST API at <code>/ip-lists</code> (see the <a href="https://sftpgo.com/rest-api" target="_blank">REST API reference</a>). Each entry stores:</p>
+<ul>
+<li><strong>IP/Network</strong> — a single address or a CIDR network, IPv4 or IPv6;</li>
+<li><strong>Mode</strong> — <code>Allow</code> or <code>Deny</code> (<code>Deny</code> is available on the Defender List only);</li>
+<li><strong>Protocols</strong> — the protocols the entry applies to, or all of them;</li>
+<li><strong>Description</strong> — an optional note.</li>
+</ul>
+<h2 id="example-default-deny-sftp-from-a-curated-list">Example: default-deny SFTP from a curated list</h2>
+<p>To allow SFTP access only from a fixed set of source IPs:</p>
 <ol>
-<li>a master key is provided: the encryption key is derived from the master key and the per-secret salt using the HMAC-based Extract-and-Expand Key Derivation Function (HKDF) as defined in <a href="http://tools.ietf.org/html/rfc5869" target="_blank">RFC 5869</a>. The master key is never stored alongside the ciphertext, so a compromise of the data store alone is not sufficient to decrypt the secrets.</li>
-<li>no master key is provided: the encryption key is derived from the per-secret salt alone. This is the default configuration.</li>
+<li>In the WebAdmin, open <strong>IP Manager → IP Lists</strong>, select <strong>Allow list</strong>, and add each approved address or network, scoped to <code>SSH</code> if you only want to restrict SFTP/SCP.</li>
+<li>Add an entry for the IP you administer SFTPGo from, scoped to <code>HTTP</code> (or to all protocols). The Allow List also gates the HTTP interfaces, so without this entry, enabling the feature locks you out of the WebAdmin and REST API. If you administer over SFTP from a different host, allow that host too.</li>
+<li>Confirm all entries appear in the list.</li>
+<li>Enable the feature by setting <code>allowlist_status</code> to <code>1</code> (config file or <code>SFTPGO_COMMON__ALLOWLIST_STATUS=1</code>) and reload SFTPGo.</li>
 </ol>
-<p>Without a master key the secrets are recoverable from a copy of the data store alone; set a master key to keep credentials confidential against a database or backup compromise. This is especially relevant for high-value, reusable credentials such as cloud account access keys.</p>
-<h3 id="local-provider-nacl-secretbox">Local provider (NaCl secretbox)</h3>
-<p>You can activate the local provider by setting <code>local://</code> as <code>url</code>. Internally it uses the <a href="https://pkg.go.dev/golang.org/x/crypto/nacl/secretbox" target="_blank">NaCl secret box</a> algorithm and the same key derivation scheme (HKDF, optional master key) described above. This was the default in previous SFTPGo versions; secrets already encrypted with it are transparently decrypted regardless of the currently configured provider.</p>
-<h3 id="cloud-providers">Cloud providers</h3>
-<p>The following cloud KMS providers are supported via the KMS plugin:</p>
-<ul>
-<li>Google Cloud KMS</li>
-<li>AWS KMS</li>
-<li>Azure Key Vault</li>
-<li>HashiCorp Vault</li>
-<li>Oracle Key Vault</li>
-</ul>
-<p>All cloud providers that offer managed identity (Google Cloud, AWS, Azure, Oracle) are supported through their respective default credential chains.</p>
-<p>See <a href="../plugins/kms-providers/">Cloud KMS Providers</a> for detailed configuration instructions.</p>
-<h2 id="re-encrypting-stored-secrets">Re-encrypting stored secrets</h2>
-<p>The master key is global and is <strong>not</strong> stored with the secret: every secret is decrypted with the master key currently configured. Changing the master key in the configuration therefore makes the secrets encrypted with the previous key undecryptable, and the users that need them in plain text can no longer log in. The provider, instead, is recorded per secret (by its status), so secrets encrypted by one provider keep being decrypted by it even after the configured provider changes.</p>
-<p>The <code>convertsecrets</code> command re-encrypts every stored secret onto a new master key and/or provider in a single pass, so you can rotate the master key or migrate provider without losing access to the data. To rotate the master key (for example to replace a weak one), keep the current key in the configuration so the existing secrets can still be decrypted, run the command with the new key, and only then update the configuration to the new key. To migrate to a different provider, run it with the target provider: a builtin one (<code>local</code> or <code>aes256gcm</code>) or the full provider URL of an external KMS whose plugin is configured. See <a href="../cli/#re-encrypting-the-stored-secrets">Re-encrypting the stored secrets</a> for the full usage. On a networked SQL database (PostgreSQL, MySQL/MariaDB, CockroachDB), whether a single instance or a cluster, you can rotate the master key with no downtime by configuring a <a href="../config-file/#master-key-ring">master key ring</a> so the running instances decrypt both keys while the secrets are migrated.</p>
-<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> The KMS master key wraps the secrets stored in the data provider — cloud credentials, two-factor secrets, and the <strong>CryptFs passphrase</strong>, which is itself stored as a KMS secret. <code>convertsecrets</code> re-wraps these secrets under the new master key <strong>without changing their values</strong>, so the CryptFs passphrase keeps deriving the same per-file keys and the encrypted files on disk are not affected. Changing the CryptFs passphrase value itself is a different operation: it re-derives the per-file keys and requires re-uploading the affected files (see <a href="../dare/">Data At Rest Encryption</a>).</p>
-<h3 id="notes">Notes</h3>
-<ul>
-<li>The KMS configuration is global.</li>
-<li>If you set a master key you will be unable to decrypt the data without this key and the SFTPGo users that need the data as plain text will be unable to login.</li>
-<li>You can start using the local provider and then switch to an external one but you can't switch between external providers and still be able to decrypt the data encrypted using the previous provider.</li>
-</ul>
+<p>From this point, connections from any source outside the list are dropped before authentication, while the listed sources connect on the protocols you granted them. To lift the restriction, set <code>allowlist_status</code> back to <code>0</code>.</p>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Because the Allow List gates the HTTP interfaces too, always keep an entry that permits your administration IP on <code>HTTP</code>. Otherwise you will not be able to reach the WebAdmin or REST API to fix the list, and will have to disable <code>allowlist_status</code> from the configuration and restart SFTPGo to recover.</p>
 
 
 
@@ -3779,7 +3840,7 @@
     <span class="md-icon" title="Created">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 25, 2024 16:47:14 UTC">2024-04-25 16:47:14</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="June 20, 2026 17:54:33 UTC">2026-06-20 17:54:33</span>
   </span>
 
     

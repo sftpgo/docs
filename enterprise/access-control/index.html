@@ -2,13 +2,13 @@
     
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link rel="canonical" href="https://docs.sftpgo.com/enterprise/kms/">
+  <link rel="canonical" href="https://docs.sftpgo.com/enterprise/access-control/">
   <link rel="icon" href="../assets/favicon.ico">
   <meta name="generator" content="mkdocs, mkdocs-material">
 
     
       
-        <title>Key Management Services - SFTPGo docs</title>
+        <title>Access control and permissions - SFTPGo docs</title>
       
     
     
@@ -40,14 +40,14 @@
 
     
     <meta name="keywords" content="SFTPGo, SFTP server, FTP server, SCP, WebDAV, S3, Google Cloud Storage, Azure Blob, Managed File Transfer, MFT, 2FA, Data At Rest Encryption, file sharing, secure file transfer, SaaS, on-premise, REST API, Kubernetes, Helm chart, OIDC, LDAP">
-  <meta name="description" content="Configure Key Management Services in SFTPGo for encrypting stored secrets. Supports local encryption and cloud KMS providers.">
-  <meta property="og:title" content="Key Management Services - SFTPGo docs">
-  <meta property="og:url" content="https://docs.sftpgo.com/enterprise/kms/">
-  <meta property="og:description" content="Configure Key Management Services in SFTPGo for encrypting stored secrets. Supports local encryption and cloud KMS providers.">
+  <meta name="description" content="How access control works in SFTPGo: storage isolation with home directory and key prefix, virtual folders, per-directory permissions, file pattern filters, IP and protocol restrictions, and time-based access. Restrict what each user can see and do.">
+  <meta property="og:title" content="Access Control - SFTPGo docs">
+  <meta property="og:url" content="https://docs.sftpgo.com/enterprise/access-control/">
+  <meta property="og:description" content="How access control works in SFTPGo: storage isolation with home directory and key prefix, virtual folders, per-directory permissions, file pattern filters, IP and protocol restrictions, and time-based access. Restrict what each user can see and do.">
   <meta property="og:image" content="https://sftpgo.com/assets/img/og-image.png">
   <meta property="og:type" content="article">
-  <meta name="twitter:title" content="Key Management Services - SFTPGo docs">
-  <meta name="twitter:description" content="Configure Key Management Services in SFTPGo for encrypting stored secrets. Supports local encryption and cloud KMS providers.">
+  <meta name="twitter:title" content="Access Control - SFTPGo docs">
+  <meta name="twitter:description" content="How access control works in SFTPGo: storage isolation with home directory and key prefix, virtual folders, per-directory permissions, file pattern filters, IP and protocol restrictions, and time-based access. Restrict what each user can see and do.">
   <meta name="twitter:image" content="https://sftpgo.com/assets/img/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
 
@@ -91,12 +91,12 @@
       },
       {
         "@type": "TechArticle",
-        "headline": "Key Management Services",
-        "description": "Configure Key Management Services in SFTPGo for encrypting stored secrets. Supports local encryption and cloud KMS providers.",
+        "headline": "Access Control",
+        "description": "How access control works in SFTPGo: storage isolation with home directory and key prefix, virtual folders, per-directory permissions, file pattern filters, IP and protocol restrictions, and time-based access. Restrict what each user can see and do.",
         "image": "https://sftpgo.com/assets/img/og-image.png",
-        "url": "https://docs.sftpgo.com/enterprise/kms/",
+        "url": "https://docs.sftpgo.com/enterprise/access-control/",
         "inLanguage": "en",
-        "datePublished": "2024-04-25T16:47:14Z",
+        "datePublished": "2026-06-20T17:54:33Z",
         "dateModified": "2026-06-20T17:54:33Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
@@ -135,7 +135,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#key-management-services" class="md-skip">
+        <a href="#access-control-and-permissions" class="md-skip">
           Skip to content
         </a>
       
@@ -174,7 +174,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Key Management Services
+              Access control and permissions
             
           </span>
         </div>
@@ -692,18 +692,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" checked="">
         
           
           <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
@@ -724,7 +726,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_9">
             <span class="md-nav__icon md-icon"></span>
             
@@ -739,10 +741,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../access-control/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Access Control
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -758,6 +787,131 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#storage-isolation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Storage isolation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#virtual-folders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Virtual folders
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#per-directory-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-directory permissions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-pattern-filters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File pattern filters
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="File pattern filters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-path-based-restrictions-are-evaluated" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How path-based restrictions are evaluated
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ip-and-protocol-restrictions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IP and protocol restrictions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#time-based-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Time-based access
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#choosing-the-right-mechanism" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choosing the right mechanism
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1555,20 +1709,18 @@
       
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" checked="">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11">
         
           
           <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
@@ -1589,7 +1741,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_11">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1772,37 +1924,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Key Management Services
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../kms/" class="md-nav__link">
         
   
   
@@ -1818,104 +1943,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-      
-        <li class="md-nav__item">
-  <a href="#supported-services-for-encryption-and-decryption" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Supported Services for encryption and decryption
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Supported Services for encryption and decryption">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#default-provider-aes-256-gcm" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Default provider (AES-256-GCM)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#local-provider-nacl-secretbox" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Local provider (NaCl secretbox)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#cloud-providers" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Cloud providers
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#re-encrypting-stored-secrets" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Re-encrypting stored secrets
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Re-encrypting stored secrets">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#notes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Notes
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -3563,44 +3590,55 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#supported-services-for-encryption-and-decryption" class="md-nav__link">
+  <a href="#storage-isolation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Supported Services for encryption and decryption
+        Storage isolation
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Supported Services for encryption and decryption">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#virtual-folders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Virtual folders
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#per-directory-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-directory permissions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-pattern-filters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File pattern filters
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="File pattern filters">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#default-provider-aes-256-gcm" class="md-nav__link">
+  <a href="#examples" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Default provider (AES-256-GCM)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#local-provider-nacl-secretbox" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Local provider (NaCl secretbox)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#cloud-providers" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Cloud providers
+        Examples
       
     </span>
   </a>
@@ -3613,30 +3651,46 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#re-encrypting-stored-secrets" class="md-nav__link">
+  <a href="#how-path-based-restrictions-are-evaluated" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Re-encrypting stored secrets
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Re-encrypting stored secrets">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#notes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Notes
+        How path-based restrictions are evaluated
       
     </span>
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#ip-and-protocol-restrictions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IP and protocol restrictions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#time-based-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Time-based access
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#choosing-the-right-mechanism" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choosing the right mechanism
+      
+    </span>
+  </a>
   
 </li>
       
@@ -3683,10 +3737,10 @@
     
     
       <li class="md-path__item">
-        <a href="../cli/" class="md-path__link">
+        <a href="./" class="md-path__link">
           
   <span class="md-ellipsis">
-    Configuration
+    Core concepts
   </span>
 
         </a>
@@ -3705,47 +3759,230 @@
 
 
 
-<h1 id="key-management-services">Key Management Services</h1>
-<p>SFTPGo stores sensitive data such as Cloud account credentials or passphrases to derive per-object encryption keys. These data are stored as ciphertext and only loaded to RAM in plaintext when needed.</p>
-<h2 id="supported-services-for-encryption-and-decryption">Supported Services for encryption and decryption</h2>
-<p>The <code>secrets</code> section of the <code>kms</code> configuration allows to configure how to encrypt and decrypt sensitive data. The following configuration parameters are available:</p>
+<h1 id="access-control-and-permissions">Access control and permissions</h1>
+<p>SFTPGo controls what each user can see and do through several independent mechanisms. They operate at different layers: some decide <em>what storage is exposed at all</em>, others decide <em>what the user may do within the storage they can reach</em>, and others gate access by <em>network, protocol, or time</em>. Understanding which layer solves your problem avoids over-relying on a single setting.</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Mechanism</th>
+<th>Controls</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Storage</td>
+<td><a href="#storage-isolation">Home directory / key prefix</a></td>
+<td>The user's root. Everything above it is unreachable.</td>
+</tr>
+<tr>
+<td>Storage</td>
+<td><a href="#virtual-folders">Virtual folders</a></td>
+<td>Which specific locations are mounted into the user's namespace.</td>
+</tr>
+<tr>
+<td>Operations</td>
+<td><a href="#per-directory-permissions">Per-directory permissions</a></td>
+<td>What the user may do (list, download, upload, …) in each directory.</td>
+</tr>
+<tr>
+<td>Visibility</td>
+<td><a href="#file-pattern-filters">File pattern filters</a></td>
+<td>Which file and directory names are listed and transferable.</td>
+</tr>
+<tr>
+<td>Connection</td>
+<td><a href="#ip-and-protocol-restrictions">IP and protocol restrictions</a></td>
+<td>Where the user may connect from and with which protocol/login method.</td>
+</tr>
+<tr>
+<td>Connection</td>
+<td><a href="#time-based-access">Time-based access</a></td>
+<td>When the user may connect.</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> These layers compose. A robust setup typically isolates the user at the storage layer, then refines operations with per-directory permissions, and optionally narrows the connection with IP and time restrictions. Settings can be assigned directly on the user or inherited from <a href="../groups/">groups</a>.</p>
+<h2 id="storage-isolation">Storage isolation</h2>
+<p>Each user is confined to a single storage root, which behaves like a chroot: the user cannot address anything above it.</p>
 <ul>
-<li><code>url</code> defines the URI to the KMS service. If empty, the default <code>AES-256-GCM</code> provider is used.</li>
-<li><code>master_key</code> defines the active master encryption key as a string, used to encrypt and as the first key tried on decryption.</li>
-<li><code>master_key_path</code> defines the absolute path to a file containing the active master encryption key. This could be, for example, a docker secret or a file protected with filesystem level permissions. When set it takes precedence over <code>master_key</code>.</li>
-<li><code>additional_master_keys</code> is a list of decrypt-only master keys, tried in order only when the active key fails to decrypt a secret. They never encrypt and let the data store hold secrets written under more than one key during a key rotation. See the <a href="../config-file/#master-key-ring">master key ring</a>.</li>
-<li><code>additional_master_keys_path</code> defines the absolute path to a file holding additional decrypt-only master keys, one key per line, blank lines ignored. When set it takes precedence over <code>additional_master_keys</code>.</li>
+<li><strong>Local filesystem:</strong> the root is the user's <strong>home directory</strong>.</li>
+<li><strong>Cloud backends (Azure Blob, S3, Google Cloud Storage):</strong> the root is defined by the <strong>key prefix</strong>. The user only sees objects whose name starts with the prefix, and the prefix is stripped from what they see — it becomes their <code>/</code>. With an empty prefix the whole bucket/container is exposed.</li>
+<li><strong>SFTP backend:</strong> the root is the configured <strong>SFTP root directory</strong> (prefix) on the remote server. Unlike the cloud key prefix, this is a path on a real remote filesystem reached with the configured account; see <a href="../sftpfs/#sftp-root-directory-and-path-confinement">SFTP root directory and path confinement</a> for what it guarantees, especially on a remote server you do not control.</li>
 </ul>
-<h3 id="default-provider-aes-256-gcm">Default provider (AES-256-GCM)</h3>
-<p>If the <code>url</code> is empty (or set to <code>aes256gcm://</code>) SFTPGo encrypts secrets using <code>AES-256-GCM</code> authenticated encryption.</p>
-<p>For each secret a random salt is generated and the per-object encryption key is derived from it in the following way:</p>
-<ol>
-<li>a master key is provided: the encryption key is derived from the master key and the per-secret salt using the HMAC-based Extract-and-Expand Key Derivation Function (HKDF) as defined in <a href="http://tools.ietf.org/html/rfc5869" target="_blank">RFC 5869</a>. The master key is never stored alongside the ciphertext, so a compromise of the data store alone is not sufficient to decrypt the secrets.</li>
-<li>no master key is provided: the encryption key is derived from the per-secret salt alone. This is the default configuration.</li>
-</ol>
-<p>Without a master key the secrets are recoverable from a copy of the data store alone; set a master key to keep credentials confidential against a database or backup compromise. This is especially relevant for high-value, reusable credentials such as cloud account access keys.</p>
-<h3 id="local-provider-nacl-secretbox">Local provider (NaCl secretbox)</h3>
-<p>You can activate the local provider by setting <code>local://</code> as <code>url</code>. Internally it uses the <a href="https://pkg.go.dev/golang.org/x/crypto/nacl/secretbox" target="_blank">NaCl secret box</a> algorithm and the same key derivation scheme (HKDF, optional master key) described above. This was the default in previous SFTPGo versions; secrets already encrypted with it are transparently decrypted regardless of the currently configured provider.</p>
-<h3 id="cloud-providers">Cloud providers</h3>
-<p>The following cloud KMS providers are supported via the KMS plugin:</p>
+<p>For example, a single Azure Blob container holding <code>account/inbound/</code>, <code>account/outbound/</code> and <code>account/custom/</code> can be scoped to one tenant by setting the user's key prefix to <code>account/custom/</code>: that user sees only the contents of <code>custom</code>, addressed as <code>/</code>, and cannot reach or even name the sibling folders. This is the strongest way to expose only a subtree, because the rest is not part of the user's filesystem at all.</p>
+<p>The optional <strong>start directory</strong> narrows the entry point within the existing root without changing the root itself, so the user lands directly in a chosen subdirectory.</p>
+<h2 id="virtual-folders">Virtual folders</h2>
+<p>When a user needs access to more than one location — or to a location on a different backend — mount each as a <a href="../virtual-folders/">virtual folder</a> at a virtual path of your choice. A virtual folder is an independent storage definition (its own backend, bucket/container, key prefix, and optionally its own quota). Only what you explicitly mount is visible.</p>
+<p>To expose a single shared directory and nothing else, give the user an otherwise minimal root and mount just that directory as a virtual folder. Locations you do not mount cannot be listed or accessed.</p>
+<h2 id="per-directory-permissions">Per-directory permissions</h2>
+<p>Permissions grant a set of operations on a virtual path. The available permissions are:</p>
+<table>
+<thead>
+<tr>
+<th>Permission</th>
+<th>Allows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>*</code></td>
+<td>All permissions.</td>
+</tr>
+<tr>
+<td><code>list</code></td>
+<td>List the contents of files and directories.</td>
+</tr>
+<tr>
+<td><code>download</code></td>
+<td>Download files.</td>
+</tr>
+<tr>
+<td><code>upload</code></td>
+<td>Upload files.</td>
+</tr>
+<tr>
+<td><code>overwrite</code></td>
+<td>Overwrite an existing file while uploading. Requires <code>upload</code>.</td>
+</tr>
+<tr>
+<td><code>delete</code></td>
+<td>Delete files and directories (equivalent to <code>delete_files</code> + <code>delete_dirs</code>).</td>
+</tr>
+<tr>
+<td><code>delete_files</code></td>
+<td>Delete files.</td>
+</tr>
+<tr>
+<td><code>delete_dirs</code></td>
+<td>Delete directories.</td>
+</tr>
+<tr>
+<td><code>rename</code></td>
+<td>Rename files and directories (equivalent to <code>rename_files</code> + <code>rename_dirs</code>).</td>
+</tr>
+<tr>
+<td><code>rename_files</code></td>
+<td>Rename files.</td>
+</tr>
+<tr>
+<td><code>rename_dirs</code></td>
+<td>Rename directories.</td>
+</tr>
+<tr>
+<td><code>create_dirs</code></td>
+<td>Create directories.</td>
+</tr>
+<tr>
+<td><code>create_symlinks</code></td>
+<td>Create symbolic links.</td>
+</tr>
+<tr>
+<td><code>chmod</code></td>
+<td>Change file or directory permissions.</td>
+</tr>
+<tr>
+<td><code>chown</code></td>
+<td>Change file or directory owner and group.</td>
+</tr>
+<tr>
+<td><code>chtimes</code></td>
+<td>Change file or directory access and modification times.</td>
+</tr>
+<tr>
+<td><code>copy</code></td>
+<td>Copy files and directories server-side.</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>/</code> path is mandatory for every user and acts as the fallback. Permissions are resolved by <strong>longest-prefix match</strong>: for any path, SFTPGo uses the permissions of the closest ancestor directory that has an explicit entry, falling back to <code>/</code>.</p>
 <ul>
-<li>Google Cloud KMS</li>
-<li>AWS KMS</li>
-<li>Azure Key Vault</li>
-<li>HashiCorp Vault</li>
-<li>Oracle Key Vault</li>
+<li><strong>Inheritance</strong> is automatic: a subdirectory with no explicit entry inherits from its nearest parent that has one.</li>
+<li><strong>Override</strong> is per path: define an explicit entry for a subdirectory to change its rights. The entry <strong>replaces</strong> the inherited set for that subtree — it does not merge with the parent.</li>
+<li><strong>Precedence:</strong> the most specific (deepest) matching path always wins.</li>
 </ul>
-<p>All cloud providers that offer managed identity (Google Cloud, AWS, Azure, Oracle) are supported through their respective default credential chains.</p>
-<p>See <a href="../plugins/kms-providers/">Cloud KMS Providers</a> for detailed configuration instructions.</p>
-<h2 id="re-encrypting-stored-secrets">Re-encrypting stored secrets</h2>
-<p>The master key is global and is <strong>not</strong> stored with the secret: every secret is decrypted with the master key currently configured. Changing the master key in the configuration therefore makes the secrets encrypted with the previous key undecryptable, and the users that need them in plain text can no longer log in. The provider, instead, is recorded per secret (by its status), so secrets encrypted by one provider keep being decrypted by it even after the configured provider changes.</p>
-<p>The <code>convertsecrets</code> command re-encrypts every stored secret onto a new master key and/or provider in a single pass, so you can rotate the master key or migrate provider without losing access to the data. To rotate the master key (for example to replace a weak one), keep the current key in the configuration so the existing secrets can still be decrypted, run the command with the new key, and only then update the configuration to the new key. To migrate to a different provider, run it with the target provider: a builtin one (<code>local</code> or <code>aes256gcm</code>) or the full provider URL of an external KMS whose plugin is configured. See <a href="../cli/#re-encrypting-the-stored-secrets">Re-encrypting the stored secrets</a> for the full usage. On a networked SQL database (PostgreSQL, MySQL/MariaDB, CockroachDB), whether a single instance or a cluster, you can rotate the master key with no downtime by configuring a <a href="../config-file/#master-key-ring">master key ring</a> so the running instances decrypt both keys while the secrets are migrated.</p>
-<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> The KMS master key wraps the secrets stored in the data provider — cloud credentials, two-factor secrets, and the <strong>CryptFs passphrase</strong>, which is itself stored as a KMS secret. <code>convertsecrets</code> re-wraps these secrets under the new master key <strong>without changing their values</strong>, so the CryptFs passphrase keeps deriving the same per-file keys and the encrypted files on disk are not affected. Changing the CryptFs passphrase value itself is a different operation: it re-derives the per-file keys and requires re-uploading the affected files (see <a href="../dare/">Data At Rest Encryption</a>).</p>
-<h3 id="notes">Notes</h3>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Operations that span two locations require permission on both. A <strong>rename</strong> or server-side <strong>copy</strong> needs the relevant permission on both the source and the destination directory, and creating a <strong>symbolic link</strong> needs <code>create_symlinks</code> on both the link's directory and the directory it points into.</p>
+<p>For example, to allow a user to work only inside <code>/account/custom</code> within a tree mounted at <code>/account</code>, grant the desired permissions on <code>/account/custom</code> and give <code>/account/inbound</code> and <code>/account/outbound</code> an explicit entry with no permissions: those directories then cannot be entered, listed, or transferred.</p>
+<pre><code class="language-json">{
+  "permissions": {
+    "/": ["list"],
+    "/account/custom": ["*"],
+    "/account/inbound": [],
+    "/account/outbound": []
+  }
+}
+</code></pre>
+<p>In this example the user can browse down to <code>/account</code>, has full access inside <code>/account/custom</code>, and is denied every operation in the two sibling directories. A path with no explicit entry — for instance <code>/account/custom/2024</code> — inherits the <code>*</code> granted on <code>/account/custom</code>.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Most operations dereference a symbolic link and run under the permissions of the path the client requests, not of the link's target. In the example above SFTPGo will not create a link pointing into <code>/account/inbound</code> or <code>/account/outbound</code>, since they grant no <code>create_symlinks</code>; but a symbolic link already present on the storage (created outside SFTPGo) is still dereferenced. When relying on per-directory permissions to wall off sibling directories, keep symbolic-link creation disabled — its default <a href="../config-file/#symbolic-links-and-permissions"><code>symlink_mode</code></a> — and provision the storage layout accordingly. See <a href="../config-file/#symbolic-links-and-permissions">Symbolic links and permissions</a>.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Per-directory permissions control what a user may <em>do</em>, not whether a directory <em>name</em> is visible. In the example above, <code>inbound</code> and <code>outbound</code> still appear when listing <code>/account</code>, even though access is denied. To also hide the names, use a file pattern filter with the hide policy, or isolate at the storage layer so the siblings are never exposed.</p>
+<h2 id="file-pattern-filters">File pattern filters</h2>
+<p>File pattern filters restrict which <strong>names</strong> are listed and transferable within a directory. For a given path you define case-insensitive, shell-like allowed and denied patterns; allowed patterns are evaluated before denied ones. Like permissions, a filter defined for a path also applies to its subdirectories unless a more specific filter is defined.</p>
+<p>Matching is performed on the file or directory <strong>name</strong>, and applies to both files and directories. Each filter has a deny policy:</p>
+<table>
+<thead>
+<tr>
+<th>Deny policy</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Default</strong></td>
+<td>A denied file or directory is still shown in directory listings but cannot be uploaded, downloaded, overwritten, or renamed.</td>
+</tr>
+<tr>
+<td><strong>Hide</strong></td>
+<td>The same restrictions apply, and the denied item is also removed from directory listings. May affect performance for very large directories.</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Because matching is name-based, file pattern filters are a visibility and transfer control, not a content filter. A rule that denies <code>*.exe</code> matches on the name only, so the same content uploaded as <code>*.txt</code> is allowed. Use file pattern filters to organize what is listed and to block transfers by name; to control which directories a user can reach, rely on storage isolation, virtual folders, or per-directory permissions.</p>
+<p>Two rules govern how allowed and denied patterns interact:</p>
 <ul>
-<li>The KMS configuration is global.</li>
-<li>If you set a master key you will be unable to decrypt the data without this key and the SFTPGo users that need the data as plain text will be unable to login.</li>
-<li>You can start using the local provider and then switch to an external one but you can't switch between external providers and still be able to decrypt the data encrypted using the previous provider.</li>
+<li>Allowed patterns are checked first; a name that matches one is accepted even if it would also match a denied pattern.</li>
+<li>A non-empty allowed list means <strong>deny by default</strong>: anything that does not match an allowed pattern is denied. An empty allowed list means <strong>allow by default</strong>: everything is accepted except names matching a denied pattern.</li>
+</ul>
+<h3 id="examples">Examples</h3>
+<p><strong>Allow only images in a directory.</strong> On <code>/photos</code>, set allowed patterns <code>*.jpg</code>, <code>*.png</code>. Only those names can be uploaded, downloaded or listed; <code>report.txt</code> is denied because the allowed list is non-empty.</p>
+<pre><code class="language-json">{ "path": "/photos", "allowed_patterns": ["*.jpg", "*.png"] }
+</code></pre>
+<p><strong>Block executables everywhere.</strong> On <code>/</code>, set denied patterns <code>*.exe</code>, <code>*.bat</code>, <code>*.sh</code>. Everything is allowed except those names. With the default deny policy they remain visible but cannot be transferred; renaming the same content to another extension bypasses the rule (matching is by name).</p>
+<pre><code class="language-json">{ "path": "/", "denied_patterns": ["*.exe", "*.bat", "*.sh"] }
+</code></pre>
+<p><strong>Hide sibling directories from listings.</strong> On <code>/account</code>, deny the directory names <code>inbound</code>, <code>outbound</code> with the <strong>hide</strong> policy. Both vanish from the listing of <code>/account</code>; combine with per-directory permissions to also block access.</p>
+<pre><code class="language-json">{ "path": "/account", "denied_patterns": ["inbound", "outbound"], "deny_policy": 1 }
+</code></pre>
+<p><strong>Show only a chosen subtree.</strong> On <code>/</code>, allow <code>public</code> with the <strong>hide</strong> policy: every top-level name except <code>public</code> is hidden, so the user effectively sees only <code>/public</code>. Because a filter is inherited by subdirectories, this also hides non-matching names deeper in the tree until a more specific filter overrides it.</p>
+<pre><code class="language-json">{ "path": "/", "allowed_patterns": ["public"], "deny_policy": 1 }
+</code></pre>
+<p><strong>Inheritance with an override.</strong> A filter on <code>/</code> applies to the whole tree; add a more specific filter on <code>/incoming</code> to relax or tighten the rule just there. The deepest matching path wins, exactly like permissions.</p>
+<pre><code class="language-json">[
+  { "path": "/", "denied_patterns": ["*.exe"], "deny_policy": 1 },
+  { "path": "/incoming", "allowed_patterns": ["*"] }
+]
+</code></pre>
+<h2 id="how-path-based-restrictions-are-evaluated">How path-based restrictions are evaluated</h2>
+<p>Per-directory permissions, <a href="#file-pattern-filters">file pattern filters</a>, allowed and denied <a href="../tutorials/shares/#restricting-shareable-paths">share paths</a>, and every other setting keyed on a path are evaluated against the <strong>virtual path the client requests</strong>, not against the physical location that path ultimately resolves to. The configured restrictions belong to the requested path; they do not follow a redirection in the underlying storage.</p>
+<p>When the storage redirects one path to another — through a symbolic link, a Windows junction, a bind mount, a hard link, or any similar operating-system or configuration mechanism — SFTPGo applies the restrictions configured for the path the client named. If <code>/path1</code> resolves to <code>/path2</code>, the access decision uses what is configured for <code>/path1</code>, <strong>even when <code>/path2</code> is configured with stricter restrictions</strong>. A tighter configuration on <code>/path2</code> does not protect it from access through <code>/path1</code>, and the restrictions defined for <code>/path2</code> are not consulted.</p>
+<p>The practical consequence is that these restrictions are only as strong as the storage layout beneath them. SFTPGo confines symbolic links to the user's accessible area and disables link creation by default (<a href="../config-file/#symbolic-links-and-permissions"><code>symlink_mode</code></a>), but redirections created directly on the storage, outside SFTPGo, cannot always be detected — Windows junctions and bind mounts in particular are not resolved. Provision the storage so its directory structure reflects the boundaries you intend, and do not place a link, junction, or mount inside a user's tree that points at a location you restrict elsewhere.</p>
+<p>The <a href="#per-directory-permissions"><code>create_symlinks</code> permission</a> is itself path-based and bidirectional: a directory that grants it can both host links and be the target of links created elsewhere. A user holding <code>create_symlinks</code> in two directories can link one to the other and reach either under the more permissive directory's rights. Do not grant <code>create_symlinks</code> on a directory whose operation permissions you restrict, and see <a href="../config-file/#symbolic-links-and-permissions">Symbolic links and permissions</a> for the full interaction.</p>
+<p>Provision the storage so its directory structure reflects the boundaries you intend.</p>
+<h2 id="ip-and-protocol-restrictions">IP and protocol restrictions</h2>
+<p>You can gate the connection itself, independently of the filesystem:</p>
+<ul>
+<li><strong>Allowed/denied IP addresses</strong> — restrict the source addresses a user may connect from, in CIDR notation (for example <code>192.0.2.0/24</code> or <code>2001:db8::/32</code>). Denied rules are evaluated before allowed ones.</li>
+<li><strong>Allowed/denied protocols</strong> — limit the user to specific protocols (SFTP, FTP, WebDAV, HTTP).</li>
+<li><strong>Allowed/denied login methods</strong> — limit which authentication methods the user may use (for example, public key only).</li>
+<li><strong>Two-factor requirement per protocol</strong> — require an additional one-time code on the selected protocols.</li>
+</ul>
+<h2 id="time-based-access">Time-based access</h2>
+<p>Access can be limited to specific weekly time windows. Each period defines a day of the week and a <code>from</code>–<code>to</code> interval in <code>HH:MM</code>; the user may connect only during one of the configured periods. This complements, rather than replaces, the filesystem and network controls above.</p>
+<h2 id="choosing-the-right-mechanism">Choosing the right mechanism</h2>
+<ul>
+<li>The user should only ever work inside one subtree → <strong>isolate at the storage layer</strong> (home directory for local storage, key prefix for cloud backends), or <strong>mount just that directory as a virtual folder</strong>. The rest cannot be discovered.</li>
+<li>The user needs the shared parent but with different rights per subdirectory → <strong>per-directory permissions</strong>, optionally combined with the <strong>hide</strong> deny policy to also hide the denied names.</li>
+<li>You want to organize listings or block specific names from being transferred → <strong>file pattern filters</strong>.</li>
+<li>You want to restrict where, how, or when a user connects → <strong>IP, protocol, login method</strong>, and <strong>time-based</strong> restrictions.</li>
 </ul>
 
 
@@ -3779,7 +4016,7 @@
     <span class="md-icon" title="Created">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 25, 2024 16:47:14 UTC">2024-04-25 16:47:14</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="June 20, 2026 17:54:33 UTC">2026-06-20 17:54:33</span>
   </span>
 
     
