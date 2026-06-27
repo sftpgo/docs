@@ -2029,6 +2029,7 @@
 <li>Truncate is not supported.</li>
 <li>System commands are not supported: they will store data unencrypted.</li>
 </ul>
+<p>DARE encrypts file contents only and is backed by the local filesystem, so symbolic-link handling and per-directory permissions follow the <a href="../localfs/">local filesystem</a> model, including the <code>symlink_mode</code> setting described in <a href="../config-file/#symbolic-links-and-permissions">Symbolic links and permissions</a>.</p>
 
 
 
