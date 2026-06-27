@@ -837,6 +837,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#symbolic-links-and-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Symbolic links and permissions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#upload_mode-flags" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2664,6 +2675,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#symbolic-links-and-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Symbolic links and permissions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#upload_mode-flags" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3411,6 +3433,12 @@
 <td><code>0</code>: renaming non-empty directories is not allowed for cloud storage providers (S3, GCS, Azure Blob). <code>1</code>: enable recursive renames for these providers. Recursive renames may be slow and are not atomic; partial renames and incorrect quota updates are possible on error.</td>
 </tr>
 <tr>
+<td><code>symlink_mode</code></td>
+<td>integer</td>
+<td><code>0</code></td>
+<td>Bit mask selecting the backends on which clients holding the <code>create_symlinks</code> permission may create symbolic links. <code>0</code> (default): creation disabled on every backend. <code>1</code>: allow on the local filesystem, including its encrypted variant. <code>2</code>: allow on the SFTP backend. <code>3</code>: both. See <a href="#symbolic-links-and-permissions">Symbolic links and permissions</a>.</td>
+</tr>
+<tr>
 <td><code>resume_max_size</code></td>
 <td>integer</td>
 <td><code>0</code></td>
@@ -3502,7 +3530,13 @@
 </tr>
 </tbody>
 </table>
-<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> The per-host and total connection caps are checked and applied without atomic coordination. Under bursts of near-simultaneous connections, the active count can briefly exceed the configured limit by a small number of connections before the rejection logic catches up. The window is narrow (no I/O between check and increment), so this is a hard cap only on average — not a strict hard cap on instantaneous peaks. If you need a strict atomic cap (e.g. to protect a downstream resource sized exactly to the limit), set the value below your target peak to leave headroom.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> The per-user <code>max_sessions</code> limit and the per-host and total connection caps are checked and applied without atomic coordination. Under bursts of near-simultaneous connections, the active count can briefly exceed the configured limit by a small number of connections before the rejection logic catches up. The window is narrow (no I/O between check and increment), so this is a hard cap only on average — not a strict hard cap on instantaneous peaks. If you need a strict atomic cap (e.g. to protect a downstream resource sized exactly to the limit), set the value below your target peak to leave headroom.</p>
+<h4 id="symbolic-links-and-permissions">Symbolic links and permissions</h4>
+<p>Symbolic links exist on the local filesystem and SFTP backends; cloud object storage (S3, Azure Blob, Google Cloud Storage) has no symbolic links, so this section applies to those two backends. Clients holding the <code>create_symlinks</code> permission can create symbolic links when <code>symlink_mode</code> enables creation for the backend; it is disabled by default (see below). Creation also requires that permission on both the link's directory and the directory the link points into. Most file operations <strong>dereference</strong> a symbolic link: reading, writing, and metadata changes act on the link's <em>target</em>, not on the link node. Deleting or renaming a link, by contrast, acts on the link node itself, not on its target. Per-directory permissions are evaluated at the path the client requests, so a link placed in one directory that points into another runs operations under the permissions of the link's directory while acting on the target. When the two directories are governed by different per-directory permissions, operating through the link can reach the target in ways the target's own directory would not allow.</p>
+<p>Dereferencing a link never re-checks <code>create_symlinks</code>: any link already present on the storage is followed under the requesting path's permissions. Only <em>creation</em> through SFTPGo is gated, and because it requires <code>create_symlinks</code> on the directory the link points into, the permission is <strong>bidirectional</strong> — granting it on a directory authorizes that directory both as a place to create links and as a place links may point into. A directory that carries <code>create_symlinks</code> can therefore be made a link target from any other directory that also carries it, reached under that other directory's permissions. A directory that does <strong>not</strong> grant it cannot be made a <em>new</em> link target through SFTPGo, but this does not retract links that already exist: one created while the permission was granted, or placed on the storage outside SFTPGo, stays followed regardless. Do not grant <code>create_symlinks</code> on a directory whose download, upload, or overwrite permissions you restrict; and because revoking it later leaves existing links in place, keep creation disabled (the default <code>symlink_mode</code>) for any backend whose clients do not need it.</p>
+<p><code>symlink_mode</code> is a bit mask that selects the backends on which clients may create symbolic links, regardless of the <code>create_symlinks</code> permission. The default, <code>0</code>, disables creation on every backend across all protocols; add <code>1</code> to allow it on the local filesystem (including its encrypted variant), <code>2</code> on the SFTP backend, <code>3</code> for both. Symbolic links already present on the storage are still honored: <code>symlink_mode</code> controls creation, it does not change links that already exist.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Confinement validates each path before the operation runs, so a symbolic link resolving outside the accessible area is rejected and a persistent link can never reach beyond it. Because validation and the operation are separate steps, a brief timing window remains under highly concurrent access: a crafted link could be momentarily followed between the check and the operation. Symbolic-link creation is disabled by default, so a client cannot introduce a link to exploit this; for environments with strict isolation requirements, provision each user from an empty directory that contains no symbolic links, so that with none present and none creatable there is nothing to act on.</p>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Per-directory permissions and path-based filters configure how a single user moves through its own home: different areas of one tree can carry different access. They enforce as configured on a trusted layout, evaluated against the path the client requests. A redirection introduced beneath the root — an alias placed on the storage, or a symbolic link created when <code>create_symlinks</code> is granted — is followed under the requesting path's permissions, so a more restricted area can be reached through a more permissive path. Where such a restriction must hold, keep the layout free of these redirections: symbolic-link creation is disabled by default, so leave it disabled when clients do not need links, and provision the tree so its structure reflects the boundaries intended.</p>
 <h4 id="upload_mode-flags"><code>upload_mode</code> flags</h4>
 <table>
 <thead>
@@ -4747,7 +4781,7 @@
 <td><code>is_shared</code></td>
 <td>integer</td>
 <td><code>0</code></td>
-<td>Set to <code>1</code> if the data provider is shared across multiple SFTPGo instances. Only <code>MySQL</code>, <code>PostgreSQL</code>, and <code>CockroachDB</code> can be shared; this setting is ignored for other providers. When shared, active transfers are persisted in the database (enabling cross-instance quota checks), and password reset requests and OIDC tokens/states are also persisted. Scheduled event actions run on a single instance by default (overridable per action). The <code>shared_sessions</code> table stores temporary sessions; in performance-critical installations, consider database-specific optimizations (e.g., <code>UNLOGGED</code> tables for PostgreSQL).</td>
+<td>Set to <code>1</code> if the data provider is shared across multiple SFTPGo instances. Only <code>MySQL</code>, <code>PostgreSQL</code>, and <code>CockroachDB</code> can be shared; this setting is ignored for other providers. When shared, active transfers are persisted in the database so disk-space and data-transfer quotas are enforced across all instances, and password reset requests and OIDC tokens/states are also persisted. Cross-instance quota enforcement is eventually consistent: each node publishes its in-flight transfer sizes to the database about once a minute and then stops transfers that would breach a quota, so concurrent uploads spread across nodes can momentarily exceed a quota by roughly the volume one node moves within that window. Allow a small margin when sizing tight quotas for multi-node workloads.</td>
 </tr>
 <tr>
 <td><code>backups_path</code></td>
@@ -4906,6 +4940,7 @@
 </table>
 <h4 id="node">node</h4>
 <p>Node-specific configuration for inter-node communication. If your provider is shared across multiple nodes, nodes can exchange information to present a uniform view for node-specific data (e.g., active connections from all nodes). Nodes connect to each other using the REST API.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Inter-node communication provides a uniform <em>view</em> of the cluster; it does not pool <em>enforcement</em>. Resource and concurrency limits — such as per-user <code>max_sessions</code>, bandwidth limits, the per-host and total connection caps, and rate limits — are scoped to a single node: each node enforces them independently against the traffic it serves and does not coordinate them with other nodes, unless a setting is explicitly documented as cluster-wide. Plan capacity accordingly: a per-node limit of N can allow up to N times the number of nodes across the cluster.</p>
 <table>
 <thead>
 <tr>
