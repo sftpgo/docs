@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/changelog/",
         "inLanguage": "en",
         "datePublished": "2025-07-01T17:07:11Z",
-        "dateModified": "2026-06-20T17:54:33Z",
+        "dateModified": "2026-06-29T10:15:36Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -465,6 +465,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#security-fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security fixes
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -516,7 +527,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#security-fixes" class="md-nav__link">
+  <a href="#security-fixes_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Security fixes
@@ -4377,6 +4388,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#security-fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security fixes
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -4428,7 +4450,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#security-fixes" class="md-nav__link">
+  <a href="#security-fixes_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Security fixes
@@ -5177,7 +5199,7 @@ We encourage you to check back regularly to stay up to date with the latest chan
 <li>Azure Blob Storage: the <a href="../azure-blob-storage/#selecting-a-managed-identity">managed identity client ID</a> can be set per storage, selecting which user-assigned identity SFTPGo authenticates with when the default Azure credential chain exposes more than one. Each user or virtual folder can target a different identity.</li>
 <li>Password hashing: <a href="../password/">PBKDF2-SHA256</a> is now selectable for hashing new passwords, alongside bcrypt and argon2id, with configurable iterations and salt length. Passwords stored in another supported format — including admin and share passwords — are transparently re-hashed to the configured algorithm at the next successful login.</li>
 <li>Storage backends: the <a href="../ftpfs/#remote-directory">FTP</a> and <a href="../httpfs/#remote-directory">HTTP</a> backends can be scoped to a server-side <strong>remote directory</strong>, so users land in a sub-path of the remote tree. This is not a security boundary and is opt-in per backend via the new <a href="../config-file/"><code>allow_remote_directory</code></a> setting in the <code>common</code> section. Disabled by default.</li>
-<li>SFTP backend: the new <code>disable concurrent writes</code> option forwards each upload write request to the remote server sequentially. Enable it for legacy servers that do not support SFTP pipelining.</li>
+<li>SFTP backend: the new <code>disable_concurrent_writes</code> option forwards each upload write request to the remote server sequentially. Enable it for legacy servers that do not support SFTP pipelining.</li>
 <li>LDAP authentication: a <a href="../plugins/ldap-auth/#mapping-a-role">role group prefix</a> can map LDAP group membership to an SFTPGo role, enabling delegated multi-tenant administration. The matched role must already exist, and a user matching more than one role group is denied access.</li>
 <li>KMS secret encryption: the new <a href="../cli/#re-encrypting-the-stored-secrets"><code>convertsecrets</code></a> command re-encrypts every stored secret onto a new master key and/or provider in a single pass, so you can rotate the KMS master key or migrate provider without losing access to the data. On a networked SQL database a <a href="../config-file/#master-key-ring">master key ring</a> lets the running server decrypt the old and new key at once, for a rotation with no downtime.</li>
 <li>Internationalization: added a <a href="../web-interfaces/#internationalization">Hungarian</a> translation for the WebAdmin and WebClient UIs.</li>
@@ -5201,6 +5223,10 @@ We encourage you to check back regularly to stay up to date with the latest chan
 <li>KMS secret encryption: new secrets are now sealed with <a href="../kms/">AES-256-GCM</a> instead of NaCl secretbox. This is transparent on upgrade (each secret records its own scheme), but an older release cannot read the new format. Before <strong>downgrading</strong>, re-enter affected secrets as plain text on the old binary, or use <a href="../cli/#re-encrypting-the-stored-secrets"><code>convertsecrets</code></a> to migrate them back first.</li>
 <li>Bandwidth limits: per-user caps now bound a user's combined transfer rate on a single instance, not each transfer. If you sized them expecting every transfer to reach the full rate, raise the limits for users that rely on concurrent transfers.</li>
 <li>Symbolic links: creating symbolic links is disabled by default after upgrade. If any workflow relies on clients creating them, set <a href="../config-file/#symbolic-links-and-permissions"><code>symlink_mode</code></a> to enable the backends that need it: <code>1</code> for the local filesystem, <code>2</code> for the SFTP backend, <code>3</code> for both. Symbolic links already present on the storage continue to be followed regardless of this setting.</li>
+</ul>
+<h3 id="security-fixes">Security fixes</h3>
+<ul>
+<li>Folder Permission Bypass via Symlink Dereference (severity: Moderate). <a href="https://github.com/drakkan/sftpgo/security/advisories/GHSA-fj9v-mxr3-w75w">CVE-2026-10031</a>.</li>
 </ul>
 <h2 id="update-may-28-2026-v2720260528">Update May 28, 2026 - v2.7.20260528</h2>
 <h3 id="new-features_1">New features</h3>
@@ -5235,7 +5261,7 @@ We encourage you to check back regularly to stay up to date with the latest chan
 <li>Transfer admission: <code>max_total_transfers</code>, <code>max_per_host_transfers</code> and the per-user <code>max_sessions</code> cap are now strictly enforced. Concurrent bursts could previously let the number of active transfers exceed the configured cap; the limits are now applied atomically. Denials surface via the new <a href="../metrics/#transfer-admission"><code>sftpgo_transfer_admission_denied_total</code></a> metric.</li>
 <li>Connection admission: <code>max_per_host_connections</code> and <code>max_total_connections</code> are now strictly enforced under concurrent connection bursts. Denials surface via the new <a href="../metrics/#connection-admission"><code>sftpgo_connection_admission_denied_total</code></a> metric. HTTP and WebDAV now return <code>429 Too Many Requests</code> for cap-driven denials (previously <code>403 Forbidden</code> on HTTP and <code>503 Service Unavailable</code> on WebDAV); allow-list denials on WebDAV change from <code>503</code> to <code>403</code>. The <code>post_connect_hook</code> no longer fires for connections denied by the cap or allow list.</li>
 </ul>
-<h3 id="security-fixes">Security fixes</h3>
+<h3 id="security-fixes_1">Security fixes</h3>
 <ul>
 <li>Path confinement bypass in the partial ZIP download of browsable shares (severity: Moderate). <a href="https://github.com/drakkan/sftpgo/security/advisories/GHSA-h64p-8h4r-6gfh">CVE-2026-49244</a>.</li>
 <li>Stored XSS via the <code>inline</code> parameter on file download endpoints (severity: Low). <a href="https://github.com/drakkan/sftpgo/security/advisories/GHSA-3vcg-pv95-pq54">CVE-2026-49245</a>.</li>
@@ -5622,7 +5648,7 @@ Additionally, you can configure the lifetime of WOPI access tokens (default is 3
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="June 20, 2026 17:54:33 UTC">2026-06-20 17:54:33</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="June 29, 2026 10:15:36 UTC">2026-06-29 10:15:36</span>
   </span>
 
     
