@@ -22,7 +22,7 @@ If you're migrating from an open-source installation, please follow the guide he
 - Azure Blob Storage: the [managed identity client ID](azure-blob-storage.md#selecting-a-managed-identity) can be set per storage, selecting which user-assigned identity SFTPGo authenticates with when the default Azure credential chain exposes more than one. Each user or virtual folder can target a different identity.
 - Password hashing: [PBKDF2-SHA256](password.md) is now selectable for hashing new passwords, alongside bcrypt and argon2id, with configurable iterations and salt length. Passwords stored in another supported format — including admin and share passwords — are transparently re-hashed to the configured algorithm at the next successful login.
 - Storage backends: the [FTP](ftpfs.md#remote-directory) and [HTTP](httpfs.md#remote-directory) backends can be scoped to a server-side **remote directory**, so users land in a sub-path of the remote tree. This is not a security boundary and is opt-in per backend via the new [`allow_remote_directory`](config-file.md) setting in the `common` section. Disabled by default.
-- SFTP backend: the new `disable concurrent writes` option forwards each upload write request to the remote server sequentially. Enable it for legacy servers that do not support SFTP pipelining.
+- SFTP backend: the new `disable_concurrent_writes` option forwards each upload write request to the remote server sequentially. Enable it for legacy servers that do not support SFTP pipelining.
 - LDAP authentication: a [role group prefix](plugins/ldap-auth.md#mapping-a-role) can map LDAP group membership to an SFTPGo role, enabling delegated multi-tenant administration. The matched role must already exist, and a user matching more than one role group is denied access.
 - KMS secret encryption: the new [`convertsecrets`](cli.md#re-encrypting-the-stored-secrets) command re-encrypts every stored secret onto a new master key and/or provider in a single pass, so you can rotate the KMS master key or migrate provider without losing access to the data. On a networked SQL database a [master key ring](config-file.md#master-key-ring) lets the running server decrypt the old and new key at once, for a rotation with no downtime.
 - Internationalization: added a [Hungarian](web-interfaces.md#internationalization) translation for the WebAdmin and WebClient UIs.
@@ -46,6 +46,10 @@ If you're migrating from an open-source installation, please follow the guide he
 - KMS secret encryption: new secrets are now sealed with [AES-256-GCM](kms.md) instead of NaCl secretbox. This is transparent on upgrade (each secret records its own scheme), but an older release cannot read the new format. Before **downgrading**, re-enter affected secrets as plain text on the old binary, or use [`convertsecrets`](cli.md#re-encrypting-the-stored-secrets) to migrate them back first.
 - Bandwidth limits: per-user caps now bound a user's combined transfer rate on a single instance, not each transfer. If you sized them expecting every transfer to reach the full rate, raise the limits for users that rely on concurrent transfers.
 - Symbolic links: creating symbolic links is disabled by default after upgrade. If any workflow relies on clients creating them, set [`symlink_mode`](config-file.md#symbolic-links-and-permissions) to enable the backends that need it: `1` for the local filesystem, `2` for the SFTP backend, `3` for both. Symbolic links already present on the storage continue to be followed regardless of this setting.
+
+### Security fixes
+
+- Folder Permission Bypass via Symlink Dereference (severity: Moderate). [CVE-2026-10031](https://github.com/drakkan/sftpgo/security/advisories/GHSA-fj9v-mxr3-w75w).
 
 ## Update May 28, 2026 - v2.7.20260528
 
