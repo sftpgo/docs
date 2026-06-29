@@ -5048,19 +5048,19 @@
 <td><code>token_validation</code></td>
 <td>integer</td>
 <td><code>0</code></td>
-<td>Defines how JWT tokens, cookies, and CSRF tokens are validated. By default, a token must be used by the same IP for which it was issued. <code>1</code> disables this requirement. <code>2</code> invalidates admin and user tokens issued before the last update. Flags can be combined.</td>
+<td>Defines how JWT tokens and cookies are validated. By default (<code>0</code>) every token and cookie, including public share cookies and CSRF tokens, must be presented from the same IP address it was issued for; <code>1</code> removes this IP-match requirement. <code>2</code> also re-validates admin and user tokens/cookies against the account's last-update time, so any change to an admin or user account invalidates the tokens and cookies issued before it; this check applies to admin and user sessions, not to public share cookies or OIDC cookies. Flags can be combined (for example <code>3</code>).</td>
 </tr>
 <tr>
 <td><code>cookie_lifetime</code></td>
 <td>integer</td>
 <td><code>20</code></td>
-<td>Duration in minutes for WebAdmin and WebClient cookies. Cookies are automatically refreshed on user activity (maximum duration: 12 hours). Maximum allowed value: <code>720</code>.</td>
+<td>Duration in minutes for WebAdmin and WebClient cookies. Cookies are automatically refreshed on user activity (maximum duration: 12 hours). This setting does not apply to OIDC cookies, whose lifetime is determined by the external Identity Provider (IdP). Maximum allowed value: <code>720</code>.</td>
 </tr>
 <tr>
 <td><code>share_cookie_lifetime</code></td>
 <td>integer</td>
 <td><code>120</code></td>
-<td>Duration in minutes for public sharing cookies. Maximum allowed value: <code>720</code>.</td>
+<td>Duration in minutes for public sharing cookies. A browser session for a share remains valid for this duration even after the share password changes; delete the share to revoke access immediately. Maximum allowed value: <code>720</code>.</td>
 </tr>
 <tr>
 <td><code>jwt_lifetime</code></td>
