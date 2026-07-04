@@ -57,32 +57,30 @@ Format examples:
 
 #### `{{.Object}}`
 
-The provider object associated with the event, with sensitive fields removed. It exposes a `JSON` method and typed accessors for inner objects:
+The object the event is about, with sensitive fields removed. It is populated for **provider events** (the user, admin, group, folder or share being added, updated or deleted). For filesystem events it is empty and `{{.Object.JSON}}` renders `{}` — the acting user is available through [`{{.Initiator}}`](#initiator) instead. All accessors describe the object as it was when the event fired. It exposes a `JSON` method and typed accessors for inner objects:
 
-- `{{.Object.JSON}}` — JSON representation of the full object.
+- `{{.Object.JSON}}` — JSON representation of the full object, for every object type.
 - `{{.Object.Share}}` — Share data, when the event involves a share. Example: `{{.Object.Share.ExpiresAt}}`.
 - `{{.Object.User}}` — User data. Example: `{{.Object.User.Email}}`.
 - `{{.Object.Admin}}` — Admin data. Example: `{{.Object.Admin.Description}}`.
 - `{{.Object.Group}}` — Group data.
 
-Field names match those documented in the [REST API](https://sftpgo.com/rest-api){:target="_blank"}, using PascalCase (e.g., `CreatedAt`, `Description`).
+The other object types (folder, role, API key, event rule and action, configs) are available through `{{.Object.JSON}}`.
 
-To embed the JSON in another JSON structure:
-
-- As a nested JSON object: `"data": {{.Object.JSON}}`
-- As a JSON string: `"data": {{.Object.JSON | toJson}}`
+Field names match those documented in the [REST API](https://sftpgo.com/rest-api){:target="_blank"}, using PascalCase (e.g., `CreatedAt`, `Description`). See [Embedding the event object](#embedding-the-event-object-provider-events) for how to include the JSON in an HTTP request body.
 
 #### `{{.Initiator}}`
 
-For provider events, exposes the entity (user or admin) that *initiated* the action — not the object being acted upon. For example, when an admin creates a user, `.Object` is the new user and `.Initiator` is the admin.
+Exposes the entity (user or admin) behind the event — the one who *triggered* it, not the object being acted upon.
 
 Resolution rules:
 
+- **Filesystem events** (upload, download, rename, copy, ...): the user performing the operation. `.Initiator.User` is populated; `.Initiator.Admin` is empty.
 - **Share events**: the user who owns the share.
-- **Other provider events** (user/admin/group creation, update, deletion): the admin who performed the action.
+- **Other provider events** (user/admin/group creation, update, deletion): the admin who performed the action. For example, when an admin creates a user, `.Object` is the new user and `.Initiator` is the admin.
 - **Self-edit operations**: the same entity as `.Object` (the user or admin editing their own profile).
 
-The initiator is resolved **lazily** — SFTPGo only queries the database if the template actually references it.
+The initiator is resolved **lazily** — the work is done only if the template actually references it.
 
 Typed accessors:
 
@@ -96,6 +94,10 @@ Typed accessors:
 {{if .Initiator.User}}User: {{.Initiator.User.Email}}{{end}}
 {{if .Initiator.Admin}}Admin: {{.Initiator.Admin.Email}}{{end}}
 ```
+
+#### `GetFsConfigForPath`
+
+`.Initiator.User` and `.Object.User` expose `GetFsConfigForPath`, which returns the storage configuration that applies to a virtual path, with secret fields excluded. See [Resolving a virtual path's storage backend](#resolving-a-virtual-paths-storage-backend) for a worked example.
 
 ### Collection placeholders
 
@@ -319,18 +321,16 @@ The pipe syntax is especially useful for chaining multiple transformations.
 
 ## Template examples
 
-### Building a JSON HTTP request body
+### Building a JSON HTTP request body (filesystem events)
 
 ```json
-{{- $statusMap := createDict 1 "OK" 2 "KO" -}}
+{{- $statusMap := createDict 1 "OK" 2 "KO" 3 "Quota exceeded" -}}
 {
   "Name": {{.Name | toJson}},
   "VirtualPath": {{.VirtualPath | toJson}},
   "Status": {{.Status}},
   "StatusString": {{ (mapToString .Status $statusMap) | toJson }},
-  "Metadata": {{.Metadata | toJson}},
-  "ObjectString": {{.Object.JSON | toJson}},
-  "ObjectJSON": {{.Object.JSON}}
+  "Metadata": {{.Metadata | toJson}}
 }
 ```
 
@@ -338,10 +338,44 @@ The pipe syntax is especially useful for chaining multiple transformations.
 - `Status` is output as a raw integer.
 - `StatusString` maps the integer to a human-readable label via `createDict` + `mapToString`, then quotes it.
 - `Metadata` outputs the full metadata map as a JSON object.
-- `ObjectString` is the object's JSON wrapped as a JSON string (double-encoded).
-- `ObjectJSON` is the raw JSON object embedded directly.
 
 :information_source: In Go templates, `{{-` and `-}}` trim whitespace before/after the tag. Use them to keep the output clean.
+
+### Embedding the event object (provider events)
+
+For provider events, [`{{.Object}}`](#object) carries the object being added, updated or deleted. Its JSON can be embedded in a request body in two ways:
+
+```json
+{
+  "event": {{.Event | toJson}},
+  "object_type": {{.ObjectType | toJson}},
+  "object_name": {{.ObjectName | toJson}},
+  "object": {{.Object.JSON}},
+  "object_string": {{.Object.JSON | toJson}}
+}
+```
+
+- `object` embeds the JSON directly, as a nested object — the natural choice when the receiver parses the body as JSON.
+- `object_string` pipes it through `toJson`, producing a double-encoded JSON string — for receivers that expect the payload in a string field.
+
+:information_source: For filesystem events `{{.Object.JSON}}` renders `{}`: build the body from the [core fields](#core-fields) and [`{{.Initiator}}`](#initiator) instead, as in the previous example.
+
+### Resolving a virtual path's storage backend
+
+[`GetFsConfigForPath`](#getfsconfigforpath) returns the storage configuration that applies to a virtual path, with secret fields excluded. This is useful for target-aware notifications — for example, reporting the destination backend of a cross-mount copy or a virtual-folder upload.
+
+`.Provider` identifies the backend as an integer, matching the [REST API](https://sftpgo.com/rest-api){:target="_blank"}: `0` local, `1` S3, `2` GCS, `3` Azure Blob, `4` CryptFs, `5` SFTP, `6` HTTP, `7` FTP. Only the sub-config of the active provider (`.S3Config`, `.GCSConfig`, `.AzBlobConfig`, …) is populated; the others hold their empty value (not `nil`), so check `.Provider` before reading a backend-specific field.
+
+```json
+{{- $fs := .Initiator.User.GetFsConfigForPath .VirtualTargetPath -}}
+{{- if eq $fs.Provider 1 -}}
+{"backend": "s3", "bucket": {{ $fs.S3Config.Bucket | toJson }}, "region": {{ $fs.S3Config.Region | toJson }}}
+{{- else -}}
+{"backend": {{ $fs.Provider }}}
+{{- end -}}
+```
+
+`.VirtualTargetPath` resolves the destination of a rename or copy; for other filesystem events use `.VirtualPath`.
 
 ### Dynamic user creation from Identity Provider
 
