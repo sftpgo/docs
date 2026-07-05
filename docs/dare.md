@@ -20,7 +20,7 @@ DARE encrypts file contents only. The storage is backed by the local filesystem,
 
 | Parameter | Description |
 | ----------- | ------------- |
-| **Passphrase** | The master passphrase used to derive per-file encryption keys. Required. It must be high-entropy random key material, not a memorable password — see [Passphrase strength](#passphrase-strength). Stored encrypted according to your [KMS configuration](kms.md). If this passphrase is lost, all encrypted files become unrecoverable. |
+| **Passphrase** | The master passphrase used to derive per-file encryption keys. Required. It must be high-entropy random key material, not a memorable password — see [Passphrase strength](#passphrase-strength). Stored encrypted according to your [KMS configuration](kms.md); configuring a KMS [master key](kms.md) is recommended, so the passphrase stays confidential even if a copy of the data provider leaks. If this passphrase is lost, all encrypted files become unrecoverable. |
 | **Read buffer size** | Buffer size in MB for read (decryption) operations. `0` means no buffering. Increasing this value may improve read performance for large files. |
 | **Write buffer size** | Buffer size in MB for write (encryption) operations. `0` means no buffering. Increasing this value may improve write performance for large files. |
 

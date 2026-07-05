@@ -8,14 +8,14 @@ SFTPGo Enterprise is accessible through our Docker repository: `registry.sftpgo.
 
 ## Latest tags
 
-- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260626
-- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260626-plugins
-- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260626-distroless
-- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260626-distroless-plugins
-- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260626-fips
-- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260626-plugins-fips
-- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260626-distroless-fips
-- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260626-distroless-plugins-fips
+- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260705
+- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260705-plugins
+- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260705-distroless
+- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260705-distroless-plugins
+- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260705-fips
+- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260705-plugins-fips
+- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260705-distroless-fips
+- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260705-distroless-plugins-fips
 
 ## How to use the SFTPGo image
 
@@ -201,7 +201,7 @@ replicaCount: 2
 # Use the Enterprise image with plugins
 image:
   repository: registry.sftpgo.com/sftpgo/sftpgo
-  tag: v2.7.20260626-plugins
+  tag: v2.7.20260705-plugins
 
 # Enable protocols
 sftpd:
