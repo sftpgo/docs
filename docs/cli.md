@@ -355,6 +355,8 @@ sftpgo convertsecrets --new-master-key <new-key>
 sftpgo convertsecrets --new-master-key-path /path/to/new-key
 ```
 
+The new key is screened against [`common.secret_min_entropy`](config-file.md); generate it with a CSPRNG — see [generating a strong secret](dare.md#passphrase-strength).
+
 Migrate the secrets to a different provider, for example between `local` and the default `aes256gcm` in either direction:
 
 ```shell
