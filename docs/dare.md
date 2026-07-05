@@ -14,7 +14,7 @@ The SFTPGo's `cryptfs` is a tiny wrapper around [sio](https://github.com/minio/s
 
 The only required configuration parameter is a `passphrase`, each file will be encrypted using an unique, randomly generated secret key derived from the given passphrase using the HMAC-based Extract-and-Expand Key Derivation Function (HKDF) as defined in [RFC 5869](http://tools.ietf.org/html/rfc5869){:target="_blank"}. It is important to note that the per-object encryption key is never stored anywhere: it is derived from your `passphrase` and a randomly generated initialization vector just before encryption/decryption. The initialization vector is stored with the file.
 
-The passphrase is stored encrypted itself according to your [KMS configuration](kms.md) and is required to decrypt any file encrypted using an encryption key derived from it.
+The passphrase is stored encrypted itself according to your [KMS configuration](kms.md) and is required to decrypt any file encrypted using an encryption key derived from it. Configuring a KMS master key is recommended, so the passphrase stays confidential even if a copy of the data provider leaks.
 
 The encrypted filesystem has some limitations compared to the local, unencrypted, one:
 
