@@ -29,6 +29,8 @@ The following actions are supported:
   - `Copy`. You can copy one or more files or directories.
   - `Compress paths`. You can compress (currently as zip) ore or more files and directories.
 
+:information_source: Quota usage is tracked by SFTPGo in software: the stored counters can drift from the actual usage (files changed outside SFTPGo, unclean shutdowns, temporary data provider failures). Schedule the quota reset actions to keep them aligned; quota scans are also available via the REST API.
+
 The following placeholders are supported:
 
 - `{{.Name}}`. Username, virtual folder name, admin username for provider events, domain name for TLS certificate events.
