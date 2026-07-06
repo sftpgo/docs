@@ -20,6 +20,8 @@ For each virtual folder, the following properties can be configured:
 
 For example if a folder is configured to use `/tmp/mapped` or `C:\mapped` as filesystem path and `/vfolder` as virtual path then SFTPGo users can access `/tmp/mapped` or `C:\mapped` via the `/vfolder` virtual path.
 
+Renaming between the user's home directory and a virtual folder, or between two virtual folders, is performed as a copy followed by a delete, even when both sides are on the local filesystem. The operation can be slow for large directory trees and is not atomic: the source is removed only after the copy fully succeeds, so no data is lost, but a failure midway can leave the files already transferred at the destination. Symbolic links and other non-regular files inside a renamed directory are skipped, not copied. File permissions are not preserved across such a rename and the modification time of regular files is restored on a best-effort basis.
+
 Nested SFTP folders using the same SFTPGo instance (identified using the host keys) are not allowed as they could cause infinite SFTP loops.
 
 The same virtual folder can be shared among users, different folder quota limits for each user are supported.
