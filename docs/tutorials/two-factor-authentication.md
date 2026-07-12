@@ -39,6 +39,8 @@ You can also define multiple configurations, for example one that uses `sha256` 
 
 SFTPGo can use 2FA for `HTTP`, `SSH` (SFTP, SCP) and `FTP` protocols.
 
+:information_source: Each passcode is accepted only once, as required by [RFC 6238](https://datatracker.ietf.org/doc/html/rfc6238){:target="_blank"}. Used-passcode tracking is scoped to a single node: when running multiple nodes behind a load balancer, configure sticky sessions to preserve this guarantee.
+
 ## Enable 2FA for admins
 
 Each admin can view/change his/her two-factor authentication by selecting the `Two-Factor Auth` link from the top-right web UI menu.
