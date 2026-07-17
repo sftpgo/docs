@@ -17,10 +17,13 @@ If you're migrating from an open-source installation, please follow the guide he
 
 ### Bug fixes
 
-- SFTP server: improved handling of malformed SSH channel requests.
 - SFTP server: fixed public key authentication to reject unparseable public keys without closing the connection, allowing fallback to other keys or authentication methods.
 - ACME: fixed certificate renewals failing with an "account is not registered" error for accounts migrated from disk storage when the configured email had changed after the certificate was obtained; the missing registration is now recovered automatically during renewal.
 - Azure Blob: fixed rename and copy operations between virtual folders using the same storage account but different containers.
+
+### Security fixes
+
+- Improper handling of malformed SSH channel requests. [GHSA-q7pc-356p-hggc](https://github.com/drakkan/sftpgo/security/advisories/GHSA-q7pc-356p-hggc).
 
 ## Update June 26, 2026 - v2.7.20260626
 
