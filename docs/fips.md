@@ -41,3 +41,11 @@ Only approved TLS 1.2 and 1.3 cipher suites and signature algorithms are negotia
 ### SSH (SFTP)
 
 Only approved SSH algorithms are negotiated. Host keys and user public keys may use **RSA**, **ECDSA**, or **Ed25519**; legacy DSA keys and SHA-1-based algorithms are not accepted. Modern key exchanges and AES-GCM/AES-CTR ciphers remain available, so current SSH clients connect without changes; only clients pinned to non-approved algorithms (for example ChaCha20-Poly1305) need reconfiguration.
+
+### Two-factor authentication (TOTP)
+
+TOTP-based [two-factor authentication](tutorials/two-factor-authentication.md) works unchanged in FIPS mode and existing enrollments remain valid. The default TOTP configuration uses **HMAC-SHA1**, the RFC 6238 standard supported by every authenticator app. Use **SHA-256** to keep TOTP verification within the validated module: the default `sha1` is NIST-approved for HMAC (NIST plans to retire SHA-1 for all uses by the end of 2030) but is computed outside the module, which implements the SHA-2 and SHA-3 families.
+
+On a new installation set the algorithm to `sha256` from the start, using `algo` in the `mfa` section of the configuration file or the equivalent [environment variable](env-vars.md) `SFTPGO_MFA__TOTP__0__ALGO="sha256"`. On an existing installation define an additional TOTP configuration with `algo` set to `sha256` and have users and admins enroll with it. Authenticator app support for SHA-256 varies, see the [two-factor authentication tutorial](tutorials/two-factor-authentication.md) for compatible apps.
+
+:warning: Changing the algorithm of an existing TOTP configuration invalidates the enrollments that use it. To move existing users to SHA-256, add a new configuration and have them re-enroll.
