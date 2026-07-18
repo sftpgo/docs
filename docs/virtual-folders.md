@@ -39,6 +39,16 @@ If you upload a file to `folder2` its quota will be updated but the quota of `fo
 
 It is allowed to mount a virtual folder in the user's root path (`/`). This might be useful if you want to share the same virtual folder between different users. In this case the user's root filesystem is hidden from the virtual folder.
 
+## Sub-path mounts
+
+A folder mapping can re-root the mount onto a sub-path of the folder: the mount at `virtual_path` serves the folder starting from the configured `subpath`, which stays invisible in the paths the user sees. For example, a folder mapped at `/files` with subpath `/tenants/alice` presents the content of `tenants/alice` directly at `/files`.
+
+The sub-path applies to the folder's backend path: the key prefix for S3, Google Cloud Storage and Azure Blob folders, the prefix for SFTP folders, and the filesystem path for local and encrypted folders. Access through a sub-path mount of an HTTP/S folder fails.
+
+The value is a canonical POSIX path with a leading slash, for example `/dataset1/2026`, at most 191 characters. The same folder can be mapped multiple times with distinct subpaths, at freely chosen virtual paths: for example `/current` can serve the folder's `/2026` sub-path while `/archive` serves `/2025`. Quota remains a property of the whole folder: every mapping of the same folder must use the same quota limits and usage is tracked once across all its mounts.
+
+On group mappings the subpath supports the `%username%` and `%role%` placeholders, resolved per user when the group settings are applied: a single group mapping with subpath `/tenants/%username%` gives each member their own sub-tree of a shared folder, at the same virtual path for every user. A mapping whose placeholder has no value for a user is skipped for that user.
+
 Using the REST API you can:
 
 - monitor folders quota usage
