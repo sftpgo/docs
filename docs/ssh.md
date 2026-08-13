@@ -20,7 +20,7 @@ SFTPGo supports the following built-in SSH commands:
 - `sftpgo-copy`. This is a built-in copy implementation. It allows server side copy for files and directories. The first argument is the source file/directory and the second one is the destination file/directory, for example `sftpgo-copy <src> <dst>`.
 - `sftpgo-remove`. This is a built-in remove implementation. It allows to remove single files and to recursively remove directories. The first argument is the file/directory to remove, for example `sftpgo-remove <dst>`. Removing directories spanning virtual folders is not supported.
 
-:warning: The hash commands read the whole file to compute the digest: for remote backends this means downloading it, for the encrypted backend this means decrypting it. The read goes through a regular download transfer and requires the `download` permission on the file's parent directory.
+:warning: The hash commands read the whole file to compute the digest: for remote backends this means downloading it, for the encrypted backend this means decrypting it. The read requires the `download` permission on the file's parent directory.
 
 The following SSH commands are enabled by default:
 
