@@ -21,13 +21,15 @@ The following actions are supported:
 - `User expiration check`. You can receive notifications with expired users.
 - `User inactivity check`. Allow to disable or delete inactive users.
 - `Identity Provider account check`. You can create/update accounts for users/admins logging in using an Identity Provider.
-- `Filesystem`. For these actions, the required permissions are automatically granted. This is the same as executing the actions from an SFTP client and the same restrictions applies. Supported actions:
+- `Filesystem`. These actions run with the access described below. Supported actions:
   - `Rename`. You can rename one or more files or directories.
   - `Delete`. You can delete one or more files and directories.
   - `Create directories`. You can create one or more directories including sub-directories.
   - `Path exists`. Check if the specified path exists.
   - `Copy`. You can copy one or more files or directories.
   - `Compress paths`. You can compress (currently as zip) ore or more files and directories.
+
+A filesystem action is started by SFTPGo to carry out the rule, it is not requested by the account, so it runs with the access the action needs rather than with the access the account has: inside the filesystem it operates on, the per-directory permissions of the user are raised to full access, the file pattern filters are not applied, and the bandwidth limits and the data transfer quota of the user do not bound it. Paths resolve inside the home directory and the virtual folders mapped for that user. The authorization decision belongs to the rule: its conditions select the users and the events the action runs for.
 
 :information_source: Quota usage is tracked by SFTPGo in software: the stored counters can drift from the actual usage (files changed outside SFTPGo, unclean shutdowns, temporary data provider failures). Schedule the quota reset actions to keep them aligned; quota scans are also available via the REST API.
 
