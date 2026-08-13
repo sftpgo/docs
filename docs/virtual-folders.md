@@ -20,6 +20,9 @@ For each virtual folder, the following properties can be configured:
 
 For example if a folder is configured to use `/tmp/mapped` or `C:\mapped` as filesystem path and `/vfolder` as virtual path then SFTPGo users can access `/tmp/mapped` or `C:\mapped` via the `/vfolder` virtual path.
 
+:information_source: For folders on the local filesystem, the mapped path is resolved like any other path, so a redirection placed on it is followed. Keep the mapped path and the directories above it under administrative control and writable only by trusted accounts, as described for [home directories](localfs.md).
+
+
 Nested SFTP folders using the same SFTPGo instance (identified using the host keys) are not allowed as they could cause infinite SFTP loops.
 
 The same virtual folder can be shared among users, different folder quota limits for each user are supported.
