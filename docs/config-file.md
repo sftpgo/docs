@@ -46,6 +46,8 @@ Dereferencing a link never re-checks `create_symlinks`: any link already present
 
 :warning: Per-directory permissions and path-based filters configure how a single user moves through its own home: different areas of one tree can carry different access. They enforce as configured on a trusted layout, evaluated against the path the client requests. A redirection introduced beneath the root — an alias placed on the storage, or a symbolic link created when `create_symlinks` is granted — is followed under the requesting path's permissions, so a more restricted area can be reached through a more permissive path. Where such a restriction must hold, keep the layout free of these redirections: symbolic-link creation is disabled by default, so leave it disabled when clients do not need links, and provision the tree so its structure reflects the boundaries intended.
 
+:information_source: A public share exposes the shared paths as a boundary of the same kind as the path-based restrictions above: it is evaluated on the virtual path requested through the share link. A symbolic link beneath a shared path is dereferenced, so its target is served through the share even when it sits elsewhere in the owner's tree; where the shared paths are meant to bound what a share exposes, provision them as described above.
+
 #### `upload_mode` flags
 
 | Flag | Description |
