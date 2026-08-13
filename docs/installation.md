@@ -163,3 +163,23 @@ SFTPGo is included in FreeBSD [Ports](https://www.freshports.org/ftp/sftpgo){:ta
 ## Docker
 
 SFTPGo provides an official Docker image, more [details](docker.md).
+
+## Service account
+
+Run the service with the least privileges it needs: access to the configured home directories and to its own data, and nothing else.
+
+The Linux packages we maintain register a systemd service running under the dedicated, unprivileged `sftpgo` account, which owns the packaged data directories, and the Docker images run as user and group `1000`. On Windows the service is registered under `LocalSystem`: a dedicated account is set through the Windows service configuration and then needs access to the SFTPGo data directory and to the home directories. The installer removes and registers the service again on upgrade, restoring `LocalSystem`, so set the account again after each update.
+
+Running SFTPGo under a privileged account is supported and a few deployments need it. On Unix-like systems, setting per-user ownership on uploaded files is one such case. Every file operation is carried out with the privileges of the service account, so provision the home directories and the paths leading to them as described in [Local filesystem](localfs.md).
+
+:warning: SFTPGo has no operating system identity per session: it is a single process and does not switch to a Unix user per connection, so the permissions granted to the virtual user are the boundary between clients rather than the ones the operating system enforces. A privileged account widens what the service can reach and leaves that boundary as the only one: hooks, command actions and plugins run with the privileges of the service on every platform.
+
+On Unix-like systems a client granted `chmod` and `chown`, both part of the default `*` permission set, can set any mode, `setuid` included, and any owner on the files in its own tree, which on a host where those clients can also execute files amounts to granting them the privileges of the service account. Under an unprivileged account the chown fails and a setuid bit confers no more than that account. On Windows the mode maps to the read-only attribute and ownership is left untouched, so the per-user ownership mapping applies to Unix-like systems only.
+
+Where a privileged account is required:
+
+- `setstat_mode` set to `1` makes SFTPGo ignore attribute change requests
+- removing `chmod` and `chown` from the users' permissions rejects them
+- on Unix-like systems, mounting the filesystem that holds the home directories with `nosuid` makes setuid binaries ineffective whatever their origin
+
+On Unix-like systems SFTPGo logs a warning at startup when it runs with an effective uid of `0`.
