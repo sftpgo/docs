@@ -602,6 +602,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#service-account" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Service account
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2327,6 +2338,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#service-account" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Service account
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2494,6 +2516,19 @@ sudo systemctl enable sftpgo
 <p>SFTPGo is included in FreeBSD <a href="https://www.freshports.org/ftp/sftpgo" target="_blank">Ports</a>.</p>
 <h2 id="docker">Docker</h2>
 <p>SFTPGo provides an official Docker image, more <a href="../docker/">details</a>.</p>
+<h2 id="service-account">Service account</h2>
+<p>Run the service with the least privileges it needs: access to the configured home directories and to its own data, and nothing else.</p>
+<p>The Linux packages we maintain register a systemd service running under the dedicated, unprivileged <code>sftpgo</code> account, which owns the packaged data directories, and the Docker images run as user and group <code>1000</code>. On Windows the service is registered under <code>LocalSystem</code>: a dedicated account is set through the Windows service configuration and then needs access to the SFTPGo data directory and to the home directories. The installer removes and registers the service again on upgrade, restoring <code>LocalSystem</code>, so set the account again after each update.</p>
+<p>Running SFTPGo under a privileged account is supported and a few deployments need it. On Unix-like systems, setting per-user ownership on uploaded files is one such case. Every file operation is carried out with the privileges of the service account, so provision the home directories and the paths leading to them as described in <a href="../localfs/">Local filesystem</a>.</p>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> SFTPGo has no operating system identity per session: it is a single process and does not switch to a Unix user per connection, so the permissions granted to the virtual user are the boundary between clients rather than the ones the operating system enforces. A privileged account widens what the service can reach and leaves that boundary as the only one: hooks, command actions and plugins run with the privileges of the service on every platform.</p>
+<p>On Unix-like systems a client granted <code>chmod</code> and <code>chown</code>, both part of the default <code>*</code> permission set, can set any mode, <code>setuid</code> included, and any owner on the files in its own tree, which on a host where those clients can also execute files amounts to granting them the privileges of the service account. Under an unprivileged account the chown fails and a setuid bit confers no more than that account. On Windows the mode maps to the read-only attribute and ownership is left untouched, so the per-user ownership mapping applies to Unix-like systems only.</p>
+<p>Where a privileged account is required:</p>
+<ul>
+<li><code>setstat_mode</code> set to <code>1</code> makes SFTPGo ignore attribute change requests</li>
+<li>removing <code>chmod</code> and <code>chown</code> from the users' permissions rejects them</li>
+<li>on Unix-like systems, mounting the filesystem that holds the home directories with <code>nosuid</code> makes setuid binaries ineffective whatever their origin</li>
+</ul>
+<p>On Unix-like systems SFTPGo logs a warning at startup when it runs with an effective uid of <code>0</code>.</p>
 
 
 

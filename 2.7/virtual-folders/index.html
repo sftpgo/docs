@@ -1986,6 +1986,7 @@
 <li><code>quota_files</code>, maximum number of files allowed. 0 means unlimited, -1 included in user quota</li>
 </ul>
 <p>For example if a folder is configured to use <code>/tmp/mapped</code> or <code>C:\mapped</code> as filesystem path and <code>/vfolder</code> as virtual path then SFTPGo users can access <code>/tmp/mapped</code> or <code>C:\mapped</code> via the <code>/vfolder</code> virtual path.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> For folders on the local filesystem, the mapped path is resolved like any other path, so a redirection placed on it is followed. Keep the mapped path and the directories above it under administrative control and writable only by trusted accounts, as described for <a href="../localfs/">home directories</a>.</p>
 <p>Nested SFTP folders using the same SFTPGo instance (identified using the host keys) are not allowed as they could cause infinite SFTP loops.</p>
 <p>The same virtual folder can be shared among users, different folder quota limits for each user are supported.
 Folder quota limits can also be included inside the user quota but in this case the folder is considered "private" and sharing it with other users will break user quota calculation.

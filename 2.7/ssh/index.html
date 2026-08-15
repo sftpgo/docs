@@ -2113,10 +2113,11 @@
 <ul>
 <li><code>scp</code>, SFTPGo implements the SCP protocol so we can support it for cloud filesystems too and we can avoid the other system commands limitations. SCP between two remote hosts is supported using the <code>-3</code> scp option. Wildcard expansion is not supported.</li>
 <li><code>md5sum</code>, <code>sha1sum</code>, <code>sha256sum</code>, <code>sha384sum</code>, <code>sha512sum</code>. Useful to check message digests for uploaded files.</li>
-<li><code>cd</code>, <code>pwd</code>. Some SFTP clients do not support the SFTP SSH_FXP_REALPATH packet type, so they use <code>cd</code> and <code>pwd</code> SSH commands to get the initial directory. Currently <code>cd</code> does nothing and <code>pwd</code> always returns the <code>/</code> path. These commands will work with any storage backend but keep in mind that to calculate the hash we need to read the whole file, for remote backends this means downloading the file, for the encrypted backend this means decrypting the file.</li>
+<li><code>cd</code>, <code>pwd</code>. Some SFTP clients do not support the SFTP SSH_FXP_REALPATH packet type, so they use <code>cd</code> and <code>pwd</code> SSH commands to get the initial directory. Currently <code>cd</code> does nothing and <code>pwd</code> always returns the <code>/</code> path.</li>
 <li><code>sftpgo-copy</code>. This is a built-in copy implementation. It allows server side copy for files and directories. The first argument is the source file/directory and the second one is the destination file/directory, for example <code>sftpgo-copy &lt;src&gt; &lt;dst&gt;</code>.</li>
 <li><code>sftpgo-remove</code>. This is a built-in remove implementation. It allows to remove single files and to recursively remove directories. The first argument is the file/directory to remove, for example <code>sftpgo-remove &lt;dst&gt;</code>. Removing directories spanning virtual folders is not supported.</li>
 </ul>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> The hash commands read the whole file to compute the digest: for remote backends this means downloading it, for the encrypted backend this means decrypting it. The read requires the <code>download</code> permission on the file's parent directory.</p>
 <p>The following SSH commands are enabled by default:</p>
 <ul>
 <li><code>md5sum</code></li>
