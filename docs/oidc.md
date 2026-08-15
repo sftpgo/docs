@@ -54,13 +54,15 @@ SFTPGo needs to determine whether an authenticated user should access the WebAdm
 | `role_values` | `admin` | Claim values that map to the SFTPGo admin role. Matching is case-insensitive. |
 | `user_role_values` | — | Claim values that map to the SFTPGo user role. If empty, any authenticated identity can attempt to log in to the WebClient. Set this to restrict WebClient access to specific claim values. |
 
+The role claim decides administrative access: choose a claim your Identity Provider administrator assigns, such as a realm role or a group membership, so that its value stays outside the reach of the identities it governs.
+
 **Implicit role mapping** — The role is determined by which login link the user clicks:
 
 | Parameter | Default | Description |
 | ----------- | --------- | ------------- |
 | `implicit_roles` | `false` | When `true`, the `role_field` is ignored. Users clicking the admin login link get the admin role; users clicking the client login link get the user role. |
 
-Implicit roles are useful when the IdP does not provide role claims or when you prefer to keep role assignment entirely within SFTPGo.
+Implicit roles are useful when the IdP does not provide role claims or when you prefer to keep role assignment entirely within SFTPGo. The authorization decision then rests entirely on the SFTPGo admin accounts: every identity that authenticates through the admin login link is granted the admin role, and the login succeeds when an admin with the mapped username exists.
 
 ### Optional settings
 
