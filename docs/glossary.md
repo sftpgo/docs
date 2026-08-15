@@ -43,7 +43,7 @@ A reference of SFTPGo-specific terms. Use it to quickly disambiguate concepts th
 : The server-wide definition of a virtual folder (name + backend + mapped path). A **virtual folder** on a user or group is a reference to a folder plus the *virtual path* at which it is mounted. One folder can be referenced by many users.
 
 **Quota**
-: Disk and transfer usage limits tracked by SFTPGo itself, in software — kernel or storage-level quotas are not used. The counters can drift from the actual usage (files changed outside SFTPGo, unclean shutdowns, temporary data provider failures): the quota scan REST APIs and the Event Manager quota reset actions recalculate them from the actual content, and a scheduled recalculation is recommended.
+: Disk and transfer usage limits tracked by SFTPGo in software — neither the kernel nor the storage enforces them. The counters are application accounting: they describe the usage rather than define it, and are approximate by construction, since a process killed mid-transfer, files changed outside SFTPGo, or a bug in the accounting leave them off. Recalculating from the actual content is part of the model: the quota scan REST APIs and the Event Manager quota reset actions rebuild the counters, and a scheduled recalculation is recommended.
 
 **Quota (dedicated vs shared)**
 : A virtual folder's quota can be dedicated (the folder counts its own bytes/files) or shared with the user's own quota (value `-1`). Folders shared across users should always use a **dedicated** quota to keep counters accurate.

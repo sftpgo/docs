@@ -128,7 +128,7 @@ The following action types are available. Actions marked with details links have
 | **Folder quota reset** | Recalculate the disk quota usage for matching virtual folders. |
 | **Transfer quota reset** | Reset the transfer quota counters to zero for matching users. |
 
-:information_source: Quota usage is tracked by SFTPGo in software: the stored counters can drift from the actual usage (files changed outside SFTPGo, unclean shutdowns, temporary data provider failures). Schedule the quota reset actions to keep them aligned; quota scans are also available via the REST API.
+:information_source: Quota usage is tracked by SFTPGo in software, not by the kernel or by the storage: the counters are accounting kept by the application, so they describe the usage rather than enforce it and are approximate by construction. A process killed mid-transfer, files changed outside SFTPGo, or a bug in the accounting itself leave them off. Recalculation is part of the model: schedule the quota reset actions to rebuild the counters from the actual content; quota scans are also available via the REST API.
 
 ### Lifecycle checks
 
