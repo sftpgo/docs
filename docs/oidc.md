@@ -77,6 +77,8 @@ From SFTPGo login page click `Login with OpenID` button, you will be redirected 
 Please note that the ID token returned from Keycloak must contain the `username_field` specified in the SFTPGo configuration and optionally the `role_field`. The mapped usernames must exist in SFTPGo.
 If you don't want to explicitly define SFTPGo roles in your identity provider, you can set `implicit_roles` to `true`. With this configuration, the SFTPGo role is assumed based on the login link used.
 
+The `username_field` claim is the identity key: SFTPGo grants access to the account matching its value. Choose a claim your identity provider guarantees to be unique and stable for each identity: `preferred_username` works well when the provider enforces its uniqueness (Keycloak maps it to the realm username, while Microsoft Entra ID documents this claim as mutable and unsuitable for authorization decisions, so prefer `sub` or the tenant-immutable `oid` there), `email` when the provider guarantees it is verified and unique (SFTPGo does not check the `email_verified` claim), and `sub` is the claim the OpenID Connect specification itself guarantees to be unique within the issuer and never reassigned. A claim value shared by two identities, or reassigned to a new person (e.g., a recycled email address), grants access to the SFTPGo account mapped to that value, so choose a claim users are unable to set for themselves.
+
 Here is an example ID token which allows the SFTPGo admin `root` to access to the Web Admin UI.
 
 ```json
