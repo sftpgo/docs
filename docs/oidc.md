@@ -174,3 +174,21 @@ The pre-login hook will receive a JSON serialized user with the following field:
 ```
 
 In EventManager actions you can use the placeholder `{{.IDPFieldsftpgo_home_dir}}` for string-based custom fields.
+
+## UserInfo claims
+
+By default, all the claims (`username_field`, `role_field`, `custom_fields`) are read from the verified ID token. Some identity providers return the profile claims from the UserInfo endpoint only and require extra configuration to include them in the ID token.
+
+If you set `query_userinfo` to `true`, SFTPGo queries the provider's UserInfo endpoint after each authentication and reads the claims from both sources.
+
+```shell
+SFTPGO_HTTPD__BINDINGS__0__OIDC__QUERY_USERINFO="true"
+```
+
+- ID token claims take precedence over UserInfo claims with the same name, so the UserInfo response fills in the missing claims. A claim set to null, to an empty string or to an empty list counts as missing in both sources: if the ID token returns an empty `username_field` or `role_field`, the value from the UserInfo response is used. Enable `query_userinfo` only if the UserInfo claims are as authoritative as the ID token ones for these two fields.
+- The UserInfo subject must match the ID token subject, as required by the OpenID Connect specification. The authentication fails if the subjects don't match or if the UserInfo request fails.
+- The claims describing the authentication event (`sid`, `auth_time`, `nonce`) are always read from the ID token.
+
+The provider must advertise a UserInfo endpoint in its discovery document, this is checked at startup: SFTPGo refuses to start if `query_userinfo` is enabled and the endpoint is missing.
+
+:information_source: Microsoft Entra ID returns a fixed set of claims from the UserInfo endpoint and recommends reading the claims from the ID token, which also saves a network round-trip per login. Enable `query_userinfo` when your provider returns the claims you need from the UserInfo endpoint only.
