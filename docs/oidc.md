@@ -79,6 +79,8 @@ If you don't want to explicitly define SFTPGo roles in your identity provider, y
 
 The `username_field` claim is the identity key: SFTPGo grants access to the account matching its value. Choose a claim your identity provider guarantees to be unique and stable for each identity: `preferred_username` works well when the provider enforces its uniqueness (Keycloak maps it to the realm username, while Microsoft Entra ID documents this claim as mutable and unsuitable for authorization decisions, so prefer `sub` or the tenant-immutable `oid` there), `email` when the provider guarantees it is verified and unique (SFTPGo does not check the `email_verified` claim), and `sub` is the claim the OpenID Connect specification itself guarantees to be unique within the issuer and never reassigned. A claim value shared by two identities, or reassigned to a new person (e.g., a recycled email address), grants access to the SFTPGo account mapped to that value, so choose a claim users are unable to set for themselves.
 
+The `role_field` claim decides administrative access: choose a claim your identity provider administrator assigns, such as a realm role or a group membership, so that its value stays outside the reach of the identities it governs. With `implicit_roles` the authorization decision rests entirely on the SFTPGo admin accounts: every identity that authenticates through the admin login link is granted the admin role, and the login succeeds when an admin with the mapped username exists.
+
 Here is an example ID token which allows the SFTPGo admin `root` to access to the Web Admin UI.
 
 ```json
