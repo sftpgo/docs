@@ -31,7 +31,7 @@ The following actions are supported:
 
 A filesystem action is started by SFTPGo to carry out the rule, it is not requested by the account, so it runs with the access the action needs rather than with the access the account has: inside the filesystem it operates on, the per-directory permissions of the user are raised to full access, the file pattern filters are not applied, and the bandwidth limits and the data transfer quota of the user do not bound it. Paths resolve inside the home directory and the virtual folders mapped for that user. The authorization decision belongs to the rule: its conditions select the users and the events the action runs for.
 
-:information_source: Quota usage is tracked by SFTPGo in software: the stored counters can drift from the actual usage (files changed outside SFTPGo, unclean shutdowns, temporary data provider failures). Schedule the quota reset actions to keep them aligned; quota scans are also available via the REST API.
+:information_source: Quota usage is tracked by SFTPGo in software, not by the kernel or by the storage: the counters are accounting kept by the application, so they describe the usage rather than enforce it and are approximate by construction. A process killed mid-transfer, files changed outside SFTPGo, or a bug in the accounting itself leave them off. Recalculation is part of the model: schedule the quota reset actions to rebuild the counters from the actual content; quota scans are also available via the REST API.
 
 The following placeholders are supported:
 
