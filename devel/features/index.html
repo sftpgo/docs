@@ -1981,7 +1981,7 @@
 <li>Virtual accounts stored within a "data provider".</li>
 <li>SQLite, MySQL, PostgreSQL, CockroachDB, Bolt (key/value store in pure Go) and in-memory data providers are supported.</li>
 <li>Chroot isolation for local accounts. Cloud-based accounts can be restricted to a certain base path.</li>
-<li>Per-user and per-directory virtual permissions, for each path you can allow or deny: directory listing, upload, overwrite, download, delete, rename, create directories, create symlinks, change owner/group/file mode and modification time.</li>
+<li>Per-user and per-directory virtual permissions, for each path you can allow or deny: directory listing, upload, overwrite, download, delete, rename, copy, create directories, create symlinks, change owner/group/file mode and modification time.</li>
 <li><a href="../rest-api/">REST API</a> for users and folders management, data retention, backup, restore and real time reports of the active connections with possibility of forcibly closing a connection.</li>
 <li>The <a href="../eventmanager/">Event Manager</a> allows to define custom workflows based on server events or schedules.</li>
 <li><a href="../web-interfaces/#webadmin">Web based administration interface</a> to easily manage users, folders and connections.</li>
@@ -2005,7 +2005,7 @@
 <li>Per-protocol <a href="../rate-limiting/">rate limiting</a> is supported and can be optionally connected to the built-in defender to automatically block hosts that repeatedly exceed the configured limit.</li>
 <li>Per-user maximum concurrent sessions.</li>
 <li>Per-user and global IP filters: login can be restricted to specific ranges of IP addresses or to a specific IP address.</li>
-<li>Per-user and per-directory shell like patterns filters: files can be allowed, denied and optionally hidden based on shell like patterns.</li>
+<li>Per-user and per-directory shell like patterns filters: files and directories can be allowed, denied and optionally hidden based on shell like patterns. A filter matches an entry name against the filter defined for its parent directory, so it governs directory names as well as file names. A directory that already exists keeps its contents reachable: writing inside it follows the filter defined for that directory, while a hidden name hides everything below it.</li>
 <li>Automatically terminating idle connections.</li>
 <li>Automatic blocklist management using the built-in <a href="../defender/">defender</a>.</li>
 <li>Geo-IP filtering using a <a href="https://github.com/sftpgo/sftpgo-plugin-geoipfilter" target="_blank">plugin</a>.</li>

@@ -2140,6 +2140,7 @@ Groups simplify the administration of multiple accounts by letting you assign se
 <p>The web interface can be globally disabled within the <code>httpd</code> configuration via the <code>enable_web_client</code> key or on a per-user basis by adding <code>HTTP</code> to the denied protocols.
 Public keys management can be disabled, per-user, using a specific permission.
 The WebClient allows you to download multiple files or folders as a single zip file, any non regular files (for example symlinks) will be silently ignored.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> A symbolic link beneath the shared path is dereferenced when its path is requested directly: its target is served through the share. See <a href="../config-file/#symbolic-links-and-permissions">Symbolic links and permissions</a>.</p>
 <p>With the default <code>httpd</code> configuration, the WebClient is available at the following URL:</p>
 <p><a href="http://127.0.0.1:8080/web/client" target="_blank">http://127.0.0.1:8080/web/client</a></p>
 <h2 id="internationalization">Internationalization</h2>

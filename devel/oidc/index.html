@@ -1054,6 +1054,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenID Connect
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1070,6 +1088,36 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#userinfo-claims" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UserInfo claims
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1950,6 +1998,25 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#userinfo-claims" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UserInfo claims
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2031,6 +2098,8 @@ SFTPGO_HTTPD__BINDINGS__0__OIDC__ROLE_FIELD="sftpgo_role"
 <p>From SFTPGo login page click <code>Login with OpenID</code> button, you will be redirected to the Keycloak login page, after a successful authentication Keycloack will redirect back to SFTPGo Web Admin or SFTPGo Web Client.</p>
 <p>Please note that the ID token returned from Keycloak must contain the <code>username_field</code> specified in the SFTPGo configuration and optionally the <code>role_field</code>. The mapped usernames must exist in SFTPGo.
 If you don't want to explicitly define SFTPGo roles in your identity provider, you can set <code>implicit_roles</code> to <code>true</code>. With this configuration, the SFTPGo role is assumed based on the login link used.</p>
+<p>The <code>username_field</code> claim is the identity key: SFTPGo grants access to the account matching its value. Choose a claim your identity provider guarantees to be unique and stable for each identity: <code>preferred_username</code> works well when the provider enforces its uniqueness (Keycloak maps it to the realm username, while Microsoft Entra ID documents this claim as mutable and unsuitable for authorization decisions, so prefer <code>sub</code> or the tenant-immutable <code>oid</code> there), <code>email</code> when the provider guarantees it is verified and unique (SFTPGo does not check the <code>email_verified</code> claim), and <code>sub</code> is the claim the OpenID Connect specification itself guarantees to be unique within the issuer and never reassigned. A claim value shared by two identities, or reassigned to a new person (e.g., a recycled email address), grants access to the SFTPGo account mapped to that value, so choose a claim users are unable to set for themselves.</p>
+<p>The <code>role_field</code> claim decides administrative access: choose a claim your identity provider administrator assigns, such as a realm role or a group membership, so that its value stays outside the reach of the identities it governs. With <code>implicit_roles</code> the authorization decision rests entirely on the SFTPGo admin accounts: every identity that authenticates through the admin login link is granted the admin role, and the login succeeds when an admin with the mapped username exists.</p>
 <p>Here is an example ID token which allows the SFTPGo admin <code>root</code> to access to the Web Admin UI.</p>
 <pre><code class="language-json">{
     "exp": 1644758026,
@@ -2111,6 +2180,18 @@ SFTPGO_HTTPD__BINDINGS__0__OIDC__CUSTOM_FIELDS="sftpgo_home_dir"
 ...
 </code></pre>
 <p>In EventManager actions you can use the placeholder <code>{{.IDPFieldsftpgo_home_dir}}</code> for string-based custom fields.</p>
+<h2 id="userinfo-claims">UserInfo claims</h2>
+<p>By default, all the claims (<code>username_field</code>, <code>role_field</code>, <code>custom_fields</code>) are read from the verified ID token. Some identity providers return the profile claims from the UserInfo endpoint only and require extra configuration to include them in the ID token.</p>
+<p>If you set <code>query_userinfo</code> to <code>true</code>, SFTPGo queries the provider's UserInfo endpoint after each authentication and reads the claims from both sources.</p>
+<pre><code class="language-shell">SFTPGO_HTTPD__BINDINGS__0__OIDC__QUERY_USERINFO="true"
+</code></pre>
+<ul>
+<li>ID token claims take precedence over UserInfo claims with the same name, so the UserInfo response fills in the missing claims. A claim set to null, to an empty string or to an empty list counts as missing in both sources: if the ID token returns an empty <code>username_field</code> or <code>role_field</code>, the value from the UserInfo response is used. Enable <code>query_userinfo</code> only if the UserInfo claims are as authoritative as the ID token ones for these two fields.</li>
+<li>The UserInfo subject must match the ID token subject, as required by the OpenID Connect specification. The authentication fails if the subjects don't match or if the UserInfo request fails.</li>
+<li>The claims describing the authentication event (<code>sid</code>, <code>auth_time</code>, <code>nonce</code>) are always read from the ID token.</li>
+</ul>
+<p>The provider must advertise a UserInfo endpoint in its discovery document, this is checked at startup: SFTPGo refuses to start if <code>query_userinfo</code> is enabled and the endpoint is missing.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Microsoft Entra ID returns a fixed set of claims from the UserInfo endpoint and recommends reading the claims from the ID token, which also saves a network round-trip per login. Enable <code>query_userinfo</code> when your provider returns the claims you need from the UserInfo endpoint only.</p>
 
 
 

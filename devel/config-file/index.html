@@ -3531,6 +3531,8 @@
 <p><code>symlink_mode</code> is a bit mask that selects the backends on which clients may create symbolic links, regardless of the <code>create_symlinks</code> permission. The default, <code>0</code>, disables creation on every backend across all protocols; add <code>1</code> to allow it on the local filesystem (including its encrypted variant), <code>2</code> on the SFTP backend, <code>3</code> for both. Symbolic links already present on the storage are still honored: <code>symlink_mode</code> controls creation, it does not change links that already exist.</p>
 <p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> On the local filesystem, including its encrypted variant, paths are resolved within the accessible area as part of each operation, one component at a time: a symbolic link resolving outside of it makes the operation fail, and a link with an absolute target is never followed, wherever it points. On the SFTP backend the path is validated and then operated on in separate steps; see <a href="../sftpfs/#path-confinement">Path confinement</a> for the residual limits that apply there.</p>
 <p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Per-directory permissions and path-based filters configure how a single user moves through its own home: different areas of one tree can carry different access. They enforce as configured on a trusted layout, evaluated against the path the client requests. A redirection introduced beneath the root — an alias placed on the storage, or a symbolic link created when <code>create_symlinks</code> is granted — is followed under the requesting path's permissions, so a more restricted area can be reached through a more permissive path. Where such a restriction must hold, keep the layout free of these redirections: symbolic-link creation is disabled by default, so leave it disabled when clients do not need links, and provision the tree so its structure reflects the boundaries intended.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> More generally, SFTPGo trusts the storage. What the storage reports — the structure it presents, the names it returns, the file types and the metadata it declares — is taken as authoritative, and the restrictions above are layered on top of it. Content written to the storage outside SFTPGo, by another tool or directly on the filesystem, is served as it is reported.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> A public share exposes the shared paths as a boundary of the same kind as the path-based restrictions above: it is evaluated on the virtual path requested through the share link. A symbolic link beneath a shared path is dereferenced, so its target is served through the share even when it sits elsewhere in the owner's tree.</p>
 <h4 id="upload_mode-flags"><code>upload_mode</code> flags</h4>
 <table>
 <thead>
@@ -4697,7 +4699,7 @@
 <td><code>delayed_quota_update</code></td>
 <td>integer</td>
 <td><code>0</code></td>
-<td>Number of seconds to accumulate quota updates. Accumulating updates can reduce data provider queries when uploads are frequent. A scheduled quota update is recommended regardless, since stored quota may become incorrect due to unexpected shutdowns, temporary provider failures, files copied outside of SFTPGo, etc. Use the <a href="../eventmanager/">event manager</a> to schedule periodic quota updates. <code>0</code> means immediate quota update.</td>
+<td>Number of seconds to accumulate quota updates. Accumulating updates can reduce data provider queries when uploads are frequent. A scheduled quota update is recommended regardless: quota is accounting kept by SFTPGo in software and is not enforced by the kernel or by the storage, so the stored counters are approximate by construction — a process killed mid-transfer, files changed outside SFTPGo, or a bug in the accounting leave them off. Use the <a href="../eventmanager/">event manager</a> to schedule periodic quota updates. <code>0</code> means immediate quota update.</td>
 </tr>
 <tr>
 <td><code>pool_size</code></td>
@@ -4775,7 +4777,7 @@
 <td><code>naming_rules</code></td>
 <td>integer</td>
 <td><code>5</code></td>
-<td>Naming rules for usernames, folders, groups, roles, and object names. <code>0</code> no rules. <code>1</code> allows any UTF-8 character (names are used in URIs for REST API and WebAdmin; without this, only unreserved URI characters are allowed: <code>ALPHA / DIGIT / - . _ ~</code>). <code>2</code> converts names to lowercase before saving/matching (enables case-insensitive matching). <code>4</code> trims trailing and leading whitespace before saving/matching (required for WebAdmin to work properly). Flags can be combined (e.g., <code>3</code> means lowercase + any UTF-8). <img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Enabling these options on existing installations may be backward incompatible; ensure all existing users respect the defined rules. Control characters, <code>/</code>, and <code>\</code> are never permitted.</td>
+<td>Naming rules for usernames, folders, groups, roles, and object names. <code>0</code> no rules. <code>1</code> allows any UTF-8 character (names are used in URIs for REST API and WebAdmin; without this, only unreserved URI characters are allowed: <code>ALPHA / DIGIT / - . _ ~</code>). <code>2</code> converts names to lowercase before saving/matching (enables case-insensitive matching). <code>4</code> trims trailing and leading whitespace before saving/matching (required for WebAdmin to work properly). Flags can be combined (e.g., <code>3</code> means lowercase + any UTF-8). <img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Enabling these options on existing installations may be backward incompatible; ensure all existing users respect the defined rules. Control characters, <code>/</code>, and <code>\</code> are never permitted. These rules govern the names of SFTPGo objects; the file and directory names on the storage backends are outside their scope.</td>
 </tr>
 <tr>
 <td><code>is_shared</code></td>
@@ -5299,6 +5301,12 @@
 <td>list of strings</td>
 <td>empty</td>
 <td>Custom token claim fields to pass to the pre-login hook.</td>
+</tr>
+<tr>
+<td><code>query_userinfo</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>If set, SFTPGo queries the provider's UserInfo endpoint after each authentication and reads the claims from both sources. ID token claims take precedence over UserInfo claims with the same name and the UserInfo subject must match the ID token subject. SFTPGo refuses to start if the provider does not advertise a UserInfo endpoint.</td>
 </tr>
 <tr>
 <td><code>insecure_skip_signature_check</code></td>

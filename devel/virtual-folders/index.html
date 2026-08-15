@@ -919,6 +919,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Virtual Folders
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -935,6 +953,36 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#sub-path-mounts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sub-path mounts
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1950,6 +1998,25 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#sub-path-mounts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sub-path mounts
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1986,6 +2053,7 @@
 <li><code>quota_files</code>, maximum number of files allowed. 0 means unlimited, -1 included in user quota</li>
 </ul>
 <p>For example if a folder is configured to use <code>/tmp/mapped</code> or <code>C:\mapped</code> as filesystem path and <code>/vfolder</code> as virtual path then SFTPGo users can access <code>/tmp/mapped</code> or <code>C:\mapped</code> via the <code>/vfolder</code> virtual path.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> For folders on the local filesystem, the mapped path is resolved like any other path, so a redirection placed on it is followed. Keep the mapped path and the directories above it under administrative control and writable only by trusted accounts, as described for <a href="../localfs/">home directories</a>.</p>
 <p>Renaming between the user's home directory and a virtual folder, or between two virtual folders, is performed as a copy followed by a delete, even when both sides are on the local filesystem. The operation can be slow for large directory trees and is not atomic: the source is removed only after the copy fully succeeds, so no data is lost, but a failure midway can leave the files already transferred at the destination. Symbolic links and other non-regular files inside a renamed directory are skipped, not copied. File permissions are not preserved across such a rename and the modification time of regular files is restored on a best-effort basis.</p>
 <p>Nested SFTP folders using the same SFTPGo instance (identified using the host keys) are not allowed as they could cause infinite SFTP loops.</p>
 <p>The same virtual folder can be shared among users, different folder quota limits for each user are supported.
@@ -2000,6 +2068,11 @@ For private folders, the quota is updated only for the matching user not for the
 </ul>
 <p>If you upload a file to <code>folder2</code> its quota will be updated but the quota of <code>folder1</code> will not. We allow this for more flexibility, but if you want to enforce disk quotas using SFTPGo, avoid folders with nested paths.</p>
 <p>It is allowed to mount a virtual folder in the user's root path (<code>/</code>). This might be useful if you want to share the same virtual folder between different users. In this case the user's root filesystem is hidden from the virtual folder.</p>
+<h2 id="sub-path-mounts">Sub-path mounts</h2>
+<p>A folder mapping can re-root the mount onto a sub-path of the folder: the mount at <code>virtual_path</code> serves the folder starting from the configured <code>subpath</code>, which stays invisible in the paths the user sees. For example, a folder mapped at <code>/files</code> with subpath <code>/tenants/alice</code> presents the content of <code>tenants/alice</code> directly at <code>/files</code>.</p>
+<p>The sub-path applies to the folder's backend path: the key prefix for S3, Google Cloud Storage and Azure Blob folders, the prefix for SFTP folders, and the filesystem path for local and encrypted folders. Access through a sub-path mount of an HTTP/S folder fails.</p>
+<p>The value is a canonical POSIX path with a leading slash, for example <code>/dataset1/2026</code>, at most 191 characters. The same folder can be mapped multiple times with distinct subpaths, at freely chosen virtual paths: for example <code>/current</code> can serve the folder's <code>/2026</code> sub-path while <code>/archive</code> serves <code>/2025</code>. Quota remains a property of the whole folder: every mapping of the same folder must use the same quota limits and usage is tracked once across all its mounts.</p>
+<p>On group mappings the subpath supports the <code>%username%</code> and <code>%role%</code> placeholders, resolved per user when the group settings are applied: a single group mapping with subpath <code>/tenants/%username%</code> gives each member their own sub-tree of a shared folder, at the same virtual path for every user. A mapping whose placeholder has no value for a user is skipped for that user.</p>
 <p>Using the REST API you can:</p>
 <ul>
 <li>monitor folders quota usage</li>

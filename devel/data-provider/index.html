@@ -2129,6 +2129,7 @@ Some examples for supported upgrade paths are:</p>
 <p>Loading data from a provider independent JSON dump is supported from the previous release branch to the current one too. After upgrading SFTPGo it is advisable to regenerate the JSON dump from the new version.</p>
 <h2 id="downgrading">Downgrading</h2>
 <p>If for some reason you want to downgrade SFTPGo, you may need to downgrade your data provider schema and data as well. You can use the <code>revertprovider</code> command for this task.</p>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> The schema downgrade removes the virtual folder <a href="../virtual-folders/#sub-path-mounts">sub-path mount</a> field (<code>subpath</code>): each affected mapping then serves its whole folder, so users gain access to content the sub-path mount kept hidden. Review and remove sub-path mounts before downgrading, or replace them with dedicated folders. A folder mapped at multiple virtual paths by the same user or group makes the downgrade fail: remove the extra mappings first.</p>
 <p>As for upgrading, SFTPGo supports downgrading from the previous release branch to the current one.</p>
 <p>So, if you plan to downgrade from 2.3.x to 2.2.x, before uninstalling 2.3.x version, you can prepare your data provider executing the following command from the configuration directory:</p>
 <pre><code class="language-shell">sftpgo revertprovider
