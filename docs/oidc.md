@@ -32,6 +32,16 @@ SFTPGo uses [OpenID Connect Discovery](https://openid.net/specs/openid-connect-d
 | `redirect_base_url` | Base URL of your SFTPGo instance (e.g., `https://sftpgo.example.com`). SFTPGo appends `/web/oidc/redirect` automatically. |
 | `username_field` | ID token claim to map to the SFTPGo username (e.g., `preferred_username`, `email`). |
 
+### Choosing the username claim
+
+The `username_field` claim is the identity key: SFTPGo grants access to the account matching its value. Choose a claim your Identity Provider guarantees to be **unique and stable** for each identity:
+
+- `sub` is the claim the OpenID Connect specification itself guarantees to be unique within the issuer and never reassigned. Using it means provisioning SFTPGo accounts named after the provider-assigned identifier.
+- `preferred_username` works well when the provider enforces its uniqueness: Keycloak, for example, maps it to the realm username. The specification leaves its uniqueness to the provider, so verify your provider's policy. Microsoft Entra ID documents this claim as mutable and unsuitable for authorization decisions: use `sub` or the tenant-immutable `oid` instead.
+- `email` works well when the provider guarantees it is verified and unique. SFTPGo does not check the `email_verified` claim, so this guarantee must come from the Identity Provider.
+
+:warning: A claim value shared by two identities, or reassigned to a new person (e.g., a recycled email address or User Principal Name), grants access to the SFTPGo account mapped to that value. Choose a claim users are unable to set for themselves.
+
 ### Role mapping
 
 SFTPGo needs to determine whether an authenticated user should access the WebAdmin (as an admin) or the WebClient (as a user). There are two approaches:
