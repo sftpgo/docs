@@ -506,7 +506,7 @@ OpenID Connect configuration. OIDC integration allows you to map your identity p
 | `role_field` | string | empty | Optional ID token claim used to determine the SFTPGo role. If the claim value is `admin`, the authenticated user is mapped to the SFTPGo admin role. Dot notation can be used for nested claims. Only required if you want to use OpenID for the WebAdmin UI. |
 | `implicit_roles` | boolean | `false` | If set, `role_field` is ignored and the SFTPGo role is inferred from the login link used. |
 | `custom_fields` | list of strings | empty | Custom token claim fields to pass to the pre-login hook. |
-| `query_userinfo` | boolean | `false` | If set, SFTPGo queries the provider's UserInfo endpoint after each authentication and reads the claims from both sources. ID token claims take precedence over UserInfo claims with the same name and the UserInfo subject must match the ID token subject. SFTPGo refuses to start if the provider does not advertise a UserInfo endpoint. |
+| `query_userinfo` | boolean | `false` | If set, SFTPGo queries the provider's UserInfo endpoint after each authentication and reads the claims from both sources. Non-empty ID token claims take precedence over UserInfo claims with the same name and the UserInfo subject must match the ID token subject, see [UserInfo claims](oidc.md#userinfo-claims). SFTPGo refuses to start if the provider does not advertise a UserInfo endpoint. |
 | `insecure_skip_signature_check` | boolean | `false` | :warning: Skips JWT signature validation. Intended for special cases where providers (e.g., Azure) use the `none` algorithm. Skipping validation can cause security issues. |
 | `debug` | boolean | `false` | If set, received ID tokens are logged at debug level. |
 
