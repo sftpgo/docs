@@ -83,3 +83,9 @@ An example authentication program allowing to authenticate against an LDAP serve
 An example server, to use as HTTP authentication hook, allowing to authenticate against an LDAP server can be found inside the source tree [ldapauthserver](https://github.com/drakkan/sftpgo/tree/main/examples/ldapauthserver){:target="_blank"} directory.
 
 If you have an external authentication hook that could be useful to others too, please let us know and/or please send a pull request.
+
+## Trust model
+
+Hooks and plugins are trusted components: they run with the privileges of the SFTPGo service and they are the authority on what SFTPGo asks them. The response is applied as it is given: the account it names, and the settings it carries, are what gets stored and what the session runs as.
+
+What a response causes therefore belongs to the integration that produced it. Answering for an account grants access to that account, exactly as an entry in the data provider does. Validate the credentials received before answering, and answer consistently when SFTPGo asks more than once for the same login, as it does when a login is verified in more than one step.

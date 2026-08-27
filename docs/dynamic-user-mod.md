@@ -19,6 +19,8 @@ The program must write, on its standard output:
 - an empty string (or no response at all) if the user should not be created/updated
 - or the SFTPGo user, JSON serialized, if you want to create or update the given user
 
+The response must carry the login username: it creates or updates that account and the login continues with it. Mapping several login names onto a single account is a feature of [external authentication](external-auth.md).
+
 Any output of the program on its standard error will be recorded in the SFTPGo logs with sender `pre_login_hook` and level `warn`.
 
 If the hook is an HTTP URL then it will be invoked as HTTP POST. The login method, the used protocol and the ip address of the user trying to login are added to the query string, for example `<http_url>?login_method=password&ip=1.2.3.4&protocol=SSH`.
@@ -29,6 +31,8 @@ Actions defined for user's updates will not be executed in this case and an alre
 The program hook must finish within 30 seconds, the HTTP hook will use the global configuration for HTTP clients.
 
 If an error happens while executing the hook then login will be denied.
+
+:information_source: the pre-login hook is a trusted component, see [Trust model](external-auth.md#trust-model).
 
 "Dynamic user creation or modification" and "External Authentication" are mutually exclusive, they are quite similar, the difference is that "External Authentication" returns an already authenticated user while using "Dynamic users modification" you simply create or update a user. The authentication will be checked inside SFTPGo.
 In other words while using "External Authentication" the external program receives the credentials of the user trying to login (for example the cleartext password) and it needs to validate them. While using "Dynamic users modification" the pre-login program receives the user stored inside the dataprovider (it includes the hashed password if any) and it can modify it, after the modification SFTPGo will check the credentials of the user trying to login.
