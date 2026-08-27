@@ -6,6 +6,8 @@ description: "Open-source SFTPGo plugin system: extend functionality with notifi
 
 SFTPGo's plugins are completely separate, standalone applications that SFTPGo executes and communicates with over RPC. This means the plugin process does not share the same memory space as SFTPGo and therefore can only access the interfaces and arguments given to it. This also means a crash in a plugin can not crash the entirety of SFTPGo.
 
+:information_source: plugins are trusted components and their responses are applied as given, see [Trust model](external-auth.md#trust-model).
+
 ## Configuration
 
 The plugins are configured via the `plugins` section in the main SFTPGo configuration file. You basically have to set the path to your plugin, the plugin type and any plugin specific configuration parameters. If you set the SHA256 checksum for the plugin executable, SFTPGo will verify the plugin integrity before starting it.
@@ -18,6 +20,8 @@ The following plugin types are supported:
 - `notifier`, allows to receive notifications for supported filesystem events such as file uploads, downloads etc. and provider events such as objects add, update, delete.
 - `kms`, allows to support additional KMS providers.
 - `ipfilter`, allows to allow/deny access based on client IP.
+
+An `auth` plugin response must carry the login username: it creates or updates that account and the login continues with it. Mapping several login names onto a single account is a feature of [external authentication](external-auth.md).
 
 Full configuration details can be found [here](config-file.md).
 
