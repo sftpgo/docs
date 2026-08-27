@@ -10,7 +10,7 @@ description: "Open-source SFTPGo features: secure file transfer over SFTP, FTP/S
 - Virtual accounts stored within a "data provider".
 - SQLite, MySQL, PostgreSQL, CockroachDB, Bolt (key/value store in pure Go) and in-memory data providers are supported.
 - Chroot isolation for local accounts. Cloud-based accounts can be restricted to a certain base path.
-- Per-user and per-directory virtual permissions, for each path you can allow or deny: directory listing, upload, overwrite, download, delete, rename, copy, create directories, create symlinks, change owner/group/file mode and modification time.
+- Per-user and per-directory virtual permissions, for each path you can allow or deny: directory listing, upload, overwrite, download, delete, rename, copy, create directories, create symlinks, change owner/group/file mode and modification time. See [How per-directory permissions apply](config-file.md#how-per-directory-permissions-apply) for the permissions a rename consults, the pairs selected by what the path holds, and when a directory rename carries its entries.
 - [REST API](rest-api.md) for users and folders management, data retention, backup, restore and real time reports of the active connections with possibility of forcibly closing a connection.
 - The [Event Manager](eventmanager.md) allows to define custom workflows based on server events or schedules.
 - [Web based administration interface](web-interfaces.md#webadmin) to easily manage users, folders and connections.
@@ -34,7 +34,7 @@ description: "Open-source SFTPGo features: secure file transfer over SFTP, FTP/S
 - Per-protocol [rate limiting](rate-limiting.md) is supported and can be optionally connected to the built-in defender to automatically block hosts that repeatedly exceed the configured limit.
 - Per-user maximum concurrent sessions.
 - Per-user and global IP filters: login can be restricted to specific ranges of IP addresses or to a specific IP address.
-- Per-user and per-directory shell like patterns filters: files and directories can be allowed, denied and optionally hidden based on shell like patterns. A filter matches an entry name against the filter defined for its parent directory, so it governs directory names as well as file names. A directory that already exists keeps its contents reachable: writing inside it follows the filter defined for that directory, while a hidden name hides everything below it.
+- Per-user and per-directory shell like patterns filters: files and directories can be allowed, denied and optionally hidden based on shell like patterns. A filter matches an entry name against the filter defined for its parent directory, so it governs directory names as well as file names. A directory that already exists keeps its contents reachable: writing inside it follows the filter defined for that directory, while a hidden name hides everything below it. A filter is attached to a virtual path and does not follow a directory that is moved: after a rename the entries it carried are governed by whatever applies at the new location, see [How per-directory permissions apply](config-file.md#how-per-directory-permissions-apply).
 - Automatically terminating idle connections.
 - Automatic blocklist management using the built-in [defender](defender.md).
 - Geo-IP filtering using a [plugin](https://github.com/sftpgo/sftpgo-plugin-geoipfilter){:target="_blank"}.

@@ -15,7 +15,7 @@ Configuration parameters for the `common` section.
 | `idle_timeout` | integer | `15` | Time in minutes after which an idle client will be disconnected. `0` means disabled. |
 | `upload_mode` | integer | `0` | Upload behavior flags. Can be combined (see below). Ignored for the SFTP backend if buffering is enabled. |
 | `setstat_mode` | integer | `0` | `0`: normal mode (permission/owner/time change requests are executed). `1`: ignore mode (requests are silently ignored). `2`: ignore if not supported (permission/owner changes are silently ignored for cloud filesystems, executed for local/SFTP). |
-| `rename_mode` | integer | `0` | `0`: renaming non-empty directories is not allowed for cloud storage providers (S3, GCS, Azure Blob). `1`: enable recursive renames for these providers. Recursive renames may be slow and are not atomic; partial renames and incorrect quota updates are possible on error. |
+| `rename_mode` | integer | `0` | `0`: renaming non-empty directories is not allowed for cloud storage providers (S3, GCS, Azure Blob). `1`: enable recursive renames for these providers. Recursive renames may be slow and are not atomic; partial renames and incorrect quota updates are possible on error. At `1` the entries of a renamed directory are authorized individually, so a rename stops after moving part of the tree when one of them is refused. |
 | `symlink_mode` | integer | `0` | Bit mask selecting the backends on which clients holding the `create_symlinks` permission may create symbolic links. `0` (default): creation disabled on every backend. `1`: allow on the local filesystem, including its encrypted variant. `2`: allow on the SFTP backend. `3`: both. See [Symbolic links and permissions](#symbolic-links-and-permissions). |
 | `resume_max_size` | integer | `0` | Maximum file size in bytes for which upload resume is allowed on storage backends with immutable objects (S3, GCS, Azure Blob). SFTPGo must rewrite the entire file on resume. `0` means resume is disabled. |
 | `proxy_protocol` | integer | `0` | [HAProxy PROXY protocol](https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt){:target="_blank"} support. Supported for SSH/SFTP and FTP/S. See modes below. |
@@ -33,6 +33,16 @@ Configuration parameters for the `common` section.
 | `tz` | string | empty | Time zone for the EventManager scheduler and time-based access restrictions. Set to `local` for server local time; otherwise UTC is used. |
 
 :information_source: The per-user `max_sessions` limit and the per-host and total connection caps are checked and applied without atomic coordination. Under bursts of near-simultaneous connections, the active count can briefly exceed the configured limit by a small number of connections before the rejection logic catches up. The window is narrow (no I/O between check and increment), so this is a hard cap only on average — not a strict hard cap on instantaneous peaks. If you need a strict atomic cap (e.g. to protect a downstream resource sized exactly to the limit), set the value below your target peak to leave headroom.
+
+#### How per-directory permissions apply
+
+A rename consults the rename permissions of the parent directory of both paths: `rename`, or `rename_files` and `rename_dirs` according to what the renamed path holds. A rename onto an existing file requires `overwrite`, and a rename onto an existing directory is refused. Moving an entry is what the rename permissions govern and creating one is what `upload` and `create_dirs` govern, so `rename` on a directory lets content be moved into it and out of it.
+
+Three permission pairs are selected by what the path holds: `rename_files` and `rename_dirs` by what the renamed path holds, `delete_files` and `delete_dirs` the same way, and `upload` and `overwrite` by whether the target name is already taken. Granting `rename` or `delete` covers both kinds and removes the distinction; granting a pair unevenly is most predictable when nothing the account can do in those paths creates an entry of the other kind.
+
+Renaming a directory carries the entries it holds, so they are authorized against both paths. When a per-directory permission that restricts renaming applies inside either tree, or a file pattern filter governs one of the two paths and not the other, the entries are authorized one at a time: the backends that move the contents individually (S3, Google Cloud Storage and Azure Blob with `rename_mode: 1`) check each entry as it moves, and the backends that carry the whole tree in a single operation, the local filesystem included, refuse the rename. Move the contents, or configure the same permissions and filters on both paths, and the directory is renamed in one operation.
+
+Per-directory permissions, path-based filters and every other setting keyed on a path are evaluated when the operation is processed, against the state observed at that time; concurrent operations on the same path are not serialized.
 
 #### Symbolic links and permissions
 
