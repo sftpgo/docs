@@ -38,6 +38,8 @@ If you define folders that point to nested paths or to the same path, the quota 
 
 If you upload a file to `folder2` its quota will be updated but the quota of `folder1` will not. We allow this for more flexibility, but if you want to enforce disk quotas using SFTPGo, avoid folders with nested paths.
 
+The same applies when a folder's mapped path is inside the home directory of a user who mounts it. The folder's contents are then reachable both at the mount point and at the matching path under the home, and each path is governed by the permissions and file pattern filters defined for it. Operations on the home path act on the folder's storage, since inside the home they are ordinary filesystem operations. Keep mapped paths outside the home directories to enforce disk quotas and to keep one set of rules per folder.
+
 It is allowed to mount a virtual folder in the user's root path (`/`). This might be useful if you want to share the same virtual folder between different users. In this case the user's root filesystem is hidden from the virtual folder.
 
 Using the REST API you can:

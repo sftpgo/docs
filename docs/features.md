@@ -10,7 +10,7 @@ description: "Open-source SFTPGo features: secure file transfer over SFTP, FTP/S
 - Virtual accounts stored within a "data provider".
 - SQLite, MySQL, PostgreSQL, CockroachDB, Bolt (key/value store in pure Go) and in-memory data providers are supported.
 - Chroot isolation for local accounts. Cloud-based accounts can be restricted to a certain base path.
-- Per-user and per-directory virtual permissions, for each path you can allow or deny: directory listing, upload, overwrite, download, delete, rename, copy, create directories, create symlinks, change owner/group/file mode and modification time.
+- Per-user and per-directory virtual permissions, for each path you can allow or deny: directory listing, upload, overwrite, download, delete, rename, copy, create directories, create symlinks, change owner/group/file mode and modification time. See [How per-directory permissions apply](config-file.md#how-per-directory-permissions-apply) for the permissions a rename consults and for the pairs selected by what the path holds.
 - [REST API](rest-api.md) for users and folders management, data retention, backup, restore and real time reports of the active connections with possibility of forcibly closing a connection.
 - The [Event Manager](eventmanager.md) allows to define custom workflows based on server events or schedules.
 - [Web based administration interface](web-interfaces.md#webadmin) to easily manage users, folders and connections.
