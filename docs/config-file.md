@@ -44,6 +44,14 @@ Renaming a directory carries the entries it holds, so they are authorized agains
 
 Per-directory permissions, path-based filters and every other setting keyed on a path are evaluated when the operation is processed, against the state observed at that time; concurrent operations on the same path are not serialized.
 
+#### When account changes take effect
+
+Account settings are read when a session starts: the account is loaded from the data provider, the settings of the [groups](groups.md) it belongs to are merged, and the result governs that session. A change to a user, to an administrator, or to a group they belong to, is applied the next time the account is loaded. A session already established keeps the settings it started with, for as long as it lasts, and an operation already authorized is not authorized again while it runs. How long a session lasts depends on the protocol and on the client: an SFTP or FTP connection can remain open long after a change.
+
+Deleting a user closes the sessions it has open. Updating an account leaves its sessions open unless the update asks otherwise: the WebAdmin user page offers **Disconnect the user after the update**, and the REST API accepts `PUT /users/{username}?disconnect=1`. Changing a group has no equivalent option. Active sessions can be closed at any time from the Connections page or through the REST API, and [`token_validation`](#security) governs whether a Web Client, WebAdmin or REST API token issued before a change remains usable. In a cluster, a session served by another instance is closed through a request to that [instance](#node).
+
+To apply a change to what is already connected, change the account and then close its sessions.
+
 #### Symbolic links and permissions
 
 Symbolic links exist on the local filesystem and SFTP backends; cloud object storage (S3, Azure Blob, Google Cloud Storage) has no symbolic links, so this section applies to those two backends. Clients holding the `create_symlinks` permission can create symbolic links when `symlink_mode` enables creation for the backend; it is disabled by default (see below). Creation also requires that permission on both the link's directory and the directory the link points into. Most file operations **dereference** a symbolic link: reading, writing, and metadata changes act on the link's *target*, not on the link node. Deleting or renaming a link, by contrast, acts on the link node itself, not on its target. Per-directory permissions are evaluated at the path the client requests, so a link placed in one directory that points into another runs operations under the permissions of the link's directory while acting on the target. When the two directories are governed by different per-directory permissions, operating through the link can reach the target in ways the target's own directory would not allow.
