@@ -525,6 +525,7 @@ OpenID Connect configuration. OIDC integration allows you to map your identity p
 | `implicit_roles` | boolean | `false` | If set, `role_field` is ignored and the SFTPGo role is inferred from the login link used. |
 | `custom_fields` | list of strings | empty | Custom token claim fields to pass to the pre-login hook. |
 | `query_userinfo` | boolean | `false` | If set, SFTPGo queries the provider's UserInfo endpoint after each authentication and reads the claims from both sources. Non-empty ID token claims take precedence over UserInfo claims with the same name and the UserInfo subject must match the ID token subject, see [UserInfo claims](oidc.md#userinfo-claims). SFTPGo refuses to start if the provider does not advertise a UserInfo endpoint. |
+| `require_verified_email` | boolean | `false` | If set, only identities whose email address is verified by the provider are accepted: the `email_verified` claim must be set to `true` in the ID token or, with `query_userinfo` enabled, in the UserInfo response, see [Verified email](oidc.md#verified-email). |
 | `insecure_skip_signature_check` | boolean | `false` | :warning: Skips JWT signature validation. Intended for special cases where providers (e.g., Azure) use the `none` algorithm. Skipping validation can cause security issues. |
 | `debug` | boolean | `false` | If set, received ID tokens are logged at debug level. |
 

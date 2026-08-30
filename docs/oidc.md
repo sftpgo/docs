@@ -77,7 +77,7 @@ From SFTPGo login page click `Login with OpenID` button, you will be redirected 
 Please note that the ID token returned from Keycloak must contain the `username_field` specified in the SFTPGo configuration and optionally the `role_field`. The mapped usernames must exist in SFTPGo.
 If you don't want to explicitly define SFTPGo roles in your identity provider, you can set `implicit_roles` to `true`. With this configuration, the SFTPGo role is assumed based on the login link used.
 
-The `username_field` claim is the identity key: SFTPGo grants access to the account matching its value. Choose a claim your identity provider guarantees to be unique and stable for each identity: `preferred_username` works well when the provider enforces its uniqueness (Keycloak maps it to the realm username, while Microsoft Entra ID documents this claim as mutable and unsuitable for authorization decisions, so prefer `sub` or the tenant-immutable `oid` there), `email` when the provider guarantees it is verified and unique (SFTPGo does not check the `email_verified` claim), and `sub` is the claim the OpenID Connect specification itself guarantees to be unique within the issuer and never reassigned. A claim value shared by two identities, or reassigned to a new person (e.g., a recycled email address), grants access to the SFTPGo account mapped to that value, so choose a claim users are unable to set for themselves.
+The `username_field` claim is the identity key: SFTPGo grants access to the account matching its value. Choose a claim your identity provider guarantees to be unique and stable for each identity: `preferred_username` works well when the provider enforces its uniqueness (Keycloak maps it to the realm username, while Microsoft Entra ID documents this claim as mutable and unsuitable for authorization decisions, so prefer `sub` or the tenant-immutable `oid` there), `email` when the provider guarantees it is unique (enable [`require_verified_email`](#verified-email) to accept it only when the provider asserts the address is verified), and `sub` is the claim the OpenID Connect specification itself guarantees to be unique within the issuer and never reassigned. A claim value shared by two identities, or reassigned to a new person (e.g., a recycled email address), grants access to the SFTPGo account mapped to that value, so choose a claim users are unable to set for themselves.
 
 The `role_field` claim decides administrative access: choose a claim your identity provider administrator assigns, such as a realm role or a group membership, so that its value stays outside the reach of the identities it governs. With `implicit_roles` the authorization decision rests entirely on the SFTPGo admin accounts: every identity that authenticates through the admin login link is granted the admin role, and the login succeeds when an admin with the mapped username exists.
 
@@ -194,3 +194,19 @@ SFTPGO_HTTPD__BINDINGS__0__OIDC__QUERY_USERINFO="true"
 The provider must advertise a UserInfo endpoint in its discovery document, this is checked at startup: SFTPGo refuses to start if `query_userinfo` is enabled and the endpoint is missing.
 
 :information_source: Microsoft Entra ID returns a fixed set of claims from the UserInfo endpoint and recommends reading the claims from the ID token, which also saves a network round-trip per login. Enable `query_userinfo` when your provider returns the claims you need from the UserInfo endpoint only.
+
+## Verified email
+
+If you set `require_verified_email` to `true`, the login is allowed only if the identity provider asserts a verified email address with the `email_verified` claim.
+
+```shell
+SFTPGO_HTTPD__BINDINGS__0__OIDC__REQUIRE_VERIFIED_EMAIL="true"
+```
+
+The claim is read from the verified ID token or, if `query_userinfo` is enabled, from the UserInfo response, so a provider that returns `email_verified` from the UserInfo endpoint only is supported. The claim must be a JSON boolean, as defined by the OpenID Connect specification.
+
+:warning: Verify that your provider returns `email_verified` before enabling this setting: with a provider that omits the claim, every login is refused.
+
+The `email_verified` claim belongs to the `email` scope, which governs both sources: the UserInfo endpoint returns the claims authorized by the scopes granted to the access token, so dropping `email` from `scopes` normally removes the claim from the ID token and from the UserInfo response alike. Keep that scope in `scopes`, or configure your provider to return the claim regardless of the requested scopes, as Keycloak does with its default client scopes. SFTPGo logs a warning at startup if the `email` scope is not requested.
+
+:information_source: The claim is checked at login. A session already established keeps working until it expires, so a mail address that becomes unverified at the identity provider is enforced on the next login.
