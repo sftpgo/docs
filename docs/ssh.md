@@ -10,6 +10,10 @@ SFTPGo is mainly an SFTP server only a minimal set of SSH commands are supported
 
 The SFTP implementation supports the SFTP sever protocol [version 3](https://datatracker.ietf.org/doc/html/draft-ietf-secsh-filexfer-02){:target="_blank"}, the same as OpenSSH.
 
+## Public key authentication
+
+A user authenticates with any of the public keys stored on the account, in the `authorized_keys` format. The options of that format, `from`, `command`, `no-pty` and the others, are accepted and have no effect: a key with a `from` option authenticates from any address. To limit where a user may connect from, use the allowed and denied IP addresses of the user; for a per-key restriction, issue an SSH certificate with the `source-address` option instead of storing the key.
+
 ## SSH commands
 
 SFTPGo supports the following built-in SSH commands:
