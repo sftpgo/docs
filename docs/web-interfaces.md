@@ -23,6 +23,8 @@ The SFTPGo WebClient allows end users to change their credentials, browse and ma
 
 From the WebClient each authorized user can also create HTTP/S links to externally share files and folders securely, by setting limits to the number of downloads/uploads, protecting the share with a password, limiting access by source IP address, setting an automatic expiration date.
 
+:information_source: A share follows the state of the account that created it: disabling the account, or reaching its expiration date, makes its shares unavailable, and deleting the account deletes them. The restrictions on when the account holder can log in apply to the holder, not to the recipient of a share.
+
 The web interface can be globally disabled within the `httpd` configuration via the `enable_web_client` key or on a per-user basis by adding `HTTP` to the denied protocols.
 Public keys management can be disabled, per-user, using a specific permission.
 The WebClient allows you to download multiple files or folders as a single zip file, any non regular files (for example symlinks) will be silently ignored.
