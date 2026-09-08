@@ -1,10 +1,10 @@
 ---
-description: "SFTPGo security capabilities for regulatory compliance: encryption, audit logging, access controls, SSO, and brute-force protection for HIPAA, GDPR, SOC 2, and DORA."
+description: "SFTPGo security features for HIPAA, GDPR, SOC 2 and DORA compliance: encryption, audit logging, access control and single sign-on."
 ---
 
 # Security and Compliance
 
-SFTPGo provides a comprehensive set of security capabilities that can help organizations meet the requirements of regulatory frameworks such as HIPAA, GDPR, SOC 2, PCI DSS, and DORA. This page maps SFTPGo features to common compliance areas.
+SFTPGo provides security capabilities that can help organizations meet the requirements of regulatory frameworks such as HIPAA, GDPR, SOC 2, PCI DSS, and DORA. This page maps SFTPGo features to common compliance areas.
 
 ## Encryption
 

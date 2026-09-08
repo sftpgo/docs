@@ -1,5 +1,5 @@
 ---
-description: "SFTPGo — managed file transfer (MFT) platform with SFTP, FTP/S, WebDAV, HTTPS. HA clustering, Kubernetes, Terraform, SSO, cloud storage, automation, audit logging."
+description: "SFTPGo: managed file transfer (MFT) with SFTP, FTP/S, WebDAV and HTTPS, cloud storage, clustering, Kubernetes, Terraform, SSO and automation."
 ---
 
 # What is SFTPGo?

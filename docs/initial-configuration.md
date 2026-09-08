@@ -8,7 +8,7 @@ This guide walks you through the initial setup and introduces the main capabilit
 
 ## Create an admin account
 
-Open [http://127.0.0.1:8080/web/admin](http://127.0.0.1:8080/web){:target="_blank"} in your browser (replace `127.0.0.1` with the appropriate address if SFTPGo is not running on localhost).
+Open [http://127.0.0.1:8080/web/admin](http://127.0.0.1:8080/web/admin){:target="_blank"} in your browser (replace `127.0.0.1` with the appropriate address if SFTPGo is not running on localhost).
 
 ![Setup](assets/img/setup.png#only-light){data-gallery="setup"}
 ![Setup](assets/img/setup-dark.png#only-dark){data-gallery="setup"}
@@ -152,7 +152,7 @@ SFTPGo provides multiple layers of security:
 
 ### Single Sign-On with OpenID Connect
 
-SFTPGo supports [OpenID Connect](oidc.md) for Single Sign-On with external Identity Providers such as Microsoft Entra ID, Google, Okta, Keycloak, Auth0, and others. Users and administrators can log in to the WebAdmin and WebClient using their existing corporate credentials.
+SFTPGo supports [OpenID Connect](oidc.md) for Single Sign-On with external Identity Providers such as Microsoft Entra ID, Google, Okta, Keycloak, Auth0, and others. Users and administrators can log in to the WebAdmin and WebClient using their existing corporate credentials. The integration is configured in the configuration file, through environment variables, or [from the WebAdmin UI](oidc.md#configuration-from-the-webadmin-ui).
 
 Combined with the Event Manager's [auto provisioning](tutorials/eventmanager-idp.md), user accounts can be created automatically on first login — no manual setup required.
 

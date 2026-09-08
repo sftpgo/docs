@@ -129,6 +129,8 @@ Each item in `Results`:
 | `Info` | string | Additional information. |
 | `Error` | string | Error message, if any. |
 
+Every user the action ran for is reported. A user whose check could not start carries the reason on each configured path, and a check that stops on one path reports the remaining ones with `Info` set, so a path with nothing to remove stays distinguishable from a path that was never examined. Iterate `Results` and read `Error` to see what happened for each user; `{{.Errors}}` reports the outcome of the action as a whole, including how many checks failed out of those performed.
+
 `{{.RetentionReports}}` is also available as an email attachment or HTTP multipart file containing compressed CSV reports.
 
 #### `{{.DryRun}}`
@@ -161,15 +163,42 @@ Available **only** when **Split events** is enabled for the share expiration che
 | `Reason` | string | `max_tokens`, `expiration_date`, or `inactivity`. |
 | `Expiration` | time object | The calculated expiration timestamp. |
 
+A share is reported once the check completes on it: when its deletion fails the check moves on to the remaining shares and the share stays out of the report, so a notification always describes what actually happened.
+
 #### `{{.EventReports}}`
 
 Populated by the **Event report** action. See the [Event Report](event-report.md) documentation for the full field reference.
+
+#### `{{.ICAPResults}}`
+
+Populated by the **ICAP** action. List of scan results, one item per scanned file:
+
+| Field | Type | Description |
+| ------- | ------ | ------------- |
+| `VirtualPath` | string | The scanned file path. |
+| `Status` | string | Scan outcome: `clean`, `skipped` (extension in the server `Transfer-Ignore` list), `blocked`, `adapted`, or `failed` (the scan could not be executed). |
+| `Threat` | string | The threat reported by the server via the `X-Infection-Found` or `X-Violations-Found` headers, when available. |
+
+Example — a notification body listing every verdict:
+
+```text
+{{range .ICAPResults}}{{.VirtualPath}}: {{.Status}}{{if .Threat}} ({{.Threat}}){{end}}
+{{end}}
+```
+
+#### `{{.ICAPResult}}`
+
+The first item of `{{.ICAPResults}}` — a shortcut for the common case of a rule scanning the uploaded file. Fields render as empty strings when the scan was not executed, so it is safe to use without guards:
+
+```text
+Subject: ICAP scan {{.ICAPResult.Status}} for {{.ObjectName}}{{if .ICAPResult.Threat}} - {{.ICAPResult.Threat}}{{end}}
+```
 
 ### Other placeholders
 
 | Placeholder | Type | Description |
 | ------------- | ------ | ------------- |
-| `{{.IDPFields}}` | object | Custom fields from the Identity Provider. Structure depends on your IdP configuration. Example: `{{.IDPFields.sftpgo_role}}`. |
+| `{{.IDPFields}}` | object | Custom fields from the Identity Provider. Structure depends on your IdP configuration. Example: `{{.IDPFields.sftpgo_groups}}`. |
 | `{{.Metadata}}` | map of strings | Cloud storage metadata (key/value pairs). Use `range` to iterate, or `{{ toJson .Metadata }}` for JSON output. |
 | `{{.Shares}}` | lazy object | Shares associated with the file path of a filesystem event. Call `.Load` to retrieve them. Example: `{{ range .Shares.Load }}{{ range .Options.Emails }}{{ . }},{{ end }}{{ end }}`. |
 
@@ -215,7 +244,7 @@ Example:
 | Function | Description | Example |
 | ---------- | ------------- | --------- |
 | `len` | Length of a string, slice, map, or array. | `{{ len .Errors }}` |
-| `index` | Returns the element at the given index or key. | `{{ index .Errors 0 }}`, `{{ index .IDPFields "sftpgo_role" }}` |
+| `index` | Returns the element at the given index or key. | `{{ index .Errors 0 }}`, `{{ index .IDPFields "sftpgo_groups" }}` |
 | `slice` | Slices a string, slice, or array. | `{{ slice .Name 0 3 }}` |
 
 ### Escaping
@@ -271,8 +300,8 @@ The pipe syntax is especially useful for chaining multiple transformations.
 
 | Function | Description | Example |
 | ---------- | ------------- | --------- |
-| `toJson` | Converts any value to its JSON representation. Strings are quoted, special characters escaped. | `{{ toJson .VirtualPath }}` → `"/dir/file.txt"` |
-| `toJsonUnquoted` | Like `toJson`, but strips surrounding quotes from string values. Other types behave like `toJson`. | `{{ toJsonUnquoted .ObjectName }}` → `file.txt` |
+| `toJson` | Converts any value to its JSON representation. Strings are quoted, special characters escaped. | `{{ toJson .VirtualPath }}` => `"/dir/file.txt"` |
+| `toJsonUnquoted` | Like `toJson`, but strips surrounding quotes from string values. Other types behave like `toJson`. | `{{ toJsonUnquoted .ObjectName }}` => `file.txt` |
 | `toBase64` | Encodes a string as Base64. | `{{ toBase64 .Name }}` |
 | `toHex` | Encodes a string as hexadecimal. | `{{ toHex .Name }}` |
 
@@ -280,16 +309,16 @@ The pipe syntax is especially useful for chaining multiple transformations.
 
 | Function | Description | Example |
 | ---------- | ------------- | --------- |
-| `urlEscape` | Encodes a string for use in query parameters. | `{{ urlEscape .Email }}` → `user%40example.com` |
-| `urlPathEscape` | Encodes a string for use in URL path segments. | `{{ urlPathEscape .VirtualPath }}` → `folder%20name%2Ffile.txt` |
+| `urlEscape` | Encodes a string for use in query parameters. | `{{ urlEscape .Email }}` => `user%40example.com` |
+| `urlPathEscape` | Encodes a string for use in URL path segments. | `{{ urlPathEscape .VirtualPath }}` => `folder%20name%2Ffile.txt` |
 
 ### Path manipulation
 
 | Function | Description | Example |
 | ---------- | ------------- | --------- |
-| `pathDir` | Returns the directory portion of a path. | `{{ pathDir "/a/b/file.txt" }}` → `/a/b` |
-| `pathBase` | Returns the last element of a path. | `{{ pathBase "/a/b/file.txt" }}` → `file.txt` |
-| `pathExt` | Returns the file extension. | `{{ pathExt "/a/b/file.txt" }}` → `.txt` |
+| `pathDir` | Returns the directory portion of a path. | `{{ pathDir "/a/b/file.txt" }}` => `/a/b` |
+| `pathBase` | Returns the last element of a path. | `{{ pathBase "/a/b/file.txt" }}` => `file.txt` |
+| `pathExt` | Returns the file extension. | `{{ pathExt "/a/b/file.txt" }}` => `.txt` |
 | `pathJoin` | Joins path segments into a clean virtual path. Takes a string slice. | `{{ pathJoin (stringSlice "/a" .VirtualPath "final") }}` |
 | `filePathJoin` | Like `pathJoin` but uses OS-specific separators. Use for `.FsPath` values. | `{{ filePathJoin (stringSlice "/data" .FsPath) }}` |
 
@@ -315,7 +344,7 @@ The pipe syntax is especially useful for chaining multiple transformations.
 | ---------- | ------------- | --------- |
 | `createDict` | Creates a map from alternating key-value pairs. | `{{ $m := createDict 1 "OK" 2 "KO" }}` |
 | `mapToString` | Looks up a value in a map by key. | `{{ mapToString .Status $statusMap }}` |
-| `humanizeBytes` | Formats a byte count as a human-readable string (KB, MB, GB, etc.). | `{{ humanizeBytes .FileSize }}` → `10 KB` |
+| `humanizeBytes` | Formats a byte count as a human-readable string (KB, MB, GB, etc.). | `{{ humanizeBytes .FileSize }}` => `10 KB` |
 | `fromMillis` | Converts a Unix timestamp in milliseconds to a time object. | `{{ (fromMillis $admin.CreatedAt).Format "2006-01-02" }}` |
 | `fromNanos` | Converts a Unix timestamp in nanoseconds to a time object. | `{{ (fromNanos $event.Timestamp).Format "15:04:05" }}` |
 
@@ -364,7 +393,7 @@ For provider events, [`{{.Object}}`](#object) carries the object being added, up
 
 [`GetFsConfigForPath`](#getfsconfigforpath) returns the storage configuration that applies to a virtual path, with secret fields excluded. This is useful for target-aware notifications — for example, reporting the destination backend of a cross-mount copy or a virtual-folder upload.
 
-`.Provider` identifies the backend as an integer, matching the [REST API](https://sftpgo.com/rest-api){:target="_blank"}: `0` local, `1` S3, `2` GCS, `3` Azure Blob, `4` CryptFs, `5` SFTP, `6` HTTP, `7` FTP. Only the sub-config of the active provider (`.S3Config`, `.GCSConfig`, `.AzBlobConfig`, …) is populated; the others hold their empty value (not `nil`), so check `.Provider` before reading a backend-specific field.
+`.Provider` identifies the backend as an integer, matching the [REST API](https://sftpgo.com/rest-api){:target="_blank"}: `0` local, `1` S3, `2` GCS, `3` Azure Blob, `4` CryptFs, `5` SFTP, `6` HTTP, `7` FTP. Only the sub-config of the active provider (`.S3Config`, `.GCSConfig`, `.AzBlobConfig`, ...) is populated; the others hold their empty value (not `nil`), so check `.Provider` before reading a backend-specific field.
 
 ```json
 {{- $fs := .Initiator.User.GetFsConfigForPath .VirtualTargetPath -}}
@@ -394,7 +423,7 @@ For provider events, [`{{.Object}}`](#object) carries the object being added, up
     }
   },
   "groups": [
-    {{- $roles := .IDPFields.sftpgo_role -}}
+    {{- $roles := .IDPFields.sftpgo_groups -}}
     {{- range $i, $role := $roles -}}
         {{- if ne $i 0}},{{end}}
       {"type": {{if eq $i 0}}1{{else}}2{{end}},
@@ -407,5 +436,5 @@ For provider events, [`{{.Object}}`](#object) carries the object being added, up
 This template generates a user configuration for the Identity Provider account check action:
 
 - `$keyPrefix` is built by joining `"users"` and the username with `/` — e.g., `users/alice`.
-- The `groups` array is populated from the `sftpgo_role` claim. The first role gets type `1` (primary group), subsequent roles get type `2` (secondary).
+- The `groups` array is populated from the `sftpgo_groups` claim. The first role gets type `1` (primary group), subsequent roles get type `2` (secondary).
 - All string values use `toJson` for safe JSON encoding.

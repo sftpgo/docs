@@ -50,9 +50,9 @@ Set a **minimum file size** filter to `1` byte. This serves two purposes: it ski
 
 ### Actions
 
-Select the `copy to recycle` action and enable **Execute sync**.
+Select the `copy to recycle` action and enable **Synchronous execution**.
 
-:warning: **Synchronous execution is required.** The copy must complete before the upload or delete operation proceeds. Without "Execute sync", the original file might be overwritten or deleted before the copy finishes.
+:warning: **Synchronous execution is required.** The copy must complete before the upload or delete operation proceeds. Without "Synchronous execution", the original file might be overwritten or deleted before the copy finishes.
 
 ![Recycle rule actions](../assets/img/recycle-rule-actions.png){data-gallery="recycle-rule-actions"}
 

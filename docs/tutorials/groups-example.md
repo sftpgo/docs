@@ -44,7 +44,7 @@ Create another folder named `S3shared` with the same S3 settings, but set the **
 Navigate to **Groups** and click the `+` icon. Create a group named `Primary`.
 
 - **Home directory**: `/srv/sftpgo/data/%username%`
-- **Virtual folders**: add both `S3private` and `S3shared`
+- **Virtual folders**: add `S3private` with virtual path `/s3%username%` and `S3shared` with virtual path `/shared`
 - **Max file upload size**: 1 GB
 
 ![Add group](../assets/img/add-group.png){data-gallery="add-group"}
@@ -65,9 +65,9 @@ Now create your users. For each user:
 - Set `Primary` as the **primary group**.
 - For users who should have read-only access to `/shared`, also add `SharedReadOnly` as a **secondary group**.
 
-The user inherits all settings from the primary group (home directory, virtual folders, upload limits). The secondary group overrides permissions on `/shared` to read-only.
+The user inherits all settings from the primary group (home directory, virtual folders, upload limits). The permissions of a path come from the first place that defines them: the user, then the primary group, then the secondary groups. Neither the users nor `Primary` define `/shared`, so the members of `SharedReadOnly` get its read-only permissions there.
 
-Users who are not members of `SharedReadOnly` retain full access to `/shared` as defined in the primary group.
+Users who are not members of `SharedReadOnly` keep on `/shared` the permissions they have on `/`.
 
 ## Simplified User Management
 
@@ -88,7 +88,7 @@ In the **User page preferences** section, hide all the advanced sections.
 
 ### Result
 
-When this admin logs in and creates a new user, they see a minimal form — just username and credentials. All other settings (home directory, storage, permissions, quotas) are automatically inherited from the assigned groups.
+When this admin logs in and creates a new user, they see a minimal form — just username and credentials. Hiding the storage section requires `users_base_dir` in the data provider [configuration](../config-file.md#data-provider), which supplies the root directory of new users. All other settings (home directory, storage, permissions, quotas) are automatically inherited from the assigned groups.
 
 ![Simplified user add](../assets/img/add-user-simplified.png){data-gallery="simplified-user"}
 

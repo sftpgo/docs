@@ -4,7 +4,7 @@ description: "Automate file copy and archive workflows in SFTPGo using glob patt
 
 # Copy & Archive Workflows
 
-The Event Manager's **Copy** action is one of the most powerful filesystem actions, supporting glob patterns, source disposition (delete or move after copy), per-file retries, and continue-on-error behavior. This tutorial demonstrates common copy workflows.
+The Event Manager's **Copy** action supports glob patterns, source disposition (delete or move after copy), per-file retries, and continue-on-error behavior. This tutorial demonstrates common copy workflows.
 
 For cross-backend copying using virtual folders, see the [Virtual Folders Integration](eventmanager-folders.md) tutorial.
 
@@ -107,7 +107,7 @@ Create an action named `distribute csv files` with:
 - **Max retries**: 2
 - **Continue on error**: Enabled
 
-With a source folder set to a virtual folder that provides access to the shared storage.
+Set both **Source folder** and **Target folder** to the virtual folder that provides the shared storage: with both set the action runs once, as a system action. With the source folder alone it runs once per user, and the **Move source** disposition of the first user leaves nothing for the others.
 
 ### Step 2: Create a Scheduled Rule
 

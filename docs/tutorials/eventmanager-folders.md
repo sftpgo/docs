@@ -4,13 +4,11 @@ description: "Use virtual folders with the SFTPGo Event Manager to automate cros
 
 # Virtual Folders Integration
 
-Using virtual folders with the Event Manager unlocks powerful automation workflows, such as copying uploaded files to different storage locations — either within the same backend (but outside the user's security context) or to an external server or cloud storage provider. These operations can be triggered by events like file uploads or scheduled tasks, and they require no custom scripting or complex setup.
+Virtual folders can be used as the target of Event Manager actions, so that files can be copied to a storage location the triggering user cannot reach: another directory of the same backend, outside the user's security context, or an external server or cloud storage provider. These actions are triggered by filesystem events, such as uploads, or by schedules, and are configured entirely from the WebAdmin UI.
 
-Let's explore a few example scenarios to see how this feature can be used in practice.
+The following scenarios describe two typical configurations.
 
 ## Scenario 1: Cross-User File Copy (Same Backend)
-
-### Goal
 
 We have two users on the same S3 storage:
 
@@ -29,15 +27,13 @@ Each time the user `ukg` uploads files to the `/inbound` folder that:
 
 we want to automatically copy those files to the `/outbound` folder of the user `vista`.
 
-### The Challenge
-
 By default, actions are executed within the security context of the user who performed the upload. Since the user `ukg` is restricted to their own directory and cannot access the `vista` user's folder, this operation would normally be blocked.
 
 To support this use case, we define a virtual folder with permissions to access the `vista` user's directory. The copy action is then configured to use this virtual folder as the destination.
 
 ### Step 1: Create a Storage Folder
 
-Create a folder named `storage` without setting a key prefix. This gives the folder visibility over the entire storage and allows it to be reused for other actions. Of course, if needed, you can also assign a key prefix to restrict access to a specific portion of the storage.
+Create a folder named `storage` without setting a key prefix. This gives the folder visibility over the entire storage and allows it to be reused for other actions. If needed, you can also assign a key prefix to restrict access to a specific portion of the storage.
 
 ![Storage folder](../assets/img/storagefolder.png){data-gallery="storagefolder"}
 
@@ -49,7 +45,7 @@ Finally, select `storage` as the target folder.
 
 ![Copy action](../assets/img/copyaction.png){data-gallery="copyaction"}
 
-Explore the details:
+The configuration resolves as follows:
 
 - The source path is set to `/inbound/{{.ObjectName}}`. The placeholder `{{.ObjectName}}` is replaced with the file name — for example, if a file is uploaded to `/inbound/test.csv`, it becomes `test.csv`. Alternatively, you can use the more generic `{{.VirtualPath}}` placeholder, which would resolve to `/inbound/test.csv` in the same scenario.
 - The target folder is set to `storage`, so the target path is relative to that folder.
@@ -71,29 +67,28 @@ In the **Name filters** section, you can restrict which users the rule applies t
 
 Similar filters can be applied based on groups or roles as well.
 
-We also want to restrict the rule to files uploaded to the `/inbound` folder that start with `vista_` and end with `.csv`. To do this, configure the following path filters.
+We also want to restrict the rule to files uploaded to the `/inbound` folder that start with `vista_` and end with `.csv`. To do this, configure the path filter `/inbound/vista_*.csv`.
 
-- `/inbound/vista_*`
-- `/inbound/*.csv`
+Several path filters are alternatives: a path matching any of them triggers the rule. Two filters `/inbound/vista_*` and `/inbound/*.csv` would also match `/inbound/vista_report.txt`.
 
 ![Upload rule3](../assets/img/uploadrule3.png){data-gallery="upload-rule3"}
 
-Keep in mind that these are virtual paths (relative to the user's home). You can also filter on the [filesystem path](#virtual-path-vs-filesystem-path-filters) if you need to match by physical storage location.
+Note that these are virtual paths, relative to the user's home directory. You can also filter on the [filesystem path](#virtual-path-vs-filesystem-path-filters) if you need to match by physical storage location.
 
 Finally select the `copy` action and save the rule.
 
 ![Upload rule4](../assets/img/uploadrule4.png){data-gallery="upload-rule4"}
 
-That's it! Now upload some test files to confirm everything works as expected. For example:
+Upload some test files to verify that the rule behaves as expected:
 
-- Files uploaded outside of `/inbound` → the action will not be triggered.
-- Files in `/inbound` with the correct prefix and extension → the action will be triggered.
-- Files in `/inbound` with a .txt extension → the action will not be triggered.
-- Files in a subdirectory like `/inbound/subdir`, even with the correct extension → the action will not be triggered, we haven't used the double asterisk syntax to match subdirectories.
+- Files uploaded outside of `/inbound` => the action is not triggered.
+- Files in `/inbound` with the correct prefix and extension => the action is triggered.
+- Files in `/inbound` with a `.txt` extension => the action is not triggered.
+- Files in a subdirectory such as `/inbound/subdir`, even with the correct prefix and extension => the action is not triggered, because the configured patterns do not use the double asterisk syntax required to match subdirectories.
 
 ### Virtual Path vs Filesystem Path Filters
 
-By default, rule path patterns match against the **virtual path** — the path as seen by the user (e.g., `/inbound/vista_report.csv`). This is the most common and intuitive approach.
+By default, rule path patterns match against the **virtual path** — the path as seen by the user, for example `/inbound/vista_report.csv`.
 
 However, you can also configure individual patterns to match against the **filesystem path** — the actual storage location. This is useful when you need to filter based on the physical backend, for example:
 
@@ -110,11 +105,9 @@ For cloud storage backends, the filesystem path is the object key (key prefix + 
 
 ## Scenario 2: Copy to External SFTP Server
 
-### Goal
-
 Each time the user `vista` uploads files with `.csv` or `.xml` extensions to the `/inbound` folder, we want to automatically transfer these files to the `/push` directory on an external SFTP server.
 
-This is very similar to Scenario 1 — we define a copy action and a target folder using the external SFTP server as storage backend.
+The configuration is similar to Scenario 1: a copy action and a target folder that uses the external SFTP server as storage backend.
 
 ### Step 1: Create an SFTP Folder
 
@@ -122,7 +115,7 @@ Create a folder that is backed by the remote SFTP server.
 
 ![SFTP folder](../assets/img/sftpfolder.png){data-gallery="sftp-folder"}
 
-This time, we've set the SFTP root directory to `/push`, which restricts the folder's access to that directory. As a result, the target paths defined in the copy action are relative to `/push`.
+In this example the SFTP root directory is set to `/push`, which restricts the folder's access to that directory. As a result, the target paths defined in the copy action are relative to `/push`.
 
 ### Step 2: Create a Copy Action
 
@@ -143,4 +136,4 @@ For the rule:
 - Use `/inbound/*.csv` and `/inbound/*.xml` as path filters to limit the execution to these file extensions.
 - Select `sftp copy` as the action.
 
-That's it! Now upload some test files to confirm everything works as expected.
+Upload some test files to verify that the rule behaves as expected.

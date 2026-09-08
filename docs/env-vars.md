@@ -42,7 +42,7 @@ SFTPGo also reads files inside the `env.d` directory relative to config dir and 
 - Set environment variables for SFTPGo plugins.
 
 However, you cannot set command flags this way because these files are read after SFTPGo starts and the config dir must already be set.
-Of course you can also set environment variables with the method provided by the operating system of your choice.
+You can also set environment variables using the method provided by your operating system.
 
 **Example:** to enable the SFTP service on port 2222, set the proxy protocol, and configure an EventStore plugin, create a file such as `/etc/sftpgo/env.d/custom.env` with the following content:
 
@@ -76,8 +76,9 @@ Some additional environment variables are available, grouped by area.
 ### Transfers and storage
 
 - `SFTPGO_HOOK__MEMORY_PIPES__ENABLED`, set to `1` to enable memory pipes. This allows fully in-memory transfers to and from cloud storage backends, eliminating the need for temporary disk files.
+- `SFTPGO_HOOK__MEMORY_PIPES__SPARSE_RETENTION`, in bytes, applies to SFTP downloads when memory pipes are enabled. A client that reads a file out of order, for example selected ranges of a large archive, is served by keeping this amount of data behind the earliest position it is still reading and releasing what lies before it. Default: `4194304` (4 MB), enough for common SFTP clients. A read of released data fails with an error naming the requested offset and the lowest offset still available: if downloads fail this way, raise the value by at least the difference. `0` never releases data: a client reading out of order then waits until it also reads the data in between, and can appear stalled.
 - `SFTPGO_HOOK__DISABLE_DOT_ENTRIES`, set to `1` to hide `.` and `..` entries from SFTP directory listings.
-- `SFTPGO_HOOK__AUTO_FOLDERS`, set to `1` to automatically create virtual folders based on the reply from pre-login and pre-auth hooks. This will cause a database upsert for each returned folder.
+- `SFTPGO_HOOK__AUTO_FOLDERS`, set to `1` to let the pre-login, external authentication and plugin authentication hooks create or update the virtual folders they define in the returned user. Available with SQL data providers, see [auto-created virtual folders](dynamic-user-mod.md#auto-created-virtual-folders).
 
 ### Cloud storage backends
 
@@ -115,7 +116,7 @@ Some additional environment variables are available, grouped by area.
 ### Authentication
 
 - `SFTPGO_HOOK__OAUTH2_DISABLE_PKCE`, set to `1` to disable PKCE for OAuth2 authentication flows used by IMAP and SMTP.
-- `SFTPGO_HOOK__ENABLE_OIDC_UI`, set to `1` to add the OpenID Connect configuration section for the first binding in the WebAdmin UI. If more than one OpenID Connect configuration is required, use the configuration file or environment variables to override it instead.
+- `SFTPGO_HOOK__ENABLE_OIDC_UI`, set to `1` to add the OpenID Connect configuration section in the WebAdmin UI. The stored configuration applies to every HTTP binding; configure the bindings in the configuration file, or with the `SFTPGO_HTTPD__BINDINGS__N__OIDC__*` variables, when they serve different OpenID Connect configurations. See [Configuration from the WebAdmin UI](oidc.md#configuration-from-the-webadmin-ui).
 - `SFTPGO_HOOK__ENABLE_LDAP_UI`, set to `1` to add the LDAP / Active Directory configuration section in the WebAdmin UI. Requires `SFTPGO_HOOK__AUTH_PLUGIN_PATH` to point to the `sftpgo-plugin-auth` binary. See [LDAP / Active Directory Authentication](plugins/ldap-auth.md#configuration-from-the-webadmin-ui).
 - `SFTPGO_HOOK__AUTH_PLUGIN_PATH`, absolute path to the `sftpgo-plugin-auth` binary, registered automatically when the LDAP configuration is set from the WebAdmin UI. Example on Linux: `/usr/bin/sftpgo-plugin-auth`. Example on Windows: `C:\\Program Files\\SFTPGo Enterprise\\sftpgo-plugin-auth.exe`.
 - `SFTPGO_HOOK__ENABLE_TLS_UI`, set to `1` to add the TLS certificate configuration section in the WebAdmin UI. Allows uploading a certificate and private key that will be used as the default TLS certificate for the selected protocols (HTTPS, FTPS, WebDAV). Mutually exclusive with automatic certificates (Let's Encrypt/ACME).

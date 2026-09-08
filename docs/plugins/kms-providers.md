@@ -16,6 +16,18 @@ The KMS plugin adds support for cloud-based Key Management Services to SFTPGo. F
 | HashiCorp Vault | `hashivault://` | N/A |
 | Oracle Key Vault | `ocikeyvault://` | Yes (Instance Principal) |
 
+## How secrets are encrypted
+
+Starting from plugin version 1.3.0, secrets are protected with envelope encryption, so secrets of any size are supported with every provider and key type. Secrets encrypted with previous plugin versions are decrypted transparently and move to the envelope format when saved again.
+
+:warning: In a multi-node deployment, upgrade the plugin on every node before saving objects holding secrets: secrets written in the envelope format require plugin version 1.3.0 or later to be decrypted.
+
+Secrets move to the envelope format when they are saved. To re-encrypt every stored secret in one pass, rotate the KMS master key: a [`convertsecrets`](../cli.md#re-encrypting-the-stored-secrets) run with a new master key rewrites all stored secrets through the plugin.
+
+:information_source: The secret format is internal to the plugin: a `convertsecrets` run that keeps the current master key and provider reports the secrets as already up to date and leaves their format unchanged.
+
+Once every stored secret uses the envelope format, you can set the environment variable `SFTPGO_PLUGIN_KMS_REQUIRE_ENVELOPE` to `1` in the SFTPGo service environment to accept only envelope-encrypted secrets on decrypt.
+
 ## Installation
 
 Install the `sftpgo-plugins` package as described in [Audit Logs - Installation](audit-logs.md#installation). The plugin binary is `sftpgo-plugin-kms`.
@@ -115,5 +127,5 @@ By default, the plugin uses Instance Principal authentication (Oracle's managed 
 ## Notes
 
 - KMS configuration is global; all secrets in SFTPGo are encrypted with the same provider.
-- You can migrate from the local provider to a cloud KMS provider, but you cannot switch between different cloud providers.
+- You can migrate between providers with the [`convertsecrets`](../cli.md#re-encrypting-the-stored-secrets) command: from the local provider to a cloud KMS and between cloud KMS providers. Migrating between cloud providers requires both KMS plugin entries configured while the migration runs.
 - An optional `master_key` can be set for dual encryption (local + cloud KMS). See [Key Management Services](../kms.md) for details.

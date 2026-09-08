@@ -27,7 +27,7 @@ And then you can configure:
 
 So a host is banned, for `ban_time` minutes, if the sum of the scores has exceeded the defined threshold during the last observation time minutes.
 
-By defining the scores, each type of event can be weighted. Let's see an example: if `score_invalid` is 3 and `threshold` is 8, a host will be banned after 3 login attempts with an non-existent user within the configured `observation_time`.
+By defining the scores, each type of event can be weighted. For example, if `score_invalid` is 3 and `threshold` is 8, a host is banned after 3 login attempts with a non-existent user within the configured `observation_time`.
 
 A banned IP has no score, it makes no sense to accumulate host events in memory for an already banned IP address.
 

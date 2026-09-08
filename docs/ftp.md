@@ -4,7 +4,7 @@ description: "SFTPGo FTP/FTPS server configuration: explicit and implicit TLS, p
 
 # FTP/FTPS
 
-SFTPGo includes a full-featured FTP server implementation based on [RFC 959](https://datatracker.ietf.org/doc/html/rfc959){:target="_blank"} with comprehensive TLS support (FTPS).
+SFTPGo includes an FTP server implementation based on [RFC 959](https://datatracker.ietf.org/doc/html/rfc959){:target="_blank"}, with support for explicit and implicit TLS (FTPS).
 
 ## TLS modes
 
@@ -15,7 +15,7 @@ The FTP server supports four TLS modes, configured per-binding:
 | `0` | **Cleartext** | Plain FTP. Clients can optionally upgrade to TLS via the `AUTH TLS` command. |
 | `1` | **Explicit TLS** | TLS required for both control and data connections. Clients connect in cleartext and must issue `AUTH TLS` to upgrade. |
 | `2` | **Implicit TLS** | The connection is TLS-encrypted from the start (typically on port 990). |
-| `3` | **Control-only TLS** | TLS required for the control connection only. Data connections remain in cleartext. |
+| `3` | **Control-only TLS** | TLS required for the control connection. Encryption of the data connections is left to the client. |
 
 Both a TLS certificate and private key must be configured to use explicit or implicit TLS. Certificates can be configured globally or per-binding, and support automatic renewal via [ACME](tutorials/lets-encrypt-certificate.md).
 
@@ -35,6 +35,8 @@ TLS session reuse for data connections can be configured per-binding:
 | **TLS certificate** | Mutual TLS authentication — the client certificate's Common Name (CN) is used as the username. Requires `client_auth_type` set to `1` (required) or `2` (optional) and at least one configured CA. |
 | **Certificate + password** | Combined authentication — the client must present a valid certificate and provide the correct password. |
 
+A client certificate that does not authenticate the account ends the session. The reason is written to the logs and the attempt is reported to the [defender](defender.md).
+
 Per-user restrictions:
 
 - **Denied login methods** — Restrict which authentication methods a user can use.
@@ -42,6 +44,18 @@ Per-user restrictions:
 - **Certificate pinning** — Restrict a user to specific client certificates via the TLS certificates filter.
 
 Certificate revocation lists (CRLs) are supported and can be reloaded on demand via `SIGHUP` (Unix) or `paramchange` (Windows).
+
+### FTP security filter
+
+The per-user FTP security filter requires TLS for a single account, on bindings that allow cleartext sessions as well. It provides two distinct guarantees.
+
+**The session requires TLS.** A cleartext session of a covered account is refused. This holds for every login and on every binding, including the accounts that a hook creates or modifies during the login.
+
+**The password is stopped before it is sent.** SFTPGo closes a cleartext session as soon as it receives the username of a covered account, so the password stays on the client. This is a best effort: it applies when the account is known before the credentials are received, that is when it is stored in the data provider or a [pre-login hook](dynamic-user-mod.md) returns it for the username.
+
+Deployments that create the account during the authentication — an authentication plugin, an external authentication hook, a pre-login hook that answers the authentication phase alone — know the account only after the password has been received, so the first login of such an account sends the password over a cleartext session and is then refused. Set the binding to explicit TLS (`tls_mode` `1`) to protect the credentials of every session regardless of how the accounts are provisioned.
+
+A covered account logs in through a binding where TLS is available.
 
 ## Data connections
 

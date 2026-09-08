@@ -29,13 +29,13 @@ The telemetry server also exposes:
 You can protect the telemetry endpoint with HTTP basic authentication by setting `auth_user_file` to a path to an htpasswd-format file (bcrypt or md5 crypt hashes). The `/healthz` endpoint is always unauthenticated.
 
 ```shell
-SFTPGO_TELEMETRY__AUTH_USER_FILE=/etc/sftpgo/telemetry.htpasswd
+SFTPGO_TELEMETRY__AUTH_USER_FILE=/path/to/telemetry.htpasswd
 ```
 
 Create the htpasswd file:
 
 ```text
-htpasswd -Bc /etc/sftpgo/telemetry.htpasswd metrics_user
+htpasswd -Bc /path/to/telemetry.htpasswd metrics_user
 ```
 
 For HTTPS:
@@ -44,6 +44,8 @@ For HTTPS:
 SFTPGO_TELEMETRY__CERTIFICATE_FILE=/path/to/cert.pem
 SFTPGO_TELEMETRY__CERTIFICATE_KEY_FILE=/path/to/key.pem
 ```
+
+A certificate stored in the data provider can also be used: select `Telemetry` among the protocols of the ACME or TLS certificate configuration, in the `Server Manager -> Configurations` section of the WebAdmin UI, then restart the service. Such a certificate is shared by every cluster node and renewals reach them all without copying any file. It takes precedence over `certificate_file` and `certificate_key_file`, so leave `Telemetry` unselected to serve a certificate read from disk.
 
 ## Available metrics
 
@@ -71,6 +73,8 @@ Protocol-agnostic counters for filesystem operations. These include operations i
 - `sftpgo_fs_ops_errors_total{operation="..."}` — Total filesystem operation errors by type.
 
 Operation values: `rename`, `delete`, `rmdir`, `copy`, `mkdir`.
+
+- `sftpgo_server_side_copy_fallback_total` — Files copied through the server between two resources the storage service can copy on its own, e.g. two containers of one Azure storage account. A steady increase means the credentials configured for the destination lack read access on the source resource; the server log carries the error returned by the storage service. See [Copy](filesystem-actions.md#copy).
 
 ### Authentication
 
@@ -166,7 +170,7 @@ scrape_configs:
 
 ## Grafana dashboard
 
-A ready-to-use [Grafana dashboard for SFTPGo Enterprise](https://grafana.com/grafana/dashboards/25177-sftpgo-enterprise/){:target="_blank"} is available on Grafana Labs. Import it by ID `25177` or via the dashboard JSON to visualize transfer activity, authentication events, per-user metrics, storage backend operations, and system health out of the box.
+A ready-to-use [Grafana dashboard for SFTPGo Enterprise](https://grafana.com/grafana/dashboards/25177-sftpgo-enterprise/){:target="_blank"} is available on Grafana Labs. Import it by ID `25177` or via the dashboard JSON. It visualizes transfer activity, authentication events, per-user metrics, storage backend operations, and system health.
 
 ## Monitoring platform compatibility
 

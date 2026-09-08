@@ -14,7 +14,7 @@ This tutorial covers two common notification use cases:
 ### Step 1: Create an Email Action
 
 From the WebAdmin, expand the **Event Manager** section, select **Event actions** and add a new action.
-Create an action named `upload notification`, set the type to `Email` and fill the recipient/s.
+Create an action named `upload notification`, set the type to `Email` and fill the recipient/s. Email actions need an SMTP server: configure it from the WebAdmin under **Server Manager > Configurations > SMTP**, where the settings apply without a restart, or in the [SMTP section](../config-file.md#smtp) of the configuration file.
 
 Configure the email fields using placeholders to include dynamic event data:
 
@@ -40,7 +40,7 @@ Key placeholders used:
 - `{{.VirtualPath}}` — the full virtual path (e.g., `/inbound/report.csv`)
 - `{{.Protocol}}` — the protocol used (`SFTP`, `FTP`, `HTTP`, `WebDAV`)
 - `{{.IP}}` — the client IP address
-- `{{humanizeBytes .FileSize}}` — the file size in human-readable format (e.g., `1.5 MB`)
+- `{{humanizeBytes .FileSize}}` — the file size in human-readable format (e.g., `1.5 MiB`)
 - `{{.Timestamp}}` — the event time, with formatting methods like `.Format`, `.UTC`, `.Unix`
 - `{{.Elapsed}}` — the transfer duration in milliseconds
 
@@ -69,7 +69,7 @@ You can also filter events based on protocol, user and group name, filepath shel
 
 As actions, select `upload notification`.
 
-Done! Try uploading a new file and you will receive the configured email notification.
+The rule is now active. Upload a new file to verify that the configured email notification is delivered.
 
 ## Webhook Integration
 
@@ -85,7 +85,7 @@ Configure the following:
 - **Method**: POST (GET, PUT, and DELETE are also supported).
 - **Headers**: Add custom headers for authentication or content type. For example, `Content-Type: application/json` and `Authorization: Bearer <token>`. Header values support placeholders — e.g., you can use `{{.Name}}` in a header value.
 - **Query parameters**: Add key-value pairs appended to the URL. Values support placeholders — e.g., key `username`, value `{{.Name}}`. Useful for endpoints that expect parameters in the query string rather than the body.
-- **Timeout**: Maximum time to wait for a response (in seconds). Defaults to 15 seconds if not set.
+- **Timeout**: Maximum time to wait for a response, in seconds, from 1 to 180.
 
 In the **Body** field, enter a JSON template. The following example includes most available fields for an upload event:
 
@@ -119,7 +119,7 @@ In the **Body** field, enter a JSON template. The following example includes mos
 
 - **`createDict` + `mapToString`**: Maps the integer status code to a human-readable label.
 - **`toJson`**: Safely encodes strings (with quoting and escaping) and other types. Always use `toJson` for string values to handle special characters.
-- **`humanizeBytes`**: Converts byte counts to human-readable format (e.g., `10 KB`, `1.5 MB`).
+- **`humanizeBytes`**: Converts byte counts to human-readable format (e.g., `10 KiB`, `1.5 MiB`).
 - **`{{.Metadata}}`**: Cloud storage metadata (key/value pairs). Empty for local filesystem.
 - **`{{- ... -}}`**: The dash trims surrounding whitespace, keeping the output clean.
 
@@ -270,7 +270,7 @@ Endpoint form: `https://discord.com/api/webhooks/<webhook_id>/<token>`
 
 #### Mattermost — identity override
 
-Mattermost's built-in webhook is Slack-compatible, so the same `{"text": "..."}` body works out of the box. If you want to override the bot identity, add `username` and `icon_url`:
+Mattermost's built-in webhook is Slack-compatible, so the same `{"text": "..."}` body works without changes. If you want to override the bot identity, add `username` and `icon_url`:
 
 ```
 {
@@ -284,8 +284,8 @@ Mattermost's built-in webhook is Slack-compatible, so the same `{"text": "..."}`
 
 By default, webhook actions are **asynchronous** — the upload completes immediately and the webhook fires in the background. If your endpoint needs to validate the upload and potentially reject it:
 
-1. Enable **Execute sync** on the action in the rule.
-2. If your webhook returns an HTTP error status (4xx or 5xx), the upload is rejected and the file is removed.
+1. Enable **Synchronous execution** on the action in the rule.
+2. If your webhook returns a status outside the 200-204 range, the upload is rejected and the file is removed.
 
 Be mindful of client timeouts — the client waits for the webhook to complete when running synchronously.
 

@@ -1,5 +1,5 @@
 ---
-description: "Run SFTPGo Enterprise with Docker or Kubernetes. Pull from the official registry, configure with environment variables, deploy with Docker Compose or Helm chart."
+description: "Run SFTPGo Enterprise with Docker or Kubernetes: official images, configuration through environment variables, Docker Compose and Helm chart."
 ---
 
 # Docker
@@ -8,20 +8,20 @@ SFTPGo Enterprise is accessible through our Docker repository: `registry.sftpgo.
 
 ## Latest tags
 
-- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260705
-- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260705-plugins
-- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260705-distroless
-- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260705-distroless-plugins
-- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260705-fips
-- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260705-plugins-fips
-- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260705-distroless-fips
-- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260705-distroless-plugins-fips
+- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260910
+- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260910-plugins
+- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260910-distroless
+- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260910-distroless-plugins
+- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260910-fips
+- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260910-plugins-fips
+- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260910-distroless-fips
+- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260910-distroless-plugins-fips
 
 ## How to use the SFTPGo image
 
 ### Start a `sftpgo` server instance
 
-Starting a SFTPGo instance is simple:
+To start a SFTPGo instance:
 
 ```shell
 docker run --name some-sftpgo -p 8080:8080 -p 2022:2022 -d "registry.sftpgo.com/sftpgo/sftpgo:<tag>"
@@ -76,9 +76,9 @@ Important note: There are several ways to store data used by applications that r
 - Let Docker manage the storage for SFTPGo data by [writing them to disk on the host system using its own internal volume management](https://docs.docker.com/engine/tutorials/dockervolumes/#adding-a-data-volume){:target="_blank"}. This is the default and is easy and fairly transparent to the user. The downside is that the files may be hard to locate for tools and applications that run directly on the host system, i.e. outside containers.
 - Create a data directory on the host system (outside the container) and [mount this to a directory visible from inside the container](https://docs.docker.com/engine/tutorials/dockervolumes/#mount-a-host-directory-as-a-data-volume){:target="_blank"}. This places the SFTPGo files in a known location on the host system, and makes it easy for tools and applications on the host system to access the files. The downside is that the user needs to make sure that the directory exists, and that e.g. directory permissions and other security mechanisms on the host system are set up correctly. The SFTPGo image runs using `1000` as UID/GID by default.
 
-The Docker documentation is a good starting point for understanding the different storage options and variations, and there are multiple blogs and forum postings that discuss and give advice in this area. We will simply show the basic procedure here for the latter option above:
+The Docker documentation is a good starting point for understanding the different storage options and variations. This section covers only the basic procedure for the second option above:
 
-1. Create a data directory on a suitable volume on your host system, e.g. `/my/own/sftpgodata`. The user with ID `1000` must be able to write to this directory. Please note that you don't need an actual user with ID `1000` on your host system: `chown -R 1000:1000 /my/own/sftpgodata` is enough even if there is no user/group with UID/GID `1000`.
+1. Create a data directory on a suitable volume on your host system, e.g. `/my/own/sftpgodata`. The user with ID `1000` must be able to write to this directory. Note that you don't need an actual user with ID `1000` on your host system: `chown -R 1000:1000 /my/own/sftpgodata` is enough even if there is no user/group with UID/GID `1000`.
 2. Create a home directory for the sftpgo container user on your host system e.g. `/my/own/sftpgohome`. As with the data directory above, make sure that the user with ID `1000` can write to this directory: `chown -R 1000:1000 /my/own/sftpgohome`
 3. Start your SFTPGo container like this:
 
@@ -91,7 +91,7 @@ docker run --name some-sftpgo \
     -d "registry.sftpgo.com/sftpgo/sftpgo:<tag>"
 ```
 
-As you can see SFTPGo uses two main volumes:
+SFTPGo uses two main volumes:
 
 - `/srv/sftpgo` to handle persistent data. The default home directory for SFTP/FTP/WebDAV users is `/srv/sftpgo/data/<username>`. Backups are stored in `/srv/sftpgo/backups`
 - `/var/lib/sftpgo` is the home directory for the sftpgo system user defined inside the container. This is the container working directory too, host keys will be created here when using the default configuration.
@@ -201,7 +201,7 @@ replicaCount: 2
 # Use the Enterprise image with plugins
 image:
   repository: registry.sftpgo.com/sftpgo/sftpgo
-  tag: v2.7.20260705-plugins
+  tag: v2.7.20260910-plugins
 
 # Enable protocols
 sftpd:
@@ -324,7 +324,7 @@ SFTPGo generates per-instance SSH host keys the first time it starts if none are
 
 There are two clean ways to share the same host keys across pods:
 
-1. **Store host keys in the data provider (recommended).** In the WebAdmin, go to **Server Manager → Configurations → SFTP** and paste the private keys directly; SFTPGo stores them encrypted in the database and every replica that connects to the shared data provider loads the same set. This approach also works on Linux and Windows installs — it removes any need to synchronize key files on the filesystem, and the keys survive container rebuilds.
+1. **Store host keys in the data provider (recommended).** In the WebAdmin, go to **Server Manager => Configurations => SFTP** and paste the private keys directly; SFTPGo stores them encrypted in the database and every replica that connects to the shared data provider loads the same set. This approach also works on Linux and Windows installs — it removes any need to synchronize key files on the filesystem, and the keys survive container rebuilds.
 2. **Mount keys as a Kubernetes Secret and reference them from the config.** Classic pattern, useful if you prefer keeping keys outside the database or you're managing them with an external tool (sealed-secrets, external-secrets, cert-manager for host certificates, etc.):
 
     ```yaml

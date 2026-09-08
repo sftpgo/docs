@@ -32,7 +32,7 @@ Please be sure that your program receives the answers for all the issued questio
 Keyboard interactive authentication can be chained to the external authentication.
 The authentication must finish within 60 seconds.
 
-Let's see a very basic example. Our sample keyboard interactive authentication program will ask for 2 sets of questions and accept the user if the answer to the last question is `answer3`.
+The following basic example asks for 2 sets of questions and accepts the user if the answer to the last question is `answer3`.
 
 ```shell
 #!/bin/sh
@@ -90,7 +90,7 @@ The request body will contain a JSON struct with the following fields:
 
 The HTTP response code must be 200 and the body must contain the same JSON struct described for the program.
 
-Let's see a basic sample, the configured hook is `http://127.0.0.1:8000/keyIntHookPwd`, as soon as the user tries to login, SFTPGo makes this HTTP POST request:
+In the following example the configured hook is `http://127.0.0.1:8000/keyIntHookPwd`. As soon as the user tries to log in, SFTPGo makes this HTTP POST request:
 
 ```shell
 POST /keyIntHookPwd HTTP/1.1
@@ -103,7 +103,7 @@ Accept-Encoding: gzip
 {"request_id":"bq1r5r7cdrpd2qtn25ng","username":"a","ip":"127.0.0.1","step":1,"password":"$pbkdf2-sha512$150000$ClOPkLNujMTL$XktKy0xuJsOfMYBz+f2bIyPTdbvDTSnJ1q+7+zp/HPq5Qojwp6kcpSIiVHiwvbi8P6HFXI/D3UJv9BLcnQFqPA=="}
 ```
 
-as you can see in this first requests `answers` and `questions` are null.
+In this first request, `answers` and `questions` are null.
 
 Here is the response that instructs SFTPGo to ask for the user password and to check it:
 
@@ -171,3 +171,7 @@ Content-Length: 18
 ```
 
 An example keyboard interactive program allowing to authenticate using [Twilio Authy 2FA](https://www.twilio.com/docs/authy){:target="_blank"} can be found inside the source tree [authy](https://github.com/drakkan/sftpgo/tree/main/examples/OTP/authy){:target="_blank"} directory.
+
+## Challenges for unknown usernames
+
+The builtin keyboard interactive authentication sends the password request as first challenge for every username, whether or not the account exists. An external program, an HTTP hook or a plugin defines its own challenges, and SFTPGo sends them for the accounts it resolves; for any other username it asks for the password itself. A client receives a challenge in both cases, but when the integration asks something other than a password the two can be told apart. To send the same challenges for every username, resolve the unknown ones to a [placeholder user](dynamic-user-mod.md#placeholder-users). Response times are not equalized: they depend on the data provider, the integration and the network. Enable the [defender](defender.md) to limit repeated attempts from the same host.

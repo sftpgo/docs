@@ -58,7 +58,8 @@ If you are looking for the definition of a term, see the [Glossary](glossary.md)
 | I want to... | Go to |
 | -------------- | ------- |
 | Accept SSH public keys | [SSH](ssh.md) |
-| Integrate an OIDC Identity Provider (Entra ID, Okta, Google, Auth0, Keycloak…) | [OIDC](oidc.md), [Auto-provision users via IdP](tutorials/eventmanager-idp.md) |
+| Integrate an OIDC Identity Provider (Entra ID, Okta, Google, Auth0, Keycloak...) | [OIDC](oidc.md), [Auto-provision users via IdP](tutorials/eventmanager-idp.md) |
+| Configure OpenID Connect from the WebAdmin | [OIDC from the WebAdmin UI](oidc.md#configuration-from-the-webadmin-ui) |
 | Integrate LDAP / Active Directory | [LDAP plugin](plugins/ldap-auth.md) |
 | Enable multi-factor authentication | [Two-factor authentication](tutorials/two-factor-authentication.md) |
 | Use API keys for automation | [REST API](rest-api.md) |
@@ -102,7 +103,7 @@ If you are looking for the definition of a term, see the [Glossary](glossary.md)
 | Exempt trusted IPs from banning, rate limiting, and GeoIP filtering | [IP Lists](ip-lists.md) |
 | Block brute-force attackers | [Defender](defender.md) |
 | Rate-limit requests | [Rate limiting](rate-limiting.md) |
-| Preserve client IPs behind a load balancer | [Configuration file](config-file.md) |
+| Preserve client IPs behind a reverse proxy or load balancer | [Web interfaces](web-interfaces.md#reverse-proxies-and-load-balancers), [Running behind Cloudflare](tutorials/cloudflare.md) |
 | Store secrets in a cloud KMS | [KMS](kms.md), [Cloud KMS providers plugin](plugins/kms-providers.md) |
 | Restrict shares by IP country | [GeoIP plugin](plugins/geoip-filter.md) |
 
@@ -115,7 +116,9 @@ If you are looking for the definition of a term, see the [Glossary](glossary.md)
 | Use the CLI for administrative tasks | [CLI](cli.md) |
 | Customize email templates | [Email templates](email-templates.md) |
 | Use the WebAdmin or WebClient | [Web interfaces](web-interfaces.md) |
+| Serve the WebClient without exposing the WebAdmin | [Web interfaces](web-interfaces.md#serving-the-interfaces-on-separate-bindings) |
 | Pick a data provider (SQLite, PostgreSQL, MySQL, CockroachDB) | [Data provider](data-provider.md) |
+| Load a dump from the CLI, or mirror one onto a standby instance | [Data provider](data-provider.md#loading-a-dump-from-the-command-line) |
 | Migrate from OSS 2.6.x to Enterprise | [Migration from OSS](tutorials/migrating.md) |
 
 ## Observability

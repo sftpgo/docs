@@ -1,8 +1,12 @@
+---
+description: "SFTPGo performance: throughput on Gigabit and multi-gigabit links, the cipher and message authentication bottleneck, and a reference benchmark."
+---
+
 # Performance
 
-SFTPGo can easily saturate a Gigabit connection on low end hardware with no special configuration, this is generally enough for most use cases.
+SFTPGo saturates a Gigabit connection on low end hardware with the default configuration.
 
-For Multi-Gig connections, some performance improvements and comparisons with OpenSSH have been discussed [here](https://github.com/drakkan/sftpgo/issues/69){:target="_blank"}, most of them have been included in the main branch. To summarize:
+For multi-gigabit connections, the measurements and the improvements that followed are discussed [here](https://github.com/drakkan/sftpgo/issues/69){:target="_blank"}, and most of them are in the current releases. To summarize:
 
 - In current state with all performance improvements applied, SFTP performance is very close to OpenSSH however CPU usage is higher. SCP performance match OpenSSH.
 - The main bottlenecks are the encryption and the messages authentication, so if you can use a fast cipher with implicit messages authentication, such as `aes128-gcm@openssh.com`, you will get a big performance boost.

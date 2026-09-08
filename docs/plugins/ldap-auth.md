@@ -211,7 +211,7 @@ SFTPGO_PLUGIN_AUTH_MEMBERSHIP_GROUP_PREFIX="sftpgo-membership-"
 
 A user who is a member of all three AD groups will be assigned to SFTPGo groups `sftpgo-primary-sales` (primary), `sftpgo-secondary-readonly` (secondary), and `sftpgo-membership-projectx` (membership).
 
-:information_source: Prefix matching is case-insensitive. The corresponding SFTPGo groups must already exist; the plugin maps users to groups but does not create the groups.
+:information_source: Prefix matching is case-insensitive. The corresponding SFTPGo groups must already exist; the plugin maps users to groups but does not create the groups. The configured prefixes (primary, secondary, membership, role) must be distinct: a prefix matching the initial part of another prefix is rejected, since groups are matched in a fixed order and the overlapping prefix would shadow the others.
 
 ### Mapping a role
 
@@ -229,7 +229,7 @@ An SFTPGo user can have only one role. Since the role drives tenant isolation, t
 - No matching role group: the role is left empty (the user is managed by the super administrator).
 - More than one matching role group: the login is refused, to avoid an ambiguous cross-tenant assignment.
 
-:information_source: Prefix matching is case-insensitive and the role name is matched in lower case. The role must already exist in SFTPGo; the plugin assigns the role but does not create it. If the matched role does not exist, the user update fails and the login is rejected even when the credentials are valid. The role prefix must not overlap the group prefixes (no prefix can be a prefix of another), otherwise the configuration is rejected at startup. When this setting is empty the user's role is left untouched.
+:information_source: Prefix matching is case-insensitive and the role name is matched in lower case. The role must already exist in SFTPGo; the plugin assigns the role but does not create it. If the matched role does not exist, the user update fails and the login is rejected even when the credentials are valid. The role prefix must not overlap the group prefixes (no prefix can be a prefix of another), otherwise the configuration is rejected. When this setting is empty the user's role is left untouched.
 
 ### Requiring group membership
 

@@ -25,9 +25,9 @@ If the target bucket has [Object Lock](https://docs.aws.amazon.com/AmazonS3/late
 | **Endpoint** | `https://<ACCOUNT_ID>.r2.cloudflarestorage.com` |
 | **Region** | `auto` |
 | **Force path style** | disabled (R2 supports virtual-hosted addressing) |
-| **Access Key / Secret** | Create an R2 API token in the Cloudflare dashboard → R2 → Manage API Tokens |
+| **Access Key / Secret** | Create an R2 API token in the Cloudflare dashboard => R2 => Manage API Tokens |
 
-The `<ACCOUNT_ID>` is visible in the Cloudflare dashboard under R2 → Overview. Create the bucket first via the dashboard or `wrangler r2 bucket create`.
+The `<ACCOUNT_ID>` is visible in the Cloudflare dashboard under R2 => Overview. Create the bucket first via the dashboard or `wrangler r2 bucket create`.
 
 **Notes**:
 
@@ -102,7 +102,7 @@ See the [Wasabi service URL reference](https://knowledgebase.wasabi.com/hc/en-us
 | **Endpoint** | `https://<REGION>.digitaloceanspaces.com` (e.g., `https://nyc3.digitaloceanspaces.com`) |
 | **Region** | The Space region (e.g., `nyc3`, `ams3`, `sgp1`, `fra1`, `sfo3`) |
 | **Force path style** | disabled |
-| **Access Key / Secret** | Spaces access key and secret (create in the DigitalOcean control panel under API → Spaces access keys) |
+| **Access Key / Secret** | Spaces access key and secret (create in the DigitalOcean control panel under API => Spaces access keys) |
 
 ## Hetzner Object Storage
 
@@ -113,7 +113,7 @@ See the [Wasabi service URL reference](https://knowledgebase.wasabi.com/hc/en-us
 | **Endpoint** | `https://<REGION>.your-objectstorage.com` (e.g., `https://fsn1.your-objectstorage.com` for Falkenstein, `https://hel1.your-objectstorage.com` for Helsinki) |
 | **Region** | The Hetzner region code (e.g., `fsn1`, `hel1`, `nbg1`) |
 | **Force path style** | disabled |
-| **Access Key / Secret** | Generate in the Hetzner Cloud Console under Security → Object Storage |
+| **Access Key / Secret** | Generate in the Hetzner Cloud Console under Security => Object Storage |
 
 ## Scaleway Object Storage
 
@@ -124,7 +124,7 @@ See the [Wasabi service URL reference](https://knowledgebase.wasabi.com/hc/en-us
 | **Endpoint** | `https://s3.<REGION>.scw.cloud` (e.g., `https://s3.fr-par.scw.cloud`, `https://s3.nl-ams.scw.cloud`) |
 | **Region** | The Scaleway region (`fr-par`, `nl-ams`, `pl-waw`) |
 | **Force path style** | disabled |
-| **Access Key / Secret** | Create API keys in the Scaleway Console under IAM → API Keys |
+| **Access Key / Secret** | Create API keys in the Scaleway Console under IAM => API Keys |
 
 ## OVHcloud Object Storage
 
@@ -135,7 +135,7 @@ See the [Wasabi service URL reference](https://knowledgebase.wasabi.com/hc/en-us
 | **Endpoint** | `https://s3.<REGION>.io.cloud.ovh.net` (e.g., `https://s3.gra.io.cloud.ovh.net` for Gravelines) |
 | **Region** | The OVHcloud region (`gra`, `sbg`, `bhs`, `de`, `uk`, `waw`) |
 | **Force path style** | disabled |
-| **Access Key / Secret** | Create S3 credentials in the OVHcloud Control Panel under Users & Roles → S3 users |
+| **Access Key / Secret** | Create S3 credentials in the OVHcloud Control Panel under Users & Roles => S3 users |
 
 ## Oracle Cloud Infrastructure (OCI) Object Storage
 
@@ -146,9 +146,9 @@ See the [Wasabi service URL reference](https://knowledgebase.wasabi.com/hc/en-us
 | **Endpoint** | `https://<NAMESPACE>.compat.objectstorage.<REGION>.oraclecloud.com` |
 | **Region** | The OCI region identifier (e.g., `us-ashburn-1`, `eu-frankfurt-1`) |
 | **Force path style** | **enabled** |
-| **Access Key / Secret** | Create a **Customer Secret Key** in the OCI Console under Identity → Users → your user → Customer Secret Keys. OCI displays an **Access Key** alongside the **Secret Key** — use that pair as your S3 credentials. |
+| **Access Key / Secret** | Create a **Customer Secret Key** in the OCI Console under Identity => Users => your user => Customer Secret Keys. OCI displays an **Access Key** alongside the **Secret Key** — use that pair as your S3 credentials. |
 
-The `<NAMESPACE>` is your tenancy's Object Storage namespace — find it in the OCI Console under Administration → Tenancy Details, or via `oci os ns get`.
+The `<NAMESPACE>` is your tenancy's Object Storage namespace — find it in the OCI Console under Administration => Tenancy Details, or via `oci os ns get`.
 
 ## Alibaba Cloud OSS
 
@@ -238,7 +238,7 @@ The full list of regional endpoints is in the [IBM COS endpoint documentation](h
 | **Endpoint** | `https://<PROJECT_REF>.storage.supabase.co/storage/v1/s3` |
 | **Region** | The region selected when creating the Supabase project |
 | **Force path style** | **enabled** |
-| **Access Key / Secret** | Create S3 credentials in the Supabase dashboard under Project Settings → Storage → S3 Access Keys |
+| **Access Key / Secret** | Create S3 credentials in the Supabase dashboard under Project Settings => Storage => S3 Access Keys |
 
 ## Troubleshooting checklist
 

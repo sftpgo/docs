@@ -9,9 +9,9 @@ The Event Manager allows administrators to define automated responses to events 
 - A **rule** defines *when* something should happen: it specifies which events to react to, optional filters to narrow the scope, and which actions to execute.
 - An **action** defines *what* to do: send a notification, run a command, scan a file, copy it to another location, and so on.
 
-Actions support dynamic **placeholders** — variables like `{{.Name}}`, `{{.VirtualPath}}`, or `{{.FileSize}}` that are replaced at runtime with contextual data from the triggering event. A rich set of **helper functions** is also available for formatting and transforming values inside templates. See the [Placeholders & Templates](placeholders.md) reference for the full list.
+Actions support dynamic **placeholders** — variables like `{{.Name}}`, `{{.VirtualPath}}`, or `{{.FileSize}}` that are replaced at runtime with contextual data from the triggering event. **Helper functions** for formatting and transforming values inside templates are also available. See the [Placeholders & Templates](placeholders.md) reference for the full list.
 
-:bulb: **Looking for hands-on walkthroughs?** The Tutorials section contains end-to-end, copy-pasteable Event Manager recipes — start with [the Event Manager tutorial overview](tutorials/eventmanager.md) and the topic-specific walkthroughs that follow:
+:bulb: The Tutorials section contains end-to-end Event Manager examples. Start with [the Event Manager tutorial overview](tutorials/eventmanager.md) and the topic-specific walkthroughs that follow:
 
 - [Daily Backups](tutorials/eventmanager-backup.md)
 - [Automatic Folder Structure](tutorials/eventmanager-auto-dirs.md)
@@ -91,8 +91,8 @@ Actions within a rule are executed **sequentially**, in the order they are liste
 
 - **Stop on failure** — If this action fails, skip all remaining actions in the rule.
 - **Failure action** — Mark an action so that it only executes when a previous (non-failure) action has failed. This is useful for error notifications. Note: a failure action runs when *another action in the rule* fails, not when the triggering event itself fails (e.g., a failed download still runs the main action, not the failure action).
-- **Execute sync** — For upload events, execute the action synchronously: the client waits for the action to complete before receiving a response. Required for pre-events (pre-delete, pre-download, pre-upload). If pre-* sync actions succeed, the operation is allowed; otherwise the client receives a permission denied error. Be mindful of client timeouts for long-running actions.
-- **Execute before file publish** — For upload events with atomic uploads enabled, run the action on the temporary file *before* it is renamed to its final path. The file remains invisible to other users during processing. On failure, the temporary file is deleted — the file never becomes visible. Useful for antivirus scanning (ICAP), content validation, or any processing that must complete before the file is accessible. Can be combined with "Execute sync" for client-side feedback. See [Execute Before File Publish](execute-before-file-publish.md) for details.
+- **Synchronous execution** — For upload events, execute the action synchronously: the client waits for the action to complete before receiving a response. Required for pre-events (pre-delete, pre-download, pre-upload). If pre-* sync actions succeed, the operation is allowed; otherwise the client receives a permission denied error. Be mindful of client timeouts for long-running actions.
+- **Execute before file publish** — For upload events with atomic uploads enabled, run the action on the temporary file *before* it is renamed to its final path. On failure, the temporary file is removed and the file never appears at its final path. The temporary file is an ordinary file in the destination directory: a file pattern filter hiding `.sftpgo-upload*` keeps it out of the users' reach while the action runs. Useful for antivirus scanning (ICAP), content validation, or any processing that must complete before the file is published. Can be combined with "Synchronous execution" for client-side feedback. See [Execute Before File Publish](execute-before-file-publish.md) for details.
 
 If you run multiple SFTPGo instances connected to the same data provider, you can choose whether to allow simultaneous execution for scheduled rules.
 
@@ -128,13 +128,13 @@ The following action types are available. Actions marked with details links have
 | **Folder quota reset** | Recalculate the disk quota usage for matching virtual folders. |
 | **Transfer quota reset** | Reset the transfer quota counters to zero for matching users. |
 
-:information_source: Quota usage is tracked by SFTPGo in software, not by the kernel or by the storage: the counters are accounting kept by the application, so they describe the usage rather than enforce it and are approximate by construction. A process killed mid-transfer, files changed outside SFTPGo, or a bug in the accounting itself leave them off. Recalculation is part of the model: schedule the quota reset actions to rebuild the counters from the actual content; quota scans are also available via the REST API.
+:information_source: Quota usage is tracked by SFTPGo in software, updating the counters as each operation completes. Being application-level accounting, they follow the storage approximately: an operation interrupted part way, a change made outside SFTPGo, or a restart during a transfer moves the storage without a matching update. Schedule the quota reset actions to rebuild them from the actual content; quota scans are also available via the REST API.
 
 ### Lifecycle checks
 
 | Action | Description |
 | -------- | ------------- |
-| **Data retention check** | Apply per-folder retention policies. Files older than the configured threshold are automatically deleted or archived. |
+| **Data retention check** | Apply per-folder retention policies. Files older than the configured threshold are automatically deleted or archived. Enable **Split reports** to generate an individual report per user, so a chained email action sends each user their own — see [per-user notifications](tutorials/eventmanager-retention.md#per-user-notifications). |
 | **Password expiration check** | Send email notifications to users whose passwords are about to expire. |
 | **User expiration check** | Generate notifications listing expired user accounts. |
 | **User inactivity check** | Detect and optionally disable or delete users who have been inactive beyond a configured threshold. |
@@ -142,9 +142,21 @@ The following action types are available. Actions marked with details links have
 
 ### Filesystem actions
 
-Filesystem actions let you manipulate files and directories as part of an event rule. SFTPGo grants the required permissions automatically — the behavior is equivalent to performing the same operations from an SFTP client, with the same restrictions.
+Filesystem actions let you manipulate files and directories as part of an event rule.
 
 See the [Filesystem Actions](filesystem-actions.md) page for a complete reference with detailed options for each action type.
+
+#### How an action is authorized
+
+An action is started by the service to carry out the configuration, not requested by the account, so it runs with the access the action needs rather than with the access the account has. Inside the filesystem it operates on, the per-directory permissions of the user are raised to full access, the [file pattern filters](access-control.md#file-pattern-filters) are not applied, and the bandwidth limits and the data transfer quota of the user do not bound it. The authorization decision belongs to the rule: its conditions select the users and the events the action runs for.
+
+What continues to apply:
+
+- **The filesystem boundary of the user.** Every path resolves inside the home directory and the virtual folders mapped for that user. An action reaches other storage only through the source and target folders configured on it.
+- **The storage quota**, so an action stops when the account is full.
+- **The identity of system actions.** With [both folders set](#virtual-folders) the action runs as the system identity, and the synthetic user built for a backup chain carries `list` and `download` alone, so the chain can attach a dump and cannot write or delete inside the backups directory.
+
+:information_source: Since the file pattern filters of the user do not apply to actions, an action that creates files, such as extracting an archive, fetching an IMAP attachment or decrypting a PGP file, writes them with the names its input carries, including names the user could not upload. Scope the rule with its conditions, and use a target folder when the output belongs where the user does not reach.
 
 Available operations: **Rename**, **Delete** (with glob patterns), **Create directories**, **Path exists**, **Copy** (with source disposition, glob patterns, retries, and continue-on-error), **Compress** (ZIP), **Extract** (ZIP with security limits), **PGP** encryption/decryption with optional signing, per-entry source disposition, and glob patterns, **Metadata Check** (cloud backends), **IMAP** (fetch email attachments), **ICAP** (antivirus/DLP scanning).
 
@@ -159,7 +171,7 @@ Available operations: **Rename**, **Delete** (with glob patterns), **Create dire
 
 Virtual folders can be combined with filesystem actions to operate across storage backends or outside a user's security context. Two folder options are available on filesystem actions:
 
-- **Source folder** — Overrides the filesystem used to read source files. By default, actions operate on the triggering user's filesystem. Specifying a source folder lets you read from a different location — essential for scheduled tasks and advanced workflows where no user context is available.
+- **Source folder** — Overrides the filesystem used to read source files. By default, actions operate on the triggering user's filesystem. Specifying a source folder lets you read from a different location, which scheduled tasks need since no user context is available.
 - **Target folder** — Overrides the filesystem used to write target files. This enables cross-backend operations such as copying uploads to a different S3 bucket, archiving files to an external SFTP server, or accessing restricted areas of the same storage backend.
 
 When **both** a source folder and a target folder are specified, the action runs as a **system action** — it executes once (not per-user) with a special system identity, regardless of how many users match the rule's conditions.

@@ -1,5 +1,5 @@
 ---
-description: "SFTPGo IP Lists explained: the Allow List for default-deny access control and the Trusted List for defender and rate-limiter exemptions. Enable, scope by protocol, and manage via WebAdmin or REST API."
+description: "SFTPGo IP lists: the allow list for default-deny access control and the trusted list for defender and rate limiter exemptions."
 ---
 
 # IP Lists
@@ -69,18 +69,26 @@ The **Rate Limiters Safe List** exempts addresses from [rate limiting](rate-limi
 
 ## Managing entries
 
-Manage all four lists from the WebAdmin **IP Manager → IP Lists** page, selecting the list type from the dropdown, or through the REST API at `/ip-lists` (see the [REST API reference](https://sftpgo.com/rest-api){:target="_blank"}). Each entry stores:
+Manage all four lists from the WebAdmin **IP Manager => IP Lists** page, selecting the list type from the dropdown, or through the REST API at `/ip-lists` (see the [REST API reference](https://sftpgo.com/rest-api){:target="_blank"}). Each entry stores:
 
 - **IP/Network** — a single address or a CIDR network, IPv4 or IPv6;
 - **Mode** — `Allow` or `Deny` (`Deny` is available on the Defender List only);
 - **Protocols** — the protocols the entry applies to, or all of them;
 - **Description** — an optional note.
 
+## IP lists in a provider dump
+
+IP list entries are part of the provider dump produced by `dumpdata` and are restored by `loaddata`, so an ordinary backup carries the allow list, the trusted list, the defender rules and the rate limiters safe list along with everything else.
+
+A dump carries up to 60000 entries, counted across the four lists together. Past that the dump fails with an explicit error, so a backup either carries every entry or does not complete. To keep backing up the rest of the configuration on such a deployment, request the other scopes, for example `GET /dumpdata?scopes=users,folders,groups,admins,api_keys,shares,actions,rules,roles,configs,license`, and manage the IP lists separately.
+
+:information_source: A dump with many entries can exceed the 20 MB a restore accepts by default. Raise it with `SFTPGO_HOOK__HTTPD_MAX_RESTORE_SIZE`, in MB, on the instance performing the restore.
+
 ## Example: default-deny SFTP from a curated list
 
 To allow SFTP access only from a fixed set of source IPs:
 
-1. In the WebAdmin, open **IP Manager → IP Lists**, select **Allow list**, and add each approved address or network, scoped to `SSH` if you only want to restrict SFTP/SCP.
+1. In the WebAdmin, open **IP Manager => IP Lists**, select **Allow list**, and add each approved address or network, scoped to `SSH` if you only want to restrict SFTP/SCP.
 2. Add an entry for the IP you administer SFTPGo from, scoped to `HTTP` (or to all protocols). The Allow List also gates the HTTP interfaces, so without this entry, enabling the feature locks you out of the WebAdmin and REST API. If you administer over SFTP from a different host, allow that host too.
 3. Confirm all entries appear in the list.
 4. Enable the feature by setting `allowlist_status` to `1` (config file or `SFTPGO_COMMON__ALLOWLIST_STATUS=1`) and reload SFTPGo.

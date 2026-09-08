@@ -38,7 +38,7 @@ On Windows the Enterprise Edition installs in its own location, side by side wit
 
 The installer also leaves an existing "SFTPGo" Windows service unchanged, so that customizations such as the account the service runs under are preserved. As a result, after installing the Enterprise Edition next to an open-source instance the open-source service keeps running, and the Enterprise Edition stays idle until you migrate your data.
 
-The migration follows three steps: back up the open-source installation, install the Enterprise Edition, then move your data into it. For the last step you choose how to transfer the data provider content (users, groups, folders, admins, …): copy the database file or restore a WebAdmin backup. **Copying the database is the simplest option on the same machine and preserves everything as-is**; the WebAdmin backup is mainly useful when moving to a different machine or changing the database backend.
+The migration follows three steps: back up the open-source installation, install the Enterprise Edition, then move your data into it. For the last step you choose how to transfer the data provider content (users, groups, folders, admins, ...): copy the database file or restore a WebAdmin backup. **Copying the database is the simplest option on the same machine and preserves everything as-is**; the WebAdmin backup is mainly useful when moving to a different machine or changing the database backend.
 
 ### Step 1: Back up the open-source installation
 
@@ -97,4 +97,4 @@ For the files stored on disk:
 - If you are using the local filesystem as a storage backend, you must manually copy the user files to the new installation, ensuring they are placed in the same paths and have the correct ownership and permissions.
 - If you are using a remote storage backend such as S3, Google Cloud Storage, Azure Blob, your files remain accessible without needing to move them, as the configuration will continue to point to the existing storage.
 
-If you have any questions or encounter issues during the migration, feel free to contact our support team.
+If you have any questions or encounter issues during the migration, contact our support team.

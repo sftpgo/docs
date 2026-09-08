@@ -46,4 +46,4 @@ As actions select `backup` and `backup notification`.
 
 ![Daily backup actions](../assets/img/daily-backup-actions.png){data-gallery="backup-actions"}
 
-Done! SFTPGo will make a new backup every day and you will receive an email with the status of the backup. The backup files will have names like this `backup_<week day>_<hour>_<minute>.json`.
+The rule is now active. SFTPGo makes a new backup every day and sends an email with the status of the backup. Backup files are named `backup_<week day>_<hour>_<minute>.json`.

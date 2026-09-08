@@ -1,5 +1,5 @@
 ---
-description: "Password hashing and validation in SFTPGo. Supports bcrypt, argon2id, and 12 additional formats for migration. Configurable strength policies."
+description: "Password hashing and validation in SFTPGo. Supports bcrypt, argon2id, and 13 additional formats for migration. Configurable strength policies."
 ---
 
 # Password Hashing
@@ -36,6 +36,9 @@ In addition to the preferred algorithm, SFTPGo can verify passwords stored in ma
 | MD5 digest | `{MD5}` |
 | SHA256 digest | `{SHA256}` |
 | SHA512 digest | `{SHA512}` |
+| Salted SHA256 digest | `{{SHA256}}` |
+
+The salted SHA256 digest carries its own salt: the prefix is followed by the base16 encoded salt concatenated with the SHA256 digest of the salt and the password. SFTPGo derives the salt length from the digest size, so salts of any length are supported. Some third-party SFTP/FTP servers store passwords in this format.
 
 If you set a password with one of these prefixes, it will not be re-hashed — SFTPGo will store it as-is and verify it using the corresponding algorithm.
 
@@ -62,8 +65,8 @@ For protocol users (and passwords set on [shares](tutorials/shares.md)), rules c
 
 1. **Per user** — `password_strength` and `password_policy` on the user record (`Filters` section).
 2. **Primary group** — the same fields on the primary group's user settings. Each field is taken from the primary group when the user's corresponding field is `0`/empty. Secondary groups are **not** considered for password policy.
-3. **System default** — `data_provider.password_validation.users.*` in the configuration file. Each field is used when the effective user value (after the primary-group merge) is `0`/empty.
+3. **System default** — `data_provider.password_validation.users.*` in the configuration file. `min_entropy` applies when the resulting `password_strength` is `0`; the character rules apply as a set when the resulting `password_policy` has no rule set.
 
-:warning: **For protocol users, the system-level values are defaults, not hard floors.** Any user or primary group can override them — including to a **weaker** value. This is intentional: administrators may need to configure less-strict requirements for service accounts or legacy integrations. If your deployment requires a non-bypassable minimum for protocol users, restrict which administrators can set `password_strength` / `password_policy` on users and groups.
+:warning: **For protocol users, the system-level values are defaults, not a floor.** A value set on a user or on its primary group replaces them, including with a weaker one, so an administrator can relax the rules for service accounts or legacy integrations. The fields are part of the user and group definitions: every administrator allowed to create or edit users and groups can set them. Where a minimum must hold for every protocol user, grant those permissions to trusted administrators and review the values the users and groups carry.
 
 :warning: **All rules are disabled by default (value `0`), meaning any password is accepted.** It is strongly recommended to configure at least a system-level default so admins and users without per-entity settings are still protected.

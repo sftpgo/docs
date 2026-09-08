@@ -4,7 +4,7 @@ description: "SFTPGo features: secure file transfer, workflow automation, encryp
 
 # Features
 
-SFTPGo provides enterprise-grade managed file transfer capabilities: multi-protocol secure access, event-driven workflow automation, data-at-rest encryption, centralized audit logging, granular access controls, and integration with cloud storage and identity providers.
+SFTPGo is a managed file transfer server. It provides multi-protocol secure access, event-driven workflow automation, data-at-rest encryption, centralized audit logging, granular access controls, and integration with cloud storage and identity providers.
 
 ## Protocols
 
@@ -57,7 +57,7 @@ SFTPGo supports a wide range of authentication methods and security controls, fr
 SFTPGo provides granular control over what each user can do, where they can store files, and how much they can transfer.
 
 - Users stored in SQLite, MySQL, PostgreSQL, CockroachDB, Bolt, or in-memory, each restricted to their home directory or bucket prefix.
-- Granular per-user and per-directory permissions (list, download, upload, overwrite, delete, create directories, rename, create symlinks, chmod).
+- Granular per-user and per-directory permissions (list, download, upload, overwrite, delete, create directories, rename, copy, create symlinks, chmod).
 - [Groups](groups.md) to define settings once and apply them to multiple users (primary, secondary, and membership groups with inheritance rules).
 - [Roles](roles.md) for delegated administration — restricted administrators who can only manage users with the same role.
 - Disk quota management per user and per virtual folder (total size and/or file count).

@@ -35,7 +35,7 @@ The scopes are managed automatically by SFTPGo — you only need to provide the 
 5. Navigate to **APIs & Services > Credentials**.
 6. Click **Create Credentials > OAuth client ID**.
 7. Application type: **Web application**.
-8. Add an **Authorized redirect URI**: `https://<your-sftpgo-url>/web/admin/oauth2/redirect`. Replace `<your-sftpgo-url>` with your actual SFTPGo WebAdmin URL. If SFTPGo runs on `http://localhost:8080`, use `http://localhost:8080/web/admin/oauth2/redirect`.
+8. Add an **Authorized redirect URI**: `https://<your-sftpgo-url>/web/oauth2/redirect`. Replace `<your-sftpgo-url>` with your actual SFTPGo WebAdmin URL. If SFTPGo runs on `http://localhost:8080`, use `http://localhost:8080/web/oauth2/redirect`.
 9. Click **Create** and note the **Client ID** and **Client Secret**.
 
 #### Step 2: Configure SMTP in SFTPGo
@@ -77,7 +77,7 @@ Click **Submit** to save the SMTP configuration. Use the **Send test email** fea
 2. Click **New registration**.
 3. Name the application (e.g., `SFTPGo`).
 4. Supported account types: choose based on your organization. For single-tenant setups, select **Accounts in this organizational directory only**.
-5. Redirect URI: Platform **Web**, URI `https://<your-sftpgo-url>/web/admin/oauth2/redirect`.
+5. Redirect URI: Platform **Web**, URI `https://<your-sftpgo-url>/web/oauth2/redirect`.
 6. Click **Register**.
 7. Note the **Application (client) ID** and **Directory (tenant) ID**.
 
@@ -173,7 +173,7 @@ A common use case is to automatically fetch email attachments and make them avai
 
 1. Create an IMAP action with OAuth2 authentication configured for Google.
 2. Set the endpoint to `imaps://imap.gmail.com:993`.
-3. Set the path template for where attachments should be saved (e.g., `/inbound/{{.ObjectName}}`).
+3. Set the path template of the directory where attachments are saved (e.g., `/inbound/{{.Timestamp.Format "2006-01-02"}}` for a directory per day).
 4. Create a scheduled rule to run the IMAP action periodically (e.g., every 5 minutes). If you leave the IMAP action's target folder empty, attachments land in a user's home directory and you must add a name filter that identifies a single destination user. Set a target folder (a virtual folder) to write attachments to a shared destination instead, and the user filter becomes unnecessary.
 
 ### Refresh Token Rotation
@@ -188,7 +188,8 @@ No manual intervention is required after the initial setup.
 ## Troubleshooting
 
 - **"Access denied" or "Insufficient scope" errors**: Verify that the correct API permissions/scopes are configured in the provider's developer console and that admin consent has been granted (Microsoft).
-- **"Invalid redirect URI"**: The redirect URI in the provider must exactly match `https://<your-sftpgo-url>/web/admin/oauth2/redirect`. Check for trailing slashes and protocol (http vs https).
+- **"Invalid redirect URI"**: The redirect URI in the provider must exactly match `https://<your-sftpgo-url>/web/oauth2/redirect`. Check for trailing slashes and protocol (http vs https).
+- **Empty token from Google**: Google returns the refresh token at the first authorization only. To authorize SFTPGo again for an account that already did, revoke the app's access from the Google account settings (Security > Third-party access) and repeat the authorization.
 - **Google "App not verified" warning**: For external apps in testing mode, only test users added to the OAuth consent screen can authorize. Publish the app to remove this restriction.
 - **Microsoft tenant errors**: Ensure the tenant ID matches your Azure AD directory. For personal Microsoft accounts, use `consumers` as the tenant.
 - **Microsoft `AUTHENTICATE failed` (IMAP) or `535 5.7.3 Authentication unsuccessful` (SMTP) despite a successful token refresh**: the token was issued correctly but Exchange Online rejected it because the signing-in user that authorized the OAuth flow has no access to the mailbox configured in the action's **Username** field. Revoke the previous consent from [My Apps](https://myapps.microsoft.com/) and re-run **Get**, signing in as the mailbox owner — or as a delegate with Full Access (IMAP) or Send As (SMTP) on the shared mailbox. The previous refresh token is bound to the wrong identity and must be replaced.

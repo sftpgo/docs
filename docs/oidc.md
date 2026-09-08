@@ -6,7 +6,7 @@ description: "Integrate SFTPGo with OpenID Connect identity providers: Microsoft
 
 OpenID Connect (OIDC) integration allows users and administrators to log in to the SFTPGo WebAdmin and WebClient interfaces using an external Identity Provider (IdP). SFTPGo maps IdP identities to SFTPGo accounts based on configurable claim fields.
 
-OIDC is configured per HTTP binding — you can have different IdP configurations on different ports if needed. All configuration parameters are documented in the [configuration reference](config-file.md#http-server).
+OIDC can be configured from the [WebAdmin UI](#configuration-from-the-webadmin-ui), or per HTTP binding in the configuration file and through environment variables so that different ports serve different IdP configurations. All configuration parameters are documented in the [configuration reference](config-file.md#http-server).
 
 ## How it works
 
@@ -22,6 +22,43 @@ SFTPGo uses [OpenID Connect Discovery](https://openid.net/specs/openid-connect-d
 
 ## Configuration
 
+### Configuration from the WebAdmin UI
+
+The OpenID Connect section of the WebAdmin Configurations page covers the settings most deployments need and stores them in the data provider. To add the section, set the following environment variable before starting SFTPGo:
+
+```shell
+SFTPGO_HOOK__ENABLE_OIDC_UI=1
+```
+
+See [environment variables](env-vars.md#variable-sources) for where to define it on your platform. After the restart, open **Server Manager > Configurations > OpenID Connect**, fill in the form and click **Submit**. The submitted configuration URL is verified against the provider's discovery document, and a service restart applies the configuration.
+
+The stored configuration is global: every HTTP binding offers the OpenID login, and the flow completes on the address configured as `redirect_base_url`. Configure the bindings in the configuration file, or through environment variables, when different bindings serve different IdP configurations.
+
+Each form field maps to a configuration parameter:
+
+| Field | Parameter |
+| ----- | --------- |
+| Config URL | `config_url` |
+| Client ID | `client_id` |
+| Client Secret | `client_secret` |
+| Redirect base URL | `redirect_base_url` |
+| Username claim | `username_field` |
+| Role claim | `role_field` |
+| Admin role values | `role_values` |
+| User role values | `user_role_values` |
+| Implicit roles | `implicit_roles` |
+| Scopes | `scopes` |
+| Max age | `max_age` |
+| Prompt | `prompt` |
+| RP-initiated logout | `rp_initiated_logout` |
+| Custom claims | `custom_fields` |
+| UserInfo claims | `query_userinfo` |
+| Verified email | `require_verified_email` |
+
+Claim fields take the claim name as it appears in the token, for example `preferred_username`. Comma-separated fields — scopes, role values, custom claims — take bare values, for example `admin`.
+
+:information_source: `client_secret_file`, `ui_name`, `debug` and the [security settings](#security-settings) come from the configuration file or the environment variables, also when the rest of the configuration is stored from the UI.
+
 ### Required settings
 
 | Parameter | Description |
@@ -29,22 +66,24 @@ SFTPGo uses [OpenID Connect Discovery](https://openid.net/specs/openid-connect-d
 | `config_url` | Base URL of the Identity Provider. SFTPGo appends `/.well-known/openid-configuration` for discovery. SFTPGo will refuse to start if the URL is unreachable. |
 | `client_id` | OAuth2 application/client ID. |
 | `client_secret` | OAuth2 application/client secret. Can also be provided via `client_secret_file`. Optional when using PKCE-only authentication — see [PKCE without client secret](#pkce-without-client-secret). |
-| `redirect_base_url` | Base URL of your SFTPGo instance (e.g., `https://sftpgo.example.com`). SFTPGo appends `/web/oidc/redirect` automatically. |
+| `redirect_base_url` | Base URL of your SFTPGo instance (e.g., `https://sftpgo.example.com`). SFTPGo appends `/web/oidc/redirect` automatically. Use the same address your users browse: the login is completed on the browser that started it. |
 | `username_field` | ID token claim to map to the SFTPGo username (e.g., `preferred_username`, `email`). |
+
+:information_source: Register `<redirect_base_url>/web/oidc/redirect` with your Identity Provider as an allowed redirect URI. The path includes `web_root` when the WebAdmin and WebClient are served from a sub-path.
 
 ### Choosing the username claim
 
 The `username_field` claim is the identity key: SFTPGo grants access to the account matching its value. Choose a claim your Identity Provider guarantees to be **unique and stable** for each identity:
 
 - `sub` is the claim the OpenID Connect specification itself guarantees to be unique within the issuer and never reassigned. Using it means provisioning SFTPGo accounts named after the provider-assigned identifier.
-- `preferred_username` works well when the provider enforces its uniqueness: Keycloak, for example, maps it to the realm username. The specification leaves its uniqueness to the provider, so verify your provider's policy. Microsoft Entra ID documents this claim as mutable and unsuitable for authorization decisions: use `sub` or the tenant-immutable `oid` instead.
-- `email` works well when the provider guarantees it is verified and unique. SFTPGo does not check the `email_verified` claim, so this guarantee must come from the Identity Provider.
+- `preferred_username` works well when the provider enforces its uniqueness: Keycloak maps it to the realm username, Microsoft Entra ID to the User Principal Name. The specification leaves its uniqueness to the provider, so verify your provider's policy.
+- `email` works well when the provider guarantees it is unique. Enable [`require_verified_email`](#verified-email) to accept it only when the provider asserts the address is verified.
 
 :warning: A claim value shared by two identities, or reassigned to a new person (e.g., a recycled email address or User Principal Name), grants access to the SFTPGo account mapped to that value. Choose a claim users are unable to set for themselves.
 
 ### Role mapping
 
-SFTPGo needs to determine whether an authenticated user should access the WebAdmin (as an admin) or the WebClient (as a user). There are two approaches:
+The WebAdmin and the WebClient have separate login pages, each with its own OpenID link, so the page the identity signs in from decides whether an admin or a user session is requested. The role of the identity must authorize that request. There are two approaches:
 
 **Explicit role mapping** — The IdP includes a role claim in the ID token:
 
@@ -54,7 +93,7 @@ SFTPGo needs to determine whether an authenticated user should access the WebAdm
 | `role_values` | `admin` | Claim values that map to the SFTPGo admin role. Matching is case-insensitive. |
 | `user_role_values` | — | Claim values that map to the SFTPGo user role. If empty, any authenticated identity can attempt to log in to the WebClient. Set this to restrict WebClient access to specific claim values. |
 
-The role claim decides administrative access: choose a claim your Identity Provider administrator assigns, such as a realm role or a group membership, so that its value stays outside the reach of the identities it governs.
+An identity whose role claim matches `role_values` can sign in from the WebAdmin login page, one matching `user_role_values` from the WebClient login page; a request the role does not authorize is refused. The mapped username must then exist as an administrator or as a user respectively. The role claim decides administrative access, so choose one the Identity Provider administrator assigns, such as a realm role or a group membership, and not one the identity can edit in its own profile.
 
 **Implicit role mapping** — The role is determined by which login link the user clicks:
 
@@ -62,7 +101,7 @@ The role claim decides administrative access: choose a claim your Identity Provi
 | ----------- | --------- | ------------- |
 | `implicit_roles` | `false` | When `true`, the `role_field` is ignored. Users clicking the admin login link get the admin role; users clicking the client login link get the user role. |
 
-Implicit roles are useful when the IdP does not provide role claims or when you prefer to keep role assignment entirely within SFTPGo. The authorization decision then rests entirely on the SFTPGo admin accounts: every identity that authenticates through the admin login link is granted the admin role, and the login succeeds when an admin with the mapped username exists.
+Implicit roles are useful when the IdP does not provide role claims or when you prefer to keep role assignment entirely within SFTPGo. The authorization then rests on the SFTPGo accounts: every identity that authenticates through the admin login link is given the admin role, and the login succeeds when an admin with the mapped username exists and can log in. Keep the set of admin accounts as the list of who administers the server.
 
 ### Optional settings
 
@@ -72,6 +111,9 @@ Implicit roles are useful when the IdP does not provide role claims or when you 
 | `custom_fields` | — | Custom ID token claim fields to pass to the pre-login hook and Event Manager. See [Custom fields](#custom-fields). |
 | `max_age` | — | Maximum allowed seconds since the user last actively authenticated. Forces re-authentication if exceeded. Set to `0` to always force re-authentication. If empty, the IdP's default policy applies. |
 | `prompt` | — | Controls the IdP's authentication/consent behavior. Common values: `none`, `login`, `consent`, `select_account`. Space-delimited. |
+| `rp_initiated_logout` | `false` | Redirects the browser to the IdP's end session endpoint on logout, so the single sign-on session is terminated (OpenID Connect RP-Initiated Logout). The SFTPGo login page is sent as `post_logout_redirect_uri` and must be registered with your IdP as an allowed post-logout redirect URI. |
+| `query_userinfo` | `false` | Queries the IdP's UserInfo endpoint after authentication and reads user claims from both sources. See [UserInfo claims](#userinfo-claims). |
+| `require_verified_email` | `false` | Accepts only identities whose email address is verified by the IdP. See [Verified email](#verified-email). |
 | `ui_name` | `OpenID` | Label displayed on the login button (e.g., "Sign in with *ui_name*"). |
 | `debug` | `false` | Log received ID tokens at debug level. Useful for troubleshooting claim mapping. |
 
@@ -80,9 +122,9 @@ Implicit roles are useful when the IdP does not provide role claims or when you 
 | Parameter | Default | Description |
 | ----------- | --------- | ------------- |
 | `disabled_security_features` | `0` | Set to `1` to disable PKCE (Proof Key for Code Exchange). PKCE is enabled by default and recommended. |
-| `insecure_skip_signature_check` | `false` | :warning: Skip JWT signature validation. Only for providers that use the `none` signing algorithm (e.g., some Azure configurations). |
+| `insecure_skip_signature_check` | `false` | :warning: Accepts the ID token without validating its signature. Supported for providers that sign ID tokens with the `none` algorithm. SFTPGo reads the ID token from the provider's token endpoint over TLS, which is the only integrity guarantee left while this setting is enabled. |
 | `insecure_issuer_url` | `false` | Allow the issuer URL reported by the provider to differ from the discovery URL. Required for off-spec providers like Azure B2C. |
-| `issuer_url` | — | Explicit issuer URL for token verification. Only applied when `insecure_issuer_url` is enabled. |
+| `issuer_url` | — | Explicit issuer URL for token verification, applied when `insecure_issuer_url` is enabled. |
 
 ## Account provisioning
 
@@ -108,16 +150,29 @@ The `custom_fields` configuration lists additional ID token claims to extract an
 
 All custom fields are passed with their original types as defined by the Identity Provider.
 
-## Security
+## UserInfo claims
 
-SFTPGo implements the following security measures for OIDC:
+By default, all claims (`username_field`, `role_field`, `custom_fields`) are read from the verified ID token. Some Identity Providers return profile claims from the UserInfo endpoint and require extra configuration to include them in the ID token.
 
-- **PKCE** (Proof Key for Code Exchange) is enabled by default, preventing authorization code interception attacks.
-- **Nonce validation** — each authentication request includes a unique nonce that must match the ID token.
-- **State parameter** — CSRF protection for the OAuth2 flow.
-- **ID token signature verification** — tokens are cryptographically verified against the provider's public keys.
-- **Auth time validation** — when `max_age` is configured, the `auth_time` claim is checked with a 60-second clock skew tolerance.
-- **Session cookies** — set with `HttpOnly`, `Secure`, and `SameSite=Lax` attributes.
+With `query_userinfo` enabled, SFTPGo queries the provider's UserInfo endpoint after each authentication and reads the claims from both sources:
+
+- Non-empty ID token claims take precedence over UserInfo claims with the same name, so the UserInfo response fills in missing claims. A claim set to null, to an empty string or to an empty list counts as missing in both sources: if the ID token returns an empty `username_field` or `role_field`, the value from the UserInfo response is used. Enable `query_userinfo` when the UserInfo claims are as authoritative as the ID token ones for these two fields.
+- The UserInfo subject must match the ID token subject, as required by the OIDC specification. Authentication fails on mismatch or when the UserInfo request fails.
+- `sid`, `auth_time` and `nonce` are read from the ID token only: SFTPGo uses them for session tracking and for the `max_age` check.
+
+The provider must advertise a UserInfo endpoint in its discovery document; this is validated at startup.
+
+:information_source: Microsoft Entra ID returns a fixed set of claims from the UserInfo endpoint and recommends reading claims from the ID token, which also saves a network round-trip per login. Enable `query_userinfo` when your provider returns the claims you need from the UserInfo endpoint only.
+
+## Verified email
+
+With `require_verified_email` enabled, the login is allowed only if the `email_verified` claim is set to `true`. The claim is read from the verified ID token or, when `query_userinfo` is enabled, from the UserInfo response, so a provider that returns `email_verified` from the UserInfo endpoint only is supported.
+
+:warning: Verify that your provider returns `email_verified` before enabling this setting: with a provider that omits the claim, every login is refused.
+
+The `email_verified` claim belongs to the `email` scope, which governs both sources: the UserInfo endpoint returns the claims authorized by the scopes granted to the access token, so dropping `email` from `scopes` normally removes the claim from the ID token and from the UserInfo response alike. Keep that scope in `scopes`, or configure the IdP to return the claim regardless of the requested scopes, as Keycloak does with its default client scopes.
+
+:information_source: The claim is checked at login. A session already established keeps working until it expires, so a mail address that becomes unverified at the IdP is enforced on the next login.
 
 ## OIDC and local credentials
 
@@ -153,7 +208,7 @@ SFTPGo supports PKCE-only authentication, where the `client_secret` is omitted e
 
 When the client secret is not configured, SFTPGo uses PKCE (Proof Key for Code Exchange) exclusively to secure the authorization code exchange. PKCE must remain enabled (the default) — if you disable it via `disabled_security_features`, PKCE-only authentication will not work.
 
-To configure PKCE-only authentication, simply omit the `client_secret` and `client_secret_file` parameters:
+To configure PKCE-only authentication, omit the `client_secret` and `client_secret_file` parameters:
 
 ```shell
 SFTPGO_HTTPD__BINDINGS__0__OIDC__CLIENT_ID="sftpgo-public-client"
@@ -165,11 +220,34 @@ SFTPGO_HTTPD__BINDINGS__0__OIDC__ROLE_FIELD="sftpgo_role"
 
 :information_source: In Keycloak, set the client's **Access Type** to `public` (or **Client authentication** to `Off` in newer versions). In Azure AD, register the application as a public client. Other providers have similar settings — consult your IdP documentation.
 
+## Troubleshooting
+
+The login page reports the reason a login was refused, and the SFTPGo log carries the details. Set `debug` to `true` to log the received ID token and see the claims your provider returns.
+
+| Message on the login page | Cause |
+| ------------------------- | ----- |
+| Invalid OpenID token | The claim configured as `username_field` carries no value, or the identity authenticated longer ago than `max_age` allows. |
+| Incorrect OpenID role | The identity's role claim authorizes the other login page, or its value is missing from `role_values`/`user_role_values`. See [Role mapping](#role-mapping). |
+| Failed to get user associated with OpenID token | The mapped username has no SFTPGo account yet. See [Account provisioning](#account-provisioning). |
+| The email address is not verified | `require_verified_email` is enabled and the provider asserts no verified address. See [Verified email](#verified-email). |
+
+An invalid redirect URI is reported by the Identity Provider, before the browser returns to SFTPGo: check the URI registered with the provider against the one built from [`redirect_base_url`](#required-settings).
+
+When the username claim carries no value, the log names the configured claim and lists the claims the token carries:
+
+```
+username field "preferred_username" not found, empty or not a string, claims fields: [sub email_verified name preferred_username given_name family_name email]
+```
+
+Compare the configured claim with that list: it must be one of those names. A claim your provider returns from the UserInfo endpoint alone is read when [`query_userinfo`](#userinfo-claims) is enabled, and a claim the provider returns to a specific scope needs that scope in `scopes`.
+
 ## Provider-specific notes
 
 ### Microsoft Entra ID (Azure AD)
 
-Standard configuration works for most setups. If you encounter signature validation errors, the provider may be using the `none` signing algorithm — set `insecure_skip_signature_check` to `true`.
+Standard configuration works for most setups. Entra ID signs ID tokens with RS256 and publishes its signing keys in the discovery document, so set `config_url` to the tenant's v2.0 endpoint, `https://login.microsoftonline.com/<tenant-id>/v2.0`.
+
+If signature validation fails, verify that `config_url` returns the discovery document of the tenant that issues the tokens: the keys used for validation come from that document. `insecure_skip_signature_check` covers providers that sign ID tokens with the `none` algorithm; a provider that publishes signing keys works with the default settings.
 
 ### Azure AD B2C
 
@@ -195,7 +273,7 @@ This example shows a basic integration with [Keycloak](https://www.keycloak.org/
 ### Keycloak preparation
 
 1. Create a realm named `sftpgo`.
-2. In **Realm Settings** → **Login**, adjust the "Require SSL" setting for your environment. Ensure "Unmanaged Attributes" are allowed if you plan to use custom attributes.
+2. In **Realm Settings** => **Login**, adjust the "Require SSL" setting for your environment. Ensure "Unmanaged Attributes" are allowed if you plan to use custom attributes.
 3. Create a client named `sftpgo-client` with **Access Type** set to `confidential`.
 4. Set a valid redirect URI — for example, `http://192.168.1.50:8080/*` if SFTPGo runs at that address.
 5. In the client's **Mappers** settings, ensure that the username and role are included in the ID token. For example, map the user attribute `sftpgo_role` as a JSON string to the ID token, and `username` as `preferred_username`.
@@ -231,7 +309,7 @@ Or equivalently in the configuration file:
 
 From the SFTPGo login page, click "Sign in with OpenID". You are redirected to Keycloak's login page. After successful authentication, Keycloak redirects back to SFTPGo.
 
-The ID token must contain the `username_field` claim. The mapped username must exist in SFTPGo (or be provisioned automatically via the Event Manager or pre-login hook). If the token contains the `role_field` claim with value `admin`, the user is directed to the WebAdmin; otherwise, to the WebClient.
+The ID token must contain the `username_field` claim, and the mapped username must exist in SFTPGo (or be provisioned automatically via the Event Manager or pre-login hook). Signing in from the WebAdmin login page requires the `role_field` claim with the value `admin`; the WebClient login page accepts any authenticated identity while `user_role_values` is empty.
 
 Example ID token for an admin:
 

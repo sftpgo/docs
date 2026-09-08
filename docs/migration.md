@@ -4,7 +4,7 @@ description: "Migrate SFTPGo Event Manager rules to the new Go template syntax i
 
 # Migration from Previous Versions
 
-Starting with version `v2.7.20250726`, SFTPGo introduced a new, more powerful templating system for the Event Manager.
+Starting with version `v2.7.20250726`, SFTPGo introduced a new templating system for the Event Manager.
 
 If you are upgrading from a version **prior to `v2.7.20250726`** or from the **open-source edition**, you need to manually migrate your existing actions to the new templating syntax.
 

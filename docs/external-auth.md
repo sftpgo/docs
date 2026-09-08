@@ -19,6 +19,8 @@ The external program can read the following environment variables to get info ab
 
 Global environment variables are cleared, for security reasons, when the script is called. You can set additional environment variables in the "command" configuration section.
 The program can inspect the SFTPGo user, if it exists, using the `SFTPGO_AUTHD_USER` environment variable.
+
+The returned user replaces the stored one and the virtual folders it defines inline can be created with it: see [the returned user](dynamic-user-mod.md#the-returned-user) and [auto-created virtual folders](dynamic-user-mod.md#auto-created-virtual-folders), which apply to this hook as well.
 The program must write, on its standard output:
 
 - a valid SFTPGo user serialized as JSON if the authentication succeeds. The user will be added/updated within the defined data provider
@@ -49,7 +51,7 @@ Actions defined for users added/updated will not be executed in this case and an
 
 The program hook must finish within 30 seconds, the HTTP hook timeout will use the global configuration for HTTP clients.
 
-This method is slower than built-in authentication, but it's very flexible as anyone can easily write his own authentication hooks.
+This method is slower than built-in authentication, but it is more flexible, since you can write your own authentication hooks.
 You can also restrict the authentication scope for the hook using the `external_auth_scope` configuration key:
 
 - `0` means all supported authentication scopes. The external hook will be used for password, public key, keyboard interactive and TLS certificate authentication
@@ -60,7 +62,7 @@ You can also restrict the authentication scope for the hook using the `external_
 
 You can combine the scopes. For example, 3 means password and public key, 5 means password and keyboard interactive, and so on.
 
-Let's see a very basic example. Our sample authentication program will only accept user `test_user` with any password or public key.
+The following basic example accepts only the user `test_user`, with any password or public key.
 
 ```shell
 #!/bin/sh
@@ -83,3 +85,9 @@ An example authentication program allowing to authenticate against an LDAP serve
 An example server, to use as HTTP authentication hook, allowing to authenticate against an LDAP server can be found inside the source tree [ldapauthserver](https://github.com/drakkan/sftpgo/tree/main/examples/ldapauthserver){:target="_blank"} directory.
 
 If you have an external authentication hook that could be useful to others too, please let us know and/or please send a pull request.
+
+## Trust model
+
+Hooks and plugins are trusted components: they run with the privileges of the SFTPGo service and they are the authority on what SFTPGo asks them. The response is applied as it is given: the account it names, and the settings it carries, are what gets stored and what the session runs as.
+
+What a response causes therefore belongs to the integration that produced it. Answering for an account grants access to that account, exactly as an entry in the data provider does. Validate the credentials received before answering, and answer consistently when SFTPGo asks more than once for the same login, as it does when a login is verified in more than one step.

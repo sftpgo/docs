@@ -97,7 +97,7 @@ See the attached CSV for details.
 Create a scheduled rule that runs every Monday at 07:00 UTC:
 
 1. **Event Report action**: Time window = `10080` (7 days), Split reports = enabled.
-2. **Email action**: Recipients = `{{ stringJoin .Email "," }}`, Subject = `Weekly activity report for {{ .ObjectName }}`. Body:
+2. **Email action**: Recipients = `{{ .Email }}`, Subject = `Weekly activity report for {{ .ObjectName }}`. Body:
 
 ```text
 Hi {{ .ObjectName }},

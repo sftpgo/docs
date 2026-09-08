@@ -4,8 +4,7 @@ description: "Release notes and changelog for SFTPGo Enterprise — new features
 
 # Release Notes
 
-This page provides a concise overview of the new features, improvements and bug fixes introduced in each SFTPGo Enterprise release.
-We encourage you to check back regularly to stay up to date with the latest changes and to make the most of all enhancements.
+This page lists the changes introduced in each SFTPGo Enterprise release.
 
 ## Compatibility notes
 
@@ -13,17 +12,63 @@ Upgrading to the Enterprise edition of SFTPGo is supported starting from Open So
 
 If you're migrating from an open-source installation, please follow the guide here: [**Migration from Open-Source to Enterprise Edition**](tutorials/migrating.md)
 
+## Update September 10, 2026 - v2.7.20260910
+
+### New features
+
+- **Role-based resource isolation**: a [role](roles.md#resource-isolation) can scope the groups and the virtual folders of its administrators, not only the users, and a [storage allowlist](roles.md#storage-allowlist) declares the storage its resources may name.
+- **Virtual folder sub-path mounts**: a mapping can serve a [sub-path](virtual-folders.md#sub-path) of the folder, or [expose selected sub-paths](virtual-folders.md#exposed-sub-paths) as directories under the mount path, and the same folder can be mapped several times with different sub-paths. Group mappings accept the `%username%` and `%role%` placeholders in both fields, so one mapping gives each member its own view of a shared folder.
+- **Rotating database credentials**: [`password_provider`](config-file.md#data-provider) obtains the database password for each new connection from AWS RDS/Aurora IAM, Microsoft Entra ID, or a password file rotated externally.
+- **Server-side copy across resources**: on S3, Azure Blob and Google Cloud Storage a copy between two resources of the same storage service is performed by the service itself, see [Copy](filesystem-actions.md#copy).
+- OIDC: [`query_userinfo`](oidc.md#userinfo-claims) reads the user claims from the UserInfo endpoint as well, [`require_verified_email`](oidc.md#verified-email) accepts only identities with a verified email address, and [`rp_initiated_logout`](oidc.md#optional-settings) ends the provider session on logout.
+- SMTP: `SCRAM-SHA-256` and `SCRAM-SHA-256-PLUS` [authentication types](config-file.md#smtp), and the `allow_unencrypted_auth` setting for Plain and Login authentication over a connection secured in another way.
+- SSH: a public key prefixed with the `from` option of the `authorized_keys` format authenticates from the listed networks, see [Restricting a key to source addresses](ssh.md#restricting-a-key-to-source-addresses).
+- Storage ["None"](groups.md#users-with-storage-none): a user with storage None takes its storage from the primary group, so the group defines it once for all of its members; on a group, None means that the members keep their own storage. To see what a user gets at login, the user page shows an [Effective storage](groups.md#inspecting-the-effective-storage) panel, and the users list opens the [effective configuration](groups.md#inspecting-the-effective-configuration), the user with every group setting applied.
+- WebAdmin: the **Test connection** button is also available on [read-only detail pages](admin-permissions.md#detail-pages-with-read-only-access).
+- Backups: `initprovider` can [restore a dump as a mirror](data-provider.md#restoring-a-dump-as-a-mirror), deleting the objects the dump does not contain, so a standby instance follows a primary by applying its dumps.
+- The [telemetry server](metrics.md) can serve a TLS certificate stored in the data provider: select **Telemetry** among the protocols of the ACME or TLS certificate configuration.
+- KMS plugin: stored secrets use [envelope encryption](plugins/kms-providers.md#how-secrets-are-encrypted), so every provider and key type supports secrets of any size. Existing secrets are read as before and move to the new format when saved again.
+- Plugins: the [Pub/Sub](plugins/pubsub.md) plugin supports TLS for Kafka, NATS and RabbitMQ and [SASL](plugins/pubsub.md#apache-kafka) for Kafka; the [GeoIP filter](plugins/geoip-filter.md) plugin reads IPLocate and IPinfo databases and offers a [fail-closed mode](plugins/geoip-filter.md#fail-closed-mode).
+
+### Bug fixes
+
+- SFTP with [memory pipes](env-vars.md#transfers-and-storage) enabled: fixed download hangs for clients that read the file starting far from its beginning, as backup tools such as restic do.
+- SFTP storage backend through a SOCKS proxy: when the SFTP server behind the proxy was unreachable, the connection attempt blocked the operation indefinitely. The connection setup is now bounded by a timeout.
+- Event manager: an action with a source or target [folder](filesystem-actions.md#virtual-folders) failed when its destination directory did not exist yet, for example a [Copy](filesystem-actions.md#copy) archiving files into a directory named after the current date; the missing directories are now created.
+- TLS: a certificate renewed by ACME or set from the WebAdmin was replaced by the one loaded at startup after a configuration reload, and replacing a certificate file on disk could stop the monitoring of the others. The last applied certificate is now kept across reloads and changes on disk are picked up.
+
+### Behavior changes
+
+- Per-directory permissions and file pattern filters are applied consistently on every operation and protocol, see [Access control](access-control.md). What changes in practice:
+  - Renaming a directory is authorized on the entries it carries too: when per-directory permissions that restrict renaming apply inside either tree, or the two paths are governed by different file pattern filters, the cloud backends with `rename_mode` `1` check each entry as they move it and the other backends refuse the rename. See [Renaming a directory](access-control.md#how-each-operation-is-checked).
+  - A server-side copy requires `download` on the source and `upload` on the destination, on every backend, and copying a directory requires `copy` on both directories. Users configured with `copy` alone need `download` and `upload` as well.
+  - A file pattern filter applies to every operation that creates or reads a name: a directory name is matched against the filter of its parent, also when the directory is created as a missing parent, copied or renamed, and a hidden path is reported as missing wherever it is read by name.
+- One-time code emails (two-factor authentication, password reset, share access) are sent at most once per minute per recipient.
+- SQLite: a custom `connection_string` must keep `_foreign_keys=1`, the server stops at startup when foreign keys are off, see [Data provider](config-file.md#data-provider).
+- Groups: a placeholder with no value for the account, `%role%` on a user without a role or a `%customN%` beyond the values the user defines, refuses the login instead of being replaced by an empty string. See [Placeholders](groups.md#placeholders).
+- Public keys: `from` is the `authorized_keys` option accepted, in the form described in [Restricting a key to source addresses](ssh.md#restricting-a-key-to-source-addresses). Earlier releases stored and ignored any option: a key stored with other options no longer authenticates, and its user cannot be saved or restored until the options are removed from the key.
+- `sftpgo acme run`: `--database-protocols` defaults to `15`, covering HTTPS, FTPS, WebDAV and the telemetry server, where earlier releases defaulted to `7`. Set it explicitly where the telemetry server serves a certificate read from disk.
+- REST API: the `fs_providers` property of the license features object was misspelled `fs_poviders` in the OpenAPI specification. Clients generated from the previous specification need to be regenerated.
+
+#### Local filesystem confinement
+
+Every operation on the local filesystem, the encrypted variant included, now runs relative to a handle on the user's home directory ([os.Root](https://go.dev/blog/osroot){:target="_blank"}), or on the mapped path of a virtual folder: the operating system resolves each path within that directory and refuses one that leaves it, symbolic links included. The user sees the same tree as before, with three differences:
+
+- **Symbolic links** are stored relative to the directory that contains them, and a link whose stored target is an absolute path is not followed: it cannot be read or transferred through. This covers links created directly on the filesystem and links created by earlier SFTPGo releases, which stored absolute targets.
+- **Renames between the home directory and a virtual folder**, or between two virtual folders, cross two roots and are performed as a copy followed by a delete, so they are no longer atomic and can be slow on large trees: a failure midway leaves part of the files on each side and nothing is lost, symbolic links stay at the source, file permissions are kept except `setuid`, `setgid` and the sticky bit. See [Renaming across folders](virtual-folders.md#renaming-across-folders).
+- **`temp_path` is removed**: a file cannot be created outside the root it belongs to, so the temporary files of atomic uploads are created next to their destination and the files that stage transfers on disk in the user's home directory. Where `temp_path` pointed at another filesystem, that space usage moves onto the storage one: size it accordingly. The setting is ignored if left in the configuration.
+
 ## Update July 5, 2026 - v2.7.20260705
+
+### Security fixes
+
+- Improper handling of malformed SSH channel requests. [GHSA-q7pc-356p-hggc](https://github.com/drakkan/sftpgo/security/advisories/GHSA-q7pc-356p-hggc).
 
 ### Bug fixes
 
 - SFTP server: fixed public key authentication to reject unparseable public keys without closing the connection, allowing fallback to other keys or authentication methods.
 - ACME: fixed certificate renewals failing with an "account is not registered" error for accounts migrated from disk storage when the configured email had changed after the certificate was obtained; the missing registration is now recovered automatically during renewal.
 - Azure Blob: fixed rename and copy operations between virtual folders using the same storage account but different containers.
-
-### Security fixes
-
-- Improper handling of malformed SSH channel requests. [GHSA-q7pc-356p-hggc](https://github.com/drakkan/sftpgo/security/advisories/GHSA-q7pc-356p-hggc).
 
 ## Update June 26, 2026 - v2.7.20260626
 
@@ -69,7 +114,7 @@ If you're migrating from an open-source installation, please follow the guide he
 
 - Shares: Added [allowed share paths](tutorials/shares.md#restricting-shareable-paths) filter, complementing the existing denied paths list. Administrators can define an allowlist of virtual paths within which shares may be created; paths outside the allowlist are rejected. The allowed and denied lists work together using longest-prefix matching, so a broad allowlist can be paired with narrower denied entries to carve out exceptions.
 - Event Manager: Data retention check now supports [folder-scoped execution](tutorials/eventmanager-retention.md#folder-scoped-retention) and [dry-run mode](tutorials/eventmanager-retention.md#dry-run). Folder-scoped retention runs once on a selected virtual folder as a system task; dry-run produces the report without deleting files or creating archive copies.
-- Event Manager: Enhanced the [PGP](filesystem-actions.md#pgp) filesystem action with glob patterns, per-entry source disposition, and directory-style targets. Source paths can use wildcards in the last component (e.g., `/inbox/*.csv`) to encrypt or decrypt multiple files in one entry. Each entry has its own **After encrypt/decrypt** option (Keep, Delete, Move) so different sources in the same action can have different post-processing. When the source is a single file, a target ending with `/` is treated as a destination directory and the output filename is derived from the source (`report.csv` → `report.csv.pgp` for encrypt, `report.csv.pgp` → `report.csv` for decrypt). See the [PGP tutorial](tutorials/eventmanager-pgp.md#example-scheduled-batch-encryption-with-wildcards) for examples.
+- Event Manager: Enhanced the [PGP](filesystem-actions.md#pgp) filesystem action with glob patterns, per-entry source disposition, and directory-style targets. Source paths can use wildcards in the last component (e.g., `/inbox/*.csv`) to encrypt or decrypt multiple files in one entry. Each entry has its own **After encrypt/decrypt** option (Keep, Delete, Move) so different sources in the same action can have different post-processing. When the source is a single file, a target ending with `/` is treated as a destination directory and the output filename is derived from the source (`report.csv` => `report.csv.pgp` for encrypt, `report.csv.pgp` => `report.csv` for decrypt). See the [PGP tutorial](tutorials/eventmanager-pgp.md#example-scheduled-batch-encryption-with-wildcards) for examples.
 - Event Manager: The filesystem [Delete](filesystem-actions.md#delete) action now supports glob patterns in the last path component (e.g., `/inbox/*.tmp`) to remove multiple matching entries in a single action.
 - Admin permissions: Introduced [granular catalog permissions](admin-permissions.md) for groups and folders, with three independent grants per catalog (`view_*`, `manage_*`, `del_*`) mirroring the user permission model. The change brings:
   - **Read-only detail pages**: admins with `view_users` / `view_groups` / `view_folders` can open the corresponding detail page without needing the edit permission; the page renders read-only and inspection-friendly.
@@ -153,7 +198,7 @@ If you're migrating from an open-source installation, please follow the guide he
 
 Overhauled Prometheus metrics. This is a **breaking change** for existing dashboards and alerts — all metric names have been updated. See the [metrics documentation](metrics.md) for the complete list of new metric names.
 
-- Renamed byte counters to follow Prometheus conventions: `sftpgo_upload_size` → `sftpgo_upload_size_bytes` (same for all download/backend size metrics).
+- Renamed byte counters to follow Prometheus conventions: `sftpgo_upload_size` => `sftpgo_upload_size_bytes` (same for all download/backend size metrics).
 - Replaced 24 individual login counters with a single `sftpgo_login_total{method, result}` CounterVec.
 - Replaced per-backend counters (S3, GCS, Azure, SFTPFs, HTTPFs) with `sftpgo_backend_*{backend}` CounterVec metrics. Added FTPFs backend tracking.
 - Replaced per-backend metadata operation counters with `sftpgo_backend_ops_total{backend, operation}` and `sftpgo_backend_ops_errors_total{backend, operation}`.

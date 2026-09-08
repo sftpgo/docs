@@ -35,7 +35,7 @@ By default, operations are relative to the working directory delivered by the FT
 
 Because of this, the feature is opt-in at the deployment level: the `ftp` backend must be listed in the [`allow_remote_directory`](config-file.md) setting of the `common` configuration section. The remote directory is honored only while the backend is enabled — a connection using a stored configuration whose backend is not in the allow list is rejected, with the reason logged. The value is preserved on save and on backup restore, so disabling the backend does not break data import; in the WebAdmin the field is shown when the backend is enabled, or with a warning when a value is set while the backend is disabled, so it can be cleared.
 
-When the backend is defined at the group level, the remote directory supports the same placeholders as the cloud key prefix and the SFTP prefix (for example `%username%`, `%role%`, `%customN%`). The placeholders are resolved per user when the group settings are applied, so a single group configuration can scope each member to their own sub-path.
+When the backend is defined at the group level, the remote directory supports the same [placeholders](groups.md#placeholders) as the cloud key prefix and the SFTP prefix. The placeholders are resolved per user when the group settings are applied, so a single group configuration can scope each member to their own sub-path.
 
 ## Limitations
 
@@ -43,11 +43,15 @@ This backend has similar limitations to the [S3](s3.md) and other cloud storage 
 
 - `chown`, `chmod`, `truncate`, `symlink`, and `readlink` are not supported.
 - Opening a file for both reading and writing at the same time is not supported.
-- Setting modification times is only supported if the remote FTP server supports the `SITE MTIME` command.
+- Setting modification times is supported when the remote FTP server advertises the `MFMT` feature.
 - Renaming non-empty directories is supported (via recursive rename) but may be slow for directories with many files.
 
 ## Connection behavior
 
-SFTPGo maintains a single persistent connection per FTP backend instance. The connection is validated with a NoOp command before each operation and automatically re-established if stale. The dial timeout is 15 seconds.
+An FTP backend reuses one connection to the remote server across operations, checked with a NoOp command before each use and re-established when the server has dropped it. FTP carries one operation at a time and a transfer holds its connection for its whole duration, so operations that overlap take a connection each.
+
+Size the connection limits of the remote server accordingly: per-user, per-IP and global limits need room for the operations a session runs in parallel. Clients commonly request metadata while a transfer is in progress, so a session downloading a single file can already hold two connections. An operation that does not obtain a connection fails with the error the server returned.
+
+The connect phase and each command on the control connection are bounded by a 20 second timeout.
 
 To prevent connection loops, SFTPGo detects self-connections (an FTP backend pointing back to the same SFTPGo instance) and rejects them unless `allow_self_connections` is explicitly enabled in the [configuration](config-file.md).

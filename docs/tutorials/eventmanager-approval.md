@@ -1,5 +1,5 @@
 ---
-description: "Configure an upload approval workflow in SFTPGo using virtual folders, group permissions, and event rules — uploaders deliver files into a review area, reviewers publish or forward them to internal shares or external systems."
+description: "Build an upload approval workflow in SFTPGo with virtual folders, group permissions and event rules: uploaders deliver, reviewers publish."
 ---
 
 # Upload Approval Workflow
@@ -45,6 +45,8 @@ In the **Permissions** section, configure permissions per directory:
 
 The uploader can list `/inbox` (required for the WebClient to navigate into the folder) and upload new files into it, but cannot download, delete, rename, or overwrite. Files become read-only from the uploader's point of view as soon as the upload completes — they appear in the listing but no further action is possible on them.
 
+Clients that set the file timestamp after an upload, such as WinSCP or `sftp -p`, need the `chtimes` permission too, or `setstat_mode` set to `1` in the `common` section of the configuration.
+
 In the **ACLs** section, restrict sharing:
 
 - **Web client options**: enable `shares-disabled`.
@@ -75,11 +77,11 @@ Assign uploader users to the `uploaders` group and reviewer users to the `review
 
 This makes scaling trivial: to onboard a new uploader, just create the user and add them to the `uploaders` group; the same applies for new reviewers (and, if Option B is configured, for new partner accounts in the `partners` group). To revoke access, remove the user from the group or delete the user — no permissions need to be recomputed.
 
-:information_source: Use **secondary** group membership if a user already has a primary group with their personal home directory and you only want to add the inbox access on top.
+:information_source: Use **secondary** group membership if a user already has a primary group with their personal home directory and you only want to add the inbox access on top. A folder mounted at `/`, as for the `partners` group in Option B, is applied from the primary group only.
 
 ## Step 5: Notify Reviewers on Upload
 
-From the WebAdmin, expand the **Event Manager** section and create a new email action named `notify reviewer`.
+From the WebAdmin, expand the **Event Manager** section and create a new email action named `notify reviewer`. Email actions need an SMTP server: configure it from the WebAdmin under **Server Manager > Configurations > SMTP**, where the settings apply without a restart, or in the [SMTP section](../config-file.md#smtp) of the configuration file.
 
 Configure it as follows:
 
@@ -148,7 +150,7 @@ In option A or B, you can optionally trigger a notification when a file lands in
 - **Email** to a partner contact, using the same email action pattern as Step 5.
 - **HTTP webhook** to the partner's API or a workflow engine, using an HTTP action.
 
-Create a separate event rule with trigger `upload`, path condition `/delivery/*`, group condition `reviewers`, and the desired notification action.
+Create a separate event rule with group condition `reviewers` and the desired notification action. For files published with the WebClient **Copy** action use the `copy` event with path condition `/inbox/*`: path filters match the source path of a copy. For files a client uploads into `/delivery` directly use the `upload` event with path condition `/delivery/*`.
 
 ## How the Reviewer Approves a File
 
@@ -170,7 +172,7 @@ Once notified, the reviewer connects to SFTPGo and navigates to `/inbox`. The We
 
 1. Delete the file from `/inbox`.
 
-If you want the uploader to be notified of rejection, add a second event rule on the `delete` event with a path condition `/inbox/*` and an email action targeted at the uploader. The `delete` event includes `{{.Name}}` (the user who performed the delete — the reviewer) and `{{.ObjectName}}` so the message can read "Reviewer X has rejected your file Y".
+A rule on the `delete` event with a path condition `/inbox/*` can notify a rejection, with `{{.Name}}` (the reviewer) and `{{.ObjectName}}` (the file) available to the message. Two limits apply: with Option A or B the reviewer also deletes the original after publishing it, so the rule fires for approved files too; and the event carries the reviewer, so the uploader must be identified through fixed recipients or a naming convention on the path.
 
 ## Storage Backend Support
 
@@ -180,14 +182,14 @@ This workflow uses only standard SFTPGo features and works on every backend:
 | --------- | ------- |
 | Local filesystem | Most common setup for the inbox folder |
 | Encrypted filesystem (CryptFs) | Files at rest encrypted; reviewer reads through the same VFS |
-| AWS S3 | Cross-backend moves use server-side copy + delete |
+| AWS S3 | Copies to a folder on another backend stream through the server |
 | Azure Blob, Google Cloud Storage | Same as S3 |
 | SFTP (remote) | Works for both inbox and delivery folders |
 | FTP (remote) | Works for both inbox and delivery folders |
 
 ## What This Workflow Provides
 
-- **Separation of duties**: uploaders cannot publish content; reviewers cannot upload through this path.
+- **Separation of duties**: uploaders cannot publish content; only reviewers reach the delivery paths.
 - **Email notification** when a new file needs review.
 - **Native interfaces**: reviewers use the standard WebClient or any SFTP/FTP/WebDAV client — no special approval interface to learn.
 - **Multiple publish paths**: shares, push to remote backends, or pull by partner SFTPGo accounts.

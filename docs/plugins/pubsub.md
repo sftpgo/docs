@@ -10,15 +10,15 @@ The plugin sends filesystem events (uploads, downloads, deletes, etc.), provider
 
 ## Supported services
 
-| Service | URL scheme | Authentication |
-| ------- | ---------- | -------------- |
+| Service | URL scheme | Connection settings |
+| ------- | ---------- | ------------------- |
 | Google Cloud Pub/Sub | `gcppubsub://` | Application Default Credentials (supports Workload Identity) |
 | AWS SNS | `awssns://` | Default AWS credential chain (supports IAM roles) |
 | AWS SQS | `awssqs://` | Default AWS credential chain (supports IAM roles) |
 | Azure Service Bus | `azuresb://` | `SERVICEBUS_CONNECTION_STRING` environment variable |
-| RabbitMQ | `rabbit://` | `RABBIT_SERVER_URL` environment variable |
-| NATS | `nats://` | `NATS_SERVER_URL` environment variable |
-| Apache Kafka | `kafka://` | `KAFKA_BROKERS` environment variable (comma-separated) |
+| RabbitMQ | `rabbit://` | `SFTPGO_PLUGIN_PUBSUB_RABBIT_SERVER_URL` environment variable, [TLS settings](#tls-settings) |
+| NATS | `nats://` | `SFTPGO_PLUGIN_PUBSUB_NATS_SERVER_URL` environment variable, [TLS settings](#tls-settings) |
+| Apache Kafka | `kafka://` | `SFTPGO_PLUGIN_PUBSUB_KAFKA_BROKERS` environment variable (comma-separated), [TLS](#tls-settings) and [SASL](#apache-kafka) settings |
 
 ## Installation
 
@@ -31,6 +31,20 @@ Install the `sftpgo-plugins` package as described in [Audit Logs - Installation]
 The topic URL is passed as the first argument to the plugin. The second argument is an optional instance identifier, useful in multi-instance deployments to distinguish which SFTPGo node generated the event.
 
 :information_source: The examples below use plugin index `0`. If you have other plugins already configured, adjust the index accordingly. See [Plugin indexing](../plugins.md#plugin-indexing) for details.
+
+### Environment variables
+
+The plugin runs as a separate process and receives from SFTPGo the environment variables with the `SFTPGO_PLUGIN_PUBSUB_` prefix. All the settings documented on this page use this prefix, so they reach the plugin without additional configuration.
+
+Variables with other names, such as `SERVICEBUS_CONNECTION_STRING` or the cloud SDK credentials, are forwarded when listed in `ENV_VARS`:
+
+```shell
+SFTPGO_PLUGINS__0__ENV_VARS="SERVICEBUS_CONNECTION_STRING"
+```
+
+Set `SFTPGO_PLUGINS__0__ENV_PREFIX="*"` to forward the whole SFTPGo environment. See [Plugins configuration](../config-file.md#plugins) for details.
+
+The Go CDK variable names `KAFKA_BROKERS`, `NATS_SERVER_URL` and `RABBIT_SERVER_URL` remain supported when the prefixed variable is not set.
 
 ### Google Cloud Pub/Sub
 
@@ -63,29 +77,91 @@ SFTPGO_PLUGINS__0__ARGS="awssqs://sqs.us-east-2.amazonaws.com/123456789012/sftpg
 
 ```shell
 SERVICEBUS_CONNECTION_STRING="Endpoint=sb://my-namespace.servicebus.windows.net/;SharedAccessKeyName=...;SharedAccessKey=..."
+SFTPGO_PLUGINS__0__ENV_VARS="SERVICEBUS_CONNECTION_STRING"
 SFTPGO_PLUGINS__0__ARGS="azuresb://sftpgo-events"
 ```
 
 ### RabbitMQ
 
 ```shell
-RABBIT_SERVER_URL="amqp://guest:guest@192.168.1.5:5672/"
+SFTPGO_PLUGIN_PUBSUB_RABBIT_SERVER_URL="amqp://guest:guest@192.168.1.5:5672/"
 SFTPGO_PLUGINS__0__ARGS="rabbit://sftpgo-events"
 ```
+
+The `amqps://` scheme enables TLS. Server certificates issued by a public certificate authority are verified with the system trust store. A private certificate authority or a client certificate are configured with the [TLS settings](#tls-settings).
 
 ### NATS
 
 ```shell
-NATS_SERVER_URL="nats://192.168.1.5:4222"
+SFTPGO_PLUGIN_PUBSUB_NATS_SERVER_URL="nats://192.168.1.5:4222"
 SFTPGO_PLUGINS__0__ARGS="nats://sftpgo.events"
 ```
+
+The `tls://` scheme enables TLS. Server certificates issued by a public certificate authority are verified with the system trust store. A private certificate authority or a client certificate are configured with the [TLS settings](#tls-settings). Credentials are set in the server URL, for example `tls://user:password@nats.example.com:4222` or `tls://token@nats.example.com:4222`.
 
 ### Apache Kafka
 
 ```shell
-KAFKA_BROKERS="192.168.1.5:9092,192.168.1.6:9092"
+SFTPGO_PLUGIN_PUBSUB_KAFKA_BROKERS="192.168.1.5:9092,192.168.1.6:9092"
 SFTPGO_PLUGINS__0__ARGS="kafka://sftpgo-events"
 ```
+
+Kafka brokers are addressed as `host:port`, so TLS is enabled with a dedicated variable:
+
+| Variable | Description |
+| -------- | ----------- |
+| `SFTPGO_PLUGIN_PUBSUB_KAFKA_TLS` | Set to `1` to connect to the brokers over TLS. TLS is also enabled when any of the [TLS settings](#tls-settings) is set |
+
+SASL authentication is configured with the following variables:
+
+| Variable | Description |
+| -------- | ----------- |
+| `SFTPGO_PLUGIN_PUBSUB_KAFKA_SASL_MECHANISM` | `PLAIN`, `SCRAM-SHA-256` or `SCRAM-SHA-512`. Setting a mechanism enables SASL |
+| `SFTPGO_PLUGIN_PUBSUB_KAFKA_SASL_USERNAME` | SASL username |
+| `SFTPGO_PLUGIN_PUBSUB_KAFKA_SASL_PASSWORD` | SASL password |
+
+Example for a `SASL_SSL` listener with SCRAM authentication and a broker certificate issued by a public certificate authority:
+
+```shell
+SFTPGO_PLUGIN_PUBSUB_KAFKA_BROKERS="kafka-1.example.com:9094,kafka-2.example.com:9094"
+SFTPGO_PLUGIN_PUBSUB_KAFKA_TLS=1
+SFTPGO_PLUGIN_PUBSUB_KAFKA_SASL_MECHANISM="SCRAM-SHA-512"
+SFTPGO_PLUGIN_PUBSUB_KAFKA_SASL_USERNAME="sftpgo"
+SFTPGO_PLUGIN_PUBSUB_KAFKA_SASL_PASSWORD="secret"
+SFTPGO_PLUGINS__0__ARGS="kafka://sftpgo-events"
+```
+
+:information_source: SCRAM passwords are normalized according to RFC 4013 (SASLprep), as most Kafka clients do. Passwords made of printable ASCII characters are unaffected.
+
+### TLS settings
+
+Kafka, RabbitMQ and NATS connections support a private certificate authority, a client certificate for mutual TLS and a server name override. The other services are always accessed over TLS with the trust store of their SDK.
+
+| Variable | Description |
+| -------- | ----------- |
+| `SFTPGO_PLUGIN_PUBSUB_TLS_ROOT_CERT` | Path to a PEM-encoded CA certificate, added to the system trust store |
+| `SFTPGO_PLUGIN_PUBSUB_TLS_CLIENT_CERT` | Path to a PEM-encoded client certificate |
+| `SFTPGO_PLUGIN_PUBSUB_TLS_CLIENT_KEY` | Path to the private key of the client certificate. Certificate and key are set together |
+| `SFTPGO_PLUGIN_PUBSUB_TLS_SERVER_NAME` | Host name expected in the server certificate. Useful when the brokers are reached by IP address, through a load balancer or a tunnel |
+| `SFTPGO_PLUGIN_PUBSUB_TLS_SKIP_VERIFY` | Set to `1` to skip the server certificate verification. For diagnostics only |
+
+Example for a Kafka cluster with a private CA and client certificate authentication:
+
+```shell
+SFTPGO_PLUGIN_PUBSUB_KAFKA_BROKERS="kafka-1.internal:9093,kafka-2.internal:9093"
+SFTPGO_PLUGIN_PUBSUB_TLS_ROOT_CERT="/etc/sftpgo/kafka/ca.pem"
+SFTPGO_PLUGIN_PUBSUB_TLS_CLIENT_CERT="/etc/sftpgo/kafka/client.pem"
+SFTPGO_PLUGIN_PUBSUB_TLS_CLIENT_KEY="/etc/sftpgo/kafka/client.key"
+SFTPGO_PLUGINS__0__ARGS="kafka://sftpgo-events"
+```
+
+The certificate files are read when the plugin starts. After renewing a certificate on disk, restart SFTPGo or wait for the plugin restart: when the connection to the service is lost the plugin exits, SFTPGo restarts it and the renewed files are loaded.
+
+For RabbitMQ, the TLS settings require the `amqps://` scheme in the server URL. For NATS, the TLS settings enable TLS with any URL scheme.
+
+The cloud services use the trust store of their SDK. On Linux, a private certificate authority for those services, for example for a TLS inspecting proxy, is configured with the `SSL_CERT_FILE` environment variable listed in `ENV_VARS`.
+
+:information_source: The prefixed connection variables, the TLS settings and the SASL settings require plugin version 1.2.0 or newer.
 
 ### Adding an instance ID
 

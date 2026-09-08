@@ -121,7 +121,6 @@ You can open the SFTPGo configuration file, search for the `acme` section and ch
     "domains": ["sftpgo.com"],
     "email": "<you email address here>",
     "key_type": "4096",
-    "certs_path": "/var/lib/sftpgo/certs",
     "ca_endpoint": "https://acme-v02.api.letsencrypt.org/directory",
     "renew_days": 30,
     "http01_challenge": {
@@ -146,7 +145,7 @@ SFTPGO_ACME__HTTP01_CHALLENGE__WEBROOT="/var/www/sftpgo.com"
 Make sure that the `sftpgo` user can write to the `/var/www/sftpgo.com` directory or pre-create the `/var/www/sftpgo.com/.well-known/acme-challenge` directory with the appropriate permissions.
 This directory must be publicly served by your web server.
 
-:warning: in this example we assume you have an existing HTTP server. If not, you can leave the web root blank and SFTPGo will resolve the HTTP01 challenge by itself.
+:warning: in this example we assume you have an existing HTTP server. If not, you can leave the web root blank and SFTPGo will resolve the HTTP01 challenge by itself. The built-in challenge server listens on port 80, a privilege the `sftpgo` user lacks when the command below is run by hand: with a blank web root obtain the first certificate from the WebAdmin instead, since the service runs with the capability to bind port 80.
 
 Register your account and obtain certificates by running the following command.
 
@@ -154,7 +153,7 @@ Register your account and obtain certificates by running the following command.
 sudo -E su - sftpgo -m -s /bin/bash -c 'sftpgo acme run -c /etc/sftpgo'
 ```
 
-If this command completes successfully, you are done. The SFTPGo service will take care of the automatic renewal of certificates for the configured domains. Make sure that the `sftpgo` system user can read and write to `/var/lib/sftpgo/certs` directory otherwise the certificate renewal will fail.
+If this command completes successfully, you are done. The SFTPGo service will take care of the automatic renewal of certificates for the configured domains. The certificates are stored in the database: HTTPS is enabled automatically on the HTTP bindings, and the FTP and WebDAV services use the same certificate when none is configured for them. The sections below, which point the bindings at certificate files, apply to certificates obtained with `lego`.
 
 ## Enable HTTPS for SFTPGo Web UI and REST API
 

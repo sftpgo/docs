@@ -1,10 +1,10 @@
 ---
-description: "Use AI assistants — Claude Code, Cursor, Copilot, ChatGPT, Gemini — to write SFTPGo REST API payloads, Event Action templates, and configuration. Official AI skill at github.com/sftpgo/sftpgo-skill."
+description: "Use AI assistants to write SFTPGo REST API payloads, event action templates and configuration, with the official SFTPGo skill."
 ---
 
 # AI assistants for SFTPGo
 
-Writing a correct SFTPGo REST API payload, an Event Action Go template, or a WebAdmin configuration for a new backend takes practice. A Large Language Model (Claude, GPT, Gemini, Mistral, Llama, …) can accelerate most of that work — **provided you give it the right context**. Without context, AI assistants tend to invent plausible-looking field names, skip required properties, or mix up features that belong only to the Enterprise edition.
+Writing a correct SFTPGo REST API payload, an Event Action Go template, or a WebAdmin configuration for a new backend takes practice. A Large Language Model (Claude, GPT, Gemini, Mistral, Llama, ...) can accelerate most of that work — **provided you give it the right context**. Without context, AI assistants tend to invent plausible-looking field names, skip required properties, or mix up features that belong only to the Enterprise edition.
 
 To make this reliable we maintain a dedicated reference skill — **[sftpgo-skill](https://github.com/sftpgo/sftpgo-skill){:target="_blank"}** — that you can plug into almost any AI agent.
 
@@ -12,10 +12,10 @@ To make this reliable we maintain a dedicated reference skill — **[sftpgo-skil
 
 The skill is deliberately *AI-agnostic*: same content, multiple integration formats. It covers:
 
-- **REST API payload conventions** — tagged unions (`provider` / `action type` integer → sub-config), the secret envelope (`{status, payload}` + the `[**redacted**]` sentinel on update), required-field matrices, PUT-replace semantics.
+- **REST API payload conventions** — tagged unions (`provider` / `action type` integer => sub-config), the secret envelope (`{status, payload}` + the `[**redacted**]` sentinel on update), required-field matrices, PUT-replace semantics.
 - **WebAdmin form fields** — same JSON shape as the REST API, so one set of knowledge covers both interfaces.
 - **Event Action templates** — the full Go `text/template` context, the registered function map (`toJson`, `humanizeBytes`, `fromNanos`, `slicesContains`, and the rest), which template fields are populated per trigger type, and ready-to-paste examples (upload notifications, Slack / Teams / Discord / Google Chat / Mattermost webhooks, OIDC JIT user provisioning, ICAP scanning, staged-upload actions, PGP encryption, retention reports).
-- **Deployment recipes** — `SFTPGO_…` environment variable naming rule, Docker / Kubernetes / Helm recipes, production env.d layouts, sysadmin pitfalls (memory pipes for cloud backends, local home-directory permissions, CockroachDB migration constraints).
+- **Deployment recipes** — `SFTPGO_...` environment variable naming rule, Docker / Kubernetes / Helm recipes, production env.d layouts, sysadmin pitfalls (memory pipes for cloud backends, local home-directory permissions, CockroachDB migration constraints).
 - **Edition and distribution awareness** — the skill recognises when you're on the Open Source edition, on a cloud marketplace VM, or on the fully-managed SaaS at sftpgo.com, and adjusts its suggestions accordingly (no shell commands for SaaS customers, no Enterprise-only features for OSS installs, no sales pitches either way).
 
 The skill does **not** duplicate the OpenAPI spec or this documentation; it indexes them. For field-level validation an AI should still consult the authoritative [OpenAPI spec](https://sftpgo.com/assets/openapi.yaml){:target="_blank"}; for operational walkthroughs, these docs.

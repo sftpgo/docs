@@ -50,6 +50,8 @@ When HNS is enabled (`Hierarchical Namespace = 1`), SFTPGo uses the Cloud Storag
 - **Explicit folder creation and deletion** — `mkdir` and `rmdir` use native folder operations.
 - **Better consistency** — Folder metadata is handled directly by the storage service.
 
+:information_source: The single operation carries every entry of the folder, so a folder rename requires that the same [per-directory permissions and file pattern filters](access-control.md#per-directory-permissions) govern the source and the destination, as on every other backend that renames a directory in one operation. Where they differ, move the contents instead.
+
 :warning: Only enable HNS if your GCS bucket has Hierarchical Namespace enabled. Using this setting with a standard (flat namespace) bucket will cause errors.
 
 ## Limitations

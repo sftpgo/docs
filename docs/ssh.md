@@ -19,10 +19,28 @@ SFTPGo supports multiple authentication methods, which can be combined for multi
 | Method | Description |
 | -------- | ------------- |
 | **Password** | Standard password authentication. Can be disabled per-user or globally. |
-| **Public key** | SSH public key authentication. Multiple keys per user are supported. |
+| **Public key** | SSH public key authentication. Multiple keys per user are supported, each one can be [restricted to source addresses](#restricting-a-key-to-source-addresses). |
 | **Certificate** | SSH certificates signed by a trusted Certificate Authority. Supports principal validation, expiration, source-address restrictions, and revocation lists. See [configuration](config-file.md) for `trusted_user_ca_keys` and `revoked_user_certs_file`. |
 | **Keyboard-interactive** | Challenge-response authentication. Supports external hooks for custom authentication flows (e.g., OTP, security questions). See [Keyboard Interactive Authentication](keyboard-interactive.md). |
 | **OpenPubkey (OPKSSH)** | [OpenPubkey SSH](https://github.com/openpubkey/opkssh){:target="_blank"} integration via external binary. Mutually exclusive with certificate authentication. |
+
+### Restricting a key to source addresses
+
+A public key can be limited to the networks a client may use it from. Write the `from` option of the `authorized_keys` format before the key:
+
+```
+from="192.0.2.0/24,2001:db8::/32" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI... build-server
+```
+
+The option lists one or more networks in CIDR notation, separated by commas. A single address takes its full prefix length, `192.0.2.10/32` or `2001:db8::10/128`. The other forms of the OpenSSH `from` option, hostnames and `!` negations, and the other `authorized_keys` options are refused when the user is saved, and the error reports the accepted syntax.
+
+From an address outside the listed networks the key does not authenticate; the other keys of the user, if any, are tried as usual. A network covers its own address family: `0.0.0.0/0` covers IPv4 and `::/0` covers IPv6.
+
+The address compared is the client address of the connection. Behind a proxy, enable the [PROXY protocol](config-file.md#proxy_protocol-modes) so that the address is the client's and not the proxy's. The [allowed and denied IP addresses](access-control.md#ip-and-protocol-restrictions) of the user keep applying.
+
+SSH certificates are restricted with their own `source-address` option, set when the certificate is issued.
+
+:warning: The restriction belongs to the key, not to the user: a user allowed to manage its public keys from the Web Client or the REST API can add a key without it. To make it binding, disable the change of the public keys with the matching Web client/REST API option, see [Web Client and REST API](users.md#web-client-and-rest-api).
 
 ### Multi-step authentication
 
@@ -71,7 +89,7 @@ If no host keys are configured, SFTPGo automatically generates `id_rsa`, `id_ecd
 
 ## SSH commands
 
-SFTPGo supports a limited set of SSH commands for specific use cases. All commands are **emulated internally in Go** — SFTPGo never spawns the corresponding system binaries (`scp`, `md5sum`, `uname`, …) and does not require them to be installed on the host. Operations are executed within the user's security context (permissions, quotas, and home directory restrictions apply) and work consistently across all storage backends, including remote and encrypted ones.
+SFTPGo supports a limited set of SSH commands for specific use cases. All commands are **emulated internally in Go** — SFTPGo never spawns the corresponding system binaries (`scp`, `md5sum`, `uname`, ...) and does not require them to be installed on the host. Operations are executed within the user's security context (permissions, quotas, and home directory restrictions apply) and work consistently across all storage backends, including remote and encrypted ones.
 
 | Command | Default | Description |
 | --------- | --------- | ------------- |
@@ -87,9 +105,11 @@ SFTPGo supports a limited set of SSH commands for specific use cases. All comman
 | `sftpgo-remove` | — | Server-side recursive removal of files and directories. Usage: `sftpgo-remove <path>`. Does not support removing across virtual folder boundaries. |
 | `uname` | — | Synthetic response for client probes that issue `uname` over SSH (e.g. some backup integrations). SFTPGo does not execute the system `uname` binary; it returns a fixed `uname -a`-style string. The default base is `Linux sftpgo 1.0.0 #1 SMP SFTPGo x86_64 GNU/Linux` (no real host data exposed) and can be overridden via [`SFTPGO_HOOK__SSHD_UNAME_OUTPUT`](env-vars.md). Standard flags (`-a`, `-s`, `-n`, `-r`, `-v`, `-m`, `-p`, `-i`, `-o` and their long forms) extract the matching field from the base string. |
 
+:information_source: OpenSSH 9.0 and later transfer over SFTP when `scp` is invoked; the server-side SCP implementation described here serves the clients that request the legacy protocol, with `scp -O` on those releases. Both paths are supported. The SFTP one resolves the destination first, so it requires the `list` [permission](access-control.md#per-directory-permissions) on the target directory.
+
 Commands not in the default list must be explicitly enabled in the [configuration](config-file.md). Set `enabled_ssh_commands` to `*` to enable all supported commands.
 
-:warning: Hash commands read the entire file to compute the digest. For remote storage backends, this means downloading the file; for encrypted storage, this means decrypting it.
+:warning: Hash commands read the entire file to compute the digest. For remote storage backends, this means downloading the file; for encrypted storage, this means decrypting it. The read requires the `download` [permission](access-control.md#per-directory-permissions) on the file's parent directory.
 
 ## Security features
 

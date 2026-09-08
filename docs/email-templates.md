@@ -50,7 +50,7 @@ Not all placeholders are always populated. The `{{.Code}}` placeholder is always
 
 ## Template Syntax
 
-Templates use [Go template syntax](https://pkg.go.dev/text/template). The most common usage is simply inserting placeholder values:
+Templates use [Go template syntax](https://pkg.go.dev/text/template). The most common usage is inserting placeholder values:
 
 ```html
 <p>Your verification code is: <strong>{{.Code}}</strong></p>

@@ -4,7 +4,7 @@ description: "Configure public file shares in SFTPGo with password protection, e
 
 # Public Shares
 
-Public shares are a quick and secure way to share files directly from the WebClient UI without creating user accounts, making collaboration with external contacts simple and efficient.
+Public shares allow users to share files directly from the WebClient UI with external contacts, without creating user accounts for them.
 
 Each public share generates a unique, web-accessible URL, and users can configure access controls such as:
 
@@ -14,7 +14,9 @@ Each public share generates a unique, web-accessible URL, and users can configur
 - Download/upload limits
 - Email-based access for extra security
 
-Public shares are managed by the users themselves, not by administrators. This makes it easy for users with access to files to securely collaborate with clients, partners, or external collaborators — without requiring administrator intervention.
+Public shares are managed by the users themselves, not by administrators. Users with access to the files can therefore share them with clients, partners or other external recipients without administrator intervention.
+
+:information_source: A symbolic link beneath the shared path is dereferenced when its path is requested directly: its target is served through the share. See [Symbolic links and permissions](../config-file.md#symbolic-links-and-permissions).
 
 ## Preliminary Note
 
@@ -63,7 +65,7 @@ Users can:
 - Download individual files directly.
 - Download all shared files and folders as a single compressed .zip archive for convenience.
 
-This share type is ideal for securely distributing documents, reports, or any other files where write access is not required.
+This share type is suited to distributing documents, reports or other files when write access is not required.
 
 ![WebClient read only share](../assets/img/webclient_read_only_share.png){data-gallery="webclient-ro-share"}
 
@@ -87,7 +89,7 @@ Read/write shares provide external users with full access to the shared content,
 - Upload new files via manual selection or drag and drop.
 - Create new folders within the shared structure.
 
-This type of share combines the capabilities of both read-only and write-only shares, making it ideal for collaborative scenarios where external users need to both access and contribute files to a shared workspace.
+This type of share combines the capabilities of both read-only and write-only shares, making it suited to scenarios where external users need to both access and contribute files to a shared workspace.
 
 ![WebClient read write share](../assets/img/webclient_read_write_share.png){data-gallery="webclient-rw-share"}
 
@@ -149,11 +151,13 @@ denied:  /projects/confidential
 
 ### Configuration and inheritance
 
-Both fields are textareas in the user or group settings under the "Profile" section of the WebAdmin UI. Enter one or more virtual paths separated by commas.
+Both fields are textareas in the user or group settings, in the "Sharing" card of the "ACLs" section of the WebAdmin UI. Enter one or more virtual paths separated by commas.
 
 When configured at the group level, both lists are inherited additively by group members and deduplicated with any user-level entries.
 
-:information_source: Group-level **Denied share paths** entries are enforced even when a user has the same path in their **Allowed share paths** list — the denied entry always takes precedence, so groups remain a reliable mechanism for hard share restrictions.
+:information_source: A group-level **Denied share paths** entry holds against a user-level **Allowed share paths** entry for the same path: on a tie the denied entry wins. A user-level allowed entry deeper than the denied path wins instead, as in the nested override example above, so a hard restriction must be reviewed against the allowed entries of the members.
+
+:information_source: Both filters match the virtual path of the share. A symbolic link placed beneath a shareable path is dereferenced, as on every other protocol, so its target is served through the share. Where these filters must hold, keep symbolic-link creation disabled — its default [`symlink_mode`](../config-file.md#symbolic-links-and-permissions) — and provision the shareable subtrees accordingly.
 
 :warning: Tightening either filter takes effect immediately, including for shares that already exist: if a previously-shared path is no longer allowed (or is now denied), the share starts returning 404 on next access until the filter is relaxed or the share is removed.
 
@@ -179,7 +183,7 @@ To enable share delegation, a specific configuration is required on the server s
 
 ### Administrator Configuration (WebAdmin)
 
-Administrators can define the Share Policy within the "Advanced settings" section of a group's configuration. The policy controls how shares created by group members are automatically associated with the group.
+Administrators can define the Share Policy within the "ACLs" section of a group's configuration. The policy controls how shares created by group members are automatically associated with the group.
 
 The policy consists of the Permissions granted to other group members (Read, Edit, Delete) and the Mode:
 
@@ -254,6 +258,15 @@ Here is an example rule to execute the above action.
 
 Naturally, all operations performed on shares, including uploads and downloads, are also recorded in the audit logs.
 
+## Owner Account State
+
+A public share is served on behalf of the account that created it, and follows the state of that account.
+
+- Disabling the owner account, or reaching its expiration date, makes its shares unavailable. The shares are not modified, so re-enabling the account, or extending its expiration date, makes them available again.
+- Deleting the owner account deletes its shares.
+- The restrictions that govern when the account holder can log in, such as the [time-based access](../access-control.md#time-based-access) windows, apply to the account holder, not to the recipient of a share.
+- Sessions already established follow the general rule described in [When account changes take effect](../access-control.md#when-account-changes-take-effect); closing them covers the connections serving the shares as well.
+
 ## Automating Share Lifecycle Management
 
 SFTPGo can automatically manage the lifecycle of public shares to ensure security and compliance. By using the Event Manager, administrators can configure rules to detect shares that are inactive, about to expire, or have exhausted their allowed tokens, and take appropriate actions (such as sending a notification or deleting the share).
@@ -269,8 +282,8 @@ First, you need to define the criteria for what constitutes an "expired" or "ina
    - **Advance notice**: How many days before the actual expiration (or the calculated inactivity expiration) to trigger a "notification" event.
    - **Grace period**: How many days to keep an expired share in the database before permanently deleting it (Soft Delete).
    - **Split events**:
-     - If **enabled**: The action triggers a separate event for every single share/user found. This populates the `{{.ShareExpirationResult}}` placeholder, making it ideal for **Email notifications** where you need the context of a specific share owner.
-     - If **disabled**: The action generates a single event containing the results of all checks. The `{{.ShareExpirationChecks}}` list is always available in both modes, but this mode is ideal for **HTTP webhooks** or admin reports where you want to process all data in bulk.
+     - If **enabled**: The action triggers a separate event for every single share/user found. This populates the `{{.ShareExpirationResult}}` placeholder, which is required for **Email notifications** that need the context of a specific share owner.
+     - If **disabled**: The action generates a single event containing the results of all checks. The `{{.ShareExpirationChecks}}` list is always available in both modes, but this mode is suited to **HTTP webhooks** or admin reports that process all data in bulk.
 
 ### Step 2: Configure the Notification (Email or HTTP)
 

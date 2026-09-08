@@ -45,4 +45,4 @@ As actions, select `create dirs` and `create dirs failure notification`. Mark th
 
 ![Create dirs rule actions](../assets/img/create-dirs-rule-actions.png){data-gallery="create-dir-rule-action"}
 
-Done! Create a new user and verify that the `/in` and `/out` directories are automatically created in their home directory.
+The rule is now active. Create a new user and verify that the `/in` and `/out` directories are created in their home directory.

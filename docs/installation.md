@@ -25,7 +25,7 @@ You can remove this requirement by using an embedded SQLite, bolt or in memory d
 
 ## Commercial Marketplaces
 
-SFTPGo Enterprise is available on major cloud marketplaces, allowing you to quickly deploy pre-configured instances in your preferred environment. These offerings simplify installation and come with default settings, which can be easily adjusted to match your specific requirements.
+SFTPGo Enterprise is available on the main cloud marketplaces as pre-configured instances. The instances ship with default settings that can be adjusted to match your requirements.
 
 Marketplace offerings are available in plans that correspond to our Starter and Premium [on-premises](https://sftpgo.com/on-premises){:target="_blank"} tiers. For advanced requirements, a private offer can be arranged to provide the full capabilities of the Ultimate tier.
 
@@ -70,10 +70,10 @@ SFTPGo Enterprise offerings on Google Cloud Marketplace:
 
 ### What is preconfigured on marketplace offerings
 
-Marketplace instances are ready to use out of the box. They ship with:
+Marketplace instances are ready to use. They ship with:
 
 - **License key already activated.** The license is tied to your marketplace subscription — no separate activation step is required.
-- **Audit logs plugin enabled by default**, on both the Starter and the Premium tiers. The audit plugin records every administrative and user action; events are browsable from the WebAdmin under **Maintenance → Audit Logs** and queryable via the REST API.
+- **Audit logs plugin enabled by default**, on both the Starter and the Premium tiers. The audit plugin records every administrative and user action; events are browsable from the WebAdmin under **Maintenance => Audit Logs** and queryable via the REST API.
 - **In-memory transfer pipes enabled** (`SFTPGO_HOOK__MEMORY_PIPES__ENABLED=1`). This lets cloud-backend users (S3, GCS, Azure Blob) upload without needing a writable local scratch area, which matters on minimal VM images and container runtimes.
 - **Data provider preconfigured** for standalone use. The storage layer and the plugin event databases are supported and initialized on first boot — you do not need to stand up a separate database service. If you require high availability, point the data provider at a managed or clustered database of your choice.
 
@@ -120,7 +120,7 @@ SFTPGo Enterprise can be installed on Linux, Windows, and in containerized envir
 - Windows installers are provided for direct setup on Windows systems.
 - A Docker registry is available.
 
-A license key is required to unlock advanced features and to access our Docker repository.
+A license key is required to enable advanced features and to access our Docker repository.
 Licenses can be purchased or a free trial activated directly from our [website](https://sftpgo.com/on-premises){:target="_blank"}.
 
 Without a valid license, the application runs in **limited mode** with the following restrictions:
@@ -244,7 +244,13 @@ C:\Program Files\SFTPGo>sftpgo.exe service uninstall
 C:\Program Files\SFTPGo>sftpgo.exe service install -c "C:\ProgramData\SFTPGo Enterprise" -l "logs\sftpgo.log" --service-user "DOMAIN\username" --service-password password
 ```
 
-The installer registers SFTPGo as a Windows service only during the initial installation. Future updates will not modify the existing service configuration.
+A dedicated account needs modify access to the data directory, `C:\ProgramData\SFTPGo Enterprise` by default, which holds the configuration, the SQLite database, the logs, the backups and the certificates, in addition to access to the configured home directories. Grant it with inheritance so that files created by future updates are covered too:
+
+```shell
+icacls "C:\ProgramData\SFTPGo Enterprise" /grant "DOMAIN\username:(OI)(CI)M"
+```
+
+The installer registers SFTPGo as a Windows service only during the initial installation. Future updates will not modify the existing service configuration or the permissions set on the data directory.
 
 To install on systems without a GUI (e.g., Windows Server Core), run the installer with the following flag:
 
@@ -263,6 +269,26 @@ The installer is built with Inno Setup. For a full list of supported command-lin
 ### Docker
 
 For setup instructions, image details, and access to our Docker registry, please refer to the dedicated [Docker page](docker.md).
+
+### Service account
+
+Run the service with the least privileges it needs: access to the configured home directories and to its own data, and nothing else.
+
+The Linux packages register SFTPGo as a systemd service running under the dedicated, unprivileged `sftpgo` account, which owns the packaged data directories; on Windows the service runs as `LOCAL SYSTEM` unless a different identity is set, as described [above](#windows).
+
+Running SFTPGo under a privileged account is supported and a few deployments need it, for example to set per-user ownership on uploaded files on Unix-like systems. File operations, hooks, command actions and plugins then run with the privileges of that account.
+
+:warning: SFTPGo is a single process and does not switch to an operating system user per connection: the permissions granted to the SFTPGo user are the boundary between clients, and the operating system enforces no boundary of its own. A privileged service account widens what the service can reach and leaves that boundary as the only one, so provision the home directories and the paths leading to them as described in [Local filesystem](localfs.md#symbolic-links).
+
+The `chmod` and `chown` permissions, both part of the default `*` set, need attention in this setup. On Unix-like systems a client holding them can set any mode, `setuid` included, and any owner on the files of its own tree: where those clients can also execute files, this amounts to acting as the service account. Under an unprivileged account the chown fails and a setuid bit confers no more than that account. On Windows the mode maps to the read-only attribute and ownership is left untouched.
+
+Where a privileged account is required, apply one of these mitigations:
+
+- remove `chmod` and `chown` from the permissions of the users: the requests are refused
+- set `setstat_mode` to `1` in the `common` section of the configuration: requests to change mode, owner and times are accepted and ignored, which suits clients that send them on every upload
+- on Unix-like systems, mount the filesystem that holds the home directories with `nosuid`: a setuid bit on a file grants nothing when the file is executed, however the bit was set
+
+SFTPGo logs a warning at startup when it runs as root.
 
 ### Adding a license key
 

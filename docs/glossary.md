@@ -34,7 +34,7 @@ A reference of SFTPGo-specific terms. Use it to quickly disambiguate concepts th
 ## Storage
 
 **Filesystem (backend / provider)**
-: The storage system a user's home (or virtual folder) is backed by: local disk, encrypted local (CryptFs), S3, Azure Blob, Google Cloud Storage, SFTP, FTP, HTTP. Each backend has its own configuration shape. See [Features → Storage backends](features.md#storage-backends).
+: The storage system a user's home (or virtual folder) is backed by: local disk, encrypted local (CryptFs), S3, Azure Blob, Google Cloud Storage, SFTP, FTP, HTTP. Each backend has its own configuration shape. See [Features => Storage backends](features.md#storage-backends).
 
 **Virtual folder**
 : A mount point that maps a path inside the user's namespace to any storage backend — even a different backend from the user's home. Enables cross-backend workflows (e.g. S3 bucket exposed under `/archive` while the user's home is on local disk). See [Virtual Folders](virtual-folders.md).
@@ -43,7 +43,7 @@ A reference of SFTPGo-specific terms. Use it to quickly disambiguate concepts th
 : The server-wide definition of a virtual folder (name + backend + mapped path). A **virtual folder** on a user or group is a reference to a folder plus the *virtual path* at which it is mounted. One folder can be referenced by many users.
 
 **Quota**
-: Disk and transfer usage limits tracked by SFTPGo in software — neither the kernel nor the storage enforces them. The counters are application accounting: they describe the usage rather than define it, and are approximate by construction, since a process killed mid-transfer, files changed outside SFTPGo, or a bug in the accounting leave them off. Recalculating from the actual content is part of the model: the quota scan REST APIs and the Event Manager quota reset actions rebuild the counters, and a scheduled recalculation is recommended.
+: Disk and transfer usage limits that SFTPGo tracks in software, updating the counters as each operation completes. Being application-level accounting, they describe the storage rather than define it and follow it approximately: an operation interrupted part way, a change made outside SFTPGo, or a restart during a transfer moves the storage without a matching update. Recalculation from the actual content is part of the model — the quota scan REST APIs and the Event Manager quota reset actions rebuild the counters — so schedule it to keep them aligned.
 
 **Quota (dedicated vs shared)**
 : A virtual folder's quota can be dedicated (the folder counts its own bytes/files) or shared with the user's own quota (value `-1`). Folders shared across users should always use a **dedicated** quota to keep counters accurate.
@@ -65,7 +65,7 @@ A reference of SFTPGo-specific terms. Use it to quickly disambiguate concepts th
 ## Automation
 
 **Event Manager**
-: The subsystem that runs **rules → actions** in response to events. See [Event Manager](eventmanager.md).
+: The subsystem that runs **rules => actions** in response to events. See [Event Manager](eventmanager.md).
 
 **Event rule**
 : *When* something happens. Binds a trigger, optional conditions, and an ordered list of actions.

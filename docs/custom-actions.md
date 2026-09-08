@@ -55,7 +55,7 @@ If the `hook` defines a path to an external program, then this program can read 
 - `SFTPGO_ACTION_OPEN_FLAGS`, integer. File open flags, can be non-zero for `pre-upload` action. If `SFTPGO_ACTION_FILE_SIZE` is greater than zero and `SFTPGO_ACTION_OPEN_FLAGS&512 == 0` the target file will not be truncated
 - `SFTPGO_ACTION_ROLE`, string. Role of the user who executed the action
 - `SFTPGO_ACTION_TIMESTAMP`, int64. Event timestamp as nanoseconds since epoch
-- `SFTPGO_ACTION_METADATA`, string. Object metadata serialized as JSON. Omitted if there is no metadata
+- `SFTPGO_ACTION_METADATA`, string. Custom metadata of the object serialized as JSON, for S3, GCS and Azure backends. Included for `delete`, `rename` and `copy` actions, and for `download` actions when `metadata.read` is set to `1` in the [config file](config-file.md#metadata). Omitted if there is no metadata
 
 Global environment variables are cleared, for security reasons, when the script is called. You can set additional environment variables in the "command" configuration section.
 The program must finish within 30 seconds.
@@ -81,7 +81,7 @@ If the `hook` defines an HTTP URL then this URL will be invoked as HTTP POST. Th
 - `open_flags`, integer. File open flags, can be non-zero for `pre-upload` action. If `file_size` is greater than zero and `file_size&512 == 0` the target file will not be truncated
 - `role`, string. Included if the user who executed the action has a role
 - `timestamp`, int64. Event timestamp as nanoseconds since epoch
-- `metadata`, struct. Object metadata. Both the keys and the values are string. Omitted if there is no metadata
+- `metadata`, object. Custom metadata of the object, for S3, GCS and Azure backends. Both the keys and the values are string. Included for `delete`, `rename` and `copy` actions, and for `download` actions when `metadata.read` is set to `1` in the [config file](config-file.md#metadata). Omitted if there is no metadata
 
 The HTTP hook will use the global configuration for HTTP clients and will respect the retry, TLS and headers configurations. See the HTTP Clients (`http`) section of the [config reference](config-file.md#http-clients).
 
@@ -128,7 +128,7 @@ The structure for SFTPGo objects can be found within the [OpenAPI schema](https:
 
 ## Pub/Sub services
 
-You can forward SFTPGo events to several publish/subscribe systems using the [sftpgo-plugin-pubsub](https://github.com/sftpgo/sftpgo-plugin-pubsub){:target="_blank"}. The notifiers SFTPGo plugins are not suitable for interactive actions such as `pre-*` events. Their scope is to simply forward events to external services. A custom hook is a better choice if you need to react to `pre-*` events.
+You can forward SFTPGo events to several publish/subscribe systems using the [sftpgo-plugin-pubsub](https://github.com/sftpgo/sftpgo-plugin-pubsub){:target="_blank"}. The notifiers SFTPGo plugins are not suitable for interactive actions such as `pre-*` events. Their scope is limited to forwarding events to external services. A custom hook is a better choice if you need to react to `pre-*` events.
 
 ## Database services
 

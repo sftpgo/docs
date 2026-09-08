@@ -4,7 +4,7 @@ description: "Integrate antivirus and DLP scanning in SFTPGo via the ICAP protoc
 
 # Antivirus Scanning with ICAP
 
-This tutorial shows how to configure automatic antivirus scanning for uploaded files using the ICAP protocol and the **Execute Before File Publish** feature. Uploaded files are scanned *before* they become visible to other users — if the scan detects a threat, the file is deleted and never published.
+This tutorial shows how to configure automatic antivirus scanning for uploaded files using the ICAP protocol and the **Execute Before File Publish** feature. Uploaded files are scanned *before* they are published at their final path — if the scan detects a threat, the file is deleted or quarantined and never published.
 
 ## How It Works
 
@@ -12,9 +12,9 @@ This tutorial shows how to configure automatic antivirus scanning for uploaded f
 2. The file is written to a temporary location (`.sftpgo-upload.<id>.<filename>`).
 3. The ICAP action sends the file to an ICAP server (e.g., ClamAV via c-icap) for scanning.
 4. If the scan passes, the file is renamed to its final path and becomes visible.
-5. If the scan detects a threat, the temporary file is deleted — the file never appears.
+5. If the scan detects a threat, the temporary file is deleted or quarantined — the file never appears at its final path.
 
-The file is hidden from other users during the entire scanning process.
+The temporary file is an ordinary file in the destination directory: the file pattern filter of step 2 hides it from users during the scan.
 
 ## Prerequisites
 
@@ -38,7 +38,7 @@ This tells SFTPGo to write uploads to a temporary file first, then rename to the
 
 ## Step 2: Configure File Pattern Filters
 
-To prevent users from seeing or accessing temporary upload files during scanning, configure a file pattern filter. This can be set per-user or, more conveniently, on a **group** that all users belong to.
+Without a file pattern filter, the temporary upload file appears in directory listings and can be downloaded or deleted, by the uploader and by every user who reaches the directory, while the scan runs. Configure a file pattern filter to hide it. This can be set per-user or, more conveniently, on a **group** that all users belong to.
 
 In the user or group settings, add a file pattern filter:
 
@@ -46,13 +46,13 @@ In the user or group settings, add a file pattern filter:
 - **Denied patterns**: `.sftpgo-upload*`
 - **Policy**: `Hide`
 
+:warning: A filter defined on a subdirectory replaces the one on `/` for that directory. Where a user or group has a filter on a specific path, for example allowed extensions on `/inbox`, add `.sftpgo-upload*` to its denied patterns as well.
+
 ![File pattern filter](../assets/img/icap-pattern-filter.png){data-gallery="icap-filter"}
 
-With the **Hide** policy, temporary files are completely invisible — they do not appear in directory listings and all operations on them are blocked. This is the recommended setting.
+With the **Hide** policy, temporary files do not appear in directory listings and all operations on them are blocked. The ICAP action reads them regardless, since event actions are not bound by file pattern filters.
 
 Alternatively, the **Deny** policy makes the files appear in listings but blocks all operations (download, delete, rename). Use this if you need visibility into ongoing uploads.
-
-:information_source: Apply this filter to a group to enforce it for all users at once, rather than configuring each user individually.
 
 ## Step 3: Create an ICAP Action
 
@@ -67,24 +67,28 @@ Configure the ICAP settings:
 
 ![ICAP action](../assets/img/icap-action.png){data-gallery="icap-action"}
 
-### Failure Policies
+### Block Action
 
-When the ICAP scan detects a threat, you can configure the response:
+The **Block action** decides what happens to the temporary file when the scan reports a threat:
 
-| Policy | Behavior |
+| Option | Behavior |
 | -------- | ---------- |
-| **Delete** | The file is removed immediately. This is the default when used with Execute Before File Publish — the temporary file is deleted and never published. |
-| **Quarantine** | The file is moved to a quarantine directory. Configure a virtual folder as the quarantine destination — this allows quarantining to a different storage backend (e.g., a dedicated quarantine S3 bucket). |
-| **No action** | The scan result is logged but the file is left in place. Use this for monitoring/alerting without blocking. |
+| **Delete** | The temporary file is removed. |
+| **Quarantine** | The temporary file is moved to the quarantine path. Configure a virtual folder as the quarantine destination to quarantine to a different storage backend (e.g., a dedicated quarantine S3 bucket). |
+| **Ignore** | The action leaves the file alone. The upload is rejected all the same, so SFTPGo removes the temporary file. |
+
+With Execute Before File Publish the upload is rejected for every verdict other than clean: the option decides where the file ends up, not whether it is published. The **Adapt action** and the **Failure policy** cover a modified file and a scan that cannot be executed with the same options, see [ICAP](../filesystem-actions.md#icap).
 
 ### Quarantine with Virtual Folders
 
 To quarantine infected files to a separate storage location:
 
 1. Create a virtual folder named `quarantine` backed by the desired storage (e.g., a dedicated S3 bucket, a local directory, or an SFTP server).
-2. In the ICAP action, set the failure policy to **Quarantine** and select `quarantine` as the quarantine folder.
+2. In the ICAP action, set the block action to **Quarantine** and select `quarantine` as the quarantine folder.
 
 This provides isolation — infected files are moved out of the user's storage entirely.
+
+With "Execute before file publish" the scanned file is still at its temporary path (`.sftpgo-upload.<id>.<filename>`): a quarantine path ending with `/` keeps that temporary name. Use `/quarantine/{{.Name}}/{{pathJoin (stringSlice (pathDir .VirtualPath) .ObjectName)}}` to store the file under its original name and directory layout, partitioned by user (e.g. `/quarantine/alice/inbox/report.pdf`). Use `{{.ObjectName}}` in notifications too — as in the failure email below — so messages show the name the user uploaded.
 
 ## Step 4: Create an Event Rule
 
@@ -103,9 +107,9 @@ By default (only "Execute before file publish" enabled), the scanning runs **asy
 
 - The client receives a success response immediately after the upload completes.
 - The scan runs in the background.
-- If the scan fails, the file is silently removed — the client is not informed via the protocol.
+- If the scan fails, the file is removed — the client is not informed via the protocol.
 
-If you also enable **Execute sync** on the same action, the scanning runs **synchronously**:
+If you also enable **Synchronous execution** on the same action, the scanning runs **synchronously**:
 
 - The client waits for the scan to complete.
 - If the scan passes, the client receives a success response.
@@ -115,10 +119,12 @@ The trade-off is potential client timeout — for large files, the scan may take
 
 ### Adding a Failure Notification
 
-Add a second action to the rule — for example, an email action — and mark it as a **failure action**. This way, administrators are notified when a scan detects a threat:
+Add a second action to the rule — for example, an email action — and mark it as a **failure action**. Email actions need an SMTP server: configure it from the WebAdmin under **Server Manager > Configurations > SMTP**, where the settings apply without a restart, or in the [SMTP section](../config-file.md#smtp) of the configuration file. This way, administrators are notified when a scan detects a threat:
 
 - **Subject**: `Antivirus alert: infected file from {{.Name}}`
-- **Body**: `User {{.Name}} uploaded an infected file: {{.ObjectName}} ({{humanizeBytes .FileSize}}). The file has been blocked. Errors: {{ stringJoin .Errors ", " }}`
+- **Body**: `User {{.Name}} uploaded an infected file: {{.ObjectName}} ({{humanizeBytes .FileSize}}). The file has been blocked. Scan result: {{.ICAPResult.Status}}{{if .ICAPResult.Threat}}, threat: {{.ICAPResult.Threat}}{{end}}`
+
+The [`{{.ICAPResult}}`](../placeholders.md#icapresult) placeholder exposes the scan outcome and the threat name reported by the ICAP server; [`{{.ICAPResults}}`](../placeholders.md#icapresults) lists the per-file results when a rule scans multiple paths.
 
 ## Step 5: Test
 
@@ -127,16 +133,18 @@ Upload a test file via SFTP or FTP. It should:
 1. Not appear in directory listings during scanning (thanks to the Hide filter).
 2. Appear at its final path after the scan completes successfully.
 
+Check with a directory listing rather than with a file attribute request: within the SFTP or FTP session that performed the upload, a request for the attributes of the final path returns the uploaded size while the scan runs, so that clients verifying their uploads report success. See [the file while the actions run](../execute-before-file-publish.md#the-file-while-the-actions-run) for the behavior of the other protocols.
+
 To test threat detection, you can use the [EICAR test file](https://www.eicar.org/download-anti-malware-testfile/){:target="_blank"} — a harmless test string recognized by all antivirus engines.
 
 ## Storage Backend Support
 
-ICAP works transparently on **all** storage backends:
+ICAP supports every storage backend:
 
 | Backend | Notes |
 | --------- | ------- |
 | Local filesystem | Files staged in the same directory |
-| Encrypted filesystem (CryptFs) | Files are decrypted transparently for scanning |
+| Encrypted filesystem (CryptFs) | Files are decrypted for scanning |
 | AWS S3 | Rename uses server-side copy + delete |
 | Azure Blob Storage | Rename uses server-side copy + delete |
 | Google Cloud Storage | Rename uses server-side copy + delete |
@@ -147,6 +155,5 @@ ICAP works transparently on **all** storage backends:
 
 ## Important Notes
 
-- **TempPath incompatibility**: If the server-wide `TempPath` option is set, staged actions are skipped for local and encrypted filesystems. Use file pattern filters instead of `TempPath` to hide temporary files. See [Execute Before File Publish — Limitations](../execute-before-file-publish.md#limitations) for details.
 - **Multiple actions**: You can combine ICAP with other staged actions in the same rule (e.g., ICAP scan + HTTP webhook for logging). All staged actions must pass before the file is published.
-- **Non-staged rules**: Other rules matching the same upload event (without "Execute before file publish") will run *after* the file is published. If the ICAP scan fails and the file is never published, those rules do not execute.
+- **Non-staged rules**: Other rules matching the same upload event (without "Execute before file publish") run *after* the file is published. If the scan fails, the upload is reported to them as failed: set their **Status filters** to the successful status so that they react to published files alone.

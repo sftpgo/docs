@@ -12,8 +12,8 @@ The **Data retention check** action scans a directory tree and applies per-folde
 
 The check runs in one of two modes, selected on the action itself:
 
-- **User-scoped** (default). The rule iterates over the matching users; configured paths are resolved relative to each user's home directory. Best when the retention is a property of the user — e.g. each user's `/inbox` or `/temp`.
-- **Folder-scoped**. The rule runs **once** as a system task on a single virtual folder, regardless of how many (or which) users have it mounted. Best when the retention belongs to a shared resource — a dropbox shared across users, a bucket prefix, or a whole storage area — and is independent of who happens to access it. See [Folder-scoped retention](#folder-scoped-retention) below.
+- **User-scoped** (default). The rule iterates over the matching users; configured paths are resolved relative to each user's home directory. Use it when the retention is a property of the user — e.g. each user's `/inbox` or `/temp`.
+- **Folder-scoped**. The rule runs **once** as a system task on a single virtual folder, regardless of how many (or which) users have it mounted. Use it when the retention belongs to a shared resource — a dropbox shared across users, a bucket prefix, or a whole storage area — and is independent of who happens to access it. See [Folder-scoped retention](#folder-scoped-retention) below.
 
 The two modes share the same configuration screen and the same report shape; the only difference is whether you fill the **Source folder** field on the action.
 
@@ -56,9 +56,9 @@ When a source folder is configured:
 - The action runs **once** as a system task on the selected virtual folder, regardless of how many users have it mounted.
 - Paths in the retention list are interpreted relative to the folder root (`/`, `/sub`, ...).
 - Rule-level user filters (Name / Group / Role) are ignored — the policy belongs to the resource, not to its consumers.
-- The retention report exposes the folder name in the `folder` field; downstream notifications can use `{{.Folder}}` in templates. `username` is always the canonical `__system__` identifier.
+- The retention report exposes the folder name in the `folder` field of each entry, so a template reads it inside the loop, `{{range .RetentionChecks}}{{.Folder}}{{end}}`. `username` is always the canonical `__system__` identifier.
 - `{{.ObjectName}}` is set to the source folder name during the retention action (mirroring the user-scoped pattern where it is set to the username), so a single template like `Retention completed on {{.ObjectName}}` works for both modes.
-- **Split events** has no effect — there is no per-user expansion.
+- **Split reports** is for user-scoped checks: with a source folder there is no per-user expansion, so leave it disabled (the action is refused otherwise).
 
 :warning: If you want files moved to a "trash" folder rather than deleted, configure the action's built-in **Archive folder** field (covered above). Like every other system-executed action, retention deletes do not fire filesystem-event rules — see [System-executed actions and chaining](../eventmanager.md#system-executed-actions-and-chaining) — so a separate "rename on delete" rule will never run. The archive folder is the supported pattern.
 
@@ -69,6 +69,8 @@ The rule is already usable with just the retention check created above — SFTPG
 Two notification channels are available: **email** and **HTTP webhook**. Pick the one that fits your workflow; you can also chain both on the same rule.
 
 ### Option A — email notification
+
+Email actions need an SMTP server: configure it from the WebAdmin under **Server Manager > Configurations > SMTP**, where the settings apply without a restart, or in the [SMTP section](../config-file.md#smtp) of the configuration file.
 
 Create an email action (for example named `retention report`). A minimal configuration is enough:
 
@@ -99,13 +101,15 @@ This is shown here as an example of what is possible — do not feel obliged to 
 
 #### Per-user notifications
 
-If you want each user to receive their own retention report instead of a single aggregated email, enable **Split events** on the rule. In split mode:
+If you want each user to receive their own retention report instead of a single aggregated email, enable **Split reports** on the data retention action. In split mode:
 
-- `{{.Email}}` is automatically set to the user's email address.
+- `{{.Email}}` is automatically set to the user's email addresses.
 - `{{.ObjectName}}` is set to the username.
-- The rule fires once per user, so each user receives only their own report.
+- The email action runs once per user, so each user receives only their own report.
 
-Set the email recipients to `{{ stringJoin .Email "," }}` to automatically use the user's configured email address.
+Set the email recipients to `{{.Email}}` to automatically use the user's configured email addresses.
+
+:information_source: The report can be rendered in the body, attached as `{{.RetentionReports}}`, or both: notifications are sent in either case.
 
 ### Option B — HTTP webhook
 
@@ -114,7 +118,9 @@ Create an HTTP action (for example named `retention webhook`) to POST the result
 - **Endpoint** — the target URL (e.g. `https://example.com/sftpgo/retention`).
 - **Method** — `POST` (also `GET`, `PUT`, `DELETE` are supported if your endpoint needs them).
 - **Headers** — optional; add `Authorization`, `Content-Type`, or whatever your endpoint expects.
-- **Body** — set to `{{.RetentionReports}}` to send the compressed CSV archive as the raw request body. The receiving endpoint gets the same `.zip` payload that would otherwise be attached to the email.
+- **Body** — the request body, rendered as a template like the email body above. Set it to `{{.RetentionReports}}` alone to send the compressed CSV archive as the raw request body: the endpoint receives the same `.zip` payload that would otherwise be attached to the email.
+
+To send the archive as a file part of a multipart form instead, add a **multipart part** with the file path set to `{{.RetentionReports}}`.
 
 #### Sending the results as JSON
 
@@ -170,8 +176,8 @@ How the rule selects what to clean depends on whether the action has a **Source 
 
 This applies when the action has **no** Source folder. The check runs in the **user context**: the path configured on the action is resolved relative to each matching user's home directory. For example, with a retention path of `/inbound`:
 
-- On Linux: `userA` (home `/sftpgo/userA`) → cleans `/sftpgo/userA/inbound`; `userB` (home `/sftpgo/userB`) → cleans `/sftpgo/userB/inbound`.
-- On Windows: `userA` (home `C:\sftpgo\userA`) → cleans `C:\sftpgo\userA\inbound`; `userB` (home `C:\sftpgo\userB`) → cleans `C:\sftpgo\userB\inbound`.
+- On Linux: `userA` (home `/sftpgo/userA`) => cleans `/sftpgo/userA/inbound`; `userB` (home `/sftpgo/userB`) => cleans `/sftpgo/userB/inbound`.
+- On Windows: `userA` (home `C:\sftpgo\userA`) => cleans `C:\sftpgo\userA\inbound`; `userB` (home `C:\sftpgo\userB`) => cleans `C:\sftpgo\userB\inbound`.
 
 The path on the action is always written in virtual form with forward slashes (`/inbound`) regardless of the underlying platform — SFTPGo resolves it against each user's filesystem.
 
@@ -197,7 +203,7 @@ This applies when the action has a **Source folder** configured (see [Folder-sco
 
 Rule-level `Name / Group / Role` filters are **ignored** — the policy belongs to the resource, not to its consumers — so you can leave them empty.
 
-This is also the recommended pattern for storage-wide retention sweeps — a single policy that cleans every file older than a given threshold regardless of which user uploaded it. Define a virtual folder pointing at the storage root, set it as the action's source folder, and the check runs once without depending on any user identity.
+This is also the pattern for storage-wide retention sweeps — a single policy that cleans every file older than a given threshold regardless of which user uploaded it. Define a virtual folder pointing at the storage root, set it as the action's source folder, and the check runs once without depending on any user identity.
 
 #### Selecting the actions
 
@@ -217,7 +223,7 @@ The intended workflow:
 
 Dry-run is also useful as a periodic sanity check alongside a real retention rule: a weekly dry-run rule with output piped to a different distribution list catches configuration drift (e.g., paths added that should not be in scope) before it causes data loss.
 
-:information_source: Dry run is transparent to the rest of the system: no `delete` event is sent to notifier plugins (such as the eventstore plugin), no filesystem-event rules are triggered, and no archive copy is performed. The only output is the retention report itself, which carries a `DryRun` flag — the recommended pattern is to gate notification subjects with `{{ if .DryRun }}[DRY RUN] {{ end }}` so preview reports cannot be mistaken for real ones.
+:information_source: Dry run is transparent to the rest of the system: no `delete` event is sent to notifier plugins (such as the eventstore plugin), no filesystem-event rules are triggered, and no archive copy is performed. The only output is the retention report itself, which carries a `DryRun` flag — gate notification subjects with `{{ if .DryRun }}[DRY RUN] {{ end }}` so that preview reports cannot be mistaken for real ones.
 
 ## Note on File Modification Time
 

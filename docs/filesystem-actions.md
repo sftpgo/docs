@@ -54,7 +54,7 @@ Use a **trailing slash** on the path to delete the *contents* of a directory wit
 
 This is useful for cleanup actions that need to empty a directory periodically while preserving the directory structure.
 
-The filesystem root, and a [virtual folder](#virtual-folders) mount point, can only have their contents deleted — they cannot be removed. `/` (or `/` resolved through a source folder) deletes the contents of that root and preserves it. An entry **without** the trailing slash whose placeholders resolve to the root or a mount point fails the action before deleting anything, rather than emptying the location and then failing on the final removal. To empty such a location, request contents deletion explicitly with a trailing `/`.
+The filesystem root, and a [virtual folder](#virtual-folders) mount point, can only have their contents deleted — they cannot be removed. `/` (or `/` resolved through a source folder) deletes the contents of that root and preserves it. An entry **without** the trailing slash whose placeholders resolve to the root, a mount point, or a directory with virtual folder mounts below it fails the action before deleting anything, rather than emptying the location and then failing on the final removal. To empty such a location, request contents deletion explicitly with a trailing `/`.
 
 ### Glob patterns
 
@@ -63,7 +63,7 @@ The path can use **wildcards in the last path component** to match multiple entr
 - `/inbox/*.tmp` — deletes every `.tmp` file directly under `/inbox/`.
 - `/logs/2025-??.log` — deletes log files matching the pattern.
 
-Wildcards (`*`, `?`, `[…]`) match files and directories at the same level — subdirectories are removed recursively, files (and symlinks) are unlinked. Subdirectories are **not** descended into for further matching. The wildcard cannot be combined with a trailing slash on the same entry.
+Wildcards (`*`, `?`, `[...]`) match files and directories at the same level — subdirectories are removed recursively, files (and symlinks) are unlinked. Subdirectories are **not** descended into for further matching. The wildcard cannot be combined with a trailing slash on the same entry.
 
 ## Create directories
 
@@ -79,12 +79,16 @@ Copies one or more files or directories. Each copy entry defines a source path a
 
 ### Glob patterns
 
-The source path can use **wildcards in the last path component** to select multiple files:
+The source path can use **wildcards in the last path component** to select multiple entries:
 
 - `/inbox/*.csv` — copies all `.csv` files from `/inbox/`.
 - `/data/report_??.txt` — copies files matching the pattern (e.g., `report_01.txt`, `report_12.txt`).
 
-Glob patterns follow standard shell syntax (`*` matches any sequence of characters, `?` matches a single character). Subdirectories are **not** recursed into. To copy all contents of a directory, use a trailing `/` instead (e.g., `/inbox/`).
+Glob patterns follow standard shell syntax (`*` matches any sequence of characters, `?` matches a single character). Wildcards match files and directories at the same level, and a matched directory is copied with its whole contents. Subdirectories are **not** descended into for further matching. To copy all contents of a directory, use a trailing `/` instead (e.g., `/inbox/`).
+
+With a wildcard source the target is the **destination directory**, and each matched entry is copied into it under its own name, whether or not the target ends with `/`. Placeholders in the target are resolved before the pattern is expanded, so they read the same for every matched entry. A target such as `/processed/{{ .Timestamp.Format "20060102T150405" }}` therefore collects a whole batch in one directory per run, created along with any missing parent. The **Move source** path of the source disposition follows the same rules, which makes `/archive/{{ .Timestamp.Format "20060102T150405" }}` an archive directory per run. See [Timestamp](placeholders.md#timestamp) for the available formats.
+
+:information_source: Every copied entry keeps its own name, so the timestamp of the examples above names the directory and not the files inside it. To write a file under a name of your choice, give the entry a literal source path and the target name you want.
 
 ### Source disposition (After copy)
 
@@ -143,7 +147,7 @@ Each entry defines a source path and a target path; both support placeholders. A
 When the source is a literal file path, the target can be either:
 
 - A **literal file path** — the encrypted/decrypted output is written to that exact path.
-- A **directory path ending with `/`** — the output filename is derived from the source: encrypt appends `.pgp` (e.g., `report.csv` → `report.csv.pgp`); decrypt strips the last extension when present (`report.csv.pgp` → `report.csv`) or appends `.dec` when the source has no extension (`secret` → `secret.dec`). The root path `/` is a valid directory target (output lands in the user's home root).
+- A **directory path ending with `/`** — the output filename is derived from the source: encrypt appends `.pgp` (e.g., `report.csv` => `report.csv.pgp`); decrypt strips the last extension when present (`report.csv.pgp` => `report.csv`) or appends `.dec` when the source has no extension (`secret` => `secret.dec`). The root path `/` is a valid directory target (output lands in the user's home root).
 
 :warning: When the target is built from placeholders such as `{{ pathDir .VirtualPath }}`, always include the trailing `/` (`/{{ pathDir .VirtualPath }}/`). The directory marker is read from the configured text: without it the target is a literal output filename, which can overwrite or collide with an existing directory.
 
@@ -197,20 +201,31 @@ When the target folder is left empty, attachments are written to a user's home d
 
 ## ICAP
 
-Integrates with ICAP servers to perform **antivirus scanning** and **DLP (Data Loss Prevention)** checks on uploaded files. After a file upload, the file is streamed to an ICAP server for inspection.
+Sends files to an ICAP server (RFC 3507) for antivirus scanning and DLP (Data Loss Prevention) checks. The action reads the file through the storage layer, so it supports every storage backend: local filesystem, encrypted filesystem (CryptFs), S3, Azure Blob, Google Cloud Storage and remote SFTP. Encrypted files are decrypted while they are streamed to the server.
 
-ICAP accesses files through SFTPGo's storage abstraction layer, so it works transparently on **all** storage backends — local filesystem, encrypted filesystem (CryptFs), S3, Azure Blob, GCS, and remote SFTP.
+### Scan outcomes
 
-### Failure policies
+The server can accept the file, report a threat, return a modified version of the file, or fail to give a verdict. Three settings define what the action does with the file in each case:
 
-When an ICAP scan detects an issue, you can configure the response:
+| Setting | Applies when | Options |
+| --------- | -------------- | --------- |
+| **Block action** | The server reports a threat or blocks the file. | Ignore, Delete, Quarantine |
+| **Adapt action** | The server returns a modified version of the file. | Ignore, Delete, Quarantine, Overwrite |
+| **Failure policy** | The scan cannot be executed, for example the server is unreachable or answers with an unexpected response. | Ignore, Delete, Quarantine |
 
-| Policy | Behavior |
-| -------- | ---------- |
-| **Delete** | The file is removed immediately. |
-| **Quarantine** | The file is moved to a quarantine directory. End the configured path with `/` (e.g. `/quarantine/`) to place files inside that directory even when it does not exist yet. By mapping the quarantine to a virtual folder, you can quarantine files to a different storage backend entirely (e.g., move infected files from the user's S3 bucket to a dedicated quarantine bucket). |
-| **No action** | The scan result is logged but the file is left in place. |
+- **Ignore** leaves the file where it is.
+- **Delete** removes the file.
+- **Quarantine** moves the file to the quarantine path, creating the missing parent directories. The path supports [placeholders](placeholders.md) and is read in two ways:
+    - ending with `/`, for example `/quarantine/`, it is the directory the file is moved into under its current name, created when missing;
+    - otherwise it is the full name of the quarantined file, so placeholders build it: `/quarantine{{.VirtualPath}}` keeps the user's directory layout under `/quarantine`, `/quarantine/{{.Name}}{{.VirtualPath}}` partitions it by user. A path without the trailing `/` that names an existing directory places the file inside it.
+
+    With [Execute before file publish](execute-before-file-publish.md) the file is still at its temporary path, so `{{.VirtualPath}}` carries the temporary name: use `{{pathJoin (stringSlice (pathDir .VirtualPath) .ObjectName)}}` to keep the final name, see [template variables in staged actions](execute-before-file-publish.md#template-variables-in-staged-actions). A quarantine path inside a virtual folder moves the files to a different storage backend, for example from the user's S3 bucket to a dedicated quarantine bucket.
+- **Overwrite** replaces the file with the version returned by the server.
+
+A file whose extension is in the server `Transfer-Ignore` list is accepted without a scan.
+
+The action succeeds when the server accepts the file and when a modified version replaces it through **Overwrite**. Every other outcome makes the action fail: the failure actions of the rule run and [`{{.ICAPResult}}`](placeholders.md#icapresult) carries the verdict and the threat name reported by the server. The option decides what happens to the file: with **Ignore** a file that is already published stays in place and the outcome is reported.
 
 ### Combined with Execute Before File Publish
 
-ICAP is the recommended action type for the [Execute Before File Publish](execute-before-file-publish.md) feature. When combined, uploaded files are scanned *before* they become visible to other users — if the scan fails, the file is deleted and never published. This provides the strongest protection against malicious uploads.
+ICAP is the action type designed for [Execute Before File Publish](execute-before-file-publish.md): the upload is scanned while the file is still at its temporary path and is published when the action succeeds. When the action fails the upload is rejected with every option: **Delete** and **Quarantine** dispose of the temporary file, with **Ignore** SFTPGo removes it. A file that is not accepted never becomes visible; a sanitized version takes its place with **Overwrite**.

@@ -9,7 +9,7 @@ Two-factor authentication (also known as 2FA) is a subset of multi-factor authen
 - something they know (e.g. their password)
 - something they have (usually their smartphone).
 
-2FA is an excellent way to improve your security profile and provide an added layer of protection to your data.
+2FA adds a layer of protection in addition to the password: an attacker who obtains the password alone cannot log in.
 
 SFTPGo supports authenticator apps that use TOTP (time based one-time password). These include apps such as Authy, Google Authenticator and any other apps that support time-based one time passwords ([RFC 6238](https://datatracker.ietf.org/doc/html/rfc6238){:target="_blank"}).
 
@@ -33,15 +33,17 @@ Two-factor authentication is enabled by default with the following settings.
   },
 ```
 
-The `issuer` and `algo` are visible/used in the authenticators apps. For example, you could set your company/organization name as `issuer` and an `algo` appropriate for your target apps/devices. The supported algorithms are: `sha1`, `sha256`, `sha512`. `sha1` is the [RFC 6238](https://datatracker.ietf.org/doc/html/rfc6238){:target="_blank"} default and works with every authenticator app. App support for `sha256` and `sha512` varies: Google Authenticator (since 2023), Aegis, FreeOTP, Bitwarden, 2FAS and Ente Auth honor the configured algorithm, while several popular apps — notably Microsoft Authenticator, Authy, Duo Mobile and 1Password — generate `sha1` codes regardless of the configured algorithm, so the passcode verification during setup fails for them. Please check the compatibility with your target apps/devices before setting a different algorithm.
+The `issuer` and `algo` are visible/used in the authenticators apps. For example, you could set your company/organization name as `issuer` and an `algo` appropriate for your target apps/devices. The supported algorithms are: `sha1`, `sha256`, `sha512`. `sha1` is the [RFC 6238](https://datatracker.ietf.org/doc/html/rfc6238){:target="_blank"} default and works with every authenticator app. App support for `sha256` and `sha512` varies: Google Authenticator (since 2023), Aegis, FreeOTP, Bitwarden, 2FAS and Ente Auth honor the configured algorithm, while several popular apps — notably Microsoft Authenticator, Authy, Duo Mobile and 1Password — generate `sha1` codes regardless of the configured algorithm. SFTPGo detects this during setup and reports a dedicated error suggesting a compatible app or a configuration that uses `sha1`. Please check the compatibility with your target apps/devices before setting a different algorithm.
 
 You can also define multiple configurations, for example one that uses `sha256` or `sha512` and another one that uses `sha1` and instruct your users to use the appropriate configuration for their devices/apps. The algorithm should not be changed if there are users or admins using the configuration. The `name` is visible to the users/admins when they select the 2FA configuration to use and it must be unique. A configuration name should not be changed if there are users or admins using it.
 
 SFTPGo can use 2FA for `HTTP`, `SSH` (SFTP, SCP) and `FTP` protocols.
 
+:information_source: Each passcode is accepted only once, as required by [RFC 6238](https://datatracker.ietf.org/doc/html/rfc6238){:target="_blank"}. With a [shared data provider](../config-file.md#data-provider) (`is_shared` set to `1`) the guarantee applies across all instances.
+
 ## Enable 2FA for admins
 
-Each admin can view/change his/her two-factor authentication by selecting the `Two-Factor Auth` link from the top-right web UI menu.
+Each admin can view and change their own two-factor authentication settings by selecting the `Two-Factor Auth` link from the top-right web UI menu.
 
 ![Admin 2FA](../assets/img/admin-2FA.png){data-gallery="admin-2fa"}
 
@@ -59,7 +61,7 @@ SFTPGo automatically generates some recovery codes. They are a set of one time u
 
 Two-factor authentication will also be required to use the REST API as this admin. You can provide the authentication code using the `X-SFTPGO-OTP` HTTP header.
 
-If an admin loses access to their second factor auth device and has no recovery codes, another admin can disable second factor authentication for him/her using the `/api/v2/admins/{username}/2fa/disable` REST endpoint.
+If an admin loses access to their second factor auth device and has no recovery codes, another admin can disable second factor authentication for them using the `/api/v2/admins/{username}/2fa/disable` REST endpoint.
 
 For example:
 
@@ -70,7 +72,7 @@ curl -X 'PUT' \
   -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiQVBJIl0sImV4cCI6MTYzOTkzMTE3MiwianRpIjoiYzZ2bGd0NjEwZDFxYjZrdTBiNWciLCJuYmYiOjE2Mzk5Mjk5NDIsInBlcm1pc3Npb25zIjpbIioiXSwic3ViIjoiV20rYTF2bnVVc1VRYXA0TVZmSGtseWxObmR4TCswYVM3OVVjc1hXZitzdz0iLCJ1c2VybmFtZSI6ImFkbWluMSJ9.043lQFq7WRfJ-rdoCbp_TXEHbAo8Ihj5CAh3k8JQVQQ'
 ```
 
-If you prefer a web UI instead of a CLI command to disable 2FA you can use the swagger UI interface available, by default, at the following URL `http://localhost:8080/openapi/swagger-ui`.
+If you prefer a web UI instead of a CLI command to disable 2FA you can use the Swagger UI interface, served at the `/openapi/swagger-ui` path of your SFTPGo installation.
 
 ## Enable 2FA for users
 
@@ -102,7 +104,7 @@ SFTPGo automatically generates some recovery codes. They are a set of one time u
 
 Two-factor authentication will be also required to use the REST API as this user. You can provide the authentication code using the `X-SFTPGO-OTP` header.
 
-If this user tries to login via SFTP it must provide a valid authentication code after the password.
+If this user logs in via SFTP using keyboard interactive authentication, the client asks for the authentication code after the password.
 
 ```shell
 $ sftp -P 2022 nicola@127.0.0.1
@@ -123,4 +125,4 @@ curl -X 'PUT' \
   -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiQVBJIl0sImV4cCI6MTYzOTkzMzI1MywianRpIjoiYzZ2bTE1ZTEwZDFxcG9iamc3djAiLCJuYmYiOjE2Mzk5MzIwMjMsInBlcm1pc3Npb25zIjpbIioiXSwic3ViIjoiV20rYTF2bnVVc1VRYXA0TVZmSGtseWxObmR4TCswYVM3OVVjc1hXZitzdz0iLCJ1c2VybmFtZSI6ImFkbWluMSJ9.ntR0L2JTuwYwhBy6c0iu10rdmycLdtKZtmDObQ0PUoo'
 ```
 
-If you prefer a web UI instead of a CLI command to disable 2FA you can use the swagger UI interface available, by default, at the following URL `http://localhost:8080/openapi/swagger-ui`.
+If you prefer a web UI instead of a CLI command to disable 2FA you can use the Swagger UI interface, served at the `/openapi/swagger-ui` path of your SFTPGo installation.

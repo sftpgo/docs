@@ -41,7 +41,7 @@ By default, operations are relative to the resource root of the HTTP backend. Se
 
 Because of this, the feature is opt-in at the deployment level: the `http` backend must be listed in the [`allow_remote_directory`](config-file.md) setting of the `common` configuration section. The remote directory is honored only while the backend is enabled — a connection using a stored configuration whose backend is not in the allow list is rejected, with the reason logged. The value is preserved on save and on backup restore, so disabling the backend does not break data import; in the WebAdmin the field is shown when the backend is enabled, or with a warning when a value is set while the backend is disabled, so it can be cleared.
 
-When the backend is defined at the group level, the remote directory supports the same placeholders as the cloud key prefix and the SFTP prefix (for example `%username%`, `%role%`, `%customN%`). The placeholders are resolved per user when the group settings are applied, so a single group configuration can scope each member to their own sub-path.
+When the backend is defined at the group level, the remote directory supports the same [placeholders](groups.md#placeholders) as the cloud key prefix and the SFTP prefix. The placeholders are resolved per user when the group settings are applied, so a single group configuration can scope each member to their own sub-path.
 
 ## API contract
 
