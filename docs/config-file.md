@@ -297,7 +297,7 @@ List of listener bindings for the WebDAV server. Each entry supports the followi
 | `prefix` | string | empty | Prefix for WebDAV resources. If empty, resources are available at `/`. If defined, it must be an absolute URI (e.g., `/dav`). |
 | `proxy_mode` | integer | `0` | Set to `1` to use the proxy protocol configuration from the `common` section instead of the proxy header configuration. |
 | `proxy_allowed` | list of strings | empty | IP addresses and ranges allowed to set the client IP proxy header (e.g., `X-Forwarded-For`). Proxy headers from connections not in this list are silently ignored. |
-| `client_ip_proxy_header` | string | empty | Client IP proxy header to trust (e.g., `X-Forwarded-For`, `X-Real-IP`). |
+| `client_ip_proxy_header` | string | empty | Client IP proxy header to trust (e.g., `X-Forwarded-For`, `X-Real-IP`). The header is read only from connections whose address is listed in `proxy_allowed`; otherwise the connection address is used. |
 | `client_ip_header_depth` | integer | `0` | Position to trust in multi-value client IP headers (e.g., `X-Forwarded-For`), counting from the right. For `10.0.0.1,11.0.0.1,12.0.0.1,13.0.0.1`: depth `0` uses `13.0.0.1`, depth `1` uses `12.0.0.1`. Set to `-1` to trust the leftmost IP address. :warning: Using `-1` may have security implications and should only be used if your proxy has appropriate controls to prevent spoofed IP headers. |
 | `disable_www_auth_header` | boolean | `false` | Set to `true` to omit the `WWW-Authenticate` header after an authentication failure; only the `401` status code will be sent. |
 
@@ -499,15 +499,17 @@ Each binding is a struct with the following fields:
 | `tls_protocols` | list of strings | `http/1.1`, `h2` | HTTPS protocols in preference order. Supported values: `http/1.1`, `h2`. |
 | `proxy_mode` | integer | `0` | Set to `1` to use the proxy protocol configuration defined in the `common` section instead of the proxy header configuration. |
 | `proxy_allowed` | list of strings | empty | IP addresses and ranges allowed to set client IP proxy headers (`X-Forwarded-For`, `X-Real-IP`, etc.). Headers set by connections from addresses not in this list are silently ignored. |
-| `client_ip_proxy_header` | string | empty | Allowed client IP proxy header (e.g., `X-Forwarded-For`, `X-Real-IP`). |
+| `client_ip_proxy_header` | string | empty | Allowed client IP proxy header (e.g., `X-Forwarded-For`, `X-Real-IP`). The header is read only from connections whose address is listed in `proxy_allowed`; otherwise the connection address is used. |
 | `client_ip_header_depth` | integer | `0` | For multi-value headers like `X-Forwarded-For`, defines which IP to trust counting from the right. `0` uses the rightmost IP, `1` uses the second from right, etc. Set to `-1` to trust the leftmost IP. :warning: Using `-1` may have security implications and should only be used if your proxy has appropriate controls to prevent spoofed headers. |
 | `hide_login_url` | integer | `0` | Controls the cross-link between admin and client login pages. `0` shows both links. `1` hides the web client link on the admin login page. `2` hides the web admin link on the client login page. Flags can be combined (e.g., `3` hides both). |
 | `render_openapi` | boolean | `true` | Set to `false` to disable serving of the OpenAPI schema and renderer. |
 | `languages` | list of strings | `en` | Supported values: `en`, `it`, `de`, `fr`, `es`, `zh-CN`. |
+| `oidc` | struct | | OpenID Connect settings for this binding, see [oidc](#oidc). |
+| `security` | struct | | Security headers and host restrictions for this binding, see [security](#security). |
 
 #### oidc
 
-OpenID Connect configuration. OIDC integration allows you to map your identity provider users to SFTPGo users, enabling login to the WebClient and WebAdmin interfaces via your identity provider.
+OpenID Connect configuration, set inside each entry of `bindings`. OIDC integration allows you to map your identity provider users to SFTPGo users, enabling login to the WebClient and WebAdmin interfaces via your identity provider.
 
 | Parameter | Type | Default | Description |
 | ----------- | ------ | --------- | ------------- |
@@ -526,7 +528,7 @@ OpenID Connect configuration. OIDC integration allows you to map your identity p
 
 #### security
 
-Security headers added to HTTP responses and host restriction settings.
+Security headers added to HTTP responses and host restriction settings, set inside each entry of `bindings`.
 
 | Parameter | Type | Default | Description |
 | ----------- | ------ | --------- | ------------- |
