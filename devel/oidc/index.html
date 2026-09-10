@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="../assets/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -28,7 +28,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1115,6 +1115,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#verified-email" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verified email
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2015,6 +2026,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#verified-email" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verified email
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2098,7 +2120,7 @@ SFTPGO_HTTPD__BINDINGS__0__OIDC__ROLE_FIELD="sftpgo_role"
 <p>From SFTPGo login page click <code>Login with OpenID</code> button, you will be redirected to the Keycloak login page, after a successful authentication Keycloack will redirect back to SFTPGo Web Admin or SFTPGo Web Client.</p>
 <p>Please note that the ID token returned from Keycloak must contain the <code>username_field</code> specified in the SFTPGo configuration and optionally the <code>role_field</code>. The mapped usernames must exist in SFTPGo.
 If you don't want to explicitly define SFTPGo roles in your identity provider, you can set <code>implicit_roles</code> to <code>true</code>. With this configuration, the SFTPGo role is assumed based on the login link used.</p>
-<p>The <code>username_field</code> claim is the identity key: SFTPGo grants access to the account matching its value. Choose a claim your identity provider guarantees to be unique and stable for each identity: <code>preferred_username</code> works well when the provider enforces its uniqueness (Keycloak maps it to the realm username, while Microsoft Entra ID documents this claim as mutable and unsuitable for authorization decisions, so prefer <code>sub</code> or the tenant-immutable <code>oid</code> there), <code>email</code> when the provider guarantees it is verified and unique (SFTPGo does not check the <code>email_verified</code> claim), and <code>sub</code> is the claim the OpenID Connect specification itself guarantees to be unique within the issuer and never reassigned. A claim value shared by two identities, or reassigned to a new person (e.g., a recycled email address), grants access to the SFTPGo account mapped to that value, so choose a claim users are unable to set for themselves.</p>
+<p>The <code>username_field</code> claim is the identity key: SFTPGo grants access to the account matching its value. Choose a claim your identity provider guarantees to be unique and stable for each identity: <code>preferred_username</code> works well when the provider enforces its uniqueness (Keycloak maps it to the realm username, while Microsoft Entra ID documents this claim as mutable and unsuitable for authorization decisions, so prefer <code>sub</code> or the tenant-immutable <code>oid</code> there), <code>email</code> when the provider guarantees it is unique (enable <a href="#verified-email"><code>require_verified_email</code></a> to accept it only when the provider asserts the address is verified), and <code>sub</code> is the claim the OpenID Connect specification itself guarantees to be unique within the issuer and never reassigned. A claim value shared by two identities, or reassigned to a new person (e.g., a recycled email address), grants access to the SFTPGo account mapped to that value, so choose a claim users are unable to set for themselves.</p>
 <p>The <code>role_field</code> claim decides administrative access: choose a claim your identity provider administrator assigns, such as a realm role or a group membership, so that its value stays outside the reach of the identities it governs. With <code>implicit_roles</code> the authorization decision rests entirely on the SFTPGo admin accounts: every identity that authenticates through the admin login link is granted the admin role, and the login succeeds when an admin with the mapped username exists.</p>
 <p>Here is an example ID token which allows the SFTPGo admin <code>root</code> to access to the Web Admin UI.</p>
 <pre><code class="language-json">{
@@ -2186,12 +2208,20 @@ SFTPGO_HTTPD__BINDINGS__0__OIDC__CUSTOM_FIELDS="sftpgo_home_dir"
 <pre><code class="language-shell">SFTPGO_HTTPD__BINDINGS__0__OIDC__QUERY_USERINFO="true"
 </code></pre>
 <ul>
-<li>ID token claims take precedence over UserInfo claims with the same name, so the UserInfo response fills in the missing claims. A claim set to null, to an empty string or to an empty list counts as missing in both sources: if the ID token returns an empty <code>username_field</code> or <code>role_field</code>, the value from the UserInfo response is used. Enable <code>query_userinfo</code> only if the UserInfo claims are as authoritative as the ID token ones for these two fields.</li>
+<li>Non-empty ID token claims take precedence over UserInfo claims with the same name, so the UserInfo response fills in the missing claims. A claim set to null, to an empty string or to an empty list counts as missing in both sources: if the ID token returns an empty <code>username_field</code> or <code>role_field</code>, the value from the UserInfo response is used. Enable <code>query_userinfo</code> only if the UserInfo claims are as authoritative as the ID token ones for these two fields.</li>
 <li>The UserInfo subject must match the ID token subject, as required by the OpenID Connect specification. The authentication fails if the subjects don't match or if the UserInfo request fails.</li>
-<li>The claims describing the authentication event (<code>sid</code>, <code>auth_time</code>, <code>nonce</code>) are always read from the ID token.</li>
+<li><code>sid</code>, <code>auth_time</code> and <code>nonce</code> are read from the ID token only.</li>
 </ul>
 <p>The provider must advertise a UserInfo endpoint in its discovery document, this is checked at startup: SFTPGo refuses to start if <code>query_userinfo</code> is enabled and the endpoint is missing.</p>
 <p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Microsoft Entra ID returns a fixed set of claims from the UserInfo endpoint and recommends reading the claims from the ID token, which also saves a network round-trip per login. Enable <code>query_userinfo</code> when your provider returns the claims you need from the UserInfo endpoint only.</p>
+<h2 id="verified-email">Verified email</h2>
+<p>If you set <code>require_verified_email</code> to <code>true</code>, the login is allowed only if the identity provider asserts a verified email address with the <code>email_verified</code> claim.</p>
+<pre><code class="language-shell">SFTPGO_HTTPD__BINDINGS__0__OIDC__REQUIRE_VERIFIED_EMAIL="true"
+</code></pre>
+<p>The claim is read from the verified ID token or, if <code>query_userinfo</code> is enabled, from the UserInfo response, so a provider that returns <code>email_verified</code> from the UserInfo endpoint only is supported. The claim must be a JSON boolean, as defined by the OpenID Connect specification.</p>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Verify that your provider returns <code>email_verified</code> before enabling this setting: with a provider that omits the claim, every login is refused.</p>
+<p>The <code>email_verified</code> claim belongs to the <code>email</code> scope, which governs both sources: the UserInfo endpoint returns the claims authorized by the scopes granted to the access token, so dropping <code>email</code> from <code>scopes</code> normally removes the claim from the ID token and from the UserInfo response alike. Keep that scope in <code>scopes</code>, or configure your provider to return the claim regardless of the requested scopes, as Keycloak does with its default client scopes. SFTPGo logs a warning at startup if the <code>email</code> scope is not requested.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> The claim is checked at login. A session already established keeps working until it expires, so a mail address that becomes unverified at the identity provider is enforced on the next login.</p>
 
 
 
@@ -2270,7 +2300,7 @@ SFTPGO_HTTPD__BINDINGS__0__OIDC__CUSTOM_FIELDS="sftpgo_home_dir"
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   

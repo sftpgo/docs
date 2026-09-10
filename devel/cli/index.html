@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="../assets/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -28,7 +28,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -2178,7 +2178,7 @@ Use "sftpgo [command] --help" for more information about a command.
 <li><code>--config-dir</code> string. Location of the config dir. This directory is used as the base for files with a relative path, e.g. the private keys for the SFTP server or the database file if you use a file-based data provider.. The configuration file, if not explicitly set, is looked for in this dir. We support reading from JSON, TOML, YAML, HCL, envfile and Java properties config files. The default config file name is <code>sftpgo</code> and therefore <code>sftpgo.json</code>, <code>sftpgo.yaml</code> and so on are searched. The default value is the working directory (".") or the value of <code>SFTPGO_CONFIG_DIR</code> environment variable.</li>
 <li><code>--config-file</code> string. This flag explicitly defines the path, name and extension of the config file. If must be an absolute path or a path relative to the configuration directory. The specified file name must have a supported extension (JSON, YAML, TOML, HCL or Java properties). The default value is empty or the value of <code>SFTPGO_CONFIG_FILE</code> environment variable.</li>
 <li><code>--grace-time</code>, integer. Graceful shutdown is an option to initiate a shutdown without abrupt cancellation of the currently ongoing client-initiated transfer sessions. This grace time defines the number of seconds allowed for existing transfers to get completed before shutting down. 0 means disabled. The default value is <code>0</code> or the value of <code>SFTPGO_GRACE_TIME</code> environment variable. A graceful shutdown is triggered by an interrupt signal or by a service <code>stop</code> request on Windows, if a grace time is configured.</li>
-<li><code>--loaddata-from</code> string. Load users and folders from this file. The file must be specified as absolute path and it must contain a backup obtained using the <code>dumpdata</code> REST API or compatible content. The default value is empty or the value of <code>SFTPGO_LOADDATA_FROM</code> environment variable.</li>
+<li><code>--loaddata-from</code> string. Load users and folders from this file. The file must be specified as absolute path and it must contain a backup obtained using the <code>dumpdata</code> REST API or compatible content. The default value is empty or the value of <code>SFTPGO_LOADDATA_FROM</code> environment variable. Objects that already exist are left unchanged unless <code>--loaddata-mode</code> is set to <code>0</code>.</li>
 <li><code>--loaddata-clean</code> boolean. Determine if the loaddata-from file should be removed after a successful load. Default <code>false</code> or the value of <code>SFTPGO_LOADDATA_CLEAN</code> environment variable (1 or <code>true</code>, 0 or <code>false</code>).</li>
 <li><code>--loaddata-mode</code>, integer. Restore mode for data to load. 0 means new users are added, existing users are updated. 1 means new users are added, existing users are not modified. Default 1 or the value of <code>SFTPGO_LOADDATA_MODE</code> environment variable.</li>
 <li><code>--loaddata-scan</code>, integer. Quota scan mode after data load. 0 means no quota scan. 1 means quota scan. 2 means scan quota if the user has quota restrictions. Default 0 or the value of <code>SFTPGO_LOADDATA_QUOTA_SCAN</code> environment variable.</li>
@@ -2481,7 +2481,7 @@ Use "sftpgo service [command] --help" for more information about a command.
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   

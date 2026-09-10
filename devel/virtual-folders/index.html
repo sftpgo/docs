@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="../assets/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -28,7 +28,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -2067,6 +2067,7 @@ For private folders, the quota is updated only for the matching user not for the
 <li><code>folder2</code> uses <code>/srv/data/mapped/subdir</code> or <code>C:\mapped\subdir</code> as mapped path</li>
 </ul>
 <p>If you upload a file to <code>folder2</code> its quota will be updated but the quota of <code>folder1</code> will not. We allow this for more flexibility, but if you want to enforce disk quotas using SFTPGo, avoid folders with nested paths.</p>
+<p>The same applies when a folder's mapped path is inside the home directory of a user who mounts it. The folder's contents are then reachable both at the mount point and at the matching path under the home, and each path is governed by the permissions and file pattern filters defined for it. Operations on the home path act on the folder's storage, since inside the home they are ordinary filesystem operations. Keep mapped paths outside the home directories to enforce disk quotas and to keep one set of rules per folder.</p>
 <p>It is allowed to mount a virtual folder in the user's root path (<code>/</code>). This might be useful if you want to share the same virtual folder between different users. In this case the user's root filesystem is hidden from the virtual folder.</p>
 <h2 id="sub-path-mounts">Sub-path mounts</h2>
 <p>A folder mapping can re-root the mount onto a sub-path of the folder: the mount at <code>virtual_path</code> serves the folder starting from the configured <code>subpath</code>, which stays invisible in the paths the user sees. For example, a folder mapped at <code>/files</code> with subpath <code>/tenants/alice</code> presents the content of <code>tenants/alice</code> directly at <code>/files</code>.</p>
@@ -2159,7 +2160,7 @@ For private folders, the quota is updated only for the matching user not for the
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   

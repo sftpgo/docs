@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="../assets/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -28,7 +28,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -2086,6 +2086,7 @@
 
 <h1 id="plugin-system">Plugin system</h1>
 <p>SFTPGo's plugins are completely separate, standalone applications that SFTPGo executes and communicates with over RPC. This means the plugin process does not share the same memory space as SFTPGo and therefore can only access the interfaces and arguments given to it. This also means a crash in a plugin can not crash the entirety of SFTPGo.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> plugins are trusted components and their responses are applied as given, see <a href="../external-auth/#trust-model">Trust model</a>.</p>
 <h2 id="configuration">Configuration</h2>
 <p>The plugins are configured via the <code>plugins</code> section in the main SFTPGo configuration file. You basically have to set the path to your plugin, the plugin type and any plugin specific configuration parameters. If you set the SHA256 checksum for the plugin executable, SFTPGo will verify the plugin integrity before starting it.</p>
 <p>For added security you can enable the automatic TLS. In this way, the client and the server automatically negotiate mutual TLS for transport authentication. This ensures that only the original client will be allowed to connect to the server, and all other connections will be rejected. The client will also refuse to connect to any server that isn't the original instance started by the client.</p>
@@ -2096,6 +2097,7 @@
 <li><code>kms</code>, allows to support additional KMS providers.</li>
 <li><code>ipfilter</code>, allows to allow/deny access based on client IP.</li>
 </ul>
+<p>An <code>auth</code> plugin response must carry the login username: it creates or updates that account and the login continues with it. Mapping several login names onto a single account is a feature of <a href="../external-auth/">external authentication</a>.</p>
 <p>Full configuration details can be found <a href="../config-file/">here</a>.</p>
 <p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Please note that the plugin system is experimental, the configuration parameters and interfaces may change in a backward incompatible way in future.</p>
 <h2 id="available-plugins">Available plugins</h2>
@@ -2185,7 +2187,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   

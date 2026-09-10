@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="../assets/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -28,7 +28,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -835,6 +835,28 @@
   
     <nav class="md-nav" aria-label="Common">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-per-directory-permissions-apply" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How per-directory permissions apply
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-account-changes-take-effect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When account changes take effect
+      
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#symbolic-links-and-permissions" class="md-nav__link">
@@ -2675,6 +2697,28 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#how-per-directory-permissions-apply" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How per-directory permissions apply
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-account-changes-take-effect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When account changes take effect
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#symbolic-links-and-permissions" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3430,7 +3474,7 @@
 <td><code>rename_mode</code></td>
 <td>integer</td>
 <td><code>0</code></td>
-<td><code>0</code>: renaming non-empty directories is not allowed for cloud storage providers (S3, GCS, Azure Blob). <code>1</code>: enable recursive renames for these providers. Recursive renames may be slow and are not atomic; partial renames and incorrect quota updates are possible on error.</td>
+<td><code>0</code>: renaming non-empty directories is not allowed for cloud storage providers (S3, GCS, Azure Blob). <code>1</code>: enable recursive renames for these providers. Recursive renames may be slow and are not atomic; partial renames and incorrect quota updates are possible on error. At <code>1</code> the entries of a renamed directory are authorized individually, so a rename stops after moving part of the tree when one of them is refused.</td>
 </tr>
 <tr>
 <td><code>symlink_mode</code></td>
@@ -3525,6 +3569,15 @@
 </tbody>
 </table>
 <p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> The per-user <code>max_sessions</code> limit and the per-host and total connection caps are checked and applied without atomic coordination. Under bursts of near-simultaneous connections, the active count can briefly exceed the configured limit by a small number of connections before the rejection logic catches up. The window is narrow (no I/O between check and increment), so this is a hard cap only on average — not a strict hard cap on instantaneous peaks. If you need a strict atomic cap (e.g. to protect a downstream resource sized exactly to the limit), set the value below your target peak to leave headroom.</p>
+<h4 id="how-per-directory-permissions-apply">How per-directory permissions apply</h4>
+<p>A rename consults the rename permissions of the parent directory of both paths: <code>rename</code>, or <code>rename_files</code> and <code>rename_dirs</code> according to what the renamed path holds. A rename onto an existing file requires <code>overwrite</code>, and a rename onto an existing directory is refused. Moving an entry is what the rename permissions govern and creating one is what <code>upload</code> and <code>create_dirs</code> govern, so <code>rename</code> on a directory lets content be moved into it and out of it.</p>
+<p>Three permission pairs are selected by what the path holds: <code>rename_files</code> and <code>rename_dirs</code> by what the renamed path holds, <code>delete_files</code> and <code>delete_dirs</code> the same way, and <code>upload</code> and <code>overwrite</code> by whether the target name is already taken. Granting <code>rename</code> or <code>delete</code> covers both kinds and removes the distinction; granting a pair unevenly is most predictable when nothing the account can do in those paths creates an entry of the other kind.</p>
+<p>Renaming a directory carries the entries it holds, so they are authorized against both paths. When a per-directory permission that restricts renaming applies inside either tree, or a file pattern filter governs one of the two paths and not the other, the entries are authorized one at a time: the backends that move the contents individually (S3, Google Cloud Storage and Azure Blob with <code>rename_mode: 1</code>) check each entry as it moves, and the backends that carry the whole tree in a single operation, the local filesystem included, refuse the rename. Move the contents, or configure the same permissions and filters on both paths, and the directory is renamed in one operation.</p>
+<p>Per-directory permissions, path-based filters and every other setting keyed on a path are evaluated when the operation is processed, against the state observed at that time; concurrent operations on the same path are not serialized.</p>
+<h4 id="when-account-changes-take-effect">When account changes take effect</h4>
+<p>Account settings are read when a session starts: the account is loaded from the data provider, the settings of the <a href="../groups/">groups</a> it belongs to are merged, and the result governs that session. A change to a user, to an administrator, or to a group they belong to, is applied the next time the account is loaded. A session already established keeps the settings it started with, for as long as it lasts, and an operation already authorized is not authorized again while it runs. How long a session lasts depends on the protocol and on the client: an SFTP or FTP connection can remain open long after a change.</p>
+<p>Deleting a user closes the sessions it has open. Updating an account leaves its sessions open unless the update asks otherwise: the WebAdmin user page offers <strong>Disconnect the user after the update</strong>, and the REST API accepts <code>PUT /users/{username}?disconnect=1</code>. Changing a group has no equivalent option. Active sessions can be closed at any time from the Connections page or through the REST API, and <a href="#security"><code>token_validation</code></a> governs whether a Web Client, WebAdmin or REST API token issued before a change remains usable. In a cluster, a session served by another instance is closed through a request to that <a href="#node">instance</a>.</p>
+<p>To apply a change to what is already connected, change the account and then close its sessions.</p>
 <h4 id="symbolic-links-and-permissions">Symbolic links and permissions</h4>
 <p>Symbolic links exist on the local filesystem and SFTP backends; cloud object storage (S3, Azure Blob, Google Cloud Storage) has no symbolic links, so this section applies to those two backends. Clients holding the <code>create_symlinks</code> permission can create symbolic links when <code>symlink_mode</code> enables creation for the backend; it is disabled by default (see below). Creation also requires that permission on both the link's directory and the directory the link points into. Most file operations <strong>dereference</strong> a symbolic link: reading, writing, and metadata changes act on the link's <em>target</em>, not on the link node. Deleting or renaming a link, by contrast, acts on the link node itself, not on its target. Per-directory permissions are evaluated at the path the client requests, so a link placed in one directory that points into another runs operations under the permissions of the link's directory while acting on the target. When the two directories are governed by different per-directory permissions, operating through the link can reach the target in ways the target's own directory would not allow.</p>
 <p>Dereferencing a link never re-checks <code>create_symlinks</code>: any link already present on the storage is followed under the requesting path's permissions. Only <em>creation</em> through SFTPGo is gated, and because it requires <code>create_symlinks</code> on the directory the link points into, the permission is <strong>bidirectional</strong> — granting it on a directory authorizes that directory both as a place to create links and as a place links may point into. A directory that carries <code>create_symlinks</code> can therefore be made a link target from any other directory that also carries it, reached under that other directory's permissions. A directory that does <strong>not</strong> grant it cannot be made a <em>new</em> link target through SFTPGo, but this does not retract links that already exist: one created while the permission was granted, or placed on the storage outside SFTPGo, stays followed regardless. Do not grant <code>create_symlinks</code> on a directory whose download, upload, or overwrite permissions you restrict; and because revoking it later leaves existing links in place, keep creation disabled (the default <code>symlink_mode</code>) for any backend whose clients do not need it.</p>
@@ -4417,7 +4470,7 @@
 <td><code>client_ip_proxy_header</code></td>
 <td>string</td>
 <td>empty</td>
-<td>Client IP proxy header to trust (e.g., <code>X-Forwarded-For</code>, <code>X-Real-IP</code>).</td>
+<td>Client IP proxy header to trust (e.g., <code>X-Forwarded-For</code>, <code>X-Real-IP</code>). The header is read only from connections whose address is listed in <code>proxy_allowed</code>; otherwise the connection address is used.</td>
 </tr>
 <tr>
 <td><code>client_ip_header_depth</code></td>
@@ -5196,7 +5249,7 @@
 <td><code>client_ip_proxy_header</code></td>
 <td>string</td>
 <td>empty</td>
-<td>Allowed client IP proxy header (e.g., <code>X-Forwarded-For</code>, <code>X-Real-IP</code>).</td>
+<td>Allowed client IP proxy header (e.g., <code>X-Forwarded-For</code>, <code>X-Real-IP</code>). The header is read only from connections whose address is listed in <code>proxy_allowed</code>; otherwise the connection address is used.</td>
 </tr>
 <tr>
 <td><code>client_ip_header_depth</code></td>
@@ -5228,10 +5281,22 @@
 <td><code>en</code></td>
 <td>Supported values: <code>en</code>, <code>it</code>, <code>de</code>, <code>fr</code>, <code>es</code>, <code>zh-CN</code>.</td>
 </tr>
+<tr>
+<td><code>oidc</code></td>
+<td>struct</td>
+<td></td>
+<td>OpenID Connect settings for this binding, see <a href="#oidc">oidc</a>.</td>
+</tr>
+<tr>
+<td><code>security</code></td>
+<td>struct</td>
+<td></td>
+<td>Security headers and host restrictions for this binding, see <a href="#security">security</a>.</td>
+</tr>
 </tbody>
 </table>
 <h4 id="oidc">oidc</h4>
-<p>OpenID Connect configuration. OIDC integration allows you to map your identity provider users to SFTPGo users, enabling login to the WebClient and WebAdmin interfaces via your identity provider.</p>
+<p>OpenID Connect configuration, set inside each entry of <code>bindings</code>. OIDC integration allows you to map your identity provider users to SFTPGo users, enabling login to the WebClient and WebAdmin interfaces via your identity provider.</p>
 <table>
 <thead>
 <tr>
@@ -5306,7 +5371,13 @@
 <td><code>query_userinfo</code></td>
 <td>boolean</td>
 <td><code>false</code></td>
-<td>If set, SFTPGo queries the provider's UserInfo endpoint after each authentication and reads the claims from both sources. ID token claims take precedence over UserInfo claims with the same name and the UserInfo subject must match the ID token subject. SFTPGo refuses to start if the provider does not advertise a UserInfo endpoint.</td>
+<td>If set, SFTPGo queries the provider's UserInfo endpoint after each authentication and reads the claims from both sources. Non-empty ID token claims take precedence over UserInfo claims with the same name and the UserInfo subject must match the ID token subject, see <a href="../oidc/#userinfo-claims">UserInfo claims</a>. SFTPGo refuses to start if the provider does not advertise a UserInfo endpoint.</td>
+</tr>
+<tr>
+<td><code>require_verified_email</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>If set, only identities whose email address is verified by the provider are accepted: the <code>email_verified</code> claim must be set to <code>true</code> in the ID token or, with <code>query_userinfo</code> enabled, in the UserInfo response, see <a href="../oidc/#verified-email">Verified email</a>.</td>
 </tr>
 <tr>
 <td><code>insecure_skip_signature_check</code></td>
@@ -5323,7 +5394,7 @@
 </tbody>
 </table>
 <h4 id="security">security</h4>
-<p>Security headers added to HTTP responses and host restriction settings.</p>
+<p>Security headers added to HTTP responses and host restriction settings, set inside each entry of <code>bindings</code>.</p>
 <table>
 <thead>
 <tr>
@@ -6316,7 +6387,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   
