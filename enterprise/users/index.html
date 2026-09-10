@@ -2,13 +2,13 @@
     
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link rel="canonical" href="https://docs.sftpgo.com/enterprise/custom-actions/">
+  <link rel="canonical" href="https://docs.sftpgo.com/enterprise/users/">
   <link rel="icon" href="../assets/favicon.ico">
   <meta name="generator" content="mkdocs, mkdocs-material">
 
     
       
-        <title>Custom Actions - SFTPGo docs</title>
+        <title>Users - SFTPGo docs</title>
       
     
     
@@ -40,14 +40,14 @@
 
     
     <meta name="keywords" content="SFTPGo, SFTP server, FTP server, SCP, WebDAV, S3, Google Cloud Storage, Azure Blob, Managed File Transfer, MFT, 2FA, Data At Rest Encryption, file sharing, secure file transfer, SaaS, on-premise, REST API, Kubernetes, Helm chart, OIDC, LDAP">
-  <meta name="description" content="Execute custom programs or HTTP webhooks on SFTPGo file and provider events for integration with external systems.">
-  <meta property="og:title" content="Custom Actions - SFTPGo docs">
-  <meta property="og:url" content="https://docs.sftpgo.com/enterprise/custom-actions/">
-  <meta property="og:description" content="Execute custom programs or HTTP webhooks on SFTPGo file and provider events for integration with external systems.">
+  <meta name="description" content="SFTPGo users: credentials, storage backend and root directory, permissions, connection restrictions, quota and bandwidth limits, groups and lifecycle.">
+  <meta property="og:title" content="Users - SFTPGo docs">
+  <meta property="og:url" content="https://docs.sftpgo.com/enterprise/users/">
+  <meta property="og:description" content="SFTPGo users: credentials, storage backend and root directory, permissions, connection restrictions, quota and bandwidth limits, groups and lifecycle.">
   <meta property="og:image" content="https://sftpgo.com/assets/img/og-image.png">
   <meta property="og:type" content="article">
-  <meta name="twitter:title" content="Custom Actions - SFTPGo docs">
-  <meta name="twitter:description" content="Execute custom programs or HTTP webhooks on SFTPGo file and provider events for integration with external systems.">
+  <meta name="twitter:title" content="Users - SFTPGo docs">
+  <meta name="twitter:description" content="SFTPGo users: credentials, storage backend and root directory, permissions, connection restrictions, quota and bandwidth limits, groups and lifecycle.">
   <meta name="twitter:image" content="https://sftpgo.com/assets/img/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
 
@@ -91,12 +91,12 @@
       },
       {
         "@type": "TechArticle",
-        "headline": "Custom Actions",
-        "description": "Execute custom programs or HTTP webhooks on SFTPGo file and provider events for integration with external systems.",
+        "headline": "Users",
+        "description": "SFTPGo users: credentials, storage backend and root directory, permissions, connection restrictions, quota and bandwidth limits, groups and lifecycle.",
         "image": "https://sftpgo.com/assets/img/og-image.png",
-        "url": "https://docs.sftpgo.com/enterprise/custom-actions/",
+        "url": "https://docs.sftpgo.com/enterprise/users/",
         "inLanguage": "en",
-        "datePublished": "2024-04-25T16:47:14Z",
+        "datePublished": "2026-09-08T09:20:06Z",
         "dateModified": "2026-09-08T09:20:06Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
@@ -135,7 +135,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#custom-actions" class="md-skip">
+        <a href="#users" class="md-skip">
           Skip to content
         </a>
       
@@ -174,7 +174,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Custom Actions
+              Users
             
           </span>
         </div>
@@ -692,18 +692,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" checked="">
         
           
           <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
@@ -724,7 +726,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_9">
             <span class="md-nav__icon md-icon"></span>
             
@@ -739,10 +741,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../users/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Users
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -758,6 +787,125 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#identity-and-credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Identity and credentials
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Storage
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-the-user-may-do" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What the user may do
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-the-user-may-connect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the user may connect
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#web-client-and-rest-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Web Client and REST API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hooks-and-login-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hooks and login checks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quota-and-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quota and limits
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Groups
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -3163,20 +3311,18 @@
       
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_19" checked="">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_19">
         
           
           <label class="md-nav__link" for="__nav_19" id="__nav_19_label" tabindex="0">
@@ -3197,7 +3343,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_19_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_19_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_19">
             <span class="md-nav__icon md-icon"></span>
             
@@ -3296,37 +3442,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Custom Actions
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../custom-actions/" class="md-nav__link">
         
   
   
@@ -3342,70 +3461,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-      
-        <li class="md-nav__item">
-  <a href="#filesystem-events" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Filesystem events
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#provider-events" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Provider events
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#pubsub-services" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Pub/Sub services
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#database-services" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Database services
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -3557,10 +3612,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#filesystem-events" class="md-nav__link">
+  <a href="#identity-and-credentials" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Filesystem events
+        Identity and credentials
       
     </span>
   </a>
@@ -3568,10 +3623,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#provider-events" class="md-nav__link">
+  <a href="#storage" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Provider events
+        Storage
       
     </span>
   </a>
@@ -3579,10 +3634,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#pubsub-services" class="md-nav__link">
+  <a href="#what-the-user-may-do" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Pub/Sub services
+        What the user may do
       
     </span>
   </a>
@@ -3590,10 +3645,65 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#database-services" class="md-nav__link">
+  <a href="#how-the-user-may-connect" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Database services
+        How the user may connect
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#web-client-and-rest-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Web Client and REST API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hooks-and-login-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hooks and login checks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quota-and-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quota and limits
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Groups
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lifecycle
       
     </span>
   </a>
@@ -3643,10 +3753,10 @@
     
     
       <li class="md-path__item">
-        <a href="../external-auth/" class="md-path__link">
+        <a href="./" class="md-path__link">
           
   <span class="md-ellipsis">
-    Hooks
+    Core concepts
   </span>
 
         </a>
@@ -3665,117 +3775,112 @@
 
 
 
-<h1 id="custom-actions">Custom Actions</h1>
-<p>SFTPGo can notify filesystem and provider events using custom actions. A custom action can be an external program or an HTTP URL.</p>
-<h2 id="filesystem-events">Filesystem events</h2>
-<p>The <code>actions</code> struct inside the <code>common</code> configuration section allows to configure the actions for file operations and SSH commands.
-The <code>hook</code> can be defined as the absolute path of your program or an HTTP URL.</p>
-<p>The following <code>actions</code> are supported:</p>
+<h1 id="users">Users</h1>
+<p>A user is an account that logs in over SFTP, FTP, WebDAV or the Web Client and works on the storage configured for it. Every setting that decides what an account can reach and do belongs to the user or to the <a href="../groups/">groups</a> it is a member of; this page maps those settings and links the pages that describe each of them.</p>
+<p>Users are created and edited in the WebAdmin, through the <a href="../rest-api/">REST API</a> and the Terraform provider, imported from a backup, or provisioned at login by a <a href="../dynamic-user-mod/">pre-login hook</a>, an <a href="../external-auth/">external authentication hook</a>, an authentication plugin or an <a href="../oidc/">OpenID Connect</a> identity provider. Whatever creates them, the stored account is the same object with the same rules.</p>
+<p>A working account needs a username, a way to authenticate, a storage with its root directory and the permissions granted on <code>/</code>. Everything else on this page refines it. A user with neither a password nor a public key is valid: it authenticates with an SSH certificate or through OpenID Connect.</p>
+<h2 id="identity-and-credentials">Identity and credentials</h2>
 <ul>
-<li><code>download</code></li>
-<li><code>first-download</code></li>
-<li><code>pre-download</code></li>
-<li><code>upload</code></li>
-<li><code>first-upload</code></li>
-<li><code>pre-upload</code></li>
-<li><code>delete</code></li>
-<li><code>pre-delete</code></li>
-<li><code>rename</code></li>
-<li><code>mkdir</code></li>
-<li><code>rmdir</code></li>
-<li><code>ssh_cmd</code></li>
-<li><code>copy</code></li>
+<li><strong>Username</strong>: unique across the installation and fixed once the user is created. The allowed characters are set by <code>naming_rules</code> in the <a href="../config-file/#data-provider">configuration</a>.</li>
+<li><strong>Status</strong> and <strong>Expiration</strong>: an inactive or expired user is refused on every protocol. The other settings stay stored, so an account is disabled and re-enabled without losing anything. A primary group sets the expiration through <strong>Expires in</strong>, as days from the creation of the user.</li>
+<li><strong>Password</strong>: stored hashed. <strong>Password expiration</strong> is the number of days a password stays valid; <strong>Require password change</strong> asks the user to set a new password from the Web Client, and the other protocols wait until it is done. Algorithms and validation rules are in <a href="../password/">Password management</a>.</li>
+<li><strong>Public keys</strong>: SSH public keys in the <code>authorized_keys</code> format: RSA from 2048 bits, ECDSA, Ed25519 and FIDO security keys (<code>sk-*</code>). A <code>from="&lt;CIDR&gt;,..."</code> option restricts a key to the listed networks, see <a href="../ssh/#restricting-a-key-to-source-addresses">Restricting a key to source addresses</a>. SSH certificates are configured on the server, see <a href="../ssh/#authentication">SSH authentication</a>.</li>
+<li><strong>TLS certificates</strong>: PEM certificates that log the user in on FTP and WebDAV bindings requesting a client certificate. <strong>TLS username</strong> set to <code>CN</code> accepts instead any trusted certificate whose Common Name equals the username. See <a href="../ftp/#authentication">FTP</a> and <a href="../webdav/#authentication">WebDAV</a>.</li>
+<li><strong>Two-factor authentication</strong>: a time-based one-time code, enrolled by the user from the Web Client. <strong>Require 2FA for</strong> makes it mandatory on the selected protocols. See the <a href="../tutorials/two-factor-authentication/">two-factor authentication</a> tutorial.</li>
+<li><strong>Email</strong> and <strong>Additional emails</strong>: the addresses for password resets, one-time codes and notifications.</li>
+<li><strong>Role</strong>: assigns the user to a <a href="../roles/">role</a>, so that the administrators of that role manage it.</li>
+<li><strong>Description</strong>: free text, shown to the user in the Web Client profile. <strong>Additional info</strong>: free text for the administrator alone.</li>
 </ul>
-<p>The <code>upload</code> condition includes both uploads to new files and overwrite of existing ones. If an upload is aborted for quota limits SFTPGo tries to remove the partial file, so if the notification reports a zero size file and a quota exceeded error the file has been deleted. The <code>ssh_cmd</code> condition will be triggered after a command is successfully executed via SSH. <code>scp</code> will trigger the <code>download</code> and <code>upload</code> conditions and not <code>ssh_cmd</code>. The <code>first-download</code> and <code>first-upload</code> action are executed only if no error occour and they don't exclude the <code>download</code> and <code>upload</code> notifications, so you will get both the <code>first-upload</code> and <code>upload</code> notification after the first successful upload and the same for the first successful download.
-For cloud backends directories are virtual, they are created implicitly when you upload a file and are implicitly removed when the last file within a directory is removed. The <code>mkdir</code> and <code>rmdir</code> notifications are sent only when a directory is explicitly created or removed.</p>
-<p>The notification will indicate if an error is detected and so, for example, a partial file is uploaded.</p>
-<p>The <code>pre-delete</code>, <code>pre-download</code> and <code>pre-upload</code> actions, will be called before deleting, downloading and uploading files. If the external command completes with a zero exit status or the HTTP notification response code is <code>200</code>, SFTPGo will allow the operation, otherwise the client will get a permission denied error.</p>
-<p>If the <code>hook</code> defines a path to an external program, then this program can read the following environment variables:</p>
+<h2 id="storage">Storage</h2>
+<p>Every user works in a file system of its own, seen as <code>/</code> from every protocol. It is built from two kinds of pieces:</p>
 <ul>
-<li><code>SFTPGO_ACTION</code>, supported action</li>
-<li><code>SFTPGO_ACTION_USERNAME</code></li>
-<li><code>SFTPGO_ACTION_PATH</code>, is the full filesystem path, can be empty for some ssh commands</li>
-<li><code>SFTPGO_ACTION_TARGET</code>, full filesystem path, non-empty for <code>rename</code> <code>SFTPGO_ACTION</code> and for some SSH commands</li>
-<li><code>SFTPGO_ACTION_VIRTUAL_PATH</code>, virtual path, seen by SFTPGo users</li>
-<li><code>SFTPGO_ACTION_VIRTUAL_TARGET</code>, virtual target path, seen by SFTPGo users</li>
-<li><code>SFTPGO_ACTION_SSH_CMD</code>, non-empty for <code>ssh_cmd</code> <code>SFTPGO_ACTION</code></li>
-<li><code>SFTPGO_ACTION_FILE_SIZE</code>, non-zero for <code>pre-upload</code>, <code>upload</code>, <code>download</code>, <code>delete</code>, and <code>copy</code> actions if the file size is greater than <code>0</code></li>
-<li><code>SFTPGO_ACTION_ELAPSED</code>, elapsed time as milliseconds</li>
-<li><code>SFTPGO_ACTION_FS_PROVIDER</code>, <code>0</code> for local filesystem, <code>1</code> for S3 backend, <code>2</code> for Google Cloud Storage (GCS) backend, <code>3</code> for Azure Blob Storage backend, <code>4</code> for local encrypted backend, <code>5</code> for SFTP backend</li>
-<li><code>SFTPGO_ACTION_BUCKET</code>, non-empty for S3, GCS and Azure backends</li>
-<li><code>SFTPGO_ACTION_ENDPOINT</code>, non-empty for S3, SFTP and Azure backend if configured</li>
-<li><code>SFTPGO_ACTION_STATUS</code>, integer. Status for <code>upload</code>, <code>download</code> and <code>ssh_cmd</code> actions. 1 means no error, 2 means a generic error occurred, 3 means quota exceeded error</li>
-<li><code>SFTPGO_ACTION_PROTOCOL</code>, string. Possible values are <code>SSH</code>, <code>SFTP</code>, <code>SCP</code>, <code>FTP</code>, <code>DAV</code>, <code>HTTP</code>, <code>HTTPShare</code>, <code>OIDC</code>, <code>DataRetention</code>, <code>EventAction</code></li>
-<li><code>SFTPGO_ACTION_IP</code>, the action was executed from this IP address</li>
-<li><code>SFTPGO_ACTION_SESSION_ID</code>, string. Unique protocol session identifier. For stateless protocols such as HTTP the session id will change for each request</li>
-<li><code>SFTPGO_ACTION_OPEN_FLAGS</code>, integer. File open flags, can be non-zero for <code>pre-upload</code> action. If <code>SFTPGO_ACTION_FILE_SIZE</code> is greater than zero and <code>SFTPGO_ACTION_OPEN_FLAGS&amp;512 == 0</code> the target file will not be truncated</li>
-<li><code>SFTPGO_ACTION_ROLE</code>, string. Role of the user who executed the action</li>
-<li><code>SFTPGO_ACTION_TIMESTAMP</code>, int64. Event timestamp as nanoseconds since epoch</li>
-<li><code>SFTPGO_ACTION_METADATA</code>, string. Custom metadata of the object serialized as JSON, for S3, GCS and Azure backends. Included for <code>delete</code>, <code>rename</code> and <code>copy</code> actions, and for <code>download</code> actions when <code>metadata.read</code> is set to <code>1</code> in the <a href="../config-file/#metadata">config file</a>. Omitted if there is no metadata</li>
+<li>The <strong>root filesystem</strong> is the storage selected in the <strong>Storage</strong> section of the user: a directory on the local disk, plain or encrypted, a bucket or container with an optional key prefix on S3, Google Cloud Storage or Azure Blob, or a path on a remote SFTP, FTP or HTTP server. The user sees it as <code>/</code> and reaches nothing above it. <strong>None</strong> takes the storage from the primary group, see <a href="../groups/#users-with-storage-none">Users with storage "None"</a>. Each backend has its own page: <a href="../localfs/">local filesystem</a>, <a href="../dare/">encrypted</a>, <a href="../s3/">S3</a>, <a href="../google-cloud-storage/">Google Cloud Storage</a>, <a href="../azure-blob-storage/">Azure Blob</a>, <a href="../sftpfs/">SFTP</a>, <a href="../ftpfs/">FTP</a>, <a href="../httpfs/">HTTP</a>.</li>
+<li><strong>Virtual folders</strong> are additional locations mounted at a chosen path of that file system. A folder is defined once, with a backend of its own that can differ from the root's, and mapped to any number of users or groups: mapped to several users it becomes a shared area. Each mapping has a quota of its own or counts within the user's. See <a href="../virtual-folders/">Virtual folders</a>.</li>
 </ul>
-<p>Global environment variables are cleared, for security reasons, when the script is called. You can set additional environment variables in the "command" configuration section.
-The program must finish within 30 seconds.</p>
-<p>If the <code>hook</code> defines an HTTP URL then this URL will be invoked as HTTP POST. The request body will contain a JSON serialized struct with the following fields:</p>
+<p>For example, a user can be given a private local directory as root and several locations mounted into it:</p>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Storage</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/</code></td>
+<td>Local disk, <code>/srv/sftpgo/alice</code></td>
+<td>Root filesystem, private to the user.</td>
+</tr>
+<tr>
+<td><code>/shared</code></td>
+<td>S3 bucket <code>company-data</code>, key prefix <code>teams/sales/</code></td>
+<td>Virtual folder mapped to every member of the team.</td>
+</tr>
+<tr>
+<td><code>/reports</code></td>
+<td>S3 bucket <code>company-data</code>, key prefix <code>reports/2026/</code></td>
+<td>Virtual folder on the same bucket, another prefix.</td>
+</tr>
+<tr>
+<td><code>/backups</code></td>
+<td>Azure Blob container <code>backups</code></td>
+<td>Virtual folder with a quota of its own.</td>
+</tr>
+<tr>
+<td><code>/archive</code></td>
+<td>Directory on a remote SFTP server</td>
+<td>Virtual folder.</td>
+</tr>
+</tbody>
+</table>
+<p>The user browses one tree, and the permissions, name patterns and quota described below apply to its paths whatever backend serves them.</p>
+<p>The <strong>Root directory</strong> field (<code>home_dir</code> in the REST API, "home directory" in these pages) is a directory on the host running SFTPGo. With the local disk storages it is the directory served as <code>/</code>, created at the first login when missing. With any other storage it is a working directory for SFTPGo: the help text of the field says when it can be left blank, and the user page shows the value SFTPGo derived from the username.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> What the user can reach within the storage is decided by the settings below and by the storage layout: see <a href="../access-control/">Access control</a> for how the layers compose, and <a href="../localfs/#symbolic-links">symbolic links</a> for root directories that already contain links.</p>
+<h2 id="what-the-user-may-do">What the user may do</h2>
 <ul>
-<li><code>action</code>, string</li>
-<li><code>username</code>, string</li>
-<li><code>path</code>, string</li>
-<li><code>target_path</code>, string, included for <code>rename</code> action and <code>sftpgo-copy</code> SSH command</li>
-<li><code>virtual_path</code>, string, virtual path, seen by SFTPGo users</li>
-<li><code>virtual_target_path</code>, string, virtual target path, seen by SFTPGo users</li>
-<li><code>ssh_cmd</code>, string, included for <code>ssh_cmd</code> action</li>
-<li><code>file_size</code>, int64, included for <code>pre-upload</code>, <code>upload</code>, <code>download</code>, <code>delete</code> and <code>copy</code> actions if the file size is greater than <code>0</code></li>
-<li><code>elapsed</code>, int64, elapsed size as milliseconds</li>
-<li><code>fs_provider</code>, integer, <code>0</code> for local filesystem, <code>1</code> for S3 backend, <code>2</code> for Google Cloud Storage (GCS) backend, <code>3</code> for Azure Blob Storage backend, <code>4</code> for local encrypted backend, <code>5</code> for SFTP backend, <code>6</code> for HTTPFs backend</li>
-<li><code>bucket</code>, string, included for S3, GCS and Azure backends</li>
-<li><code>endpoint</code>, string, included for S3, SFTP and Azure backend if configured</li>
-<li><code>status</code>, integer. Status for <code>upload</code>, <code>download</code> and <code>ssh_cmd</code> actions. 1 means no error, 2 means a generic error occurred, 3 means quota exceeded error</li>
-<li><code>protocol</code>, string. Possible values are <code>SSH</code>, <code>SFTP</code>, <code>SCP</code>, <code>FTP</code>, <code>DAV</code>, <code>HTTP</code>, <code>HTTPShare</code>, <code>OIDC</code>, <code>DataRetention</code>, <code>EventAction</code></li>
-<li><code>ip</code>, string. The action was executed from this IP address</li>
-<li><code>session_id</code>, string. Unique protocol session identifier. For stateless protocols such as HTTP the session id will change for each request</li>
-<li><code>open_flags</code>, integer. File open flags, can be non-zero for <code>pre-upload</code> action. If <code>file_size</code> is greater than zero and <code>file_size&amp;512 == 0</code> the target file will not be truncated</li>
-<li><code>role</code>, string. Included if the user who executed the action has a role</li>
-<li><code>timestamp</code>, int64. Event timestamp as nanoseconds since epoch</li>
-<li><code>metadata</code>, object. Custom metadata of the object, for S3, GCS and Azure backends. Both the keys and the values are string. Included for <code>delete</code>, <code>rename</code> and <code>copy</code> actions, and for <code>download</code> actions when <code>metadata.read</code> is set to <code>1</code> in the <a href="../config-file/#metadata">config file</a>. Omitted if there is no metadata</li>
+<li><strong>Permissions</strong>: the operations allowed in <code>/</code>, refined by <strong>Per-directory permissions</strong> for the paths that need different rights. See <a href="../access-control/#per-directory-permissions">Per-directory permissions</a>.</li>
+<li><strong>Per-directory name patterns restrictions</strong>: which file and directory names are listed and transferable, hidden or refused according to the deny policy. See <a href="../access-control/#file-pattern-filters">File pattern filters</a>.</li>
+<li><strong>Initial directory</strong>: where a session starts, within the root; it restricts nothing. SFTP and FTP sessions start there, the Web Client opens on it and the user REST API resolves relative paths from it; WebDAV starts at the root.</li>
+<li><strong>Anonymous user</strong>: the account lists and downloads only, over FTP and WebDAV, with the password as the only login method, whatever else is configured.</li>
 </ul>
-<p>The HTTP hook will use the global configuration for HTTP clients and will respect the retry, TLS and headers configurations. See the HTTP Clients (<code>http</code>) section of the <a href="../config-file/#http-clients">config reference</a>.</p>
-<p>The <code>pre-*</code> actions are always executed synchronously while the other ones are asynchronous. You can specify the actions to run synchronously via the <code>execute_sync</code> configuration key. Executing an action synchronously means that SFTPGo will not return a result code to the client (which is waiting for it) until your hook have completed its execution. If your hook takes a long time to complete this could cause a timeout on the client side, which wouldn't receive the server response in a timely manner and eventually drop the connection.
-If you add the <code>upload</code> action to the <code>execute_sync</code> configuration key, SFTPGo will try to delete the uploaded file and return an error to the client if the hook fails. A hook is considered failed if the external command completes with a non-zero exit status or the HTTP notification response code is other than <code>200</code> (or the HTTP endpoint cannot be reached or times out).
-After a hook failure, the uploaded size is removed from the quota if SFTPGo is able to remove the file.</p>
-<h2 id="provider-events">Provider events</h2>
-<p>The <code>actions</code> struct inside the <code>data_provider</code> configuration section allows you to configure actions on data provider objects add, update, delete.</p>
-<p>The supported object types are:</p>
+<h2 id="how-the-user-may-connect">How the user may connect</h2>
 <ul>
-<li><code>user</code></li>
-<li><code>folder</code></li>
-<li><code>group</code></li>
-<li><code>admin</code></li>
-<li><code>api_key</code></li>
-<li><code>share</code></li>
-<li><code>event_action</code></li>
-<li><code>event_rule</code></li>
+<li><strong>Denied protocols</strong>, <strong>Allowed IP/Mask</strong>, <strong>Denied IP/Mask</strong> and <strong>Access time restrictions</strong> gate the connection. See <a href="../access-control/#ip-and-protocol-restrictions">IP and protocol restrictions</a> and <a href="../access-control/#time-based-access">Time-based access</a>.</li>
+<li><strong>Denied login methods</strong>: the credentials this user may not use among the ones the binding accepts: password, public key, keyboard-interactive, TLS certificate and, for SSH, the two-step combinations such as public key followed by password. Denying the single SSH methods and leaving a combination requires two-step authentication, see <a href="../ssh/#multi-step-authentication">Multi-step authentication</a>.</li>
+<li><strong>Enforce secure algorithms</strong> and <strong>FTP security</strong>: the first restricts the SFTP sessions of this user to secure host key, key exchange, MAC and cipher algorithms on a server that enables weaker ones too; the second requires TLS for this user on FTP bindings that allow cleartext sessions too. See <a href="../ftp/#ftp-security-filter">FTP security filter</a>.</li>
 </ul>
-<p>Actions will not be fired for internal updates, such as the last login or the user quota fields, or after external authentication.</p>
-<p>If the <code>hook</code> defines a path to an external program, then this program can read the following environment variables:</p>
+<h2 id="web-client-and-rest-api">Web Client and REST API</h2>
+<p>From the Web Client a user manages files and shares, the profile (description, email and additional emails, public keys, TLS certificates), the password and two-factor authentication.</p>
 <ul>
-<li><code>SFTPGO_PROVIDER_ACTION</code>, supported values are <code>add</code>, <code>update</code>, <code>delete</code></li>
-<li><code>SFTPGO_PROVIDER_OBJECT_TYPE</code>, affected object type</li>
-<li><code>SFTPGO_PROVIDER_OBJECT_NAME</code>, unique identifier for the affected object, for example username or key id</li>
-<li><code>SFTPGO_PROVIDER_USERNAME</code>, the admin username that executed the action. There are two special usernames: <code>__self__</code> identifies a user/admin that updates itself and <code>__system__</code> identifies an action that does not have an explicit executor associated with it, for example users/admins can be added/updated by loading them from initial data</li>
-<li><code>SFTPGO_PROVIDER_IP</code>, the action was executed from this IP address</li>
-<li><code>SFTPGO_PROVIDER_ROLE</code>, role of the tenant that owns the affected object (user's or admin's role). Empty for objects without a role.</li>
-<li><code>SFTPGO_PROVIDER_TIMESTAMP</code>, event timestamp as nanoseconds since epoch</li>
-<li><code>SFTPGO_PROVIDER_OBJECT</code>, object serialized as JSON with sensitive fields removed</li>
+<li><strong>Web client/REST API</strong> options remove features from this user: writes, document editing, the recursive size of directories, the REST API, each of the self-service changes above, the API key authentication setting, and the sharing options described in <a href="../tutorials/shares/">Shares</a>. An account provisioned by an identity provider or a hook is kept read-only for the user this way.</li>
+<li><strong>API key authentication</strong>: lets an API key created for this user act as the user in the REST API, see <a href="../rest-api/">REST API</a>.</li>
 </ul>
-<p>Global environment variables are cleared, for security reasons, when the script is called. You can set additional environment variables in the "command" configuration section.
-The program must finish within 15 seconds.</p>
-<p>If the <code>hook</code> defines an HTTP URL then this URL will be invoked as HTTP POST. The action, username, ip, object_type and object_name and timestamp and role are added to the query string, for example <code>&lt;hook&gt;?action=update&amp;username=admin&amp;ip=127.0.0.1&amp;object_type=user&amp;object_name=user1&amp;timestamp=1633860803249</code>, and the full object is sent serialized as JSON inside the POST body with sensitive fields removed. The role is added only if not empty.</p>
-<p>The HTTP hook will use the global configuration for HTTP clients and will respect the retry, TLS and headers configurations. See the HTTP Clients (<code>http</code>) section of the <a href="../config-file/#http-clients">config reference</a>.</p>
-<p>The structure for SFTPGo objects can be found within the <a href="https://sftpgo.com/rest-api" target="_blank">OpenAPI schema</a>.</p>
-<h2 id="pubsub-services">Pub/Sub services</h2>
-<p>You can forward SFTPGo events to several publish/subscribe systems using the <a href="https://github.com/sftpgo/sftpgo-plugin-pubsub" target="_blank">sftpgo-plugin-pubsub</a>. The notifiers SFTPGo plugins are not suitable for interactive actions such as <code>pre-*</code> events. Their scope is limited to forwarding events to external services. A custom hook is a better choice if you need to react to <code>pre-*</code> events.</p>
-<h2 id="database-services">Database services</h2>
-<p>You can store SFTPGo events in database systems using the <a href="https://github.com/sftpgo/sftpgo-plugin-eventstore" target="_blank">sftpgo-plugin-eventstore</a> and you can search the stored events using the <a href="https://github.com/sftpgo/sftpgo-plugin-eventsearch" target="_blank">sftpgo-plugin-eventsearch</a>.</p>
+<h2 id="hooks-and-login-checks">Hooks and login checks</h2>
+<ul>
+<li><strong>Hooks</strong>: excludes this user from the check password, pre-login and external authentication hooks. <strong>External auth cache time</strong> and <strong>Pre-login hook cache time</strong> skip the hook for the given seconds after a successful login.</li>
+<li><strong>Local accounts beside external ones</strong>: a user with the external authentication hook disabled is verified against the credentials stored in SFTPGo, so local accounts coexist with the ones from an <a href="../external-auth/">external system</a> or an authentication plugin such as LDAP. The OpenID Connect counterpart is described in <a href="../oidc/#oidc-and-local-credentials">OIDC and local credentials</a>.</li>
+<li><strong>Disable filesystem checks</strong>: skips the existence checks and the automatic creation of the root directory and of the virtual folder directories at login.</li>
+</ul>
+<h2 id="quota-and-limits">Quota and limits</h2>
+<p>The <strong>Disk quota and bandwidth limits</strong> section holds:</p>
+<ul>
+<li><strong>Quota size</strong> and <strong>Quota files</strong>: the storage the user may use, in bytes (the <code>MB</code>/<code>GB</code>/<code>TB</code> suffix is accepted) and number of files. The usage is a counter SFTPGo updates as files are uploaded and deleted, according to <code>track_quota</code> in the <a href="../config-file/#data-provider">configuration</a>; a <strong>quota scan</strong>, from the users list or through the REST API, recomputes it from the storage. Virtual folders have a quota of their own or are counted within the user's, see <a href="../virtual-folders/#quota">Virtual folders</a>.</li>
+<li><strong>Bandwidth UL/DL</strong>: the upload and download speed of the user, in KB/s, shared by every transfer the user has in progress on the same instance. <strong>Per-source bandwidth speed limits</strong> replace them for connections coming from the listed networks.</li>
+<li><strong>Upload</strong>, <strong>Download</strong> and <strong>Total data transfer</strong>: the amount of data the user may transfer, in MB; the total limit replaces the two individual ones. The usage grows with every transfer and is reset through the REST API, <code>PUT /api/v2/quotas/users/{username}/transfer-usage</code>; per-source limits apply to the listed networks.</li>
+<li><strong>Max sessions</strong>: concurrent sessions and file transfers.</li>
+<li><strong>Max upload size</strong>: the size of a single upload, in bytes (the <code>MB</code>/<code>GB</code>/<code>TB</code> suffix is accepted).</li>
+</ul>
+<p><code>0</code> means no limit everywhere.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Quota and data transfer usage are counters kept by SFTPGo: they follow what goes through it and drift when the storage changes in another way or a transfer is interrupted by a restart. Run a quota scan after changing the storage outside SFTPGo or restoring a backup, and schedule one with the <a href="../eventmanager/">Event Manager</a> where the counters must stay accurate. <code>delayed_quota_update</code> in the <a href="../config-file/#data-provider">configuration</a> batches the updates.</p>
+<h2 id="groups">Groups</h2>
+<p>A user belongs to at most one primary group and to any number of secondary and membership groups. The primary and the secondary groups contribute settings to the user at login, so the stored user and the configuration that applies can differ; the <strong>Effective configuration</strong> entry of the users list shows the result. <strong>Custom placeholders</strong> are values a group can reference to derive a path per user. See <a href="../groups/">Groups</a>.</p>
+<h2 id="lifecycle">Lifecycle</h2>
+<ul>
+<li>Settings are read at login: a session already open keeps the ones it started with, and the user page offers <strong>Disconnect the user after the update</strong> to close its sessions. See <a href="../access-control/#when-account-changes-take-effect">When account changes take effect</a>.</li>
+<li>Deleting a user closes its sessions and removes the account. The files in its root directory and on its storage stay where they are.</li>
+<li>Users are exported and imported with the rest of the configuration through a <a href="../data-provider/#loading-a-dump-from-the-command-line">backup</a>, and created in bulk from a template in the WebAdmin.</li>
+</ul>
 
 
 
@@ -3808,7 +3913,7 @@ The program must finish within 15 seconds.</p>
     <span class="md-icon" title="Created">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 25, 2024 16:47:14 UTC">2024-04-25 16:47:14</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
   </span>
 
     

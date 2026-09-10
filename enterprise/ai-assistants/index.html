@@ -12,7 +12,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -40,14 +40,14 @@
 
     
     <meta name="keywords" content="SFTPGo, SFTP server, FTP server, SCP, WebDAV, S3, Google Cloud Storage, Azure Blob, Managed File Transfer, MFT, 2FA, Data At Rest Encryption, file sharing, secure file transfer, SaaS, on-premise, REST API, Kubernetes, Helm chart, OIDC, LDAP">
-  <meta name="description" content="Use AI assistants — Claude Code, Cursor, Copilot, ChatGPT, Gemini — to write SFTPGo REST API payloads, Event Action templates, and configuration. Official AI skill at github.com/sftpgo/sftpgo-skill.">
+  <meta name="description" content="Use AI assistants to write SFTPGo REST API payloads, event action templates and configuration, with the official SFTPGo skill.">
   <meta property="og:title" content="AI Assistants - SFTPGo docs">
   <meta property="og:url" content="https://docs.sftpgo.com/enterprise/ai-assistants/">
-  <meta property="og:description" content="Use AI assistants — Claude Code, Cursor, Copilot, ChatGPT, Gemini — to write SFTPGo REST API payloads, Event Action templates, and configuration. Official AI skill at github.com/sftpgo/sftpgo-skill.">
+  <meta property="og:description" content="Use AI assistants to write SFTPGo REST API payloads, event action templates and configuration, with the official SFTPGo skill.">
   <meta property="og:image" content="https://sftpgo.com/assets/img/og-image.png">
   <meta property="og:type" content="article">
   <meta name="twitter:title" content="AI Assistants - SFTPGo docs">
-  <meta name="twitter:description" content="Use AI assistants — Claude Code, Cursor, Copilot, ChatGPT, Gemini — to write SFTPGo REST API payloads, Event Action templates, and configuration. Official AI skill at github.com/sftpgo/sftpgo-skill.">
+  <meta name="twitter:description" content="Use AI assistants to write SFTPGo REST API payloads, event action templates and configuration, with the official SFTPGo skill.">
   <meta name="twitter:image" content="https://sftpgo.com/assets/img/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
 
@@ -92,12 +92,12 @@
       {
         "@type": "TechArticle",
         "headline": "AI Assistants",
-        "description": "Use AI assistants \u2014 Claude Code, Cursor, Copilot, ChatGPT, Gemini \u2014 to write SFTPGo REST API payloads, Event Action templates, and configuration. Official AI skill at github.com/sftpgo/sftpgo-skill.",
+        "description": "Use AI assistants to write SFTPGo REST API payloads, event action templates and configuration, with the official SFTPGo skill.",
         "image": "https://sftpgo.com/assets/img/og-image.png",
         "url": "https://docs.sftpgo.com/enterprise/ai-assistants/",
         "inLanguage": "en",
         "datePublished": "2026-04-26T15:47:01Z",
-        "dateModified": "2026-04-26T15:47:01Z",
+        "dateModified": "2026-09-08T09:20:06Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -734,6 +734,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../users/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Users
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -3782,15 +3810,15 @@
 
 
 <h1 id="ai-assistants-for-sftpgo">AI assistants for SFTPGo</h1>
-<p>Writing a correct SFTPGo REST API payload, an Event Action Go template, or a WebAdmin configuration for a new backend takes practice. A Large Language Model (Claude, GPT, Gemini, Mistral, Llama, …) can accelerate most of that work — <strong>provided you give it the right context</strong>. Without context, AI assistants tend to invent plausible-looking field names, skip required properties, or mix up features that belong only to the Enterprise edition.</p>
+<p>Writing a correct SFTPGo REST API payload, an Event Action Go template, or a WebAdmin configuration for a new backend takes practice. A Large Language Model (Claude, GPT, Gemini, Mistral, Llama, ...) can accelerate most of that work — <strong>provided you give it the right context</strong>. Without context, AI assistants tend to invent plausible-looking field names, skip required properties, or mix up features that belong only to the Enterprise edition.</p>
 <p>To make this reliable we maintain a dedicated reference skill — <strong><a href="https://github.com/sftpgo/sftpgo-skill" target="_blank">sftpgo-skill</a></strong> — that you can plug into almost any AI agent.</p>
 <h2 id="what-the-skill-covers">What the skill covers</h2>
 <p>The skill is deliberately <em>AI-agnostic</em>: same content, multiple integration formats. It covers:</p>
 <ul>
-<li><strong>REST API payload conventions</strong> — tagged unions (<code>provider</code> / <code>action type</code> integer → sub-config), the secret envelope (<code>{status, payload}</code> + the <code>[**redacted**]</code> sentinel on update), required-field matrices, PUT-replace semantics.</li>
+<li><strong>REST API payload conventions</strong> — tagged unions (<code>provider</code> / <code>action type</code> integer =&gt; sub-config), the secret envelope (<code>{status, payload}</code> + the <code>[**redacted**]</code> sentinel on update), required-field matrices, PUT-replace semantics.</li>
 <li><strong>WebAdmin form fields</strong> — same JSON shape as the REST API, so one set of knowledge covers both interfaces.</li>
 <li><strong>Event Action templates</strong> — the full Go <code>text/template</code> context, the registered function map (<code>toJson</code>, <code>humanizeBytes</code>, <code>fromNanos</code>, <code>slicesContains</code>, and the rest), which template fields are populated per trigger type, and ready-to-paste examples (upload notifications, Slack / Teams / Discord / Google Chat / Mattermost webhooks, OIDC JIT user provisioning, ICAP scanning, staged-upload actions, PGP encryption, retention reports).</li>
-<li><strong>Deployment recipes</strong> — <code>SFTPGO_…</code> environment variable naming rule, Docker / Kubernetes / Helm recipes, production env.d layouts, sysadmin pitfalls (memory pipes for cloud backends, local home-directory permissions, CockroachDB migration constraints).</li>
+<li><strong>Deployment recipes</strong> — <code>SFTPGO_...</code> environment variable naming rule, Docker / Kubernetes / Helm recipes, production env.d layouts, sysadmin pitfalls (memory pipes for cloud backends, local home-directory permissions, CockroachDB migration constraints).</li>
 <li><strong>Edition and distribution awareness</strong> — the skill recognises when you're on the Open Source edition, on a cloud marketplace VM, or on the fully-managed SaaS at sftpgo.com, and adjusts its suggestions accordingly (no shell commands for SaaS customers, no Enterprise-only features for OSS installs, no sales pitches either way).</li>
 </ul>
 <p>The skill does <strong>not</strong> duplicate the OpenAPI spec or this documentation; it indexes them. For field-level validation an AI should still consult the authoritative <a href="https://sftpgo.com/assets/openapi.yaml" target="_blank">OpenAPI spec</a>; for operational walkthroughs, these docs.</p>
@@ -3887,7 +3915,7 @@ and load https://sftpgo.com/assets/openapi.yaml as the authoritative API contrac
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 26, 2026 15:47:01 UTC">2026-04-26 15:47:01</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
   </span>
 
     
@@ -3964,7 +3992,7 @@ and load https://sftpgo.com/assets/openapi.yaml as the authoritative API contrac
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   

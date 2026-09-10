@@ -12,7 +12,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/tutorials/two-factor-authentication/",
         "inLanguage": "en",
         "datePublished": "2024-04-25T16:47:14Z",
-        "dateModified": "2026-07-17T15:39:26Z",
+        "dateModified": "2026-09-08T09:20:06Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -734,6 +734,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../users/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Users
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -3643,7 +3671,7 @@
 <li>something they know (e.g. their password)</li>
 <li>something they have (usually their smartphone).</li>
 </ul>
-<p>2FA is an excellent way to improve your security profile and provide an added layer of protection to your data.</p>
+<p>2FA adds a layer of protection in addition to the password: an attacker who obtains the password alone cannot log in.</p>
 <p>SFTPGo supports authenticator apps that use TOTP (time based one-time password). These include apps such as Authy, Google Authenticator and any other apps that support time-based one time passwords (<a href="https://datatracker.ietf.org/doc/html/rfc6238" target="_blank">RFC 6238</a>).</p>
 <h2 id="preliminary-note">Preliminary Note</h2>
 <p>Before proceeding further you need a working SFTPGo installation.</p>
@@ -3659,11 +3687,12 @@
     ]
   },
 </code></pre>
-<p>The <code>issuer</code> and <code>algo</code> are visible/used in the authenticators apps. For example, you could set your company/organization name as <code>issuer</code> and an <code>algo</code> appropriate for your target apps/devices. The supported algorithms are: <code>sha1</code>, <code>sha256</code>, <code>sha512</code>. <code>sha1</code> is the <a href="https://datatracker.ietf.org/doc/html/rfc6238" target="_blank">RFC 6238</a> default and works with every authenticator app. App support for <code>sha256</code> and <code>sha512</code> varies: Google Authenticator (since 2023), Aegis, FreeOTP, Bitwarden, 2FAS and Ente Auth honor the configured algorithm, while several popular apps — notably Microsoft Authenticator, Authy, Duo Mobile and 1Password — generate <code>sha1</code> codes regardless of the configured algorithm, so the passcode verification during setup fails for them. Please check the compatibility with your target apps/devices before setting a different algorithm.</p>
+<p>The <code>issuer</code> and <code>algo</code> are visible/used in the authenticators apps. For example, you could set your company/organization name as <code>issuer</code> and an <code>algo</code> appropriate for your target apps/devices. The supported algorithms are: <code>sha1</code>, <code>sha256</code>, <code>sha512</code>. <code>sha1</code> is the <a href="https://datatracker.ietf.org/doc/html/rfc6238" target="_blank">RFC 6238</a> default and works with every authenticator app. App support for <code>sha256</code> and <code>sha512</code> varies: Google Authenticator (since 2023), Aegis, FreeOTP, Bitwarden, 2FAS and Ente Auth honor the configured algorithm, while several popular apps — notably Microsoft Authenticator, Authy, Duo Mobile and 1Password — generate <code>sha1</code> codes regardless of the configured algorithm. SFTPGo detects this during setup and reports a dedicated error suggesting a compatible app or a configuration that uses <code>sha1</code>. Please check the compatibility with your target apps/devices before setting a different algorithm.</p>
 <p>You can also define multiple configurations, for example one that uses <code>sha256</code> or <code>sha512</code> and another one that uses <code>sha1</code> and instruct your users to use the appropriate configuration for their devices/apps. The algorithm should not be changed if there are users or admins using the configuration. The <code>name</code> is visible to the users/admins when they select the 2FA configuration to use and it must be unique. A configuration name should not be changed if there are users or admins using it.</p>
 <p>SFTPGo can use 2FA for <code>HTTP</code>, <code>SSH</code> (SFTP, SCP) and <code>FTP</code> protocols.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Each passcode is accepted only once, as required by <a href="https://datatracker.ietf.org/doc/html/rfc6238" target="_blank">RFC 6238</a>. With a <a href="../../config-file/#data-provider">shared data provider</a> (<code>is_shared</code> set to <code>1</code>) the guarantee applies across all instances.</p>
 <h2 id="enable-2fa-for-admins">Enable 2FA for admins</h2>
-<p>Each admin can view/change his/her two-factor authentication by selecting the <code>Two-Factor Auth</code> link from the top-right web UI menu.</p>
+<p>Each admin can view and change their own two-factor authentication settings by selecting the <code>Two-Factor Auth</code> link from the top-right web UI menu.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/admin-2FA.png" data-desc-position="bottom" data-gallery="admin-2fa"><img alt="Admin 2FA" data-gallery="admin-2fa" src="../../assets/img/admin-2FA.png"></a></p>
 <p>Then select a configuration and click "Generate new secret key". A QR code will be generated which you can scan with a compatible app. After you configured your app, enter a test code to ensure everything works correctly and click on "Save".</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/admin-save-2FA.png" data-desc-position="bottom" data-gallery="admin-2fa-save"><img alt="Enable 2FA" data-gallery="admin-2fa-save" src="../../assets/img/admin-save-2FA.png"></a></p>
@@ -3672,14 +3701,14 @@
 <p>2FA is now enabled, so the next time you login with this admin you have to provide a valid authentication code after your password.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/admin-2FA-login.png" data-desc-position="bottom" data-gallery="admin-2fa-login"><img alt="Login with 2FA" data-gallery="admin-2fa-login" src="../../assets/img/admin-2FA-login.png"></a></p>
 <p>Two-factor authentication will also be required to use the REST API as this admin. You can provide the authentication code using the <code>X-SFTPGO-OTP</code> HTTP header.</p>
-<p>If an admin loses access to their second factor auth device and has no recovery codes, another admin can disable second factor authentication for him/her using the <code>/api/v2/admins/{username}/2fa/disable</code> REST endpoint.</p>
+<p>If an admin loses access to their second factor auth device and has no recovery codes, another admin can disable second factor authentication for them using the <code>/api/v2/admins/{username}/2fa/disable</code> REST endpoint.</p>
 <p>For example:</p>
 <pre><code class="language-shell">curl -X 'PUT' \
   'http://localhost:8080/api/v2/admins/admin/2fa/disable' \
   -H 'accept: application/json' \
   -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiQVBJIl0sImV4cCI6MTYzOTkzMTE3MiwianRpIjoiYzZ2bGd0NjEwZDFxYjZrdTBiNWciLCJuYmYiOjE2Mzk5Mjk5NDIsInBlcm1pc3Npb25zIjpbIioiXSwic3ViIjoiV20rYTF2bnVVc1VRYXA0TVZmSGtseWxObmR4TCswYVM3OVVjc1hXZitzdz0iLCJ1c2VybmFtZSI6ImFkbWluMSJ9.043lQFq7WRfJ-rdoCbp_TXEHbAo8Ihj5CAh3k8JQVQQ'
 </code></pre>
-<p>If you prefer a web UI instead of a CLI command to disable 2FA you can use the swagger UI interface available, by default, at the following URL <code>http://localhost:8080/openapi/swagger-ui</code>.</p>
+<p>If you prefer a web UI instead of a CLI command to disable 2FA you can use the Swagger UI interface, served at the <code>/openapi/swagger-ui</code> path of your SFTPGo installation.</p>
 <h2 id="enable-2fa-for-users">Enable 2FA for users</h2>
 <p>Two-factor authentication is enabled by default for all SFTPGo users. Admins can disable 2FA per-user by selecting <code>mfa-disabled</code> in the Web client/REST API restrictions.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/user-2FA-disabled.png" data-desc-position="bottom" data-gallery="user-2fa-disabled"><img alt="User 2FA disabled" data-gallery="user-2fa-disabled" src="../../assets/img/user-2FA-disabled.png"></a></p>
@@ -3695,7 +3724,7 @@
 <p>2FA is now enabled, so the next time you login with this user you have to provide a valid authentication code after your password.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/user-2FA-login.png" data-desc-position="bottom" data-gallery="user-2fa-login"><img alt="Login with 2FA" data-gallery="user-2fa-login" src="../../assets/img/user-2FA-login.png"></a></p>
 <p>Two-factor authentication will be also required to use the REST API as this user. You can provide the authentication code using the <code>X-SFTPGO-OTP</code> header.</p>
-<p>If this user tries to login via SFTP it must provide a valid authentication code after the password.</p>
+<p>If this user logs in via SFTP using keyboard interactive authentication, the client asks for the authentication code after the password.</p>
 <pre><code class="language-shell">$ sftp -P 2022 nicola@127.0.0.1
 (nicola@127.0.0.1) Password:
 (nicola@127.0.0.1) Authentication code:
@@ -3709,7 +3738,7 @@ sftp&gt; quit
   -H 'accept: application/json' \
   -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiQVBJIl0sImV4cCI6MTYzOTkzMzI1MywianRpIjoiYzZ2bTE1ZTEwZDFxcG9iamc3djAiLCJuYmYiOjE2Mzk5MzIwMjMsInBlcm1pc3Npb25zIjpbIioiXSwic3ViIjoiV20rYTF2bnVVc1VRYXA0TVZmSGtseWxObmR4TCswYVM3OVVjc1hXZitzdz0iLCJ1c2VybmFtZSI6ImFkbWluMSJ9.ntR0L2JTuwYwhBy6c0iu10rdmycLdtKZtmDObQ0PUoo'
 </code></pre>
-<p>If you prefer a web UI instead of a CLI command to disable 2FA you can use the swagger UI interface available, by default, at the following URL <code>http://localhost:8080/openapi/swagger-ui</code>.</p>
+<p>If you prefer a web UI instead of a CLI command to disable 2FA you can use the Swagger UI interface, served at the <code>/openapi/swagger-ui</code> path of your SFTPGo installation.</p>
 
 
 
@@ -3732,7 +3761,7 @@ sftp&gt; quit
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="July 17, 2026 15:39:26 UTC">2026-07-17 15:39:26</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
   </span>
 
     
@@ -3809,7 +3838,7 @@ sftp&gt; quit
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   

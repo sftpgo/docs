@@ -12,7 +12,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/tutorials/eventmanager-folders/",
         "inLanguage": "en",
         "datePublished": "2026-04-26T15:47:01Z",
-        "dateModified": "2026-04-26T15:47:01Z",
+        "dateModified": "2026-09-08T09:20:06Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -734,6 +734,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../users/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Users
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -1563,28 +1591,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#goal" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Goal
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#the-challenge" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        The Challenge
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#step-1-create-a-storage-folder" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1644,17 +1650,6 @@
   
     <nav class="md-nav" aria-label="Scenario 2: Copy to External SFTP Server">
       <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#goal_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Goal
-      
-    </span>
-  </a>
-  
-</li>
         
           <li class="md-nav__item">
   <a href="#step-1-create-an-sftp-folder" class="md-nav__link">
@@ -3643,28 +3638,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#goal" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Goal
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#the-challenge" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        The Challenge
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#step-1-create-a-storage-folder" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3724,17 +3697,6 @@
   
     <nav class="md-nav" aria-label="Scenario 2: Copy to External SFTP Server">
       <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#goal_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Goal
-      
-    </span>
-  </a>
-  
-</li>
         
           <li class="md-nav__item">
   <a href="#step-1-create-an-sftp-folder" class="md-nav__link">
@@ -3858,10 +3820,9 @@
 
 
 <h1 id="virtual-folders-integration">Virtual Folders Integration</h1>
-<p>Using virtual folders with the Event Manager unlocks powerful automation workflows, such as copying uploaded files to different storage locations — either within the same backend (but outside the user's security context) or to an external server or cloud storage provider. These operations can be triggered by events like file uploads or scheduled tasks, and they require no custom scripting or complex setup.</p>
-<p>Let's explore a few example scenarios to see how this feature can be used in practice.</p>
+<p>Virtual folders can be used as the target of Event Manager actions, so that files can be copied to a storage location the triggering user cannot reach: another directory of the same backend, outside the user's security context, or an external server or cloud storage provider. These actions are triggered by filesystem events, such as uploads, or by schedules, and are configured entirely from the WebAdmin UI.</p>
+<p>The following scenarios describe two typical configurations.</p>
 <h2 id="scenario-1-cross-user-file-copy-same-backend">Scenario 1: Cross-User File Copy (Same Backend)</h2>
-<h3 id="goal">Goal</h3>
 <p>We have two users on the same S3 storage:</p>
 <ul>
 <li>The user <code>ukg</code> has the key prefix set to <code>ukg/</code> so it can only access this folder.</li>
@@ -3877,18 +3838,17 @@
 <li>end with <code>.csv</code></li>
 </ul>
 <p>we want to automatically copy those files to the <code>/outbound</code> folder of the user <code>vista</code>.</p>
-<h3 id="the-challenge">The Challenge</h3>
 <p>By default, actions are executed within the security context of the user who performed the upload. Since the user <code>ukg</code> is restricted to their own directory and cannot access the <code>vista</code> user's folder, this operation would normally be blocked.</p>
 <p>To support this use case, we define a virtual folder with permissions to access the <code>vista</code> user's directory. The copy action is then configured to use this virtual folder as the destination.</p>
 <h3 id="step-1-create-a-storage-folder">Step 1: Create a Storage Folder</h3>
-<p>Create a folder named <code>storage</code> without setting a key prefix. This gives the folder visibility over the entire storage and allows it to be reused for other actions. Of course, if needed, you can also assign a key prefix to restrict access to a specific portion of the storage.</p>
+<p>Create a folder named <code>storage</code> without setting a key prefix. This gives the folder visibility over the entire storage and allows it to be reused for other actions. If needed, you can also assign a key prefix to restrict access to a specific portion of the storage.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/storagefolder.png" data-desc-position="bottom" data-gallery="storagefolder"><img alt="Storage folder" data-gallery="storagefolder" src="../../assets/img/storagefolder.png"></a></p>
 <h3 id="step-2-create-a-copy-action">Step 2: Create a Copy Action</h3>
 <p>In the Event Manager section, create a new action of type <code>Filesystem</code> and choose <code>Copy</code> as the action type.
 Set the source path to <code>/inbound/{{.ObjectName}}</code> and the target path to <code>/vista/outbound/{{.ObjectName}}</code>.
 Finally, select <code>storage</code> as the target folder.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/copyaction.png" data-desc-position="bottom" data-gallery="copyaction"><img alt="Copy action" data-gallery="copyaction" src="../../assets/img/copyaction.png"></a></p>
-<p>Explore the details:</p>
+<p>The configuration resolves as follows:</p>
 <ul>
 <li>The source path is set to <code>/inbound/{{.ObjectName}}</code>. The placeholder <code>{{.ObjectName}}</code> is replaced with the file name — for example, if a file is uploaded to <code>/inbound/test.csv</code>, it becomes <code>test.csv</code>. Alternatively, you can use the more generic <code>{{.VirtualPath}}</code> placeholder, which would resolve to <code>/inbound/test.csv</code> in the same scenario.</li>
 <li>The target folder is set to <code>storage</code>, so the target path is relative to that folder.</li>
@@ -3902,24 +3862,21 @@ Finally, select <code>storage</code> as the target folder.</p>
 <p>In the <strong>Name filters</strong> section, you can restrict which users the rule applies to. In this case, we specify <code>ukg</code>, but you can also define multiple users or patterns — for example, <code>user*</code> matches all usernames that start with <code>user</code>.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/uploadrule2.png" data-desc-position="bottom" data-gallery="upload-rule2"><img alt="Upload rule2" data-gallery="upload-rule2" src="../../assets/img/uploadrule2.png"></a></p>
 <p>Similar filters can be applied based on groups or roles as well.</p>
-<p>We also want to restrict the rule to files uploaded to the <code>/inbound</code> folder that start with <code>vista_</code> and end with <code>.csv</code>. To do this, configure the following path filters.</p>
-<ul>
-<li><code>/inbound/vista_*</code></li>
-<li><code>/inbound/*.csv</code></li>
-</ul>
+<p>We also want to restrict the rule to files uploaded to the <code>/inbound</code> folder that start with <code>vista_</code> and end with <code>.csv</code>. To do this, configure the path filter <code>/inbound/vista_*.csv</code>.</p>
+<p>Several path filters are alternatives: a path matching any of them triggers the rule. Two filters <code>/inbound/vista_*</code> and <code>/inbound/*.csv</code> would also match <code>/inbound/vista_report.txt</code>.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/uploadrule3.png" data-desc-position="bottom" data-gallery="upload-rule3"><img alt="Upload rule3" data-gallery="upload-rule3" src="../../assets/img/uploadrule3.png"></a></p>
-<p>Keep in mind that these are virtual paths (relative to the user's home). You can also filter on the <a href="#virtual-path-vs-filesystem-path-filters">filesystem path</a> if you need to match by physical storage location.</p>
+<p>Note that these are virtual paths, relative to the user's home directory. You can also filter on the <a href="#virtual-path-vs-filesystem-path-filters">filesystem path</a> if you need to match by physical storage location.</p>
 <p>Finally select the <code>copy</code> action and save the rule.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/uploadrule4.png" data-desc-position="bottom" data-gallery="upload-rule4"><img alt="Upload rule4" data-gallery="upload-rule4" src="../../assets/img/uploadrule4.png"></a></p>
-<p>That's it! Now upload some test files to confirm everything works as expected. For example:</p>
+<p>Upload some test files to verify that the rule behaves as expected:</p>
 <ul>
-<li>Files uploaded outside of <code>/inbound</code> → the action will not be triggered.</li>
-<li>Files in <code>/inbound</code> with the correct prefix and extension → the action will be triggered.</li>
-<li>Files in <code>/inbound</code> with a .txt extension → the action will not be triggered.</li>
-<li>Files in a subdirectory like <code>/inbound/subdir</code>, even with the correct extension → the action will not be triggered, we haven't used the double asterisk syntax to match subdirectories.</li>
+<li>Files uploaded outside of <code>/inbound</code> =&gt; the action is not triggered.</li>
+<li>Files in <code>/inbound</code> with the correct prefix and extension =&gt; the action is triggered.</li>
+<li>Files in <code>/inbound</code> with a <code>.txt</code> extension =&gt; the action is not triggered.</li>
+<li>Files in a subdirectory such as <code>/inbound/subdir</code>, even with the correct prefix and extension =&gt; the action is not triggered, because the configured patterns do not use the double asterisk syntax required to match subdirectories.</li>
 </ul>
 <h3 id="virtual-path-vs-filesystem-path-filters">Virtual Path vs Filesystem Path Filters</h3>
-<p>By default, rule path patterns match against the <strong>virtual path</strong> — the path as seen by the user (e.g., <code>/inbound/vista_report.csv</code>). This is the most common and intuitive approach.</p>
+<p>By default, rule path patterns match against the <strong>virtual path</strong> — the path as seen by the user, for example <code>/inbound/vista_report.csv</code>.</p>
 <p>However, you can also configure individual patterns to match against the <strong>filesystem path</strong> — the actual storage location. This is useful when you need to filter based on the physical backend, for example:</p>
 <table>
 <thead>
@@ -3950,13 +3907,12 @@ Finally, select <code>storage</code> as the target folder.</p>
 <p>For cloud storage backends, the filesystem path is the object key (key prefix + relative path) — it does not include the bucket or container name. For instance, if two users share the same S3 bucket but have different key prefixes (<code>ukg/</code> and <code>vista/</code>), you can use a filesystem path pattern like <code>ukg/**</code> to match only files under the <code>ukg</code> prefix regardless of the virtual path structure.</p>
 <p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Cloud storage paths have no leading slash, so use <code>prefix/**</code> rather than <code>/prefix/**</code>. Always use forward slashes, even for Windows paths. See <a href="../../eventmanager/#path-filters">Path filters</a> for full details.</p>
 <h2 id="scenario-2-copy-to-external-sftp-server">Scenario 2: Copy to External SFTP Server</h2>
-<h3 id="goal_1">Goal</h3>
 <p>Each time the user <code>vista</code> uploads files with <code>.csv</code> or <code>.xml</code> extensions to the <code>/inbound</code> folder, we want to automatically transfer these files to the <code>/push</code> directory on an external SFTP server.</p>
-<p>This is very similar to Scenario 1 — we define a copy action and a target folder using the external SFTP server as storage backend.</p>
+<p>The configuration is similar to Scenario 1: a copy action and a target folder that uses the external SFTP server as storage backend.</p>
 <h3 id="step-1-create-an-sftp-folder">Step 1: Create an SFTP Folder</h3>
 <p>Create a folder that is backed by the remote SFTP server.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/sftpfolder.png" data-desc-position="bottom" data-gallery="sftp-folder"><img alt="SFTP folder" data-gallery="sftp-folder" src="../../assets/img/sftpfolder.png"></a></p>
-<p>This time, we've set the SFTP root directory to <code>/push</code>, which restricts the folder's access to that directory. As a result, the target paths defined in the copy action are relative to <code>/push</code>.</p>
+<p>In this example the SFTP root directory is set to <code>/push</code>, which restricts the folder's access to that directory. As a result, the target paths defined in the copy action are relative to <code>/push</code>.</p>
 <h3 id="step-2-create-a-copy-action_1">Step 2: Create a Copy Action</h3>
 <p>For the action configuration:</p>
 <ul>
@@ -3972,7 +3928,7 @@ Finally, select <code>storage</code> as the target folder.</p>
 <li>Use <code>/inbound/*.csv</code> and <code>/inbound/*.xml</code> as path filters to limit the execution to these file extensions.</li>
 <li>Select <code>sftp copy</code> as the action.</li>
 </ul>
-<p>That's it! Now upload some test files to confirm everything works as expected.</p>
+<p>Upload some test files to verify that the rule behaves as expected.</p>
 
 
 
@@ -3995,7 +3951,7 @@ Finally, select <code>storage</code> as the target folder.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 26, 2026 15:47:01 UTC">2026-04-26 15:47:01</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
   </span>
 
     
@@ -4072,7 +4028,7 @@ Finally, select <code>storage</code> as the target folder.</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   

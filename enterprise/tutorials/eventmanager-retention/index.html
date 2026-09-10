@@ -12,7 +12,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/tutorials/eventmanager-retention/",
         "inLanguage": "en",
         "datePublished": "2026-04-26T15:47:01Z",
-        "dateModified": "2026-05-28T08:42:58Z",
+        "dateModified": "2026-09-08T09:20:06Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -734,6 +734,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../users/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Users
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -3999,8 +4027,8 @@
 <p>The <strong>Data retention check</strong> action scans a directory tree and applies per-folder retention policies. Files older than the configured threshold are automatically removed or moved to an archive folder, and a report can be sent via email or webhook.</p>
 <p>The check runs in one of two modes, selected on the action itself:</p>
 <ul>
-<li><strong>User-scoped</strong> (default). The rule iterates over the matching users; configured paths are resolved relative to each user's home directory. Best when the retention is a property of the user — e.g. each user's <code>/inbox</code> or <code>/temp</code>.</li>
-<li><strong>Folder-scoped</strong>. The rule runs <strong>once</strong> as a system task on a single virtual folder, regardless of how many (or which) users have it mounted. Best when the retention belongs to a shared resource — a dropbox shared across users, a bucket prefix, or a whole storage area — and is independent of who happens to access it. See <a href="#folder-scoped-retention">Folder-scoped retention</a> below.</li>
+<li><strong>User-scoped</strong> (default). The rule iterates over the matching users; configured paths are resolved relative to each user's home directory. Use it when the retention is a property of the user — e.g. each user's <code>/inbox</code> or <code>/temp</code>.</li>
+<li><strong>Folder-scoped</strong>. The rule runs <strong>once</strong> as a system task on a single virtual folder, regardless of how many (or which) users have it mounted. Use it when the retention belongs to a shared resource — a dropbox shared across users, a bucket prefix, or a whole storage area — and is independent of who happens to access it. See <a href="#folder-scoped-retention">Folder-scoped retention</a> below.</li>
 </ul>
 <p>The two modes share the same configuration screen and the same report shape; the only difference is whether you fill the <strong>Source folder</strong> field on the action.</p>
 <h2 id="step-1-create-a-data-retention-action">Step 1: Create a Data Retention Action</h2>
@@ -4051,15 +4079,16 @@
 <li>The action runs <strong>once</strong> as a system task on the selected virtual folder, regardless of how many users have it mounted.</li>
 <li>Paths in the retention list are interpreted relative to the folder root (<code>/</code>, <code>/sub</code>, ...).</li>
 <li>Rule-level user filters (Name / Group / Role) are ignored — the policy belongs to the resource, not to its consumers.</li>
-<li>The retention report exposes the folder name in the <code>folder</code> field; downstream notifications can use <code>{{.Folder}}</code> in templates. <code>username</code> is always the canonical <code>__system__</code> identifier.</li>
+<li>The retention report exposes the folder name in the <code>folder</code> field of each entry, so a template reads it inside the loop, <code>{{range .RetentionChecks}}{{.Folder}}{{end}}</code>. <code>username</code> is always the canonical <code>__system__</code> identifier.</li>
 <li><code>{{.ObjectName}}</code> is set to the source folder name during the retention action (mirroring the user-scoped pattern where it is set to the username), so a single template like <code>Retention completed on {{.ObjectName}}</code> works for both modes.</li>
-<li><strong>Split events</strong> has no effect — there is no per-user expansion.</li>
+<li><strong>Split reports</strong> is for user-scoped checks: with a source folder there is no per-user expansion, so leave it disabled (the action is refused otherwise).</li>
 </ul>
 <p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> If you want files moved to a "trash" folder rather than deleted, configure the action's built-in <strong>Archive folder</strong> field (covered above). Like every other system-executed action, retention deletes do not fire filesystem-event rules — see <a href="../../eventmanager/#system-executed-actions-and-chaining">System-executed actions and chaining</a> — so a separate "rename on delete" rule will never run. The archive folder is the supported pattern.</p>
 <h2 id="step-2-optional-add-a-notification">Step 2 (optional): Add a notification</h2>
 <p>The rule is already usable with just the retention check created above — SFTPGo will run the cleanup on schedule and log the results. A notification is only needed if you want to be actively informed. If you don't need one, skip ahead to <a href="#step-3-create-a-scheduled-rule">Step 3</a>.</p>
 <p>Two notification channels are available: <strong>email</strong> and <strong>HTTP webhook</strong>. Pick the one that fits your workflow; you can also chain both on the same rule.</p>
 <h3 id="option-a-email-notification">Option A — email notification</h3>
+<p>Email actions need an SMTP server: configure it from the WebAdmin under <strong>Server Manager &gt; Configurations &gt; SMTP</strong>, where the settings apply without a restart, or in the <a href="../../config-file/#smtp">SMTP section</a> of the configuration file.</p>
 <p>Create an email action (for example named <code>retention report</code>). A minimal configuration is enough:</p>
 <ul>
 <li><strong>Recipients</strong> — one or more email addresses.</li>
@@ -4083,21 +4112,23 @@ User: {{ .Username }}
 <p>This is shown here as an example of what is possible — do not feel obliged to reproduce it. A one-line body plus the attached report is an equally valid and common choice.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/retention-email.png" data-desc-position="bottom" data-gallery="retention-email"><img alt="Retention email" data-gallery="retention-email" src="../../assets/img/retention-email.png"></a></p>
 <h4 id="per-user-notifications">Per-user notifications</h4>
-<p>If you want each user to receive their own retention report instead of a single aggregated email, enable <strong>Split events</strong> on the rule. In split mode:</p>
+<p>If you want each user to receive their own retention report instead of a single aggregated email, enable <strong>Split reports</strong> on the data retention action. In split mode:</p>
 <ul>
-<li><code>{{.Email}}</code> is automatically set to the user's email address.</li>
+<li><code>{{.Email}}</code> is automatically set to the user's email addresses.</li>
 <li><code>{{.ObjectName}}</code> is set to the username.</li>
-<li>The rule fires once per user, so each user receives only their own report.</li>
+<li>The email action runs once per user, so each user receives only their own report.</li>
 </ul>
-<p>Set the email recipients to <code>{{ stringJoin .Email "," }}</code> to automatically use the user's configured email address.</p>
+<p>Set the email recipients to <code>{{.Email}}</code> to automatically use the user's configured email addresses.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> The report can be rendered in the body, attached as <code>{{.RetentionReports}}</code>, or both: notifications are sent in either case.</p>
 <h3 id="option-b-http-webhook">Option B — HTTP webhook</h3>
 <p>Create an HTTP action (for example named <code>retention webhook</code>) to POST the result to an external system. This is often a better fit than email when the consumer is a monitoring tool, a chat bot, or an internal service:</p>
 <ul>
 <li><strong>Endpoint</strong> — the target URL (e.g. <code>https://example.com/sftpgo/retention</code>).</li>
 <li><strong>Method</strong> — <code>POST</code> (also <code>GET</code>, <code>PUT</code>, <code>DELETE</code> are supported if your endpoint needs them).</li>
 <li><strong>Headers</strong> — optional; add <code>Authorization</code>, <code>Content-Type</code>, or whatever your endpoint expects.</li>
-<li><strong>Body</strong> — set to <code>{{.RetentionReports}}</code> to send the compressed CSV archive as the raw request body. The receiving endpoint gets the same <code>.zip</code> payload that would otherwise be attached to the email.</li>
+<li><strong>Body</strong> — the request body, rendered as a template like the email body above. Set it to <code>{{.RetentionReports}}</code> alone to send the compressed CSV archive as the raw request body: the endpoint receives the same <code>.zip</code> payload that would otherwise be attached to the email.</li>
 </ul>
+<p>To send the archive as a file part of a multipart form instead, add a <strong>multipart part</strong> with the file path set to <code>{{.RetentionReports}}</code>.</p>
 <h4 id="sending-the-results-as-json">Sending the results as JSON</h4>
 <p>If the receiving endpoint prefers a structured JSON payload over the zip archive, set the Body to <code>{{toJson .RetentionChecks}}</code> — the <code>toJson</code> helper serializes the retention results to JSON. Remember to add a <code>Content-Type: application/json</code> header (SFTPGo sets the content type only for multipart bodies; for a plain body it sends whatever header you configure).</p>
 <p>A minimal JSON webhook action:</p>
@@ -4140,8 +4171,8 @@ User: {{ .Username }}
 <h4 id="user-scoped-rule">User-scoped rule</h4>
 <p>This applies when the action has <strong>no</strong> Source folder. The check runs in the <strong>user context</strong>: the path configured on the action is resolved relative to each matching user's home directory. For example, with a retention path of <code>/inbound</code>:</p>
 <ul>
-<li>On Linux: <code>userA</code> (home <code>/sftpgo/userA</code>) → cleans <code>/sftpgo/userA/inbound</code>; <code>userB</code> (home <code>/sftpgo/userB</code>) → cleans <code>/sftpgo/userB/inbound</code>.</li>
-<li>On Windows: <code>userA</code> (home <code>C:\sftpgo\userA</code>) → cleans <code>C:\sftpgo\userA\inbound</code>; <code>userB</code> (home <code>C:\sftpgo\userB</code>) → cleans <code>C:\sftpgo\userB\inbound</code>.</li>
+<li>On Linux: <code>userA</code> (home <code>/sftpgo/userA</code>) =&gt; cleans <code>/sftpgo/userA/inbound</code>; <code>userB</code> (home <code>/sftpgo/userB</code>) =&gt; cleans <code>/sftpgo/userB/inbound</code>.</li>
+<li>On Windows: <code>userA</code> (home <code>C:\sftpgo\userA</code>) =&gt; cleans <code>C:\sftpgo\userA\inbound</code>; <code>userB</code> (home <code>C:\sftpgo\userB</code>) =&gt; cleans <code>C:\sftpgo\userB\inbound</code>.</li>
 </ul>
 <p>The path on the action is always written in virtual form with forward slashes (<code>/inbound</code>) regardless of the underlying platform — SFTPGo resolves it against each user's filesystem.</p>
 <p>To restrict the check to specific users, add conditions on the rule:</p>
@@ -4158,7 +4189,7 @@ User: {{ .Username }}
 <h4 id="folder-scoped-rule">Folder-scoped rule</h4>
 <p>This applies when the action has a <strong>Source folder</strong> configured (see <a href="#folder-scoped-retention">Folder-scoped retention</a> above). The check runs <strong>once</strong> as a system task on the selected virtual folder, regardless of how many users have it mounted.</p>
 <p>Rule-level <code>Name / Group / Role</code> filters are <strong>ignored</strong> — the policy belongs to the resource, not to its consumers — so you can leave them empty.</p>
-<p>This is also the recommended pattern for storage-wide retention sweeps — a single policy that cleans every file older than a given threshold regardless of which user uploaded it. Define a virtual folder pointing at the storage root, set it as the action's source folder, and the check runs once without depending on any user identity.</p>
+<p>This is also the pattern for storage-wide retention sweeps — a single policy that cleans every file older than a given threshold regardless of which user uploaded it. Define a virtual folder pointing at the storage root, set it as the action's source folder, and the check runs once without depending on any user identity.</p>
 <h4 id="selecting-the-actions">Selecting the actions</h4>
 <p>As actions, select <code>retention check</code> — this is the only action strictly required. If you created a notification in Step 2, add it to the list as well (email, webhook, or both). Notification actions can be marked as <strong>Failure action</strong> if you only want to be alerted when something goes wrong.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/retention-rule-actions.png" data-desc-position="bottom" data-gallery="retention-rule-actions"><img alt="Retention rule actions" data-gallery="retention-rule-actions" src="../../assets/img/retention-rule-actions.png"></a></p>
@@ -4171,7 +4202,7 @@ User: {{ .Username }}
 <li>Once the policy matches expectations, disable <strong>Dry run</strong> and switch to the recurring schedule.</li>
 </ol>
 <p>Dry-run is also useful as a periodic sanity check alongside a real retention rule: a weekly dry-run rule with output piped to a different distribution list catches configuration drift (e.g., paths added that should not be in scope) before it causes data loss.</p>
-<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Dry run is transparent to the rest of the system: no <code>delete</code> event is sent to notifier plugins (such as the eventstore plugin), no filesystem-event rules are triggered, and no archive copy is performed. The only output is the retention report itself, which carries a <code>DryRun</code> flag — the recommended pattern is to gate notification subjects with <code>{{ if .DryRun }}[DRY RUN] {{ end }}</code> so preview reports cannot be mistaken for real ones.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Dry run is transparent to the rest of the system: no <code>delete</code> event is sent to notifier plugins (such as the eventstore plugin), no filesystem-event rules are triggered, and no archive copy is performed. The only output is the retention report itself, which carries a <code>DryRun</code> flag — gate notification subjects with <code>{{ if .DryRun }}[DRY RUN] {{ end }}</code> so that preview reports cannot be mistaken for real ones.</p>
 <h2 id="note-on-file-modification-time">Note on File Modification Time</h2>
 <p>The retention check determines file age based on the <strong>last modification time</strong>. Be aware that clients can adjust this timestamp using the <code>chtimes</code> command (e.g., <code>touch -t</code> or SFTP <code>setstat</code>), which could cause files to be retained longer than expected — or deleted sooner.</p>
 <p>If this is a concern, you have two options:</p>
@@ -4204,7 +4235,7 @@ User: {{ .Username }}
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="May 28, 2026 08:42:58 UTC">2026-05-28 08:42:58</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
   </span>
 
     
@@ -4281,7 +4312,7 @@ User: {{ .Username }}
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   

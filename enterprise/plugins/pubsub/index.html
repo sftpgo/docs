@@ -12,7 +12,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/plugins/pubsub/",
         "inLanguage": "en",
         "datePublished": "2026-04-26T15:47:01Z",
-        "dateModified": "2026-04-26T15:47:01Z",
+        "dateModified": "2026-09-08T09:20:06Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -734,6 +734,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../users/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Users
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -3199,6 +3227,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#google-cloud-pubsub" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3269,6 +3308,17 @@
     <span class="md-ellipsis">
       
         Apache Kafka
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tls-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TLS settings
       
     </span>
   </a>
@@ -3707,6 +3757,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#google-cloud-pubsub" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3777,6 +3838,17 @@
     <span class="md-ellipsis">
       
         Apache Kafka
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tls-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TLS settings
       
     </span>
   </a>
@@ -3934,7 +4006,7 @@
 <tr>
 <th>Service</th>
 <th>URL scheme</th>
-<th>Authentication</th>
+<th>Connection settings</th>
 </tr>
 </thead>
 <tbody>
@@ -3961,17 +4033,17 @@
 <tr>
 <td>RabbitMQ</td>
 <td><code>rabbit://</code></td>
-<td><code>RABBIT_SERVER_URL</code> environment variable</td>
+<td><code>SFTPGO_PLUGIN_PUBSUB_RABBIT_SERVER_URL</code> environment variable, <a href="#tls-settings">TLS settings</a></td>
 </tr>
 <tr>
 <td>NATS</td>
 <td><code>nats://</code></td>
-<td><code>NATS_SERVER_URL</code> environment variable</td>
+<td><code>SFTPGO_PLUGIN_PUBSUB_NATS_SERVER_URL</code> environment variable, <a href="#tls-settings">TLS settings</a></td>
 </tr>
 <tr>
 <td>Apache Kafka</td>
 <td><code>kafka://</code></td>
-<td><code>KAFKA_BROKERS</code> environment variable (comma-separated)</td>
+<td><code>SFTPGO_PLUGIN_PUBSUB_KAFKA_BROKERS</code> environment variable (comma-separated), <a href="#tls-settings">TLS</a> and <a href="#apache-kafka">SASL</a> settings</td>
 </tr>
 </tbody>
 </table>
@@ -3981,6 +4053,13 @@
 <p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Any configuration change described below requires a service restart to take effect (e.g. <code>systemctl restart sftpgo</code>).</p>
 <p>The topic URL is passed as the first argument to the plugin. The second argument is an optional instance identifier, useful in multi-instance deployments to distinguish which SFTPGo node generated the event.</p>
 <p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> The examples below use plugin index <code>0</code>. If you have other plugins already configured, adjust the index accordingly. See <a href="../#plugin-indexing">Plugin indexing</a> for details.</p>
+<h3 id="environment-variables">Environment variables</h3>
+<p>The plugin runs as a separate process and receives from SFTPGo the environment variables with the <code>SFTPGO_PLUGIN_PUBSUB_</code> prefix. All the settings documented on this page use this prefix, so they reach the plugin without additional configuration.</p>
+<p>Variables with other names, such as <code>SERVICEBUS_CONNECTION_STRING</code> or the cloud SDK credentials, are forwarded when listed in <code>ENV_VARS</code>:</p>
+<pre><code class="language-shell">SFTPGO_PLUGINS__0__ENV_VARS="SERVICEBUS_CONNECTION_STRING"
+</code></pre>
+<p>Set <code>SFTPGO_PLUGINS__0__ENV_PREFIX="*"</code> to forward the whole SFTPGo environment. See <a href="../../config-file/#plugins">Plugins configuration</a> for details.</p>
+<p>The Go CDK variable names <code>KAFKA_BROKERS</code>, <code>NATS_SERVER_URL</code> and <code>RABBIT_SERVER_URL</code> remain supported when the prefixed variable is not set.</p>
 <h3 id="google-cloud-pubsub">Google Cloud Pub/Sub</h3>
 <pre><code class="language-shell">SFTPGO_PLUGINS__0__TYPE=notifier
 SFTPGO_PLUGINS__0__NOTIFIER_OPTIONS__FS_EVENTS="upload,download,delete,rename"
@@ -4001,20 +4080,113 @@ SFTPGO_PLUGINS__0__AUTO_MTLS=1
 </code></pre>
 <h3 id="azure-service-bus">Azure Service Bus</h3>
 <pre><code class="language-shell">SERVICEBUS_CONNECTION_STRING="Endpoint=sb://my-namespace.servicebus.windows.net/;SharedAccessKeyName=...;SharedAccessKey=..."
+SFTPGO_PLUGINS__0__ENV_VARS="SERVICEBUS_CONNECTION_STRING"
 SFTPGO_PLUGINS__0__ARGS="azuresb://sftpgo-events"
 </code></pre>
 <h3 id="rabbitmq">RabbitMQ</h3>
-<pre><code class="language-shell">RABBIT_SERVER_URL="amqp://guest:guest@192.168.1.5:5672/"
+<pre><code class="language-shell">SFTPGO_PLUGIN_PUBSUB_RABBIT_SERVER_URL="amqp://guest:guest@192.168.1.5:5672/"
 SFTPGO_PLUGINS__0__ARGS="rabbit://sftpgo-events"
 </code></pre>
+<p>The <code>amqps://</code> scheme enables TLS. Server certificates issued by a public certificate authority are verified with the system trust store. A private certificate authority or a client certificate are configured with the <a href="#tls-settings">TLS settings</a>.</p>
 <h3 id="nats">NATS</h3>
-<pre><code class="language-shell">NATS_SERVER_URL="nats://192.168.1.5:4222"
+<pre><code class="language-shell">SFTPGO_PLUGIN_PUBSUB_NATS_SERVER_URL="nats://192.168.1.5:4222"
 SFTPGO_PLUGINS__0__ARGS="nats://sftpgo.events"
 </code></pre>
+<p>The <code>tls://</code> scheme enables TLS. Server certificates issued by a public certificate authority are verified with the system trust store. A private certificate authority or a client certificate are configured with the <a href="#tls-settings">TLS settings</a>. Credentials are set in the server URL, for example <code>tls://user:password@nats.example.com:4222</code> or <code>tls://token@nats.example.com:4222</code>.</p>
 <h3 id="apache-kafka">Apache Kafka</h3>
-<pre><code class="language-shell">KAFKA_BROKERS="192.168.1.5:9092,192.168.1.6:9092"
+<pre><code class="language-shell">SFTPGO_PLUGIN_PUBSUB_KAFKA_BROKERS="192.168.1.5:9092,192.168.1.6:9092"
 SFTPGO_PLUGINS__0__ARGS="kafka://sftpgo-events"
 </code></pre>
+<p>Kafka brokers are addressed as <code>host:port</code>, so TLS is enabled with a dedicated variable:</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SFTPGO_PLUGIN_PUBSUB_KAFKA_TLS</code></td>
+<td>Set to <code>1</code> to connect to the brokers over TLS. TLS is also enabled when any of the <a href="#tls-settings">TLS settings</a> is set</td>
+</tr>
+</tbody>
+</table>
+<p>SASL authentication is configured with the following variables:</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SFTPGO_PLUGIN_PUBSUB_KAFKA_SASL_MECHANISM</code></td>
+<td><code>PLAIN</code>, <code>SCRAM-SHA-256</code> or <code>SCRAM-SHA-512</code>. Setting a mechanism enables SASL</td>
+</tr>
+<tr>
+<td><code>SFTPGO_PLUGIN_PUBSUB_KAFKA_SASL_USERNAME</code></td>
+<td>SASL username</td>
+</tr>
+<tr>
+<td><code>SFTPGO_PLUGIN_PUBSUB_KAFKA_SASL_PASSWORD</code></td>
+<td>SASL password</td>
+</tr>
+</tbody>
+</table>
+<p>Example for a <code>SASL_SSL</code> listener with SCRAM authentication and a broker certificate issued by a public certificate authority:</p>
+<pre><code class="language-shell">SFTPGO_PLUGIN_PUBSUB_KAFKA_BROKERS="kafka-1.example.com:9094,kafka-2.example.com:9094"
+SFTPGO_PLUGIN_PUBSUB_KAFKA_TLS=1
+SFTPGO_PLUGIN_PUBSUB_KAFKA_SASL_MECHANISM="SCRAM-SHA-512"
+SFTPGO_PLUGIN_PUBSUB_KAFKA_SASL_USERNAME="sftpgo"
+SFTPGO_PLUGIN_PUBSUB_KAFKA_SASL_PASSWORD="secret"
+SFTPGO_PLUGINS__0__ARGS="kafka://sftpgo-events"
+</code></pre>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> SCRAM passwords are normalized according to RFC 4013 (SASLprep), as most Kafka clients do. Passwords made of printable ASCII characters are unaffected.</p>
+<h3 id="tls-settings">TLS settings</h3>
+<p>Kafka, RabbitMQ and NATS connections support a private certificate authority, a client certificate for mutual TLS and a server name override. The other services are always accessed over TLS with the trust store of their SDK.</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SFTPGO_PLUGIN_PUBSUB_TLS_ROOT_CERT</code></td>
+<td>Path to a PEM-encoded CA certificate, added to the system trust store</td>
+</tr>
+<tr>
+<td><code>SFTPGO_PLUGIN_PUBSUB_TLS_CLIENT_CERT</code></td>
+<td>Path to a PEM-encoded client certificate</td>
+</tr>
+<tr>
+<td><code>SFTPGO_PLUGIN_PUBSUB_TLS_CLIENT_KEY</code></td>
+<td>Path to the private key of the client certificate. Certificate and key are set together</td>
+</tr>
+<tr>
+<td><code>SFTPGO_PLUGIN_PUBSUB_TLS_SERVER_NAME</code></td>
+<td>Host name expected in the server certificate. Useful when the brokers are reached by IP address, through a load balancer or a tunnel</td>
+</tr>
+<tr>
+<td><code>SFTPGO_PLUGIN_PUBSUB_TLS_SKIP_VERIFY</code></td>
+<td>Set to <code>1</code> to skip the server certificate verification. For diagnostics only</td>
+</tr>
+</tbody>
+</table>
+<p>Example for a Kafka cluster with a private CA and client certificate authentication:</p>
+<pre><code class="language-shell">SFTPGO_PLUGIN_PUBSUB_KAFKA_BROKERS="kafka-1.internal:9093,kafka-2.internal:9093"
+SFTPGO_PLUGIN_PUBSUB_TLS_ROOT_CERT="/etc/sftpgo/kafka/ca.pem"
+SFTPGO_PLUGIN_PUBSUB_TLS_CLIENT_CERT="/etc/sftpgo/kafka/client.pem"
+SFTPGO_PLUGIN_PUBSUB_TLS_CLIENT_KEY="/etc/sftpgo/kafka/client.key"
+SFTPGO_PLUGINS__0__ARGS="kafka://sftpgo-events"
+</code></pre>
+<p>The certificate files are read when the plugin starts. After renewing a certificate on disk, restart SFTPGo or wait for the plugin restart: when the connection to the service is lost the plugin exits, SFTPGo restarts it and the renewed files are loaded.</p>
+<p>For RabbitMQ, the TLS settings require the <code>amqps://</code> scheme in the server URL. For NATS, the TLS settings enable TLS with any URL scheme.</p>
+<p>The cloud services use the trust store of their SDK. On Linux, a private certificate authority for those services, for example for a TLS inspecting proxy, is configured with the <code>SSL_CERT_FILE</code> environment variable listed in <code>ENV_VARS</code>.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> The prefixed connection variables, the TLS settings and the SASL settings require plugin version 1.2.0 or newer.</p>
 <h3 id="adding-an-instance-id">Adding an instance ID</h3>
 <p>To identify events from a specific SFTPGo node, add the instance ID as a second argument:</p>
 <pre><code class="language-shell">SFTPGO_PLUGINS__0__ARGS="rabbit://sftpgo-events,node-1"
@@ -4144,7 +4316,7 @@ SFTPGO_PLUGINS__0__ARGS="kafka://sftpgo-events"
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 26, 2026 15:47:01 UTC">2026-04-26 15:47:01</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
   </span>
 
     
@@ -4221,7 +4393,7 @@ SFTPGO_PLUGINS__0__ARGS="kafka://sftpgo-events"
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   

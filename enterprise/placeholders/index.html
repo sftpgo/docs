@@ -12,7 +12,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/placeholders/",
         "inLanguage": "en",
         "datePublished": "2026-04-26T15:47:01Z",
-        "dateModified": "2026-07-04T20:59:09Z",
+        "dateModified": "2026-09-08T09:20:06Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -734,6 +734,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../users/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Users
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -2705,6 +2733,28 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#icapresults" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        {{.ICAPResults}}
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#icapresult" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        {{.ICAPResult}}
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -4012,6 +4062,28 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#icapresults" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        {{.ICAPResults}}
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#icapresult" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        {{.ICAPResult}}
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -4594,6 +4666,7 @@
 </tr>
 </tbody>
 </table>
+<p>Every user the action ran for is reported. A user whose check could not start carries the reason on each configured path, and a check that stops on one path reports the remaining ones with <code>Info</code> set, so a path with nothing to remove stays distinguishable from a path that was never examined. Iterate <code>Results</code> and read <code>Error</code> to see what happened for each user; <code>{{.Errors}}</code> reports the outcome of the action as a whole, including how many checks failed out of those performed.</p>
 <p><code>{{.RetentionReports}}</code> is also available as an email attachment or HTTP multipart file containing compressed CSV reports.</p>
 <h4 id="dryrun"><code>{{.DryRun}}</code></h4>
 <p>Top-level boolean populated by the <strong>Data retention check</strong> action. <code>true</code> only when <strong>every</strong> retention check recorded on the rule ran in dry-run mode — designed as a fail-safe gate so notifications cannot mistake a real deletion for a preview when a rule chains multiple retention actions. Useful for prefixing a subject with <code>[DRY RUN]</code> only when no real cleanup happened:</p>
@@ -4656,8 +4729,45 @@
 </tr>
 </tbody>
 </table>
+<p>A share is reported once the check completes on it: when its deletion fails the check moves on to the remaining shares and the share stays out of the report, so a notification always describes what actually happened.</p>
 <h4 id="eventreports"><code>{{.EventReports}}</code></h4>
 <p>Populated by the <strong>Event report</strong> action. See the <a href="../event-report/">Event Report</a> documentation for the full field reference.</p>
+<h4 id="icapresults"><code>{{.ICAPResults}}</code></h4>
+<p>Populated by the <strong>ICAP</strong> action. List of scan results, one item per scanned file:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>VirtualPath</code></td>
+<td>string</td>
+<td>The scanned file path.</td>
+</tr>
+<tr>
+<td><code>Status</code></td>
+<td>string</td>
+<td>Scan outcome: <code>clean</code>, <code>skipped</code> (extension in the server <code>Transfer-Ignore</code> list), <code>blocked</code>, <code>adapted</code>, or <code>failed</code> (the scan could not be executed).</td>
+</tr>
+<tr>
+<td><code>Threat</code></td>
+<td>string</td>
+<td>The threat reported by the server via the <code>X-Infection-Found</code> or <code>X-Violations-Found</code> headers, when available.</td>
+</tr>
+</tbody>
+</table>
+<p>Example — a notification body listing every verdict:</p>
+<pre><code class="language-text">{{range .ICAPResults}}{{.VirtualPath}}: {{.Status}}{{if .Threat}} ({{.Threat}}){{end}}
+{{end}}
+</code></pre>
+<h4 id="icapresult"><code>{{.ICAPResult}}</code></h4>
+<p>The first item of <code>{{.ICAPResults}}</code> — a shortcut for the common case of a rule scanning the uploaded file. Fields render as empty strings when the scan was not executed, so it is safe to use without guards:</p>
+<pre><code class="language-text">Subject: ICAP scan {{.ICAPResult.Status}} for {{.ObjectName}}{{if .ICAPResult.Threat}} - {{.ICAPResult.Threat}}{{end}}
+</code></pre>
 <h3 id="other-placeholders">Other placeholders</h3>
 <table>
 <thead>
@@ -4671,7 +4781,7 @@
 <tr>
 <td><code>{{.IDPFields}}</code></td>
 <td>object</td>
-<td>Custom fields from the Identity Provider. Structure depends on your IdP configuration. Example: <code>{{.IDPFields.sftpgo_role}}</code>.</td>
+<td>Custom fields from the Identity Provider. Structure depends on your IdP configuration. Example: <code>{{.IDPFields.sftpgo_groups}}</code>.</td>
 </tr>
 <tr>
 <td><code>{{.Metadata}}</code></td>
@@ -4769,7 +4879,7 @@
 <tr>
 <td><code>index</code></td>
 <td>Returns the element at the given index or key.</td>
-<td><code>{{ index .Errors 0 }}</code>, <code>{{ index .IDPFields "sftpgo_role" }}</code></td>
+<td><code>{{ index .Errors 0 }}</code>, <code>{{ index .IDPFields "sftpgo_groups" }}</code></td>
 </tr>
 <tr>
 <td><code>slice</code></td>
@@ -4845,12 +4955,12 @@ User email: {{.Email}}
 <tr>
 <td><code>toJson</code></td>
 <td>Converts any value to its JSON representation. Strings are quoted, special characters escaped.</td>
-<td><code>{{ toJson .VirtualPath }}</code> → <code>"/dir/file.txt"</code></td>
+<td><code>{{ toJson .VirtualPath }}</code> =&gt; <code>"/dir/file.txt"</code></td>
 </tr>
 <tr>
 <td><code>toJsonUnquoted</code></td>
 <td>Like <code>toJson</code>, but strips surrounding quotes from string values. Other types behave like <code>toJson</code>.</td>
-<td><code>{{ toJsonUnquoted .ObjectName }}</code> → <code>file.txt</code></td>
+<td><code>{{ toJsonUnquoted .ObjectName }}</code> =&gt; <code>file.txt</code></td>
 </tr>
 <tr>
 <td><code>toBase64</code></td>
@@ -4877,12 +4987,12 @@ User email: {{.Email}}
 <tr>
 <td><code>urlEscape</code></td>
 <td>Encodes a string for use in query parameters.</td>
-<td><code>{{ urlEscape .Email }}</code> → <code>user%40example.com</code></td>
+<td><code>{{ urlEscape .Email }}</code> =&gt; <code>user%40example.com</code></td>
 </tr>
 <tr>
 <td><code>urlPathEscape</code></td>
 <td>Encodes a string for use in URL path segments.</td>
-<td><code>{{ urlPathEscape .VirtualPath }}</code> → <code>folder%20name%2Ffile.txt</code></td>
+<td><code>{{ urlPathEscape .VirtualPath }}</code> =&gt; <code>folder%20name%2Ffile.txt</code></td>
 </tr>
 </tbody>
 </table>
@@ -4899,17 +5009,17 @@ User email: {{.Email}}
 <tr>
 <td><code>pathDir</code></td>
 <td>Returns the directory portion of a path.</td>
-<td><code>{{ pathDir "/a/b/file.txt" }}</code> → <code>/a/b</code></td>
+<td><code>{{ pathDir "/a/b/file.txt" }}</code> =&gt; <code>/a/b</code></td>
 </tr>
 <tr>
 <td><code>pathBase</code></td>
 <td>Returns the last element of a path.</td>
-<td><code>{{ pathBase "/a/b/file.txt" }}</code> → <code>file.txt</code></td>
+<td><code>{{ pathBase "/a/b/file.txt" }}</code> =&gt; <code>file.txt</code></td>
 </tr>
 <tr>
 <td><code>pathExt</code></td>
 <td>Returns the file extension.</td>
-<td><code>{{ pathExt "/a/b/file.txt" }}</code> → <code>.txt</code></td>
+<td><code>{{ pathExt "/a/b/file.txt" }}</code> =&gt; <code>.txt</code></td>
 </tr>
 <tr>
 <td><code>pathJoin</code></td>
@@ -5013,7 +5123,7 @@ User email: {{.Email}}
 <tr>
 <td><code>humanizeBytes</code></td>
 <td>Formats a byte count as a human-readable string (KB, MB, GB, etc.).</td>
-<td><code>{{ humanizeBytes .FileSize }}</code> → <code>10 KB</code></td>
+<td><code>{{ humanizeBytes .FileSize }}</code> =&gt; <code>10 KB</code></td>
 </tr>
 <tr>
 <td><code>fromMillis</code></td>
@@ -5062,7 +5172,7 @@ User email: {{.Email}}
 <p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> For filesystem events <code>{{.Object.JSON}}</code> renders <code>{}</code>: build the body from the <a href="#core-fields">core fields</a> and <a href="#initiator"><code>{{.Initiator}}</code></a> instead, as in the previous example.</p>
 <h3 id="resolving-a-virtual-paths-storage-backend">Resolving a virtual path's storage backend</h3>
 <p><a href="#getfsconfigforpath"><code>GetFsConfigForPath</code></a> returns the storage configuration that applies to a virtual path, with secret fields excluded. This is useful for target-aware notifications — for example, reporting the destination backend of a cross-mount copy or a virtual-folder upload.</p>
-<p><code>.Provider</code> identifies the backend as an integer, matching the <a href="https://sftpgo.com/rest-api" target="_blank">REST API</a>: <code>0</code> local, <code>1</code> S3, <code>2</code> GCS, <code>3</code> Azure Blob, <code>4</code> CryptFs, <code>5</code> SFTP, <code>6</code> HTTP, <code>7</code> FTP. Only the sub-config of the active provider (<code>.S3Config</code>, <code>.GCSConfig</code>, <code>.AzBlobConfig</code>, …) is populated; the others hold their empty value (not <code>nil</code>), so check <code>.Provider</code> before reading a backend-specific field.</p>
+<p><code>.Provider</code> identifies the backend as an integer, matching the <a href="https://sftpgo.com/rest-api" target="_blank">REST API</a>: <code>0</code> local, <code>1</code> S3, <code>2</code> GCS, <code>3</code> Azure Blob, <code>4</code> CryptFs, <code>5</code> SFTP, <code>6</code> HTTP, <code>7</code> FTP. Only the sub-config of the active provider (<code>.S3Config</code>, <code>.GCSConfig</code>, <code>.AzBlobConfig</code>, ...) is populated; the others hold their empty value (not <code>nil</code>), so check <code>.Provider</code> before reading a backend-specific field.</p>
 <pre><code class="language-json">{{- $fs := .Initiator.User.GetFsConfigForPath .VirtualTargetPath -}}
 {{- if eq $fs.Provider 1 -}}
 {"backend": "s3", "bucket": {{ $fs.S3Config.Bucket | toJson }}, "region": {{ $fs.S3Config.Region | toJson }}}
@@ -5086,7 +5196,7 @@ User email: {{.Email}}
     }
   },
   "groups": [
-    {{- $roles := .IDPFields.sftpgo_role -}}
+    {{- $roles := .IDPFields.sftpgo_groups -}}
     {{- range $i, $role := $roles -}}
         {{- if ne $i 0}},{{end}}
       {"type": {{if eq $i 0}}1{{else}}2{{end}},
@@ -5098,7 +5208,7 @@ User email: {{.Email}}
 <p>This template generates a user configuration for the Identity Provider account check action:</p>
 <ul>
 <li><code>$keyPrefix</code> is built by joining <code>"users"</code> and the username with <code>/</code> — e.g., <code>users/alice</code>.</li>
-<li>The <code>groups</code> array is populated from the <code>sftpgo_role</code> claim. The first role gets type <code>1</code> (primary group), subsequent roles get type <code>2</code> (secondary).</li>
+<li>The <code>groups</code> array is populated from the <code>sftpgo_groups</code> claim. The first role gets type <code>1</code> (primary group), subsequent roles get type <code>2</code> (secondary).</li>
 <li>All string values use <code>toJson</code> for safe JSON encoding.</li>
 </ul>
 
@@ -5123,7 +5233,7 @@ User email: {{.Email}}
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="July 4, 2026 20:59:09 UTC">2026-07-04 20:59:09</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
   </span>
 
     
@@ -5200,7 +5310,7 @@ User email: {{.Email}}
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   

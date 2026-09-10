@@ -12,7 +12,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/plugins/",
         "inLanguage": "en",
         "datePublished": "2024-04-25T16:47:14Z",
-        "dateModified": "2026-04-26T15:47:01Z",
+        "dateModified": "2026-09-08T09:20:06Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -734,6 +734,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../users/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Users
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -3685,6 +3713,7 @@
 
 <h1 id="plugin-system">Plugin system</h1>
 <p>SFTPGo's plugins are completely separate, standalone applications that SFTPGo executes and communicates with over RPC. This means the plugin process does not share the same memory space as SFTPGo and therefore can only access the interfaces and arguments given to it. This also means a crash in a plugin can not crash the entirety of SFTPGo.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> plugins are trusted components and their responses are applied as given, see <a href="../external-auth/#trust-model">Trust model</a>.</p>
 <h2 id="configuration">Configuration</h2>
 <p>The plugins are configured via the <code>plugins</code> section in the main SFTPGo configuration file. You basically have to set the path to your plugin, the plugin type and any plugin specific configuration parameters. If you set the SHA256 checksum for the plugin executable, SFTPGo will verify the plugin integrity before starting it.</p>
 <p>For added security you can enable the automatic TLS. In this way, the client and the server automatically negotiate mutual TLS for transport authentication. This ensures that only the original client will be allowed to connect to the server, and all other connections will be rejected. The client will also refuse to connect to any server that isn't the original instance started by the client.</p>
@@ -3717,10 +3746,10 @@
 <li><strong>Docker</strong>: use an image tag that includes plugins. See <a href="../installation/#docker">Docker installation</a>.</li>
 </ul>
 <h2 id="plugin-development">Plugin Development</h2>
-<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Advanced topic! Plugin development is a highly advanced topic in SFTPGo, and is not required knowledge for day-to-day usage. If you don't plan on writing any plugins, we recommend not reading this section of the documentation.</p>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Plugin development is an advanced topic and is not required knowledge for day-to-day usage. If you don't plan on writing any plugins, you can skip this section of the documentation.</p>
 <p>Because SFTPGo communicates to plugins over a RPC interface, you can build and distribute a plugin for SFTPGo without having to rebuild SFTPGo itself.</p>
-<p>In theory, because the plugin interface is HTTP, you could even develop a plugin using a completely different programming language! (Disclaimer, you would also have to re-implement the plugin API which is not a trivial amount of work).</p>
-<p>Developing a plugin is simple. The only knowledge necessary to write a plugin is basic command-line skills and basic knowledge of the <a href="https://go.dev/" target="_blank">Go programming language</a>.</p>
+<p>Because the plugin interface is HTTP based, a plugin can in principle be developed in a different programming language. This requires re-implementing the plugin API, which is not a trivial amount of work.</p>
+<p>Writing a plugin requires basic command-line skills and basic knowledge of the <a href="https://go.dev/" target="_blank">Go programming language</a>.</p>
 <p>Your plugin implementation needs to satisfy the interface for the plugin type you want to build. You can find these definitions in the <a href="https://pkg.go.dev/github.com/sftpgo/sdk/plugin#section-directories" target="_blank">docs</a>.</p>
 <p>The SFTPGo plugin system uses the HashiCorp <a href="https://github.com/hashicorp/go-plugin" target="_blank">go-plugin</a> library. Please refer to its documentation for more in-depth information on writing plugins.</p>
 
@@ -3745,7 +3774,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 26, 2026 15:47:01 UTC">2026-04-26 15:47:01</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
   </span>
 
     
@@ -3822,7 +3851,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   

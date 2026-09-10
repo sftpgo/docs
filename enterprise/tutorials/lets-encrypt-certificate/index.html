@@ -12,7 +12,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/tutorials/lets-encrypt-certificate/",
         "inLanguage": "en",
         "datePublished": "2024-04-25T16:47:14Z",
-        "dateModified": "2026-04-26T15:47:01Z",
+        "dateModified": "2026-09-08T09:20:06Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -734,6 +734,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../users/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Users
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -3769,7 +3797,6 @@ lego --accept-tos --path="/var/lib/lego" --email="&lt;you email address here&gt;
     "domains": ["sftpgo.com"],
     "email": "&lt;you email address here&gt;",
     "key_type": "4096",
-    "certs_path": "/var/lib/sftpgo/certs",
     "ca_endpoint": "https://acme-v02.api.letsencrypt.org/directory",
     "renew_days": 30,
     "http01_challenge": {
@@ -3789,11 +3816,11 @@ SFTPGO_ACME__HTTP01_CHALLENGE__WEBROOT="/var/www/sftpgo.com"
 </code></pre>
 <p>Make sure that the <code>sftpgo</code> user can write to the <code>/var/www/sftpgo.com</code> directory or pre-create the <code>/var/www/sftpgo.com/.well-known/acme-challenge</code> directory with the appropriate permissions.
 This directory must be publicly served by your web server.</p>
-<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> in this example we assume you have an existing HTTP server. If not, you can leave the web root blank and SFTPGo will resolve the HTTP01 challenge by itself.</p>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> in this example we assume you have an existing HTTP server. If not, you can leave the web root blank and SFTPGo will resolve the HTTP01 challenge by itself. The built-in challenge server listens on port 80, a privilege the <code>sftpgo</code> user lacks when the command below is run by hand: with a blank web root obtain the first certificate from the WebAdmin instead, since the service runs with the capability to bind port 80.</p>
 <p>Register your account and obtain certificates by running the following command.</p>
 <pre><code class="language-bash">sudo -E su - sftpgo -m -s /bin/bash -c 'sftpgo acme run -c /etc/sftpgo'
 </code></pre>
-<p>If this command completes successfully, you are done. The SFTPGo service will take care of the automatic renewal of certificates for the configured domains. Make sure that the <code>sftpgo</code> system user can read and write to <code>/var/lib/sftpgo/certs</code> directory otherwise the certificate renewal will fail.</p>
+<p>If this command completes successfully, you are done. The SFTPGo service will take care of the automatic renewal of certificates for the configured domains. The certificates are stored in the database: HTTPS is enabled automatically on the HTTP bindings, and the FTP and WebDAV services use the same certificate when none is configured for them. The sections below, which point the bindings at certificate files, apply to certificates obtained with <code>lego</code>.</p>
 <h2 id="enable-https-for-sftpgo-web-ui-and-rest-api">Enable HTTPS for SFTPGo Web UI and REST API</h2>
 <p>You can open the SFTPGo configuration file, search for the <code>httpd</code> section and change it as follow.</p>
 <pre><code class="language-json">  "httpd": {
@@ -3877,7 +3904,7 @@ SFTPGO_FTPD__BINDINGS__0__CERTIFICATE_KEY_FILE="/var/lib/sftpgo/certs/sftpgo.com
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 26, 2026 15:47:01 UTC">2026-04-26 15:47:01</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
   </span>
 
     
@@ -3954,7 +3981,7 @@ SFTPGO_FTPD__BINDINGS__0__CERTIFICATE_KEY_FILE="/var/lib/sftpgo/certs/sftpgo.com
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   

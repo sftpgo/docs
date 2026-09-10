@@ -12,7 +12,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/tutorials/migrating/",
         "inLanguage": "en",
         "datePublished": "2025-09-05T16:45:53Z",
-        "dateModified": "2026-06-20T17:54:33Z",
+        "dateModified": "2026-09-08T09:20:06Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -734,6 +734,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../users/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Users
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -3761,7 +3789,7 @@ The Enterprise Edition updates the database schema, but it remains fully compati
 <li>Enterprise: program files in <code>C:\Program Files\SFTPGo Enterprise</code>, data in <code>C:\ProgramData\SFTPGo Enterprise</code></li>
 </ul>
 <p>The installer also leaves an existing "SFTPGo" Windows service unchanged, so that customizations such as the account the service runs under are preserved. As a result, after installing the Enterprise Edition next to an open-source instance the open-source service keeps running, and the Enterprise Edition stays idle until you migrate your data.</p>
-<p>The migration follows three steps: back up the open-source installation, install the Enterprise Edition, then move your data into it. For the last step you choose how to transfer the data provider content (users, groups, folders, admins, …): copy the database file or restore a WebAdmin backup. <strong>Copying the database is the simplest option on the same machine and preserves everything as-is</strong>; the WebAdmin backup is mainly useful when moving to a different machine or changing the database backend.</p>
+<p>The migration follows three steps: back up the open-source installation, install the Enterprise Edition, then move your data into it. For the last step you choose how to transfer the data provider content (users, groups, folders, admins, ...): copy the database file or restore a WebAdmin backup. <strong>Copying the database is the simplest option on the same machine and preserves everything as-is</strong>; the WebAdmin backup is mainly useful when moving to a different machine or changing the database backend.</p>
 <h3 id="step-1-back-up-the-open-source-installation">Step 1: Back up the open-source installation</h3>
 <p>Stop the open-source SFTPGo service, then make a copy of <code>C:\ProgramData\SFTPGo</code>. Everything you need is in this directory:</p>
 <ul>
@@ -3805,7 +3833,7 @@ The Enterprise Edition updates the database schema, but it remains fully compati
 <li>If you are using the local filesystem as a storage backend, you must manually copy the user files to the new installation, ensuring they are placed in the same paths and have the correct ownership and permissions.</li>
 <li>If you are using a remote storage backend such as S3, Google Cloud Storage, Azure Blob, your files remain accessible without needing to move them, as the configuration will continue to point to the existing storage.</li>
 </ul>
-<p>If you have any questions or encounter issues during the migration, feel free to contact our support team.</p>
+<p>If you have any questions or encounter issues during the migration, contact our support team.</p>
 
 
 
@@ -3828,7 +3856,7 @@ The Enterprise Edition updates the database schema, but it remains fully compati
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="June 20, 2026 17:54:33 UTC">2026-06-20 17:54:33</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
   </span>
 
     
@@ -3905,7 +3933,7 @@ The Enterprise Edition updates the database schema, but it remains fully compati
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   

@@ -12,7 +12,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/oidc/",
         "inLanguage": "en",
         "datePublished": "2024-04-25T16:47:14Z",
-        "dateModified": "2026-08-15T07:11:17Z",
+        "dateModified": "2026-09-08T09:20:06Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -734,6 +734,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../users/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Users
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -2412,6 +2440,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#configuration-from-the-webadmin-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration from the WebAdmin UI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#required-settings" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2522,10 +2561,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#security" class="md-nav__link">
+  <a href="#userinfo-claims" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Security
+        UserInfo claims
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verified-email" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verified email
       
     </span>
   </a>
@@ -2576,6 +2626,17 @@
     <span class="md-ellipsis">
       
         PKCE without client secret
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
       
     </span>
   </a>
@@ -3813,6 +3874,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#configuration-from-the-webadmin-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration from the WebAdmin UI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#required-settings" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3923,10 +3995,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#security" class="md-nav__link">
+  <a href="#userinfo-claims" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Security
+        UserInfo claims
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verified-email" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verified email
       
     </span>
   </a>
@@ -3977,6 +4060,17 @@
     <span class="md-ellipsis">
       
         PKCE without client secret
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
       
     </span>
   </a>
@@ -4161,7 +4255,7 @@
 
 <h1 id="openid-connect">OpenID Connect</h1>
 <p>OpenID Connect (OIDC) integration allows users and administrators to log in to the SFTPGo WebAdmin and WebClient interfaces using an external Identity Provider (IdP). SFTPGo maps IdP identities to SFTPGo accounts based on configurable claim fields.</p>
-<p>OIDC is configured per HTTP binding — you can have different IdP configurations on different ports if needed. All configuration parameters are documented in the <a href="../config-file/#http-server">configuration reference</a>.</p>
+<p>OIDC can be configured from the <a href="#configuration-from-the-webadmin-ui">WebAdmin UI</a>, or per HTTP binding in the configuration file and through environment variables so that different ports serve different IdP configurations. All configuration parameters are documented in the <a href="../config-file/#http-server">configuration reference</a>.</p>
 <h2 id="how-it-works">How it works</h2>
 <ol>
 <li>The user clicks "Sign in with OpenID" (or the configured label) on the SFTPGo login page.</li>
@@ -4174,6 +4268,89 @@
 </ol>
 <p>SFTPGo uses <a href="https://openid.net/specs/openid-connect-discovery-1_0.html" target="_blank">OpenID Connect Discovery</a> — it appends <code>/.well-known/openid-configuration</code> to the configured <code>config_url</code> to automatically discover the provider's endpoints.</p>
 <h2 id="configuration">Configuration</h2>
+<h3 id="configuration-from-the-webadmin-ui">Configuration from the WebAdmin UI</h3>
+<p>The OpenID Connect section of the WebAdmin Configurations page covers the settings most deployments need and stores them in the data provider. To add the section, set the following environment variable before starting SFTPGo:</p>
+<pre><code class="language-shell">SFTPGO_HOOK__ENABLE_OIDC_UI=1
+</code></pre>
+<p>See <a href="../env-vars/#variable-sources">environment variables</a> for where to define it on your platform. After the restart, open <strong>Server Manager &gt; Configurations &gt; OpenID Connect</strong>, fill in the form and click <strong>Submit</strong>. The submitted configuration URL is verified against the provider's discovery document, and a service restart applies the configuration.</p>
+<p>The stored configuration is global: every HTTP binding offers the OpenID login, and the flow completes on the address configured as <code>redirect_base_url</code>. Configure the bindings in the configuration file, or through environment variables, when different bindings serve different IdP configurations.</p>
+<p>Each form field maps to a configuration parameter:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Parameter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Config URL</td>
+<td><code>config_url</code></td>
+</tr>
+<tr>
+<td>Client ID</td>
+<td><code>client_id</code></td>
+</tr>
+<tr>
+<td>Client Secret</td>
+<td><code>client_secret</code></td>
+</tr>
+<tr>
+<td>Redirect base URL</td>
+<td><code>redirect_base_url</code></td>
+</tr>
+<tr>
+<td>Username claim</td>
+<td><code>username_field</code></td>
+</tr>
+<tr>
+<td>Role claim</td>
+<td><code>role_field</code></td>
+</tr>
+<tr>
+<td>Admin role values</td>
+<td><code>role_values</code></td>
+</tr>
+<tr>
+<td>User role values</td>
+<td><code>user_role_values</code></td>
+</tr>
+<tr>
+<td>Implicit roles</td>
+<td><code>implicit_roles</code></td>
+</tr>
+<tr>
+<td>Scopes</td>
+<td><code>scopes</code></td>
+</tr>
+<tr>
+<td>Max age</td>
+<td><code>max_age</code></td>
+</tr>
+<tr>
+<td>Prompt</td>
+<td><code>prompt</code></td>
+</tr>
+<tr>
+<td>RP-initiated logout</td>
+<td><code>rp_initiated_logout</code></td>
+</tr>
+<tr>
+<td>Custom claims</td>
+<td><code>custom_fields</code></td>
+</tr>
+<tr>
+<td>UserInfo claims</td>
+<td><code>query_userinfo</code></td>
+</tr>
+<tr>
+<td>Verified email</td>
+<td><code>require_verified_email</code></td>
+</tr>
+</tbody>
+</table>
+<p>Claim fields take the claim name as it appears in the token, for example <code>preferred_username</code>. Comma-separated fields — scopes, role values, custom claims — take bare values, for example <code>admin</code>.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> <code>client_secret_file</code>, <code>ui_name</code>, <code>debug</code> and the <a href="#security-settings">security settings</a> come from the configuration file or the environment variables, also when the rest of the configuration is stored from the UI.</p>
 <h3 id="required-settings">Required settings</h3>
 <table>
 <thead>
@@ -4197,7 +4374,7 @@
 </tr>
 <tr>
 <td><code>redirect_base_url</code></td>
-<td>Base URL of your SFTPGo instance (e.g., <code>https://sftpgo.example.com</code>). SFTPGo appends <code>/web/oidc/redirect</code> automatically.</td>
+<td>Base URL of your SFTPGo instance (e.g., <code>https://sftpgo.example.com</code>). SFTPGo appends <code>/web/oidc/redirect</code> automatically. Use the same address your users browse: the login is completed on the browser that started it.</td>
 </tr>
 <tr>
 <td><code>username_field</code></td>
@@ -4205,16 +4382,17 @@
 </tr>
 </tbody>
 </table>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Register <code>&lt;redirect_base_url&gt;/web/oidc/redirect</code> with your Identity Provider as an allowed redirect URI. The path includes <code>web_root</code> when the WebAdmin and WebClient are served from a sub-path.</p>
 <h3 id="choosing-the-username-claim">Choosing the username claim</h3>
 <p>The <code>username_field</code> claim is the identity key: SFTPGo grants access to the account matching its value. Choose a claim your Identity Provider guarantees to be <strong>unique and stable</strong> for each identity:</p>
 <ul>
 <li><code>sub</code> is the claim the OpenID Connect specification itself guarantees to be unique within the issuer and never reassigned. Using it means provisioning SFTPGo accounts named after the provider-assigned identifier.</li>
-<li><code>preferred_username</code> works well when the provider enforces its uniqueness: Keycloak, for example, maps it to the realm username. The specification leaves its uniqueness to the provider, so verify your provider's policy. Microsoft Entra ID documents this claim as mutable and unsuitable for authorization decisions: use <code>sub</code> or the tenant-immutable <code>oid</code> instead.</li>
-<li><code>email</code> works well when the provider guarantees it is verified and unique. SFTPGo does not check the <code>email_verified</code> claim, so this guarantee must come from the Identity Provider.</li>
+<li><code>preferred_username</code> works well when the provider enforces its uniqueness: Keycloak maps it to the realm username, Microsoft Entra ID to the User Principal Name. The specification leaves its uniqueness to the provider, so verify your provider's policy.</li>
+<li><code>email</code> works well when the provider guarantees it is unique. Enable <a href="#verified-email"><code>require_verified_email</code></a> to accept it only when the provider asserts the address is verified.</li>
 </ul>
 <p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> A claim value shared by two identities, or reassigned to a new person (e.g., a recycled email address or User Principal Name), grants access to the SFTPGo account mapped to that value. Choose a claim users are unable to set for themselves.</p>
 <h3 id="role-mapping">Role mapping</h3>
-<p>SFTPGo needs to determine whether an authenticated user should access the WebAdmin (as an admin) or the WebClient (as a user). There are two approaches:</p>
+<p>The WebAdmin and the WebClient have separate login pages, each with its own OpenID link, so the page the identity signs in from decides whether an admin or a user session is requested. The role of the identity must authorize that request. There are two approaches:</p>
 <p><strong>Explicit role mapping</strong> — The IdP includes a role claim in the ID token:</p>
 <table>
 <thead>
@@ -4242,7 +4420,7 @@
 </tr>
 </tbody>
 </table>
-<p>The role claim decides administrative access: choose a claim your Identity Provider administrator assigns, such as a realm role or a group membership, so that its value stays outside the reach of the identities it governs.</p>
+<p>An identity whose role claim matches <code>role_values</code> can sign in from the WebAdmin login page, one matching <code>user_role_values</code> from the WebClient login page; a request the role does not authorize is refused. The mapped username must then exist as an administrator or as a user respectively. The role claim decides administrative access, so choose one the Identity Provider administrator assigns, such as a realm role or a group membership, and not one the identity can edit in its own profile.</p>
 <p><strong>Implicit role mapping</strong> — The role is determined by which login link the user clicks:</p>
 <table>
 <thead>
@@ -4260,7 +4438,7 @@
 </tr>
 </tbody>
 </table>
-<p>Implicit roles are useful when the IdP does not provide role claims or when you prefer to keep role assignment entirely within SFTPGo. The authorization decision then rests entirely on the SFTPGo admin accounts: every identity that authenticates through the admin login link is granted the admin role, and the login succeeds when an admin with the mapped username exists.</p>
+<p>Implicit roles are useful when the IdP does not provide role claims or when you prefer to keep role assignment entirely within SFTPGo. The authorization then rests on the SFTPGo accounts: every identity that authenticates through the admin login link is given the admin role, and the login succeeds when an admin with the mapped username exists and can log in. Keep the set of admin accounts as the list of who administers the server.</p>
 <h3 id="optional-settings">Optional settings</h3>
 <table>
 <thead>
@@ -4292,6 +4470,21 @@
 <td>Controls the IdP's authentication/consent behavior. Common values: <code>none</code>, <code>login</code>, <code>consent</code>, <code>select_account</code>. Space-delimited.</td>
 </tr>
 <tr>
+<td><code>rp_initiated_logout</code></td>
+<td><code>false</code></td>
+<td>Redirects the browser to the IdP's end session endpoint on logout, so the single sign-on session is terminated (OpenID Connect RP-Initiated Logout). The SFTPGo login page is sent as <code>post_logout_redirect_uri</code> and must be registered with your IdP as an allowed post-logout redirect URI.</td>
+</tr>
+<tr>
+<td><code>query_userinfo</code></td>
+<td><code>false</code></td>
+<td>Queries the IdP's UserInfo endpoint after authentication and reads user claims from both sources. See <a href="#userinfo-claims">UserInfo claims</a>.</td>
+</tr>
+<tr>
+<td><code>require_verified_email</code></td>
+<td><code>false</code></td>
+<td>Accepts only identities whose email address is verified by the IdP. See <a href="#verified-email">Verified email</a>.</td>
+</tr>
+<tr>
 <td><code>ui_name</code></td>
 <td><code>OpenID</code></td>
 <td>Label displayed on the login button (e.g., "Sign in with <em>ui_name</em>").</td>
@@ -4321,7 +4514,7 @@
 <tr>
 <td><code>insecure_skip_signature_check</code></td>
 <td><code>false</code></td>
-<td><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Skip JWT signature validation. Only for providers that use the <code>none</code> signing algorithm (e.g., some Azure configurations).</td>
+<td><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Accepts the ID token without validating its signature. Supported for providers that sign ID tokens with the <code>none</code> algorithm. SFTPGo reads the ID token from the provider's token endpoint over TLS, which is the only integrity guarantee left while this setting is enabled.</td>
 </tr>
 <tr>
 <td><code>insecure_issuer_url</code></td>
@@ -4331,7 +4524,7 @@
 <tr>
 <td><code>issuer_url</code></td>
 <td>—</td>
-<td>Explicit issuer URL for token verification. Only applied when <code>insecure_issuer_url</code> is enabled.</td>
+<td>Explicit issuer URL for token verification, applied when <code>insecure_issuer_url</code> is enabled.</td>
 </tr>
 </tbody>
 </table>
@@ -4350,16 +4543,21 @@
 <li>Access the field in Event Manager templates as <code>{{.IDPFields.fieldname}}</code> or in the pre-login hook via the <code>oidc_custom_fields</code> JSON field.</li>
 </ol>
 <p>All custom fields are passed with their original types as defined by the Identity Provider.</p>
-<h2 id="security">Security</h2>
-<p>SFTPGo implements the following security measures for OIDC:</p>
+<h2 id="userinfo-claims">UserInfo claims</h2>
+<p>By default, all claims (<code>username_field</code>, <code>role_field</code>, <code>custom_fields</code>) are read from the verified ID token. Some Identity Providers return profile claims from the UserInfo endpoint and require extra configuration to include them in the ID token.</p>
+<p>With <code>query_userinfo</code> enabled, SFTPGo queries the provider's UserInfo endpoint after each authentication and reads the claims from both sources:</p>
 <ul>
-<li><strong>PKCE</strong> (Proof Key for Code Exchange) is enabled by default, preventing authorization code interception attacks.</li>
-<li><strong>Nonce validation</strong> — each authentication request includes a unique nonce that must match the ID token.</li>
-<li><strong>State parameter</strong> — CSRF protection for the OAuth2 flow.</li>
-<li><strong>ID token signature verification</strong> — tokens are cryptographically verified against the provider's public keys.</li>
-<li><strong>Auth time validation</strong> — when <code>max_age</code> is configured, the <code>auth_time</code> claim is checked with a 60-second clock skew tolerance.</li>
-<li><strong>Session cookies</strong> — set with <code>HttpOnly</code>, <code>Secure</code>, and <code>SameSite=Lax</code> attributes.</li>
+<li>Non-empty ID token claims take precedence over UserInfo claims with the same name, so the UserInfo response fills in missing claims. A claim set to null, to an empty string or to an empty list counts as missing in both sources: if the ID token returns an empty <code>username_field</code> or <code>role_field</code>, the value from the UserInfo response is used. Enable <code>query_userinfo</code> when the UserInfo claims are as authoritative as the ID token ones for these two fields.</li>
+<li>The UserInfo subject must match the ID token subject, as required by the OIDC specification. Authentication fails on mismatch or when the UserInfo request fails.</li>
+<li><code>sid</code>, <code>auth_time</code> and <code>nonce</code> are read from the ID token only: SFTPGo uses them for session tracking and for the <code>max_age</code> check.</li>
 </ul>
+<p>The provider must advertise a UserInfo endpoint in its discovery document; this is validated at startup.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Microsoft Entra ID returns a fixed set of claims from the UserInfo endpoint and recommends reading claims from the ID token, which also saves a network round-trip per login. Enable <code>query_userinfo</code> when your provider returns the claims you need from the UserInfo endpoint only.</p>
+<h2 id="verified-email">Verified email</h2>
+<p>With <code>require_verified_email</code> enabled, the login is allowed only if the <code>email_verified</code> claim is set to <code>true</code>. The claim is read from the verified ID token or, when <code>query_userinfo</code> is enabled, from the UserInfo response, so a provider that returns <code>email_verified</code> from the UserInfo endpoint only is supported.</p>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Verify that your provider returns <code>email_verified</code> before enabling this setting: with a provider that omits the claim, every login is refused.</p>
+<p>The <code>email_verified</code> claim belongs to the <code>email</code> scope, which governs both sources: the UserInfo endpoint returns the claims authorized by the scopes granted to the access token, so dropping <code>email</code> from <code>scopes</code> normally removes the claim from the ID token and from the UserInfo response alike. Keep that scope in <code>scopes</code>, or configure the IdP to return the claim regardless of the requested scopes, as Keycloak does with its default client scopes.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> The claim is checked at login. A session already established keeps working until it expires, so a mail address that becomes unverified at the IdP is enforced on the next login.</p>
 <h2 id="oidc-and-local-credentials">OIDC and local credentials</h2>
 <p>OpenID Connect authenticates the <strong>web session</strong> only. The mapped account is a regular SFTPGo user or admin, so it keeps its own SFTPGo credentials (password, public keys) and its own set of allowed protocols. When those are present and permitted, they are independent authentication paths that work without OIDC:</p>
 <ul>
@@ -4386,7 +4584,7 @@
 <h2 id="pkce-without-client-secret">PKCE without client secret</h2>
 <p>SFTPGo supports PKCE-only authentication, where the <code>client_secret</code> is omitted entirely. This is useful when the Identity Provider is configured with a <strong>public client</strong> (no client secret), which is common in scenarios where storing a secret securely is not practical or when the IdP policy mandates public clients.</p>
 <p>When the client secret is not configured, SFTPGo uses PKCE (Proof Key for Code Exchange) exclusively to secure the authorization code exchange. PKCE must remain enabled (the default) — if you disable it via <code>disabled_security_features</code>, PKCE-only authentication will not work.</p>
-<p>To configure PKCE-only authentication, simply omit the <code>client_secret</code> and <code>client_secret_file</code> parameters:</p>
+<p>To configure PKCE-only authentication, omit the <code>client_secret</code> and <code>client_secret_file</code> parameters:</p>
 <pre><code class="language-shell">SFTPGO_HTTPD__BINDINGS__0__OIDC__CLIENT_ID="sftpgo-public-client"
 SFTPGO_HTTPD__BINDINGS__0__OIDC__CONFIG_URL="https://idp.example.com/realms/sftpgo"
 SFTPGO_HTTPD__BINDINGS__0__OIDC__REDIRECT_BASE_URL="https://sftpgo.example.com"
@@ -4394,9 +4592,43 @@ SFTPGO_HTTPD__BINDINGS__0__OIDC__USERNAME_FIELD="preferred_username"
 SFTPGO_HTTPD__BINDINGS__0__OIDC__ROLE_FIELD="sftpgo_role"
 </code></pre>
 <p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> In Keycloak, set the client's <strong>Access Type</strong> to <code>public</code> (or <strong>Client authentication</strong> to <code>Off</code> in newer versions). In Azure AD, register the application as a public client. Other providers have similar settings — consult your IdP documentation.</p>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<p>The login page reports the reason a login was refused, and the SFTPGo log carries the details. Set <code>debug</code> to <code>true</code> to log the received ID token and see the claims your provider returns.</p>
+<table>
+<thead>
+<tr>
+<th>Message on the login page</th>
+<th>Cause</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Invalid OpenID token</td>
+<td>The claim configured as <code>username_field</code> carries no value, or the identity authenticated longer ago than <code>max_age</code> allows.</td>
+</tr>
+<tr>
+<td>Incorrect OpenID role</td>
+<td>The identity's role claim authorizes the other login page, or its value is missing from <code>role_values</code>/<code>user_role_values</code>. See <a href="#role-mapping">Role mapping</a>.</td>
+</tr>
+<tr>
+<td>Failed to get user associated with OpenID token</td>
+<td>The mapped username has no SFTPGo account yet. See <a href="#account-provisioning">Account provisioning</a>.</td>
+</tr>
+<tr>
+<td>The email address is not verified</td>
+<td><code>require_verified_email</code> is enabled and the provider asserts no verified address. See <a href="#verified-email">Verified email</a>.</td>
+</tr>
+</tbody>
+</table>
+<p>An invalid redirect URI is reported by the Identity Provider, before the browser returns to SFTPGo: check the URI registered with the provider against the one built from <a href="#required-settings"><code>redirect_base_url</code></a>.</p>
+<p>When the username claim carries no value, the log names the configured claim and lists the claims the token carries:</p>
+<pre><code>username field "preferred_username" not found, empty or not a string, claims fields: [sub email_verified name preferred_username given_name family_name email]
+</code></pre>
+<p>Compare the configured claim with that list: it must be one of those names. A claim your provider returns from the UserInfo endpoint alone is read when <a href="#userinfo-claims"><code>query_userinfo</code></a> is enabled, and a claim the provider returns to a specific scope needs that scope in <code>scopes</code>.</p>
 <h2 id="provider-specific-notes">Provider-specific notes</h2>
 <h3 id="microsoft-entra-id-azure-ad">Microsoft Entra ID (Azure AD)</h3>
-<p>Standard configuration works for most setups. If you encounter signature validation errors, the provider may be using the <code>none</code> signing algorithm — set <code>insecure_skip_signature_check</code> to <code>true</code>.</p>
+<p>Standard configuration works for most setups. Entra ID signs ID tokens with RS256 and publishes its signing keys in the discovery document, so set <code>config_url</code> to the tenant's v2.0 endpoint, <code>https://login.microsoftonline.com/&lt;tenant-id&gt;/v2.0</code>.</p>
+<p>If signature validation fails, verify that <code>config_url</code> returns the discovery document of the tenant that issues the tokens: the keys used for validation come from that document. <code>insecure_skip_signature_check</code> covers providers that sign ID tokens with the <code>none</code> algorithm; a provider that publishes signing keys works with the default settings.</p>
 <h3 id="azure-ad-b2c">Azure AD B2C</h3>
 <p>Azure B2C uses a discovery URL that differs from the issuer URL in the ID token. Enable <code>insecure_issuer_url</code> and set <code>issuer_url</code> to the value your B2C tenant reports:</p>
 <pre><code class="language-shell">SFTPGO_HTTPD__BINDINGS__0__OIDC__INSECURE_ISSUER_URL=true
@@ -4411,7 +4643,7 @@ SFTPGO_HTTPD__BINDINGS__0__OIDC__ISSUER_URL="https://your-tenant.b2clogin.com/yo
 <h3 id="keycloak-preparation">Keycloak preparation</h3>
 <ol>
 <li>Create a realm named <code>sftpgo</code>.</li>
-<li>In <strong>Realm Settings</strong> → <strong>Login</strong>, adjust the "Require SSL" setting for your environment. Ensure "Unmanaged Attributes" are allowed if you plan to use custom attributes.</li>
+<li>In <strong>Realm Settings</strong> =&gt; <strong>Login</strong>, adjust the "Require SSL" setting for your environment. Ensure "Unmanaged Attributes" are allowed if you plan to use custom attributes.</li>
 <li>Create a client named <code>sftpgo-client</code> with <strong>Access Type</strong> set to <code>confidential</code>.</li>
 <li>Set a valid redirect URI — for example, <code>http://192.168.1.50:8080/*</code> if SFTPGo runs at that address.</li>
 <li>In the client's <strong>Mappers</strong> settings, ensure that the username and role are included in the ID token. For example, map the user attribute <code>sftpgo_role</code> as a JSON string to the ID token, and <code>username</code> as <code>preferred_username</code>.</li>
@@ -4438,7 +4670,7 @@ SFTPGO_HTTPD__BINDINGS__0__OIDC__ROLE_FIELD="sftpgo_role"
 </code></pre>
 <h3 id="how-it-works_1">How it works</h3>
 <p>From the SFTPGo login page, click "Sign in with OpenID". You are redirected to Keycloak's login page. After successful authentication, Keycloak redirects back to SFTPGo.</p>
-<p>The ID token must contain the <code>username_field</code> claim. The mapped username must exist in SFTPGo (or be provisioned automatically via the Event Manager or pre-login hook). If the token contains the <code>role_field</code> claim with value <code>admin</code>, the user is directed to the WebAdmin; otherwise, to the WebClient.</p>
+<p>The ID token must contain the <code>username_field</code> claim, and the mapped username must exist in SFTPGo (or be provisioned automatically via the Event Manager or pre-login hook). Signing in from the WebAdmin login page requires the <code>role_field</code> claim with the value <code>admin</code>; the WebClient login page accepts any authenticated identity while <code>user_role_values</code> is empty.</p>
 <p>Example ID token for an admin:</p>
 <pre><code class="language-json">{
     "preferred_username": "root",
@@ -4475,7 +4707,7 @@ SFTPGO_HTTPD__BINDINGS__0__OIDC__ROLE_FIELD="sftpgo_role"
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="August 15, 2026 07:11:17 UTC">2026-08-15 07:11:17</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
   </span>
 
     
@@ -4552,7 +4784,7 @@ SFTPGO_HTTPD__BINDINGS__0__OIDC__ROLE_FIELD="sftpgo_role"
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   

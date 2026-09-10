@@ -12,7 +12,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/ftp/",
         "inLanguage": "en",
         "datePublished": "2024-04-25T16:47:14Z",
-        "dateModified": "2026-04-26T15:47:01Z",
+        "dateModified": "2026-09-08T09:20:06Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -734,6 +734,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../users/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Users
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -2008,6 +2036,23 @@
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Authentication">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ftp-security-filter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FTP security filter
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -3671,6 +3716,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Authentication">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ftp-security-filter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FTP security filter
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -3850,7 +3912,7 @@
 
 
 <h1 id="ftpftps">FTP/FTPS</h1>
-<p>SFTPGo includes a full-featured FTP server implementation based on <a href="https://datatracker.ietf.org/doc/html/rfc959" target="_blank">RFC 959</a> with comprehensive TLS support (FTPS).</p>
+<p>SFTPGo includes an FTP server implementation based on <a href="https://datatracker.ietf.org/doc/html/rfc959" target="_blank">RFC 959</a>, with support for explicit and implicit TLS (FTPS).</p>
 <h2 id="tls-modes">TLS modes</h2>
 <p>The FTP server supports four TLS modes, configured per-binding:</p>
 <table>
@@ -3880,7 +3942,7 @@
 <tr>
 <td><code>3</code></td>
 <td><strong>Control-only TLS</strong></td>
-<td>TLS required for the control connection only. Data connections remain in cleartext.</td>
+<td>TLS required for the control connection. Encryption of the data connections is left to the client.</td>
 </tr>
 </tbody>
 </table>
@@ -3915,6 +3977,7 @@
 </tr>
 </tbody>
 </table>
+<p>A client certificate that does not authenticate the account ends the session. The reason is written to the logs and the attempt is reported to the <a href="../defender/">defender</a>.</p>
 <p>Per-user restrictions:</p>
 <ul>
 <li><strong>Denied login methods</strong> — Restrict which authentication methods a user can use.</li>
@@ -3922,6 +3985,12 @@
 <li><strong>Certificate pinning</strong> — Restrict a user to specific client certificates via the TLS certificates filter.</li>
 </ul>
 <p>Certificate revocation lists (CRLs) are supported and can be reloaded on demand via <code>SIGHUP</code> (Unix) or <code>paramchange</code> (Windows).</p>
+<h3 id="ftp-security-filter">FTP security filter</h3>
+<p>The per-user FTP security filter requires TLS for a single account, on bindings that allow cleartext sessions as well. It provides two distinct guarantees.</p>
+<p><strong>The session requires TLS.</strong> A cleartext session of a covered account is refused. This holds for every login and on every binding, including the accounts that a hook creates or modifies during the login.</p>
+<p><strong>The password is stopped before it is sent.</strong> SFTPGo closes a cleartext session as soon as it receives the username of a covered account, so the password stays on the client. This is a best effort: it applies when the account is known before the credentials are received, that is when it is stored in the data provider or a <a href="../dynamic-user-mod/">pre-login hook</a> returns it for the username.</p>
+<p>Deployments that create the account during the authentication — an authentication plugin, an external authentication hook, a pre-login hook that answers the authentication phase alone — know the account only after the password has been received, so the first login of such an account sends the password over a cleartext session and is then refused. Set the binding to explicit TLS (<code>tls_mode</code> <code>1</code>) to protect the credentials of every session regardless of how the accounts are provisioned.</p>
+<p>A covered account logs in through a binding where TLS is available.</p>
 <h2 id="data-connections">Data connections</h2>
 <h3 id="passive-mode-pasvepsv">Passive mode (PASV/EPSV)</h3>
 <p>In passive mode, the server opens a port for the client to connect to. Configuration options:</p>
@@ -4049,7 +4118,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 26, 2026 15:47:01 UTC">2026-04-26 15:47:01</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
   </span>
 
     
@@ -4126,7 +4195,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   

@@ -12,7 +12,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/filesystem-actions/",
         "inLanguage": "en",
         "datePublished": "2026-04-26T15:47:01Z",
-        "dateModified": "2026-06-20T17:54:33Z",
+        "dateModified": "2026-09-08T09:20:06Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -734,6 +734,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../users/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Users
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -2844,10 +2872,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#failure-policies" class="md-nav__link">
+  <a href="#scan-outcomes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Failure policies
+        Scan outcomes
       
     </span>
   </a>
@@ -4034,10 +4062,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#failure-policies" class="md-nav__link">
+  <a href="#scan-outcomes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Failure policies
+        Scan outcomes
       
     </span>
   </a>
@@ -4159,14 +4187,14 @@
 <li><code>/inbox</code> — deletes the <code>/inbox</code> directory and everything in it.</li>
 </ul>
 <p>This is useful for cleanup actions that need to empty a directory periodically while preserving the directory structure.</p>
-<p>The filesystem root, and a <a href="#virtual-folders">virtual folder</a> mount point, can only have their contents deleted — they cannot be removed. <code>/</code> (or <code>/</code> resolved through a source folder) deletes the contents of that root and preserves it. An entry <strong>without</strong> the trailing slash whose placeholders resolve to the root or a mount point fails the action before deleting anything, rather than emptying the location and then failing on the final removal. To empty such a location, request contents deletion explicitly with a trailing <code>/</code>.</p>
+<p>The filesystem root, and a <a href="#virtual-folders">virtual folder</a> mount point, can only have their contents deleted — they cannot be removed. <code>/</code> (or <code>/</code> resolved through a source folder) deletes the contents of that root and preserves it. An entry <strong>without</strong> the trailing slash whose placeholders resolve to the root, a mount point, or a directory with virtual folder mounts below it fails the action before deleting anything, rather than emptying the location and then failing on the final removal. To empty such a location, request contents deletion explicitly with a trailing <code>/</code>.</p>
 <h3 id="glob-patterns">Glob patterns</h3>
 <p>The path can use <strong>wildcards in the last path component</strong> to match multiple entries:</p>
 <ul>
 <li><code>/inbox/*.tmp</code> — deletes every <code>.tmp</code> file directly under <code>/inbox/</code>.</li>
 <li><code>/logs/2025-??.log</code> — deletes log files matching the pattern.</li>
 </ul>
-<p>Wildcards (<code>*</code>, <code>?</code>, <code>[…]</code>) match files and directories at the same level — subdirectories are removed recursively, files (and symlinks) are unlinked. Subdirectories are <strong>not</strong> descended into for further matching. The wildcard cannot be combined with a trailing slash on the same entry.</p>
+<p>Wildcards (<code>*</code>, <code>?</code>, <code>[...]</code>) match files and directories at the same level — subdirectories are removed recursively, files (and symlinks) are unlinked. Subdirectories are <strong>not</strong> descended into for further matching. The wildcard cannot be combined with a trailing slash on the same entry.</p>
 <h2 id="create-directories">Create directories</h2>
 <p>Creates one or more directories, including intermediate subdirectories (equivalent to <code>mkdir -p</code>). Useful as a post-creation action to set up a standard folder structure for new users.</p>
 <h2 id="path-exists">Path exists</h2>
@@ -4174,12 +4202,14 @@
 <h2 id="copy">Copy</h2>
 <p>Copies one or more files or directories. Each copy entry defines a source path and a target path, both supporting placeholders. Copy is the most feature-rich filesystem action, with several options to fine-tune its behavior.</p>
 <h3 id="glob-patterns_1">Glob patterns</h3>
-<p>The source path can use <strong>wildcards in the last path component</strong> to select multiple files:</p>
+<p>The source path can use <strong>wildcards in the last path component</strong> to select multiple entries:</p>
 <ul>
 <li><code>/inbox/*.csv</code> — copies all <code>.csv</code> files from <code>/inbox/</code>.</li>
 <li><code>/data/report_??.txt</code> — copies files matching the pattern (e.g., <code>report_01.txt</code>, <code>report_12.txt</code>).</li>
 </ul>
-<p>Glob patterns follow standard shell syntax (<code>*</code> matches any sequence of characters, <code>?</code> matches a single character). Subdirectories are <strong>not</strong> recursed into. To copy all contents of a directory, use a trailing <code>/</code> instead (e.g., <code>/inbox/</code>).</p>
+<p>Glob patterns follow standard shell syntax (<code>*</code> matches any sequence of characters, <code>?</code> matches a single character). Wildcards match files and directories at the same level, and a matched directory is copied with its whole contents. Subdirectories are <strong>not</strong> descended into for further matching. To copy all contents of a directory, use a trailing <code>/</code> instead (e.g., <code>/inbox/</code>).</p>
+<p>With a wildcard source the target is the <strong>destination directory</strong>, and each matched entry is copied into it under its own name, whether or not the target ends with <code>/</code>. Placeholders in the target are resolved before the pattern is expanded, so they read the same for every matched entry. A target such as <code>/processed/{{ .Timestamp.Format "20060102T150405" }}</code> therefore collects a whole batch in one directory per run, created along with any missing parent. The <strong>Move source</strong> path of the source disposition follows the same rules, which makes <code>/archive/{{ .Timestamp.Format "20060102T150405" }}</code> an archive directory per run. See <a href="../placeholders/#timestamp">Timestamp</a> for the available formats.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Every copied entry keeps its own name, so the timestamp of the examples above names the directory and not the files inside it. To write a file under a name of your choice, give the entry a literal source path and the target name you want.</p>
 <h3 id="source-disposition-after-copy">Source disposition (After copy)</h3>
 <p>Controls what happens to the source file after a successful copy:</p>
 <table>
@@ -4257,7 +4287,7 @@
 <p>When the source is a literal file path, the target can be either:</p>
 <ul>
 <li>A <strong>literal file path</strong> — the encrypted/decrypted output is written to that exact path.</li>
-<li>A <strong>directory path ending with <code>/</code></strong> — the output filename is derived from the source: encrypt appends <code>.pgp</code> (e.g., <code>report.csv</code> → <code>report.csv.pgp</code>); decrypt strips the last extension when present (<code>report.csv.pgp</code> → <code>report.csv</code>) or appends <code>.dec</code> when the source has no extension (<code>secret</code> → <code>secret.dec</code>). The root path <code>/</code> is a valid directory target (output lands in the user's home root).</li>
+<li>A <strong>directory path ending with <code>/</code></strong> — the output filename is derived from the source: encrypt appends <code>.pgp</code> (e.g., <code>report.csv</code> =&gt; <code>report.csv.pgp</code>); decrypt strips the last extension when present (<code>report.csv.pgp</code> =&gt; <code>report.csv</code>) or appends <code>.dec</code> when the source has no extension (<code>secret</code> =&gt; <code>secret.dec</code>). The root path <code>/</code> is a valid directory target (output lands in the user's home root).</li>
 </ul>
 <p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> When the target is built from placeholders such as <code>{{ pathDir .VirtualPath }}</code>, always include the trailing <code>/</code> (<code>/{{ pathDir .VirtualPath }}/</code>). The directory marker is read from the configured text: without it the target is a literal output filename, which can overwrite or collide with an existing directory.</p>
 <p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> PGP overwrites the target without prompting when a file with the derived output name already exists. This is independent of where the target points; the risk is more visible with a broad target like <code>/</code> because the destination namespace is wider.</p>
@@ -4307,34 +4337,48 @@
 <p>When a <strong>target folder</strong> is specified, the action runs as a system action (once, not per-user) and writes attachments into the shared folder.</p>
 <p>When the target folder is left empty, attachments are written to a user's home directory. For trigger types that carry a user (filesystem events, provider events with a user object), that user is the destination. For scheduled rules, configure a name, role, or group filter that uniquely identifies a single user; with a wildcard or empty filter the destination user is undefined and the action may fail with "no matching user found".</p>
 <h2 id="icap">ICAP</h2>
-<p>Integrates with ICAP servers to perform <strong>antivirus scanning</strong> and <strong>DLP (Data Loss Prevention)</strong> checks on uploaded files. After a file upload, the file is streamed to an ICAP server for inspection.</p>
-<p>ICAP accesses files through SFTPGo's storage abstraction layer, so it works transparently on <strong>all</strong> storage backends — local filesystem, encrypted filesystem (CryptFs), S3, Azure Blob, GCS, and remote SFTP.</p>
-<h3 id="failure-policies">Failure policies</h3>
-<p>When an ICAP scan detects an issue, you can configure the response:</p>
+<p>Sends files to an ICAP server (RFC 3507) for antivirus scanning and DLP (Data Loss Prevention) checks. The action reads the file through the storage layer, so it supports every storage backend: local filesystem, encrypted filesystem (CryptFs), S3, Azure Blob, Google Cloud Storage and remote SFTP. Encrypted files are decrypted while they are streamed to the server.</p>
+<h3 id="scan-outcomes">Scan outcomes</h3>
+<p>The server can accept the file, report a threat, return a modified version of the file, or fail to give a verdict. Three settings define what the action does with the file in each case:</p>
 <table>
 <thead>
 <tr>
-<th>Policy</th>
-<th>Behavior</th>
+<th>Setting</th>
+<th>Applies when</th>
+<th>Options</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>Delete</strong></td>
-<td>The file is removed immediately.</td>
+<td><strong>Block action</strong></td>
+<td>The server reports a threat or blocks the file.</td>
+<td>Ignore, Delete, Quarantine</td>
 </tr>
 <tr>
-<td><strong>Quarantine</strong></td>
-<td>The file is moved to a quarantine directory. End the configured path with <code>/</code> (e.g. <code>/quarantine/</code>) to place files inside that directory even when it does not exist yet. By mapping the quarantine to a virtual folder, you can quarantine files to a different storage backend entirely (e.g., move infected files from the user's S3 bucket to a dedicated quarantine bucket).</td>
+<td><strong>Adapt action</strong></td>
+<td>The server returns a modified version of the file.</td>
+<td>Ignore, Delete, Quarantine, Overwrite</td>
 </tr>
 <tr>
-<td><strong>No action</strong></td>
-<td>The scan result is logged but the file is left in place.</td>
+<td><strong>Failure policy</strong></td>
+<td>The scan cannot be executed, for example the server is unreachable or answers with an unexpected response.</td>
+<td>Ignore, Delete, Quarantine</td>
 </tr>
 </tbody>
 </table>
+<ul>
+<li><strong>Ignore</strong> leaves the file where it is.</li>
+<li><strong>Delete</strong> removes the file.</li>
+<li><strong>Quarantine</strong> moves the file to the quarantine path, creating the missing parent directories. The path supports <a href="../placeholders/">placeholders</a> and is read in two ways:
+    - ending with <code>/</code>, for example <code>/quarantine/</code>, it is the directory the file is moved into under its current name, created when missing;
+    - otherwise it is the full name of the quarantined file, so placeholders build it: <code>/quarantine{{.VirtualPath}}</code> keeps the user's directory layout under <code>/quarantine</code>, <code>/quarantine/{{.Name}}{{.VirtualPath}}</code> partitions it by user. A path without the trailing <code>/</code> that names an existing directory places the file inside it.<p>With <a href="../execute-before-file-publish/">Execute before file publish</a> the file is still at its temporary path, so <code>{{.VirtualPath}}</code> carries the temporary name: use <code>{{pathJoin (stringSlice (pathDir .VirtualPath) .ObjectName)}}</code> to keep the final name, see <a href="../execute-before-file-publish/#template-variables-in-staged-actions">template variables in staged actions</a>. A quarantine path inside a virtual folder moves the files to a different storage backend, for example from the user's S3 bucket to a dedicated quarantine bucket.
+- <strong>Overwrite</strong> replaces the file with the version returned by the server.</p>
+</li>
+</ul>
+<p>A file whose extension is in the server <code>Transfer-Ignore</code> list is accepted without a scan.</p>
+<p>The action succeeds when the server accepts the file and when a modified version replaces it through <strong>Overwrite</strong>. Every other outcome makes the action fail: the failure actions of the rule run and <a href="../placeholders/#icapresult"><code>{{.ICAPResult}}</code></a> carries the verdict and the threat name reported by the server. The option decides what happens to the file: with <strong>Ignore</strong> a file that is already published stays in place and the outcome is reported.</p>
 <h3 id="combined-with-execute-before-file-publish">Combined with Execute Before File Publish</h3>
-<p>ICAP is the recommended action type for the <a href="../execute-before-file-publish/">Execute Before File Publish</a> feature. When combined, uploaded files are scanned <em>before</em> they become visible to other users — if the scan fails, the file is deleted and never published. This provides the strongest protection against malicious uploads.</p>
+<p>ICAP is the action type designed for <a href="../execute-before-file-publish/">Execute Before File Publish</a>: the upload is scanned while the file is still at its temporary path and is published when the action succeeds. When the action fails the upload is rejected with every option: <strong>Delete</strong> and <strong>Quarantine</strong> dispose of the temporary file, with <strong>Ignore</strong> SFTPGo removes it. A file that is not accepted never becomes visible; a sanitized version takes its place with <strong>Overwrite</strong>.</p>
 
 
 
@@ -4357,7 +4401,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="June 20, 2026 17:54:33 UTC">2026-06-20 17:54:33</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
   </span>
 
     
@@ -4434,7 +4478,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   

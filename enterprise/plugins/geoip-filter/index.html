@@ -12,7 +12,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -40,14 +40,14 @@
 
     
     <meta name="keywords" content="SFTPGo, SFTP server, FTP server, SCP, WebDAV, S3, Google Cloud Storage, Azure Blob, Managed File Transfer, MFT, 2FA, Data At Rest Encryption, file sharing, secure file transfer, SaaS, on-premise, REST API, Kubernetes, Helm chart, OIDC, LDAP">
-  <meta name="description" content="Filter SFTPGo connections by country using MaxMind or IPLocation.io GeoIP databases. Allow or deny access based on geographic location.">
+  <meta name="description" content="Filter SFTPGo connections by country using MaxMind, IPLocate or IPinfo GeoIP databases. Allow or deny access based on geographic location.">
   <meta property="og:title" content="GeoIP Filtering - SFTPGo docs">
   <meta property="og:url" content="https://docs.sftpgo.com/enterprise/plugins/geoip-filter/">
-  <meta property="og:description" content="Filter SFTPGo connections by country using MaxMind or IPLocation.io GeoIP databases. Allow or deny access based on geographic location.">
+  <meta property="og:description" content="Filter SFTPGo connections by country using MaxMind, IPLocate or IPinfo GeoIP databases. Allow or deny access based on geographic location.">
   <meta property="og:image" content="https://sftpgo.com/assets/img/og-image.png">
   <meta property="og:type" content="article">
   <meta name="twitter:title" content="GeoIP Filtering - SFTPGo docs">
-  <meta name="twitter:description" content="Filter SFTPGo connections by country using MaxMind or IPLocation.io GeoIP databases. Allow or deny access based on geographic location.">
+  <meta name="twitter:description" content="Filter SFTPGo connections by country using MaxMind, IPLocate or IPinfo GeoIP databases. Allow or deny access based on geographic location.">
   <meta name="twitter:image" content="https://sftpgo.com/assets/img/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
 
@@ -92,12 +92,12 @@
       {
         "@type": "TechArticle",
         "headline": "GeoIP Filtering",
-        "description": "Filter SFTPGo connections by country using MaxMind or IPLocation.io GeoIP databases. Allow or deny access based on geographic location.",
+        "description": "Filter SFTPGo connections by country using MaxMind, IPLocate or IPinfo GeoIP databases. Allow or deny access based on geographic location.",
         "image": "https://sftpgo.com/assets/img/og-image.png",
         "url": "https://docs.sftpgo.com/enterprise/plugins/geoip-filter/",
         "inLanguage": "en",
         "datePublished": "2026-04-26T15:47:01Z",
-        "dateModified": "2026-04-26T15:47:01Z",
+        "dateModified": "2026-09-08T09:20:06Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -734,6 +734,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../users/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Users
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -2917,10 +2945,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#using-iplocationio-databases" class="md-nav__link">
+  <a href="#using-iplocate-or-ipinfo-databases" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Using IPLocation.io databases
+        Using IPLocate or IPinfo databases
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fail-closed-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fail-closed mode
       
     </span>
   </a>
@@ -3635,10 +3674,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#using-iplocationio-databases" class="md-nav__link">
+  <a href="#using-iplocate-or-ipinfo-databases" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Using IPLocation.io databases
+        Using IPLocate or IPinfo databases
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fail-closed-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fail-closed mode
       
     </span>
   </a>
@@ -3744,14 +3794,15 @@
 <ul>
 <li><a href="https://dev.maxmind.com/geoip/geolite2-free-geolocation-data" target="_blank">MaxMind GeoLite2</a> (free, requires registration)</li>
 <li><a href="https://www.maxmind.com/en/geoip-databases" target="_blank">MaxMind GeoIP2</a> (commercial, higher accuracy)</li>
-<li><a href="https://www.iplocation.io/" target="_blank">IPLocation.io</a> MMDB databases</li>
+<li><a href="https://www.iplocate.io/" target="_blank">IPLocate</a> ip-to-country MMDB databases</li>
+<li><a href="https://ipinfo.io/products/free-ip-database" target="_blank">IPinfo Lite</a> MMDB databases (free, requires registration, updated daily)</li>
 </ul>
 <h2 id="installation">Installation</h2>
 <p>Install the <code>sftpgo-plugins</code> package as described in <a href="../audit-logs/#installation">Audit Logs - Installation</a>. The plugin binary is <code>sftpgo-plugin-geoipfilter</code>.</p>
 <h2 id="configuration">Configuration</h2>
 <p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Any configuration change described below requires a service restart to take effect (e.g. <code>systemctl restart sftpgo</code>).</p>
 <h3 id="step-1-obtain-an-mmdb-database">Step 1: Obtain an MMDB database</h3>
-<p>Download a GeoLite2 Country database from <a href="https://dev.maxmind.com/geoip/geolite2-free-geolocation-data" target="_blank">MaxMind</a> or an MMDB database from <a href="https://www.iplocation.io/" target="_blank">IPLocation.io</a> and place it on your server, for example at <code>/var/lib/sftpgo/GeoLite2-Country.mmdb</code>.</p>
+<p>Download a GeoLite2 Country database from <a href="https://dev.maxmind.com/geoip/geolite2-free-geolocation-data" target="_blank">MaxMind</a>, an ip-to-country MMDB database from <a href="https://www.iplocate.io/" target="_blank">IPLocate</a> or an IPinfo Lite MMDB database from <a href="https://ipinfo.io/products/free-ip-database" target="_blank">IPinfo</a> and place it on your server, for example at <code>/var/lib/sftpgo/GeoLite2-Country.mmdb</code>.</p>
 <h3 id="step-2-configure-the-plugin">Step 2: Configure the plugin</h3>
 <p>Specify the database path and either a list of allowed countries or denied countries. Country codes use the <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2" target="_blank">ISO 3166-1 alpha-2</a> format (two-letter codes).</p>
 <p><strong>Allow only specific countries:</strong></p>
@@ -3772,18 +3823,28 @@ SFTPGO_PLUGINS__0__CMD="/usr/bin/sftpgo-plugin-geoipfilter"
 SFTPGO_PLUGINS__0__ARGS="serve"
 SFTPGO_PLUGINS__0__AUTO_MTLS=1
 </code></pre>
-<p>You must specify either <code>--allowed-countries</code> or <code>--denied-countries</code>, not both.</p>
+<p>You must specify at least one between <code>--allowed-countries</code> and <code>--denied-countries</code>. You can also set both: denied countries are checked first and take precedence.</p>
 <p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> The examples above use plugin index <code>0</code>. If you have other plugins already configured, adjust the index accordingly. See <a href="../#plugin-indexing">Plugin indexing</a> for details.</p>
-<h3 id="using-iplocationio-databases">Using IPLocation.io databases</h3>
-<p>If you use an IPLocation.io MMDB database instead of MaxMind, set the database type:</p>
+<h3 id="using-iplocate-or-ipinfo-databases">Using IPLocate or IPinfo databases</h3>
+<p>If you use an IPLocate or IPinfo Lite MMDB database instead of MaxMind, set the database type:</p>
 <pre><code class="language-shell">SFTPGO_PLUGIN_GEOIPFILTER_DB_TYPE=1
 </code></pre>
-<p>The default (<code>0</code>) is for MaxMind-compatible databases.</p>
+<p>The default (<code>0</code>) is for MaxMind-compatible databases, while <code>1</code> is for databases that store the country code in a top-level <code>country_code</code> field, such as IPLocate and IPinfo. The plugin will not start if <code>db-type</code> is set to an unsupported value.</p>
+<h3 id="fail-closed-mode">Fail-closed mode</h3>
+<p>By default the plugin fails open: if the country of an IP address cannot be determined, the connection is allowed. Starting from plugin version 1.2.0 you can change this behavior with two separate options:</p>
+<pre><code class="language-shell">SFTPGO_PLUGIN_GEOIPFILTER_DENY_ON_LOOKUP_ERROR=1
+SFTPGO_PLUGIN_GEOIPFILTER_DENY_UNKNOWN_COUNTRY=1
+</code></pre>
+<ul>
+<li><code>DENY_ON_LOOKUP_ERROR</code> denies the connection if the IP address cannot be parsed or the database lookup fails, for example because the database is corrupt or an IPv6 address is looked up in an IPv4-only database.</li>
+<li><code>DENY_UNKNOWN_COUNTRY</code> denies the connection if the lookup succeeds but no country is found, for example because the IP is not in the database or the matching record has no country code. This is recommended when using <code>ALLOWED_COUNTRIES</code>, so that unclassifiable public IPs cannot bypass the allow list.</li>
+</ul>
+<p>Non-public IP addresses are always allowed, so enabling these options does not affect local or private network access.</p>
 <h2 id="behavior">Behavior</h2>
 <ul>
-<li><strong>Private IP addresses</strong> (RFC 1918, loopback, link-local) are always allowed, regardless of country filters.</li>
-<li>If the <strong>country lookup fails</strong> (IP not found in database, database read error), the connection is <strong>allowed</strong> by default.</li>
-<li>The database can be <strong>reloaded without restart</strong> by sending a reload command to SFTPGo. This is useful when updating the MMDB file.</li>
+<li><strong>Non-public IP addresses</strong> (RFC 1918 private ranges, loopback, link-local, shared address space/CGNAT) are always allowed, regardless of country filters.</li>
+<li>If the <strong>country lookup fails</strong> (IP not found in database, database read error), the connection is <strong>allowed</strong> by default. See <a href="#fail-closed-mode">Fail-closed mode</a> to change this.</li>
+<li>The database can be <strong>reloaded without restart</strong> by sending a reload command to SFTPGo. This is useful when updating the MMDB file. If the reload fails, the previously loaded database is preserved and remains in use.</li>
 </ul>
 <h2 id="configuration-reference">Configuration reference</h2>
 <table>
@@ -3803,7 +3864,7 @@ SFTPGO_PLUGINS__0__AUTO_MTLS=1
 <tr>
 <td><code>SFTPGO_PLUGIN_GEOIPFILTER_DB_TYPE</code></td>
 <td><code>--db-type</code></td>
-<td>Database type: <code>0</code> = MaxMind (default), <code>1</code> = IPLocation.io</td>
+<td>Database type: <code>0</code> = MaxMind (default), <code>1</code> = IPLocate/IPinfo</td>
 </tr>
 <tr>
 <td><code>SFTPGO_PLUGIN_GEOIPFILTER_ALLOWED_COUNTRIES</code></td>
@@ -3814,6 +3875,16 @@ SFTPGO_PLUGINS__0__AUTO_MTLS=1
 <td><code>SFTPGO_PLUGIN_GEOIPFILTER_DENIED_COUNTRIES</code></td>
 <td><code>--denied-countries</code></td>
 <td>Comma-separated ISO 3166-1 alpha-2 country codes to deny</td>
+</tr>
+<tr>
+<td><code>SFTPGO_PLUGIN_GEOIPFILTER_DENY_ON_LOOKUP_ERROR</code></td>
+<td><code>--deny-on-lookup-error</code></td>
+<td>Deny the IP if it cannot be parsed or the lookup fails. Default: allowed</td>
+</tr>
+<tr>
+<td><code>SFTPGO_PLUGIN_GEOIPFILTER_DENY_UNKNOWN_COUNTRY</code></td>
+<td><code>--deny-unknown-country</code></td>
+<td>Deny the IP if no country is found in the database. Default: allowed</td>
 </tr>
 </tbody>
 </table>
@@ -3839,7 +3910,7 @@ SFTPGO_PLUGINS__0__AUTO_MTLS=1
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 26, 2026 15:47:01 UTC">2026-04-26 15:47:01</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
   </span>
 
     
@@ -3916,7 +3987,7 @@ SFTPGO_PLUGINS__0__AUTO_MTLS=1
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   

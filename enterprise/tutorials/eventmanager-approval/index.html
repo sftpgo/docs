@@ -12,7 +12,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -40,14 +40,14 @@
 
     
     <meta name="keywords" content="SFTPGo, SFTP server, FTP server, SCP, WebDAV, S3, Google Cloud Storage, Azure Blob, Managed File Transfer, MFT, 2FA, Data At Rest Encryption, file sharing, secure file transfer, SaaS, on-premise, REST API, Kubernetes, Helm chart, OIDC, LDAP">
-  <meta name="description" content="Configure an upload approval workflow in SFTPGo using virtual folders, group permissions, and event rules — uploaders deliver files into a review area, reviewers publish or forward them to internal shares or external systems.">
+  <meta name="description" content="Build an upload approval workflow in SFTPGo with virtual folders, group permissions and event rules: uploaders deliver, reviewers publish.">
   <meta property="og:title" content="Upload Approval Workflow - SFTPGo docs">
   <meta property="og:url" content="https://docs.sftpgo.com/enterprise/tutorials/eventmanager-approval/">
-  <meta property="og:description" content="Configure an upload approval workflow in SFTPGo using virtual folders, group permissions, and event rules — uploaders deliver files into a review area, reviewers publish or forward them to internal shares or external systems.">
+  <meta property="og:description" content="Build an upload approval workflow in SFTPGo with virtual folders, group permissions and event rules: uploaders deliver, reviewers publish.">
   <meta property="og:image" content="https://sftpgo.com/assets/img/og-image.png">
   <meta property="og:type" content="article">
   <meta name="twitter:title" content="Upload Approval Workflow - SFTPGo docs">
-  <meta name="twitter:description" content="Configure an upload approval workflow in SFTPGo using virtual folders, group permissions, and event rules — uploaders deliver files into a review area, reviewers publish or forward them to internal shares or external systems.">
+  <meta name="twitter:description" content="Build an upload approval workflow in SFTPGo with virtual folders, group permissions and event rules: uploaders deliver, reviewers publish.">
   <meta name="twitter:image" content="https://sftpgo.com/assets/img/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
 
@@ -92,12 +92,12 @@
       {
         "@type": "TechArticle",
         "headline": "Upload Approval Workflow",
-        "description": "Configure an upload approval workflow in SFTPGo using virtual folders, group permissions, and event rules \u2014 uploaders deliver files into a review area, reviewers publish or forward them to internal shares or external systems.",
+        "description": "Build an upload approval workflow in SFTPGo with virtual folders, group permissions and event rules: uploaders deliver, reviewers publish.",
         "image": "https://sftpgo.com/assets/img/og-image.png",
         "url": "https://docs.sftpgo.com/enterprise/tutorials/eventmanager-approval/",
         "inLanguage": "en",
         "datePublished": "2026-04-28T09:15:58Z",
-        "dateModified": "2026-04-28T09:15:58Z",
+        "dateModified": "2026-09-08T09:20:06Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -734,6 +734,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../users/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Users
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -3953,6 +3981,7 @@
 </tbody>
 </table>
 <p>The uploader can list <code>/inbox</code> (required for the WebClient to navigate into the folder) and upload new files into it, but cannot download, delete, rename, or overwrite. Files become read-only from the uploader's point of view as soon as the upload completes — they appear in the listing but no further action is possible on them.</p>
+<p>Clients that set the file timestamp after an upload, such as WinSCP or <code>sftp -p</code>, need the <code>chtimes</code> permission too, or <code>setstat_mode</code> set to <code>1</code> in the <code>common</code> section of the configuration.</p>
 <p>In the <strong>ACLs</strong> section, restrict sharing:</p>
 <ul>
 <li><strong>Web client options</strong>: enable <code>shares-disabled</code>.</li>
@@ -3982,9 +4011,9 @@
 <h2 id="step-4-assign-users-to-groups">Step 4: Assign Users to Groups</h2>
 <p>Assign uploader users to the <code>uploaders</code> group and reviewer users to the <code>reviewers</code> group as primary group membership. Each user inherits the group's virtual folders and permissions automatically — there is no per-user configuration to maintain.</p>
 <p>This makes scaling trivial: to onboard a new uploader, just create the user and add them to the <code>uploaders</code> group; the same applies for new reviewers (and, if Option B is configured, for new partner accounts in the <code>partners</code> group). To revoke access, remove the user from the group or delete the user — no permissions need to be recomputed.</p>
-<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Use <strong>secondary</strong> group membership if a user already has a primary group with their personal home directory and you only want to add the inbox access on top.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Use <strong>secondary</strong> group membership if a user already has a primary group with their personal home directory and you only want to add the inbox access on top. A folder mounted at <code>/</code>, as for the <code>partners</code> group in Option B, is applied from the primary group only.</p>
 <h2 id="step-5-notify-reviewers-on-upload">Step 5: Notify Reviewers on Upload</h2>
-<p>From the WebAdmin, expand the <strong>Event Manager</strong> section and create a new email action named <code>notify reviewer</code>.</p>
+<p>From the WebAdmin, expand the <strong>Event Manager</strong> section and create a new email action named <code>notify reviewer</code>. Email actions need an SMTP server: configure it from the WebAdmin under <strong>Server Manager &gt; Configurations &gt; SMTP</strong>, where the settings apply without a restart, or in the <a href="../../config-file/#smtp">SMTP section</a> of the configuration file.</p>
 <p>Configure it as follows:</p>
 <ul>
 <li><strong>Recipients</strong>: the reviewer's email address (or use a distribution list).</li>
@@ -4041,7 +4070,7 @@
 <li><strong>Email</strong> to a partner contact, using the same email action pattern as Step 5.</li>
 <li><strong>HTTP webhook</strong> to the partner's API or a workflow engine, using an HTTP action.</li>
 </ul>
-<p>Create a separate event rule with trigger <code>upload</code>, path condition <code>/delivery/*</code>, group condition <code>reviewers</code>, and the desired notification action.</p>
+<p>Create a separate event rule with group condition <code>reviewers</code> and the desired notification action. For files published with the WebClient <strong>Copy</strong> action use the <code>copy</code> event with path condition <code>/inbox/*</code>: path filters match the source path of a copy. For files a client uploads into <code>/delivery</code> directly use the <code>upload</code> event with path condition <code>/delivery/*</code>.</p>
 <h2 id="how-the-reviewer-approves-a-file">How the Reviewer Approves a File</h2>
 <p>Once notified, the reviewer connects to SFTPGo and navigates to <code>/inbox</code>. The WebClient is the easiest way to access the share dialog, but any SFTP/FTP/WebDAV client can be used for download, move, and delete operations.</p>
 <p><strong>To publish via share</strong> (Option C, WebClient only):</p>
@@ -4060,7 +4089,7 @@
 <ol>
 <li>Delete the file from <code>/inbox</code>.</li>
 </ol>
-<p>If you want the uploader to be notified of rejection, add a second event rule on the <code>delete</code> event with a path condition <code>/inbox/*</code> and an email action targeted at the uploader. The <code>delete</code> event includes <code>{{.Name}}</code> (the user who performed the delete — the reviewer) and <code>{{.ObjectName}}</code> so the message can read "Reviewer X has rejected your file Y".</p>
+<p>A rule on the <code>delete</code> event with a path condition <code>/inbox/*</code> can notify a rejection, with <code>{{.Name}}</code> (the reviewer) and <code>{{.ObjectName}}</code> (the file) available to the message. Two limits apply: with Option A or B the reviewer also deletes the original after publishing it, so the rule fires for approved files too; and the event carries the reviewer, so the uploader must be identified through fixed recipients or a naming convention on the path.</p>
 <h2 id="storage-backend-support">Storage Backend Support</h2>
 <p>This workflow uses only standard SFTPGo features and works on every backend:</p>
 <table>
@@ -4081,7 +4110,7 @@
 </tr>
 <tr>
 <td>AWS S3</td>
-<td>Cross-backend moves use server-side copy + delete</td>
+<td>Copies to a folder on another backend stream through the server</td>
 </tr>
 <tr>
 <td>Azure Blob, Google Cloud Storage</td>
@@ -4099,7 +4128,7 @@
 </table>
 <h2 id="what-this-workflow-provides">What This Workflow Provides</h2>
 <ul>
-<li><strong>Separation of duties</strong>: uploaders cannot publish content; reviewers cannot upload through this path.</li>
+<li><strong>Separation of duties</strong>: uploaders cannot publish content; only reviewers reach the delivery paths.</li>
 <li><strong>Email notification</strong> when a new file needs review.</li>
 <li><strong>Native interfaces</strong>: reviewers use the standard WebClient or any SFTP/FTP/WebDAV client — no special approval interface to learn.</li>
 <li><strong>Multiple publish paths</strong>: shares, push to remote backends, or pull by partner SFTPGo accounts.</li>
@@ -4137,7 +4166,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 28, 2026 09:15:58 UTC">2026-04-28 09:15:58</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
   </span>
 
     
@@ -4214,7 +4243,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   

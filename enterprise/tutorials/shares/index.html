@@ -12,7 +12,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/tutorials/shares/",
         "inLanguage": "en",
         "datePublished": "2025-10-09T07:54:50Z",
-        "dateModified": "2026-05-01T11:10:56Z",
+        "dateModified": "2026-09-08T09:20:06Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -742,6 +742,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../users/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Users
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../access-control/" class="md-nav__link">
         
   
@@ -1252,6 +1280,17 @@
     <span class="md-ellipsis">
       
         Enable Upload/Download Notifications
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#owner-account-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Owner Account State
       
     </span>
   </a>
@@ -3984,6 +4023,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#owner-account-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Owner Account State
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#automating-share-lifecycle-management" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4138,7 +4188,7 @@
 
 
 <h1 id="public-shares">Public Shares</h1>
-<p>Public shares are a quick and secure way to share files directly from the WebClient UI without creating user accounts, making collaboration with external contacts simple and efficient.</p>
+<p>Public shares allow users to share files directly from the WebClient UI with external contacts, without creating user accounts for them.</p>
 <p>Each public share generates a unique, web-accessible URL, and users can configure access controls such as:</p>
 <ul>
 <li>Read-only or upload permissions</li>
@@ -4147,7 +4197,8 @@
 <li>Download/upload limits</li>
 <li>Email-based access for extra security</li>
 </ul>
-<p>Public shares are managed by the users themselves, not by administrators. This makes it easy for users with access to files to securely collaborate with clients, partners, or external collaborators — without requiring administrator intervention.</p>
+<p>Public shares are managed by the users themselves, not by administrators. Users with access to the files can therefore share them with clients, partners or other external recipients without administrator intervention.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> A symbolic link beneath the shared path is dereferenced when its path is requested directly: its target is served through the share. See <a href="../../config-file/#symbolic-links-and-permissions">Symbolic links and permissions</a>.</p>
 <h2 id="preliminary-note">Preliminary Note</h2>
 <p>To enable email-based access to public shares and email notifications, you need to configure an SMTP server.</p>
 <p>To configure and test your SMTP settings, open the WebAdmin UI, then go to the "Configurations" page under the "Server Manager" section. There, you can enter the required SMTP configuration parameters.</p>
@@ -4174,7 +4225,7 @@
 <li>Download individual files directly.</li>
 <li>Download all shared files and folders as a single compressed .zip archive for convenience.</li>
 </ul>
-<p>This share type is ideal for securely distributing documents, reports, or any other files where write access is not required.</p>
+<p>This share type is suited to distributing documents, reports or other files when write access is not required.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/webclient_read_only_share.png" data-desc-position="bottom" data-gallery="webclient-ro-share"><img alt="WebClient read only share" data-gallery="webclient-ro-share" src="../../assets/img/webclient_read_only_share.png"></a></p>
 <h3 id="write-only-shares">Write-Only shares</h3>
 <p>Write-only shares allow external users to upload files to a shared location, but they cannot view, browse, or download any existing content.</p>
@@ -4192,7 +4243,7 @@
 <li>Upload new files via manual selection or drag and drop.</li>
 <li>Create new folders within the shared structure.</li>
 </ul>
-<p>This type of share combines the capabilities of both read-only and write-only shares, making it ideal for collaborative scenarios where external users need to both access and contribute files to a shared workspace.</p>
+<p>This type of share combines the capabilities of both read-only and write-only shares, making it suited to scenarios where external users need to both access and contribute files to a shared workspace.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/webclient_read_write_share.png" data-desc-position="bottom" data-gallery="webclient-rw-share"><img alt="WebClient read write share" data-gallery="webclient-rw-share" src="../../assets/img/webclient_read_write_share.png"></a></p>
 <h2 id="restricting-shareable-paths">Restricting Shareable Paths</h2>
 <p>Administrators can restrict which virtual paths users are allowed to share by combining two filters: <strong>Allowed share paths</strong> (a positive list — when set, shares are accepted only within those subtrees) and <strong>Denied share paths</strong> (a negative list — paths that cannot be shared). Both can be set directly on a user or inherited from a group.</p>
@@ -4228,9 +4279,10 @@ denied:  /projects/confidential
 </code></pre>
 <p><code>/projects/confidential/public</code> is shareable (the more specific allow entry wins); other paths under <code>/projects/confidential</code> remain blocked.</p>
 <h3 id="configuration-and-inheritance">Configuration and inheritance</h3>
-<p>Both fields are textareas in the user or group settings under the "Profile" section of the WebAdmin UI. Enter one or more virtual paths separated by commas.</p>
+<p>Both fields are textareas in the user or group settings, in the "Sharing" card of the "ACLs" section of the WebAdmin UI. Enter one or more virtual paths separated by commas.</p>
 <p>When configured at the group level, both lists are inherited additively by group members and deduplicated with any user-level entries.</p>
-<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Group-level <strong>Denied share paths</strong> entries are enforced even when a user has the same path in their <strong>Allowed share paths</strong> list — the denied entry always takes precedence, so groups remain a reliable mechanism for hard share restrictions.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> A group-level <strong>Denied share paths</strong> entry holds against a user-level <strong>Allowed share paths</strong> entry for the same path: on a tie the denied entry wins. A user-level allowed entry deeper than the denied path wins instead, as in the nested override example above, so a hard restriction must be reviewed against the allowed entries of the members.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Both filters match the virtual path of the share. A symbolic link placed beneath a shareable path is dereferenced, as on every other protocol, so its target is served through the share. Where these filters must hold, keep symbolic-link creation disabled — its default <a href="../../config-file/#symbolic-links-and-permissions"><code>symlink_mode</code></a> — and provision the shareable subtrees accordingly.</p>
 <p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Tightening either filter takes effect immediately, including for shares that already exist: if a previously-shared path is no longer allowed (or is now denied), the share starts returning 404 on next access until the filter is relaxed or the share is removed.</p>
 <h2 id="restricting-share-scopes">Restricting Share Scopes</h2>
 <p>Administrators can also restrict which share scopes (read, write, read/write) users are allowed to use by configuring the <strong>Denied share scopes</strong> filter.</p>
@@ -4243,7 +4295,7 @@ denied:  /projects/confidential
 <p>Only the owner can modify shared paths (files and folders), access scope (read/write), and group associations. File paths are tied to the specific context of the user who created the share (e.g., a virtual path like <code>/docs</code> may map to different storage backends, or to different locations within the same backend, depending on the user).</p>
 <p>To enable share delegation, a specific configuration is required on the server side (WebAdmin), which then enables the feature for users in the WebClient.</p>
 <h3 id="administrator-configuration-webadmin">Administrator Configuration (WebAdmin)</h3>
-<p>Administrators can define the Share Policy within the "Advanced settings" section of a group's configuration. The policy controls how shares created by group members are automatically associated with the group.</p>
+<p>Administrators can define the Share Policy within the "ACLs" section of a group's configuration. The policy controls how shares created by group members are automatically associated with the group.</p>
 <p>The policy consists of the Permissions granted to other group members (Read, Edit, Delete) and the Mode:</p>
 <ul>
 <li><strong>Enforced</strong>: The share policy is mandatory. Every share created by a user in this group is automatically associated with the group using the defined permissions. The user cannot remove this association.</li>
@@ -4295,6 +4347,14 @@ The notification can include:</p>
 <p>Here is an example rule to execute the above action.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/webadmin_share_event_rule.png" data-desc-position="bottom" data-gallery="webadmin-share-event-notify"><img alt="WebAdmin share event rule" data-gallery="webadmin-share-event-notify" src="../../assets/img/webadmin_share_event_rule.png"></a></p>
 <p>Naturally, all operations performed on shares, including uploads and downloads, are also recorded in the audit logs.</p>
+<h2 id="owner-account-state">Owner Account State</h2>
+<p>A public share is served on behalf of the account that created it, and follows the state of that account.</p>
+<ul>
+<li>Disabling the owner account, or reaching its expiration date, makes its shares unavailable. The shares are not modified, so re-enabling the account, or extending its expiration date, makes them available again.</li>
+<li>Deleting the owner account deletes its shares.</li>
+<li>The restrictions that govern when the account holder can log in, such as the <a href="../../access-control/#time-based-access">time-based access</a> windows, apply to the account holder, not to the recipient of a share.</li>
+<li>Sessions already established follow the general rule described in <a href="../../access-control/#when-account-changes-take-effect">When account changes take effect</a>; closing them covers the connections serving the shares as well.</li>
+</ul>
 <h2 id="automating-share-lifecycle-management">Automating Share Lifecycle Management</h2>
 <p>SFTPGo can automatically manage the lifecycle of public shares to ensure security and compliance. By using the Event Manager, administrators can configure rules to detect shares that are inactive, about to expire, or have exhausted their allowed tokens, and take appropriate actions (such as sending a notification or deleting the share).</p>
 <h3 id="step-1-create-the-expiration-check-action">Step 1: Create the Expiration Check Action</h3>
@@ -4307,8 +4367,8 @@ The notification can include:</p>
 <li><strong>Advance notice</strong>: How many days before the actual expiration (or the calculated inactivity expiration) to trigger a "notification" event.</li>
 <li><strong>Grace period</strong>: How many days to keep an expired share in the database before permanently deleting it (Soft Delete).</li>
 <li><strong>Split events</strong>:<ul>
-<li>If <strong>enabled</strong>: The action triggers a separate event for every single share/user found. This populates the <code>{{.ShareExpirationResult}}</code> placeholder, making it ideal for <strong>Email notifications</strong> where you need the context of a specific share owner.</li>
-<li>If <strong>disabled</strong>: The action generates a single event containing the results of all checks. The <code>{{.ShareExpirationChecks}}</code> list is always available in both modes, but this mode is ideal for <strong>HTTP webhooks</strong> or admin reports where you want to process all data in bulk.</li>
+<li>If <strong>enabled</strong>: The action triggers a separate event for every single share/user found. This populates the <code>{{.ShareExpirationResult}}</code> placeholder, which is required for <strong>Email notifications</strong> that need the context of a specific share owner.</li>
+<li>If <strong>disabled</strong>: The action generates a single event containing the results of all checks. The <code>{{.ShareExpirationChecks}}</code> list is always available in both modes, but this mode is suited to <strong>HTTP webhooks</strong> or admin reports that process all data in bulk.</li>
 </ul>
 </li>
 </ul>
@@ -4395,7 +4455,7 @@ This share has been removed permanently.
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="May 1, 2026 11:10:56 UTC">2026-05-01 11:10:56</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
   </span>
 
     
@@ -4472,7 +4532,7 @@ This share has been removed permanently.
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   

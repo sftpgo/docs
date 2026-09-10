@@ -12,7 +12,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -40,14 +40,14 @@
 
     
     <meta name="keywords" content="SFTPGo, SFTP server, FTP server, SCP, WebDAV, S3, Google Cloud Storage, Azure Blob, Managed File Transfer, MFT, 2FA, Data At Rest Encryption, file sharing, secure file transfer, SaaS, on-premise, REST API, Kubernetes, Helm chart, OIDC, LDAP">
-  <meta name="description" content="Delegate SFTPGo administration with roles. Restricted admins can only manage users that share their assigned role.">
+  <meta name="description" content="Multi-tenancy in SFTPGo: roles scope administrators to their own users, groups and virtual folders, and restrict the storage each tenant may name.">
   <meta property="og:title" content="Roles - SFTPGo docs">
   <meta property="og:url" content="https://docs.sftpgo.com/enterprise/roles/">
-  <meta property="og:description" content="Delegate SFTPGo administration with roles. Restricted admins can only manage users that share their assigned role.">
+  <meta property="og:description" content="Multi-tenancy in SFTPGo: roles scope administrators to their own users, groups and virtual folders, and restrict the storage each tenant may name.">
   <meta property="og:image" content="https://sftpgo.com/assets/img/og-image.png">
   <meta property="og:type" content="article">
   <meta name="twitter:title" content="Roles - SFTPGo docs">
-  <meta name="twitter:description" content="Delegate SFTPGo administration with roles. Restricted admins can only manage users that share their assigned role.">
+  <meta name="twitter:description" content="Multi-tenancy in SFTPGo: roles scope administrators to their own users, groups and virtual folders, and restrict the storage each tenant may name.">
   <meta name="twitter:image" content="https://sftpgo.com/assets/img/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
 
@@ -92,12 +92,12 @@
       {
         "@type": "TechArticle",
         "headline": "Roles",
-        "description": "Delegate SFTPGo administration with roles. Restricted admins can only manage users that share their assigned role.",
+        "description": "Multi-tenancy in SFTPGo: roles scope administrators to their own users, groups and virtual folders, and restrict the storage each tenant may name.",
         "image": "https://sftpgo.com/assets/img/og-image.png",
         "url": "https://docs.sftpgo.com/enterprise/roles/",
         "inLanguage": "en",
         "datePublished": "2024-04-25T16:47:14Z",
-        "dateModified": "2026-05-28T08:42:58Z",
+        "dateModified": "2026-09-08T09:20:06Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -744,6 +744,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../users/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Users
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../access-control/" class="md-nav__link">
         
   
@@ -899,17 +927,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#role-based-vs-global-administrators" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Role-based vs global administrators
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#permission-model" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -921,13 +938,157 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#scoping-behavior-per-permission" class="md-nav__link">
+  <a href="#resource-isolation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Scoping behavior per permission
+        Resource isolation
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Resource isolation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enabling-isolation-on-an-existing-role" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enabling isolation on an existing role
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#assigning-the-role-to-groups-and-folders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Assigning the role to groups and folders
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-isolating-one-role-does-not-do" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What isolating one role does not do
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#accounts-referencing-another-role" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Accounts referencing another role
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#externally-provisioned-accounts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Externally provisioned accounts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#turning-isolation-off" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Turning isolation off
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#storage-allowlist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Storage allowlist
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Storage allowlist">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#when-the-allowlist-takes-effect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When the allowlist takes effect
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-each-section-grants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What each section grants
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backends-granted-with-no-entries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backends granted with no entries
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#home-directories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Home directories
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#storage-compliance-report" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Storage compliance report
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -3551,17 +3712,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#role-based-vs-global-administrators" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Role-based vs global administrators
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#permission-model" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3573,13 +3723,157 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#scoping-behavior-per-permission" class="md-nav__link">
+  <a href="#resource-isolation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Scoping behavior per permission
+        Resource isolation
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Resource isolation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enabling-isolation-on-an-existing-role" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enabling isolation on an existing role
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#assigning-the-role-to-groups-and-folders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Assigning the role to groups and folders
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-isolating-one-role-does-not-do" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What isolating one role does not do
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#accounts-referencing-another-role" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Accounts referencing another role
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#externally-provisioned-accounts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Externally provisioned accounts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#turning-isolation-off" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Turning isolation off
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#storage-allowlist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Storage allowlist
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Storage allowlist">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#when-the-allowlist-takes-effect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When the allowlist takes effect
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-each-section-grants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What each section grants
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backends-granted-with-no-entries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backends granted with no entries
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#home-directories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Home directories
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#storage-compliance-report" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Storage compliance report
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -3637,7 +3931,7 @@
     
     
       <li class="md-path__item">
-        <a href="../access-control/" class="md-path__link">
+        <a href="../users/" class="md-path__link">
           
   <span class="md-ellipsis">
     Core concepts
@@ -3660,18 +3954,17 @@
 
 
 <h1 id="roles">Roles</h1>
-<p>Roles enable delegated administration: you can create restricted administrators who can only manage users that share their assigned role.</p>
-<p>Roles control <em>which users</em> an administrator can see and manage; <a href="../admin-permissions/">Admin Permissions</a> control <em>which features</em> that administrator can use. The two dimensions compose freely.</p>
+<p>Roles enable delegated administration: an administrator with a role manages the users that carry the same role. With <a href="#resource-isolation">resource isolation</a> the same boundary extends to groups, virtual folders and the storage they may name, so a role describes a tenant.</p>
+<p>Roles decide <em>which resources</em> an administrator can see and manage; <a href="../admin-permissions/">admin permissions</a> decide <em>which features</em> that administrator can use. The two settings compose freely.</p>
 <h2 id="how-roles-work">How roles work</h2>
-<p>A <strong>role</strong> is a named label that can be assigned to both users and administrators. Assigning a role to an administrator makes them a <strong>role-based administrator</strong> — they can only view and manage users with the same role.</p>
-<p>When a role-based administrator creates a new user, the user <strong>automatically inherits</strong> that administrator's role. This ensures that delegated administrators can only manage the users they create.</p>
-<h2 id="role-based-vs-global-administrators">Role-based vs global administrators</h2>
+<p>A <strong>role</strong> is a named label. It is assigned to users and administrators and, with resource isolation, to groups and virtual folders. An administrator carrying a role is a <strong>role administrator</strong> on this page: it views and manages the users with the same role, and the users it creates receive its role automatically.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/role-admin.png" data-desc-position="bottom" data-gallery="role-admin"><img alt="Assigning a role to an administrator" data-gallery="role-admin" src="../assets/img/role-admin.png"></a></p>
 <table>
 <thead>
 <tr>
 <th></th>
 <th>Global administrator</th>
-<th>Role-based administrator</th>
+<th>Role administrator</th>
 </tr>
 </thead>
 <tbody>
@@ -3681,80 +3974,207 @@
 <td>One role</td>
 </tr>
 <tr>
-<td><strong>User visibility</strong></td>
-<td>All users (with or without roles)</td>
-<td>Only users with the same role</td>
+<td><strong>Users</strong></td>
+<td>All users, with or without a role</td>
+<td>The users carrying the same role; the users it creates or updates receive its role</td>
 </tr>
 <tr>
-<td><strong>Can create users</strong></td>
-<td>Yes (any role or no role)</td>
-<td>Yes (users always inherit the admin's role)</td>
+<td><strong>Groups and virtual folders</strong></td>
+<td>All of them</td>
+<td>All of them, or the ones carrying its role once the role <a href="#resource-isolation">isolates its resources</a></td>
 </tr>
 <tr>
-<td><strong>Can hold the wildcard <code>*</code> permission</strong></td>
-<td>Yes</td>
-<td>No</td>
+<td><strong>Connections, event search</strong></td>
+<td>All</td>
+<td>Filtered to its role</td>
 </tr>
 <tr>
-<td><strong>Event search results</strong></td>
-<td>All events</td>
-<td>Filtered to the admin's role</td>
+<td><strong>Wildcard <code>*</code> permission</strong></td>
+<td>Allowed</td>
+<td>Refused: the save fails with a validation error</td>
 </tr>
 </tbody>
 </table>
 <h2 id="permission-model">Permission model</h2>
-<p>A role-based administrator cannot be granted the wildcard <code>*</code> permission. The save is rejected with a validation error if you try.</p>
-<p>Every other permission in the <a href="../admin-permissions/">Admin Permissions</a> reference can be assigned to a role-based administrator. Operations that act on users — <code>add_users</code>, <code>edit_users</code>, <code>del_users</code>, <code>view_users</code>, <code>quota_scans</code>, <code>disable_mfa</code> on users — are automatically scoped to users that share the administrator's role.</p>
-<p>Features that require <code>*</code> — admin management, role management, Event Manager rules and actions, system configuration sections, IP allow/deny lists, API keys, retention checks, dump/restore — are therefore unreachable for role-based administrators.</p>
-<h2 id="scoping-behavior-per-permission">Scoping behavior per permission</h2>
+<p>Every permission of the <a href="../admin-permissions/">admin permissions</a> reference except <code>*</code> can be granted to a role administrator. The role scopes what each permission reaches:</p>
 <table>
 <thead>
 <tr>
 <th>Permission</th>
-<th>Scoping for role-based administrator</th>
+<th>Scope for a role administrator</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>add_users</code>, <code>edit_users</code>, <code>del_users</code>, <code>view_users</code></td>
-<td>Operates only on users that share the admin's role. The role on the user record is forced to match the admin's role on create and on update.</td>
+<td>The users carrying the role. The role of a user is set to the administrator's role on create and on update.</td>
 </tr>
 <tr>
-<td><code>quota_scans</code></td>
-<td>User quota scans target only users sharing the admin's role.</td>
-</tr>
-<tr>
-<td><code>disable_mfa</code></td>
-<td>Can be applied only to users sharing the admin's role.</td>
+<td><code>quota_scans</code>, <code>disable_mfa</code></td>
+<td>The users carrying the role.</td>
 </tr>
 <tr>
 <td><code>view_conns</code>, <code>close_conns</code></td>
-<td>Lists and closes only connections from users sharing the admin's role.</td>
+<td>The connections of the users carrying the role.</td>
 </tr>
 <tr>
 <td><code>view_events</code></td>
-<td>Filesystem, provider, and log event searches are filtered to the admin's role.</td>
+<td>Filesystem, provider and log events of the role.</td>
 </tr>
 <tr>
 <td><code>view_groups</code>, <code>manage_groups</code>, <code>del_groups</code>, <code>view_folders</code>, <code>manage_folders</code>, <code>del_folders</code></td>
-<td>Group and folder catalogs are currently global (shared across roles). A role-based administrator with these permissions sees and can manage every group and folder.</td>
+<td>Every group and folder, or the ones carrying the role once it isolates its resources.</td>
 </tr>
 <tr>
-<td><code>view_status</code></td>
-<td>Server status is global; no scoping applies.</td>
-</tr>
-<tr>
-<td><code>view_defender</code>, <code>manage_defender</code></td>
-<td>The defender blocklist is global (per IP, not per user); a role-based administrator sees and can clear every entry.</td>
+<td><code>view_status</code>, <code>view_defender</code>, <code>manage_defender</code></td>
+<td>Global: the server status and the defender blocklist, which is per IP address, are the same for every administrator.</td>
 </tr>
 </tbody>
 </table>
-<h2 id="typical-use-case">Typical use case</h2>
-<p>Roles are useful when you have multiple teams or departments that need independent user management:</p>
+<p>The features that require <code>*</code> (administrators, roles, Event Manager rules and actions, system configuration, IP lists, API keys, retention checks, backup and restore) are out of reach for a role administrator.</p>
+<h2 id="resource-isolation">Resource isolation</h2>
+<p>Without isolation a role administrator holding group and folder permissions attaches any group and any virtual folder to its users, including the ones another tenant defined. Resource isolation extends the role to the group and folder catalogs and to the storage the resources of the role may name.</p>
+<p>It is enabled per role, with the <strong>Resource isolation</strong> switch of the role page or the <code>resource_isolation</code> field of the REST API, and it is <strong>off by default</strong>: a role behaves as before until it is turned on. It is available on MySQL, MariaDB, PostgreSQL, CockroachDB and SQLite; on the memory and bolt data providers the switch is refused with an error. The license sets how many roles can isolate their resources; the WebAdmin license page and <code>GET /api/v2/license</code> show the allowance, and roles with the switch off are not counted. When the allowance is exceeded, after a downgrade or while the license is inactive, the roles already isolating keep isolating, saving a role with isolation on is refused until the count is back inside the allowance, and turning isolation off is always accepted. The role page shows the switch and the storage allowlist while the license admits isolated roles, and on a role that already isolates its resources.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/role-resource-isolation.png" data-desc-position="bottom" data-gallery="role-resource-isolation"><img alt="Resource isolation on the role page" data-gallery="role-resource-isolation" src="../assets/img/role-resource-isolation.png"></a></p>
+<p>The groups and folders a role administrator creates receive its role, as its users already do, whether or not the role isolates: the resources a tenant creates follow it when its role starts isolating.</p>
+<p>While a role isolates its resources:</p>
+<ul>
+<li>role administrators of that role see the groups and the folders carrying it and nothing else; global administrators see everything;</li>
+<li>a user references the groups and folders of its own role only, and a group references the folders of its own role; a save naming a resource of another role is refused as for a resource that does not exist;</li>
+<li>the <a href="#storage-allowlist">storage allowlist</a> of the role is enforced every time a user, a group or a folder carrying the role is saved.</li>
+</ul>
+<h3 id="enabling-isolation-on-an-existing-role">Enabling isolation on an existing role</h3>
+<p>Enabling the switch validates the role alone and changes nothing in the stored users, groups and folders, so prepare them first:</p>
 <ol>
-<li>Create a role for each team (e.g., <code>finance</code>, <code>engineering</code>).</li>
-<li>Create an administrator for each team lead and assign the corresponding role.</li>
-<li>Each team lead can create and manage their own users, but cannot see or affect users belonging to other teams.</li>
+<li>Set the <strong>Users base directory</strong> of the role: it is required for isolation, and it is where the home directories of the role's users are generated, see <a href="#home-directories">Home directories</a>.</li>
+<li>Declare the <a href="#storage-allowlist">storage allowlist</a>: the backends the role may use and, within each, the resources.</li>
+<li>Assign the role to the groups and the folders the tenant owns, see <a href="#assigning-the-role-to-groups-and-folders">Assigning the role to groups and folders</a>. A group or a folder left without a role disappears from the role administrators' console as soon as the switch is on, and a user referencing it can no longer log in, see <a href="#accounts-referencing-another-role">Accounts referencing another role</a>.</li>
+<li>Read the <a href="#storage-compliance-report">storage compliance report</a>: it lists the stored configurations the allowlist rejects and the accounts the switch will lock out, before either has any effect.</li>
+<li>Turn the switch on.</li>
+</ol>
+<h3 id="assigning-the-role-to-groups-and-folders">Assigning the role to groups and folders</h3>
+<p>A global administrator sets the role of a group or a folder with the <strong>Role</strong> selector of the WebAdmin group and folder pages, with the <code>role</code> field of the group and folder objects in the REST API, or through a <code>loaddata</code> import. A role administrator never sets it: the groups and folders it creates take its role, the ones it updates keep the stored one. For a global administrator an update replaces the stored role with the one in the request, so a <code>PUT</code> that omits <code>role</code> clears it: send the complete object.</p>
+<p>A global administrator changes or clears the role of a group or a folder while no user, administrator or group of a different role references it; otherwise the save is refused, since those references would stop resolving. A role is removed once nothing references it, its own users, administrators, groups and folders included.</p>
+<p>Usernames, group names and folder names are unique across the installation: SFTP, FTP and WebDAV authenticate with the username alone, so two roles cannot share one. A role administrator choosing a name another role already uses receives the usual duplicate error, which says that the name is taken and nothing more.</p>
+<h3 id="what-isolating-one-role-does-not-do">What isolating one role does not do</h3>
+<p>Isolating role A constrains the administrators of A and hides the resources of A from the administrators of the other isolated roles. Global administrators, administrators without a role and administrators of a role that does not isolate keep seeing and editing the groups and folders of A. Isolation is complete when every role that needs it has the switch on.</p>
+<p>Event rules are not scoped by role: they are configured by global administrators and an action with a source or target folder mounts that folder on every account it runs for, whatever role each of them carries.</p>
+<h3 id="accounts-referencing-another-role">Accounts referencing another role</h3>
+<p>At login the groups of an account, membership groups included, and its folders are compared with its role. The resources of an isolating role belong to the users of that role; groups and folders carrying no role, or a role that does not isolate, form one shared set that users without a role and users of non-isolating roles reference freely. An account that references a resource of another set cannot log in, on every protocol, and a role administrator whose administrator groups carry another role cannot log in either. The client receives the usual login refusal, the server log names the reference, and the failure does not count as an authentication failure for the <a href="../defender/">defender</a>. A group holding a folder of another role locks out every member: the members themselves are saved as usual, the group is what needs the repair.</p>
+<p>The state comes from data that predates the switch, since the API refuses to create such references, or from a hook response, see below. Global administrators are not affected and repair the data; turning the switch off restores every login. Saving such an account, or a group holding a folder of another role, is reserved to global administrators: a role administrator receives a message that names them, and the account keeps listing the reference, name included, until it is repaired. The users list shows the account with the settings merged from that group, while the effective configuration and the test connection of the account report the error, as the login does.</p>
+<h3 id="externally-provisioned-accounts">Externally provisioned accounts</h3>
+<p>The pre-login hook, the external authentication hook and the authentication plugins decide the role of the accounts they return, as they do for every other field: the LDAP plugin maps it from <code>role_group_prefix</code>. A hook is trusted and can place an account in any role; the groups and folders it names must carry that role, or the save of the returned account fails and the login with it, as for a missing resource. See <a href="../dynamic-user-mod/#the-returned-user">the returned user</a> for what a response replaces and for the virtual folders created with it.</p>
+<h3 id="turning-isolation-off">Turning isolation off</h3>
+<p>Turning the switch off ends the scoping: the groups and folders keep the role label they carry, every administrator sees them again, the allowlist is no longer enforced on save, and the accounts refused for a cross-role reference log in again. Turning it back on requires the same preparation as the first time.</p>
+<h2 id="storage-allowlist">Storage allowlist</h2>
+<p>The allowlist declares the storage the users, groups and folders of an isolating role may name. It is edited on the role page, one section per backend, and stored in the <code>settings.storage_allowlist</code> field of the role object.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/role-storage-allowlist.png" data-desc-position="bottom" data-gallery="role-storage-allowlist"><img alt="Role storage allowlist" data-gallery="role-storage-allowlist" src="../assets/img/role-storage-allowlist.png"></a></p>
+<p>The allowlist is read in two steps:</p>
+<ol>
+<li><strong>Allowed storage backends</strong> lists the backends the resources may use. A backend that is not listed is refused, the local disk included. A user or a group with storage <a href="../groups/#users-with-storage-none">"None"</a> takes its storage from the primary group and needs no backend.</li>
+<li>Within a listed backend, the section of that backend lists the resources: a section with no entries admits every resource the configured credentials reach, a section with entries admits the configurations matching one of them.</li>
+</ol>
+<p>A new role grants nothing: list the backends the tenant needs before its resources are saved with isolation on, the storage of a primary group included.</p>
+<h3 id="when-the-allowlist-takes-effect">When the allowlist takes effect</h3>
+<p>The allowlist is enforced when a user, a group or a folder carrying the role is <strong>saved</strong>, not while a session runs. Narrowing it applies to the next save of each resource: the stored configurations keep serving and the accounts using them keep working until they are saved again, so an edit to the allowlist locks no account out; turning the switch on does, for the accounts the <a href="#storage-compliance-report">compliance report</a> lists as references. The <a href="#storage-compliance-report">compliance report</a> lists the stored configurations a narrowed allowlist rejects, so they can be repaired before their next save.</p>
+<h3 id="what-each-section-grants">What each section grants</h3>
+<table>
+<thead>
+<tr>
+<th>Section</th>
+<th>Entries</th>
+<th>What matches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Local</td>
+<td>Absolute paths</td>
+<td>A named path equal to an entry or below it, compared on path separators: <code>/data/customer-a</code> does not admit <code>/data/customer-aaa</code>. The section applies whatever the storage backend, because the home directory of an account is a local path even when its files live on a cloud backend. With no entries, no named local path is admitted: the accounts of the role get the home directory generated from the users base directory.</td>
+</tr>
+<tr>
+<td>S3</td>
+<td>Bucket, optional key prefix, endpoint</td>
+<td>The bucket and the endpoint as written; an entry with no bucket grants every bucket of its endpoint.</td>
+</tr>
+<tr>
+<td>Azure Blob</td>
+<td>Account, container, optional key prefix, endpoint</td>
+<td>The container of the account, whatever the letter case, the scheme and a trailing slash of the endpoint. A configuration carrying its account and container in a SAS URL matches too.</td>
+</tr>
+<tr>
+<td>Google Cloud</td>
+<td>Bucket, optional key prefix, universe domain</td>
+<td>The bucket of the universe domain; an empty domain and <code>googleapis.com</code> are one service.</td>
+</tr>
+<tr>
+<td>SFTP, FTP</td>
+<td>Endpoints as <code>host:port</code>, and for SFTP the allowed SOCKS proxies</td>
+<td>The endpoint as written; an entry with no port takes the default port of the backend, 22 or 21, as a configuration without a port does. The remote path is decided by the account on the remote server and is not part of the allowlist.</td>
+</tr>
+<tr>
+<td>HTTP</td>
+<td>Base URLs with a scheme and a host</td>
+<td>The endpoints under the entry's path; an entry with no path matches every path of that host, the query string is compared as written. An entry may name a unix domain socket, <code>http://unix?socket_path=/run/api.sock</code>, in which case the socket and the <code>api_prefix</code> are the resource.</td>
+</tr>
+</tbody>
+</table>
+<p>Write the entries the way the users of the role write their configurations: names and endpoints are compared as written, so <code>https://s3-endpoint:443</code> and <code>https://s3-endpoint</code> are two entries. A key prefix is the exception, and it is what lets several roles share one bucket: the prefix of a configuration is admitted when it is equal to the prefix of an entry or below it, on a <code>/</code> boundary, so <code>tenant-a/</code> does not admit <code>tenant-ab/</code>.</p>
+<p>When the SFTP section has at least one entry, endpoint or proxy, a configured SOCKS proxy must be among the allowed proxies: the proxy resolves the endpoint in its own network. The allowed proxies decide which proxy a configuration may use, not whether it uses one: a configuration without a proxy connects directly, to the allowed endpoints or, with none listed, to any host. To bound the hosts, list the endpoints.</p>
+<p>A configuration whose local path or key prefix contains a <a href="../groups/#placeholders">placeholder</a> is measured on the literal text before the first placeholder: <code>/data/%role%/%username%</code> is measured as <code>/data/</code>, so an entry for <code>/data</code> admits it. A value that opens with a placeholder is refused, and so is an entry containing one, since entries are literal text.</p>
+<h3 id="backends-granted-with-no-entries">Backends granted with no entries</h3>
+<p>A backend listed with no entries admits every resource the credentials configured on the user, the group or the folder reach:</p>
+<ul>
+<li>on S3, Azure Blob and Google Cloud this includes the identity of the server, an instance role, a managed identity or application default credentials: a configuration with no credentials of its own is admitted when it names no endpoint, so that identity speaks to the default host of its cloud;</li>
+<li>on SFTP, FTP and HTTP the credentials always belong to the configuration, so the entries bound the host the server connects to. With no entries a role administrator can name any host the server reaches: the server opens the connection and the test connection reports its outcome, on FTP the reply of the remote service included, which is a way to survey the network the server sits in.</li>
+</ul>
+<p>List the endpoints the SFTP, FTP and HTTP sections may use, and on an installation whose process carries a storage identity list the entries of every granted backend.</p>
+<h3 id="home-directories">Home directories</h3>
+<p>The home directory of a user is a local path whatever its storage backend, so it is measured against the <strong>Allowed local paths</strong>, with one exception: the directory generated from the <strong>Users base directory</strong> of the role.</p>
+<table>
+<thead>
+<tr>
+<th><code>home_dir</code> in the request</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Empty</td>
+<td>Generated as <code>&lt;users_base_dir&gt;/&lt;username&gt;</code>, accepted whatever the allowed paths.</td>
+</tr>
+<tr>
+<td><code>&lt;users_base_dir&gt;/&lt;username&gt;</code></td>
+<td>Accepted, whatever the allowed paths: it is the path the server would have generated.</td>
+</tr>
+<tr>
+<td>Under an allowed path</td>
+<td>Accepted.</td>
+</tr>
+<tr>
+<td>Anywhere else, <code>&lt;users_base_dir&gt;/team/&lt;username&gt;</code> included</td>
+<td>Refused.</td>
+</tr>
+</tbody>
+</table>
+<p>The users base directory of the role is required to enable isolation, and the global <code>users_base_dir</code> does not apply to its accounts. It is what keeps the accounts savable when the allowed local paths are empty: leave <code>home_dir</code> empty on the accounts of the role, cloud accounts included, and the server generates it.</p>
+<p>Changing the users base directory applies to the accounts saved from that moment: the accounts already stored keep the home directory they have, which now sits outside the base and is measured against the allowed paths like any other named path. Add the old base to the allowed paths, or move the data and update the accounts; the <a href="#storage-compliance-report">compliance report</a> lists the ones the new allowlist rejects. Clearing <code>home_dir</code> and saving generates it under the new base, which points the account at a new, empty directory and leaves the data where it was.</p>
+<h3 id="storage-compliance-report">Storage compliance report</h3>
+<p>The report lists the stored configurations that the allowlist of a role rejects, as <code>violation</code> rows with the entity, the field the value was read from and the rule that rejected it, and the accounts the isolation refuses at login, as <code>reference</code> rows with the account, the mapping and the group or folder of another role it names. It requires every permission, <code>*</code>, since its findings name administrators and resources of every role, and it is computed on demand with the <strong>Compliance report</strong> button of the role page, or through <code>GET /api/v2/roles/{name}/storage-compliance</code>, as JSON or as a CSV export. The JSON answer carries at most 1000 findings and says so with a <code>truncated</code> field; the CSV export streams all of them.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/role-storage-compliance.png" data-desc-position="bottom" data-gallery="role-storage-compliance"><img alt="Storage compliance report" data-gallery="role-storage-compliance" src="../assets/img/role-storage-compliance.png"></a></p>
+<p>Violations and references are listed whatever the state of the switch, so run the report <strong>before</strong> enabling isolation to see what the allowlist would reject and which logins the switch would refuse: a violation leaves the account working until its next save, a reference refuses its login as soon as the role isolates. Once the role isolates, the report also carries <strong>posture</strong> findings, which describe how wide the isolation is rather than what is wrong with it:</p>
+<ul>
+<li>the backends granted with no entries;</li>
+<li>an allowed local path that is a filesystem root;</li>
+<li>the administrators whose permissions read the resources of every role: the ones carrying no role and the ones carrying a role that does not isolate. Administrators holding every permission are left out, so read it next to their list.</li>
+</ul>
+<h2 id="typical-use-case">Typical use case</h2>
+<p>Roles are useful when several teams or departments need independent user management:</p>
+<ol>
+<li>Create a role for each team, for example <code>finance</code> and <code>engineering</code>, with its users base directory and its storage allowlist.</li>
+<li>Create an administrator for each team lead and assign it the corresponding role.</li>
+<li>Assign the role to the groups and the folders the team owns, read the storage compliance report, then enable resource isolation.</li>
+<li>Each team lead creates and manages the users, groups and folders of its team, within the storage the allowlist declares, and cannot see or affect the other teams.</li>
 </ol>
 <p>Global administrators retain full visibility and control across all roles.</p>
 
@@ -3779,7 +4199,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="May 28, 2026 08:42:58 UTC">2026-05-28 08:42:58</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
   </span>
 
     
@@ -3856,7 +4276,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   

@@ -12,7 +12,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/tutorials/eventmanager-pgp/",
         "inLanguage": "en",
         "datePublished": "2026-04-26T15:47:01Z",
-        "dateModified": "2026-05-28T08:42:58Z",
+        "dateModified": "2026-09-08T09:20:06Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -734,6 +734,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../users/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Users
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -3877,14 +3905,14 @@
 <li>Source path: <code>/{{.VirtualPath}}</code></li>
 <li>Target path: <code>/{{ pathDir .VirtualPath }}/</code></li>
 </ul>
-<p>Each matched file is written under the target directory with <code>.pgp</code> appended (<code>/inbox/file.txt</code> → <code>/inbox/file.txt.pgp</code>). The trailing <code>/</code> is required: without it, an upload like <code>/inbox/file.txt</code> would render the target to <code>/inbox</code> (a literal output filename).</p>
+<p>Each matched file is written under the target directory with <code>.pgp</code> appended (<code>/inbox/file.txt</code> =&gt; <code>/inbox/file.txt.pgp</code>). The trailing <code>/</code> is required: without it, an upload like <code>/inbox/file.txt</code> would render the target to <code>/inbox</code> (a literal output filename).</p>
 <p>Each path entry has its own <strong>After encrypt/decrypt</strong> option that controls what happens to the source file once it has been processed:</p>
 <ul>
 <li><strong>Keep source</strong> (default) — the plaintext file is left in place.</li>
 <li><strong>Delete source</strong> — the plaintext file is removed after a successful encrypt.</li>
 <li><strong>Move source</strong> — the plaintext file is moved to a path you specify (placeholders supported).</li>
 </ul>
-<p>Configuring this per entry avoids a separate Delete action when you simply want to dispose of the original after encryption.</p>
+<p>Configuring this per entry avoids a separate Delete action when you only need to dispose of the original after encryption.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/pgp_encrypt_paths.png" data-desc-position="bottom" data-gallery="pgp-enc"><img alt="PGP encryption paths" data-gallery="pgp-enc" src="../../assets/img/pgp_encrypt_paths.png"></a></p>
 <h3 id="step-2-create-an-upload-rule">Step 2: Create an Upload Rule</h3>
 <p>Define a rule that executes this action after uploads. Select <code>Filesystem events</code> as trigger and <code>upload</code> as event.</p>
@@ -3902,7 +3930,7 @@
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/pgp_decrypt.png" data-desc-position="bottom" data-gallery="pgp-dec"><img alt="PGP decryption" data-gallery="pgp-dec" src="../../assets/img/pgp_decrypt.png"></a></p>
 <h3 id="step-2-create-an-upload-rule_1">Step 2: Create an Upload Rule</h3>
 <p>Define a rule that executes this action after uploads. Select <code>Filesystem events</code> as trigger and <code>upload</code> as event.</p>
-<p>You can add a path filter such as <code>*.pgp</code> to ensure the action only runs on encrypted files.</p>
+<p>You can add a path filter such as <code>/inbox/*.pgp</code> to run the action on encrypted files only. Patterns match the whole virtual path, so the directory is part of the pattern; <code>**</code> matches across subdirectories, see <a href="../../eventmanager/#path-filters">Path filters</a>.</p>
 <p>To remove the original <code>.pgp</code> file after a successful decryption, set the entry's <strong>After encrypt/decrypt</strong> option to <strong>Delete source</strong> — there is no need for a separate Delete action.</p>
 <h2 id="example-scheduled-batch-encryption-with-wildcards">Example: Scheduled Batch Encryption with Wildcards</h2>
 <p>When the same external party drops several files in a directory and you want to encrypt them all on a schedule, use a wildcard source and a directory target.</p>
@@ -3912,12 +3940,11 @@
 <li>Source path: <code>/inbox/*.csv</code></li>
 <li>Target path: <code>/encrypted/</code></li>
 </ul>
-<p>The trailing <code>/</code> on the target marks it as a destination directory: each matched file is written under it with <code>.pgp</code> appended (e.g., <code>report.csv</code> → <code>/encrypted/report.csv.pgp</code>). Subdirectories of <code>/inbox/</code> are not descended into; zero matches is not an error.</p>
+<p>The trailing <code>/</code> on the target marks it as a destination directory: each matched file is written under it with <code>.pgp</code> appended (e.g., <code>report.csv</code> =&gt; <code>/encrypted/report.csv.pgp</code>). Subdirectories of <code>/inbox/</code> are not descended into; zero matches is not an error.</p>
 <p>For batch workflows it is common to set <strong>After encrypt</strong> to <strong>Move source</strong> with a directory like <code>/processed</code> so that already-encrypted files are not picked up by the next run.</p>
 <h3 id="step-2-schedule-the-action">Step 2: Schedule the Action</h3>
 <p>Create a rule with a <strong>Schedule</strong> trigger (for example, hourly) and select the batch encryption action.</p>
-<p>If the inbox is reached through a <a href="../eventmanager-folders/">virtual folder</a>, assign that folder as <strong>Source folder</strong> on the action so it can find the files even though no user is logged in. The same per-entry disposition (Delete or Move) applies — typical setups archive originals to a dated path such as <code>/processed/{{ .Timestamp.Format "2006-01-02" }}</code>.</p>
-<p>A target folder is always required for PGP batch workflows. To run encrypt or decrypt <strong>in place</strong> inside a single shared folder, set both source folder and target folder to the same value — this declares the intent explicitly. Source-only configurations are rejected at save time.</p>
+<p>If the inbox is reached through a <a href="../eventmanager-folders/">virtual folder</a>, assign that folder as <strong>Source folder</strong> and as <strong>Target folder</strong> on the action, so that it finds the files even though no user is logged in and runs once for the folder. A source folder requires a target folder: set both to the same folder to encrypt or decrypt in place, or write the output to a different one. The same per-entry disposition (Delete or Move) applies — typical setups archive originals to a dated path such as <code>/processed/{{ .Timestamp.Format "2006-01-02" }}</code>.</p>
 
 
 
@@ -3940,7 +3967,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="May 28, 2026 08:42:58 UTC">2026-05-28 08:42:58</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
   </span>
 
     
@@ -4017,7 +4044,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   

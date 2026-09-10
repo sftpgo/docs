@@ -12,7 +12,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/ssh/",
         "inLanguage": "en",
         "datePublished": "2024-04-25T16:47:14Z",
-        "dateModified": "2026-05-28T08:42:58Z",
+        "dateModified": "2026-09-08T09:20:06Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -734,6 +734,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../users/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Users
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -1966,6 +1994,17 @@
   
     <nav class="md-nav" aria-label="Authentication">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#restricting-a-key-to-source-addresses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restricting a key to source addresses
+      
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#multi-step-authentication" class="md-nav__link">
@@ -3630,6 +3669,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#restricting-a-key-to-source-addresses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restricting a key to source addresses
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#multi-step-authentication" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3814,7 +3864,7 @@
 </tr>
 <tr>
 <td><strong>Public key</strong></td>
-<td>SSH public key authentication. Multiple keys per user are supported.</td>
+<td>SSH public key authentication. Multiple keys per user are supported, each one can be <a href="#restricting-a-key-to-source-addresses">restricted to source addresses</a>.</td>
 </tr>
 <tr>
 <td><strong>Certificate</strong></td>
@@ -3830,6 +3880,15 @@
 </tr>
 </tbody>
 </table>
+<h3 id="restricting-a-key-to-source-addresses">Restricting a key to source addresses</h3>
+<p>A public key can be limited to the networks a client may use it from. Write the <code>from</code> option of the <code>authorized_keys</code> format before the key:</p>
+<pre><code>from="192.0.2.0/24,2001:db8::/32" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI... build-server
+</code></pre>
+<p>The option lists one or more networks in CIDR notation, separated by commas. A single address takes its full prefix length, <code>192.0.2.10/32</code> or <code>2001:db8::10/128</code>. The other forms of the OpenSSH <code>from</code> option, hostnames and <code>!</code> negations, and the other <code>authorized_keys</code> options are refused when the user is saved, and the error reports the accepted syntax.</p>
+<p>From an address outside the listed networks the key does not authenticate; the other keys of the user, if any, are tried as usual. A network covers its own address family: <code>0.0.0.0/0</code> covers IPv4 and <code>::/0</code> covers IPv6.</p>
+<p>The address compared is the client address of the connection. Behind a proxy, enable the <a href="../config-file/#proxy_protocol-modes">PROXY protocol</a> so that the address is the client's and not the proxy's. The <a href="../access-control/#ip-and-protocol-restrictions">allowed and denied IP addresses</a> of the user keep applying.</p>
+<p>SSH certificates are restricted with their own <code>source-address</code> option, set when the certificate is issued.</p>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> The restriction belongs to the key, not to the user: a user allowed to manage its public keys from the Web Client or the REST API can add a key without it. To make it binding, disable the change of the public keys with the matching Web client/REST API option, see <a href="../users/#web-client-and-rest-api">Web Client and REST API</a>.</p>
 <h3 id="multi-step-authentication">Multi-step authentication</h3>
 <p>Authentication methods can be chained — for example, requiring both a public key <strong>and</strong> a password. When a user is configured for multi-step authentication, the SSH server returns a "partial success" after the first method succeeds, prompting the client for the next step.</p>
 <p>Supported combinations (the first listed factor is the one the client must offer first):</p>
@@ -3861,7 +3920,7 @@
 <h3 id="host-keys">Host keys</h3>
 <p>If no host keys are configured, SFTPGo automatically generates <code>id_rsa</code>, <code>id_ecdsa</code>, and <code>id_ed25519</code> keys in the configuration directory. Host certificates are also supported — the certificate's public key must match a configured private host key.</p>
 <h2 id="ssh-commands">SSH commands</h2>
-<p>SFTPGo supports a limited set of SSH commands for specific use cases. All commands are <strong>emulated internally in Go</strong> — SFTPGo never spawns the corresponding system binaries (<code>scp</code>, <code>md5sum</code>, <code>uname</code>, …) and does not require them to be installed on the host. Operations are executed within the user's security context (permissions, quotas, and home directory restrictions apply) and work consistently across all storage backends, including remote and encrypted ones.</p>
+<p>SFTPGo supports a limited set of SSH commands for specific use cases. All commands are <strong>emulated internally in Go</strong> — SFTPGo never spawns the corresponding system binaries (<code>scp</code>, <code>md5sum</code>, <code>uname</code>, ...) and does not require them to be installed on the host. Operations are executed within the user's security context (permissions, quotas, and home directory restrictions apply) and work consistently across all storage backends, including remote and encrypted ones.</p>
 <table>
 <thead>
 <tr>
@@ -3928,8 +3987,9 @@
 </tr>
 </tbody>
 </table>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> OpenSSH 9.0 and later transfer over SFTP when <code>scp</code> is invoked; the server-side SCP implementation described here serves the clients that request the legacy protocol, with <code>scp -O</code> on those releases. Both paths are supported. The SFTP one resolves the destination first, so it requires the <code>list</code> <a href="../access-control/#per-directory-permissions">permission</a> on the target directory.</p>
 <p>Commands not in the default list must be explicitly enabled in the <a href="../config-file/">configuration</a>. Set <code>enabled_ssh_commands</code> to <code>*</code> to enable all supported commands.</p>
-<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Hash commands read the entire file to compute the digest. For remote storage backends, this means downloading the file; for encrypted storage, this means decrypting it.</p>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Hash commands read the entire file to compute the digest. For remote storage backends, this means downloading the file; for encrypted storage, this means decrypting it. The read requires the <code>download</code> <a href="../access-control/#per-directory-permissions">permission</a> on the file's parent directory.</p>
 <h2 id="security-features">Security features</h2>
 <ul>
 <li><strong>Algorithm enforcement</strong> — Users can require specific algorithms via the <code>enforce_secure_algorithms</code> filter. Connections using weaker algorithms are rejected even if the algorithms are enabled server-wide.</li>
@@ -3959,7 +4019,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="May 28, 2026 08:42:58 UTC">2026-05-28 08:42:58</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
   </span>
 
     
@@ -4036,7 +4096,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   

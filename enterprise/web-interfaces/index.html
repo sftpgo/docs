@@ -12,7 +12,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -40,14 +40,14 @@
 
     
     <meta name="keywords" content="SFTPGo, SFTP server, FTP server, SCP, WebDAV, S3, Google Cloud Storage, Azure Blob, Managed File Transfer, MFT, 2FA, Data At Rest Encryption, file sharing, secure file transfer, SaaS, on-premise, REST API, Kubernetes, Helm chart, OIDC, LDAP">
-  <meta name="description" content="SFTPGo web interfaces: WebAdmin for centralized server management and WebClient for browser-based file management, sharing, and 2FA.">
+  <meta name="description" content="SFTPGo web interfaces: WebAdmin for server management, WebClient for browser-based file management and sharing, bindings and reverse proxy setup.">
   <meta property="og:title" content="Web User Interfaces - SFTPGo docs">
   <meta property="og:url" content="https://docs.sftpgo.com/enterprise/web-interfaces/">
-  <meta property="og:description" content="SFTPGo web interfaces: WebAdmin for centralized server management and WebClient for browser-based file management, sharing, and 2FA.">
+  <meta property="og:description" content="SFTPGo web interfaces: WebAdmin for server management, WebClient for browser-based file management and sharing, bindings and reverse proxy setup.">
   <meta property="og:image" content="https://sftpgo.com/assets/img/og-image.png">
   <meta property="og:type" content="article">
   <meta name="twitter:title" content="Web User Interfaces - SFTPGo docs">
-  <meta name="twitter:description" content="SFTPGo web interfaces: WebAdmin for centralized server management and WebClient for browser-based file management, sharing, and 2FA.">
+  <meta name="twitter:description" content="SFTPGo web interfaces: WebAdmin for server management, WebClient for browser-based file management and sharing, bindings and reverse proxy setup.">
   <meta name="twitter:image" content="https://sftpgo.com/assets/img/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
 
@@ -92,12 +92,12 @@
       {
         "@type": "TechArticle",
         "headline": "Web User Interfaces",
-        "description": "SFTPGo web interfaces: WebAdmin for centralized server management and WebClient for browser-based file management, sharing, and 2FA.",
+        "description": "SFTPGo web interfaces: WebAdmin for server management, WebClient for browser-based file management and sharing, bindings and reverse proxy setup.",
         "image": "https://sftpgo.com/assets/img/og-image.png",
         "url": "https://docs.sftpgo.com/enterprise/web-interfaces/",
         "inLanguage": "en",
         "datePublished": "2024-04-25T16:47:14Z",
-        "dateModified": "2026-06-20T17:54:33Z",
+        "dateModified": "2026-09-08T09:20:06Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -734,6 +734,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../users/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Users
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -1801,6 +1829,45 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#network-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Network access
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Network access">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#serving-the-interfaces-on-separate-bindings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Serving the interfaces on separate bindings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reverse-proxies-and-load-balancers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reverse proxies and load balancers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#security" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1839,17 +1906,6 @@
     <span class="md-ellipsis">
       
         Content Security Policy
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#reverse-proxy" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Reverse proxy
       
     </span>
   </a>
@@ -3657,6 +3713,45 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#network-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Network access
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Network access">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#serving-the-interfaces-on-separate-bindings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Serving the interfaces on separate bindings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reverse-proxies-and-load-balancers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reverse proxies and load balancers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#security" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3695,17 +3790,6 @@
     <span class="md-ellipsis">
       
         Content Security Policy
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#reverse-proxy" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Reverse proxy
       
     </span>
   </a>
@@ -3798,14 +3882,13 @@
 <h2 id="webadmin">WebAdmin</h2>
 <p>The WebAdmin UI allows administrators to create and manage users, groups, virtual folders, event rules, and other server resources.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/initial-screen.png" data-desc-position="bottom" data-gallery="initial screen"><img alt="Initial Screen" data-gallery="initial screen" src="../assets/img/initial-screen.png"></a></p>
-<p>With the default configuration, it is available at:</p>
-<p><a href="http://127.0.0.1:8080/web/admin" target="_blank">http://127.0.0.1:8080/web/admin</a></p>
+<p>With the default configuration it is served on port <code>8080</code>: <a href="http://127.0.0.1:8080/web/admin" target="_blank">http://127.0.0.1:8080/web/admin</a> from a browser running on the server itself, <code>http://&lt;server_address&gt;:8080/web/admin</code> from anywhere else, because the binding listens on all network interfaces. <a href="#network-access">Network access</a> covers ports, interfaces and reverse proxies.</p>
 <p>On first access (when no admin exists in the data provider), SFTPGo presents a setup screen to create the initial admin account. You can also pre-create an admin by loading initial data or by setting the environment variables <code>SFTPGO_DEFAULT_ADMIN_USERNAME</code> and <code>SFTPGO_DEFAULT_ADMIN_PASSWORD</code> (with <code>create_default_admin</code> enabled in the data provider configuration).</p>
+<p>Until an admin account exists, the setup screen is available to anyone who can reach the WebAdmin. Set an <code>installation_code</code> in the <a href="../config-file/#setup"><code>setup</code></a> configuration to require a shared code before the first account can be created.</p>
 <h2 id="webclient">WebClient</h2>
 <p>The WebClient UI gives end users a browser-based file manager. Users can browse and manage their files, change credentials, and configure two-factor authentication.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/web-client-files.png" data-desc-position="bottom" data-gallery="client-files"><img alt="WebClient files" data-gallery="client-files" src="../assets/img/web-client-files.png"></a></p>
-<p>With the default configuration, it is available at:</p>
-<p><a href="http://127.0.0.1:8080/web/client" target="_blank">http://127.0.0.1:8080/web/client</a></p>
+<p>It is served by the same binding as the WebAdmin, at <a href="http://127.0.0.1:8080/web/client" target="_blank">http://127.0.0.1:8080/web/client</a> with the default configuration.</p>
 <p>Key capabilities:</p>
 <ul>
 <li><strong>File management</strong> — Upload, download, rename, delete, and create directories. Multiple files or folders can be downloaded as a single ZIP archive (non-regular files such as symlinks are silently skipped).</li>
@@ -3832,6 +3915,43 @@
 <p><code>shasum -c</code> and <code>rclone --checkfile</code> accept it as well. The single-file <strong>Copy</strong> button copies the same <code>hash  filename</code> line (hash, two spaces, name), so the clipboard value is directly checkable. Use it to confirm a file after an upload or download, to give a recipient a checksum, or to check a set of files against a local manifest.</p>
 <p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Computing a hash reads the whole file, so it counts as a download: it uses the user's download quota and bandwidth limits, requires the <code>download</code> permission, is written to the transfer log, and triggers <code>download</code> event rules — once per file in a multi-file selection.</p>
 <p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> On cloud storage the read is billable egress. Cancelling a running computation stops the server-side read; bytes already read are still billed.</p>
+<h2 id="network-access">Network access</h2>
+<p>The WebAdmin, the WebClient and the REST API are served by the <code>httpd</code> service. Each of its bindings defines a port, the network interfaces to listen on, and which of the three it serves. With the default configuration a single binding serves all three on port <code>8080</code> on every interface; set <code>address</code> to listen on one interface only, for example <code>127.0.0.1</code> to accept local connections. See the <code>bindings</code> section of <a href="../config-file/#http-server">HTTP server</a> for the full parameter list.</p>
+<h3 id="serving-the-interfaces-on-separate-bindings">Serving the interfaces on separate bindings</h3>
+<p>Because each binding enables the WebAdmin, the WebClient and the REST API independently, the administrative interface and the end-user interface can be published on different ports and restricted differently. To serve the WebClient on every interface while keeping administration reachable from the server itself only:</p>
+<pre><code class="language-bash"># Binding 0: WebClient and REST API, all interfaces
+SFTPGO_HTTPD__BINDINGS__0__PORT=8080
+SFTPGO_HTTPD__BINDINGS__0__ENABLE_WEB_ADMIN=false
+# Binding 1: WebAdmin, local connections only
+SFTPGO_HTTPD__BINDINGS__1__PORT=8081
+SFTPGO_HTTPD__BINDINGS__1__ADDRESS=127.0.0.1
+SFTPGO_HTTPD__BINDINGS__1__ENABLE_WEB_CLIENT=false
+</code></pre>
+<p>Administrators then open <code>http://127.0.0.1:8081/web/admin</code> through an SSH tunnel, a VPN, or a jump host, and the WebAdmin has no presence on the binding exposed to end users.</p>
+<p>Environment variables cover up to ten bindings and the configuration file has no limit; see <a href="../env-vars/">Environment variables</a> for how the <code>SFTPGO_HTTPD__BINDINGS__&lt;n&gt;__*</code> names map to the configuration file.</p>
+<p>The example leaves the REST API enabled on both bindings: <code>enable_rest_api</code> covers the admin and the user API together, and admin endpoints require an admin token. Set it to <code>false</code> on the binding serving end users when no client needs the user API.</p>
+<p><code>hide_login_url</code> removes the link to the client login page from the admin login page and the other way round, so a binding does not point at an interface it does not serve.</p>
+<h3 id="reverse-proxies-and-load-balancers">Reverse proxies and load balancers</h3>
+<p>The web interfaces run behind a reverse proxy, a CDN, or an HTTP load balancer. The items below make SFTPGo aware of how the proxy forwards requests, so that the features depending on the client address and on the external URL keep working. The client address applies to every deployment; the others depend on how the proxy is configured.</p>
+<p>This section covers the <code>httpd</code> service. SFTP and FTP are not HTTP: they reach SFTPGo directly or through a TCP-level proxy, configured in the <code>common</code> section (see <a href="../config-file/#proxy_protocol-modes"><code>proxy_protocol</code> modes</a>).</p>
+<p><strong>Client addresses.</strong> The proxy is the client SFTPGo sees on every request. Declare the addresses it connects from and the header that carries the original one:</p>
+<pre><code class="language-bash">SFTPGO_HTTPD__BINDINGS__0__PROXY_ALLOWED="10.0.0.0/24"
+SFTPGO_HTTPD__BINDINGS__0__CLIENT_IP_PROXY_HEADER="X-Forwarded-For"
+</code></pre>
+<p>The header is read only from the listed addresses, so a client connecting to SFTPGo directly cannot choose the address SFTPGo records. When several proxies are in the path, <code>X-Forwarded-For</code> carries a chain of addresses and <code>client_ip_header_depth</code> selects which one to trust, counting from the right. The client address is what <a href="../defender/">brute force protection</a>, <a href="../rate-limiting/">rate limiting</a>, <a href="../ip-lists/">IP lists</a>, per-user IP filters and the audit log all work on, so it is worth configuring before publishing an instance.</p>
+<p><strong>TLS terminated at the proxy.</strong> When the proxy serves HTTPS to clients and plain HTTP to SFTPGo, declare the header it adds so that generated absolute URLs use <code>https://</code> and cookies carry the <code>Secure</code> flag:</p>
+<pre><code class="language-bash">SFTPGO_HTTPD__BINDINGS__0__SECURITY__ENABLED=true
+SFTPGO_HTTPD__BINDINGS__0__SECURITY__HTTPS_PROXY_HEADERS__0__KEY="X-Forwarded-Proto"
+SFTPGO_HTTPD__BINDINGS__0__SECURITY__HTTPS_PROXY_HEADERS__0__VALUE="https"
+</code></pre>
+<p>Skip this when the binding has its own certificate and the proxy connects to it over HTTPS.</p>
+<p><strong>Host name.</strong> Have the proxy forward the original <code>Host</code> header, or list the header that carries it in <code>hosts_proxy_headers</code>, typically <code>X-Forwarded-Host</code>. <code>allowed_hosts</code> restricts the host names a binding answers on. WebDAV <code>COPY</code> and <code>MOVE</code> need the original host name: see <a href="../webdav/#reverse-proxy">Reverse proxy</a>. Both settings live in the <a href="../config-file/#security"><code>security</code></a> block of the binding.</p>
+<p><strong>Public links.</strong> Share links are built from the URL the browser used. Set <code>base_url</code> on the binding to the external URL when the proxy rewrites it.</p>
+<p><strong>Sub-path.</strong> To serve the interfaces under a path prefix instead of at the root, set <code>web_root</code> to it, for example <code>/sftpgo</code>, and have the proxy forward the prefix unchanged.</p>
+<p><strong>Large uploads.</strong> Proxies often cap the request body size and buffer the whole body before forwarding it. Raise the cap and turn off request buffering, or set <code>upload_chunk_size</code> to enable <a href="../tutorials/cloudflare/#enabling-tus-uploads-on-the-binding">TUS</a> so that the WebClient splits each file into chunks that fit under the cap. With several instances behind a load balancer, chunked uploads require session affinity.</p>
+<p><strong>Health checks.</strong> Every HTTP binding answers <code>GET /healthz</code> with <code>ok</code> and without authentication, which suits load balancer health checks. Requests to it go through the connection limits, the rate limiters and the <a href="../ip-lists/">IP lists</a> like any other request, so include the address the checks come from when an allow list is enabled. The <a href="../metrics/">telemetry</a> server exposes the same endpoint without those checks.</p>
+<p><strong>TCP-level proxies.</strong> A proxy that forwards the TCP connection instead of the HTTP request cannot add headers. Enable <code>proxy_protocol</code> in the <code>common</code> section and set <code>proxy_mode</code> to <code>1</code> on the binding to take the client address from the PROXY protocol rather than from a header.</p>
+<p><a href="../tutorials/cloudflare/">Running SFTPGo behind Cloudflare</a> is a worked example of this configuration.</p>
 <h2 id="security">Security</h2>
 <h3 id="authentication">Authentication</h3>
 <p>Both interfaces support:</p>
@@ -3851,11 +3971,8 @@
 <p>Certificates can be automatically managed via the built-in <a href="../tutorials/lets-encrypt-certificate/">ACME protocol</a> (Let's Encrypt).</p>
 <h3 id="content-security-policy">Content Security Policy</h3>
 <p>SFTPGo supports strict Content Security Policies — neither <code>unsafe-eval</code> nor <code>unsafe-inline</code> are required. Configure CSP and other security headers in the <code>security</code> section of the <code>httpd</code> configuration.</p>
-<h3 id="reverse-proxy">Reverse proxy</h3>
-<p>When running behind a reverse proxy, configure <code>proxy_allowed</code> and <code>client_ip_proxy_header</code> on the binding to ensure SFTPGo sees the real client IP addresses. This is important for the defender, rate limiting, and audit logging.</p>
 <h2 id="internationalization">Internationalization</h2>
 <p>SFTPGo uses the <a href="https://www.i18next.com/" target="_blank">i18next</a> framework for internationalization. The following languages are supported: English, Italian, German, French, Spanish, Hungarian, and Chinese (Simplified).</p>
-<p>Translations are managed via <a href="https://crowdin.com/project/sftpgo" target="_blank">Crowdin</a>.</p>
 
 
 
@@ -3878,7 +3995,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="June 20, 2026 17:54:33 UTC">2026-06-20 17:54:33</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
   </span>
 
     
@@ -3955,7 +4072,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   

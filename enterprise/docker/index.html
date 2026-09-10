@@ -12,7 +12,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -40,14 +40,14 @@
 
     
     <meta name="keywords" content="SFTPGo, SFTP server, FTP server, SCP, WebDAV, S3, Google Cloud Storage, Azure Blob, Managed File Transfer, MFT, 2FA, Data At Rest Encryption, file sharing, secure file transfer, SaaS, on-premise, REST API, Kubernetes, Helm chart, OIDC, LDAP">
-  <meta name="description" content="Run SFTPGo Enterprise with Docker or Kubernetes. Pull from the official registry, configure with environment variables, deploy with Docker Compose or Helm chart.">
+  <meta name="description" content="Run SFTPGo Enterprise with Docker or Kubernetes: official images, configuration through environment variables, Docker Compose and Helm chart.">
   <meta property="og:title" content="Docker - SFTPGo docs">
   <meta property="og:url" content="https://docs.sftpgo.com/enterprise/docker/">
-  <meta property="og:description" content="Run SFTPGo Enterprise with Docker or Kubernetes. Pull from the official registry, configure with environment variables, deploy with Docker Compose or Helm chart.">
+  <meta property="og:description" content="Run SFTPGo Enterprise with Docker or Kubernetes: official images, configuration through environment variables, Docker Compose and Helm chart.">
   <meta property="og:image" content="https://sftpgo.com/assets/img/og-image.png">
   <meta property="og:type" content="article">
   <meta name="twitter:title" content="Docker - SFTPGo docs">
-  <meta name="twitter:description" content="Run SFTPGo Enterprise with Docker or Kubernetes. Pull from the official registry, configure with environment variables, deploy with Docker Compose or Helm chart.">
+  <meta name="twitter:description" content="Run SFTPGo Enterprise with Docker or Kubernetes: official images, configuration through environment variables, Docker Compose and Helm chart.">
   <meta name="twitter:image" content="https://sftpgo.com/assets/img/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
 
@@ -92,12 +92,12 @@
       {
         "@type": "TechArticle",
         "headline": "Docker",
-        "description": "Run SFTPGo Enterprise with Docker or Kubernetes. Pull from the official registry, configure with environment variables, deploy with Docker Compose or Helm chart.",
+        "description": "Run SFTPGo Enterprise with Docker or Kubernetes: official images, configuration through environment variables, Docker Compose and Helm chart.",
         "image": "https://sftpgo.com/assets/img/og-image.png",
         "url": "https://docs.sftpgo.com/enterprise/docker/",
         "inLanguage": "en",
         "datePublished": "2024-04-25T16:47:14Z",
-        "dateModified": "2026-07-05T13:20:16Z",
+        "dateModified": "2026-09-08T09:20:06Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -1065,6 +1065,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../users/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Users
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -4117,18 +4145,18 @@
 <p>SFTPGo Enterprise is accessible through our Docker repository: <code>registry.sftpgo.com/sftpgo</code></p>
 <h2 id="latest-tags">Latest tags</h2>
 <ul>
-<li>registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260705</li>
-<li>registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260705-plugins</li>
-<li>registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260705-distroless</li>
-<li>registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260705-distroless-plugins</li>
-<li>registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260705-fips</li>
-<li>registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260705-plugins-fips</li>
-<li>registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260705-distroless-fips</li>
-<li>registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260705-distroless-plugins-fips</li>
+<li>registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260910</li>
+<li>registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260910-plugins</li>
+<li>registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260910-distroless</li>
+<li>registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260910-distroless-plugins</li>
+<li>registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260910-fips</li>
+<li>registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260910-plugins-fips</li>
+<li>registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260910-distroless-fips</li>
+<li>registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260910-distroless-plugins-fips</li>
 </ul>
 <h2 id="how-to-use-the-sftpgo-image">How to use the SFTPGo image</h2>
 <h3 id="start-a-sftpgo-server-instance">Start a <code>sftpgo</code> server instance</h3>
-<p>Starting a SFTPGo instance is simple:</p>
+<p>To start a SFTPGo instance:</p>
 <pre><code class="language-shell">docker run --name some-sftpgo -p 8080:8080 -p 2022:2022 -d "registry.sftpgo.com/sftpgo/sftpgo:&lt;tag&gt;"
 </code></pre>
 <p>... where <code>some-sftpgo</code> is the name you want to assign to your container, and <code>tag</code> is the tag specifying the SFTPGo version you want. See the list above for relevant tags.</p>
@@ -4160,9 +4188,9 @@ Alternatively you can increase the default docker grace time to a value larger t
 <li>Let Docker manage the storage for SFTPGo data by <a href="https://docs.docker.com/engine/tutorials/dockervolumes/#adding-a-data-volume" target="_blank">writing them to disk on the host system using its own internal volume management</a>. This is the default and is easy and fairly transparent to the user. The downside is that the files may be hard to locate for tools and applications that run directly on the host system, i.e. outside containers.</li>
 <li>Create a data directory on the host system (outside the container) and <a href="https://docs.docker.com/engine/tutorials/dockervolumes/#mount-a-host-directory-as-a-data-volume" target="_blank">mount this to a directory visible from inside the container</a>. This places the SFTPGo files in a known location on the host system, and makes it easy for tools and applications on the host system to access the files. The downside is that the user needs to make sure that the directory exists, and that e.g. directory permissions and other security mechanisms on the host system are set up correctly. The SFTPGo image runs using <code>1000</code> as UID/GID by default.</li>
 </ul>
-<p>The Docker documentation is a good starting point for understanding the different storage options and variations, and there are multiple blogs and forum postings that discuss and give advice in this area. We will simply show the basic procedure here for the latter option above:</p>
+<p>The Docker documentation is a good starting point for understanding the different storage options and variations. This section covers only the basic procedure for the second option above:</p>
 <ol>
-<li>Create a data directory on a suitable volume on your host system, e.g. <code>/my/own/sftpgodata</code>. The user with ID <code>1000</code> must be able to write to this directory. Please note that you don't need an actual user with ID <code>1000</code> on your host system: <code>chown -R 1000:1000 /my/own/sftpgodata</code> is enough even if there is no user/group with UID/GID <code>1000</code>.</li>
+<li>Create a data directory on a suitable volume on your host system, e.g. <code>/my/own/sftpgodata</code>. The user with ID <code>1000</code> must be able to write to this directory. Note that you don't need an actual user with ID <code>1000</code> on your host system: <code>chown -R 1000:1000 /my/own/sftpgodata</code> is enough even if there is no user/group with UID/GID <code>1000</code>.</li>
 <li>Create a home directory for the sftpgo container user on your host system e.g. <code>/my/own/sftpgohome</code>. As with the data directory above, make sure that the user with ID <code>1000</code> can write to this directory: <code>chown -R 1000:1000 /my/own/sftpgohome</code></li>
 <li>Start your SFTPGo container like this:</li>
 </ol>
@@ -4173,7 +4201,7 @@ Alternatively you can increase the default docker grace time to a value larger t
     --mount type=bind,source=/my/own/sftpgohome,target=/var/lib/sftpgo \
     -d "registry.sftpgo.com/sftpgo/sftpgo:&lt;tag&gt;"
 </code></pre>
-<p>As you can see SFTPGo uses two main volumes:</p>
+<p>SFTPGo uses two main volumes:</p>
 <ul>
 <li><code>/srv/sftpgo</code> to handle persistent data. The default home directory for SFTP/FTP/WebDAV users is <code>/srv/sftpgo/data/&lt;username&gt;</code>. Backups are stored in <code>/srv/sftpgo/backups</code></li>
 <li><code>/var/lib/sftpgo</code> is the home directory for the sftpgo system user defined inside the container. This is the container working directory too, host keys will be created here when using the default configuration.</li>
@@ -4240,7 +4268,7 @@ replicaCount: 2
 # Use the Enterprise image with plugins
 image:
   repository: registry.sftpgo.com/sftpgo/sftpgo
-  tag: v2.7.20260705-plugins
+  tag: v2.7.20260910-plugins
 
 # Enable protocols
 sftpd:
@@ -4337,7 +4365,7 @@ ingress:
 <p>SFTPGo generates per-instance SSH host keys the first time it starts if none are configured. In Kubernetes (and in any ephemeral / multi-replica deployment) that default is problematic: each replica ends up with its own keys, and clients see a key-mismatch warning as they hit different pods.</p>
 <p>There are two clean ways to share the same host keys across pods:</p>
 <ol>
-<li><strong>Store host keys in the data provider (recommended).</strong> In the WebAdmin, go to <strong>Server Manager → Configurations → SFTP</strong> and paste the private keys directly; SFTPGo stores them encrypted in the database and every replica that connects to the shared data provider loads the same set. This approach also works on Linux and Windows installs — it removes any need to synchronize key files on the filesystem, and the keys survive container rebuilds.</li>
+<li><strong>Store host keys in the data provider (recommended).</strong> In the WebAdmin, go to <strong>Server Manager =&gt; Configurations =&gt; SFTP</strong> and paste the private keys directly; SFTPGo stores them encrypted in the database and every replica that connects to the shared data provider loads the same set. This approach also works on Linux and Windows installs — it removes any need to synchronize key files on the filesystem, and the keys survive container rebuilds.</li>
 <li><strong>Mount keys as a Kubernetes Secret and reference them from the config.</strong> Classic pattern, useful if you prefer keeping keys outside the database or you're managing them with an external tool (sealed-secrets, external-secrets, cert-manager for host certificates, etc.):<p>```yaml
   # Create the secret once:
   # kubectl create secret generic sftpgo-host-keys \
@@ -4391,7 +4419,7 @@ ingress:
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="July 5, 2026 13:20:16 UTC">2026-07-05 13:20:16</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
   </span>
 
     
@@ -4468,7 +4496,7 @@ ingress:
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   

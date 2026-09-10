@@ -12,7 +12,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/tutorials/eventmanager-icap/",
         "inLanguage": "en",
         "datePublished": "2026-04-26T15:47:01Z",
-        "dateModified": "2026-04-26T15:47:01Z",
+        "dateModified": "2026-09-08T09:20:06Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -734,6 +734,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../users/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Users
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -1523,10 +1551,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#failure-policies" class="md-nav__link">
+  <a href="#block-action" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Failure Policies
+        Block Action
       
     </span>
   </a>
@@ -3698,10 +3726,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#failure-policies" class="md-nav__link">
+  <a href="#block-action" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Failure Policies
+        Block Action
       
     </span>
   </a>
@@ -3880,16 +3908,16 @@
 
 
 <h1 id="antivirus-scanning-with-icap">Antivirus Scanning with ICAP</h1>
-<p>This tutorial shows how to configure automatic antivirus scanning for uploaded files using the ICAP protocol and the <strong>Execute Before File Publish</strong> feature. Uploaded files are scanned <em>before</em> they become visible to other users — if the scan detects a threat, the file is deleted and never published.</p>
+<p>This tutorial shows how to configure automatic antivirus scanning for uploaded files using the ICAP protocol and the <strong>Execute Before File Publish</strong> feature. Uploaded files are scanned <em>before</em> they are published at their final path — if the scan detects a threat, the file is deleted or quarantined and never published.</p>
 <h2 id="how-it-works">How It Works</h2>
 <ol>
 <li>A user uploads a file via SFTP, FTP, or HTTP/WebDAV.</li>
 <li>The file is written to a temporary location (<code>.sftpgo-upload.&lt;id&gt;.&lt;filename&gt;</code>).</li>
 <li>The ICAP action sends the file to an ICAP server (e.g., ClamAV via c-icap) for scanning.</li>
 <li>If the scan passes, the file is renamed to its final path and becomes visible.</li>
-<li>If the scan detects a threat, the temporary file is deleted — the file never appears.</li>
+<li>If the scan detects a threat, the temporary file is deleted or quarantined — the file never appears at its final path.</li>
 </ol>
-<p>The file is hidden from other users during the entire scanning process.</p>
+<p>The temporary file is an ordinary file in the destination directory: the file pattern filter of step 2 hides it from users during the scan.</p>
 <h2 id="prerequisites">Prerequisites</h2>
 <ul>
 <li>An ICAP-compatible antivirus or DLP server (RFC 3507). Common options include:<ul>
@@ -3908,17 +3936,17 @@
 </code></pre>
 <p>This tells SFTPGo to write uploads to a temporary file first, then rename to the final path on success.</p>
 <h2 id="step-2-configure-file-pattern-filters">Step 2: Configure File Pattern Filters</h2>
-<p>To prevent users from seeing or accessing temporary upload files during scanning, configure a file pattern filter. This can be set per-user or, more conveniently, on a <strong>group</strong> that all users belong to.</p>
+<p>Without a file pattern filter, the temporary upload file appears in directory listings and can be downloaded or deleted, by the uploader and by every user who reaches the directory, while the scan runs. Configure a file pattern filter to hide it. This can be set per-user or, more conveniently, on a <strong>group</strong> that all users belong to.</p>
 <p>In the user or group settings, add a file pattern filter:</p>
 <ul>
 <li><strong>Path</strong>: <code>/</code></li>
 <li><strong>Denied patterns</strong>: <code>.sftpgo-upload*</code></li>
 <li><strong>Policy</strong>: <code>Hide</code></li>
 </ul>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> A filter defined on a subdirectory replaces the one on <code>/</code> for that directory. Where a user or group has a filter on a specific path, for example allowed extensions on <code>/inbox</code>, add <code>.sftpgo-upload*</code> to its denied patterns as well.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/icap-pattern-filter.png" data-desc-position="bottom" data-gallery="icap-filter"><img alt="File pattern filter" data-gallery="icap-filter" src="../../assets/img/icap-pattern-filter.png"></a></p>
-<p>With the <strong>Hide</strong> policy, temporary files are completely invisible — they do not appear in directory listings and all operations on them are blocked. This is the recommended setting.</p>
+<p>With the <strong>Hide</strong> policy, temporary files do not appear in directory listings and all operations on them are blocked. The ICAP action reads them regardless, since event actions are not bound by file pattern filters.</p>
 <p>Alternatively, the <strong>Deny</strong> policy makes the files appear in listings but blocks all operations (download, delete, rename). Use this if you need visibility into ongoing uploads.</p>
-<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Apply this filter to a group to enforce it for all users at once, rather than configuring each user individually.</p>
 <h2 id="step-3-create-an-icap-action">Step 3: Create an ICAP Action</h2>
 <p>From the WebAdmin, expand the <strong>Event Manager</strong> section, select <strong>Event actions</strong> and add a new action.</p>
 <p>Create an action named <code>antivirus scan</code> and set the type to <code>ICAP</code>.</p>
@@ -3928,37 +3956,39 @@
 <li><strong>Path</strong>: The file to scan — set this to <code>/{{.VirtualPath}}</code>. When combined with "Execute before file publish", this resolves to the temporary file path automatically, so the scan targets the staged file before it is published.</li>
 </ul>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/icap-action.png" data-desc-position="bottom" data-gallery="icap-action"><img alt="ICAP action" data-gallery="icap-action" src="../../assets/img/icap-action.png"></a></p>
-<h3 id="failure-policies">Failure Policies</h3>
-<p>When the ICAP scan detects a threat, you can configure the response:</p>
+<h3 id="block-action">Block Action</h3>
+<p>The <strong>Block action</strong> decides what happens to the temporary file when the scan reports a threat:</p>
 <table>
 <thead>
 <tr>
-<th>Policy</th>
+<th>Option</th>
 <th>Behavior</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>Delete</strong></td>
-<td>The file is removed immediately. This is the default when used with Execute Before File Publish — the temporary file is deleted and never published.</td>
+<td>The temporary file is removed.</td>
 </tr>
 <tr>
 <td><strong>Quarantine</strong></td>
-<td>The file is moved to a quarantine directory. Configure a virtual folder as the quarantine destination — this allows quarantining to a different storage backend (e.g., a dedicated quarantine S3 bucket).</td>
+<td>The temporary file is moved to the quarantine path. Configure a virtual folder as the quarantine destination to quarantine to a different storage backend (e.g., a dedicated quarantine S3 bucket).</td>
 </tr>
 <tr>
-<td><strong>No action</strong></td>
-<td>The scan result is logged but the file is left in place. Use this for monitoring/alerting without blocking.</td>
+<td><strong>Ignore</strong></td>
+<td>The action leaves the file alone. The upload is rejected all the same, so SFTPGo removes the temporary file.</td>
 </tr>
 </tbody>
 </table>
+<p>With Execute Before File Publish the upload is rejected for every verdict other than clean: the option decides where the file ends up, not whether it is published. The <strong>Adapt action</strong> and the <strong>Failure policy</strong> cover a modified file and a scan that cannot be executed with the same options, see <a href="../../filesystem-actions/#icap">ICAP</a>.</p>
 <h3 id="quarantine-with-virtual-folders">Quarantine with Virtual Folders</h3>
 <p>To quarantine infected files to a separate storage location:</p>
 <ol>
 <li>Create a virtual folder named <code>quarantine</code> backed by the desired storage (e.g., a dedicated S3 bucket, a local directory, or an SFTP server).</li>
-<li>In the ICAP action, set the failure policy to <strong>Quarantine</strong> and select <code>quarantine</code> as the quarantine folder.</li>
+<li>In the ICAP action, set the block action to <strong>Quarantine</strong> and select <code>quarantine</code> as the quarantine folder.</li>
 </ol>
 <p>This provides isolation — infected files are moved out of the user's storage entirely.</p>
+<p>With "Execute before file publish" the scanned file is still at its temporary path (<code>.sftpgo-upload.&lt;id&gt;.&lt;filename&gt;</code>): a quarantine path ending with <code>/</code> keeps that temporary name. Use <code>/quarantine/{{.Name}}/{{pathJoin (stringSlice (pathDir .VirtualPath) .ObjectName)}}</code> to store the file under its original name and directory layout, partitioned by user (e.g. <code>/quarantine/alice/inbox/report.pdf</code>). Use <code>{{.ObjectName}}</code> in notifications too — as in the failure email below — so messages show the name the user uploaded.</p>
 <h2 id="step-4-create-an-event-rule">Step 4: Create an Event Rule</h2>
 <p>Now select <strong>Event rules</strong> and create a rule named <code>Scan uploads</code>.</p>
 <ul>
@@ -3972,9 +4002,9 @@
 <ul>
 <li>The client receives a success response immediately after the upload completes.</li>
 <li>The scan runs in the background.</li>
-<li>If the scan fails, the file is silently removed — the client is not informed via the protocol.</li>
+<li>If the scan fails, the file is removed — the client is not informed via the protocol.</li>
 </ul>
-<p>If you also enable <strong>Execute sync</strong> on the same action, the scanning runs <strong>synchronously</strong>:</p>
+<p>If you also enable <strong>Synchronous execution</strong> on the same action, the scanning runs <strong>synchronously</strong>:</p>
 <ul>
 <li>The client waits for the scan to complete.</li>
 <li>If the scan passes, the client receives a success response.</li>
@@ -3982,20 +4012,22 @@
 </ul>
 <p>The trade-off is potential client timeout — for large files, the scan may take significant time. Configure client-side timeouts accordingly.</p>
 <h3 id="adding-a-failure-notification">Adding a Failure Notification</h3>
-<p>Add a second action to the rule — for example, an email action — and mark it as a <strong>failure action</strong>. This way, administrators are notified when a scan detects a threat:</p>
+<p>Add a second action to the rule — for example, an email action — and mark it as a <strong>failure action</strong>. Email actions need an SMTP server: configure it from the WebAdmin under <strong>Server Manager &gt; Configurations &gt; SMTP</strong>, where the settings apply without a restart, or in the <a href="../../config-file/#smtp">SMTP section</a> of the configuration file. This way, administrators are notified when a scan detects a threat:</p>
 <ul>
 <li><strong>Subject</strong>: <code>Antivirus alert: infected file from {{.Name}}</code></li>
-<li><strong>Body</strong>: <code>User {{.Name}} uploaded an infected file: {{.ObjectName}} ({{humanizeBytes .FileSize}}). The file has been blocked. Errors: {{ stringJoin .Errors ", " }}</code></li>
+<li><strong>Body</strong>: <code>User {{.Name}} uploaded an infected file: {{.ObjectName}} ({{humanizeBytes .FileSize}}). The file has been blocked. Scan result: {{.ICAPResult.Status}}{{if .ICAPResult.Threat}}, threat: {{.ICAPResult.Threat}}{{end}}</code></li>
 </ul>
+<p>The <a href="../../placeholders/#icapresult"><code>{{.ICAPResult}}</code></a> placeholder exposes the scan outcome and the threat name reported by the ICAP server; <a href="../../placeholders/#icapresults"><code>{{.ICAPResults}}</code></a> lists the per-file results when a rule scans multiple paths.</p>
 <h2 id="step-5-test">Step 5: Test</h2>
 <p>Upload a test file via SFTP or FTP. It should:</p>
 <ol>
 <li>Not appear in directory listings during scanning (thanks to the Hide filter).</li>
 <li>Appear at its final path after the scan completes successfully.</li>
 </ol>
+<p>Check with a directory listing rather than with a file attribute request: within the SFTP or FTP session that performed the upload, a request for the attributes of the final path returns the uploaded size while the scan runs, so that clients verifying their uploads report success. See <a href="../../execute-before-file-publish/#the-file-while-the-actions-run">the file while the actions run</a> for the behavior of the other protocols.</p>
 <p>To test threat detection, you can use the <a href="https://www.eicar.org/download-anti-malware-testfile/" target="_blank">EICAR test file</a> — a harmless test string recognized by all antivirus engines.</p>
 <h2 id="storage-backend-support">Storage Backend Support</h2>
-<p>ICAP works transparently on <strong>all</strong> storage backends:</p>
+<p>ICAP supports every storage backend:</p>
 <table>
 <thead>
 <tr>
@@ -4010,7 +4042,7 @@
 </tr>
 <tr>
 <td>Encrypted filesystem (CryptFs)</td>
-<td>Files are decrypted transparently for scanning</td>
+<td>Files are decrypted for scanning</td>
 </tr>
 <tr>
 <td>AWS S3</td>
@@ -4037,9 +4069,8 @@
 <p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> On cloud storage backends, the rename step after scanning involves a server-side copy followed by a delete. For very large files, this adds latency proportional to the file size.</p>
 <h2 id="important-notes">Important Notes</h2>
 <ul>
-<li><strong>TempPath incompatibility</strong>: If the server-wide <code>TempPath</code> option is set, staged actions are skipped for local and encrypted filesystems. Use file pattern filters instead of <code>TempPath</code> to hide temporary files. See <a href="../../execute-before-file-publish/#limitations">Execute Before File Publish — Limitations</a> for details.</li>
 <li><strong>Multiple actions</strong>: You can combine ICAP with other staged actions in the same rule (e.g., ICAP scan + HTTP webhook for logging). All staged actions must pass before the file is published.</li>
-<li><strong>Non-staged rules</strong>: Other rules matching the same upload event (without "Execute before file publish") will run <em>after</em> the file is published. If the ICAP scan fails and the file is never published, those rules do not execute.</li>
+<li><strong>Non-staged rules</strong>: Other rules matching the same upload event (without "Execute before file publish") run <em>after</em> the file is published. If the scan fails, the upload is reported to them as failed: set their <strong>Status filters</strong> to the successful status so that they react to published files alone.</li>
 </ul>
 
 
@@ -4063,7 +4094,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 26, 2026 15:47:01 UTC">2026-04-26 15:47:01</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
   </span>
 
     
@@ -4140,7 +4171,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   

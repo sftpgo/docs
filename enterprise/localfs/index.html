@@ -12,7 +12,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/localfs/",
         "inLanguage": "en",
         "datePublished": "2024-04-25T16:47:14Z",
-        "dateModified": "2026-06-20T17:54:33Z",
+        "dateModified": "2026-09-08T09:20:06Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -734,6 +734,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../users/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Users
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -2094,17 +2122,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#symbolic-links" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Symbolic links
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#permissions" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2148,6 +2165,17 @@
     <span class="md-ellipsis">
       
         Atomic uploads
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#symbolic-links" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Symbolic links
       
     </span>
   </a>
@@ -3568,17 +3596,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#symbolic-links" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Symbolic links
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#permissions" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3622,6 +3639,17 @@
     <span class="md-ellipsis">
       
         Atomic uploads
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#symbolic-links" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Symbolic links
       
     </span>
   </a>
@@ -3694,37 +3722,39 @@
 
 
 <h1 id="local-filesystem">Local filesystem</h1>
-<p>The local filesystem is the default storage backend. Each user is restricted to their <strong>home directory</strong> — all file operations (uploads, downloads, listings) are confined within it.</p>
+<p>The local filesystem is the default storage backend. Each user is restricted to their <strong>home directory</strong>: all file operations (uploads, downloads, listings) are confined within it.</p>
 <h2 id="home-directory">Home directory</h2>
-<p>The home directory is set per-user and represents the root of their visible filesystem. It must be an absolute path (e.g., <code>/srv/sftpgo/data/alice</code>). If <code>users_base_dir</code> is configured in the data provider settings, new users will automatically get a home directory derived from <code>users_base_dir/username</code>.</p>
-<p>SFTPGo does not create the home directory automatically. You can use an Event Manager rule on the <code>add</code> provider event to create it, or ensure it exists before the user's first login.</p>
-<h2 id="symbolic-links">Symbolic links</h2>
-<p>Symbolic links that point outside the user's home directory are rejected rather than followed. If you need to give a user access to a directory outside their home, use a <a href="../virtual-folders/">virtual folder</a> instead.</p>
-<p>Within the home directory, clients holding the <code>create_symlinks</code> permission can create symbolic links when enabled by <code>symlink_mode</code> (disabled by default), and links are followed to their target. Because operations dereference a link to its target, a link can cross directories governed by different per-directory permissions. See <a href="../config-file/#symbolic-links-and-permissions">Symbolic links and permissions</a> for how this interacts with per-directory permissions and the <code>symlink_mode</code> setting that controls link creation.</p>
-<p>For environments with strict isolation requirements, provision each user from an empty directory that contains no symbolic links; symbolic-link creation is disabled by default. See the confinement note in <a href="../config-file/#symbolic-links-and-permissions">Symbolic links and permissions</a> for the reasoning.</p>
-<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> On Windows, directory junctions (and other mount-point reparse points) are not symbolic links, and SFTPGo's path confinement does not resolve them. A client cannot create one through SFTPGo, but a junction created directly on the filesystem (for example with <code>mklink /J</code>) is not detected: the operating system follows it, so an operation can traverse it even when it points outside the home directory. Do not create a junction inside a user's home directory that points outside of it.</p>
-<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Hard links are not symbolic links: a client cannot create one through SFTPGo, and because a hard link is a second name for the same file rather than a pointer to a path, there is nothing for SFTPGo to resolve or confine. A hard link created directly on the filesystem inside a user's home exposes the linked file's contents under the home's permissions, regardless of the per-directory permissions configured for the file's original location. Do not create hard links inside a user's home that reference files you restrict elsewhere.</p>
+<p>The home directory is set per-user and represents the root of their visible filesystem. It must be an absolute path (e.g., <code>/srv/sftpgo/data/alice</code>). If <code>users_base_dir</code> is configured in the data provider settings, new users automatically get a home directory derived from <code>users_base_dir/username</code>.</p>
+<p>A missing home directory is created at the user's first login, with the privileges of the account SFTPGo runs under. Create it beforehand when its parent directory is not writable by that account, or when it needs a specific owner or mode, see <a href="#permissions">Permissions</a>.</p>
+<p>To give a user access to a directory outside the home directory, use a <a href="../virtual-folders/">virtual folder</a>. A rename between the home directory and a virtual folder is performed as a copy followed by a delete, see <a href="../virtual-folders/#renaming-across-folders">Renaming across folders</a>.</p>
 <h2 id="permissions">Permissions</h2>
 <p>File and directory permissions on the underlying filesystem apply as expected. SFTPGo runs under a system user (typically <code>sftpgo</code> on Linux packages, <code>LOCAL SYSTEM</code> on Windows), so the home directory and every parent directory must be accessible to that account.</p>
 <h3 id="a-common-source-of-permission-denied-on-upload">A common source of "permission denied" on upload</h3>
-<p>On Linux, if you configure a home directory outside the packaged <code>users_base_dir</code> (which defaults to <code>/srv/sftpgo/data</code>) and the path was created as <code>root</code>, the <code>sftpgo</code> service account cannot write to it — the user authenticates but every <code>MKDIR</code> / <code>PUT</code> fails. Fix by transferring ownership and making sure every parent is traversable:</p>
+<p>On Linux, if you configure a home directory outside the packaged <code>users_base_dir</code> (which defaults to <code>/srv/sftpgo/data</code>) and the path was created as <code>root</code>, the <code>sftpgo</code> service account cannot write to it: the user authenticates but every <code>MKDIR</code> / <code>PUT</code> fails. Fix by transferring ownership and making sure every parent is traversable:</p>
 <pre><code class="language-shell">sudo mkdir -p /data/sftpgo/alice
 sudo chown -R sftpgo:sftpgo /data/sftpgo
 sudo chmod 755 /data
 </code></pre>
-<p>The packaged <code>/srv/sftpgo</code> tree is already chowned by the post-install script, so users whose home sits under it work out of the box.</p>
+<p>The packaged <code>/srv/sftpgo</code> tree is already chowned by the post-install script, so users whose home directory is under it work without further changes.</p>
 <p>On Windows, grant the service account read / write on the chosen path (via the directory properties or <code>icacls</code>) if you changed the service identity away from <code>LOCAL SYSTEM</code>.</p>
 <p>The <code>setstat_mode</code> <a href="../config-file/">configuration parameter</a> controls how SFTPGo handles requests to change file attributes (permissions, ownership, timestamps):</p>
 <ul>
-<li><code>0</code> (default) — all requests are executed on the underlying filesystem.</li>
-<li><code>1</code> — all attribute change requests are silently ignored.</li>
-<li><code>2</code> — requests are silently ignored only for operations not supported by the current storage backend.</li>
+<li><code>0</code> (default): all requests are executed on the underlying filesystem.</li>
+<li><code>1</code>: all attribute change requests are silently ignored.</li>
+<li><code>2</code>: requests are silently ignored only for operations not supported by the current storage backend.</li>
 </ul>
 <p>This setting is particularly relevant for <strong>modification times</strong> (<code>chtimes</code>). On the local filesystem, modification times are fully supported. However, some storage backends (notably S3) do not support setting modification times at all. If your users connect to a mix of local and cloud-backed paths, setting <code>setstat_mode</code> to <code>2</code> avoids errors on cloud backends while preserving full functionality on local storage.</p>
 <h2 id="shared-storage-and-nfs">Shared storage and NFS</h2>
 <p>If you use a network filesystem (NFS, CIFS/SMB) as the backing store for user home directories, keep in mind that latency on network filesystems directly affects file transfer performance.</p>
 <h2 id="atomic-uploads">Atomic uploads</h2>
-<p>When atomic uploads are enabled (<code>upload_mode</code> set to <code>1</code> or <code>2</code>), files are written to a temporary file in the same directory and renamed to the final path on completion. This is an atomic operation on local filesystems — the rename is instantaneous regardless of file size.</p>
+<p>When atomic uploads are enabled (<code>upload_mode</code> set to <code>1</code> or <code>2</code>), files are written to a temporary file in the same directory and renamed to the final path on completion. This is an atomic operation on local filesystems: the rename is instantaneous regardless of file size.</p>
+<h2 id="symbolic-links">Symbolic links</h2>
+<p>Symbolic links that point outside the user's home directory are rejected rather than followed. Within the home directory, clients holding the <code>create_symlinks</code> permission can create symbolic links when enabled by <code>symlink_mode</code> (disabled by default), and links are followed as long as their target resolves inside the home directory. Links are stored relative to the directory containing them; a link with an absolute target, created directly on the filesystem or through an older SFTPGo version, is not followed and cannot be read back, even when the target is inside the home directory. Because operations dereference a link to its target, a link can cross directories governed by different per-directory permissions. See <a href="../config-file/#symbolic-links-and-permissions">Symbolic links and permissions</a> for how this interacts with per-directory permissions and the <code>symlink_mode</code> setting that controls link creation.</p>
+<p>For environments with strict isolation requirements, provision each user from an empty directory that contains no symbolic links; symbolic-link creation is disabled by default. A link cannot escape the home directory, but as described above it can cross areas of the same tree governed by different per-directory permissions.</p>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> The home directory is reached by resolving its path, so the directories that lead to it decide where a session lands. Any redirection placed on that path, a symbolic link, a Windows junction, a bind mount, or any other construct the operating system resolves transparently, is followed, and the session is served from wherever it leads, with the privileges of the account SFTPGo runs under. Keep the home directory and every directory above it under administrative control and writable only by trusted accounts: provision them under a base directory reserved for them, as <code>users_base_dir</code> does, and give clients write access below their home rather than around it. This matters most where clients also hold local accounts on the host. The same applies to the mapped path of a <a href="../virtual-folders/">virtual folder</a>.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Path confinement operates on path resolution: it constrains where symbolic links may lead, not what the filesystem itself presents beneath the home directory. A mount point, including a Linux bind mount or a special filesystem such as <code>/proc</code>, is traversed transparently, like the ordinary directory it appears as, and special files created directly on the filesystem (device nodes, named pipes) are accessed as such. SFTPGo does not create any of these itself; they appear when placed there on the host, and whatever is mounted or placed inside a user's home is then reachable under that home's permissions. Keep mount points, special filesystems and device files out of the provisioned tree unless you intend to expose their contents.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> On Windows, a client cannot create directory junctions (or other mount-point reparse points) through SFTPGo. During path resolution a junction created directly on the filesystem (for example with <code>mklink /J</code>) is treated like a symbolic link and, since a junction stores an absolute target, access through it is expected to fail rather than be followed. This handling comes from the underlying runtime, not from SFTPGo itself: do not rely on it as an isolation boundary and avoid creating junctions inside a user's home directory.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Hard links are not symbolic links: a client cannot create one through SFTPGo, and because a hard link is a second name for the same file rather than a pointer to a path, there is nothing for SFTPGo to resolve or confine. A hard link created directly on the filesystem inside a user's home exposes the linked file's contents under the home's permissions, regardless of the per-directory permissions configured for the file's original location. Do not create hard links inside a user's home that reference files you restrict elsewhere.</p>
 
 
 
@@ -3747,7 +3777,7 @@ sudo chmod 755 /data
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="June 20, 2026 17:54:33 UTC">2026-06-20 17:54:33</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
   </span>
 
     
@@ -3824,7 +3854,7 @@ sudo chmod 755 /data
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   

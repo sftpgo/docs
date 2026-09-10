@@ -12,7 +12,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/data-provider/",
         "inLanguage": "en",
         "datePublished": "2024-04-25T16:47:14Z",
-        "dateModified": "2026-04-26T15:47:01Z",
+        "dateModified": "2026-09-08T09:20:06Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -733,6 +733,34 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#loading-a-dump-from-the-command-line" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Loading a dump from the command line
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Loading a dump from the command line">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#restoring-a-dump-as-a-mirror" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restoring a dump as a mirror
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#upgrading" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -855,6 +883,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../users/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Users
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -3568,6 +3624,34 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#loading-a-dump-from-the-command-line" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Loading a dump from the command line
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Loading a dump from the command line">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#restoring-a-dump-as-a-mirror" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restoring a dump as a mirror
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#upgrading" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3716,6 +3800,57 @@
 </code></pre>
 <p>With <code>update_mode = 0</code> (the default) running <code>initprovider</code> is harmless — it just performs the same work the next startup would have done — but it is not required.</p>
 <p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Some data providers (e.g. MySQL and CockroachDB) do not support schema changes within a transaction, so a forcibly-aborted migration can leave the schema in an inconsistent state. CockroachDB also does not implement <code>pg_advisory_lock</code>, which means migrations cannot be serialized at the database level: make sure only one SFTPGo instance runs migrations against CockroachDB at a time — either by starting instances sequentially, or by setting <code>update_mode</code> to <code>1</code> on every instance and running <code>initprovider</code> from a single operator job.</p>
+<h2 id="loading-a-dump-from-the-command-line">Loading a dump from the command line</h2>
+<p><code>initprovider</code> can restore a provider dump — the JSON produced by the <code>dumpdata</code> REST API or from the "Maintenance" section of the WebAdmin — and then exit, so an instance can be seeded or refreshed without starting the service. The schema work runs first, so a single command initializes an empty database and populates it:</p>
+<pre><code class="language-bash">sftpgo initprovider --loaddata-from /path/to/backup.json
+</code></pre>
+<p>The path must be absolute. Each flag can also be set through the matching environment variable:</p>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Environment variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--loaddata-from</code></td>
+<td><code>SFTPGO_LOADDATA_FROM</code></td>
+<td>Absolute path of the dump to restore.</td>
+</tr>
+<tr>
+<td><code>--loaddata-mode</code></td>
+<td><code>SFTPGO_LOADDATA_MODE</code></td>
+<td><code>0</code> adds new objects and updates existing ones, <code>1</code> adds new objects and keeps existing ones as they are. Default <code>1</code>.</td>
+</tr>
+<tr>
+<td><code>--loaddata-clean</code></td>
+<td><code>SFTPGO_LOADDATA_CLEAN</code></td>
+<td>Delete the file after a successful load. Default <code>false</code>.</td>
+</tr>
+<tr>
+<td><code>--loaddata-prune</code></td>
+<td><code>SFTPGO_LOADDATA_PRUNE</code></td>
+<td>Delete the objects the dump does not contain. Default <code>false</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>A restore accepts a dump of up to 20 MB. For a larger file raise the limit with the <code>SFTPGO_HOOK__HTTPD_MAX_RESTORE_SIZE</code> environment variable, described under <a href="../env-vars/#http-server-limits">HTTP server limits</a>, on the instance that performs the restore: the same limit applies to the REST API and the WebAdmin.</p>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> A dump holds the whole configuration, including password hashes and the KMS-encrypted secrets, so protect the file and the channel that carries it as you would the database itself.</p>
+<p>The command loads the data and exits, so it starts no scheduler and runs no quota scan: use <code>serve --loaddata-scan</code> when the restored users need their quota recalculated. It leaves the data provider <a href="../custom-actions/#provider-events">actions hook</a> alone for the same reason.</p>
+<h3 id="restoring-a-dump-as-a-mirror">Restoring a dump as a mirror</h3>
+<p><code>--loaddata-prune</code> deletes the objects that are missing from the dump, so the types it carries end up matching it. It is meant for a standby instance that follows a primary: every cycle downloads a fresh dump and applies it, and the objects deleted on the primary are deleted locally too.</p>
+<pre><code class="language-bash">sftpgo initprovider --loaddata-from /path/to/backup.json --loaddata-mode 0 --loaddata-prune
+</code></pre>
+<p>Users, admins, groups, folders, roles, event actions, event rules, shares, API keys and IP list entries are pruned. Configurations and the license are single objects and are kept.</p>
+<p>Two conditions apply:</p>
+<ul>
+<li><strong><code>--loaddata-mode 0</code> is required.</strong> Mode 1 keeps existing objects as they are, so pruning would delete what the dump does not carry while leaving a stale copy of everything else. The combination is rejected.</li>
+<li><strong>The dump records the scopes it carries</strong>, and only those types are pruned. A partial dump obtained with <code>GET /dumpdata?scopes=users,folders</code> prunes users and folders and leaves everything else in place. A dump produced by a version that predates this field is refused, because a partial dump cannot be told apart from a complete one, and so is a dump that declares the admins scope while carrying no admin.</li>
+</ul>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> The instance is a copy of the dump, so treat its data provider as read-only. An object created or edited locally is deleted or overwritten by the next run.</p>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> The dump carries the KMS-encrypted secrets as they are stored and the restore writes them unchanged, so the instance must use the same <a href="../kms/">KMS</a> configuration as the one that produced the dump. With a different key the configuration is replicated faithfully and the secrets it depends on cannot be read. The license is decrypted and re-encrypted during the restore, so when the key is missing the load stops there, with an error that names the license rather than the key.</p>
 <h2 id="upgrading">Upgrading</h2>
 <p>SFTPGo supports upgrading from the previous release branch to the current one.
 Some examples for supported upgrade paths are:</p>
@@ -3731,6 +3866,7 @@ Some examples for supported upgrade paths are:</p>
 <p>Newer versions of SFTPGo often introduce changes to the data provider (database), such as new tables or columns. Older binaries do not know how to handle these changes and will fail to start if the database schema version is higher than what they expect.</p>
 <p>To handle this, you can use the <code>revertprovider</code> command.</p>
 <p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Before proceeding, strictly backup your database. You can also create a database-independent backup (JSON format) from the "Maintenance" section of the WebAdmin or using the REST API. Downgrading the schema involves dropping tables or columns added in the newer version, resulting in irreversible data loss for those specific fields.</p>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Reverting to schema version 34 or lower removes the virtual folder <a href="../virtual-folders/#sub-path-mounts">sub-path mount</a> fields (<code>subpath</code> and <code>exposed_subpaths</code>): each affected mapping then serves its whole folder, so users gain access to content the sub-path mounts kept hidden. Review and remove sub-path mounts before downgrading, or replace them with dedicated folders. A folder mapped at multiple virtual paths by the same user or group makes the downgrade fail: remove the extra mappings first.</p>
 <h3 id="how-to-use-revertprovider">How to use revertprovider</h3>
 <p>You must execute this command before uninstalling the current (newer) version of SFTPGo. The current binary contains the logic necessary to revert the changes it applied.</p>
 <p>Run the command from your configuration directory:</p>
@@ -3740,16 +3876,17 @@ Some examples for supported upgrade paths are:</p>
 <pre><code class="language-shell">sftpgo revertprovider --help
 </code></pre>
 <h3 id="schema-versions">Schema Versions</h3>
-<p>The <code>--to-version</code> parameter accepts an integer representing the internal schema version you want to target. The current schema version is 34.</p>
+<p>The <code>--to-version</code> parameter accepts an integer representing the internal schema version you want to target. The current schema version is 36.</p>
 <p>Here are the supported target versions for downgrading:</p>
 <ul>
-<li><strong>34 (Current)</strong>: The latest schema version.</li>
+<li><strong>36 (Current)</strong>: The latest schema version.</li>
+<li><strong>34, 35 (Intermediate)</strong>: Intermediate schema versions after v2.7.x.</li>
 <li><strong>33 (v2.7.x)</strong>: <strong>Default value.</strong> Target this version to downgrade to v2.7.x.</li>
 <li><strong>30, 31, 32 (Intermediate)</strong>: Intermediate schema versions between v2.6.x and v2.7.x.</li>
 <li><strong>29 (v2.6.x)</strong>: Target this version to downgrade to v2.6.x.</li>
 </ul>
 <h3 id="example">Example</h3>
-<p>If you are currently running the latest version (Schema 34) and want to downgrade to v2.6.x, you must revert the database schema to version 29.</p>
+<p>If you are currently running the latest version (Schema 36) and want to downgrade to v2.6.x, you must revert the database schema to version 29.</p>
 <ul>
 <li>Stop the SFTPGo service.</li>
 <li>Run the revert command:</li>
@@ -3785,7 +3922,7 @@ Some examples for supported upgrade paths are:</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 26, 2026 15:47:01 UTC">2026-04-26 15:47:01</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
   </span>
 
     
@@ -3862,7 +3999,7 @@ Some examples for supported upgrade paths are:</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   

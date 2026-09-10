@@ -12,7 +12,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -40,14 +40,14 @@
 
     
     <meta name="keywords" content="SFTPGo, SFTP server, FTP server, SCP, WebDAV, S3, Google Cloud Storage, Azure Blob, Managed File Transfer, MFT, 2FA, Data At Rest Encryption, file sharing, secure file transfer, SaaS, on-premise, REST API, Kubernetes, Helm chart, OIDC, LDAP">
-  <meta name="description" content="Automatically provision SFTPGo user accounts when users log in through an external Identity Provider using the Event Manager.">
+  <meta name="description" content="Create SFTPGo accounts at the first OpenID Connect login with an Event Manager rule: user template, sync or create once, claims to groups, cloud storage.">
   <meta property="og:title" content="Auto Provisioning via IdP - SFTPGo docs">
   <meta property="og:url" content="https://docs.sftpgo.com/enterprise/tutorials/eventmanager-idp/">
-  <meta property="og:description" content="Automatically provision SFTPGo user accounts when users log in through an external Identity Provider using the Event Manager.">
+  <meta property="og:description" content="Create SFTPGo accounts at the first OpenID Connect login with an Event Manager rule: user template, sync or create once, claims to groups, cloud storage.">
   <meta property="og:image" content="https://sftpgo.com/assets/img/og-image.png">
   <meta property="og:type" content="article">
   <meta name="twitter:title" content="Auto Provisioning via IdP - SFTPGo docs">
-  <meta name="twitter:description" content="Automatically provision SFTPGo user accounts when users log in through an external Identity Provider using the Event Manager.">
+  <meta name="twitter:description" content="Create SFTPGo accounts at the first OpenID Connect login with an Event Manager rule: user template, sync or create once, claims to groups, cloud storage.">
   <meta name="twitter:image" content="https://sftpgo.com/assets/img/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
 
@@ -92,12 +92,12 @@
       {
         "@type": "TechArticle",
         "headline": "Auto Provisioning via IdP",
-        "description": "Automatically provision SFTPGo user accounts when users log in through an external Identity Provider using the Event Manager.",
+        "description": "Create SFTPGo accounts at the first OpenID Connect login with an Event Manager rule: user template, sync or create once, claims to groups, cloud storage.",
         "image": "https://sftpgo.com/assets/img/og-image.png",
         "url": "https://docs.sftpgo.com/enterprise/tutorials/eventmanager-idp/",
         "inLanguage": "en",
         "datePublished": "2026-04-26T15:47:01Z",
-        "dateModified": "2026-04-26T15:47:01Z",
+        "dateModified": "2026-09-08T09:20:06Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -734,6 +734,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../users/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Users
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -1386,7 +1414,7 @@
   <a href="#how-it-works" class="md-nav__link">
     <span class="md-ellipsis">
       
-        How It Works
+        How it works
       
     </span>
   </a>
@@ -1405,10 +1433,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-1-configure-oidc-custom-fields" class="md-nav__link">
+  <a href="#step-1-create-the-account-check-action" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 1: Configure OIDC Custom Fields
+        Step 1: Create the account check action
       
     </span>
   </a>
@@ -1416,22 +1444,55 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-2-create-an-identity-provider-account-check-action" class="md-nav__link">
+  <a href="#step-2-create-the-rule" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 2: Create an Identity Provider Account Check Action
+        Step 2: Create the rule
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Step 2: Create an Identity Provider Account Check Action">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-test-the-login" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Test the login
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keep-accounts-in-sync-or-create-them-once" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keep accounts in sync or create them once
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-the-idp-claims" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use the IdP claims
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Use the IdP claims">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#example-s3-backend-with-group-mapping" class="md-nav__link">
+  <a href="#optional-claims" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example: S3 Backend with Group Mapping
+        Optional claims
       
     </span>
   </a>
@@ -1439,10 +1500,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#example-local-filesystem-with-fixed-group" class="md-nav__link">
+  <a href="#groups-from-a-claim" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example: Local Filesystem with Fixed Group
+        Groups from a claim
       
     </span>
   </a>
@@ -1455,10 +1516,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-3-create-an-event-rule" class="md-nav__link">
+  <a href="#cloud-storage" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 3: Create an Event Rule
+        Cloud storage
       
     </span>
   </a>
@@ -1466,10 +1527,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#tips" class="md-nav__link">
+  <a href="#administrators" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Tips
+        Administrators
       
     </span>
   </a>
@@ -3584,7 +3645,7 @@
   <a href="#how-it-works" class="md-nav__link">
     <span class="md-ellipsis">
       
-        How It Works
+        How it works
       
     </span>
   </a>
@@ -3603,10 +3664,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-1-configure-oidc-custom-fields" class="md-nav__link">
+  <a href="#step-1-create-the-account-check-action" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 1: Configure OIDC Custom Fields
+        Step 1: Create the account check action
       
     </span>
   </a>
@@ -3614,22 +3675,55 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-2-create-an-identity-provider-account-check-action" class="md-nav__link">
+  <a href="#step-2-create-the-rule" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 2: Create an Identity Provider Account Check Action
+        Step 2: Create the rule
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Step 2: Create an Identity Provider Account Check Action">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-test-the-login" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Test the login
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keep-accounts-in-sync-or-create-them-once" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keep accounts in sync or create them once
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-the-idp-claims" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use the IdP claims
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Use the IdP claims">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#example-s3-backend-with-group-mapping" class="md-nav__link">
+  <a href="#optional-claims" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example: S3 Backend with Group Mapping
+        Optional claims
       
     </span>
   </a>
@@ -3637,10 +3731,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#example-local-filesystem-with-fixed-group" class="md-nav__link">
+  <a href="#groups-from-a-claim" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example: Local Filesystem with Fixed Group
+        Groups from a claim
       
     </span>
   </a>
@@ -3653,10 +3747,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-3-create-an-event-rule" class="md-nav__link">
+  <a href="#cloud-storage" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 3: Create an Event Rule
+        Cloud storage
       
     </span>
   </a>
@@ -3664,10 +3758,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#tips" class="md-nav__link">
+  <a href="#administrators" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Tips
+        Administrators
       
     </span>
   </a>
@@ -3758,31 +3852,101 @@
 
 
 <h1 id="auto-provisioning-via-identity-provider">Auto Provisioning via Identity Provider</h1>
-<p>This tutorial shows how to automatically create SFTPGo user accounts when someone logs in through an external Identity Provider (IdP) such as Keycloak, Azure AD, or Okta. This eliminates the need to manually pre-create accounts — users are provisioned on their first login.</p>
-<h2 id="how-it-works">How It Works</h2>
+<p>An OpenID Connect Identity Provider (IdP) such as Keycloak, Microsoft Entra ID or Okta authenticates the person. The account the person works with, its storage, permissions and limits, is defined in SFTPGo: a login through the IdP succeeds when an SFTPGo user with the mapped username exists. This tutorial sets up an Event Manager rule that creates that user at the first login, from a template, so that accounts need no manual creation.</p>
+<h2 id="how-it-works">How it works</h2>
 <ol>
-<li>A user clicks "Sign in with OpenID" on the SFTPGo login page.</li>
-<li>After authenticating with the IdP, SFTPGo receives the ID token.</li>
-<li>An Event Manager rule with an <strong>Identity Provider login</strong> trigger fires.</li>
-<li>The <strong>Identity Provider account check</strong> action creates (or updates) the SFTPGo user based on a template you define.</li>
-<li>The user is logged in automatically.</li>
+<li>The user clicks "Sign in with OpenID" on the Web Client login page and authenticates with the IdP.</li>
+<li>SFTPGo validates the ID token and reads the username from the configured claim.</li>
+<li>A rule with the <strong>Identity Provider login</strong> trigger runs the <strong>Identity Provider account check</strong> action: the action renders a JSON user template with the data of the token and creates the user, or updates it when it exists.</li>
+<li>SFTPGo loads the user and opens the session.</li>
 </ol>
+<p>Provisioned users appear in the users list like any other user.</p>
 <h2 id="prerequisites">Prerequisites</h2>
 <ul>
-<li>A configured <a href="../../oidc/">OpenID Connect</a> integration with your Identity Provider. OIDC can be configured via environment variables, configuration file, or directly from the WebAdmin UI under <strong>Server Manager &gt; Configurations &gt; OIDC</strong> (requires <code>SFTPGO_HOOK__ENABLE_OIDC_UI=1</code>).</li>
-<li>The IdP should include the username (and optionally roles, email, or other attributes) in the ID token.</li>
+<li>OpenID Connect configured from the configuration file, environment variables or the WebAdmin under <strong>Server Manager &gt; Configurations &gt; OpenID Connect</strong>. See <a href="../../oidc/">OpenID Connect</a>.</li>
+<li>The claim set as <code>username_field</code> names the SFTPGo account. Choose it before the first user is provisioned: accounts are stored under its value, and a different claim later means different account names. See <a href="../../oidc/#choosing-the-username-claim">Choosing the username claim</a>.</li>
 </ul>
-<h2 id="step-1-configure-oidc-custom-fields">Step 1: Configure OIDC Custom Fields</h2>
-<p>If your IdP provides additional attributes you want to use during provisioning (e.g., roles, department, storage quota), add them to the OIDC <code>custom_fields</code> configuration:</p>
-<pre><code class="language-shell">SFTPGO_HTTPD__BINDINGS__0__OIDC__CUSTOM_FIELDS=sftpgo_role,department
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> With provisioning enabled, every identity the IdP authenticates for SFTPGo gets an account. Limit who can sign in: restrict the client on the IdP side to the intended users or groups, or set <code>user_role_values</code> so that only identities carrying a given role claim log in. See <a href="../../oidc/#role-mapping">Role mapping</a>.</p>
+<h2 id="step-1-create-the-account-check-action">Step 1: Create the account check action</h2>
+<p>From the WebAdmin expand <strong>Event Manager</strong>, select <strong>Event actions</strong> and add an action named <code>idp user provisioning</code> of type <strong>Identity Provider account check</strong>.</p>
+<p>In <strong>User template</strong> enter the JSON of the user to create. This template creates a user on the local disk, with a directory of its own and full permissions:</p>
+<pre><code class="language-json">{
+  "username": {{toJson .Name}},
+  "status": 1,
+  "home_dir": {{filePathJoin (stringSlice "/srv/sftpgo/data" .Name) | toJson}},
+  "permissions": {"/": ["*"]}
+}
 </code></pre>
-<p>These fields will be available in the action template as <code>{{.IDPFields.sftpgo_role}}</code>, <code>{{.IDPFields.department}}</code>, etc.</p>
-<h2 id="step-2-create-an-identity-provider-account-check-action">Step 2: Create an Identity Provider Account Check Action</h2>
-<p>From the WebAdmin, expand the <strong>Event Manager</strong> section, select <strong>Event actions</strong> and add a new action.</p>
-<p>Create an action named <code>idp user provisioning</code>, set the type to <code>Identity Provider account check</code>.</p>
-<p>In the <strong>User template</strong> field, enter a JSON template that defines the user to create. The JSON structure matches the user object documented in the <a href="https://sftpgo.com/rest-api" target="_blank">REST API</a>. This template uses Go template syntax with access to all <a href="../../placeholders/">placeholders</a>, including <code>{{.IDPFields}}</code> for custom IdP claims.</p>
-<h3 id="example-s3-backend-with-group-mapping">Example: S3 Backend with Group Mapping</h3>
-<p>This template creates a user with an S3 storage backend, using the username as the key prefix and mapping IdP roles to SFTPGo groups:</p>
+<ul>
+<li><code>username</code> must be <code>{{toJson .Name}}</code>: <code>.Name</code> is the username read from the ID token, and the login looks up exactly that account.</li>
+<li><code>status</code> is <code>1</code> for an active user.</li>
+<li><code>home_dir</code> is the root directory of the user, here <code>/srv/sftpgo/data/&lt;username&gt;</code>: <code>filePathJoin</code> builds the path and <code>toJson</code> quotes it.</li>
+<li><code>permissions</code> grants every operation on <code>/</code>.</li>
+</ul>
+<p>The template is a Go template that produces the user object of the <a href="https://sftpgo.com/rest-api" target="_blank">REST API</a>: every field the API accepts can be set, and a field left out takes its default. Wrap each string value in <code>toJson</code> so that quotes and special characters are escaped. The available placeholders and functions are listed in <a href="../../placeholders/">Placeholders &amp; Templates</a>.</p>
+<p>Leave <strong>Mode</strong> on <strong>Create or update</strong> for now; <a href="#keep-accounts-in-sync-or-create-them-once">Keep accounts in sync or create them once</a> explains the choice.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/idp-account-check.png" data-desc-position="bottom" data-gallery="idp-action"><img alt="IdP account check action" data-gallery="idp-action" src="../../assets/img/idp-account-check.png"></a></p>
+<h2 id="step-2-create-the-rule">Step 2: Create the rule</h2>
+<p>Select <strong>Event rules</strong> and add a rule named <code>IdP auto provisioning</code>:</p>
+<ul>
+<li><strong>Trigger</strong>: <strong>Identity Provider login</strong>, event <strong>User login</strong>.</li>
+<li><strong>Actions</strong>: <code>idp user provisioning</code> with <strong>Synchronous execution</strong> enabled.</li>
+</ul>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Synchronous execution is required: the account must exist before the login completes. An asynchronous action runs after the account lookup, and the first login fails.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/idp-rule.png" data-desc-position="bottom" data-gallery="idp-rule"><img alt="IdP rule" data-gallery="idp-rule" src="../../assets/img/idp-rule.png"></a></p>
+<h2 id="step-3-test-the-login">Step 3: Test the login</h2>
+<p>Open the Web Client login page in a private browser window and sign in with the OpenID button as an identity that has no SFTPGo account yet. The session opens and the new user appears in the users list of the WebAdmin.</p>
+<p>When the login page shows "Failed to get user associated with OpenID token", the rule did not produce a usable account. The server log has the cause, in the event manager messages starting with <code>unable to handle IDP login event</code>. The usual ones:</p>
+<ul>
+<li>the template renders invalid JSON, for example because a claim is missing or has an unexpected type;</li>
+<li>the rendered user is refused, for example because a referenced group does not exist or the home directory is not an absolute path;</li>
+<li>more than one rule with a synchronous account check action matches the login: keep one.</li>
+</ul>
+<p>To see the claims the IdP sends, enable <strong>Debug logs</strong> in the OpenID Connect configuration (<code>debug</code> in the configuration file): the ID token claims are written to the log at each login. Turn it off after the tests, the log then carries personal data.</p>
+<h2 id="keep-accounts-in-sync-or-create-them-once">Keep accounts in sync or create them once</h2>
+<p>The <strong>Mode</strong> of the action decides what happens at the logins after the first:</p>
+<ul>
+<li><strong>Create or update</strong>: the template is rendered at every login and the stored user is replaced with the result. The account follows the IdP: a changed claim, or a changed template, is applied at the next login. The settings an administrator edits in the WebAdmin are replaced too, since a field the template does not set returns to its default. The fields the user may edit from the Web Client keep their values: password, public keys, TLS certificates, description, email addresses and the API key authentication setting.</li>
+<li><strong>Create if it doesn't exist</strong>: the template is rendered for a username without an account, once. From then on the account is managed in SFTPGo and the IdP authenticates it.</li>
+</ul>
+<p>Choose the first when the IdP is the source of truth for storage and group membership, the second when administrators tune accounts after their creation.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Groups combine the two: let the template assign the user to a group and set permissions, quota or virtual folders on the group. The template stays the same and the changes survive the next login. The groups named in a template must exist: the action creates users, not groups.</p>
+<h2 id="use-the-idp-claims">Use the IdP claims</h2>
+<p>Claims beyond the username reach the template through <code>custom_fields</code> in the OpenID Connect configuration (<strong>Custom claims</strong> in the WebAdmin):</p>
+<pre><code class="language-shell">SFTPGO_HTTPD__BINDINGS__0__OIDC__CUSTOM_FIELDS=sftpgo_groups,department
+</code></pre>
+<p>Each listed claim is available as <code>{{.IDPFields.&lt;claim&gt;}}</code>, with the type the IdP gives it: string, number, boolean or list. The IdP must include the claim in the ID token; some providers need a dedicated scope or a client mapper for it. See <a href="../../oidc/#custom-fields">Custom fields</a>.</p>
+<h3 id="optional-claims">Optional claims</h3>
+<p>A claim is present only for the identities that carry it. Test it, so that the field is written only when the claim exists:</p>
+<pre><code class="language-json">{
+  "username": {{toJson .Name}},
+  "status": 1,
+  "home_dir": {{filePathJoin (stringSlice "/srv/sftpgo/data" .Name) | toJson}},
+  "permissions": {"/": ["*"]},
+  {{- if .IDPFields.department}}
+  "description": {{toJson .IDPFields.department}},
+  {{- end}}
+  "groups": [{"type": 1, "name": "default-users"}]
+}
+</code></pre>
+<h3 id="groups-from-a-claim">Groups from a claim</h3>
+<p>A list claim maps to SFTPGo groups. With a claim named <code>sftpgo_groups</code> holding for example <code>["sales", "eu"]</code>, a Keycloak realm role or an Entra ID group claim:</p>
+<pre><code class="language-json">{
+  "username": {{toJson .Name}},
+  "status": 1,
+  "home_dir": {{filePathJoin (stringSlice "/srv/sftpgo/data" .Name) | toJson}},
+  "permissions": {"/": ["*"]},
+  "groups": [
+    {{- range $i, $group := .IDPFields.sftpgo_groups}}
+    {{- if ne $i 0}},{{end}}
+    {"type": {{if eq $i 0}}1{{else}}2{{end}}, "name": {{toJson $group}}}
+    {{- end}}
+  ]
+}
+</code></pre>
+<p>The first group becomes the primary group (<code>type</code> 1), the others secondary groups (<code>type</code> 2). <code>range</code> needs a list: a claim that carries a single string is used directly, <code>"groups": [{"type": 1, "name": {{toJson .IDPFields.sftpgo_groups}}}]</code>. A claim with another shape fails the template, and the login with it, so check the token with the debug logs first.</p>
+<h2 id="cloud-storage">Cloud storage</h2>
+<p>The storage of the user is the <code>filesystem</code> object of the REST API user, with <code>provider</code> selecting the backend: <code>1</code> S3, <code>2</code> Google Cloud Storage, <code>3</code> Azure Blob, <code>4</code> encrypted local disk, <code>5</code> SFTP, <code>6</code> HTTP, <code>7</code> FTP. This template gives each user a prefix of its own in an S3 bucket, <code>users/&lt;username&gt;/</code>:</p>
 <pre><code class="language-json">{{- $keyPrefix := stringJoin (stringSlice "users" .Name) "/" -}}
 {
   "username": {{toJson .Name}},
@@ -3793,62 +3957,21 @@
     "s3config": {
       "bucket": "my-sftpgo-bucket",
       "region": "eu-central-1",
-      "key_prefix": {{$keyPrefix | toJson}}
+      "key_prefix": {{toJson $keyPrefix}}
     }
-  },
-  "groups": [
-    {{- $roles := .IDPFields.sftpgo_role -}}
-    {{- range $i, $role := $roles -}}
-      {{- if ne $i 0}},{{end}}
-      {"type": {{if eq $i 0}}1{{else}}2{{end}},
-       "name": {{$role | toJson}}}
-    {{- end}}
-  ]
+  }
 }
 </code></pre>
-<ul>
-<li><code>$keyPrefix</code> is built by joining <code>"users"</code> and the username with <code>/</code> — e.g., <code>users/alice</code>.</li>
-<li>The <code>groups</code> array is populated from the <code>sftpgo_role</code> claim. The first role gets type <code>1</code> (primary group), subsequent roles get type <code>2</code> (secondary).</li>
-<li>All string values use <code>toJson</code> for safe JSON encoding.</li>
-</ul>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/idp-account-check.png" data-desc-position="bottom" data-gallery="idp-action"><img alt="IdP account check action" data-gallery="idp-action" src="../../assets/img/idp-account-check.png"></a></p>
-<h3 id="example-local-filesystem-with-fixed-group">Example: Local Filesystem with Fixed Group</h3>
-<p>A simpler template for local filesystem users that assigns everyone to the same group:</p>
-<pre><code class="language-json">{
-  "username": {{toJson .Name}},
-  "status": 1,
-  "home_dir": {{filePathJoin (stringSlice "/srv/sftpgo/data" .Name) | toJson}},
-  "permissions": {"/": ["*"]},
-  "groups": [
-    {"type": 1, "name": "default-users"}
-  ]
-}
+<p>The user sees the prefix as <code>/</code> and reaches nothing else in the bucket. With no credentials in the template, SFTPGo uses the ones of the environment it runs in, for example the IAM role of the instance; fixed credentials go in <code>s3config</code> as <code>access_key</code> and <code>access_secret</code>:</p>
+<pre><code class="language-json">"access_key": "AKIA...",
+"access_secret": {"status": "Plain", "payload": "the secret"}
 </code></pre>
-<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> The groups referenced in the template must already exist in SFTPGo. The IdP account check action creates or updates users, but does not create groups.</p>
-<h2 id="step-3-create-an-event-rule">Step 3: Create an Event Rule</h2>
-<p>Now select <strong>Event rules</strong> and create a rule named <code>IdP auto provisioning</code>.</p>
-<ul>
-<li>Set <strong>Identity Provider login</strong> as the trigger.</li>
-<li>As actions, select the <code>idp user provisioning</code> action and enable <strong>Execute sync</strong>.</li>
-</ul>
-<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> <strong>Synchronous execution is required.</strong> The account must be created before the login flow completes. Without "Execute sync", the action runs asynchronously and the login will fail because the account does not exist yet.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/idp-rule.png" data-desc-position="bottom" data-gallery="idp-rule"><img alt="IdP rule" data-gallery="idp-rule" src="../../assets/img/idp-rule.png"></a></p>
-<p>Done! When a user logs in through the IdP for the first time, SFTPGo will create their account automatically. On subsequent logins, the account is updated with the latest template values — useful for keeping group memberships or storage settings in sync with IdP attributes.</p>
-<h2 id="tips">Tips</h2>
-<ul>
-<li><strong>Enable OIDC in WebAdmin UI</strong>: To configure OIDC from the WebAdmin UI (Server Manager &gt; Configurations &gt; OIDC), you must set the environment variable <code>SFTPGO_HOOK__ENABLE_OIDC_UI=1</code>.</li>
-<li><strong>Test with debug logging</strong>: Enable debug mode to see the full ID token in the logs — this helps you identify which claims are available and how they are structured. Set <code>SFTPGO_HTTPD__BINDINGS__0__OIDC__DEBUG=1</code> (adjust the binding index if needed).</li>
-<li><strong>Conditional fields</strong>: Use Go template conditions to handle optional fields:</li>
-</ul>
-<pre><code class="language-json">{{if .IDPFields.department}}
-  "description": {{toJson .IDPFields.department}},
-{{end}}
+<p>The secret is encrypted when the user is saved. No <code>home_dir</code> is needed: for cloud storage SFTPGo derives a local working directory from the username. The fields of the other backends are documented in the REST API reference and in the pages of <a href="../../s3/">S3</a>, <a href="../../google-cloud-storage/">Google Cloud Storage</a>, <a href="../../azure-blob-storage/">Azure Blob</a> and <a href="../../sftpfs/">SFTP</a>.</p>
+<h2 id="administrators">Administrators</h2>
+<p>The same action provisions WebAdmin accounts. An identity whose role claim matches <code>role_values</code>, or that uses the admin login link with implicit roles (see <a href="../../oidc/#role-mapping">Role mapping</a>), raises an <strong>Admin login</strong> event, and the action renders <strong>Admin template</strong> instead of the user template. A minimal template:</p>
+<pre><code class="language-json">{"username": {{toJson .Name}}, "status": 1, "permissions": ["*"]}
 </code></pre>
-<ul>
-<li><strong>Admin provisioning</strong>: The action also supports an admin template for provisioning WebAdmin accounts. When a user logs in with a role that maps to the admin role (see <a href="../../oidc/#role-mapping">OIDC role mapping</a>), the admin template is used instead of the user template. A minimal admin template:</li>
-</ul>
-<pre><code class="language-json">{"status": 1, "username": {{toJson .Name}}, "permissions": ["*"]}
-</code></pre>
+<p>Set the rule event to <strong>Admin login</strong>, or to <strong>Any</strong> for an action that carries both templates. The template grants its permissions to every identity with the admin role, so keep the assignment of that role on the IdP restricted to the people who administer the server.</p>
 
 
 
@@ -3871,7 +3994,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 26, 2026 15:47:01 UTC">2026-04-26 15:47:01</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
   </span>
 
     
@@ -3948,7 +4071,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   

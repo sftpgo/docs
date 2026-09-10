@@ -12,7 +12,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -40,14 +40,14 @@
 
     
     <meta name="keywords" content="SFTPGo, SFTP server, FTP server, SCP, WebDAV, S3, Google Cloud Storage, Azure Blob, Managed File Transfer, MFT, 2FA, Data At Rest Encryption, file sharing, secure file transfer, SaaS, on-premise, REST API, Kubernetes, Helm chart, OIDC, LDAP">
-  <meta name="description" content="How access control works in SFTPGo: storage isolation with home directory and key prefix, virtual folders, per-directory permissions, file pattern filters, IP and protocol restrictions, and time-based access. Restrict what each user can see and do.">
+  <meta name="description" content="How SFTPGo restricts what an account reaches: storage isolation, virtual folders, per-directory permissions, file pattern filters, IP and time rules.">
   <meta property="og:title" content="Access Control - SFTPGo docs">
   <meta property="og:url" content="https://docs.sftpgo.com/enterprise/access-control/">
-  <meta property="og:description" content="How access control works in SFTPGo: storage isolation with home directory and key prefix, virtual folders, per-directory permissions, file pattern filters, IP and protocol restrictions, and time-based access. Restrict what each user can see and do.">
+  <meta property="og:description" content="How SFTPGo restricts what an account reaches: storage isolation, virtual folders, per-directory permissions, file pattern filters, IP and time rules.">
   <meta property="og:image" content="https://sftpgo.com/assets/img/og-image.png">
   <meta property="og:type" content="article">
   <meta name="twitter:title" content="Access Control - SFTPGo docs">
-  <meta name="twitter:description" content="How access control works in SFTPGo: storage isolation with home directory and key prefix, virtual folders, per-directory permissions, file pattern filters, IP and protocol restrictions, and time-based access. Restrict what each user can see and do.">
+  <meta name="twitter:description" content="How SFTPGo restricts what an account reaches: storage isolation, virtual folders, per-directory permissions, file pattern filters, IP and time rules.">
   <meta name="twitter:image" content="https://sftpgo.com/assets/img/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
 
@@ -92,12 +92,12 @@
       {
         "@type": "TechArticle",
         "headline": "Access Control",
-        "description": "How access control works in SFTPGo: storage isolation with home directory and key prefix, virtual folders, per-directory permissions, file pattern filters, IP and protocol restrictions, and time-based access. Restrict what each user can see and do.",
+        "description": "How SFTPGo restricts what an account reaches: storage isolation, virtual folders, per-directory permissions, file pattern filters, IP and time rules.",
         "image": "https://sftpgo.com/assets/img/og-image.png",
         "url": "https://docs.sftpgo.com/enterprise/access-control/",
         "inLanguage": "en",
         "datePublished": "2026-06-20T17:54:33Z",
-        "dateModified": "2026-06-20T17:54:33Z",
+        "dateModified": "2026-09-08T09:20:06Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -741,6 +741,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../users/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Users
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -834,6 +862,34 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Per-directory permissions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-each-operation-is-checked" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How each operation is checked
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-per-directory-permissions-do-not-decide" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What per-directory permissions do not decide
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -891,6 +947,17 @@
     <span class="md-ellipsis">
       
         Time-based access
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-account-changes-take-effect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When account changes take effect
       
     </span>
   </a>
@@ -3620,6 +3687,34 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Per-directory permissions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-each-operation-is-checked" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How each operation is checked
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-per-directory-permissions-do-not-decide" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What per-directory permissions do not decide
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -3684,6 +3779,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#when-account-changes-take-effect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When account changes take effect
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#choosing-the-right-mechanism" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3737,7 +3843,7 @@
     
     
       <li class="md-path__item">
-        <a href="./" class="md-path__link">
+        <a href="../users/" class="md-path__link">
           
   <span class="md-ellipsis">
     Core concepts
@@ -3760,7 +3866,7 @@
 
 
 <h1 id="access-control-and-permissions">Access control and permissions</h1>
-<p>SFTPGo controls what each user can see and do through several independent mechanisms. They operate at different layers: some decide <em>what storage is exposed at all</em>, others decide <em>what the user may do within the storage they can reach</em>, and others gate access by <em>network, protocol, or time</em>. Understanding which layer solves your problem avoids over-relying on a single setting.</p>
+<p>SFTPGo controls what each <a href="../users/">user</a> can see and do through several independent mechanisms. They operate at different layers: some decide <em>what storage is exposed at all</em>, others decide <em>what the user may do within the storage they can reach</em>, and others gate access by <em>network, protocol, or time</em>. Understanding which layer solves your problem avoids over-relying on a single setting.</p>
 <table>
 <thead>
 <tr>
@@ -3778,12 +3884,12 @@
 <tr>
 <td>Storage</td>
 <td><a href="#virtual-folders">Virtual folders</a></td>
-<td>Which specific locations are mounted into the user's namespace.</td>
+<td>Which additional locations are mounted into the user's file system.</td>
 </tr>
 <tr>
 <td>Operations</td>
 <td><a href="#per-directory-permissions">Per-directory permissions</a></td>
-<td>What the user may do (list, download, upload, …) in each directory.</td>
+<td>What the user may do (list, download, upload, ...) in each directory.</td>
 </tr>
 <tr>
 <td>Visibility</td>
@@ -3802,19 +3908,12 @@
 </tr>
 </tbody>
 </table>
-<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> These layers compose. A robust setup typically isolates the user at the storage layer, then refines operations with per-directory permissions, and optionally narrows the connection with IP and time restrictions. Settings can be assigned directly on the user or inherited from <a href="../groups/">groups</a>.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> These layers compose. A typical setup isolates the user at the storage layer, then refines operations with per-directory permissions, and optionally narrows the connection with IP and time restrictions. Settings can be assigned directly on the user or inherited from <a href="../groups/">groups</a>.</p>
 <h2 id="storage-isolation">Storage isolation</h2>
-<p>Each user is confined to a single storage root, which behaves like a chroot: the user cannot address anything above it.</p>
-<ul>
-<li><strong>Local filesystem:</strong> the root is the user's <strong>home directory</strong>.</li>
-<li><strong>Cloud backends (Azure Blob, S3, Google Cloud Storage):</strong> the root is defined by the <strong>key prefix</strong>. The user only sees objects whose name starts with the prefix, and the prefix is stripped from what they see — it becomes their <code>/</code>. With an empty prefix the whole bucket/container is exposed.</li>
-<li><strong>SFTP backend:</strong> the root is the configured <strong>SFTP root directory</strong> (prefix) on the remote server. Unlike the cloud key prefix, this is a path on a real remote filesystem reached with the configured account; see <a href="../sftpfs/#sftp-root-directory-and-path-confinement">SFTP root directory and path confinement</a> for what it guarantees, especially on a remote server you do not control.</li>
-</ul>
-<p>For example, a single Azure Blob container holding <code>account/inbound/</code>, <code>account/outbound/</code> and <code>account/custom/</code> can be scoped to one tenant by setting the user's key prefix to <code>account/custom/</code>: that user sees only the contents of <code>custom</code>, addressed as <code>/</code>, and cannot reach or even name the sibling folders. This is the strongest way to expose only a subtree, because the rest is not part of the user's filesystem at all.</p>
-<p>The optional <strong>start directory</strong> narrows the entry point within the existing root without changing the root itself, so the user lands directly in a chosen subdirectory.</p>
+<p>The file system of a user is described in <a href="../users/#storage">Users</a>: a root filesystem seen as <code>/</code>, plus the virtual folders mounted into it. The root is a boundary: nothing above it is part of the user's file system, so it cannot be reached or even named. What the root is depends on the backend: the home directory on the local disk, the bucket or container narrowed by the key prefix on S3, Google Cloud Storage and Azure Blob, the configured root directory on a remote SFTP server. The SFTP root is a path on a remote filesystem reached with the configured account, see <a href="../sftpfs/#sftp-root-directory-and-path-confinement">SFTP root directory and path confinement</a> for what it guarantees on a server you do not control.</p>
+<p>For example, a single Azure Blob container holding <code>account/inbound/</code>, <code>account/outbound/</code> and <code>account/custom/</code> is scoped to one tenant by setting the user's key prefix to <code>account/custom/</code>: that user sees the contents of <code>custom</code> as <code>/</code> and the sibling folders do not exist for it. This is the strongest way to expose a single subtree.</p>
 <h2 id="virtual-folders">Virtual folders</h2>
-<p>When a user needs access to more than one location — or to a location on a different backend — mount each as a <a href="../virtual-folders/">virtual folder</a> at a virtual path of your choice. A virtual folder is an independent storage definition (its own backend, bucket/container, key prefix, and optionally its own quota). Only what you explicitly mount is visible.</p>
-<p>To expose a single shared directory and nothing else, give the user an otherwise minimal root and mount just that directory as a virtual folder. Locations you do not mount cannot be listed or accessed.</p>
+<p>A <a href="../virtual-folders/">virtual folder</a> adds a location to the user's file system at a mount path, with a backend and a quota of its own: the root exposes one subtree, virtual folders add others. A mapping can also target a sub-path of the folder, see <a href="../virtual-folders/#sub-path-mounts">Sub-path mounts</a>.</p>
 <h2 id="per-directory-permissions">Per-directory permissions</h2>
 <p>Permissions grant a set of operations on a virtual path. The available permissions are:</p>
 <table>
@@ -3831,7 +3930,7 @@
 </tr>
 <tr>
 <td><code>list</code></td>
-<td>List the contents of files and directories.</td>
+<td>List directory contents and read file and directory metadata.</td>
 </tr>
 <tr>
 <td><code>download</code></td>
@@ -3898,25 +3997,50 @@
 <p>The <code>/</code> path is mandatory for every user and acts as the fallback. Permissions are resolved by <strong>longest-prefix match</strong>: for any path, SFTPGo uses the permissions of the closest ancestor directory that has an explicit entry, falling back to <code>/</code>.</p>
 <ul>
 <li><strong>Inheritance</strong> is automatic: a subdirectory with no explicit entry inherits from its nearest parent that has one.</li>
-<li><strong>Override</strong> is per path: define an explicit entry for a subdirectory to change its rights. The entry <strong>replaces</strong> the inherited set for that subtree — it does not merge with the parent.</li>
+<li><strong>Override</strong> is per path: define an explicit entry for a subdirectory to change its rights. The entry <strong>replaces</strong> the inherited set for that subtree, it does not merge with the parent.</li>
 <li><strong>Precedence:</strong> the most specific (deepest) matching path always wins.</li>
 </ul>
-<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Operations that span two locations require permission on both. A <strong>rename</strong> or server-side <strong>copy</strong> needs the relevant permission on both the source and the destination directory, and creating a <strong>symbolic link</strong> needs <code>create_symlinks</code> on both the link's directory and the directory it points into.</p>
-<p>For example, to allow a user to work only inside <code>/account/custom</code> within a tree mounted at <code>/account</code>, grant the desired permissions on <code>/account/custom</code> and give <code>/account/inbound</code> and <code>/account/outbound</code> an explicit entry with no permissions: those directories then cannot be entered, listed, or transferred.</p>
-<pre><code class="language-json">{
-  "permissions": {
-    "/": ["list"],
-    "/account/custom": ["*"],
-    "/account/inbound": [],
-    "/account/outbound": []
-  }
-}
-</code></pre>
-<p>In this example the user can browse down to <code>/account</code>, has full access inside <code>/account/custom</code>, and is denied every operation in the two sibling directories. A path with no explicit entry — for instance <code>/account/custom/2024</code> — inherits the <code>*</code> granted on <code>/account/custom</code>.</p>
-<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Most operations dereference a symbolic link and run under the permissions of the path the client requests, not of the link's target. In the example above SFTPGo will not create a link pointing into <code>/account/inbound</code> or <code>/account/outbound</code>, since they grant no <code>create_symlinks</code>; but a symbolic link already present on the storage (created outside SFTPGo) is still dereferenced. When relying on per-directory permissions to wall off sibling directories, keep symbolic-link creation disabled — its default <a href="../config-file/#symbolic-links-and-permissions"><code>symlink_mode</code></a> — and provision the storage layout accordingly. See <a href="../config-file/#symbolic-links-and-permissions">Symbolic links and permissions</a>.</p>
-<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Per-directory permissions control what a user may <em>do</em>, not whether a directory <em>name</em> is visible. In the example above, <code>inbound</code> and <code>outbound</code> still appear when listing <code>/account</code>, even though access is denied. To also hide the names, use a file pattern filter with the hide policy, or isolate at the storage layer so the siblings are never exposed.</p>
+<p>In the WebAdmin the <strong>Permissions</strong> field of the user holds the permissions of <code>/</code>, and the <strong>Per-directory permissions</strong> section holds one entry per path. Wildcards are supported in paths: <code>/incoming/*</code> matches any directory within <code>/incoming</code>.</p>
+<p>For example, to allow a user to work only inside <code>/account/custom</code> within a tree mounted at <code>/account</code>, grant the desired permissions on <code>/account/custom</code> and give <code>/account/inbound</code> and <code>/account/outbound</code> an entry with no permissions selected:</p>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Permissions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/</code></td>
+<td><code>list</code></td>
+</tr>
+<tr>
+<td><code>/account/custom</code></td>
+<td><code>*</code></td>
+</tr>
+<tr>
+<td><code>/account/inbound</code></td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>/account/outbound</code></td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<p>The user can browse down to <code>/account</code>, has full access inside <code>/account/custom</code>, and is denied every operation in the two sibling directories. A path with no explicit entry, for instance <code>/account/custom/2024</code>, inherits the <code>*</code> granted on <code>/account/custom</code>.</p>
+<h3 id="how-each-operation-is-checked">How each operation is checked</h3>
+<p><strong>Reading metadata needs <code>list</code>.</strong> It covers the attributes of a file or directory and the canonicalization of a path, not only listings. Interactive clients rely on both: the OpenSSH <code>sftp</code> client canonicalizes its working directory right after login, and <code>scp</code> on OpenSSH 9.0 and later, which transfers over SFTP, reads the attributes of the destination to learn whether it is a directory. Grant <code>list</code> on every path such clients work in; an upload-only drop box combines <code>list</code> with <code>upload</code>. Clients that write to an explicit file name, the legacy SCP protocol (<code>scp -O</code>) included, work with <code>upload</code> alone.</p>
+<p><strong>Three permission pairs are selected by what the path holds.</strong> <code>rename_files</code> or <code>rename_dirs</code> and <code>delete_files</code> or <code>delete_dirs</code> apply according to what the path holds, <code>upload</code> or <code>overwrite</code> according to whether the target name is already taken. Granting <code>rename</code> or <code>delete</code> covers both kinds.</p>
+<p><strong>An operation that spans two paths is authorized on both.</strong> A rename needs the rename permission on the parent directories of both the source and the destination; a rename onto an existing file also needs <code>overwrite</code>, and a rename onto an existing directory is refused. A server-side copy needs <code>copy</code> on both parent directories, <code>download</code> on the source and the permission to write the destination (<code>upload</code>, or <code>overwrite</code> for an existing file); copying a directory needs <code>copy</code> on the source directory and on the destination directory, and <code>create_dirs</code> where the copied directories are created. Creating a symbolic link needs <code>create_symlinks</code> on the link's directory and on the directory that contains the link's target: a link to a file is authorized by the file's directory, a link to a directory by that directory's parent.</p>
+<p><strong><code>copy</code> covers the server-side copy</strong> offered by the REST API, the WebClient and the <code>sftpgo-copy</code> SSH command. The <code>pre-download</code> and <code>pre-upload</code> hooks are not run for it, since it is not a transfer, and the <code>copy</code> event is emitted once it completes. A WebDAV <code>COPY</code> is driven by the client through the primitives the protocol defines, so it is authorized by the read and write permissions of the paths it touches; see <a href="../webdav/#known-issues-and-limitations">WebDAV</a>.</p>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> <strong>Renaming a directory moves the entries it holds, so they are authorized against both paths.</strong> When per-directory permissions that restrict renaming apply inside either tree, or the two paths are governed by different <a href="#file-pattern-filters">file pattern filters</a>, the backends that move the directory in a single operation, the local filesystem included, refuse the rename; the cloud backends that move the entries individually (S3, Azure Blob and Google Cloud Storage without <a href="../google-cloud-storage/#hierarchical-namespace-hns">Hierarchical Namespace</a>, with <a href="../config-file/#common"><code>rename_mode: 1</code></a>) check each entry as it moves and stop at the first refused one, after moving the ones before it. <code>rename_dirs</code> alone renames a directory whose entries are all directories; a directory that also holds files needs <code>rename_files</code>, or <code>rename</code>, on both paths as well. Configure the same permissions and filters on both paths, or move the contents, and the directory is renamed in one operation.</p>
+<h3 id="what-per-directory-permissions-do-not-decide">What per-directory permissions do not decide</h3>
+<p><strong>Where a link leads.</strong> Operations dereference a symbolic link and run under the permissions of the path the client requests, not of the link's target. In the example above SFTPGo refuses a link to <code>/account/inbound</code>, to <code>/account/outbound</code> or to their contents, since neither those directories nor <code>/account</code> grant <code>create_symlinks</code>, but a symbolic link already present on the storage is dereferenced. When per-directory permissions wall off sibling directories, keep symbolic-link creation disabled, its default <a href="../config-file/#symbolic-links-and-permissions"><code>symlink_mode</code></a>, and see <a href="#how-path-based-restrictions-are-evaluated">How path-based restrictions are evaluated</a>.</p>
+<p><strong>Whether a name is visible.</strong> Permissions control what a user may <em>do</em>. In the example above, <code>inbound</code> and <code>outbound</code> still appear when listing <code>/account</code>, even though every operation there is denied. To hide the names as well, use a <a href="#file-pattern-filters">file pattern filter</a> with the hide policy, or isolate at the storage layer so the siblings are never exposed.</p>
 <h2 id="file-pattern-filters">File pattern filters</h2>
 <p>File pattern filters restrict which <strong>names</strong> are listed and transferable within a directory. For a given path you define case-insensitive, shell-like allowed and denied patterns; allowed patterns are evaluated before denied ones. Like permissions, a filter defined for a path also applies to its subdirectories unless a more specific filter is defined.</p>
+<p>In the WebAdmin the filters are the entries of the <strong>Per-directory name patterns restrictions</strong> section of the user or group. Each entry has a path, comma-separated allowed patterns, comma-separated denied patterns and a deny policy.</p>
 <p>Matching is performed on the file or directory <strong>name</strong>, and applies to both files and directories. Each filter has a deny policy:</p>
 <table>
 <thead>
@@ -3928,61 +4052,190 @@
 <tbody>
 <tr>
 <td><strong>Default</strong></td>
-<td>A denied file or directory is still shown in directory listings but cannot be uploaded, downloaded, overwritten, or renamed.</td>
+<td>A denied file is still shown in directory listings but cannot be uploaded, downloaded, overwritten, or renamed, and it is refused as the source or the destination of a server-side copy. A denied directory keeps being listed and traversed, and its entries are matched one by one; the name itself is refused wherever it is written: created, renamed, removed, or used as a copy destination.</td>
 </tr>
 <tr>
 <td><strong>Hide</strong></td>
-<td>The same restrictions apply, and the denied item is also removed from directory listings. May affect performance for very large directories.</td>
+<td>The same restrictions apply, the denied item is also removed from directory listings, and reading it reports it as missing rather than refused. Writing to a denied name, creating it, renaming or copying onto it, reports the refusal: a path the client supplies for the first time conceals nothing. May affect performance for very large directories.</td>
 </tr>
 </tbody>
 </table>
-<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Because matching is name-based, file pattern filters are a visibility and transfer control, not a content filter. A rule that denies <code>*.exe</code> matches on the name only, so the same content uploaded as <code>*.txt</code> is allowed. Use file pattern filters to organize what is listed and to block transfers by name; to control which directories a user can reach, rely on storage isolation, virtual folders, or per-directory permissions.</p>
 <p>Two rules govern how allowed and denied patterns interact:</p>
 <ul>
 <li>Allowed patterns are checked first; a name that matches one is accepted even if it would also match a denied pattern.</li>
 <li>A non-empty allowed list means <strong>deny by default</strong>: anything that does not match an allowed pattern is denied. An empty allowed list means <strong>allow by default</strong>: everything is accepted except names matching a denied pattern.</li>
 </ul>
+<p>A filter describes the names <em>inside</em> the path it is defined on, so a filter on <code>/data</code> governs the entries of <code>/data</code>, not the name <code>data</code> itself. Under the <strong>hide</strong> policy the distinction shows up when a directory is read by name: a directory hidden by a filter defined on one of its parents is reported as missing, while a directory whose own filter hides all of its entries is reported as empty.</p>
+<p>Listing and transfers follow the same rule, so a filter that hides every name in a directory denies every transfer there as well, uploads included: denying <code>*</code> on <code>/</code> under the hide policy leaves the user with an empty listing and no way to upload. To keep uploads working, deny the names that must stay hidden and leave the names users upload allowed.</p>
+<p>A name filter is matched whenever a directory name comes into existence: when the directory is explicitly created, renamed or copied, and when it is created as a missing parent on behalf of the user. Writing into a directory whose name is denied but that already exists stays allowed, unless the name is hidden. On the cloud storage backends directory entries are derived from object keys and no parent is ever created, so a permitted upload can still bring a denied path prefix into existence there. Use the <code>create_dirs</code> permission to control where directories may be created.</p>
+<p>A filter is attached to a virtual path and does not follow a directory that is moved: after a rename, the entries the directory carried are governed by whatever applies at the new location. When a filter is defined on the moved tree or on the target tree, or the two paths inherit different filters, the entries are authorized one at a time, as described for <a href="#how-each-operation-is-checked">renaming a directory</a>; with the same filters on both paths the directory is renamed in one operation.</p>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Matching is on the name, so file pattern filters are a visibility and transfer control, not a content filter. A rule that denies <code>*.exe</code> matches the name only, and the same content uploaded as <code>*.txt</code> is allowed. Use them to organize what is listed and to block transfers by name; to control which directories a user can reach, rely on storage isolation, virtual folders, or per-directory permissions.</p>
 <h3 id="examples">Examples</h3>
-<p><strong>Allow only images in a directory.</strong> On <code>/photos</code>, set allowed patterns <code>*.jpg</code>, <code>*.png</code>. Only those names can be uploaded, downloaded or listed; <code>report.txt</code> is denied because the allowed list is non-empty.</p>
-<pre><code class="language-json">{ "path": "/photos", "allowed_patterns": ["*.jpg", "*.png"] }
-</code></pre>
-<p><strong>Block executables everywhere.</strong> On <code>/</code>, set denied patterns <code>*.exe</code>, <code>*.bat</code>, <code>*.sh</code>. Everything is allowed except those names. With the default deny policy they remain visible but cannot be transferred; renaming the same content to another extension bypasses the rule (matching is by name).</p>
-<pre><code class="language-json">{ "path": "/", "denied_patterns": ["*.exe", "*.bat", "*.sh"] }
-</code></pre>
-<p><strong>Hide sibling directories from listings.</strong> On <code>/account</code>, deny the directory names <code>inbound</code>, <code>outbound</code> with the <strong>hide</strong> policy. Both vanish from the listing of <code>/account</code>; combine with per-directory permissions to also block access.</p>
-<pre><code class="language-json">{ "path": "/account", "denied_patterns": ["inbound", "outbound"], "deny_policy": 1 }
-</code></pre>
-<p><strong>Show only a chosen subtree.</strong> On <code>/</code>, allow <code>public</code> with the <strong>hide</strong> policy: every top-level name except <code>public</code> is hidden, so the user effectively sees only <code>/public</code>. Because a filter is inherited by subdirectories, this also hides non-matching names deeper in the tree until a more specific filter overrides it.</p>
-<pre><code class="language-json">{ "path": "/", "allowed_patterns": ["public"], "deny_policy": 1 }
-</code></pre>
-<p><strong>Inheritance with an override.</strong> A filter on <code>/</code> applies to the whole tree; add a more specific filter on <code>/incoming</code> to relax or tighten the rule just there. The deepest matching path wins, exactly like permissions.</p>
-<pre><code class="language-json">[
-  { "path": "/", "denied_patterns": ["*.exe"], "deny_policy": 1 },
-  { "path": "/incoming", "allowed_patterns": ["*"] }
-]
-</code></pre>
+<p><strong>Allow only images in a directory.</strong> Only the matching names can be uploaded, downloaded or listed in <code>/photos</code>; <code>report.txt</code> is denied because the allowed list is non-empty.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Path</td>
+<td><code>/photos</code></td>
+</tr>
+<tr>
+<td>Allowed patterns</td>
+<td><code>*.jpg, *.png</code></td>
+</tr>
+<tr>
+<td>Deny policy</td>
+<td>Default</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Block executables everywhere.</strong> Everything is allowed except the denied names. With the default deny policy they remain visible but cannot be transferred; the same content uploaded under an allowed name is accepted, since matching is by name.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Path</td>
+<td><code>/</code></td>
+</tr>
+<tr>
+<td>Denied patterns</td>
+<td><code>*.exe, *.bat, *.sh</code></td>
+</tr>
+<tr>
+<td>Deny policy</td>
+<td>Default</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Hide sibling directories from listings.</strong> Both names vanish from the listing of <code>/account</code>; combine with per-directory permissions to also block access.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Path</td>
+<td><code>/account</code></td>
+</tr>
+<tr>
+<td>Denied patterns</td>
+<td><code>inbound, outbound</code></td>
+</tr>
+<tr>
+<td>Deny policy</td>
+<td>Hide</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Show only a chosen subtree.</strong> Every top-level name except <code>public</code> is hidden, so the user effectively sees only <code>/public</code>. Because a filter is inherited by subdirectories, this also hides non-matching names deeper in the tree. A filter defined on a subdirectory takes over for the entries that subdirectory carries; the name of the subdirectory itself keeps matching the patterns of <code>/</code>, so list there every directory name that stays visible.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Path</td>
+<td><code>/</code></td>
+</tr>
+<tr>
+<td>Allowed patterns</td>
+<td><code>public</code></td>
+</tr>
+<tr>
+<td>Deny policy</td>
+<td>Hide</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Inheritance with an override.</strong> A filter on <code>/</code> applies to the whole tree; a more specific filter on <code>/incoming</code> relaxes or tightens the rule just there. The deepest matching path wins, exactly like permissions.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Path</td>
+<td><code>/</code></td>
+</tr>
+<tr>
+<td>Denied patterns</td>
+<td><code>*.exe</code></td>
+</tr>
+<tr>
+<td>Deny policy</td>
+<td>Hide</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Path</td>
+<td><code>/incoming</code></td>
+</tr>
+<tr>
+<td>Allowed patterns</td>
+<td><code>*</code></td>
+</tr>
+<tr>
+<td>Deny policy</td>
+<td>Default</td>
+</tr>
+</tbody>
+</table>
 <h2 id="how-path-based-restrictions-are-evaluated">How path-based restrictions are evaluated</h2>
 <p>Per-directory permissions, <a href="#file-pattern-filters">file pattern filters</a>, allowed and denied <a href="../tutorials/shares/#restricting-shareable-paths">share paths</a>, and every other setting keyed on a path are evaluated against the <strong>virtual path the client requests</strong>, not against the physical location that path ultimately resolves to. The configured restrictions belong to the requested path; they do not follow a redirection in the underlying storage.</p>
-<p>When the storage redirects one path to another — through a symbolic link, a Windows junction, a bind mount, a hard link, or any similar operating-system or configuration mechanism — SFTPGo applies the restrictions configured for the path the client named. If <code>/path1</code> resolves to <code>/path2</code>, the access decision uses what is configured for <code>/path1</code>, <strong>even when <code>/path2</code> is configured with stricter restrictions</strong>. A tighter configuration on <code>/path2</code> does not protect it from access through <code>/path1</code>, and the restrictions defined for <code>/path2</code> are not consulted.</p>
-<p>The practical consequence is that these restrictions are only as strong as the storage layout beneath them. SFTPGo confines symbolic links to the user's accessible area and disables link creation by default (<a href="../config-file/#symbolic-links-and-permissions"><code>symlink_mode</code></a>), but redirections created directly on the storage, outside SFTPGo, cannot always be detected — Windows junctions and bind mounts in particular are not resolved. Provision the storage so its directory structure reflects the boundaries you intend, and do not place a link, junction, or mount inside a user's tree that points at a location you restrict elsewhere.</p>
-<p>The <a href="#per-directory-permissions"><code>create_symlinks</code> permission</a> is itself path-based and bidirectional: a directory that grants it can both host links and be the target of links created elsewhere. A user holding <code>create_symlinks</code> in two directories can link one to the other and reach either under the more permissive directory's rights. Do not grant <code>create_symlinks</code> on a directory whose operation permissions you restrict, and see <a href="../config-file/#symbolic-links-and-permissions">Symbolic links and permissions</a> for the full interaction.</p>
-<p>Provision the storage so its directory structure reflects the boundaries you intend.</p>
+<p>When the storage redirects one path to another, through a symbolic link, a Windows junction, a bind mount, a hard link, or any similar operating-system or configuration mechanism, SFTPGo applies the restrictions configured for the path the client named. If <code>/path1</code> resolves to <code>/path2</code>, the access decision uses what is configured for <code>/path1</code>, <strong>even when <code>/path2</code> is configured with stricter restrictions</strong>. A tighter configuration on <code>/path2</code> does not protect it from access through <code>/path1</code>, and the restrictions defined for <code>/path2</code> are not consulted. A public share is a boundary of the same kind: it is evaluated on the virtual path requested through the share link, so a symbolic link beneath a shared path is dereferenced and its target is served through the share even when it sits elsewhere in the owner's tree.</p>
+<p>The practical consequence is that these restrictions are only as strong as the storage layout beneath them. SFTPGo confines symbolic links to the user's accessible area and disables link creation by default (<a href="../config-file/#symbolic-links-and-permissions"><code>symlink_mode</code></a>), but what the filesystem itself presents beneath a home directory is served as it appears: a mount point, a Linux bind mount and a special filesystem such as <code>/proc</code> are traversed like ordinary directories, see <a href="../localfs/#symbolic-links">Local filesystem</a>. Provision the storage so its directory structure reflects the boundaries you intend, and do not place a link, junction, or mount inside a user's tree that points at a location you restrict elsewhere.</p>
+<p>More generally, SFTPGo trusts the storage backend. What the storage reports, the structure it presents, the names it returns, the file types and the metadata it declares, is taken as authoritative, and the restrictions described here are layered on top of it. Content written to the storage outside SFTPGo, by another tool or directly on the filesystem, is served as it is reported.</p>
+<p>The <a href="#per-directory-permissions"><code>create_symlinks</code> permission</a> is itself path-based and bidirectional: a directory that grants it can both host links and have its entries made the target of links created elsewhere. The check is on the directory that contains the target, so everything below a directory that grants it can be reached through a link, a subdirectory that restricts operations included, under the permissions of the directory holding the link. A user holding <code>create_symlinks</code> in two directories can link one to the other and reach either under the more permissive directory's rights. Do not grant <code>create_symlinks</code> on a directory when it, or any directory below it, restricts operations, and see <a href="../config-file/#symbolic-links-and-permissions">Symbolic links and permissions</a> for the full interaction.</p>
 <h2 id="ip-and-protocol-restrictions">IP and protocol restrictions</h2>
 <p>You can gate the connection itself, independently of the filesystem:</p>
 <ul>
-<li><strong>Allowed/denied IP addresses</strong> — restrict the source addresses a user may connect from, in CIDR notation (for example <code>192.0.2.0/24</code> or <code>2001:db8::/32</code>). Denied rules are evaluated before allowed ones.</li>
-<li><strong>Allowed/denied protocols</strong> — limit the user to specific protocols (SFTP, FTP, WebDAV, HTTP).</li>
-<li><strong>Allowed/denied login methods</strong> — limit which authentication methods the user may use (for example, public key only).</li>
-<li><strong>Two-factor requirement per protocol</strong> — require an additional one-time code on the selected protocols.</li>
+<li><strong>Allowed/denied IP addresses</strong>: restrict the source addresses a user may connect from, in CIDR notation (for example <code>192.0.2.0/24</code> or <code>2001:db8::/32</code>). An address matching an allowed entry is accepted, an address matching a denied entry alone is refused, and with a non-empty allowed list an address matching neither is refused.</li>
+<li><strong>Source networks of a public key</strong>: an SSH public key prefixed with the <code>from</code> option authenticates from the listed networks, so each key of a user can have its own, see <a href="../ssh/#restricting-a-key-to-source-addresses">Restricting a key to source addresses</a>.</li>
+<li><strong>Allowed/denied protocols</strong>: limit the user to specific protocols (SFTP, FTP, WebDAV, HTTP).</li>
+<li><strong>Allowed/denied login methods</strong>: limit which authentication methods the user may use (for example, public key only).</li>
+<li><strong>Two-factor requirement per protocol</strong>: require an additional one-time code on the selected protocols.</li>
 </ul>
 <h2 id="time-based-access">Time-based access</h2>
-<p>Access can be limited to specific weekly time windows. Each period defines a day of the week and a <code>from</code>–<code>to</code> interval in <code>HH:MM</code>; the user may connect only during one of the configured periods. This complements, rather than replaces, the filesystem and network controls above.</p>
+<p>Access can be limited to specific weekly time windows. Each period defines a day of the week and a <code>from</code>/<code>to</code> interval in <code>HH:MM</code>; the user may log in only during one of the configured periods. A session that is open when the period ends is not guaranteed to be closed at that moment.</p>
+<h2 id="when-account-changes-take-effect">When account changes take effect</h2>
+<p>An account is loaded from the data provider at login, with the settings of the <a href="../groups/">groups</a> it belongs to merged in, and the session keeps those settings for as long as it lasts, which can be long after a change; an operation already authorized is not authorized again while it runs. <a href="../config-file/#http-server"><code>token_validation</code></a> governs whether a Web Client, WebAdmin or REST API token issued before a change stays valid.</p>
+<p>Deleting a user through the WebAdmin or the REST API closes the sessions it has open. Updating an account leaves its sessions open unless the update asks otherwise: the WebAdmin user page offers <strong>Disconnect the user after the update</strong>, and the REST API accepts <code>PUT /users/{username}?disconnect=1</code>. Changing a group has no equivalent option. Active sessions can be closed at any time from the Connections page or through the REST API. In a cluster, a session served by another instance is closed through a request to that <a href="../config-file/#node">instance</a>.</p>
+<p>To apply a change to what is already connected, change the account and then close its sessions.</p>
+<p>Saving an account writes the whole record. When two edits reach the same account at the same time, from two administrators or from an administrator and the account's own Web Client, the last one saved wins.</p>
 <h2 id="choosing-the-right-mechanism">Choosing the right mechanism</h2>
 <ul>
-<li>The user should only ever work inside one subtree → <strong>isolate at the storage layer</strong> (home directory for local storage, key prefix for cloud backends), or <strong>mount just that directory as a virtual folder</strong>. The rest cannot be discovered.</li>
-<li>The user needs the shared parent but with different rights per subdirectory → <strong>per-directory permissions</strong>, optionally combined with the <strong>hide</strong> deny policy to also hide the denied names.</li>
-<li>You want to organize listings or block specific names from being transferred → <strong>file pattern filters</strong>.</li>
-<li>You want to restrict where, how, or when a user connects → <strong>IP, protocol, login method</strong>, and <strong>time-based</strong> restrictions.</li>
+<li>The user should only ever work inside one subtree =&gt; <strong>isolate at the storage layer</strong>: make that subtree the root (home directory for local storage, key prefix for cloud backends). The rest cannot be discovered.</li>
+<li>The user needs the shared parent but with different rights per subdirectory =&gt; <strong>per-directory permissions</strong>, optionally combined with the <strong>hide</strong> deny policy to also hide the denied names.</li>
+<li>You want to organize listings or block specific names from being transferred =&gt; <strong>file pattern filters</strong>.</li>
+<li>You want to restrict where, how, or when a user connects =&gt; <strong>IP, protocol, login method</strong>, and <strong>time-based</strong> restrictions.</li>
 </ul>
 
 
@@ -4006,7 +4259,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="June 20, 2026 17:54:33 UTC">2026-06-20 17:54:33</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
   </span>
 
     
@@ -4083,7 +4336,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   

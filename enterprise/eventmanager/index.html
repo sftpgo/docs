@@ -12,7 +12,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/eventmanager/",
         "inLanguage": "en",
         "datePublished": "2024-04-25T16:47:14Z",
-        "dateModified": "2026-08-15T06:39:06Z",
+        "dateModified": "2026-09-08T09:20:06Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -734,6 +734,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../users/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Users
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -2669,6 +2697,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Filesystem actions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-an-action-is-authorized" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How an action is authorized
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -3810,6 +3855,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Filesystem actions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-an-action-is-authorized" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How an action is authorized
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -3921,8 +3983,8 @@
 <li>A <strong>rule</strong> defines <em>when</em> something should happen: it specifies which events to react to, optional filters to narrow the scope, and which actions to execute.</li>
 <li>An <strong>action</strong> defines <em>what</em> to do: send a notification, run a command, scan a file, copy it to another location, and so on.</li>
 </ul>
-<p>Actions support dynamic <strong>placeholders</strong> — variables like <code>{{.Name}}</code>, <code>{{.VirtualPath}}</code>, or <code>{{.FileSize}}</code> that are replaced at runtime with contextual data from the triggering event. A rich set of <strong>helper functions</strong> is also available for formatting and transforming values inside templates. See the <a href="../placeholders/">Placeholders &amp; Templates</a> reference for the full list.</p>
-<p><img alt="💡" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f4a1.svg" title=":bulb:"> <strong>Looking for hands-on walkthroughs?</strong> The Tutorials section contains end-to-end, copy-pasteable Event Manager recipes — start with <a href="../tutorials/eventmanager/">the Event Manager tutorial overview</a> and the topic-specific walkthroughs that follow:</p>
+<p>Actions support dynamic <strong>placeholders</strong> — variables like <code>{{.Name}}</code>, <code>{{.VirtualPath}}</code>, or <code>{{.FileSize}}</code> that are replaced at runtime with contextual data from the triggering event. <strong>Helper functions</strong> for formatting and transforming values inside templates are also available. See the <a href="../placeholders/">Placeholders &amp; Templates</a> reference for the full list.</p>
+<p><img alt="💡" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f4a1.svg" title=":bulb:"> The Tutorials section contains end-to-end Event Manager examples. Start with <a href="../tutorials/eventmanager/">the Event Manager tutorial overview</a> and the topic-specific walkthroughs that follow:</p>
 <ul>
 <li><a href="../tutorials/eventmanager-backup/">Daily Backups</a></li>
 <li><a href="../tutorials/eventmanager-auto-dirs/">Automatic Folder Structure</a></li>
@@ -4037,8 +4099,8 @@
 <ul>
 <li><strong>Stop on failure</strong> — If this action fails, skip all remaining actions in the rule.</li>
 <li><strong>Failure action</strong> — Mark an action so that it only executes when a previous (non-failure) action has failed. This is useful for error notifications. Note: a failure action runs when <em>another action in the rule</em> fails, not when the triggering event itself fails (e.g., a failed download still runs the main action, not the failure action).</li>
-<li><strong>Execute sync</strong> — For upload events, execute the action synchronously: the client waits for the action to complete before receiving a response. Required for pre-events (pre-delete, pre-download, pre-upload). If pre-* sync actions succeed, the operation is allowed; otherwise the client receives a permission denied error. Be mindful of client timeouts for long-running actions.</li>
-<li><strong>Execute before file publish</strong> — For upload events with atomic uploads enabled, run the action on the temporary file <em>before</em> it is renamed to its final path. The file remains invisible to other users during processing. On failure, the temporary file is deleted — the file never becomes visible. Useful for antivirus scanning (ICAP), content validation, or any processing that must complete before the file is accessible. Can be combined with "Execute sync" for client-side feedback. See <a href="../execute-before-file-publish/">Execute Before File Publish</a> for details.</li>
+<li><strong>Synchronous execution</strong> — For upload events, execute the action synchronously: the client waits for the action to complete before receiving a response. Required for pre-events (pre-delete, pre-download, pre-upload). If pre-* sync actions succeed, the operation is allowed; otherwise the client receives a permission denied error. Be mindful of client timeouts for long-running actions.</li>
+<li><strong>Execute before file publish</strong> — For upload events with atomic uploads enabled, run the action on the temporary file <em>before</em> it is renamed to its final path. On failure, the temporary file is removed and the file never appears at its final path. The temporary file is an ordinary file in the destination directory: a file pattern filter hiding <code>.sftpgo-upload*</code> keeps it out of the users' reach while the action runs. Useful for antivirus scanning (ICAP), content validation, or any processing that must complete before the file is published. Can be combined with "Synchronous execution" for client-side feedback. See <a href="../execute-before-file-publish/">Execute Before File Publish</a> for details.</li>
 </ul>
 <p>If you run multiple SFTPGo instances connected to the same data provider, you can choose whether to allow simultaneous execution for scheduled rules.</p>
 <h3 id="compatibility-notes">Compatibility notes</h3>
@@ -4106,7 +4168,7 @@
 </tr>
 </tbody>
 </table>
-<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Quota usage is tracked by SFTPGo in software, not by the kernel or by the storage: the counters are accounting kept by the application, so they describe the usage rather than enforce it and are approximate by construction. A process killed mid-transfer, files changed outside SFTPGo, or a bug in the accounting itself leave them off. Recalculation is part of the model: schedule the quota reset actions to rebuild the counters from the actual content; quota scans are also available via the REST API.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Quota usage is tracked by SFTPGo in software, updating the counters as each operation completes. Being application-level accounting, they follow the storage approximately: an operation interrupted part way, a change made outside SFTPGo, or a restart during a transfer moves the storage without a matching update. Schedule the quota reset actions to rebuild them from the actual content; quota scans are also available via the REST API.</p>
 <h3 id="lifecycle-checks">Lifecycle checks</h3>
 <table>
 <thead>
@@ -4118,7 +4180,7 @@
 <tbody>
 <tr>
 <td><strong>Data retention check</strong></td>
-<td>Apply per-folder retention policies. Files older than the configured threshold are automatically deleted or archived.</td>
+<td>Apply per-folder retention policies. Files older than the configured threshold are automatically deleted or archived. Enable <strong>Split reports</strong> to generate an individual report per user, so a chained email action sends each user their own — see <a href="../tutorials/eventmanager-retention/#per-user-notifications">per-user notifications</a>.</td>
 </tr>
 <tr>
 <td><strong>Password expiration check</strong></td>
@@ -4139,8 +4201,17 @@
 </tbody>
 </table>
 <h3 id="filesystem-actions">Filesystem actions</h3>
-<p>Filesystem actions let you manipulate files and directories as part of an event rule. SFTPGo grants the required permissions automatically — the behavior is equivalent to performing the same operations from an SFTP client, with the same restrictions.</p>
+<p>Filesystem actions let you manipulate files and directories as part of an event rule.</p>
 <p>See the <a href="../filesystem-actions/">Filesystem Actions</a> page for a complete reference with detailed options for each action type.</p>
+<h4 id="how-an-action-is-authorized">How an action is authorized</h4>
+<p>An action is started by the service to carry out the configuration, not requested by the account, so it runs with the access the action needs rather than with the access the account has. Inside the filesystem it operates on, the per-directory permissions of the user are raised to full access, the <a href="../access-control/#file-pattern-filters">file pattern filters</a> are not applied, and the bandwidth limits and the data transfer quota of the user do not bound it. The authorization decision belongs to the rule: its conditions select the users and the events the action runs for.</p>
+<p>What continues to apply:</p>
+<ul>
+<li><strong>The filesystem boundary of the user.</strong> Every path resolves inside the home directory and the virtual folders mapped for that user. An action reaches other storage only through the source and target folders configured on it.</li>
+<li><strong>The storage quota</strong>, so an action stops when the account is full.</li>
+<li><strong>The identity of system actions.</strong> With <a href="#virtual-folders">both folders set</a> the action runs as the system identity, and the synthetic user built for a backup chain carries <code>list</code> and <code>download</code> alone, so the chain can attach a dump and cannot write or delete inside the backups directory.</li>
+</ul>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Since the file pattern filters of the user do not apply to actions, an action that creates files, such as extracting an archive, fetching an IMAP attachment or decrypting a PGP file, writes them with the names its input carries, including names the user could not upload. Scope the rule with its conditions, and use a target folder when the output belongs where the user does not reach.</p>
 <p>Available operations: <strong>Rename</strong>, <strong>Delete</strong> (with glob patterns), <strong>Create directories</strong>, <strong>Path exists</strong>, <strong>Copy</strong> (with source disposition, glob patterns, retries, and continue-on-error), <strong>Compress</strong> (ZIP), <strong>Extract</strong> (ZIP with security limits), <strong>PGP</strong> encryption/decryption with optional signing, per-entry source disposition, and glob patterns, <strong>Metadata Check</strong> (cloud backends), <strong>IMAP</strong> (fetch email attachments), <strong>ICAP</strong> (antivirus/DLP scanning).</p>
 <h3 id="integration-and-reporting">Integration and reporting</h3>
 <table>
@@ -4164,7 +4235,7 @@
 <h2 id="virtual-folders">Virtual folders</h2>
 <p>Virtual folders can be combined with filesystem actions to operate across storage backends or outside a user's security context. Two folder options are available on filesystem actions:</p>
 <ul>
-<li><strong>Source folder</strong> — Overrides the filesystem used to read source files. By default, actions operate on the triggering user's filesystem. Specifying a source folder lets you read from a different location — essential for scheduled tasks and advanced workflows where no user context is available.</li>
+<li><strong>Source folder</strong> — Overrides the filesystem used to read source files. By default, actions operate on the triggering user's filesystem. Specifying a source folder lets you read from a different location, which scheduled tasks need since no user context is available.</li>
 <li><strong>Target folder</strong> — Overrides the filesystem used to write target files. This enables cross-backend operations such as copying uploads to a different S3 bucket, archiving files to an external SFTP server, or accessing restricted areas of the same storage backend.</li>
 </ul>
 <p>When <strong>both</strong> a source folder and a target folder are specified, the action runs as a <strong>system action</strong> — it executes once (not per-user) with a special system identity, regardless of how many users match the rule's conditions.</p>
@@ -4199,7 +4270,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="August 15, 2026 06:39:06 UTC">2026-08-15 06:39:06</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
   </span>
 
     
@@ -4276,7 +4347,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   
