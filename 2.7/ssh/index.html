@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="../assets/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -28,7 +28,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1327,6 +1327,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#public-key-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Public key authentication
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ssh-commands" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2029,6 +2040,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#public-key-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Public key authentication
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ssh-commands" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2108,6 +2130,8 @@
 <p>SFTPGo is mainly an SFTP server only a minimal set of SSH commands are supported. Shell login and forwarding are not currently supported.</p>
 <h2 id="sftp">SFTP</h2>
 <p>The SFTP implementation supports the SFTP sever protocol <a href="https://datatracker.ietf.org/doc/html/draft-ietf-secsh-filexfer-02" target="_blank">version 3</a>, the same as OpenSSH.</p>
+<h2 id="public-key-authentication">Public key authentication</h2>
+<p>A user authenticates with any of the public keys stored on the account, in the <code>authorized_keys</code> format. The options of that format, <code>from</code>, <code>command</code>, <code>no-pty</code> and the others, are accepted and have no effect: a key with a <code>from</code> option authenticates from any address. To limit where a user may connect from, use the allowed and denied IP addresses of the user; for a per-key restriction, issue an SSH certificate with the <code>source-address</code> option instead of storing the key.</p>
 <h2 id="ssh-commands">SSH commands</h2>
 <p>SFTPGo supports the following built-in SSH commands:</p>
 <ul>
@@ -2205,7 +2229,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   

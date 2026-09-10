@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="../assets/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -28,7 +28,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -2030,12 +2030,14 @@ To enable dynamic user modification, you must set the absolute path of your prog
 <li>an empty string (or no response at all) if the user should not be created/updated</li>
 <li>or the SFTPGo user, JSON serialized, if you want to create or update the given user</li>
 </ul>
+<p>The response must carry the login username: it creates or updates that account and the login continues with it. Mapping several login names onto a single account is a feature of <a href="../external-auth/">external authentication</a>.</p>
 <p>Any output of the program on its standard error will be recorded in the SFTPGo logs with sender <code>pre_login_hook</code> and level <code>warn</code>.</p>
 <p>If the hook is an HTTP URL then it will be invoked as HTTP POST. The login method, the used protocol and the ip address of the user trying to login are added to the query string, for example <code>&lt;http_url&gt;?login_method=password&amp;ip=1.2.3.4&amp;protocol=SSH</code>.
 The request body will contain the user trying to login serialized as JSON. If no modification is needed the HTTP response code must be 204, otherwise the response code must be 200 and the response body a valid SFTPGo user serialized as JSON.</p>
 <p>Actions defined for user's updates will not be executed in this case and an already logged in user with the same username will not be disconnected, you have to handle these things yourself.</p>
 <p>The program hook must finish within 30 seconds, the HTTP hook will use the global configuration for HTTP clients.</p>
 <p>If an error happens while executing the hook then login will be denied.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> the pre-login hook is a trusted component, see <a href="../external-auth/#trust-model">Trust model</a>.</p>
 <p>"Dynamic user creation or modification" and "External Authentication" are mutually exclusive, they are quite similar, the difference is that "External Authentication" returns an already authenticated user while using "Dynamic users modification" you simply create or update a user. The authentication will be checked inside SFTPGo.
 In other words while using "External Authentication" the external program receives the credentials of the user trying to login (for example the cleartext password) and it needs to validate them. While using "Dynamic users modification" the pre-login program receives the user stored inside the dataprovider (it includes the hashed password if any) and it can modify it, after the modification SFTPGo will check the credentials of the user trying to login.</p>
 <p>For SFTPGo users (not admins) authenticating using an external identity provider such as OpenID Connect, the pre-login hook will be executed after a successful authentication against the external IDP so that you can create/update the SFTPGo user matching the one authenticated against the identity provider. In this case where the pre-login hook is executed even if an external authentication hook is defined.</p>
@@ -2120,7 +2122,7 @@ In other words while using "External Authentication" the external program receiv
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["search.suggest", "search.highlight", "search.share", "navigation.path", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   
