@@ -65,7 +65,7 @@ Claim fields take the claim name as it appears in the token, for example `prefer
 | ----------- | ------------- |
 | `config_url` | Base URL of the Identity Provider. SFTPGo appends `/.well-known/openid-configuration` for discovery. SFTPGo will refuse to start if the URL is unreachable. |
 | `client_id` | OAuth2 application/client ID. |
-| `client_secret` | OAuth2 application/client secret. Can also be provided via `client_secret_file`. Optional when using PKCE-only authentication — see [PKCE without client secret](#pkce-without-client-secret). |
+| `client_secret` | OAuth2 application/client secret. Configure it whenever the Identity Provider issues one for the application. Can also be provided via `client_secret_file`. Omit both for PKCE-only authentication — see [PKCE without client secret](#pkce-without-client-secret). |
 | `redirect_base_url` | Base URL of your SFTPGo instance (e.g., `https://sftpgo.example.com`). SFTPGo appends `/web/oidc/redirect` automatically. Use the same address your users browse: the login is completed on the browser that started it. |
 | `username_field` | ID token claim to map to the SFTPGo username (e.g., `preferred_username`, `email`). |
 
@@ -121,7 +121,7 @@ Implicit roles are useful when the IdP does not provide role claims or when you 
 
 | Parameter | Default | Description |
 | ----------- | --------- | ------------- |
-| `disabled_security_features` | `0` | Set to `1` to disable PKCE (Proof Key for Code Exchange). PKCE is enabled by default and recommended. |
+| `disabled_security_features` | `0` | Set to `1` to disable PKCE (Proof Key for Code Exchange). PKCE is enabled by default; keep it enabled when the client secret is omitted, since it then secures the exchange on its own. See [PKCE without client secret](#pkce-without-client-secret). |
 | `insecure_skip_signature_check` | `false` | :warning: Accepts the ID token without validating its signature. Supported for providers that sign ID tokens with the `none` algorithm. SFTPGo reads the ID token from the provider's token endpoint over TLS, which is the only integrity guarantee left while this setting is enabled. |
 | `insecure_issuer_url` | `false` | Allow the issuer URL reported by the provider to differ from the discovery URL. Required for off-spec providers like Azure B2C. |
 | `issuer_url` | — | Explicit issuer URL for token verification, applied when `insecure_issuer_url` is enabled. |
@@ -204,11 +204,11 @@ SFTPGo does not poll the Identity Provider, so revoking an account that already 
 
 ## PKCE without client secret
 
-SFTPGo supports PKCE-only authentication, where the `client_secret` is omitted entirely. This is useful when the Identity Provider is configured with a **public client** (no client secret), which is common in scenarios where storing a secret securely is not practical or when the IdP policy mandates public clients.
+SFTPGo completes the authorization code exchange from the server: it stores the client secret encrypted in the data provider, or reads it from `client_secret_file`. Configure `client_secret` whenever the Identity Provider issues one for the application.
 
-When the client secret is not configured, SFTPGo uses PKCE (Proof Key for Code Exchange) exclusively to secure the authorization code exchange. PKCE must remain enabled (the default) — if you disable it via `disabled_security_features`, PKCE-only authentication will not work.
+Omit `client_secret` and `client_secret_file` when the Identity Provider registers the application without a secret: some providers reserve secrets to specific client types, some organization policies assign the application a type that carries none, and an IdP owner may keep its secrets from the party that operates the SFTPGo instance. PKCE (Proof Key for Code Exchange) then secures the exchange on its own, so keep it enabled — it is the default, and `disabled_security_features` turns it off.
 
-To configure PKCE-only authentication, omit the `client_secret` and `client_secret_file` parameters:
+A configuration without a client secret:
 
 ```shell
 SFTPGO_HTTPD__BINDINGS__0__OIDC__CLIENT_ID="sftpgo-public-client"
@@ -218,7 +218,9 @@ SFTPGO_HTTPD__BINDINGS__0__OIDC__USERNAME_FIELD="preferred_username"
 SFTPGO_HTTPD__BINDINGS__0__OIDC__ROLE_FIELD="sftpgo_role"
 ```
 
-:information_source: In Keycloak, set the client's **Access Type** to `public` (or **Client authentication** to `Off` in newer versions). In Azure AD, register the application as a public client. Other providers have similar settings — consult your IdP documentation.
+The Identity Provider must identify the client as public too. In Keycloak, set the client's **Access Type** to `public` (or **Client authentication** to `Off` in newer versions). In Microsoft Entra ID the platform of the registered redirect URI decides it, see [public client without a client secret](#public-client-without-a-client-secret). Other providers have similar settings — consult your IdP documentation.
+
+:information_source: PKCE binds the authorization code to the login that started it, and the client secret identifies SFTPGo at the token endpoint. A public client registration applies to the whole application, so keep it narrow: one registered redirect URI, the one SFTPGo serves, and the flows that carry no redirect URI, device code among them, left disabled. The client ID travels in every authorization request, and with those two in place it stays usable for this login alone.
 
 ## Troubleshooting
 
@@ -226,12 +228,15 @@ The login page reports the reason a login was refused, and the SFTPGo log carrie
 
 | Message on the login page | Cause |
 | ------------------------- | ----- |
+| Failed to exchange OpenID token | The Identity Provider refused the token request, or the UserInfo query failed when [`query_userinfo`](#userinfo-claims) is enabled. The log carries the provider's own message. |
 | Invalid OpenID token | The claim configured as `username_field` carries no value, or the identity authenticated longer ago than `max_age` allows. |
 | Incorrect OpenID role | The identity's role claim authorizes the other login page, or its value is missing from `role_values`/`user_role_values`. See [Role mapping](#role-mapping). |
 | Failed to get user associated with OpenID token | The mapped username has no SFTPGo account yet. See [Account provisioning](#account-provisioning). |
 | The email address is not verified | `require_verified_email` is enabled and the provider asserts no verified address. See [Verified email](#verified-email). |
 
 An invalid redirect URI is reported by the Identity Provider, before the browser returns to SFTPGo: check the URI registered with the provider against the one built from [`redirect_base_url`](#required-settings).
+
+When the provider asks for client credentials and the configuration omits the client secret, review the client type the provider expects for the registered redirect URI: see [PKCE without client secret](#pkce-without-client-secret).
 
 When the username claim carries no value, the log names the configured claim and lists the claims the token carries:
 
@@ -248,6 +253,19 @@ Compare the configured claim with that list: it must be one of those names. A cl
 Standard configuration works for most setups. Entra ID signs ID tokens with RS256 and publishes its signing keys in the discovery document, so set `config_url` to the tenant's v2.0 endpoint, `https://login.microsoftonline.com/<tenant-id>/v2.0`.
 
 If signature validation fails, verify that `config_url` returns the discovery document of the tenant that issues the tokens: the keys used for validation come from that document. `insecure_skip_signature_check` covers providers that sign ID tokens with the `none` algorithm; a provider that publishes signing keys works with the default settings.
+
+#### Public client without a client secret
+
+Entra ID issues client secrets for applications registered under the **Web** platform, so a client secret covers this provider. To register the application as a public client instead, and authenticate with [PKCE alone](#pkce-without-client-secret), the platform the redirect URI is registered under is what decides the client type:
+
+1. Open **App registrations** => your application => **Authentication**.
+2. Remove `<redirect_base_url>/web/oidc/redirect` from the **Web** platform.
+3. Add the same URI under **Mobile and desktop applications** => **Custom redirect URIs**.
+4. Leave **Allow public client flows** set to **No**.
+
+While the URI stays registered under **Web**, Entra ID asks for the client secret and reports `AADSTS7000218`. The **Allow public client flows** setting governs the flows that carry no redirect URI, such as device code: this login carries one, so it follows the platform of the redirect URI and works with that setting left at **No**.
+
+:warning: Keep the URI under **Mobile and desktop applications** rather than **Single-page application**: the SPA platform serves code redemption from the browser, and SFTPGo completes the exchange from the server.
 
 ### Azure AD B2C
 
