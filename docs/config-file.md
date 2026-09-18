@@ -375,6 +375,8 @@ Supported configuration parameters for the `data_provider` section:
 | `is_shared` | integer | `0` | Set to `1` if the data provider is shared across multiple SFTPGo instances. The `MySQL`, `PostgreSQL` and `CockroachDB` providers can be shared; the other providers ignore this setting. When shared, active transfers are persisted in the database so disk-space and data-transfer quotas are enforced across all instances, and password reset requests, OIDC tokens/states and used TOTP passcodes are also persisted, so one-time passcode use is enforced across all instances. Cross-instance quota enforcement is eventually consistent: each node publishes its in-flight transfer sizes to the database about once a minute and then stops transfers that would breach a quota, so concurrent uploads spread across nodes can momentarily exceed a quota by roughly the volume one node moves within that window. Allow a small margin when sizing tight quotas for multi-node workloads. Scheduled event actions run on a single instance by default (overridable per action). |
 | `backups_path` | string | | Path to the backup directory. Can be absolute or relative to the config dir. Arbitrary paths are not allowed for security reasons. |
 
+:information_source: When the data provider is shared, keep the clocks of all instances synchronized, for example with NTP. Changes propagate between instances based on timestamps: a clock difference above one minute can prevent an instance from receiving them.
+
 ### actions
 
 Configuration for commands or HTTP notifications triggered by provider events. See [Custom Actions](custom-actions.md) for details.

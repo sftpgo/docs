@@ -155,7 +155,7 @@ Captured via `NOTIFIER_OPTIONS__FS_EVENTS`. Available events:
 | `rename` | File or directory renamed |
 | `mkdir` | Directory created |
 | `rmdir` | Directory removed |
-| `ssh_cmd` | SSH command executed (SCP, rsync, etc.) |
+| `ssh_cmd` | SSH command executed |
 | `copy` | File copied |
 
 ### Provider events

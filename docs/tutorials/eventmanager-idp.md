@@ -75,7 +75,7 @@ To see the claims the IdP sends, enable **Debug logs** in the OpenID Connect con
 
 The **Mode** of the action decides what happens at the logins after the first:
 
-- **Create or update**: the template is rendered at every login and the stored user is replaced with the result. The account follows the IdP: a changed claim, or a changed template, is applied at the next login. The settings an administrator edits in the WebAdmin are replaced too, since a field the template does not set returns to its default. The fields the user may edit from the Web Client keep their values: password, public keys, TLS certificates, description, email addresses and the API key authentication setting.
+- **Create or update**: the template is rendered at every login and the stored user is replaced with the result. The account follows the IdP: a changed claim, or a changed template, is applied at the next login. The settings an administrator edits in the WebAdmin are replaced too, since a field the template does not set returns to its default. The fields the user may edit from the Web Client keep their values: password, public keys, TLS certificates, description, email addresses and the API key authentication setting. To let the template own the identity data, remove the matching self-service change from the **Web client/REST API** options of the user or of its group: description and email addresses are then rewritten at every login.
 - **Create if it doesn't exist**: the template is rendered for a username without an account, once. From then on the account is managed in SFTPGo and the IdP authenticates it.
 
 Choose the first when the IdP is the source of truth for storage and group membership, the second when administrators tune accounts after their creation.
