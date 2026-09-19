@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/changelog/",
         "inLanguage": "en",
         "datePublished": "2025-07-01T17:07:11Z",
-        "dateModified": "2026-09-08T09:20:06Z",
+        "dateModified": "2026-09-19T07:23:22Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -444,6 +444,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#security-fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security fixes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#behavior-changes" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -489,7 +500,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#security-fixes" class="md-nav__link">
+  <a href="#security-fixes_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Security fixes
@@ -572,7 +583,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#security-fixes_1" class="md-nav__link">
+  <a href="#security-fixes_2" class="md-nav__link">
     <span class="md-ellipsis">
       
         Security fixes
@@ -633,7 +644,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#security-fixes_2" class="md-nav__link">
+  <a href="#security-fixes_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         Security fixes
@@ -4501,6 +4512,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#security-fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security fixes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#behavior-changes" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4546,7 +4568,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#security-fixes" class="md-nav__link">
+  <a href="#security-fixes_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Security fixes
@@ -4629,7 +4651,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#security-fixes_1" class="md-nav__link">
+  <a href="#security-fixes_2" class="md-nav__link">
     <span class="md-ellipsis">
       
         Security fixes
@@ -4690,7 +4712,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#security-fixes_2" class="md-nav__link">
+  <a href="#security-fixes_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         Security fixes
@@ -5453,6 +5475,14 @@
 <li>SFTP storage backend through a SOCKS proxy: when the SFTP server behind the proxy was unreachable, the connection attempt blocked the operation indefinitely. The connection setup is now bounded by a timeout.</li>
 <li>Event manager: an action with a source or target <a href="../filesystem-actions/#virtual-folders">folder</a> failed when its destination directory did not exist yet, for example a <a href="../filesystem-actions/#copy">Copy</a> archiving files into a directory named after the current date; the missing directories are now created.</li>
 <li>TLS: a certificate renewed by ACME or set from the WebAdmin was replaced by the one loaded at startup after a configuration reload, and replacing a certificate file on disk could stop the monitoring of the others. The last applied certificate is now kept across reloads and changes on disk are picked up.</li>
+<li>OIDC: bound the authorization request to the user agent.</li>
+</ul>
+<h3 id="security-fixes">Security fixes</h3>
+<ul>
+<li>Share links were not revoked when the owning account was disabled or expired. <a href="https://github.com/drakkan/sftpgo/security/advisories/GHSA-5jhj-cjcp-jr8r">GHSA-5jhj-cjcp-jr8r</a>.</li>
+<li>Unbounded memory allocation when parsing SCP protocol records. <a href="https://github.com/drakkan/sftpgo/security/advisories/GHSA-j4w8-6gjf-fqvg">GHSA-j4w8-6gjf-fqvg</a>.</li>
+<li>WebClient: Stored cross-site scripting through directory names. Reported by ERNW. <a href="https://github.com/drakkan/sftpgo/security/advisories/GHSA-f9qc-3v4f-32w3">GHSA-f9qc-3v4f-32w3</a>.</li>
+<li>File pattern filters were not evaluated on the source of a copy. <a href="https://github.com/drakkan/sftpgo/security/advisories/GHSA-wwv9-g5x4-966q">GHSA-wwv9-g5x4-966q</a>.</li>
 </ul>
 <h3 id="behavior-changes">Behavior changes</h3>
 <ul>
@@ -5477,7 +5507,7 @@
 <li><strong><code>temp_path</code> is removed</strong>: a file cannot be created outside the root it belongs to, so the temporary files of atomic uploads are created next to their destination and the files that stage transfers on disk in the user's home directory. Where <code>temp_path</code> pointed at another filesystem, that space usage moves onto the storage one: size it accordingly. The setting is ignored if left in the configuration.</li>
 </ul>
 <h2 id="update-july-5-2026-v2720260705">Update July 5, 2026 - v2.7.20260705</h2>
-<h3 id="security-fixes">Security fixes</h3>
+<h3 id="security-fixes_1">Security fixes</h3>
 <ul>
 <li>Improper handling of malformed SSH channel requests. <a href="https://github.com/drakkan/sftpgo/security/advisories/GHSA-q7pc-356p-hggc">GHSA-q7pc-356p-hggc</a>.</li>
 </ul>
@@ -5520,7 +5550,7 @@
 <li>Bandwidth limits: per-user caps now bound a user's combined transfer rate on a single instance, not each transfer. If you sized them expecting every transfer to reach the full rate, raise the limits for users that rely on concurrent transfers.</li>
 <li>Symbolic links: creating symbolic links is disabled by default after upgrade. If any workflow relies on clients creating them, set <a href="../config-file/#symbolic-links-and-permissions"><code>symlink_mode</code></a> to enable the backends that need it: <code>1</code> for the local filesystem, <code>2</code> for the SFTP backend, <code>3</code> for both. Symbolic links already present on the storage continue to be followed regardless of this setting.</li>
 </ul>
-<h3 id="security-fixes_1">Security fixes</h3>
+<h3 id="security-fixes_2">Security fixes</h3>
 <ul>
 <li>Folder Permission Bypass via Symlink Dereference (severity: Moderate). <a href="https://github.com/drakkan/sftpgo/security/advisories/GHSA-fj9v-mxr3-w75w">CVE-2026-10031</a>.</li>
 </ul>
@@ -5557,7 +5587,7 @@
 <li>Transfer admission: <code>max_total_transfers</code>, <code>max_per_host_transfers</code> and the per-user <code>max_sessions</code> cap are now strictly enforced. Concurrent bursts could previously let the number of active transfers exceed the configured cap; the limits are now applied atomically. Denials surface via the new <a href="../metrics/#transfer-admission"><code>sftpgo_transfer_admission_denied_total</code></a> metric.</li>
 <li>Connection admission: <code>max_per_host_connections</code> and <code>max_total_connections</code> are now strictly enforced under concurrent connection bursts. Denials surface via the new <a href="../metrics/#connection-admission"><code>sftpgo_connection_admission_denied_total</code></a> metric. HTTP and WebDAV now return <code>429 Too Many Requests</code> for cap-driven denials (previously <code>403 Forbidden</code> on HTTP and <code>503 Service Unavailable</code> on WebDAV); allow-list denials on WebDAV change from <code>503</code> to <code>403</code>. The <code>post_connect_hook</code> no longer fires for connections denied by the cap or allow list.</li>
 </ul>
-<h3 id="security-fixes_2">Security fixes</h3>
+<h3 id="security-fixes_3">Security fixes</h3>
 <ul>
 <li>Path confinement bypass in the partial ZIP download of browsable shares (severity: Moderate). <a href="https://github.com/drakkan/sftpgo/security/advisories/GHSA-h64p-8h4r-6gfh">CVE-2026-49244</a>.</li>
 <li>Stored XSS via the <code>inline</code> parameter on file download endpoints (severity: Low). <a href="https://github.com/drakkan/sftpgo/security/advisories/GHSA-3vcg-pv95-pq54">CVE-2026-49245</a>.</li>
@@ -5944,7 +5974,7 @@ Additionally, you can configure the lifetime of WOPI access tokens (default is 3
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 19, 2026 07:23:22 UTC">2026-09-19 07:23:22</span>
   </span>
 
     

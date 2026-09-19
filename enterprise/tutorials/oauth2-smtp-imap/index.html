@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/tutorials/oauth2-smtp-imap/",
         "inLanguage": "en",
         "datePublished": "2026-04-26T15:47:01Z",
-        "dateModified": "2026-09-08T09:20:06Z",
+        "dateModified": "2026-09-18T07:27:47Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -4315,6 +4315,7 @@
 <li><strong>Google "App not verified" warning</strong>: For external apps in testing mode, only test users added to the OAuth consent screen can authorize. Publish the app to remove this restriction.</li>
 <li><strong>Microsoft tenant errors</strong>: Ensure the tenant ID matches your Azure AD directory. For personal Microsoft accounts, use <code>consumers</code> as the tenant.</li>
 <li><strong>Microsoft <code>AUTHENTICATE failed</code> (IMAP) or <code>535 5.7.3 Authentication unsuccessful</code> (SMTP) despite a successful token refresh</strong>: the token was issued correctly but Exchange Online rejected it because the signing-in user that authorized the OAuth flow has no access to the mailbox configured in the action's <strong>Username</strong> field. Revoke the previous consent from <a href="https://myapps.microsoft.com/">My Apps</a> and re-run <strong>Get</strong>, signing in as the mailbox owner — or as a delegate with Full Access (IMAP) or Send As (SMTP) on the shared mailbox. The previous refresh token is bound to the wrong identity and must be replaced.</li>
+<li><strong>Microsoft <code>535 5.7.3 Authentication unsuccessful</code> (SMTP) although the token is valid</strong>: SMTP AUTH is a per-mailbox setting in Exchange Online, with an organization-wide default, and it gates OAuth submission as it gates basic authentication. Ask an Exchange administrator to enable it on the mailbox, it is the <code>SmtpClientAuthenticationDisabled</code> setting.</li>
 <li><strong>Token expiration</strong>: Client secrets in Azure AD expire. When they do, create a new secret and update it in SFTPGo. The refresh token itself is renewed automatically.</li>
 </ul>
 
@@ -4339,7 +4340,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 18, 2026 07:27:47 UTC">2026-09-18 07:27:47</span>
   </span>
 
     

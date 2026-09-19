@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/tutorials/eventmanager-idp/",
         "inLanguage": "en",
         "datePublished": "2026-04-26T15:47:01Z",
-        "dateModified": "2026-09-08T09:20:06Z",
+        "dateModified": "2026-09-18T07:27:47Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -3906,7 +3906,7 @@
 <h2 id="keep-accounts-in-sync-or-create-them-once">Keep accounts in sync or create them once</h2>
 <p>The <strong>Mode</strong> of the action decides what happens at the logins after the first:</p>
 <ul>
-<li><strong>Create or update</strong>: the template is rendered at every login and the stored user is replaced with the result. The account follows the IdP: a changed claim, or a changed template, is applied at the next login. The settings an administrator edits in the WebAdmin are replaced too, since a field the template does not set returns to its default. The fields the user may edit from the Web Client keep their values: password, public keys, TLS certificates, description, email addresses and the API key authentication setting.</li>
+<li><strong>Create or update</strong>: the template is rendered at every login and the stored user is replaced with the result. The account follows the IdP: a changed claim, or a changed template, is applied at the next login. The settings an administrator edits in the WebAdmin are replaced too, since a field the template does not set returns to its default. The fields the user may edit from the Web Client keep their values: password, public keys, TLS certificates, description, email addresses and the API key authentication setting. To let the template own the identity data, remove the matching self-service change from the <strong>Web client/REST API</strong> options of the user or of its group: description and email addresses are then rewritten at every login.</li>
 <li><strong>Create if it doesn't exist</strong>: the template is rendered for a username without an account, once. From then on the account is managed in SFTPGo and the IdP authenticates it.</li>
 </ul>
 <p>Choose the first when the IdP is the source of truth for storage and group membership, the second when administrators tune accounts after their creation.</p>
@@ -3994,7 +3994,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 18, 2026 07:27:47 UTC">2026-09-18 07:27:47</span>
   </span>
 
     
