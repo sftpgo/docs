@@ -36,6 +36,14 @@ If you're migrating from an open-source installation, please follow the guide he
 - SFTP storage backend through a SOCKS proxy: when the SFTP server behind the proxy was unreachable, the connection attempt blocked the operation indefinitely. The connection setup is now bounded by a timeout.
 - Event manager: an action with a source or target [folder](filesystem-actions.md#virtual-folders) failed when its destination directory did not exist yet, for example a [Copy](filesystem-actions.md#copy) archiving files into a directory named after the current date; the missing directories are now created.
 - TLS: a certificate renewed by ACME or set from the WebAdmin was replaced by the one loaded at startup after a configuration reload, and replacing a certificate file on disk could stop the monitoring of the others. The last applied certificate is now kept across reloads and changes on disk are picked up.
+- OIDC: bound the authorization request to the user agent.
+
+### Security fixes
+
+- Share links were not revoked when the owning account was disabled or expired. [GHSA-5jhj-cjcp-jr8r](https://github.com/drakkan/sftpgo/security/advisories/GHSA-5jhj-cjcp-jr8r).
+- Unbounded memory allocation when parsing SCP protocol records. [GHSA-j4w8-6gjf-fqvg](https://github.com/drakkan/sftpgo/security/advisories/GHSA-j4w8-6gjf-fqvg).
+- WebClient: Stored cross-site scripting through directory names. Reported by ERNW. [GHSA-f9qc-3v4f-32w3](https://github.com/drakkan/sftpgo/security/advisories/GHSA-f9qc-3v4f-32w3).
+- File pattern filters were not evaluated on the source of a copy. [GHSA-wwv9-g5x4-966q](https://github.com/drakkan/sftpgo/security/advisories/GHSA-wwv9-g5x4-966q).
 
 ### Behavior changes
 
