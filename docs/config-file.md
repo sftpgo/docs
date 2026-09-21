@@ -818,7 +818,7 @@ Configuration parameters for the `smtp` section.
 | `host` | string | empty | SMTP server hostname. Leave empty to disable email sending capabilities. |
 | `port` | integer | `587` | SMTP server port. |
 | `from` | string | empty | From address, for example `SFTPGo <sftpgo@example.com>`. Many SMTP servers reject emails without a `From` header; if not set, SFTPGo will try to use the username as a fallback, which may or may not be appropriate. |
-| `user` | string | empty | SMTP username. |
+| `user` | string | empty | SMTP username. With the OAuth2 authentication type it is the mailbox the access token is valid for: when empty, the address set in `from` is used. |
 | `password` | string | empty | SMTP password. Leaving both username and password empty disables SMTP authentication. |
 | `auth_type` | integer | `0` | Authentication type. `0` = Plain, `1` = Login, `2` = CRAM-MD5, `3` = XOAUTH2, `4` = SCRAM-SHA-256, `5` = SCRAM-SHA-256-PLUS. SCRAM-SHA-256-PLUS binds the authentication to the TLS channel and therefore requires `encryption` set to `1` or `2`. :information_source: Channel binding uses `tls-exporter` ([RFC 9266](https://datatracker.ietf.org/doc/html/rfc9266)) on TLS 1.3 and `tls-unique` on TLS 1.2. Servers that advertise `SCRAM-SHA-256-PLUS` but implement only `tls-unique` will reject the TLS 1.3 handshake; use `SCRAM-SHA-256` with those servers. |
 | `allow_unencrypted_auth` | boolean | `false` | Allow the Plain and Login authentication types over an unencrypted connection. These types send the credentials as is, so enable this setting only when the connection to the SMTP server is secured in another way, for example an SSH tunnel or a trusted private network. Connections to `localhost`, `127.0.0.1` and `::1` are always allowed to authenticate over an unencrypted channel. |
@@ -833,10 +833,11 @@ Configuration parameters for the `smtp` section.
 | Parameter | Type | Default | Description |
 | ----------- | ------ | --------- | ------------- |
 | `provider` | integer | `0` | OAuth2 provider. `0` = Google, `1` = Microsoft. |
-| `tenant` | string | empty | Azure Active Directory tenant for the Microsoft provider. Typical values are `common`, `organizations`, `consumers`, or a tenant identifier. If empty, `common` is used. |
+| `grant_type` | integer | `0` | How access tokens are obtained. `0` = authorization code, using the configured refresh token. `1` = client credentials, using the application credentials alone, available with the Microsoft provider. See [OAuth2 for SMTP and IMAP](tutorials/oauth2-smtp-imap.md). |
+| `tenant` | string | empty | Azure Active Directory tenant for the Microsoft provider. Typical values are `common`, `organizations`, `consumers`, or a tenant identifier. If empty, `common` is used. The client credentials grant type accepts a tenant identifier or `organizations`. |
 | `client_id` | string | empty | OAuth2 client ID. |
 | `client_secret` | string | empty | OAuth2 client secret. |
-| `refresh_token` | string | empty | OAuth2 refresh token. The WebAdmin can obtain one from the SMTP configuration page: complete the authorization in the browser that started it. |
+| `refresh_token` | string | empty | OAuth2 refresh token, used with the authorization code grant type. The WebAdmin can obtain one from the SMTP configuration page: complete the authorization in the browser that started it. |
 
 ## Plugins
 

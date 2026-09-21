@@ -19,6 +19,8 @@ The `offline_access` scope (Microsoft) tells the provider to issue a **refresh t
 
 The scopes are managed automatically by SFTPGo — you only need to provide the Client ID, Client Secret, and authorize the connection.
 
+The Microsoft provider also supports the **client credentials** grant type: the application authenticates with its own credentials, no user signs in and there is no refresh token to keep. See [Part 3: Client credentials (Microsoft)](#part-3-client-credentials-microsoft). The two parts below describe the authorization code grant type, where a user authorizes SFTPGo once and SFTPGo keeps a refresh token.
+
 ## Part 1: SMTP with OAuth2
 
 ### Google (Gmail)
@@ -108,6 +110,7 @@ In the WebAdmin, navigate to **Server Manager > Configurations > SMTP**.
 | Encryption | STARTTLS |
 | Auth type | **OAuth2** |
 | Provider | **Microsoft** |
+| Grant type | **Authorization code** |
 | Tenant | Your Directory (tenant) ID (leave empty for `common`) |
 | Client ID | The Application (client) ID |
 | Client Secret | The client secret value |
@@ -134,6 +137,7 @@ When creating or editing an IMAP action in the Event Manager, set the **Auth typ
 | Username | `your-email@gmail.com` | `your-email@your-domain.com` |
 | Auth type | OAuth2 | OAuth2 |
 | Provider | Google | Microsoft |
+| Grant type | Authorization code | Authorization code |
 | Tenant | — | Your tenant ID |
 | Client ID | Same as SMTP or a separate app | Same as SMTP or a separate app |
 | Client Secret | The client secret | The client secret |
@@ -185,6 +189,48 @@ OAuth2 providers may rotate refresh tokens. SFTPGo handles this automatically:
 
 No manual intervention is required after the initial setup.
 
+## Part 3: Client credentials (Microsoft)
+
+With the client credentials grant type the application authenticates with its own credentials and works on the configured mailbox without any user signing in. There is no refresh token to obtain or to renew, and the account that owns the mailbox can stay disabled, as the account of a shared mailbox normally is.
+
+This grant type is available with the Microsoft provider and requires a tenant identifier.
+
+### Step 1: Add the application permission
+
+1. In the app registration, navigate to **API permissions**.
+2. Click **Add a permission > APIs my organization uses** and select **Office 365 Exchange Online**.
+3. Click **Application permissions** and add `SMTP.SendAsApp` to send email, `IMAP.AccessAsApp` for the IMAP action.
+4. Click **Grant admin consent**.
+
+### Step 2: Grant the application access to the mailbox
+
+Exchange Online serves an application on the mailboxes it has been granted. An Exchange administrator registers the application as a service principal in the organization and grants it full access to the mailbox SFTPGo authenticates as, with the `New-ServicePrincipal` and `Add-MailboxPermission` cmdlets of Exchange Online PowerShell. Sending with a From address that differs from that mailbox needs the Send As permission on the other address as well.
+
+### Step 3: Configure SFTPGo
+
+In the WebAdmin, navigate to **Server Manager > Configurations > SMTP**.
+
+| Field | Value |
+| ------- | ------- |
+| Host | `smtp.office365.com` |
+| Port | `587` |
+| Username | The mailbox address, for example `no-reply@example.com` |
+| Encryption | STARTTLS |
+| Auth type | **OAuth2** |
+| Provider | **Microsoft** |
+| Grant type | **Client credentials** |
+| Tenant | Your Directory (tenant) ID |
+| Client ID | The Application (client) ID |
+| Client Secret | The client secret value |
+
+Click **Submit** and send a test email. The OAuth2 Token field belongs to the authorization code grant type and is not used here.
+
+Since no browser step is involved, this grant type can also be set entirely in the configuration file or through environment variables, in the `smtp` section: `auth_type` `3`, `oauth2.grant_type` `1`, `oauth2.tenant`, `oauth2.client_id` and `oauth2.client_secret`.
+
+The IMAP action of the Event Manager takes the same values: set **Auth type** to OAuth2, **Grant type** to Client credentials, and **Username** to the address of the mailbox the action reads.
+
+:warning: The client secret expires on the date chosen when it was created. Create a new secret before that date and update it in SFTPGo to keep sending mail.
+
 ## Troubleshooting
 
 - **"Access denied" or "Insufficient scope" errors**: Verify that the correct API permissions/scopes are configured in the provider's developer console and that admin consent has been granted (Microsoft).
@@ -194,4 +240,5 @@ No manual intervention is required after the initial setup.
 - **Microsoft tenant errors**: Ensure the tenant ID matches your Azure AD directory. For personal Microsoft accounts, use `consumers` as the tenant.
 - **Microsoft `AUTHENTICATE failed` (IMAP) or `535 5.7.3 Authentication unsuccessful` (SMTP) despite a successful token refresh**: the token was issued correctly but Exchange Online rejected it because the signing-in user that authorized the OAuth flow has no access to the mailbox configured in the action's **Username** field. Revoke the previous consent from [My Apps](https://myapps.microsoft.com/) and re-run **Get**, signing in as the mailbox owner — or as a delegate with Full Access (IMAP) or Send As (SMTP) on the shared mailbox. The previous refresh token is bound to the wrong identity and must be replaced.
 - **Microsoft `535 5.7.3 Authentication unsuccessful` (SMTP) although the token is valid**: SMTP AUTH is a per-mailbox setting in Exchange Online, with an organization-wide default, and it gates OAuth submission as it gates basic authentication. Ask an Exchange administrator to enable it on the mailbox, it is the `SmtpClientAuthenticationDisabled` setting.
+- **Microsoft `535 5.7.3 Authentication unsuccessful` (SMTP) or `AUTHENTICATE failed` (IMAP) with the client credentials grant type**: the token is valid and the refusal comes from Exchange Online, which serves the application on the mailboxes granted to it. Verify that the application is registered as a service principal in the organization and that the mailbox set in the **Username** field is among the ones granted.
 - **Token expiration**: Client secrets in Azure AD expire. When they do, create a new secret and update it in SFTPGo. The refresh token itself is renewed automatically.
