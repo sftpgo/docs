@@ -13,6 +13,7 @@ A working account needs a username, a way to authenticate, a storage with its ro
 ## Identity and credentials
 
 - **Username**: unique across the installation and fixed once the user is created. The allowed characters are set by `naming_rules` in the [configuration](config-file.md#data-provider).
+- **Display name**: the name the Web Client shows in place of the username. The username stays the identity of the account: a display name may repeat across accounts and takes no part in the login, so it suits accounts whose username is an identifier assigned by an identity provider. A change reaches the user at the next login.
 - **Status** and **Expiration**: an inactive or expired user is refused on every protocol. The other settings stay stored, so an account is disabled and re-enabled without losing anything. A primary group sets the expiration through **Expires in**, as days from the creation of the user.
 - **Password**: stored hashed. **Password expiration** is the number of days a password stays valid; **Require password change** asks the user to set a new password from the Web Client, and the other protocols wait until it is done. Algorithms and validation rules are in [Password management](password.md).
 - **Public keys**: SSH public keys in the `authorized_keys` format: RSA from 2048 bits, ECDSA, Ed25519 and FIDO security keys (`sk-*`). A `from="<CIDR>,..."` option restricts a key to the listed networks, see [Restricting a key to source addresses](ssh.md#restricting-a-key-to-source-addresses). SSH certificates are configured on the server, see [SSH authentication](ssh.md#authentication).
@@ -60,7 +61,7 @@ The **Root directory** field (`home_dir` in the REST API, "home directory" in th
 
 ## Web Client and REST API
 
-From the Web Client a user manages files and shares, the profile (description, email and additional emails, public keys, TLS certificates), the password and two-factor authentication.
+From the Web Client a user manages files and shares, the profile (display name, description, email and additional emails, public keys, TLS certificates), the password and two-factor authentication.
 
 - **Web client/REST API** options remove features from this user: writes, document editing, the recursive size of directories, the REST API, each of the self-service changes above, the API key authentication setting, and the sharing options described in [Shares](tutorials/shares.md). An account provisioned by an identity provider or a hook is kept read-only for the user this way.
 - **API key authentication**: lets an API key created for this user act as the user in the REST API, see [REST API](rest-api.md).
