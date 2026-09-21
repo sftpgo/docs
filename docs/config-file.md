@@ -620,6 +620,8 @@ Customizations to suit your brand. Contains `web_admin` and `web_client` sub-str
 | `default_css` | list of strings | | Paths to custom CSS files (relative to `static_files_path`) that replace the default CSS. |
 | `extra_css` | list of strings | | Paths to additional CSS files (relative to `static_files_path`). |
 
+See [Theme customization](theme-customization.md) for the variables the interfaces expose and a stylesheet listing their default values.
+
 ### cors
 
 CORS configuration. SFTPGo uses [Go CORS handler](https://github.com/rs/cors){:target="_blank"}; refer to upstream documentation for field semantics and default values.

@@ -4,7 +4,7 @@ description: "SFTPGo web interfaces: WebAdmin for server management, WebClient f
 
 # Web User Interfaces
 
-SFTPGo provides two web interfaces, both available with dark and light themes.
+SFTPGo provides two web interfaces, both available with dark and light themes. Colors, sidebar, typography, logos and names can be adapted to your brand, see [Theme customization](theme-customization.md).
 
 ## WebAdmin
 

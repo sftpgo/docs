@@ -50,6 +50,7 @@ nav:
     - config-file.md
     - env-vars.md
     - web-interfaces.md
+    - 'Theme Customization': theme-customization.md
     - 'Email Templates': email-templates.md
     - 'Password Hashing': password.md
     - kms.md
