@@ -240,6 +240,17 @@ The full list of regional endpoints is in the [IBM COS endpoint documentation](h
 | **Force path style** | **enabled** |
 | **Access Key / Secret** | Create S3 credentials in the Supabase dashboard under Project Settings => Storage => S3 Access Keys |
 
+## Neon Object Storage
+
+[Neon Object Storage](https://neon.com/docs/storage/overview){:target="_blank"} exposes an S3-compatible endpoint.
+
+| Parameter | Value |
+|---|---|
+| **Endpoint** | `https://<branch_ref>.storage.c-2.us-east-2.aws.neon.tech` |
+| **Region** | The region selected when creating the Neon project |
+| **Force path style** | **enabled** |
+| **Access Key / Secret** | Obtain S3 credentials in the Neon dashboard under Project > Branch > Object Storage > Connect |
+
 ## Troubleshooting checklist
 
 If a newly configured S3-compatible service is not working:
