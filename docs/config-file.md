@@ -146,7 +146,7 @@ Configuration parameters for the `acme` section:
 | ----------- | ------ | --------- | ------------- |
 | `domains` | list of strings | empty | Domains for which to obtain certificates. To have a single certificate valid for multiple domains, separate names with commas or spaces (e.g., `example.com,www.example.com`). An empty list disables the ACME protocol. |
 | `email` | string | empty | Email used for registration and recovery contact. |
-| `key_type` | string | `4096` | Key type for private keys. Supported values: `2048` (RSA 2048), `3072` (RSA 3072), `4096` (RSA 4096), `8192` (RSA 8192), `P256` (EC 256), `P384` (EC 384). |
+| `key_type` | string | `P256` | Key type for private keys. Supported values: `2048` (RSA 2048), `3072` (RSA 3072), `4096` (RSA 4096), `8192` (RSA 8192), `P256` (EC 256), `P384` (EC 384). A new key of this type is generated at each renewal, so a change applies to each certificate at its next renewal. |
 | `certs_path` | string | — | Directory for storing certificates and related data. Can be absolute or relative to the configuration directory. |
 | `ca_endpoint` | string | `https://acme-v02.api.letsencrypt.org/directory` | ACME Certificate Authority endpoint URL. |
 | `renew_days` | integer | `30` | Number of days before expiration at which to renew the certificate. |

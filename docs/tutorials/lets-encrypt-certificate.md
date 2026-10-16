@@ -120,7 +120,7 @@ You can open the SFTPGo configuration file, search for the `acme` section and ch
   "acme": {
     "domains": ["sftpgo.com"],
     "email": "<you email address here>",
-    "key_type": "4096",
+    "key_type": "P256",
     "ca_endpoint": "https://acme-v02.api.letsencrypt.org/directory",
     "renew_days": 30,
     "http01_challenge": {
