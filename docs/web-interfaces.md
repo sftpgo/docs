@@ -101,12 +101,15 @@ SFTPGO_HTTPD__BINDINGS__0__CLIENT_IP_PROXY_HEADER="X-Forwarded-For"
 
 The header is read only from the listed addresses, so a client connecting to SFTPGo directly cannot choose the address SFTPGo records. When several proxies are in the path, `X-Forwarded-For` carries a chain of addresses and `client_ip_header_depth` selects which one to trust, counting from the right. The client address is what [brute force protection](defender.md), [rate limiting](rate-limiting.md), [IP lists](ip-lists.md), per-user IP filters and the audit log all work on, so it is worth configuring before publishing an instance.
 
-**TLS terminated at the proxy.** When the proxy serves HTTPS to clients and plain HTTP to SFTPGo, declare the header it adds so that generated absolute URLs use `https://` and cookies carry the `Secure` flag:
+**TLS terminated at the proxy.** When the proxy serves HTTPS to clients and plain HTTP to SFTPGo, have it send `X-Forwarded-Proto: https`. SFTPGo reads this header from the addresses listed in `proxy_allowed` and treats the request as HTTPS: cookies carry the `Secure` flag and generated absolute URLs use `https://`. If the last hop before SFTPGo sends `X-Forwarded-Proto: http`, for example a second load balancer listening on HTTP, requests are treated as plain HTTP: the WebClient and the REST API work, chunked uploads included, and cookies are sent without the `Secure` flag.
+
+To send the `Strict-Transport-Security` header on these requests, declare the header in the `security` block as well:
 
 ```bash
 SFTPGO_HTTPD__BINDINGS__0__SECURITY__ENABLED=true
 SFTPGO_HTTPD__BINDINGS__0__SECURITY__HTTPS_PROXY_HEADERS__0__KEY="X-Forwarded-Proto"
 SFTPGO_HTTPD__BINDINGS__0__SECURITY__HTTPS_PROXY_HEADERS__0__VALUE="https"
+SFTPGO_HTTPD__BINDINGS__0__SECURITY__STS_SECONDS=31536000
 ```
 
 Skip this when the binding has its own certificate and the proxy connects to it over HTTPS.

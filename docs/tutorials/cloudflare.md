@@ -25,15 +25,18 @@ Restart SFTPGo to apply. The rest of this page explains each line.
 
 ## TLS termination at Cloudflare
 
-If your SFTPGo HTTPD binding runs on plain HTTP and Cloudflare terminates TLS at its edge (so traffic from Cloudflare to SFTPGo is HTTP), also set:
+If your SFTPGo HTTPD binding runs on plain HTTP and Cloudflare terminates TLS at its edge (so traffic from Cloudflare to SFTPGo is HTTP), Cloudflare sends `X-Forwarded-Proto` with the scheme the visitor used, `https` for visitors on HTTPS. SFTPGo reads this header from the addresses in `PROXY_ALLOWED` above and treats those requests as HTTPS, so generated absolute URLs use `https://` and the `Secure` flag is set on cookies.
+
+To also send the `Strict-Transport-Security` header, set:
 
 ```bash
 SFTPGO_HTTPD__BINDINGS__0__SECURITY__ENABLED=true
 SFTPGO_HTTPD__BINDINGS__0__SECURITY__HTTPS_PROXY_HEADERS__0__KEY="X-Forwarded-Proto"
 SFTPGO_HTTPD__BINDINGS__0__SECURITY__HTTPS_PROXY_HEADERS__0__VALUE="https"
+SFTPGO_HTTPD__BINDINGS__0__SECURITY__STS_SECONDS=31536000
 ```
 
-This tells SFTPGo to treat requests carrying `X-Forwarded-Proto: https` as HTTPS even though the binding itself listens on plain HTTP, so that generated absolute URLs use `https://` and the `Secure` flag is set on cookies. Cloudflare adds this header on every proxied request, and `PROXY_ALLOWED` above already restricts who can set it. If your binding has its own TLS certificate (`enable_https = true`), skip this section.
+If your binding has its own TLS certificate (`enable_https = true`), skip this section.
 
 ## How it works
 

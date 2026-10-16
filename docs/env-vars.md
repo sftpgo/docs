@@ -12,7 +12,7 @@ You can override all the available [configuration options](config-file.md) using
 
 **SFTPGo will check for environment variables with a name matching the key uppercased and prefixed with `SFTPGO_`. Use `__` to traverse into a struct.** For example:
 
-- To set `common.proxy_protocol` to `1`, define the env var `SFTPGO_COMMON__PROXY_PROTOCOL` with value `1`.
+- To set `common.proxy_protocol` to `2`, define the env var `SFTPGO_COMMON__PROXY_PROTOCOL` with value `2`.
 - To set `webdavd.cors.enabled` to `true`, define the env var `SFTPGO_WEBDAVD__CORS__ENABLED` with value `true`.
 
 For options that are list-like, use the following syntax depending on the item type:
@@ -44,11 +44,12 @@ SFTPGo also reads files inside the `env.d` directory relative to config dir and 
 However, you cannot set command flags this way because these files are read after SFTPGo starts and the config dir must already be set.
 You can also set environment variables using the method provided by your operating system.
 
-**Example:** to enable the SFTP service on port 2222, set the proxy protocol, and configure an EventStore plugin, create a file such as `/etc/sftpgo/env.d/custom.env` with the following content:
+**Example:** to enable the SFTP service on port 2222, require the proxy protocol from a load balancer, and configure an EventStore plugin, create a file such as `/etc/sftpgo/env.d/custom.env` with the following content:
 
 ```shell
 SFTPGO_SFTPD__BINDINGS__0__PORT=2222
-SFTPGO_COMMON__PROXY_PROTOCOL=1
+SFTPGO_COMMON__PROXY_PROTOCOL=2
+SFTPGO_COMMON__PROXY_ALLOWED=10.0.0.10
 SFTPGO_PLUGIN_EVENTSTORE_DSN='host=127.0.0.1 port=5432 dbname=sftpgo_events user=sftpgo password=secret'
 SFTPGO_PLUGINS__0__TYPE=notifier
 SFTPGO_PLUGINS__0__NOTIFIER_OPTIONS__FS_EVENTS=upload,download,delete,rename,mkdir,rmdir
