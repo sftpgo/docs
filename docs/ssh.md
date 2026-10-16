@@ -116,4 +116,4 @@ Commands not in the default list must be explicitly enabled in the [configuratio
 - **Algorithm enforcement** — Users can require specific algorithms via the `enforce_secure_algorithms` filter. Connections using weaker algorithms are rejected even if the algorithms are enabled server-wide.
 - **Login banner** — Display a custom message before authentication by configuring `login_banner_file`.
 - **Max authentication attempts** — Configurable limit on failed authentication attempts per connection.
-- **Defender integration** — Failed logins, algorithm mismatches, and connection limit violations generate defender events for automatic banning. See [Defender](defender.md).
+- **Defender integration** — Failed logins, connections closed before a login attempt and connection limit violations generate defender events for automatic banning. See [Defender](defender.md).

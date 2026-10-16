@@ -12,28 +12,28 @@ You can configure a score for the following events:
 
 - `score_valid`, defines the score for valid login attempts, eg. user accounts that exist. Default `1`.
 - `score_invalid`, defines the score for invalid login attempts, eg. non-existent user accounts. Default `2`.
-- `score_no_auth`, defines the score for clients disconnected without any authentication attempt. Default `0`.
+- `score_no_auth`, defines the score for SSH and FTP connections closed before a login attempt. Default `0`.
 - `score_limit_exceeded`, defines the score for hosts that exceeded the configured rate limits or the configured max connections per host. Default `3`.
 
 You can set the score to `0` to not penalize some events.
 
+An SSH login refused because of the algorithms the client uses, for example a public key signature algorithm the server does not accept or the per-user `enforce_secure_algorithms` setting, adds no score: the refusal does not depend on the credential. It is logged and notified as `Algorithm negotiation failed`.
+
 And then you can configure:
 
 - `observation_time`, defines the time window, in minutes, for tracking client errors.
-- `threshold`, defines the threshold value before banning a host.
+- `threshold`, defines the score at which a host is banned.
 - `ban_time`, defines the time to ban a client, as minutes
 
 :warning: All time values (`ban_time`, `observation_time`) are **integers in minutes** — fractional values such as `0.5` are not accepted. The minimum usable value is `1`. For example, to ban for one day set `ban_time=1440`.
 
-So a host is banned, for `ban_time` minutes, if the sum of the scores has exceeded the defined threshold during the last observation time minutes.
+So a host is banned, for `ban_time` minutes, when the sum of its scores during the last `observation_time` minutes reaches the defined threshold.
 
 By defining the scores, each type of event can be weighted. For example, if `score_invalid` is 3 and `threshold` is 8, a host is banned after 3 login attempts with a non-existent user within the configured `observation_time`.
 
 A banned IP has no score, it makes no sense to accumulate host events in memory for an already banned IP address.
 
-If an already banned client tries to log in again, its ban time will be incremented according the `ban_time_increment` configuration.
-
-The `ban_time_increment` is calculated as percentage of `ban_time`, so if `ban_time` is 30 minutes and `ban_time_increment` is 50 the host will be banned for additionally 15 minutes. You can also specify values greater than 100 for `ban_time_increment` if you want to increase the penalty for already banned hosts.
+Each connection from a banned host, and each request on the HTTP and WebDAV services, extends its ban by `ban_time_increment`, a percentage of `ban_time`: if `ban_time` is 30 minutes and `ban_time_increment` is 50, every new attempt adds 15 minutes. The extension is at least one minute, so a host that keeps connecting stays banned. `ban_time_increment` accepts values from `1`; values above 100 extend the ban by more than `ban_time` at each attempt.
 
 SFTPGo can store host scores and banned hosts in memory or within the configured data provider according to the `driver` set in the `defender` configuration section. The available drivers are `memory` and `provider`.
 
@@ -87,10 +87,10 @@ SFTPGO_COMMON__DEFENDER__SCORE_LIMIT_EXCEEDED=3
 
 With this configuration:
 
-- A host is banned for **30 minutes** if its score exceeds **8** within a **15-minute** window.
+- A host is banned for **30 minutes** when its score reaches **8** within a **15-minute** window.
 - Three login attempts with a non-existent user (score 3 each = 9) will trigger a ban.
 - Eight login attempts with a valid username but wrong password (score 1 each = 8) will also trigger a ban.
-- If the banned host tries again, the ban is extended by 50% (15 additional minutes).
+- Each new attempt from the banned host extends the ban by 50% of `ban_time` (15 additional minutes).
 
 To persist defender state across restarts, or to share it across all nodes in a multi-instance deployment, switch to the `provider` driver (requires a SQL-based data provider):
 

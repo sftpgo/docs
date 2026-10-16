@@ -57,7 +57,7 @@ The **Root directory** field (`home_dir` in the REST API, "home directory" in th
 
 - **Denied protocols**, **Allowed IP/Mask**, **Denied IP/Mask** and **Access time restrictions** gate the connection. See [IP and protocol restrictions](access-control.md#ip-and-protocol-restrictions) and [Time-based access](access-control.md#time-based-access).
 - **Denied login methods**: the credentials this user may not use among the ones the binding accepts: password, public key, keyboard-interactive, TLS certificate and, for SSH, the two-step combinations such as public key followed by password. Denying the single SSH methods and leaving a combination requires two-step authentication, see [Multi-step authentication](ssh.md#multi-step-authentication).
-- **Enforce secure algorithms** and **FTP security**: the first restricts the SFTP sessions of this user to secure host key, key exchange, MAC and cipher algorithms on a server that enables weaker ones too; the second requires TLS for this user on FTP bindings that allow cleartext sessions too. See [FTP security filter](ftp.md#ftp-security-filter).
+- **Enforce secure algorithms** and **FTP security**: the first restricts the SFTP sessions of this user to secure host key, key exchange, MAC, cipher and public key signature algorithms on a server that enables weaker ones too, see [SSH security features](ssh.md#security-features); the second requires TLS for this user on FTP bindings that allow cleartext sessions too. See [FTP security filter](ftp.md#ftp-security-filter).
 
 ## Web Client and REST API
 

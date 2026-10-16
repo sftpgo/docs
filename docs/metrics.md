@@ -79,7 +79,7 @@ Operation values: `rename`, `delete`, `rmdir`, `copy`, `mkdir`.
 ### Authentication
 
 - `sftpgo_login_total{method="...", result="..."}` — Login events by authentication method and result.
-- `sftpgo_no_auth_total` — Clients disconnected for inactivity before attempting authentication.
+- `sftpgo_no_auth_total` — SSH and FTP connections closed before a login attempt.
 
 Method values: `password`, `publickey`, `keyboard-interactive`, `publickey+password`, `publickey+keyboard-interactive`, `password+publickey`, `keyboard-interactive+publickey`, `TLSCertificate`, `TLSCertificate+password`, `IDP`.
 

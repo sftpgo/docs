@@ -4,13 +4,13 @@ description: "Run a custom action after a successful or failed login in SFTPGo. 
 
 # Post-login hook
 
-This hook is executed after a login or after closing a connection for authentication timeout. Defining an appropriate `post_login_scope` you can get notifications for failed logins, successful logins or both.
+This hook is executed after a login, and after an SSH or FTP connection closed before a login attempt. Defining an appropriate `post_login_scope` you can get notifications for failed logins, successful logins or both.
 
 The `post-login-hook` can be defined as the absolute path of your program or an HTTP URL.
 
-If the hook defines an external program it can reads the following environment variables:
+If the hook defines an external program it can read the following environment variables:
 
-- `SFTPGO_LOGIND_USER`, it contains the user serialized as JSON. The username is empty if the connection is closed for authentication timeout
+- `SFTPGO_LOGIND_USER`, it contains the user serialized as JSON. The username is empty for a connection closed before a login attempt
 - `SFTPGO_LOGIND_IP`
 - `SFTPGO_LOGIND_METHOD`, possible values are `publickey`, `password`, `keyboard-interactive`, `publickey+password`, `publickey+keyboard-interactive`, `password+publickey`, `keyboard-interactive+publickey`, `TLSCertificate`, `TLSCertificate+password` or `no_auth_tried`, `IDP` (external identity provider)
 - `SFTPGO_LOGIND_STATUS`, 1 means login OK, 0 login KO
@@ -29,5 +29,5 @@ The HTTP hook will use the global configuration for HTTP clients and will respec
 The `post_login_scope` supports the following configuration values:
 
 - `0` means notify both failed and successful logins
-- `1` means notify failed logins. Connections closed for authentication timeout are notified as failed logins. You will get an empty username in this case
+- `1` means notify failed logins. Connections closed before a login attempt are notified as failed logins, with an empty username
 - `2` means notify successful logins
