@@ -10,7 +10,7 @@ The WebAdmin and WebClient are built on Bootstrap 5 with a custom theme. Colors,
 
 Every customizable variable, with the value the interface ships with, is served at:
 
-```
+```text
 https://<your-server>/static/branding-defaults/theme-defaults.css
 ```
 
@@ -50,13 +50,15 @@ Every primary button, active menu entry, checkbox, badge and accent follows the 
   --bs-primary-inverse: #ffffff;   /* text drawn on top of the color */
   --bs-primary-rgb:     255, 102, 0;
 
+  --bs-text-primary:    #ff6600;   /* text and icons in the brand color */
+
   --bs-link-color:       #ff6600;
   --bs-link-color-rgb:   255, 102, 0;
   --bs-link-hover-color: #cc5200;
 }
 ```
 
-Setting the base color alone leaves hover states and soft backgrounds on the previous hue, which reads as an unfinished rebrand. The defaults file lists the whole family together for this reason.
+Setting the base color alone leaves hover states, soft backgrounds and colored text on the previous hue, which reads as an unfinished rebrand. The defaults file lists the whole family together for this reason.
 
 ## The variants of a family
 
@@ -74,7 +76,11 @@ Colors are grouped in families: `primary` carries the brand, `success`, `info`, 
 | `-bg-subtle` | a very light tint, the background of alerts |
 | `-border-subtle` | the matching border of those alerts |
 
-A quick accent change needs the first six. A full rebrand sets all nine, per family and per mode, which is what the defaults file gives ready to edit.
+Text and icons drawn with a family color, from the `text-primary` and `text-success` classes to the hover color of icon buttons, read a variable of their own: `--bs-text-primary`, `--bs-text-success` and so on, listed beside each family in the defaults file. A family change sets it as well, or that text keeps the previous color.
+
+In light mode the `warning` yellow is a fill and border color, with dark text drawn on it. The light badges and buttons that use it as text take `--bs-warning-ink`, which the theme computes as a darker shade of `--bs-warning`: a custom yellow needs no extra variable.
+
+A quick accent change needs the first six and the text variable. A full rebrand sets all of them, per family and per mode, which is what the defaults file gives ready to edit.
 
 ## Surfaces and text
 
@@ -86,10 +92,11 @@ Outside the families, a handful of variables carry the neutral parts of the page
 | `--bs-body-color` | the default text color |
 | `--bs-heading-color` | headings |
 | `--bs-text-muted` | secondary text |
-| `--bs-border-color` | the borders of cards, inputs and dividers |
-| `--bs-gray-100` to `--bs-gray-900` | the ramp behind the `text-gray-*` and `bg-gray-*` utility classes used across the pages |
+| `--bs-border-color` | the borders of cards and dividers (fields take `--bs-input-border-color`, see [Keyboard focus and form controls](#keyboard-focus-and-form-controls)) |
+| `--bs-gray-100` to `--bs-gray-900` | the gray ramp: backgrounds, borders, form labels, input text and the `bg-gray-*` classes |
+| `--bs-text-gray-100` to `--bs-text-gray-900` | the same ramp for the `text-gray-*` classes and gray button, icon and menu text |
 
-The `-rgb` companions of the first two exist for the rules that compose them with an alpha. The gray ramp is the widest lever of the set: a warmer or cooler ramp shifts every page at once.
+The `-rgb` companions of the first two exist for the rules that compose them with an alpha. The gray ramp is the widest lever of the set: a warmer or cooler ramp, set on both `--bs-gray-*` and `--bs-text-gray-*`, shifts every page at once.
 
 ## Light and dark
 
@@ -110,6 +117,18 @@ The interface follows the system preference and the in-app switch, and defines i
 ```
 
 A palette for each mode is therefore two blocks, one per `data-bs-theme` selector, and `:root` is the shorthand for "the same value everywhere". The base color usually needs a small luminance adjustment between the two modes, while the `-light` variant changes role completely: it is a pale tint of the brand color on a light surface and a deep tint of it on a dark one.
+
+In dark mode the brand color is also the color of links and text on the dark page, which calls for a light shade, while white text on a filled button calls for a darker one. Buttons, the current page, active entries and badges are therefore filled with `--bs-primary-fill`, a darker shade of `--bs-primary` that the theme computes, with `--bs-primary-inverse` as text. Set it in the dark block to choose the fill yourself: `--bs-primary-inverse` on it needs a contrast of at least 4.5:1.
+
+```css
+[data-bs-theme=dark] {
+  --bs-primary:             #ff8533;  /* links and text on the dark page */
+  --bs-primary-fill:        #b34700;  /* buttons and other filled areas */
+  --bs-primary-fill-active: #993d00;  /* their hover and pressed state */
+}
+```
+
+The `success`, `info` and `danger` families work the same way in dark mode, with `--bs-success-fill`, `--bs-info-fill` and `--bs-danger-fill` and their `-active` companions. The `warning` yellow keeps dark text on its fill in both modes.
 
 ## The sidebar
 
@@ -150,6 +169,8 @@ The interface ships with Inter and falls back to the system sans-serif stack:
 
 Keeping `var(--bs-font-sans-serif)` in the list preserves the system stack if the brand font fails to load.
 
+Text sizes follow the text size set in the browser: with the default setting the base size is 13px, the `1rem` of the example above, and a larger setting enlarges the whole interface. Sizes written in `rem` keep following it, while a fixed `font-size` on `html` or `body` turns it off.
+
 A font that is not installed on the client needs a `@font-face` declaration in the same stylesheet, with the font file served from the same host:
 
 ```css
@@ -179,7 +200,7 @@ Corner radius is a family of its own, from buttons and inputs up to cards and mo
 
 ## Components read the theme variables
 
-Buttons, inputs, tables and menus take their colors from the variables listed in the defaults file, not from the per-component Bootstrap variables. A primary button is drawn with `--bs-primary` and `--bs-primary-inverse`, so a rule that sets `--bs-btn-bg` or `--bs-btn-color` has no effect, and a stylesheet designed against plain Bootstrap will render differently here.
+Buttons, inputs, tables and menus take their colors from the variables listed in the defaults file, not from the per-component Bootstrap variables. A primary button is drawn with `--bs-primary` (`--bs-primary-fill` in dark mode) and `--bs-primary-inverse`, so a rule that sets `--bs-btn-bg` or `--bs-btn-color` has no effect, and a stylesheet designed against plain Bootstrap will render differently here.
 
 Two consequences worth checking on a mockup built elsewhere:
 
@@ -198,6 +219,25 @@ Two consequences worth checking on a mockup built elsewhere:
 
 **A rule can lose to the theme even when it loads later.** Selector specificity is compared before load order, and the theme reaches four or five classes deep in places, the sidebar menu among them: a rule of two classes never applies there. A variable answers the same need without entering that contest.
 
+## Keyboard focus and form controls
+
+As shipped, the interfaces meet the contrast minimums of WCAG 2.2 AA, see [Accessibility](web-interfaces.md#accessibility); a custom theme keeps them with the values below.
+
+The element that has the keyboard focus is marked by an outline in `--bs-focus-outline-color`, the brand color by default. The outline needs a contrast of 3:1, the WCAG 2.2 AA minimum for interface components, against the page, the cards and the menus it is drawn on: a brand color that is too light or too dark for one of the modes needs its own value there.
+
+Text fields, select boxes, unchecked checkboxes and outline buttons are outlined in `--bs-input-border-color`, a gray at 3:1 against the same surfaces; disabled fields use the lighter `--bs-gray-300`. A tinted gray ramp usually comes with a matching `--bs-input-border-color`. An unchecked switch is a `--bs-gray-600` track under a white knob: with a tinted ramp, keep that gray at 3:1 against both the page and the knob.
+
+```css
+:root {
+  --bs-focus-outline-color: #c2410c;
+  --bs-input-border-color:  #7d828b;
+}
+[data-bs-theme=dark] {
+  --bs-focus-outline-color: #fdba74;
+  --bs-input-border-color:  #71767f;
+}
+```
+
 ## Logos, favicon and names
 
 The logo, the favicon, the interface name and the disclaimer link are not part of the stylesheet. They are set in the branding configuration of the binding, or from **Server Manager => Configurations => Branding** in the WebAdmin, which applies them to every instance sharing the same data provider without a restart. The logo and the favicon are uploaded as PNG images.
@@ -210,6 +250,7 @@ The surfaces that most often stay behind:
 - the login page, which has its own background and card;
 - a table and a modal, which carry variables of their own;
 - a button in its hover, pressed and disabled state, and a focused input;
+- the keyboard focus, moving through a page with Tab in both modes: buttons, inputs, checkboxes and menu entries each show the outline;
 - a narrow window, where the sidebar becomes a panel over the page;
 - the WebClient as well as the WebAdmin, when the stylesheet is listed for both.
 

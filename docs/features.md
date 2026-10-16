@@ -100,7 +100,7 @@ See the [Event Manager tutorials](tutorials/eventmanager.md) for step-by-step gu
 
 ## Web interfaces
 
-SFTPGo includes two web interfaces, both with dark and light themes and support for seven languages (English, Italian, German, French, Spanish, Hungarian, Chinese Simplified).
+SFTPGo includes two web interfaces, both with dark and light themes and support for seven languages (English, Italian, German, French, Spanish, Hungarian, Chinese Simplified), developed to meet [WCAG 2.2 level AA](web-interfaces.md#accessibility).
 
 - [WebAdmin](web-interfaces.md#webadmin) for centralized management of users, groups, virtual folders, event rules, and server configuration. Includes a global [configurations page](initial-configuration.md#configuration) for managing SMTP, OIDC, LDAP, TLS certificates, email templates, and language settings directly from the UI.
 - [WebClient](web-interfaces.md#webclient) with browser-based file management, credential management, two-factor authentication setup, and file sharing.

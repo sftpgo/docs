@@ -151,6 +151,19 @@ Certificates can be automatically managed via the built-in [ACME protocol](tutor
 
 SFTPGo supports strict Content Security Policies — neither `unsafe-eval` nor `unsafe-inline` are required. Configure CSP and other security headers in the `security` section of the `httpd` configuration.
 
+## Accessibility
+
+The WebAdmin and the WebClient are developed to meet the Web Content Accessibility Guidelines (WCAG) 2.2 at level AA:
+
+- every control is reachable and operable from the keyboard, with a visible focus indicator;
+- form fields, buttons and icons carry accessible names, translated into every supported language;
+- text and interface components meet the WCAG contrast minimums in both the light and the dark theme;
+- text follows the size set in the browser.
+
+An Accessibility Conformance Report based on VPAT 2.5 is available on request.
+
+A custom theme can change colors and focus indicators: [Theme customization](theme-customization.md#keyboard-focus-and-form-controls) lists the contrast each one needs.
+
 ## Internationalization
 
 SFTPGo uses the [i18next](https://www.i18next.com/){:target="_blank"} framework for internationalization. The following languages are supported: English, Italian, German, French, Spanish, Hungarian, and Chinese (Simplified).
