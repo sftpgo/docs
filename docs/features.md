@@ -75,6 +75,7 @@ Users can securely share files and folders with external parties via the WebClie
 - Group-based share delegation and [governance policies](tutorials/shares.md).
 - [Denied share paths](tutorials/shares.md#restricting-shareable-paths) — administrators can block specific virtual paths from being shared, per-user or inherited from groups.
 - [Denied share scopes](tutorials/shares.md#restricting-shareable-paths) — restrict which share types (read, write, read/write) are available. When all scopes are denied, sharing is completely disabled.
+- [Allowed share email domains](tutorials/shares.md#restricting-recipient-email-domains) — share recipients belong to the listed email domains, and every share uses email authentication.
 - Share lifecycle management with inactivity thresholds, advance notice, and grace periods.
 - Share cloning for quickly creating variants of existing shares.
 

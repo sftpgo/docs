@@ -159,7 +159,7 @@ When configured at the group level, both lists are inherited additively by group
 
 :information_source: Both filters match the virtual path of the share. A symbolic link placed beneath a shareable path is dereferenced, as on every other protocol, so its target is served through the share. Where these filters must hold, keep symbolic-link creation disabled — its default [`symlink_mode`](../config-file.md#symbolic-links-and-permissions) — and provision the shareable subtrees accordingly.
 
-:warning: Tightening either filter takes effect immediately, including for shares that already exist: if a previously-shared path is no longer allowed (or is now denied), the share starts returning 404 on next access until the filter is relaxed or the share is removed.
+:warning: Tightening either filter takes effect immediately, including for shares that already exist: if a previously-shared path is no longer allowed (or is now denied), the share reads as missing until the filter is relaxed or the share is removed.
 
 ## Restricting Share Scopes
 
@@ -168,6 +168,21 @@ Administrators can also restrict which share scopes (read, write, read/write) us
 For example, denying the "read/write" scope forces users to create either read-only or write-only shares, but not combined read/write shares. This is useful when you want to enforce a clear separation between upload-only and download-only shares.
 
 If all three scopes are denied, sharing is completely disabled for the user — equivalent to setting the "shares-disabled" web client option.
+
+## Restricting Recipient Email Domains
+
+The **Allowed share email domains** filter limits share recipients to the listed email domains. When the list is set:
+
+- Every share uses [email authentication](#create-a-share-with-email-authentication), and the share form selects it by default.
+- Every recipient address belongs to one of the listed domains. Domains match exactly, regardless of case: to accept addresses of both `example.com` and `sub.example.com`, list both.
+
+The field is a textarea in the user or group settings, in the "Sharing" card of the "ACLs" section of the WebAdmin UI. Enter one or more domains separated by commas, for example `example.com, example.net`.
+
+The lists of the user, of its primary group and of its secondary groups are combined: an address is accepted when its domain appears in any of them.
+
+:warning: The list applies to existing shares as well, from the moment it is set: a share is served while it uses email authentication and every recipient belongs to one of the listed domains, and any other share reads as missing until it is updated or the list allows it.
+
+:information_source: The filter decides who can open the share link. A recipient can pass the downloaded files on, and the share owner can download the same files through the other protocols enabled for the account. Combine the filter with the protocols and permissions granted to the user.
 
 ## Delegating Share Management
 
