@@ -63,6 +63,7 @@ This backend has the same limitations as the [S3 backend](s3.md):
 - Opening a file for both reading and writing at the same time is not supported.
 - `rename` is implemented as server-side copy + delete — not atomic.
 - Renaming non-empty directories is not supported.
+- An object whose key has an empty, `.` or `..` segment names no entry: it is not listed, and removing the directory that holds it keeps the directory until the object is removed with the provider tools.
 - Upload resume is disabled by default and requires re-uploading the entire file when enabled.
 - A local home directory is required for temporary files, unless in-memory pipes are enabled via `SFTPGO_HOOK__MEMORY_PIPES__ENABLED=1`.
 - Clients that require advanced filesystem-like features (e.g., `sshfs`) are not supported.

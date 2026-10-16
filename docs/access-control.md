@@ -176,6 +176,8 @@ The practical consequence is that these restrictions are only as strong as the s
 
 More generally, SFTPGo trusts the storage backend. What the storage reports, the structure it presents, the names it returns, the file types and the metadata it declares, is taken as authoritative, and the restrictions described here are layered on top of it. Content written to the storage outside SFTPGo, by another tool or directly on the filesystem, is served as it is reported.
 
+A requested path uses both `/` and `\` as directory separators, on every protocol, and restrictions apply to the path as read, so the names SFTPGo creates never contain `\`. An entry whose name contains `\` is left out of directory listings, since a request reads `\` as a separator: removing the directory that holds it deletes the rest of its contents and keeps the directory. Rename or delete such an entry directly on the storage.
+
 The [`create_symlinks` permission](#per-directory-permissions) is itself path-based and bidirectional: a directory that grants it can both host links and have its entries made the target of links created elsewhere. The check is on the directory that contains the target, so everything below a directory that grants it can be reached through a link, a subdirectory that restricts operations included, under the permissions of the directory holding the link. A user holding `create_symlinks` in two directories can link one to the other and reach either under the more permissive directory's rights. Do not grant `create_symlinks` on a directory when it, or any directory below it, restricts operations, and see [Symbolic links and permissions](config-file.md#symbolic-links-and-permissions) for the full interaction.
 
 ## IP and protocol restrictions
