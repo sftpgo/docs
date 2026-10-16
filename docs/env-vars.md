@@ -12,7 +12,7 @@ You can override all the available [configuration options](config-file.md) using
 
 **SFTPGo will check for environment variables with a name matching the key uppercased and prefixed with `SFTPGO_`. Use `__` to traverse into a struct.** For example:
 
-- To set `common.proxy_protocol` to `1`, define the env var `SFTPGO_COMMON__PROXY_PROTOCOL` with value `1`.
+- To set `common.proxy_protocol` to `2`, define the env var `SFTPGO_COMMON__PROXY_PROTOCOL` with value `2`.
 - To set `webdavd.cors.enabled` to `true`, define the env var `SFTPGO_WEBDAVD__CORS__ENABLED` with value `true`.
 
 For options that are list-like, use the following syntax depending on the item type:
