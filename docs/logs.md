@@ -101,3 +101,28 @@ The logs can be divided into the following categories:
 - `client` string. Client software name if available.
 - `encrypted`, boolean
 - `info` string. Optional additional information.
+
+**administrator login logs**, logs for WebAdmin, REST API and OpenID Connect login attempts of administrators
+
+- `sender` string. `admin_login`
+- `level` string. `info`
+- `time` string. Date/time with millisecond precision
+- `username`, string.
+- `ip` string.
+- `protocol` string. `HTTP` or `OIDC`
+- `method` string. `password` or `IDP`
+- `client` string. Client software name if available.
+- `encrypted`, boolean
+- `error` string. Set for failed attempts, with the reason for the failure.
+
+**share login logs**, logs for authentication attempts on shares protected by a password or by email. For the REST API, which authenticates every request, only failed attempts are logged
+
+- `sender` string. `share_login`
+- `level` string. `info`
+- `time` string. Date/time with millisecond precision
+- `share_id` string.
+- `username` string. Owner of the share
+- `ip` string.
+- `method` string. `password` or `email`
+- `email` string. Address the access code was sent to, set for the `email` method
+- `error` string. Set for failed attempts, with the reason for the failure.

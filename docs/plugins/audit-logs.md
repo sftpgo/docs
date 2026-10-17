@@ -95,7 +95,7 @@ SFTPGO_PLUGINS__0__TYPE=notifier
 SFTPGO_PLUGINS__0__NOTIFIER_OPTIONS__FS_EVENTS="download,upload,delete,rename,mkdir,rmdir,ssh_cmd,copy"
 SFTPGO_PLUGINS__0__NOTIFIER_OPTIONS__PROVIDER_EVENTS="add,update,delete"
 SFTPGO_PLUGINS__0__NOTIFIER_OPTIONS__PROVIDER_OBJECTS="user,folder,group,admin,api_key,share,event_action,event_rule,role,ip_list_entry,configs"
-SFTPGO_PLUGINS__0__NOTIFIER_OPTIONS__LOG_EVENTS="1,2,3,4,5,6"
+SFTPGO_PLUGINS__0__NOTIFIER_OPTIONS__LOG_EVENTS="1,2,3,4,5,6,7,8,9"
 SFTPGO_PLUGINS__0__NOTIFIER_OPTIONS__RETRY_MAX_TIME=300
 SFTPGO_PLUGINS__0__NOTIFIER_OPTIONS__RETRY_QUEUE_MAX_SIZE=10000
 SFTPGO_PLUGINS__0__CMD="/usr/bin/sftpgo-plugin-eventstore"
@@ -133,7 +133,7 @@ The Logs page in WebAdmin provides three tabs for searching different event cate
 
 - **Filesystem Logs** — file transfers (uploads, downloads), directory operations (create, delete, rename), SSH commands, and file copies. Each entry shows the timestamp, username, action, file path, protocol, client IP, and transfer status.
 - **Provider Logs** — administrative changes to SFTPGo objects (users, groups, admins, event rules, etc.). Each entry shows who made the change, what was changed, and when. You can expand an entry to view the full object data.
-- **Log Events** — authentication and connection failures. Useful for identifying brute-force attempts or misconfigured clients.
+- **Log Events** — logins of users and administrators, authentication and connection failures. Useful for auditing access and identifying brute-force attempts or misconfigured clients.
 
 ![Filesystem Logs tab](../assets/img/audit-logs-fs.png){data-gallery="audit-logs"}
 
@@ -168,7 +168,7 @@ Captured via `NOTIFIER_OPTIONS__PROVIDER_EVENTS` and `NOTIFIER_OPTIONS__PROVIDER
 
 ### Log events
 
-Captured via `NOTIFIER_OPTIONS__LOG_EVENTS`. These track authentication and connection failures:
+Captured via `NOTIFIER_OPTIONS__LOG_EVENTS`. These track logins, authentication and connection failures:
 
 | ID | Event |
 | -- | ----- |
@@ -178,6 +178,13 @@ Captured via `NOTIFIER_OPTIONS__LOG_EVENTS`. These track authentication and conn
 | 4 | Algorithm negotiation failed |
 | 5 | Login succeeded |
 | 6 | Legal agreement accepted |
+| 7 | Administrator login failed |
+| 8 | Login with non-existent administrator |
+| 9 | Administrator login succeeded |
+
+Administrator events cover WebAdmin, REST API and OpenID Connect logins. With API key authentication the refused attempts are recorded, since a successful authentication repeats on every request.
+
+Each event carries the role of the user or administrator it refers to, so a [role administrator](../roles.md) sees the events of the accounts of its role. Events recorded before the account is identified are visible to global administrators: a login with a non-existent user, a connection without a login attempt, an SSH public key or certificate refused before the account lookup.
 
 ## Additional configuration
 

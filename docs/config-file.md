@@ -867,7 +867,7 @@ The `plugins` section defines a list of external plugins. Each plugin is configu
 | `fs_events` | list of strings | empty | Filesystem events to notify. Supported values: `download`, `upload`, `first-upload`, `first-download`, `delete`, `rename`, `mkdir`, `rmdir`, `copy`, `ssh_cmd`. |
 | `provider_events` | list of strings | empty | Provider events to notify. Supported values: `add`, `update`, `delete`. |
 | `provider_objects` | list of strings | empty | Provider objects to notify. Supported values: `user`, `folder`, `group`, `admin`, `api_key`, `share`, `event_action`, `event_rule`, `role`, `ip_list_entry`, `configs`, `license`. |
-| `log_events` | list of integers | empty | Log events to notify. `1` = Login failed, `2` = Login with non-existent user, `3` = No login tried, `4` = Algorithm negotiation failed, `5` = Login succeeded, `6` = Share legal agreement accepted. |
+| `log_events` | list of integers | empty | Log events to notify. `1` = Login failed, `2` = Login with non-existent user, `3` = No login tried, `4` = Algorithm negotiation failed, `5` = Login succeeded, `6` = Share legal agreement accepted, `7` = Administrator login failed, `8` = Login with non-existent administrator, `9` = Administrator login succeeded. |
 | `retry_max_time` | integer | `0` | Maximum number of seconds an event can be late. SFTPGo timestamps each event and queues any events that the plugin fails to handle. Events older than this limit are discarded. SFTPGo retries queued events every 30 seconds. `0` means no retry. |
 | `retry_queue_max_size` | integer | `0` | Maximum number of events the internal queue can hold. Once the queue is full, events that cannot be sent to the plugin are discarded. `0` means no limit. |
 
