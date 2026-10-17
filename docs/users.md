@@ -86,6 +86,8 @@ The **Disk quota and bandwidth limits** section holds:
 
 :information_source: Quota and data transfer usage are counters kept by SFTPGo: they follow what goes through it and drift when the storage changes in another way or a transfer is interrupted by a restart. Run a quota scan after changing the storage outside SFTPGo or restoring a backup, and schedule one with the [Event Manager](eventmanager.md) where the counters must stay accurate. `delayed_quota_update` in the [configuration](config-file.md#data-provider) batches the updates.
 
+:information_source: An upload is admitted against the usage recorded when it starts and is capped at the space left at that moment, so uploads running at the same time each see the same free space. A periodic check, about once a minute, stops the transfers that together exceed the quota, so a burst of concurrent uploads can momentarily exceed it by roughly what the client moves within that window. Once the usage is above the quota every further upload is refused. Allow a small margin when sizing tight quotas for clients that upload in parallel.
+
 ## Groups
 
 A user belongs to at most one primary group and to any number of secondary and membership groups. The primary and the secondary groups contribute settings to the user at login, so the stored user and the configuration that applies can differ; the **Effective configuration** entry of the users list shows the result. **Custom placeholders** are values a group can reference to derive a path per user. See [Groups](groups.md).
