@@ -106,7 +106,7 @@ SFTPGo includes two web interfaces, both with dark and light themes and support 
 - [WebAdmin](web-interfaces.md#webadmin) for centralized management of users, groups, virtual folders, event rules, and server configuration. Includes a global [configurations page](initial-configuration.md#configuration) for managing SMTP, OIDC, LDAP, TLS certificates, email templates, and language settings directly from the UI.
 - [WebClient](web-interfaces.md#webclient) with browser-based file management, credential management, two-factor authentication setup, and file sharing.
 - WOPI protocol integration for in-browser document editing and real-time collaboration (e.g., with Collabora Online).
-- Branding: custom logo, name, favicon, and login page disclaimer for both interfaces.
+- Branding: custom logo, name, favicon, and a disclaimer link on the pages shown without signing in, public shares included.
 
 ## High availability and deployment
 

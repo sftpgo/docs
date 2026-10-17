@@ -616,7 +616,7 @@ Customizations to suit your brand. Contains `web_admin` and `web_client` sub-str
 | `short_name` | string | | Short name displayed next to the logo image and on the login page. |
 | `favicon_path` | string | | Path to the favicon relative to `static_files_path` (e.g., `/branding/favicon.png`). |
 | `logo_path` | string | | Path to your logo relative to `static_files_path`. Preferred image size: 256x256 pixels. |
-| `disclaimer_name` | string | | Name for your optional disclaimer. |
+| `disclaimer_name` | string | | Name for your optional disclaimer. The link is shown on every page displayed without signing in: login, public shares, error pages. |
 | `disclaimer_path` | string | | Path to the HTML disclaimer page relative to `static_files_path`, or an absolute URL (http or https). |
 | `default_css` | list of strings | | Paths to custom CSS files (relative to `static_files_path`) that replace the default CSS. |
 | `extra_css` | list of strings | | Paths to additional CSS files (relative to `static_files_path`). |

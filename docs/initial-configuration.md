@@ -176,7 +176,7 @@ See [Configuration examples](configuration-examples.md) for setup instructions.
 
 ## Custom branding
 
-From **Server Manager > Configurations > Branding**, you can customize the name, logo, favicon, and add a disclaimer (e.g., a link to your Privacy Policy) to the login page of both the WebAdmin and WebClient.
+From **Server Manager > Configurations > Branding**, you can customize the name, logo, favicon, and add a disclaimer (e.g., a link to your Privacy Policy) to the login page of both the WebAdmin and WebClient. The disclaimer also appears on every page shown without signing in, such as the public share pages and the error pages, so visitors of a share without a password see it too.
 
 ## Configuration
 
