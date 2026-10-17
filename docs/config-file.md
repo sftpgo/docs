@@ -96,7 +96,7 @@ Defender configuration for automatic banning of misbehaving clients. See [Defend
 | `enabled` | boolean | `false` | Enable the defender. |
 | `driver` | string | `memory` | `memory` or `provider`. The `provider` driver stores host scores and bans in the data provider so the auto-blocklist survives restarts. Supported data providers: `SQLite`, `MySQL`, `PostgreSQL`, `CockroachDB`. Use `SQLite` for a single instance with persistent state; use `MySQL`, `PostgreSQL`, or `CockroachDB` to share defender state across multiple instances. The `memory` driver is the fastest option. |
 | `ban_time` | integer | `30` | Ban duration in minutes. |
-| `ban_time_increment` | integer | `50` | Percentage of `ban_time` added to the ban of a host at each connection it opens while banned, and at each of its HTTP and WebDAV requests; the extension is at least one minute. Minimum value `1`. |
+| `ban_time_increment` | integer | `50` | Percentage of `ban_time` added to the ban of a host at each connection it opens while banned, and at each of its HTTP and WebDAV requests; the extension is at least one minute. Minimum value `1`. With `max_incomplete_connections` enabled, a host refused before the handshake extends its ban about once a minute instead. |
 | `threshold` | integer | `15` | Score at which a host is banned. |
 | `score_invalid` | integer | `2` | Score for invalid login attempts (e.g., non-existent user accounts). |
 | `score_valid` | integer | `1` | Score for valid login attempts (e.g., existing user accounts with wrong password). |
@@ -105,6 +105,7 @@ Defender configuration for automatic banning of misbehaving clients. See [Defend
 | `observation_time` | integer | `30` | Time window in minutes for tracking client errors. A host is banned when its score reaches the threshold within this period. |
 | `entries_soft_limit` | integer | `100` | Ignored for the `provider` driver. |
 | `entries_hard_limit` | integer | `150` | For the `memory` driver, the number of banned IPs and host scores kept in memory varies between the soft and hard limits. For the `provider` driver, this limits the number of entries returned when listing all defender hosts. |
+| `max_incomplete_connections` | integer | `0` | Number of incomplete connections within a minute, closed before a login attempt or before their TLS handshake completes, at which a source is reported to the defender. `0` disables the check. See [Incomplete connections](defender.md#incomplete-connections). |
 
 ### `defender.login_delay`
 

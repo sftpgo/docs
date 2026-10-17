@@ -122,6 +122,10 @@ Some additional environment variables are available, grouped by area.
 - `SFTPGO_HOOK__AUTH_PLUGIN_PATH`, absolute path to the `sftpgo-plugin-auth` binary, registered automatically when the LDAP configuration is set from the WebAdmin UI. Example on Linux: `/usr/bin/sftpgo-plugin-auth`. Example on Windows: `C:\\Program Files\\SFTPGo Enterprise\\sftpgo-plugin-auth.exe`.
 - `SFTPGO_HOOK__ENABLE_TLS_UI`, set to `1` to add the TLS certificate configuration section in the WebAdmin UI. Allows uploading a certificate and private key that will be used as the default TLS certificate for the selected protocols (HTTPS, FTPS, WebDAV). Mutually exclusive with automatic certificates (Let's Encrypt/ACME).
 
+### Defender
+
+- `SFTPGO_HOOK__DEFENDER_MAX_OPEN_CONNECTIONS_PER_HOST`, the maximum number of HTTP and WebDAV connections one IP address can hold open when [`max_incomplete_connections`](defender.md#incomplete-connections) is enabled. Idle keep-alive connections count, unlike `max_per_host_connections`, which counts the requests in progress. Default: `1000`; `0` removes the limit. Raise it for many browser clients behind a single address, such as a corporate NAT.
+
 ### Admin permissions compatibility
 
 - `SFTPGO_HOOK__LEGACY_ADMIN_PERMS`, set to `1` to restore the umbrella semantics where the admin permissions `manage_groups` and `manage_folders` also grant view and delete on the respective catalogs, and admins without `view_groups` / `view_folders` can still attach groups and folders to users via the user save endpoints. Useful during the migration from the previous permission model to the new granular split. The flag will be removed in a future major version. See [Admin Permissions](admin-permissions.md) for the full granular model and recommended migration steps.
