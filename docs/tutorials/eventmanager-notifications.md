@@ -13,7 +13,7 @@ This tutorial covers two common notification use cases:
 
 ### Step 1: Create an Email Action
 
-From the WebAdmin, expand the **Event Manager** section, select **Event actions** and add a new action.
+From the WebAdmin, expand the **Event Manager** section, select **Actions** and add a new action.
 Create an action named `upload notification`, set the type to `Email` and fill the recipient/s. Email actions need an SMTP server: configure it from the WebAdmin under **Server Manager > Configurations > SMTP**, where the settings apply without a restart, or in the [SMTP section](../config-file.md#smtp) of the configuration file.
 
 Configure the email fields using placeholders to include dynamic event data:
@@ -62,7 +62,7 @@ The path is resolved through the user's virtual filesystem, so it works with all
 
 ### Step 2: Create an Upload Rule
 
-Now select **Event rules** and create a rule named `Upload rule`, select `Filesystem events` as trigger and `upload` as filesystem event.
+Now select **Rules** and create a rule named `Upload rule`, select `Filesystem events` as trigger and `upload` as filesystem event.
 You can also filter events based on protocol, user and group name, filepath shell-like patterns, file size. We omit these additional filters for simplicity.
 
 ![Upload rule](../assets/img/upload-rule.png){data-gallery="upload-rule"}
@@ -81,10 +81,10 @@ From the WebAdmin, create a new action named `upload webhook`, set the type to `
 
 Configure the following:
 
-- **URL**: Your webhook endpoint (e.g., `https://api.example.com/sftpgo/events`).
+- **Server URL**: Your webhook endpoint (e.g., `https://api.example.com/sftpgo/events`).
 - **Method**: POST (GET, PUT, and DELETE are also supported).
 - **Headers**: Add custom headers for authentication or content type. For example, `Content-Type: application/json` and `Authorization: Bearer <token>`. Header values support placeholders — e.g., you can use `{{.Name}}` in a header value.
-- **Query parameters**: Add key-value pairs appended to the URL. Values support placeholders — e.g., key `username`, value `{{.Name}}`. Useful for endpoints that expect parameters in the query string rather than the body.
+- **Query string parameters**: Add key-value pairs appended to the URL. Values support placeholders — e.g., key `username`, value `{{.Name}}`. Useful for endpoints that expect parameters in the query string rather than the body.
 - **Timeout**: Maximum time to wait for a response, in seconds, from 1 to 180.
 
 In the **Body** field, enter a JSON template. The following example includes most available fields for an upload event:

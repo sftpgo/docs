@@ -76,7 +76,7 @@ You can view the enabled licensed features by navigating to the "License" sectio
 In order to obtain a Let's Encrypt TLS certificate for HTTPS access you must create a DNS entry under a custom domain that you own which resolves to your SFTPGo public IP address and the port 80 must be publicly reachable.
 Also make sure your Compute instance has a static IP address.
 
-From the SFTPGo WebAdmin UI go to the "Server Manager" section, select "Configurations" and then "ACME".
+From the SFTPGo WebAdmin UI go to the "Server Manager" section, select "Configurations" and then "Automatic Certificates (Let's Encrypt)".
 Specify the domain name associated with the IP address of the virtual machine, set an email address, and the protocols for which you want to use the certificate. Leave the port at `80`.
 
 ![ACME](../assets/img/gcp_acme.png){data-gallery="acme"}

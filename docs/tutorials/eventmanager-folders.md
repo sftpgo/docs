@@ -39,7 +39,7 @@ Create a folder named `storage` without setting a key prefix. This gives the fol
 
 ### Step 2: Create a Copy Action
 
-In the Event Manager section, create a new action of type `Filesystem` and choose `Copy` as the action type.
+In the Event Manager section, create a new action of type `Filesystem` and choose `Copy` as the **Filesystem action**.
 Set the source path to `/inbound/{{.ObjectName}}` and the target path to `/vista/outbound/{{.ObjectName}}`.
 Finally, select `storage` as the target folder.
 

@@ -80,7 +80,7 @@ Adjust the plugin path if you installed SFTPGo Enterprise to a different directo
 
 #### Filling in the form
 
-After the restart, open the WebAdmin and go to **Server Manager > Configurations > LDAP**. Fill in the form and click **Submit**. A service restart is required to apply the changes (the WebAdmin shows a notice).
+After the restart, open the WebAdmin and go to **Server Manager > Configurations > LDAP**. Fill in the form and click **Save**. A service restart is required to apply the changes (the WebAdmin shows a notice).
 
 ![LDAP configuration in WebAdmin](../assets/img/ldap-config-ui.png){data-gallery="ldap-ui"}
 
@@ -93,7 +93,7 @@ Recommended values for **Active Directory**:
 | Bind DN | `cn=sftpgo-reader,ou=Service Accounts,dc=example,dc=com` |
 | Password | the bind account password |
 | Search query | leave empty to use the default AD query, or set a custom one (must contain `%username%`) |
-| Group attributes | `memberOf` |
+| Attributes for groups | `memberOf` |
 | Primary / Secondary / Membership / Role group prefix | set as needed — see [Group mapping](#group-mapping) |
 
 For **OpenLDAP** set the search query to `(&(objectClass=posixAccount)(uid=%username%))`.

@@ -20,11 +20,11 @@ We can meet all these requirements by defining two groups and two virtual folder
 
 ## Step 1: Create the Virtual Folders
 
-From the WebAdmin, navigate to **Folders** and click the `+` icon.
+From the WebAdmin, navigate to **Virtual folders** and click **Add**.
 
 ### Private S3 folder
 
-Create a folder named `S3private`. Set the storage to **AWS S3 (Compatible)** and fill in the bucket name, region, and credentials.
+Create a folder named `S3private`. Set the storage to **S3 (Compatible)** and fill in the bucket name, region, and credentials.
 
 The key setting is the **Key Prefix** — set it to `users/%username%/`.
 
@@ -41,11 +41,11 @@ Create another folder named `S3shared` with the same S3 settings, but set the **
 
 ### Primary group
 
-Navigate to **Groups** and click the `+` icon. Create a group named `Primary`.
+Navigate to **Groups** and click **Add**. Create a group named `Primary`.
 
-- **Home directory**: `/srv/sftpgo/data/%username%`
+- **Root directory**: `/srv/sftpgo/data/%username%`
 - **Virtual folders**: add `S3private` with virtual path `/s3%username%` and `S3shared` with virtual path `/shared`
-- **Max file upload size**: 1 GB
+- **Max upload size**: 1 GB
 
 ![Add group](../assets/img/add-group.png){data-gallery="add-group"}
 ![Primary group settings](../assets/img/primary-group-settings.png){data-gallery="primary-group-settings"}

@@ -23,7 +23,7 @@ SFTPGO_SMTP__ENCRYPTION=2 # change based on what your server supports
 
 ## Step 1: Create a Backup Action
 
-From the WebAdmin, expand the **Event Manager** section, select **Event actions** and add a new action.
+From the WebAdmin, expand the **Event Manager** section, select **Actions** and add a new action.
 Create an action named `backup` and set the type to `Backup`.
 
 ![Backup action](../assets/img/backup-action.png){data-gallery="backup"}
@@ -38,7 +38,7 @@ As email body set `Backup done {{ stringJoin .Errors ", " }}`. The `stringJoin` 
 
 ## Step 3: Create a Scheduled Rule
 
-Now select **Event rules** and create a rule named `Daily backup`, select `Schedule` as trigger and schedule a backup at midnight UTC time.
+Now select **Rules** and create a rule named `Daily backup`, select `Schedules` as trigger and schedule a backup at midnight UTC time.
 
 ![Daily backup schedule](../assets/img/daily-backup-schedule.png){data-gallery="schedule"}
 

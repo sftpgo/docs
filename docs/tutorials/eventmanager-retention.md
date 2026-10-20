@@ -19,7 +19,7 @@ The two modes share the same configuration screen and the same report shape; the
 
 ## Step 1: Create a Data Retention Action
 
-From the WebAdmin, expand the **Event Manager** section, select **Event actions** and add a new action.
+From the WebAdmin, expand the **Event Manager** section, select **Actions** and add a new action.
 
 Create an action named `retention check`, set the type to `Data retention check`.
 
@@ -33,7 +33,7 @@ Configure the retention policies — each entry defines a virtual path and a ret
 
 ![Retention action](../assets/img/retention-action.png){data-gallery="retention-action"}
 
-:warning: **Paths are literal — no wildcards, no placeholders.** A path like `/inbound/*` is *not* a pattern: it looks for a directory literally named `*` inside `/inbound/` and finds nothing. To clean the contents of `/inbound`, just set the path to `/inbound`. The configured folder itself is always preserved — only its contents older than the retention period are removed. Sub-directories that become empty after cleanup can be removed too by enabling **Delete empty directories** on the entry.
+:warning: **Paths are literal — no wildcards, no placeholders.** A path like `/inbound/*` is *not* a pattern: it looks for a directory literally named `*` inside `/inbound/` and finds nothing. To clean the contents of `/inbound`, just set the path to `/inbound`. The configured folder itself is always preserved — only its contents older than the retention period are removed. Sub-directories that become empty after cleanup can be removed too by enabling **Delete empty dirs** on the entry.
 
 If you need different retention paths for different groups of users, create one rule per group — each rule has its own action and its own user filter.
 
@@ -74,7 +74,7 @@ Email actions need an SMTP server: configure it from the WebAdmin under **Server
 
 Create an email action (for example named `retention report`). A minimal configuration is enough:
 
-- **Recipients** — one or more email addresses.
+- **To** — one or more email addresses.
 - **Subject** — any text, e.g. `Data retention report — {{ .Timestamp.Format "2006-01-02" }}`.
 - **Body** — any text. A fixed string like `Data retention check completed. The detailed report is attached.` works perfectly.
 - **Attachments** — add `{{.RetentionReports}}` to attach the full detailed results as a compressed CSV archive.
@@ -159,9 +159,9 @@ Field notes: `type` is `0` for delete and `1` for archive; `retention` is in hou
 
 ## Step 3: Create a Scheduled Rule
 
-Now select **Event rules** and create a rule named `Daily retention check`.
+Now select **Rules** and create a rule named `Daily retention check`.
 
-- Set **Schedule** as the trigger.
+- Set **Schedules** as the trigger.
 - Configure the schedule — for example, every day at 02:00 UTC: hours `2`, day of week `*`.
 
 ![Retention schedule](../assets/img/retention-schedule.png){data-gallery="retention-schedule"}

@@ -30,7 +30,7 @@ The OpenID Connect section of the WebAdmin Configurations page covers the settin
 SFTPGO_HOOK__ENABLE_OIDC_UI=1
 ```
 
-See [environment variables](env-vars.md#variable-sources) for where to define it on your platform. After the restart, open **Server Manager > Configurations > OpenID Connect**, fill in the form and click **Submit**. The submitted configuration URL is verified against the provider's discovery document, and a service restart applies the configuration.
+See [environment variables](env-vars.md#variable-sources) for where to define it on your platform. After the restart, open **Server Manager > Configurations > OpenID Connect**, fill in the form and click **Save**. The saved configuration URL is verified against the provider's discovery document, and a service restart applies the configuration.
 
 The stored configuration is global: every HTTP binding offers the OpenID login, and the flow completes on the address configured as `redirect_base_url`. Configure the bindings in the configuration file, or through environment variables, when different bindings serve different IdP configurations.
 
@@ -132,7 +132,7 @@ The mapped username must correspond to an existing SFTPGo user or admin. If the 
 
 ### Event Manager (recommended)
 
-Create an Event Manager rule with an **Identity Provider login** trigger and an **Identity Provider account check** action. This action uses Go templates to generate the user or admin object from the ID token claims, and can either create the account on first login or update it on every login.
+Create an Event Manager rule with an **Identity Provider logins** trigger and an **Identity Provider account check** action. This action uses Go templates to generate the user or admin object from the ID token claims, and can either create the account on first login or update it on every login.
 
 Custom IdP fields are available in templates as `{{.IDPFields.fieldname}}`. See the [Placeholders & Templates](placeholders.md) reference.
 
@@ -200,7 +200,7 @@ Applying these as group settings enforces the policy across many accounts at onc
 SFTPGo does not poll the Identity Provider, so revoking an account that already has local credentials requires one of:
 
 - Disable (set the status to inactive) or delete the account through the [REST API](rest-api.md), driven by your IdP's user-lifecycle automation.
-- Gate access at login with an **Identity Provider login** Event Manager rule or a [pre-login hook](dynamic-user-mod.md). These run at OIDC login time, so combine them with the restrictions above when the account also allows SSH/FTP/WebDAV, otherwise direct protocol logins bypass the check.
+- Gate access at login with an **Identity Provider logins** Event Manager rule or a [pre-login hook](dynamic-user-mod.md). These run at OIDC login time, so combine them with the restrictions above when the account also allows SSH/FTP/WebDAV, otherwise direct protocol logins bypass the check.
 
 ## PKCE without client secret
 

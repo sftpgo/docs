@@ -14,7 +14,7 @@ See the [Getting Started guide](initial-configuration.md#virtual-folders-and-per
 
 ## Folders and mappings
 
-A virtual folder is defined once, in the **Folders** section of the WebAdmin, and then mapped to one or more users or groups. The folder carries the storage, the mapping decides where and how the folder appears to the account.
+A virtual folder is defined once, in the **Virtual folders** section of the WebAdmin, and then mapped to one or more users or groups. The folder carries the storage, the mapping decides where and how the folder appears to the account.
 
 A folder has the following properties:
 

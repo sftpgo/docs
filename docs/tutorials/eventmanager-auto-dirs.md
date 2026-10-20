@@ -12,7 +12,7 @@ When a new user is added, automatically create the folders `/in` and `/out` in t
 
 ## Step 1: Create a Filesystem Action
 
-From the WebAdmin, expand the **Event Manager** section, select **Event actions** and add a new action.
+From the WebAdmin, expand the **Event Manager** section, select **Actions** and add a new action.
 
 Create an action named `create dirs`, set the type to `Filesystem`, choose `Create directories` as the filesystem action, and add the paths `/in` and `/out`.
 
@@ -33,15 +33,15 @@ The `{{.ObjectName}}` placeholder resolves to the username of the newly created 
 
 ## Step 3: Create a Provider Event Rule
 
-Select **Event rules** and create a rule named `Create dirs for users`.
+Select **Rules** and create a rule named `Create dirs for users`.
 
-- **Trigger**: Provider event
+- **Trigger**: Provider events
 - **Provider events**: `add`
 - **Object filters**: `user`
 
 ![Create dirs rule](../assets/img/create-dirs-rule.png){data-gallery="create-dir-rule"}
 
-As actions, select `create dirs` and `create dirs failure notification`. Mark the notification action as **Is failure action** — this way, the email is sent only when the directory creation fails.
+As actions, select `create dirs` and `create dirs failure notification`, and set the **Failure action** option on the notification action: the email is sent only when the directory creation fails.
 
 ![Create dirs rule actions](../assets/img/create-dirs-rule-actions.png){data-gallery="create-dir-rule-action"}
 

@@ -27,7 +27,7 @@ Once uploaded, the file is read-only from the uploader's perspective — they ca
 
 ## Step 1: Create the Drop Folder
 
-From the WebAdmin, expand **Virtual folders** and create a new folder named `inbox` backed by the storage of your choice (local, S3, Azure, GCS, SFTP — any backend works).
+From the WebAdmin, open **Virtual folders** and create a new folder named `inbox` backed by the storage of your choice (local, S3, Azure, GCS, SFTP — any backend works).
 
 This folder will be mounted on both the uploader and reviewer groups so they share the same physical storage.
 
@@ -35,9 +35,9 @@ This folder will be mounted on both the uploader and reviewer groups so they sha
 
 ## Step 2: Create the Uploader Group
 
-Create a group named `uploaders`. In the **Virtual folders** section, mount the `inbox` folder at `/inbox` with quota and ratio set to your needs.
+Create a group named `uploaders`. In the **Virtual folders** section, mount the `inbox` folder at `/inbox` with the quota set to your needs.
 
-In the **Permissions** section, configure permissions per directory:
+In the **ACLs** section, set the **Per-directory permissions**:
 
 | Path | Permissions |
 | ------ | ------------- |
@@ -49,9 +49,9 @@ Clients that set the file timestamp after an upload, such as WinSCP or `sftp -p`
 
 In the **ACLs** section, restrict sharing:
 
-- **Web client options**: enable `shares-disabled`.
+- **Web client/REST API**: enable `shares-disabled`.
 
-This prevents uploaders from creating any share, regardless of path. Alternatively, if uploaders should be able to share files outside `/inbox` (for example from their home directory), set **Denied share paths** to `/inbox` instead.
+This prevents uploaders from creating any share, regardless of path. Alternatively, if uploaders should be able to share files outside `/inbox` (for example from their home directory), set **Denied share paths**, in the **Sharing** card, to `/inbox` instead.
 
 ![Uploader group permissions](../assets/img/approval-uploader-permissions.png){data-gallery="approval-uploader-permissions"}
 
@@ -59,13 +59,13 @@ This prevents uploaders from creating any share, regardless of path. Alternative
 
 Create a group named `reviewers`. Mount the same `inbox` folder at `/inbox` (same virtual folder, so both groups see the same files).
 
-In the **Permissions** section, grant full access:
+In the **ACLs** section, grant full access in the **Per-directory permissions**:
 
 | Path | Permissions |
 | ------ | ------------- |
 | `/inbox` | `*` (all permissions) |
 
-In the **Profile** section, leave sharing enabled — reviewers can create shares for files in `/inbox`.
+In the **ACLs** section, leave sharing enabled — reviewers can create shares for files in `/inbox`.
 
 If reviewers also have a delivery folder for forwarding files (see [Step 6](#step-6-publishing-options)), mount that here as well with `*` permissions.
 
@@ -85,7 +85,7 @@ From the WebAdmin, expand the **Event Manager** section and create a new email a
 
 Configure it as follows:
 
-- **Recipients**: the reviewer's email address (or use a distribution list).
+- **To**: the reviewer's email address (or use a distribution list).
 - **Subject**: `New file awaiting review: {{.ObjectName}}`
 - **Body**:
 

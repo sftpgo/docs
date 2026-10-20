@@ -10,7 +10,7 @@ An OpenID Connect Identity Provider (IdP) such as Keycloak, Microsoft Entra ID o
 
 1. The user clicks "Sign in with OpenID" on the Web Client login page and authenticates with the IdP.
 2. SFTPGo validates the ID token and reads the username from the configured claim.
-3. A rule with the **Identity Provider login** trigger runs the **Identity Provider account check** action: the action renders a JSON user template with the data of the token and creates the user, or updates it when it exists.
+3. A rule with the **Identity Provider logins** trigger runs the **Identity Provider account check** action: the action renders a JSON user template with the data of the token and creates the user, or updates it when it exists.
 4. SFTPGo loads the user and opens the session.
 
 Provisioned users appear in the users list like any other user.
@@ -24,7 +24,7 @@ Provisioned users appear in the users list like any other user.
 
 ## Step 1: Create the account check action
 
-From the WebAdmin expand **Event Manager**, select **Event actions** and add an action named `idp user provisioning` of type **Identity Provider account check**.
+From the WebAdmin expand **Event Manager**, select **Actions** and add an action named `idp user provisioning` of type **Identity Provider account check**.
 
 In **User template** enter the JSON of the user to create. This template creates a user on the local disk, with a directory of its own and full permissions:
 
@@ -50,9 +50,9 @@ Leave **Mode** on **Create or update** for now; [Keep accounts in sync or create
 
 ## Step 2: Create the rule
 
-Select **Event rules** and add a rule named `IdP auto provisioning`:
+Select **Rules** and add a rule named `IdP auto provisioning`:
 
-- **Trigger**: **Identity Provider login**, event **User login**.
+- **Trigger**: **Identity Provider logins**, **Type**: **User login**.
 - **Actions**: `idp user provisioning` with **Synchronous execution** enabled.
 
 :warning: Synchronous execution is required: the account must exist before the login completes. An asynchronous action runs after the account lookup, and the first login fails.
@@ -168,4 +168,4 @@ The same action provisions WebAdmin accounts. An identity whose role claim match
 {"username": {{toJson .Name}}, "status": 1, "permissions": ["*"]}
 ```
 
-Set the rule event to **Admin login**, or to **Any** for an action that carries both templates. The template grants its permissions to every identity with the admin role, so keep the assignment of that role on the IdP restricted to the people who administer the server.
+Set the **Type** of the rule to **Admin login**, or to **Any** for an action that carries both templates. The template grants its permissions to every identity with the admin role, so keep the assignment of that role on the IdP restricted to the people who administer the server.

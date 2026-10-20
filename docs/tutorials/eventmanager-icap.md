@@ -56,14 +56,14 @@ Alternatively, the **Deny** policy makes the files appear in listings but blocks
 
 ## Step 3: Create an ICAP Action
 
-From the WebAdmin, expand the **Event Manager** section, select **Event actions** and add a new action.
+From the WebAdmin, expand the **Event Manager** section, select **Actions** and add a new action.
 
 Create an action named `antivirus scan` and set the type to `ICAP`.
 
 Configure the ICAP settings:
 
-- **URL**: Your ICAP server URL (e.g., `icap://icap-server:1344/avscan`)
-- **Path**: The file to scan — set this to `/{{.VirtualPath}}`. When combined with "Execute before file publish", this resolves to the temporary file path automatically, so the scan targets the staged file before it is published.
+- **Server URL**: Your ICAP server URL (e.g., `icap://icap-server:1344/avscan`)
+- **Paths**: The file to scan — set this to `/{{.VirtualPath}}`. When combined with "Execute before file publish", this resolves to the temporary file path automatically, so the scan targets the staged file before it is published.
 
 ![ICAP action](../assets/img/icap-action.png){data-gallery="icap-action"}
 
@@ -92,7 +92,7 @@ With "Execute before file publish" the scanned file is still at its temporary pa
 
 ## Step 4: Create an Event Rule
 
-Now select **Event rules** and create a rule named `Scan uploads`.
+Now select **Rules** and create a rule named `Scan uploads`.
 
 - **Trigger**: Filesystem events
 - **Events**: Upload

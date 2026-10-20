@@ -26,7 +26,7 @@ This example demonstrates how to configure an action to automatically encrypt fi
 
 ### Step 1: Create a PGP Encryption Action
 
-From the WebAdmin, expand the **Event Manager** section, select **Event actions** and add a new action. Create an action named `PGP encryption`, set the type to `Filesystem`, the Filesystem action to `PGP` and paste the Public Key.
+From the WebAdmin, expand the **Event Manager** section, select **Actions** and add a new action. Create an action named `PGP encryption`, set the type to `Filesystem`, the Filesystem action to `PGP` and paste the Public Key.
 
 ![PGP encryption](../assets/img/pgp_encrypt.png){data-gallery="pgp-enc"}
 
@@ -44,11 +44,11 @@ A second common pattern is to write the encrypted output next to the source, let
 
 Each matched file is written under the target directory with `.pgp` appended (`/inbox/file.txt` => `/inbox/file.txt.pgp`). The trailing `/` is required: without it, an upload like `/inbox/file.txt` would render the target to `/inbox` (a literal output filename).
 
-Each path entry has its own **After encrypt/decrypt** option that controls what happens to the source file once it has been processed:
+Each path entry has its own **After processing** option that controls what happens to the source file once it has been processed:
 
-- **Keep source** (default) — the plaintext file is left in place.
+- No option selected (default) — the plaintext file is left in place.
 - **Delete source** — the plaintext file is removed after a successful encrypt.
-- **Move source** — the plaintext file is moved to a path you specify (placeholders supported).
+- **Move source** — the plaintext file is moved to the directory set in **Move to path** (placeholders supported).
 
 Configuring this per entry avoids a separate Delete action when you only need to dispose of the original after encryption.
 
@@ -83,7 +83,7 @@ Define a rule that executes this action after uploads. Select `Filesystem events
 
 You can add a path filter such as `/inbox/*.pgp` to run the action on encrypted files only. Patterns match the whole virtual path, so the directory is part of the pattern; `**` matches across subdirectories, see [Path filters](../eventmanager.md#path-filters).
 
-To remove the original `.pgp` file after a successful decryption, set the entry's **After encrypt/decrypt** option to **Delete source** — there is no need for a separate Delete action.
+To remove the original `.pgp` file after a successful decryption, set the entry's **After processing** option to **Delete source** — there is no need for a separate Delete action.
 
 ## Example: Scheduled Batch Encryption with Wildcards
 
@@ -98,10 +98,10 @@ Create a PGP action as in the first example, then configure the paths:
 
 The trailing `/` on the target marks it as a destination directory: each matched file is written under it with `.pgp` appended (e.g., `report.csv` => `/encrypted/report.csv.pgp`). Subdirectories of `/inbox/` are not descended into; zero matches is not an error.
 
-For batch workflows it is common to set **After encrypt** to **Move source** with a directory like `/processed` so that already-encrypted files are not picked up by the next run.
+For batch workflows it is common to set **After processing** to **Move source** and **Move to path** to a directory like `/processed` so that already-encrypted files are not picked up by the next run.
 
 ### Step 2: Schedule the Action
 
-Create a rule with a **Schedule** trigger (for example, hourly) and select the batch encryption action.
+Create a rule with a **Schedules** trigger (for example, hourly) and select the batch encryption action.
 
 If the inbox is reached through a [virtual folder](eventmanager-folders.md), assign that folder as **Source folder** and as **Target folder** on the action, so that it finds the files even though no user is logged in and runs once for the folder. A source folder requires a target folder: set both to the same folder to encrypt or decrypt in place, or write the output to a different one. The same per-entry disposition (Delete or Move) applies — typical setups archive originals to a dated path such as `/processed/{{ .Timestamp.Format "2006-01-02" }}`.

@@ -33,11 +33,11 @@ A rule is built around a triggering event. When the event occurs and all conditi
 | --------- | ------------- |
 | **Filesystem events** | Reacts to file operations: `upload`, `download`, `delete`, `rename`, `mkdir`, `rmdir`, `copy`, `ssh_cmd`. |
 | **Provider events** | Reacts to data provider changes: `add`, `update`, `delete` on users, admins, groups, folders, shares, and other resources. |
-| **Schedule** | Runs on a cron schedule. The scheduler uses **UTC** time. |
-| **IP Blocked** | Fires when the [Defender](./defender.md) blocks an IP address. |
-| **Certificate** | Fires when a TLS certificate is renewed via the built-in ACME protocol (both success and failure). |
+| **Schedules** | Runs on a cron schedule. The scheduler uses **UTC** time. |
+| **IP blocked** | Fires when the [Defender](./defender.md) blocks an IP address. |
+| **Certificate renewal** | Fires when a TLS certificate is renewed via the built-in ACME protocol (both success and failure). |
 | **On demand** | Triggered manually from the WebAdmin or via the REST API. |
-| **Identity Provider login** | Fires when a user or admin logs in through an external Identity Provider. |
+| **Identity Provider logins** | Fires when a user or admin logs in through an external Identity Provider. |
 
 ### Conditions
 

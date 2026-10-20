@@ -48,14 +48,14 @@ Fill in the following:
 
 | Field | Value |
 | ------- | ------- |
-| Host | `smtp.gmail.com` |
+| Server name | `smtp.gmail.com` |
 | Port | `587` (or `465` for implicit TLS) |
 | Username | `your-email@gmail.com` |
-| Encryption | STARTTLS (for port 587) or Implicit TLS (for port 465) |
-| Auth type | **OAuth2** |
-| Provider | **Google** |
-| Client ID | The Client ID from step 1 |
-| Client Secret | The Client Secret from step 1 |
+| Encryption | STARTTLS (for port 587) or TLS (for port 465) |
+| Authentication | **OAuth2** |
+| OAuth2 provider | **Google** |
+| OAuth2 Client ID | The Client ID from step 1 |
+| OAuth2 Client Secret | The Client Secret from step 1 |
 
 ![SMTP OAuth2 Google](../assets/img/oauth2-smtp-google.png){data-gallery="oauth2-smtp-google"}
 
@@ -69,7 +69,7 @@ After authorization, SFTPGo displays a page with the refresh token. Copy the tok
 
 #### Step 4: Save and Test
 
-Click **Submit** to save the SMTP configuration. Use the **Send test email** feature to verify everything works.
+Click **Save** to save the SMTP configuration. To verify it, enter an address in the **Address to send test emails to** field and click **Test**.
 
 ### Microsoft (Outlook / Office 365)
 
@@ -104,24 +104,24 @@ In the WebAdmin, navigate to **Server Manager > Configurations > SMTP**.
 
 | Field | Value |
 | ------- | ------- |
-| Host | `smtp.office365.com` |
+| Server name | `smtp.office365.com` |
 | Port | `587` |
 | Username | `your-email@your-domain.com` |
 | Encryption | STARTTLS |
-| Auth type | **OAuth2** |
-| Provider | **Microsoft** |
-| Grant type | **Authorization code** |
-| Tenant | Your Directory (tenant) ID (leave empty for `common`) |
-| Client ID | The Application (client) ID |
-| Client Secret | The client secret value |
+| Authentication | **OAuth2** |
+| OAuth2 provider | **Microsoft** |
+| OAuth2 Grant type | **Authorization code** |
+| OAuth2 Tenant | Your Directory (tenant) ID (leave empty for `common`) |
+| OAuth2 Client ID | The Application (client) ID |
+| OAuth2 Client Secret | The client secret value |
 
 ![SMTP OAuth2 Microsoft](../assets/img/oauth2-smtp-microsoft.png){data-gallery="oauth2-smtp-microsoft"}
 
 #### Step 5: Authorize and Test
 
-Click the **Get** button next to the OAuth2 Token field. Sign in with the Microsoft account and grant consent. Copy the refresh token from the result page into the OAuth2 Token field. Click **Submit** and send a test email.
+Click the **Get** button next to the OAuth2 Token field. Sign in with the Microsoft account and grant consent. Copy the refresh token from the result page into the OAuth2 Token field. Click **Save** and send a test email.
 
-:information_source: If you are using a single-tenant configuration, enter the **tenant ID** in the Tenant field. For multi-tenant setups, leave it empty (SFTPGo will use `common`).
+:information_source: If you are using a single-tenant configuration, enter the **tenant ID** in the **OAuth2 Tenant** field. For multi-tenant setups, leave it empty (SFTPGo will use `common`).
 
 ## Part 2: IMAP with OAuth2
 
@@ -129,19 +129,19 @@ The Event Manager's IMAP action supports OAuth2 authentication using the same pr
 
 ### Configuration
 
-When creating or editing an IMAP action in the Event Manager, set the **Auth type** to **OAuth2** and fill in the provider credentials.
+When creating or editing an IMAP action in the Event Manager, set **Authentication** to **OAuth2** and fill in the provider credentials.
 
 | Field | Value (Google) | Value (Microsoft) |
 | ------- | ---------------- | ------------------- |
-| Endpoint | `imaps://imap.gmail.com:993` | `imaps://outlook.office365.com:993` |
+| Server URL | `imaps://imap.gmail.com:993` | `imaps://outlook.office365.com:993` |
 | Username | `your-email@gmail.com` | `your-email@your-domain.com` |
-| Auth type | OAuth2 | OAuth2 |
-| Provider | Google | Microsoft |
-| Grant type | Authorization code | Authorization code |
-| Tenant | — | Your tenant ID |
-| Client ID | Same as SMTP or a separate app | Same as SMTP or a separate app |
-| Client Secret | The client secret | The client secret |
-| Refresh Token | Obtained via the Get button | Obtained via the Get button |
+| Authentication | OAuth2 | OAuth2 |
+| OAuth2 provider | Google | Microsoft |
+| OAuth2 Grant type | Authorization code | Authorization code |
+| OAuth2 Tenant | — | Your tenant ID |
+| OAuth2 Client ID | Same as SMTP or a separate app | Same as SMTP or a separate app |
+| OAuth2 Client Secret | The client secret | The client secret |
+| OAuth2 Token | Obtained via the Get button | Obtained via the Get button |
 
 ![IMAP OAuth2](../assets/img/oauth2-imap.png){data-gallery="oauth2-imap"}
 
@@ -212,22 +212,22 @@ In the WebAdmin, navigate to **Server Manager > Configurations > SMTP**.
 
 | Field | Value |
 | ------- | ------- |
-| Host | `smtp.office365.com` |
+| Server name | `smtp.office365.com` |
 | Port | `587` |
 | Username | The mailbox address, for example `no-reply@example.com` |
 | Encryption | STARTTLS |
-| Auth type | **OAuth2** |
-| Provider | **Microsoft** |
-| Grant type | **Client credentials** |
-| Tenant | Your Directory (tenant) ID |
-| Client ID | The Application (client) ID |
-| Client Secret | The client secret value |
+| Authentication | **OAuth2** |
+| OAuth2 provider | **Microsoft** |
+| OAuth2 Grant type | **Client credentials** |
+| OAuth2 Tenant | Your Directory (tenant) ID |
+| OAuth2 Client ID | The Application (client) ID |
+| OAuth2 Client Secret | The client secret value |
 
-Click **Submit** and send a test email. The OAuth2 Token field belongs to the authorization code grant type and is not used here.
+Click **Save** and send a test email. The OAuth2 Token field belongs to the authorization code grant type and is not used here.
 
 Since no browser step is involved, this grant type can also be set entirely in the configuration file or through environment variables, in the `smtp` section: `auth_type` `3`, `oauth2.grant_type` `1`, `oauth2.tenant`, `oauth2.client_id` and `oauth2.client_secret`.
 
-The IMAP action of the Event Manager takes the same values: set **Auth type** to OAuth2, **Grant type** to Client credentials, and **Username** to the address of the mailbox the action reads.
+The IMAP action of the Event Manager takes the same values: set **Authentication** to OAuth2, **OAuth2 Grant type** to Client credentials, and **Username** to the address of the mailbox the action reads.
 
 :warning: The client secret expires on the date chosen when it was created. Create a new secret before that date and update it in SFTPGo to keep sending mail.
 

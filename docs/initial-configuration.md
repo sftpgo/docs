@@ -23,11 +23,11 @@ From the **Status** page you can see the active services and their configuration
 
 ## Create your first user
 
-Navigate to **Users** and click the `+` icon to add a new user.
+Navigate to **Users** and click **Add** to create a new user.
 
 The minimum required fields are **Username** and a **Password** or **Public key** (at least one).
 
-If you installed SFTPGo from the official packages on Linux, the default `users_base_dir` is `/srv/sftpgo/data`, so the home directory is automatically set to `/srv/sftpgo/data/<username>`. If you installed manually or on Windows and no `users_base_dir` is configured, you must also specify the **Home Dir** as an absolute path (e.g., `/srv/sftpgo/data/username` or `C:\sftpgo\data\username`).
+If you installed SFTPGo from the official packages on Linux, the default `users_base_dir` is `/srv/sftpgo/data`, so the home directory is automatically set to `/srv/sftpgo/data/<username>`. If you installed manually or on Windows and no `users_base_dir` is configured, you must also specify the **Root directory**, in the **File system** card, as an absolute path (e.g., `/srv/sftpgo/data/username` or `C:\sftpgo\data\username`).
 
 SFTPGo automatically creates the home directory when the user logs in for the first time.
 

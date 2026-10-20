@@ -66,9 +66,9 @@ This is the recommended approach for "move" workflows. With a separate copy-then
 
 ### Move to Archive After Copy
 
-Set **After copy** to `Move source` and specify an archive path. The source file is moved to the archive location after a successful copy.
+Set **After copy** to `Move source` and enter the archive path in **Move to path**. The source file is moved to the archive location after a successful copy.
 
-- **Archive path**: `/archive/{{.ObjectName}}` — the archive path supports placeholders.
+- **Move to path**: `/archive/{{.ObjectName}}` — the path supports placeholders.
 - If the archive is on the **same filesystem**, an atomic rename is used.
 - If the archive is on a **different filesystem** (e.g., the source is local and the archive is a virtual folder backed by SFTP), SFTPGo falls back to a streaming copy + delete.
 
@@ -88,9 +88,9 @@ Errors are collected (up to 100 entries) and reported at the end. This is useful
 
 ## Per-File Retries
 
-Configure **Max retries** (0–5) for transient failures. Each retry waits 5 seconds. Retries apply to both the file copy and the source disposition step.
+Configure **Retries** (0–5) for transient failures. Each retry waits 5 seconds. Retries apply to both the file copy and the source disposition step.
 
-:warning: With `Max retries = 5`, a single failing file could add up to 25 seconds of delay. Combined with multiple failing files, this can significantly increase the total action duration.
+:warning: With **Retries** set to `5`, a single failing file could add up to 25 seconds of delay. Combined with multiple failing files, this can significantly increase the total action duration.
 
 ## Complete Example: Scheduled File Distribution
 
@@ -103,8 +103,8 @@ Create an action named `distribute csv files` with:
 - **Source**: `/inbox/*.csv`
 - **Target**: `/processing/`
 - **After copy**: Move source
-- **Archive path**: `/archive/{{.ObjectName}}`
-- **Max retries**: 2
+- **Move to path**: `/archive/{{.ObjectName}}`
+- **Retries**: 2
 - **Continue on error**: Enabled
 
 Set both **Source folder** and **Target folder** to the virtual folder that provides the shared storage: with both set the action runs once, as a system action. With the source folder alone it runs once per user, and the **Move source** disposition of the first user leaves nothing for the others.
@@ -113,7 +113,7 @@ Set both **Source folder** and **Target folder** to the virtual folder that prov
 
 Create a rule with:
 
-- **Trigger**: Schedule
+- **Trigger**: Schedules
 - **Schedule**: Every 15 minutes (minutes `*/15`, hours `*`)
 - **Actions**: `distribute csv files`
 

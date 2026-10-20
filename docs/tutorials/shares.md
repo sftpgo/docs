@@ -24,7 +24,7 @@ To enable email-based access to public shares and email notifications, you need 
 
 To configure and test your SMTP settings, open the WebAdmin UI, then go to the "Configurations" page under the "Server Manager" section. There, you can enter the required SMTP configuration parameters.
 
-![SMTP](../assets//img/smtp.png){data-gallery="smtp"}
+![SMTP](../assets/img/smtp.png){data-gallery="smtp"}
 
 ## Create a Share with Email Authentication
 
@@ -38,7 +38,7 @@ To enable email-based authentication, enter one or more email addresses and chec
 
 ![WebClient add share](../assets/img/webclient_config_share.png){data-gallery="webclient-config-share"}
 
-You can also require recipients to accept a (customizable) legal agreement before accessing the share. Additionally, you can set an expiration date, limit the maximum number of accesses, and restrict access to specific IP addresses or networks.
+You can also require recipients to accept a (customizable) legal agreement before accessing the share, an option available when `SFTPGO_HOOK__HAS_SHARE_LEGAL_AGREEMENT` is set to `1` (see [environment variables](../env-vars.md)). Additionally, you can set an expiration date, limit the maximum number of accesses, and restrict access to specific IP addresses or networks.
 
 ![WebClient add share advanced](../assets/img/webclient_config_share1.png){data-gallery="webclient-config-share"}
 
@@ -76,7 +76,7 @@ Write-only shares allow external users to upload files to a shared location, but
 Upon accessing the share, users see a simple upload interface that displays:
 
 - The name of the share, to provide context.
-- Options to select files manually or use drag and drop for quick uploads.
+- Options to select files or a whole folder, or to drop them onto the page. A folder is uploaded with its directory structure.
 
 ![WebClient read only share](../assets/img/webclient_write_only_share.png){data-gallery="webclient-w-share"}
 
@@ -202,8 +202,8 @@ Administrators can define the Share Policy within the "ACLs" section of a group'
 
 The policy consists of the Permissions granted to other group members (Read, Edit, Delete) and the Mode:
 
-- **Enforced**: The share policy is mandatory. Every share created by a user in this group is automatically associated with the group using the defined permissions. The user cannot remove this association.
-- **Suggested**: The share policy is pre-selected by default when creating a share, but the user is free to modify the permissions or remove the group association entirely.
+- **Mandatory (Enforced)**: The share policy is mandatory. Every share created by a user in this group is automatically associated with the group using the defined permissions. The user cannot remove this association.
+- **Suggested (Removable)**: The share policy is pre-selected by default when creating a share, but the user is free to modify the permissions or remove the group association entirely.
 
 ![WebAdmin Share Policy](../assets/img/share_policy.png){data-gallery="webadmin-share-policy"}
 
@@ -231,7 +231,7 @@ From the WebAdmin UI, create an email action similar to the example below.
 
 Use the `{{.Email}}` placeholder to automatically insert the email addresses associated with the share—these are the recipients who can authenticate to access it.
 
-The share access URL follows this format:
+In the body, select the text of the link, click **Insert Link** in the editor toolbar and enter the share access URL, which follows this format:
 
 ```shell
 https://sftp.example.com/web/client/pubshares/{{.ObjectName | urlPathEscape }}/browse
@@ -357,7 +357,7 @@ The `{{.ShareExpirationChecks}}` placeholder will expand to a JSON array contain
 Finally, create a Rule to execute these actions periodically.
 
 1. Go to **Event Manager** -> **Rules** and click **Add**.
-2. **Trigger**: Select **Schedule**.
+2. **Trigger**: Select **Schedules**.
 3. **Schedule**: Define how often to run the check (e.g., daily at 02:00 AM).
 4. **Actions**: Add the actions created in the previous steps in the following order:
    1. The **Share expiration check** action.

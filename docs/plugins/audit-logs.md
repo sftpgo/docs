@@ -129,17 +129,17 @@ Once running, a new **Logs** menu item appears in the WebAdmin sidebar under the
 
 ## Using the audit logs
 
-The Logs page in WebAdmin provides three tabs for searching different event categories:
+The Logs page in WebAdmin searches three event categories, chosen with the selector at the top of the search form:
 
-- **Filesystem Logs** — file transfers (uploads, downloads), directory operations (create, delete, rename), SSH commands, and file copies. Each entry shows the timestamp, username, action, file path, protocol, client IP, and transfer status.
-- **Provider Logs** — administrative changes to SFTPGo objects (users, groups, admins, event rules, etc.). Each entry shows who made the change, what was changed, and when. You can expand an entry to view the full object data.
-- **Log Events** — logins of users and administrators, authentication and connection failures. Useful for auditing access and identifying brute-force attempts or misconfigured clients.
+- **Filesystem events** — file transfers (uploads, downloads), directory operations (create, delete, rename), SSH commands, and file copies. Each entry shows the timestamp, username, action, file path, protocol, client IP, and transfer status.
+- **Provider events** — administrative changes to SFTPGo objects (users, groups, admins, event rules, etc.). Each entry shows who made the change, what was changed, and when. You can expand an entry to view the full object data.
+- **Other events** — logins of users and administrators, authentication and connection failures. Useful for auditing access and identifying brute-force attempts or misconfigured clients.
 
-![Filesystem Logs tab](../assets/img/audit-logs-fs.png){data-gallery="audit-logs"}
+![Filesystem events](../assets/img/audit-logs-fs.png){data-gallery="audit-logs"}
 
-Each tab provides filters to narrow results by time range, username, IP address, action type, and other criteria. Results can be exported for external analysis.
+Each category provides filters to narrow results by time range, username, IP address, action type, and other criteria. Results can be exported for external analysis.
 
-![Provider Logs tab](../assets/img/audit-logs-provider.png){data-gallery="audit-logs"}
+![Provider events](../assets/img/audit-logs-provider.png){data-gallery="audit-logs"}
 
 ## Event types
 
@@ -174,10 +174,10 @@ Captured via `NOTIFIER_OPTIONS__LOG_EVENTS`. These track logins, authentication 
 | -- | ----- |
 | 1 | Login failed |
 | 2 | Login with non-existent user |
-| 3 | No login attempted |
+| 3 | No login tried |
 | 4 | Algorithm negotiation failed |
 | 5 | Login succeeded |
-| 6 | Legal agreement accepted |
+| 6 | Share legal agreement accepted |
 | 7 | Administrator login failed |
 | 8 | Login with non-existent administrator |
 | 9 | Administrator login succeeded |

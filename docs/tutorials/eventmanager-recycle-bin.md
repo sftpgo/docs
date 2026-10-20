@@ -13,7 +13,7 @@ This approach uses two rules:
 
 ## Step 1: Create a Copy to Recycle Action
 
-From the WebAdmin, expand the **Event Manager** section, select **Event actions** and add a new action.
+From the WebAdmin, expand the **Event Manager** section, select **Actions** and add a new action.
 
 Create an action named `copy to recycle`, set the type to `Filesystem`, and choose `Copy` as the filesystem action.
 
@@ -28,7 +28,7 @@ The `{{.UID}}` placeholder appends a unique event identifier to the filename, en
 
 ## Step 2: Create a Pre-Upload / Pre-Delete Rule
 
-Now select **Event rules** and create a rule named `copy_to_recycle`.
+Now select **Rules** and create a rule named `copy_to_recycle`.
 
 - **Trigger**: Filesystem events
 - **Events**: `pre-upload`, `pre-delete`
@@ -37,10 +37,10 @@ The rule triggers *before* the upload or delete operation, so the current versio
 
 ### Conditions
 
-Add a path filter to exclude the recycle folder itself — otherwise, deleting files from the recycle folder would trigger another copy, creating an infinite loop:
+Add a path filter to exclude the recycle folder itself — otherwise, deleting files from the recycle folder would trigger another copy, creating an infinite loop. In **Path filters**, add:
 
-- **Pattern**: `/recycle/**`
-- **Inverse match**: enabled
+- the pattern `/recycle/**`;
+- **Mode**: Inverse match.
 
 This means "match all paths *except* those under `/recycle/`".
 
@@ -78,7 +78,7 @@ This deletes files older than 72 hours (3 days) from the `/recycle` folder and r
 
 Create a rule named `recycle_retention`:
 
-- **Trigger**: Schedule
+- **Trigger**: Schedules
 - **Schedule**: Daily at 01:00 UTC (hour `1`, day of week `*`)
 - **Actions**: `recycle retention`
 
