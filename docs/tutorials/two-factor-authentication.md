@@ -84,11 +84,13 @@ If 2FA is not disabled each user can enable it by selecting "Two-factor auth" fr
 
 Users can enable 2FA for HTTP, SSH and FTP protocols.
 
-SSH protocol (SFTP/SCP/SSH commands) will ask for the passcode if the client uses keyboard interactive authentication.
+For SSH (SFTP, SCP, SSH commands), two-factor authentication requires keyboard-interactive authentication: the authentication code is asked only within keyboard-interactive authentication, and logins that use other authentication methods do not ask for it. To require the code for every SSH login, allow only login methods that include keyboard-interactive.
 
 HTTP protocol means Web UI and REST APIs. Web UI will ask for the passcode using a specific page. For REST APIs you have to specify the passcode using the `X-SFTPGO-OTP` HTTP header.
 
 FTP has no standard way to support two factor authentication, if you enable the FTP protocol, you have to add the TOTP passcode after the password. For example if your password is "password" and your one time passcode is "123456" you have to use "password123456" as password.
+
+:warning: Two-factor authentication is managed from the WebClient and the REST API, which ask for the authentication code only when 2FA covers HTTP. If it covers SSH or FTP but not HTTP, the password alone signs in to the WebClient and the REST API, where two-factor authentication can be disabled or configured again. Include HTTP in the protected protocols; to enforce it, select HTTP in the `Require 2FA for` restrictions of the user or of a group.
 
 To enable 2FA select the wanted protocols, a configuration and click "Generate new secret key". A QR code will be generated which you can scan with a compatible app. After you configured your app, enter a test code to ensure everything works correctly and click on "Save".
 
