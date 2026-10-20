@@ -328,6 +328,7 @@ The pipe syntax is especially useful for chaining multiple transformations.
 | ---------- | ------------- | --------- |
 | `stringSlice` | Creates a list of strings. Useful as input for `pathJoin` or `stringJoin`. | `{{ stringSlice "a" "b" "c" }}` |
 | `stringJoin` | Joins a list of strings with a separator. | `{{ stringJoin .Errors ", " }}` |
+| `stringSplit` | Splits a string at each separator into a list of strings. A leading separator yields an empty first element, so the first directory of `.VirtualPath` is at index 1. | `{{ index (stringSplit .VirtualPath "/") 1 }}` |
 | `stringTrimSuffix` | Removes a suffix if present. | `{{ stringTrimSuffix .VirtualPath ".jpg" }}` |
 | `stringTrimPrefix` | Removes a prefix if present. | `{{ stringTrimPrefix .VirtualPath "/data" }}` |
 | `stringReplace` | Replaces all occurrences of a substring. | `{{ stringReplace .VirtualPath "/dir1" "/dir2" }}` |
