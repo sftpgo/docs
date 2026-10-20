@@ -796,6 +796,10 @@ See [rotating the master key without downtime](cli.md#rotating-the-master-key-wi
 
 Configuration parameters for the `mfa` section.
 
+| Parameter | Type | Default | Description |
+| ----------- | ------ | --------- | ------------- |
+| `disable_recovery_codes` | boolean | `false` | Set to `true` to turn off recovery codes for users and admins. No codes are generated, the stored ones stop working and are deleted the next time the account is saved, and the web UIs show no recovery option. An account that loses its second factor is recovered by an administrator who disables two-factor authentication for it; the last administrator can use the [`resetadmin`](cli.md#restoring-access-for-an-administrator) command. |
+
 ### TOTP
 
 The `totp` field is a list of structs that define settings for time-based one-time passwords (RFC 6238). Each struct has the following fields:
