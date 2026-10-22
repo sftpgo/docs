@@ -16,7 +16,7 @@ With the default configuration it is served on port `8080`: [http://127.0.0.1:80
 
 On first access (when no admin exists in the data provider), SFTPGo presents a setup screen to create the initial admin account. You can also pre-create an admin by loading initial data or by setting the environment variables `SFTPGO_DEFAULT_ADMIN_USERNAME` and `SFTPGO_DEFAULT_ADMIN_PASSWORD` (with `create_default_admin` enabled in the data provider configuration).
 
-Until an admin account exists, the setup screen is available to anyone who can reach the WebAdmin. Set an `installation_code` in the [`setup`](config-file.md#setup) configuration to require a shared code before the first account can be created.
+Until an admin account exists, the setup screen is available to anyone who can reach the WebAdmin. Set an `installation_code` in the [`setup`](config-file.md#setup) configuration to require a shared code before the first account can be created, or pre-create the first admin before exposing the WebAdmin.
 
 ## WebClient
 
