@@ -73,3 +73,4 @@ SFTPGo maps HTTP status codes to filesystem errors: `404` = file not found, `501
 - Opening a file for both reading and writing at the same time is not supported.
 - `chown` and `symlink` are not supported.
 - Virtual folders are not supported on this backend.
+- Restrictions are matched against the requested path as written, and the implementation of the API decides which names reach the same file: an implementation that resolves different spellings of a name to one file lets another spelling reach a restricted directory with the settings of the path as written. Implement the API so that names that differ in any character name different files, see [Names that reach the same entry](access-control.md#names-that-reach-the-same-entry).

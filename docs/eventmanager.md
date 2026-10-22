@@ -57,13 +57,15 @@ The wildcard penalty is the same on any of the three axes: a single wildcard any
 
 For small installations the difference is negligible. On instances with thousands of users, prefer exact names, groups, or roles whenever the target set is known up front, instead of patterns like `customer_*`.
 
+Name, group and role patterns use the shell-like syntax and are matched as written, letter case included: `*` matches any sequence of characters except `/`, which matters for group names that contain `/`.
+
 Filters on filesystem events (uploads, downloads, etc.) do not have this cost — the triggering user is already known, so the match is always a single in-memory check regardless of whether the filter is exact or a pattern.
 
 #### Path filters
 
 By default, path patterns match against the **virtual path** — the normalized, backend-independent path that clients see (e.g., `/uploads/file.txt`).
 
-Each pattern can optionally be set to **match on filesystem path** instead. This matches against the actual backend storage path, which is useful when you need to filter by physical location, bucket, or Windows drive letter.
+Each pattern can optionally be set to **match on filesystem path** instead. This matches against the storage path SFTPGo builds for the request: the root directory or key prefix of the storage joined with the virtual path, as in the table below. It is useful when you need to filter by root directory, key prefix, or Windows drive letter. It is the path as SFTPGo builds it, not the location a symbolic link or a mount on the storage leads to.
 
 Filesystem paths are backend-dependent:
 
@@ -79,7 +81,9 @@ Filesystem paths are backend-dependent:
 
 :information_source: **Always use forward slashes** (`/`) in patterns, even for Windows paths. Backslashes are automatically converted to forward slashes when saving the pattern.
 
-:warning: **Matching is case-sensitive** on all platforms, including Windows. Use character classes if needed (e.g., `[Dd]ata`).
+:information_source: **Letter case.** A path condition is a comparison of text: unlike [per-directory permissions written as literal paths](access-control.md#names-that-reach-the-same-entry), it never asks the storage which names reach the same file. On local storage on Windows, where names that differ only in letter case name the same file, the comparison ignores the letter case of ASCII letters, on the virtual and on the filesystem path alike: `/incoming/*.txt` matches `/INCOMING/A.TXT`, and an inverse pattern excludes every case of what it names. Pattern and path are compared with their ASCII letters in lowercase, so write ranges with letters of one case (`[a-z]` or `[A-Z]`). Letters outside ASCII are compared as written, so `/études/*` does not match `/ÉTUDES/a.txt`: write conditions with ASCII letters where a rule must hold for every spelling. On any other storage a pattern is matched exactly as written, letter case included. If that storage resolves other spellings to the same file, as a Linux directory with case folding enabled or a network share can, a rule fires only for the spellings its pattern describes: use character classes such as `[Dd]ata` for the letter case variants you expect.
+
+Patterns that contain `**` use the extended syntax: `**` matches any number of directories, `{a,b}` matches either alternative and `[!...]` is a negated class. Other patterns use the shell-like syntax, where `*` does not cross a `/` and a negated class is written `[^...]`.
 
 :warning: **Cloud storage paths have no leading slash**, so a pattern like `/**/*.exe` will not match them. Use `**/*.exe` instead.
 

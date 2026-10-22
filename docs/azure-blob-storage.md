@@ -67,5 +67,6 @@ This backend has the same limitations as the [S3 backend](s3.md):
 - Upload resume is disabled by default and requires re-uploading the entire file when enabled.
 - A local home directory is required for temporary files, unless in-memory pipes are enabled via `SFTPGO_HOOK__MEMORY_PIPES__ENABLED=1`.
 - Clients that require advanced filesystem-like features (e.g., `sshfs`) are not supported.
+- Object keys are compared as written within the container, and two folders are the same storage only when they name the same container on the same endpoint. Do not map folders onto overlapping containers or key prefixes, also through different endpoints, and keep copy targets outside their source: see [Copy and move onto the same entry](access-control.md#copy-and-move-onto-the-same-entry).
 
 Unlike S3, Azure Blob Storage supports setting modification times via object metadata.

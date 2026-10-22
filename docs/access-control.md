@@ -61,6 +61,10 @@ The `/` path is mandatory for every user and acts as the fallback. Permissions a
 
 In the WebAdmin the **Permissions** field of the user holds the permissions of `/`, and the **Per-directory permissions** section holds one entry per path. Wildcards are supported in paths: `/incoming/*` matches any directory within `/incoming`.
 
+On local storage on Windows a wildcard path ignores the letter case of ASCII letters: the path and the directory are compared with their ASCII letters in lowercase. Write ranges with letters of one case (`[a-z]` or `[A-Z]`): a range that mixes letters with other characters changes meaning once lowercased, so `[A-z]` matches only what `[a-z]` matches and `[Z-a]` matches nothing. Letters outside ASCII are compared as written in the component that holds the wildcard and in the components after it: for a directory whose settings must hold for every spelling of its name, use a literal path, see [Names that reach the same entry](#names-that-reach-the-same-entry). On every other storage a wildcard path is matched as written, letter case included.
+
+When more than one wildcard path matches a directory at the same depth, which one applies is not defined: write wildcard paths that do not overlap. On local storage on Windows the comparison ignores letter case, so two paths that do not overlap elsewhere can overlap there: `/Data/*` and `/da*a/x` both match `/Data/x`.
+
 For example, to allow a user to work only inside `/account/custom` within a tree mounted at `/account`, grant the desired permissions on `/account/custom` and give `/account/inbound` and `/account/outbound` an entry with no permissions selected:
 
 | Path | Permissions |
@@ -108,6 +112,8 @@ Two rules govern how allowed and denied patterns interact:
 - Allowed patterns are checked first; a name that matches one is accepted even if it would also match a denied pattern.
 - A non-empty allowed list means **deny by default**: anything that does not match an allowed pattern is denied. An empty allowed list means **allow by default**: everything is accepted except names matching a denied pattern.
 
+Patterns are stored in lowercase and compared with the name in lowercase, on every platform and storage, following the Unicode case rules: a pattern matches every case variant of a name that Unicode recognizes, including some that a file system can keep as distinct names, such as the Kelvin sign `K` for `k`. Write letters in lowercase, ranges included (`[a-z]`): a range that mixes uppercase letters with other characters changes meaning once lowercased, `[Z-a]` becomes `[z-a]`, which matches nothing.
+
 A filter describes the names *inside* the path it is defined on, so a filter on `/data` governs the entries of `/data`, not the name `data` itself. Under the **hide** policy the distinction shows up when a directory is read by name: a directory hidden by a filter defined on one of its parents is reported as missing, while a directory whose own filter hides all of its entries is reported as empty.
 
 Listing and transfers follow the same rule, so a filter that hides every name in a directory denies every transfer there as well, uploads included: denying `*` on `/` under the hide policy leaves the user with an empty listing and no way to upload. To keep uploads working, deny the names that must stay hidden and leave the names users upload allowed.
@@ -116,7 +122,9 @@ A name filter is matched whenever a directory name comes into existence: when th
 
 A filter is attached to a virtual path and does not follow a directory that is moved: after a rename, the entries the directory carried are governed by whatever applies at the new location. When a filter is defined on the moved tree or on the target tree, or the two paths inherit different filters, the entries are authorized one at a time, as described for [renaming a directory](#how-each-operation-is-checked); with the same filters on both paths the directory is renamed in one operation.
 
-:warning: Matching is on the name, so file pattern filters are a visibility and transfer control, not a content filter. A rule that denies `*.exe` matches the name only, and the same content uploaded as `*.txt` is allowed. Use them to organize what is listed and to block transfers by name; to control which directories a user can reach, rely on storage isolation, virtual folders, or per-directory permissions.
+:warning: File pattern filters match names, not content: a rule that denies `*.exe` matches the name only, and the same content uploaded as `*.txt` is allowed. Use them to organize what is listed and to block transfers by name, and [ICAP](tutorials/eventmanager-icap.md) or hooks to inspect content.
+
+A pattern matches a name when their lowercase forms match, on every storage. A storage can also resolve other spellings to the same file. On local storage on Windows, short names in their usual form, with a `~`, and names ending with a dot or a space are refused, so a file is reached by its long name; other spellings that the storage treats as equal although their lowercase forms differ, such as another Unicode normalization of the same letters, or a short name that a remote server resolves to the file, are not matched by a pattern written for the long name. To keep files out of a user's reach, place them where the user has no access, through storage isolation, virtual folders or per-directory permissions, rather than relying on a pattern; see [Names that reach the same entry](#names-that-reach-the-same-entry) for how each storage resolves spellings.
 
 ### Examples
 
@@ -168,7 +176,7 @@ A filter is attached to a virtual path and does not follow a directory that is m
 
 ## How path-based restrictions are evaluated
 
-Per-directory permissions, [file pattern filters](#file-pattern-filters), allowed and denied [share paths](tutorials/shares.md#restricting-shareable-paths), and every other setting keyed on a path are evaluated against the **virtual path the client requests**, not against the physical location that path ultimately resolves to. The configured restrictions belong to the requested path; they do not follow a redirection in the underlying storage.
+Per-directory permissions, [file pattern filters](#file-pattern-filters), allowed and denied [share paths](tutorials/shares.md#restricting-shareable-paths), and every other setting keyed on a path are evaluated against the **virtual path the client requests**, not against the physical location that path ultimately resolves to. The configured restrictions belong to the requested path; they do not follow a redirection in the underlying storage. On local storage on Windows, the spellings of a name that the storage resolves to the same entry, such as its letter case variants, count as that name, see [Names that reach the same entry](#names-that-reach-the-same-entry).
 
 When the storage redirects one path to another, through a symbolic link, a Windows junction, a bind mount, a hard link, or any similar operating-system or configuration mechanism, SFTPGo applies the restrictions configured for the path the client named. If `/path1` resolves to `/path2`, the access decision uses what is configured for `/path1`, **even when `/path2` is configured with stricter restrictions**. A tighter configuration on `/path2` does not protect it from access through `/path1`, and the restrictions defined for `/path2` are not consulted. A public share is a boundary of the same kind: it is evaluated on the virtual path requested through the share link, so a symbolic link beneath a shared path is dereferenced and its target is served through the share even when it sits elsewhere in the owner's tree.
 
@@ -179,6 +187,46 @@ More generally, SFTPGo trusts the storage backend. What the storage reports, the
 A requested path uses both `/` and `\` as directory separators, on every protocol, and restrictions apply to the path as read, so the names SFTPGo creates never contain `\`. An entry whose name contains `\` is left out of directory listings, since a request reads `\` as a separator: removing the directory that holds it deletes the rest of its contents and keeps the directory. Rename or delete such an entry directly on the storage.
 
 The [`create_symlinks` permission](#per-directory-permissions) is itself path-based and bidirectional: a directory that grants it can both host links and have its entries made the target of links created elsewhere. The check is on the directory that contains the target, so everything below a directory that grants it can be reached through a link, a subdirectory that restricts operations included, under the permissions of the directory holding the link. A user holding `create_symlinks` in two directories can link one to the other and reach either under the more permissive directory's rights. Do not grant `create_symlinks` on a directory when it, or any directory below it, restricts operations, and see [Symbolic links and permissions](config-file.md#symbolic-links-and-permissions) for the full interaction.
+
+### Names that reach the same entry
+
+A storage can resolve several spellings of a name to one file or directory. On Windows, by default, names that differ only in letter case reach the same entry, and so do the short name the volume generates for a long name (`PASTAR~1` for `Pasta Riservata`) and a name followed by dots or spaces. Remote servers, network shares and object storage services follow naming rules of their own.
+
+**Local storage on Windows.** This covers the local filesystem and its [encrypted variant](dare.md). The settings configured for a path apply to every spelling that reaches the same file or directory: per-directory permissions, file pattern filters and allowed and denied share paths configured for `/private` apply to `/PRIVATE` and `/Private/sub` as well, and those configured for `/étude` apply to `/ÉTUDE` when the storage resolves it to that directory. Short names in their usual form, with a `~`, and names ending with a dot or a space are refused for every operation, so files and directories are reached by their long name: a short name is reported as missing, a name ending with a dot or a space as not allowed.
+
+Which names reach the same entry is decided by the storage, from what the volume or share reports, see [File names on Windows](localfs.md#file-names-on-windows). SFTPGo asks the storage only when both the requested name and the configured path contain letters outside ASCII: if the storage treats a name as equal to a configured path where only one of the two contains such letters, that name reaches the directory with its own settings, not with those of the configured path.
+
+**Every other storage**, local storage on Linux included, SFTP, FTP and HTTP storage, S3, Google Cloud Storage and Azure Blob, matches restrictions against the requested path as written, and the storage decides which spellings reach the same entry. Storage that matches names exactly has no other spelling to reach. Storage that does not, such as a Linux file system or directory set to ignore letter case, a network share mounted on Linux, a remote server running on Windows or an object storage service that keeps its keys on a case-insensitive file system, lets another spelling of a restricted directory reach it with the settings of the path as written. To make restrictions independent of the storage's naming rules, assign them at folder level: map each area that needs different settings to its own [virtual folder](virtual-folders.md). A virtual folder is reached only through its exact mount path, so the folder and the settings assigned to its mount path hold whatever spelling a client uses.
+
+On local storage on Windows, keep the configuration unambiguous:
+
+- Use one spelling per directory in permissions, file pattern filters, share paths and mount paths, across user and group settings too. When two configured paths name the same directory with different spellings, the settings of one of them apply, and which one is not defined.
+- Configured paths are compared as written: a path written with a short name, through a link or a junction, or as another spelling of a path configured elsewhere is a different path for every comparison. Write each path with long names, in the spelling the storage holds.
+- A spelling of a virtual folder's mount path other than the configured one names the directory with that name on the parent's storage, not the folder, as on every platform. When settings are defined for the mount path or for a path below it, such a spelling is refused.
+- Renaming a directory to a name that the storage cannot yet compare with the configured paths of the target directory is refused, since the target does not exist before the rename: this is the case for a name with letters outside ASCII next to configured paths with letters outside ASCII. Create the directory and move the contents into it.
+- Every directory named by a configured path must be readable by the account SFTPGo runs as. When one of them cannot be read, the other directories with names outside ASCII next to it are refused, together with what they contain.
+- A directory set to distinguish letter case (`fsutil file setCaseSensitiveInfo`) is treated like the rest of the volume: a name that differs from a configured path only in the case of ASCII letters gets that path's settings, even where the directory holds it as a separate entry. Give directories that need different settings distinct names, not case variants.
+- A short name is recognized by its form: up to eight characters, with an optional extension of up to three, containing a `~` followed by a letter or a digit, the form of the short names Windows and Samba generate with a numeric or hashed tail. A name of that form is refused when it reaches an entry whose long name is different, so a file whose own name has that form stays reachable. A short name in another form, such as one assigned explicitly by an administrator or one a volume generates without `~`, is not recognized: do not assign short names, and keep short-name generation disabled on volumes that generate them without `~`.
+- For a configured path with letters outside ASCII, the storage can compare a spelling with it only once the directory exists: an operation authorized while the directory is missing, then created by another session under another spelling, runs with the settings of the parent.
+
+## Copy and move onto the same entry
+
+SFTPGo refuses a copy, a move or an Event Manager action that would overwrite or replace its own source, also when the target is another name of it, such as a spelling the storage resolves to it, a hard link, a symbolic link, or a directory reached through a link or a mount, as far as the storage can tell (see [Names that reach the same entry](#names-that-reach-the-same-entry)):
+
+- local storage, on every platform: from the identity the storage reports for each file and directory;
+- SFTP, FTP and HTTP storage: by the path as written, the remote server decides which names are equivalent;
+- S3, Google Cloud Storage and Azure Blob: by the object key as written, and two folders are the same storage only when they name the same bucket or container.
+
+Keep the source and the target of copies, moves and actions in separate directories, and do not map two virtual folders onto overlapping locations of the same storage, directly, through a link, or through overlapping buckets, containers or prefixes.
+
+A rename that only changes the spelling of a name, such as `report.txt` to `Report.txt`, renames the entry in place: it needs no `overwrite` permission and leaves the quota unchanged.
+
+Limits:
+
+- Storage that does not report a unique, persistent identity for each file cannot tell two names of one file apart: a copy of a file onto another name of itself is then not refused and empties the file.
+- A copy into a directory inside its own source under another name stops with an error when it reaches the target, keeping what was copied until then; where the source cannot be read through the names being written, the copy stops at the maximum directory depth instead.
+- A directory moved into a virtual folder mapped inside the directory itself stops with an error; the entries moved until then stay inside the source tree.
+- The checks run before the operation: an entry another session creates or replaces in the meantime is not seen. Symbolic-link creation is disabled by default, see [Symbolic links and permissions](config-file.md#symbolic-links-and-permissions).
 
 ## IP and protocol restrictions
 

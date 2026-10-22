@@ -39,7 +39,7 @@ Steps 2 and 3 may slow down directory listings for directories with many files h
 
 ## Lock support
 
-SFTPGo implements WebDAV locking (LOCK/UNLOCK methods) with an in-memory lock manager. Exclusive write locks are supported. Each authenticated user gets a dedicated lock manager instance, and locks are properly cleaned up when resources are deleted or renamed.
+SFTPGo implements WebDAV locking (LOCK/UNLOCK methods) with an in-memory lock manager. Exclusive write locks are supported. Each authenticated user gets a dedicated lock manager instance, and locks are properly cleaned up when resources are deleted or renamed. A lock belongs to the user who takes it and is matched against the requested name as written: clients of the same user that spell a name differently, for example in another letter case on storage that does not distinguish it, do not see each other's locks.
 
 ## Reverse proxy
 
@@ -58,6 +58,8 @@ CORS (Cross-Origin Resource Sharing) can be configured per-binding for browser-b
 - **Directory removal on cloud backends** — Removing a directory tree may produce a "not found" error when deleting the last (virtual) directory, if the client removes files and directories individually instead of issuing a single remove command.
 - **Permission requirements** — Listing a directory requires both `list` and `download` permissions. Uploading files requires both `list` and `upload` permissions.
 - **`COPY` and `MOVE` permissions** — WebDAV defines both methods on the resource model, and SFTPGo serves them that way: a `COPY` reads the source and writes the copy, a `MOVE` is a rename, and each is authorized as those operations are, [file pattern filters](access-control.md#file-pattern-filters) included. The `copy` permission applies to the server-side copy SFTPGo performs as a single operation, so it takes no part here; see [Per-directory permissions](access-control.md#per-directory-permissions).
+- **`COPY` and `MOVE` onto the source** — A `COPY` or a `MOVE` whose destination overlaps the source is refused: the destination is the source, one of its parent directories or a path inside it, also through another name on storage that can tell, see [Copy and move onto the same entry](access-control.md#copy-and-move-onto-the-same-entry). On local storage on Windows this includes a `MOVE` that changes only the letter case of a name: use SFTP, FTP, the WebClient or the REST API for such a rename.
+- **Special files in `COPY`** — A `COPY` of a directory skips the symbolic links and special files it holds, and a `COPY` whose source is one of them is refused, as with the other protocols.
 - **Error handling in listings** — If a file or directory is inaccessible (e.g., OS permissions, missing virtual folder path), it is silently omitted from the listing. A different error causes the entire listing to fail. This differs from SFTP/FTP, where inaccessible entries still appear in listings.
 - **Dead properties** — SFTPGo has a minimal implementation: modification time can be set and is returned in live properties, but arbitrary dead properties are not persisted.
 - **PROPFIND Depth** — `Depth: 0` and `Depth: 1` are supported. `Depth: infinity` is not allowed.

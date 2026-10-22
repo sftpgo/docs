@@ -343,7 +343,7 @@ Notes and limitations:
 - **Not supported for the memory data provider** (nothing is persisted).
 - **Conversion is available for the SQL data providers** (SQLite, PostgreSQL, MySQL/MariaDB, CockroachDB). On bolt the report is produced and the conversion step is skipped.
 - :warning: Run the command while the SFTPGo instance is stopped. With SQLite a running server can modify the same database concurrently, and an embedded database must be reachable exclusively by the command.
-- With PostgreSQL, MySQL and CockroachDB the default collation is case-insensitive, so mixed-case names keep resolving and converting is portability oriented; it matters when moving to a case-sensitive provider.
+- How names are compared depends on the database collation. With the default collations of MySQL and MariaDB names that differ only in letter case are already the same name, so mixed-case names keep resolving and converting is portability oriented; it matters when moving to another provider. SQLite, PostgreSQL and CockroachDB keep such names distinct by default: two names that differ only in letter case are two objects, and the lowercase rule reports them as a blocking conflict to resolve by hand.
 - Pass `-c`/`--config-dir` (or `SFTPGO_CONFIG_DIR`) if the config directory is not the current working directory.
 
 ## Re-encrypting the stored secrets

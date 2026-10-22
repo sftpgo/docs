@@ -80,6 +80,15 @@ The [quota of a user](users.md#quota-and-limits) is the size of the files in the
 
 Folders whose mapped paths are nested or overlapping make the counters inaccurate. For example, with `folder1` serving `/srv/data/mapped` and `folder2` serving `/srv/data/mapped/subdir`, a file uploaded to `folder2` updates its quota while the quota of `folder1` does not reflect it. The same happens when a folder's mapped path is inside the root directory of a user who mounts it: the content is reachable both at the mount path and at the matching path under the root, each governed by the permissions and file pattern filters defined for it, and operations on the root path do not update the folder's quota. The principle applies to cloud backends as well, with overlapping key prefixes. Keep mapped paths distinct and outside the users' root directories to have accurate quotas and one set of rules per folder.
 
+A folder is reached only through its exact mount path. Another spelling, such as `/DATA` for a folder mounted on `/data`, is a path of the user's root filesystem: it does not reach the folder, and it has the root's settings.
+
+On local storage on Windows, `/DATA` names the directory of the root that lies beneath the mount point. When the folder's mapped path is that directory, `/DATA` reaches the folder's content through the root. When settings are defined for the mount path or for a path below it, such a spelling is refused, see [Names that reach the same entry](access-control.md#names-that-reach-the-same-entry).
+
+When a configuration needs overlapping mapped paths:
+
+- keep the permissions, file pattern filters and quotas of every route to the same data consistent, since each route applies its own;
+- keep copy and move targets outside their source, see [Copy and move onto the same entry](access-control.md#copy-and-move-onto-the-same-entry).
+
 ## Renaming across folders
 
 A rename between the user's root filesystem and a virtual folder, or between two virtual folders, is accepted when both sides are on the same storage: the local filesystem, the same bucket or container, the same SFTP server. Between different storages, copy the files and remove the source.

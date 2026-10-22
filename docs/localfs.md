@@ -10,6 +10,10 @@ The local filesystem is the default storage backend. Each user is restricted to 
 
 The home directory is set per-user and represents the root of their visible filesystem. It must be an absolute path (e.g., `/srv/sftpgo/data/alice`). If `users_base_dir` is configured in the data provider settings, new users automatically get a home directory derived from `users_base_dir/username`.
 
+A generated home directory is named after the username, so two usernames that the storage treats as the same name share it, for example `Bob` and `bob` on Windows. When usernames are not chosen by an administrator, as with [external authentication](external-auth.md), the [pre-login hook](dynamic-user-mod.md), [OpenID Connect](oidc.md) or [LDAP](plugins/ldap-auth.md), set [`naming_rules`](config-file.md#data-provider) to `6`, which allows only lowercase ASCII usernames, or set the home directory of each account explicitly.
+
+An account whose username contains `~` needs an explicit home directory: SFTPGo does not generate one from such a username, since on Windows `~` marks short names, which can reach another directory.
+
 A missing home directory is created at the user's first login, with the privileges of the account SFTPGo runs under. Create it beforehand when its parent directory is not writable by that account, or when it needs a specific owner or mode, see [Permissions](#permissions).
 
 To give a user access to a directory outside the home directory, use a [virtual folder](virtual-folders.md). A rename between the home directory and a virtual folder is performed as a copy followed by a delete, see [Renaming across folders](virtual-folders.md#renaming-across-folders).
@@ -44,9 +48,25 @@ This setting is particularly relevant for **modification times** (`chtimes`). On
 
 If you use a network filesystem (NFS, CIFS/SMB) as the backing store for user home directories, keep in mind that latency on network filesystems directly affects file transfer performance.
 
+On Linux, per-directory permissions, file pattern filters and share paths are matched against the path as written, and the server of the share decides which names reach the same file. For per-directory settings on a network share, use a share that keeps names distinct, such as an NFS export of a file system that distinguishes letter case or a Samba share with `case sensitive = yes` and `mangled names = no`, or the folder layout described in [Names that reach the same entry](access-control.md#names-that-reach-the-same-entry).
+
+On an SMB/CIFS mount of a share that ignores letter case, the Linux client can report different identifiers for two spellings of one file, so a copy of a file onto another spelling of itself is not always refused. Keep the default `serverino` mount option, even when the kernel log suggests `noserverino`: that option gives each name an identifier of its own from the start.
+
+## File names on Windows
+
+By default Windows resolves several spellings of a name to one file or directory: names that differ in letter case, short names such as `PASTAR~1`, and names followed by dots or spaces. On local storage on Windows SFTPGo applies the settings of a path to every spelling that reaches it, and refuses short names in their usual form, with a `~`, and names ending with a dot or a space, as described in [Names that reach the same entry](access-control.md#names-that-reach-the-same-entry).
+
+To tell spellings apart SFTPGo relies on what the storage reports. Before relying on per-directory settings on a volume or an SMB share, verify that it reports a unique identifier for each file, keeps names with letters outside ASCII apart from ASCII ones, and generates short names only in the form with `~`, or not at all. On shares served by Samba, set `mangled names = no`: with the default value, `illegal`, and with `yes`, Samba resolves a short name for every long name.
+
+File names are stored in UTF-16: a byte that is not part of a valid UTF-8 sequence is stored as the replacement character (U+FFFD), so names that differ only in such bytes name the same file. Configure clients to send file names in UTF-8.
+
 ## Atomic uploads
 
 When atomic uploads are enabled (`upload_mode` set to `1` or `2`), files are written to a temporary file in the same directory and renamed to the final path on completion. This is an atomic operation on local filesystems: the rename is instantaneous regardless of file size.
+
+## Copy and move onto the same entry
+
+On local storage, on every platform, SFTPGo recognizes another name of a file or directory, such as a letter case variant, a hard link or a symbolic link, from the identity the storage reports, and refuses a copy, a move or an Event Manager action that would overwrite or replace its own source. See [Copy and move onto the same entry](access-control.md#copy-and-move-onto-the-same-entry) for the rule on every storage and its limits.
 
 ## Symbolic links
 

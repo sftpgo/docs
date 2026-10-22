@@ -35,6 +35,8 @@ Configure the retention policies — each entry defines a virtual path and a ret
 
 :warning: **Paths are literal — no wildcards, no placeholders.** A path like `/inbound/*` is *not* a pattern: it looks for a directory literally named `*` inside `/inbound/` and finds nothing. To clean the contents of `/inbound`, just set the path to `/inbound`. The configured folder itself is always preserved — only its contents older than the retention period are removed. Sub-directories that become empty after cleanup can be removed too by enabling **Delete empty dirs** on the entry.
 
+On local storage on Windows a configured path also applies to its directory stored with ASCII letters in another case: `/inbound` covers a directory stored as `Inbound`. Letters outside ASCII are compared as written, so write such a path as the storage shows it. A virtual folder is reached by its exact mount path: a directory of the home named like the mount path in another letter case is not the folder and keeps the retention of its parent.
+
 If you need different retention paths for different groups of users, create one rule per group — each rule has its own action and its own user filter.
 
 ### Archive Instead of Delete
@@ -42,6 +44,8 @@ If you need different retention paths for different groups of users, create one 
 If you prefer to archive files instead of deleting them, specify an **archive folder**. Files are moved to the virtual folder instead of being permanently removed. This is useful for compliance scenarios where you need to keep files accessible but outside the user's working directories.
 
 The archive folder must be a virtual folder configured in SFTPGo — it can use any storage backend. For example, you could archive to a cheaper storage tier (e.g., S3 Glacier via lifecycle policies) while keeping the user's primary storage on standard S3.
+
+Map the archive folder outside the directories the check scans, such as the users' home directories: otherwise the files already archived are found again and archived once more at the next run.
 
 ### Folder-scoped retention
 
