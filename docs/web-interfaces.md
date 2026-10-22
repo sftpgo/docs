@@ -15,6 +15,8 @@ With the default `httpd` configuration, the web admin is available at the follow
 
 If no admin user is found within the data provider, typically after the initial installation, SFTPGo will ask you to create the first admin. You can also pre-create an admin user by loading initial data or by configuration/env vars.
 
+Until an admin account exists, the setup screen is available to anyone who can reach the WebAdmin. Set an installation_code in the [setup](config-file.md#setup) configuration to require a shared code before the first account can be created, or pre-create the first admin before exposing the WebAdmin.
+
 The web interface can be configured over HTTPS and to require mutual TLS authentication in addition to administrator credentials.
 
 ## WebClient
