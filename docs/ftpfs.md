@@ -45,6 +45,7 @@ This backend has similar limitations to the [S3](s3.md) and other cloud storage 
 - Opening a file for both reading and writing at the same time is not supported.
 - Setting modification times is supported when the remote FTP server advertises the `MFMT` feature.
 - Renaming non-empty directories is supported (via recursive rename) but may be slow for directories with many files.
+- A directory listing holds up to 50,000 entries, listing a larger directory returns an error and logs a warning. Operations that read a whole directory, such as quota scans and directory size calculations, return an error too. The limit is set with the `SFTPGO_HOOK__FTPFS_MAX_LIST_ENTRIES` [environment variable](env-vars.md#transfers-and-storage).
 
 ## Connection behavior
 
