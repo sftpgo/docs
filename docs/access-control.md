@@ -160,6 +160,17 @@ A pattern matches a name when their lowercase forms match, on every storage. A s
 | Allowed patterns | `public` |
 | Deny policy | Hide |
 
+**Allow chosen directory names, with any content inside.** With `*` as the denied pattern, the allowed patterns describe the names directly inside the path, and the content of each allowed directory is free of the filter. With the filter below, a user can create `/outbox/alice@example.com` and upload `/outbox/alice@example.com/report.pdf`, while creating `/outbox/archive` is refused.
+
+| Field | Value |
+| ---------- | ------- |
+| Path | `/outbox` |
+| Allowed patterns | `*@example.com` |
+| Denied patterns | `*` |
+| Deny policy | Default |
+
+Leaving the denied patterns empty changes the result: like any filter, the one on `/outbox` then also applies inside its subdirectories, so `report.pdf` is refused in `/outbox/alice@example.com` because its name does not match `*@example.com`.
+
 **Inheritance with an override.** A filter on `/` applies to the whole tree; a more specific filter on `/incoming` relaxes or tightens the rule just there. The deepest matching path wins, exactly like permissions.
 
 | Field | Value |

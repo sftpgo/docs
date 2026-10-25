@@ -86,9 +86,13 @@ If the subject is left empty, the default subject is used. Subjects configured i
 
 The WebAdmin UI provides a visual HTML editor for composing email templates. The editor supports:
 
-- Rich text formatting (bold, italic, lists, etc.)
+- Rich text formatting (bold, italic, small text, text colors from a fixed palette, lists, etc.)
 - Image embedding via Base64 or external links
 - Table creation and editing
+
+From the text, `Alt+F10` moves the keyboard focus to the menu of the selected text, link, image or table, where the table row and column operations are, or to the formatting toolbar when no menu is shown. Pressed again in a menu, it moves to the formatting toolbar. `Escape` returns to the text.
+
+The editor keeps the styles it produces: alignment, palette colors and small text. A template body written by hand, for example through the REST API, keeps any other inline style until it is opened and saved in the editor, which removes them.
 
 ## Backward Compatibility
 
