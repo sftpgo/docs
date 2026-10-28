@@ -13,6 +13,8 @@ If you define `http://127.0.0.1:9999/api/v1` as endpoint, SFTPGo will add the AP
 
 You can set a `username` and/or a `password` to instruct SFTPGo to use the basic authentication, or you can set an API key to instruct SFTPGo to add it to each API call in the `X-API-KEY` HTTP header.
 
+The equality check mode defines when two HTTP/S configurations are the same storage, which allows renames between them: by default the endpoint and the username must match, with `1` on both configurations the endpoint alone.
+
 Here is a mapping between HTTP response codes and protocol errors:
 
 - `401`, `403` mean permission denied error

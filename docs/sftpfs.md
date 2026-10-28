@@ -15,6 +15,7 @@ Here are the supported configuration parameters:
 - `Fingerprints`
 - `Prefix`
 - `BufferSize`
+- `EqualityCheckMode`
 
 The mandatory parameters are the endpoint, the username and a password or a private key. If you define both a password and a private key the key is tried first. The provided private key should be PEM encoded, something like this:
 
@@ -37,6 +38,8 @@ Specifying a prefix you can scope the account to a given path within the remote 
 Buffering can be enabled by setting a buffer size (in MB) greater than 0. By enabling buffering, the reads and writes, from/to the remote SFTP server, are split in multiple concurrent requests and this allows data to be transferred at a faster rate, over high latency networks, by overlapping round-trip times. With buffering enabled, resuming uploads and truncate are not supported and a file cannot be opened for both reading and writing at the same time. 0 means disabled.
 
 Some SFTP servers (eg. AWS Transfer) do not support opening files read/write at the same time, you can enable buffering to work with them.
+
+The equality check mode defines when two SFTP configurations are the same storage, which allows renames between them: by default the endpoint and the username must match, with `1` on both configurations the endpoint alone.
 
 ## Path confinement
 
