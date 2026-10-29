@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/s3/",
         "inLanguage": "en",
         "datePublished": "2024-04-25T16:47:14Z",
-        "dateModified": "2026-09-08T09:20:06Z",
+        "dateModified": "2026-10-29T06:41:25Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -1725,6 +1725,34 @@
     
   
     Web User Interfaces
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../theme-customization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theme Customization
   
 
     
@@ -3786,20 +3814,20 @@
 <tr>
 <td><strong>Download part size</strong></td>
 <td>5 MB</td>
-<td>5–2000 MB</td>
+<td>1–2000 MB</td>
 <td>Size of each part in a parallel download.</td>
 </tr>
 <tr>
 <td><strong>Download concurrency</strong></td>
 <td>5</td>
 <td>0–64</td>
-<td>Number of parts downloaded in parallel. Ignored for partial downloads.</td>
+<td>Number of parts downloaded in parallel.</td>
 </tr>
 <tr>
 <td><strong>Download part max time</strong></td>
 <td>0 (no limit)</td>
 <td>—</td>
-<td>Maximum seconds to download a single part. Ignored for partial downloads.</td>
+<td>Maximum seconds to download a single part.</td>
 </tr>
 </tbody>
 </table>
@@ -3811,11 +3839,14 @@
 <li>Opening a file for both reading and writing at the same time is not supported.</li>
 <li><code>rename</code> is implemented as server-side copy + delete — not atomic.</li>
 <li>Renaming non-empty directories is not supported (each object would require a separate API call).</li>
-<li>Directories are derived from object names. The key prefix of a user, or a directory inside it, exists in the bucket once an object is stored below it: right after login the root is listed as empty and no folder appears in the bucket until the first upload or the first directory created there. Nothing needs to be created beforehand, and the root itself cannot be created by an Event Manager action.</li>
+<li>Directories are derived from object names. The key prefix of a user, or a directory inside it, exists in the bucket once an object is stored below it: right after login the root is listed as empty and no folder appears in the bucket until the first upload or the first directory created there. Nothing needs to be created beforehand, and the root itself cannot be created by an Event Manager action. An object whose key has an empty, <code>.</code> or <code>..</code> segment names no entry: it is not listed, and removing the directory that holds it keeps the directory until the object is removed with the provider tools.</li>
 <li>Modification time (<code>chtime</code>) is not supported.</li>
 <li>Upload resume is disabled by default. It can be enabled for files up to a configurable size via <code>resume_max_size</code>, but requires re-uploading the entire file.</li>
 <li>A local home directory is required for temporary files, unless in-memory pipes are enabled via <code>SFTPGO_HOOK__MEMORY_PIPES__ENABLED=1</code>.</li>
 <li>Clients that require advanced filesystem-like features (e.g., <code>sshfs</code>) are not supported.</li>
+<li>Object keys are compared as written within the bucket, and two folders are the same storage only when they name the same bucket on the same endpoint. Do not map folders onto overlapping buckets or key prefixes, also through different endpoints, and keep copy targets outside their source: see <a href="../access-control/#copy-and-move-onto-the-same-entry">Copy and move onto the same entry</a>.</li>
+<li>Two folders with the same endpoint and bucket name are considered the same bucket, even if their credentials differ, and renames and copies between them run inside the bucket. Some services let one bucket name refer to different buckets depending on the access key or tenant: on these services, give each bucket a name that is unique on the endpoint.</li>
+<li>An S3-compatible service that resolves different spellings of a key to one object, for example by storing keys on a file system that ignores letter case, lets another spelling reach a restricted directory with the settings of the path as written, see <a href="../access-control/#names-that-reach-the-same-entry">Names that reach the same entry</a>.</li>
 <li>For server-side encryption with AWS-managed keys (SSE-S3 or SSE-KMS), configure the bucket's default encryption settings in the AWS Console. SFTPGo natively supports SSE-C (customer-provided keys) via the <code>SSE Customer Key</code> field.</li>
 </ul>
 
@@ -3840,7 +3871,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="October 29, 2026 06:41:25 UTC">2026-10-29 06:41:25</span>
   </span>
 
     

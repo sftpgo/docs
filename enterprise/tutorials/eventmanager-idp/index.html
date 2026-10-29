@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/tutorials/eventmanager-idp/",
         "inLanguage": "en",
         "datePublished": "2026-04-26T15:47:01Z",
-        "dateModified": "2026-09-18T07:27:47Z",
+        "dateModified": "2026-10-20T17:51:28Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -1903,6 +1903,34 @@
     
   
     Web User Interfaces
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../theme-customization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theme Customization
   
 
     
@@ -3857,7 +3885,7 @@
 <ol>
 <li>The user clicks "Sign in with OpenID" on the Web Client login page and authenticates with the IdP.</li>
 <li>SFTPGo validates the ID token and reads the username from the configured claim.</li>
-<li>A rule with the <strong>Identity Provider login</strong> trigger runs the <strong>Identity Provider account check</strong> action: the action renders a JSON user template with the data of the token and creates the user, or updates it when it exists.</li>
+<li>A rule with the <strong>Identity Provider logins</strong> trigger runs the <strong>Identity Provider account check</strong> action: the action renders a JSON user template with the data of the token and creates the user, or updates it when it exists.</li>
 <li>SFTPGo loads the user and opens the session.</li>
 </ol>
 <p>Provisioned users appear in the users list like any other user.</p>
@@ -3868,7 +3896,7 @@
 </ul>
 <p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> With provisioning enabled, every identity the IdP authenticates for SFTPGo gets an account. Limit who can sign in: restrict the client on the IdP side to the intended users or groups, or set <code>user_role_values</code> so that only identities carrying a given role claim log in. See <a href="../../oidc/#role-mapping">Role mapping</a>.</p>
 <h2 id="step-1-create-the-account-check-action">Step 1: Create the account check action</h2>
-<p>From the WebAdmin expand <strong>Event Manager</strong>, select <strong>Event actions</strong> and add an action named <code>idp user provisioning</code> of type <strong>Identity Provider account check</strong>.</p>
+<p>From the WebAdmin expand <strong>Event Manager</strong>, select <strong>Actions</strong> and add an action named <code>idp user provisioning</code> of type <strong>Identity Provider account check</strong>.</p>
 <p>In <strong>User template</strong> enter the JSON of the user to create. This template creates a user on the local disk, with a directory of its own and full permissions:</p>
 <pre><code class="language-json">{
   "username": {{toJson .Name}},
@@ -3887,9 +3915,9 @@
 <p>Leave <strong>Mode</strong> on <strong>Create or update</strong> for now; <a href="#keep-accounts-in-sync-or-create-them-once">Keep accounts in sync or create them once</a> explains the choice.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/idp-account-check.png" data-desc-position="bottom" data-gallery="idp-action"><img alt="IdP account check action" data-gallery="idp-action" src="../../assets/img/idp-account-check.png"></a></p>
 <h2 id="step-2-create-the-rule">Step 2: Create the rule</h2>
-<p>Select <strong>Event rules</strong> and add a rule named <code>IdP auto provisioning</code>:</p>
+<p>Select <strong>Rules</strong> and add a rule named <code>IdP auto provisioning</code>:</p>
 <ul>
-<li><strong>Trigger</strong>: <strong>Identity Provider login</strong>, event <strong>User login</strong>.</li>
+<li><strong>Trigger</strong>: <strong>Identity Provider logins</strong>, <strong>Type</strong>: <strong>User login</strong>.</li>
 <li><strong>Actions</strong>: <code>idp user provisioning</code> with <strong>Synchronous execution</strong> enabled.</li>
 </ul>
 <p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Synchronous execution is required: the account must exist before the login completes. An asynchronous action runs after the account lookup, and the first login fails.</p>
@@ -3906,7 +3934,7 @@
 <h2 id="keep-accounts-in-sync-or-create-them-once">Keep accounts in sync or create them once</h2>
 <p>The <strong>Mode</strong> of the action decides what happens at the logins after the first:</p>
 <ul>
-<li><strong>Create or update</strong>: the template is rendered at every login and the stored user is replaced with the result. The account follows the IdP: a changed claim, or a changed template, is applied at the next login. The settings an administrator edits in the WebAdmin are replaced too, since a field the template does not set returns to its default. The fields the user may edit from the Web Client keep their values: password, public keys, TLS certificates, description, email addresses and the API key authentication setting. To let the template own the identity data, remove the matching self-service change from the <strong>Web client/REST API</strong> options of the user or of its group: description and email addresses are then rewritten at every login.</li>
+<li><strong>Create or update</strong>: the template is rendered at every login and the stored user is replaced with the result. The account follows the IdP: a changed claim, or a changed template, is applied at the next login. The settings an administrator edits in the WebAdmin are replaced too, since a field the template does not set returns to its default. The fields the user may edit from the Web Client keep their values: password, public keys, TLS certificates, display name, description, email addresses and the API key authentication setting. To let the template own the identity data, remove the matching self-service change from the <strong>Web client/REST API</strong> options of the user or of its group: display name, description and email addresses are then rewritten at every login.</li>
 <li><strong>Create if it doesn't exist</strong>: the template is rendered for a username without an account, once. From then on the account is managed in SFTPGo and the IdP authenticates it.</li>
 </ul>
 <p>Choose the first when the IdP is the source of truth for storage and group membership, the second when administrators tune accounts after their creation.</p>
@@ -3971,7 +3999,7 @@
 <p>The same action provisions WebAdmin accounts. An identity whose role claim matches <code>role_values</code>, or that uses the admin login link with implicit roles (see <a href="../../oidc/#role-mapping">Role mapping</a>), raises an <strong>Admin login</strong> event, and the action renders <strong>Admin template</strong> instead of the user template. A minimal template:</p>
 <pre><code class="language-json">{"username": {{toJson .Name}}, "status": 1, "permissions": ["*"]}
 </code></pre>
-<p>Set the rule event to <strong>Admin login</strong>, or to <strong>Any</strong> for an action that carries both templates. The template grants its permissions to every identity with the admin role, so keep the assignment of that role on the IdP restricted to the people who administer the server.</p>
+<p>Set the <strong>Type</strong> of the rule to <strong>Admin login</strong>, or to <strong>Any</strong> for an action that carries both templates. The template grants its permissions to every identity with the admin role, so keep the assignment of that role on the IdP restricted to the people who administer the server.</p>
 
 
 
@@ -3994,7 +4022,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 18, 2026 07:27:47 UTC">2026-09-18 07:27:47</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="October 20, 2026 17:51:28 UTC">2026-10-20 17:51:28</span>
   </span>
 
     

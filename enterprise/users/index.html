@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/users/",
         "inLanguage": "en",
         "datePublished": "2026-09-08T09:20:06Z",
-        "dateModified": "2026-09-08T09:20:06Z",
+        "dateModified": "2026-10-17T09:29:45Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -1873,6 +1873,34 @@
     
   
     Web User Interfaces
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../theme-customization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theme Customization
   
 
     
@@ -3782,6 +3810,7 @@
 <h2 id="identity-and-credentials">Identity and credentials</h2>
 <ul>
 <li><strong>Username</strong>: unique across the installation and fixed once the user is created. The allowed characters are set by <code>naming_rules</code> in the <a href="../config-file/#data-provider">configuration</a>.</li>
+<li><strong>Display name</strong>: the name the Web Client shows in place of the username. The username stays the identity of the account: a display name may repeat across accounts and takes no part in the login, so it suits accounts whose username is an identifier assigned by an identity provider. A change reaches the user at the next login.</li>
 <li><strong>Status</strong> and <strong>Expiration</strong>: an inactive or expired user is refused on every protocol. The other settings stay stored, so an account is disabled and re-enabled without losing anything. A primary group sets the expiration through <strong>Expires in</strong>, as days from the creation of the user.</li>
 <li><strong>Password</strong>: stored hashed. <strong>Password expiration</strong> is the number of days a password stays valid; <strong>Require password change</strong> asks the user to set a new password from the Web Client, and the other protocols wait until it is done. Algorithms and validation rules are in <a href="../password/">Password management</a>.</li>
 <li><strong>Public keys</strong>: SSH public keys in the <code>authorized_keys</code> format: RSA from 2048 bits, ECDSA, Ed25519 and FIDO security keys (<code>sk-*</code>). A <code>from="&lt;CIDR&gt;,..."</code> option restricts a key to the listed networks, see <a href="../ssh/#restricting-a-key-to-source-addresses">Restricting a key to source addresses</a>. SSH certificates are configured on the server, see <a href="../ssh/#authentication">SSH authentication</a>.</li>
@@ -3848,10 +3877,10 @@
 <ul>
 <li><strong>Denied protocols</strong>, <strong>Allowed IP/Mask</strong>, <strong>Denied IP/Mask</strong> and <strong>Access time restrictions</strong> gate the connection. See <a href="../access-control/#ip-and-protocol-restrictions">IP and protocol restrictions</a> and <a href="../access-control/#time-based-access">Time-based access</a>.</li>
 <li><strong>Denied login methods</strong>: the credentials this user may not use among the ones the binding accepts: password, public key, keyboard-interactive, TLS certificate and, for SSH, the two-step combinations such as public key followed by password. Denying the single SSH methods and leaving a combination requires two-step authentication, see <a href="../ssh/#multi-step-authentication">Multi-step authentication</a>.</li>
-<li><strong>Enforce secure algorithms</strong> and <strong>FTP security</strong>: the first restricts the SFTP sessions of this user to secure host key, key exchange, MAC and cipher algorithms on a server that enables weaker ones too; the second requires TLS for this user on FTP bindings that allow cleartext sessions too. See <a href="../ftp/#ftp-security-filter">FTP security filter</a>.</li>
+<li><strong>Enforce secure algorithms</strong> and <strong>FTP security</strong>: the first restricts the SFTP sessions of this user to secure host key, key exchange, MAC, cipher and public key signature algorithms on a server that enables weaker ones too, see <a href="../ssh/#security-features">SSH security features</a>; the second requires TLS for this user on FTP bindings that allow cleartext sessions too. See <a href="../ftp/#ftp-security-filter">FTP security filter</a>.</li>
 </ul>
 <h2 id="web-client-and-rest-api">Web Client and REST API</h2>
-<p>From the Web Client a user manages files and shares, the profile (description, email and additional emails, public keys, TLS certificates), the password and two-factor authentication.</p>
+<p>From the Web Client a user manages files and shares, the profile (display name, description, email and additional emails, public keys, TLS certificates), the password and two-factor authentication.</p>
 <ul>
 <li><strong>Web client/REST API</strong> options remove features from this user: writes, document editing, the recursive size of directories, the REST API, each of the self-service changes above, the API key authentication setting, and the sharing options described in <a href="../tutorials/shares/">Shares</a>. An account provisioned by an identity provider or a hook is kept read-only for the user this way.</li>
 <li><strong>API key authentication</strong>: lets an API key created for this user act as the user in the REST API, see <a href="../rest-api/">REST API</a>.</li>
@@ -3873,6 +3902,7 @@
 </ul>
 <p><code>0</code> means no limit everywhere.</p>
 <p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Quota and data transfer usage are counters kept by SFTPGo: they follow what goes through it and drift when the storage changes in another way or a transfer is interrupted by a restart. Run a quota scan after changing the storage outside SFTPGo or restoring a backup, and schedule one with the <a href="../eventmanager/">Event Manager</a> where the counters must stay accurate. <code>delayed_quota_update</code> in the <a href="../config-file/#data-provider">configuration</a> batches the updates.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> An upload is admitted against the usage recorded when it starts and is capped at the space left at that moment, so uploads running at the same time each see the same free space. A periodic check, about once a minute, stops the transfers that together exceed the quota, so a burst of concurrent uploads can momentarily exceed it by roughly what the client moves within that window. Once the usage is above the quota every further upload is refused. Allow a small margin when sizing tight quotas for clients that upload in parallel.</p>
 <h2 id="groups">Groups</h2>
 <p>A user belongs to at most one primary group and to any number of secondary and membership groups. The primary and the secondary groups contribute settings to the user at login, so the stored user and the configuration that applies can differ; the <strong>Effective configuration</strong> entry of the users list shows the result. <strong>Custom placeholders</strong> are values a group can reference to derive a path per user. See <a href="../groups/">Groups</a>.</p>
 <h2 id="lifecycle">Lifecycle</h2>
@@ -3903,7 +3933,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="October 17, 2026 09:29:45 UTC">2026-10-17 09:29:45</span>
   </span>
 
     

@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/sftpfs/",
         "inLanguage": "en",
         "datePublished": "2024-04-25T16:47:14Z",
-        "dateModified": "2026-06-20T17:54:33Z",
+        "dateModified": "2026-10-22T12:24:07Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -1725,6 +1725,34 @@
     
   
     Web User Interfaces
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../theme-customization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theme Customization
   
 
     
@@ -3834,6 +3862,7 @@
 <li>The prefix is layered on a remote account that SFTPGo reaches with the configured credentials, which can access the whole account. The prefix scopes the SFTPGo <em>user</em> to a subtree; it is not a separate account.</li>
 <li>Enforcement depends on SFTPGo resolving paths on the remote, so it assumes the remote server reports file types and link targets faithfully. On a remote server you do not control, treat the prefix as a scoping convenience, not a hard isolation boundary.</li>
 <li>For strict isolation between tenants, prefer a separate remote account per tenant over different prefixes on a shared account.</li>
+<li>With a prefix set, a symbolic link whose target contains <code>\</code> is refused, since the remote server may read <code>\</code> as a directory separator or as a name character.</li>
 <li>The path is resolved and then operated on in separate steps, and the SFTP protocol has no atomic rooted operation, so a residual time-of-check/time-of-use window remains that cannot be fully closed on a remote backend: a client holding <code>create_symlinks</code> could, by winning a race, have a link followed past the prefix. Any such access stays within the remote account the configured credentials already reach. To remove this window on a remote you control, start from a tree with no symbolic links and keep symbolic-link creation disabled (the default <code>symlink_mode</code>); for isolation between tenants, prefer a separate account over a prefix (see above).</li>
 </ul>
 <p>With the default prefix <code>/</code>, the whole remote account is the root: SFTPGo performs no per-component symlink resolution and the remote server's own boundary is what applies.</p>
@@ -3868,6 +3897,7 @@ W3z8gB/i2HYVmZ/48n+/AAAACW5pY29sYUBwMQECAwQ=
 <li><code>chown</code> is not supported.</li>
 <li><code>readlink</code> on cloud storage symlinks is not supported.</li>
 <li>Clients that require advanced filesystem-like features (e.g., <code>sshfs</code>) are not supported when buffering is enabled.</li>
+<li>Restrictions below the root are matched against the requested path as written, and the remote server decides which names reach the same file or directory. To make restrictions independent of the server's naming rules, assign them at folder level: map each area that needs different settings to its own <a href="../virtual-folders/">virtual folder</a>, whose root directory is the remote path of that area, see <a href="../access-control/#names-that-reach-the-same-entry">Names that reach the same entry</a>. A copy or a move between two names the server resolves to the same entry is not recognized as such: keep copy and move targets outside their source, see <a href="../access-control/#copy-and-move-onto-the-same-entry">Copy and move onto the same entry</a>.</li>
 </ul>
 
 
@@ -3891,7 +3921,7 @@ W3z8gB/i2HYVmZ/48n+/AAAACW5pY29sYUBwMQECAwQ=
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="June 20, 2026 17:54:33 UTC">2026-06-20 17:54:33</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="October 22, 2026 12:24:07 UTC">2026-10-22 12:24:07</span>
   </span>
 
     

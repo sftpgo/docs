@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/tutorials/cloudflare/",
         "inLanguage": "en",
         "datePublished": "2026-04-30T12:30:19Z",
-        "dateModified": "2026-04-30T12:30:19Z",
+        "dateModified": "2026-10-16T18:21:06Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -1879,6 +1879,34 @@
     
   
     Web User Interfaces
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../theme-customization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theme Customization
   
 
     
@@ -3802,12 +3830,14 @@ SFTPGO_HTTPD__BINDINGS__0__UPLOAD_CHUNK_SIZE=10
 </code></pre>
 <p>Restart SFTPGo to apply. The rest of this page explains each line.</p>
 <h2 id="tls-termination-at-cloudflare">TLS termination at Cloudflare</h2>
-<p>If your SFTPGo HTTPD binding runs on plain HTTP and Cloudflare terminates TLS at its edge (so traffic from Cloudflare to SFTPGo is HTTP), also set:</p>
+<p>If your SFTPGo HTTPD binding runs on plain HTTP and Cloudflare terminates TLS at its edge (so traffic from Cloudflare to SFTPGo is HTTP), Cloudflare sends <code>X-Forwarded-Proto</code> with the scheme the visitor used, <code>https</code> for visitors on HTTPS. SFTPGo reads this header from the addresses in <code>PROXY_ALLOWED</code> above and treats those requests as HTTPS, so generated absolute URLs use <code>https://</code> and the <code>Secure</code> flag is set on cookies.</p>
+<p>To also send the <code>Strict-Transport-Security</code> header, set:</p>
 <pre><code class="language-bash">SFTPGO_HTTPD__BINDINGS__0__SECURITY__ENABLED=true
 SFTPGO_HTTPD__BINDINGS__0__SECURITY__HTTPS_PROXY_HEADERS__0__KEY="X-Forwarded-Proto"
 SFTPGO_HTTPD__BINDINGS__0__SECURITY__HTTPS_PROXY_HEADERS__0__VALUE="https"
+SFTPGO_HTTPD__BINDINGS__0__SECURITY__STS_SECONDS=31536000
 </code></pre>
-<p>This tells SFTPGo to treat requests carrying <code>X-Forwarded-Proto: https</code> as HTTPS even though the binding itself listens on plain HTTP, so that generated absolute URLs use <code>https://</code> and the <code>Secure</code> flag is set on cookies. Cloudflare adds this header on every proxied request, and <code>PROXY_ALLOWED</code> above already restricts who can set it. If your binding has its own TLS certificate (<code>enable_https = true</code>), skip this section.</p>
+<p>If your binding has its own TLS certificate (<code>enable_https = true</code>), skip this section.</p>
 <h2 id="how-it-works">How it works</h2>
 <h3 id="trusting-cloudflares-client-ip-header">Trusting Cloudflare's client IP header</h3>
 <p><code>PROXY_ALLOWED</code> is the list of upstream addresses SFTPGo accepts a client-IP header from. When a request comes from one of these IPs, SFTPGo reads the header named in <code>CLIENT_IP_PROXY_HEADER</code> and uses its value as the real client IP. Headers from any other upstream are silently ignored, so an attacker connecting directly cannot spoof their IP.</p>
@@ -3854,7 +3884,7 @@ SFTPGO_HTTPD__BINDINGS__0__SECURITY__HTTPS_PROXY_HEADERS__0__VALUE="https"
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="April 30, 2026 12:30:19 UTC">2026-04-30 12:30:19</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="October 16, 2026 18:21:06 UTC">2026-10-16 18:21:06</span>
   </span>
 
     

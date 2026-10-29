@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/google-cloud-storage/",
         "inLanguage": "en",
         "datePublished": "2024-04-25T16:47:14Z",
-        "dateModified": "2026-09-08T09:20:06Z",
+        "dateModified": "2026-10-22T12:24:07Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -1725,6 +1725,34 @@
     
   
     Web User Interfaces
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../theme-customization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theme Customization
   
 
     
@@ -3821,9 +3849,11 @@
 <li>Opening a file for both reading and writing at the same time is not supported.</li>
 <li><code>rename</code> is implemented as copy + delete for objects. With HNS enabled, folder renames are atomic.</li>
 <li>Renaming non-empty directories is not supported unless HNS is enabled.</li>
+<li>An object whose key has an empty, <code>.</code> or <code>..</code> segment names no entry: it is not listed, and removing the directory that holds it keeps the directory until the object is removed with the provider tools.</li>
 <li>Upload resume is disabled by default and requires re-uploading the entire file when enabled.</li>
 <li>A local home directory is required for temporary files, unless in-memory pipes are enabled via <code>SFTPGO_HOOK__MEMORY_PIPES__ENABLED=1</code>.</li>
 <li>Clients that require advanced filesystem-like features (e.g., <code>sshfs</code>) are not supported.</li>
+<li>Object keys are compared as written within the bucket, and two folders are the same storage only when they name the same bucket. Do not map folders onto overlapping key prefixes of a bucket, and keep copy targets outside their source: see <a href="../access-control/#copy-and-move-onto-the-same-entry">Copy and move onto the same entry</a>.</li>
 </ul>
 <p>Like Azure Blob Storage, GCS supports setting modification times via object metadata.</p>
 
@@ -3848,7 +3878,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="October 22, 2026 12:24:07 UTC">2026-10-22 12:24:07</span>
   </span>
 
     

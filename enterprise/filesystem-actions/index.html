@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/filesystem-actions/",
         "inLanguage": "en",
         "datePublished": "2026-04-26T15:47:01Z",
-        "dateModified": "2026-09-08T09:20:06Z",
+        "dateModified": "2026-10-29T06:41:25Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -1745,6 +1745,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../theme-customization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theme Customization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../email-templates/" class="md-nav__link">
         
   
@@ -2798,6 +2826,17 @@
   
     <nav class="md-nav" aria-label="PGP">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#keys-and-profile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keys and profile
+      
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#single-file-vs-directory-target" class="md-nav__link">
@@ -3990,6 +4029,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#keys-and-profile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keys and profile
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#single-file-vs-directory-target" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4201,6 +4251,7 @@
 <p>Checks whether a specified path exists. If the path does not exist, the action fails — you can use this with <strong>Stop on failure</strong> to conditionally skip subsequent actions.</p>
 <h2 id="copy">Copy</h2>
 <p>Copies one or more files or directories. Each copy entry defines a source path and a target path, both supporting placeholders. Copy is the most feature-rich filesystem action, with several options to fine-tune its behavior.</p>
+<p>Copy applies the same checks as a copy requested by a client: a copy onto its own source is refused, and a copy whose target is inside its source stops with an error when it reaches the target, also through another name on storage that can tell, see <a href="../access-control/#copy-and-move-onto-the-same-entry">Copy and move onto the same entry</a>. With <a href="#continue-on-error">Continue on error</a> a refused entry is skipped and reported with the other errors.</p>
 <h3 id="glob-patterns_1">Glob patterns</h3>
 <p>The source path can use <strong>wildcards in the last path component</strong> to select multiple entries:</p>
 <ul>
@@ -4242,6 +4293,7 @@
 <p>This is particularly useful when copying multiple files via glob patterns — one inaccessible file won't prevent the rest from being copied.</p>
 <h2 id="compress">Compress</h2>
 <p>Compresses one or more files and directories into a <strong>ZIP</strong> archive. The source paths support placeholders. Useful for bundling files before transfer or archival.</p>
+<p>When the archive is inside one of the compressed directories it is left out of the archive, also when reached through another name on storage that can tell, see <a href="../access-control/#copy-and-move-onto-the-same-entry">Copy and move onto the same entry</a>.</p>
 <h2 id="extract">Extract</h2>
 <p>Extracts <strong>ZIP</strong> archives. To mitigate common ZIP-based attacks, the following security limits are enforced by default:</p>
 <table>
@@ -4271,6 +4323,7 @@
 </tbody>
 </table>
 <p>These limits can be adjusted via <a href="../env-vars/">environment variables</a>.</p>
+<p>An entry that would be written onto the archive being extracted stops the extraction with an error and leaves the archive intact, also when the entry reaches the archive through another name on storage that can tell, see <a href="../access-control/#copy-and-move-onto-the-same-entry">Copy and move onto the same entry</a>.</p>
 <h2 id="pgp">PGP</h2>
 <p>Encrypts or decrypts files using PGP-compatible encryption. Supports both password-based encryption and PGP key pairs, with optional digital signatures for authenticity and integrity verification.</p>
 <p>When using a key pair:</p>
@@ -4278,11 +4331,19 @@
 <li><strong>Encryption</strong>: the public key is required. If a private key is also provided, it is used to <strong>sign</strong> the encrypted output.</li>
 <li><strong>Decryption</strong>: the private key is required. If a public key is also provided, it is used to <strong>verify</strong> the signature.</li>
 </ul>
+<h3 id="keys-and-profile">Keys and profile</h3>
+<p>With a key pair, the message format follows the recipient's public key. Supported keys: v4 keys such as RSA and Curve25519, v6 keys defined by RFC 9580, and post-quantum keys that combine ML-KEM with X25519 for encryption and ML-DSA with EdDSA for signatures. Decryption reads every format with any profile.</p>
+<p>The profile sets the message format for password-based encryption:</p>
+<ul>
+<li><strong>Default</strong> and <strong>RFC 4880</strong>: the format read by every OpenPGP implementation.</li>
+<li><strong>RFC 9580</strong>: Argon2 key derivation and AEAD encryption, for recipients whose tools implement RFC 9580.</li>
+</ul>
 <p>Each entry defines a source path and a target path; both support placeholders. A common pattern is to encrypt an uploaded file and store it with a <code>.pgp</code> extension:</p>
 <ul>
 <li>Source: <code>/{{.VirtualPath}}</code></li>
 <li>Target: <code>/{{.VirtualPath}}.pgp</code></li>
 </ul>
+<p>A target that is the source file is refused, since the output would overwrite the input while it is read, also when the target reaches the source through another name on storage that can tell, see <a href="../access-control/#copy-and-move-onto-the-same-entry">Copy and move onto the same entry</a>.</p>
 <h3 id="single-file-vs-directory-target">Single file vs. directory target</h3>
 <p>When the source is a literal file path, the target can be either:</p>
 <ul>
@@ -4401,7 +4462,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="October 29, 2026 06:41:25 UTC">2026-10-29 06:41:25</span>
   </span>
 
     

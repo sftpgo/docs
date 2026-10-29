@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/env-vars/",
         "inLanguage": "en",
         "datePublished": "2024-04-25T16:47:14Z",
-        "dateModified": "2026-09-08T09:20:06Z",
+        "dateModified": "2026-10-29T06:41:25Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -1862,6 +1862,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#defender" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Defender
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#admin-permissions-compatibility" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1923,6 +1934,34 @@
     
   
     Web User Interfaces
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../theme-customization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theme Customization
   
 
     
@@ -3773,6 +3812,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#defender" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Defender
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#admin-permissions-compatibility" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3881,7 +3931,7 @@
 <h2 id="syntax">Syntax</h2>
 <p><strong>SFTPGo will check for environment variables with a name matching the key uppercased and prefixed with <code>SFTPGO_</code>. Use <code>__</code> to traverse into a struct.</strong> For example:</p>
 <ul>
-<li>To set <code>common.proxy_protocol</code> to <code>1</code>, define the env var <code>SFTPGO_COMMON__PROXY_PROTOCOL</code> with value <code>1</code>.</li>
+<li>To set <code>common.proxy_protocol</code> to <code>2</code>, define the env var <code>SFTPGO_COMMON__PROXY_PROTOCOL</code> with value <code>2</code>.</li>
 <li>To set <code>webdavd.cors.enabled</code> to <code>true</code>, define the env var <code>SFTPGO_WEBDAVD__CORS__ENABLED</code> with value <code>true</code>.</li>
 </ul>
 <p>For options that are list-like, use the following syntax depending on the item type:</p>
@@ -3911,9 +3961,10 @@ SFTPGo also reads files inside the <code>env.d</code> directory relative to conf
 </ul>
 <p>However, you cannot set command flags this way because these files are read after SFTPGo starts and the config dir must already be set.
 You can also set environment variables using the method provided by your operating system.</p>
-<p><strong>Example:</strong> to enable the SFTP service on port 2222, set the proxy protocol, and configure an EventStore plugin, create a file such as <code>/etc/sftpgo/env.d/custom.env</code> with the following content:</p>
+<p><strong>Example:</strong> to enable the SFTP service on port 2222, require the proxy protocol from a load balancer, and configure an EventStore plugin, create a file such as <code>/etc/sftpgo/env.d/custom.env</code> with the following content:</p>
 <pre><code class="language-shell">SFTPGO_SFTPD__BINDINGS__0__PORT=2222
-SFTPGO_COMMON__PROXY_PROTOCOL=1
+SFTPGO_COMMON__PROXY_PROTOCOL=2
+SFTPGO_COMMON__PROXY_ALLOWED=10.0.0.10
 SFTPGO_PLUGIN_EVENTSTORE_DSN='host=127.0.0.1 port=5432 dbname=sftpgo_events user=sftpgo password=secret'
 SFTPGO_PLUGINS__0__TYPE=notifier
 SFTPGO_PLUGINS__0__NOTIFIER_OPTIONS__FS_EVENTS=upload,download,delete,rename,mkdir,rmdir
@@ -3938,8 +3989,8 @@ SFTPGO_PLUGINS__0__AUTO_MTLS=1
 <h3 id="transfers-and-storage">Transfers and storage</h3>
 <ul>
 <li><code>SFTPGO_HOOK__MEMORY_PIPES__ENABLED</code>, set to <code>1</code> to enable memory pipes. This allows fully in-memory transfers to and from cloud storage backends, eliminating the need for temporary disk files.</li>
-<li><code>SFTPGO_HOOK__MEMORY_PIPES__SPARSE_RETENTION</code>, in bytes, applies to SFTP downloads when memory pipes are enabled. A client that reads a file out of order, for example selected ranges of a large archive, is served by keeping this amount of data behind the earliest position it is still reading and releasing what lies before it. Default: <code>4194304</code> (4 MB), enough for common SFTP clients. A read of released data fails with an error naming the requested offset and the lowest offset still available: if downloads fail this way, raise the value by at least the difference. <code>0</code> never releases data: a client reading out of order then waits until it also reads the data in between, and can appear stalled.</li>
 <li><code>SFTPGO_HOOK__DISABLE_DOT_ENTRIES</code>, set to <code>1</code> to hide <code>.</code> and <code>..</code> entries from SFTP directory listings.</li>
+<li><code>SFTPGO_HOOK__FTPFS_MAX_LIST_ENTRIES</code>, sets the maximum number of entries in a directory listing on <a href="../ftpfs/">FTP storage backends</a>: listing a larger directory, or running an operation that reads it whole such as a quota scan, returns an error. <code>0</code> removes the limit. Default: <code>50000</code>.</li>
 <li><code>SFTPGO_HOOK__AUTO_FOLDERS</code>, set to <code>1</code> to let the pre-login, external authentication and plugin authentication hooks create or update the virtual folders they define in the returned user. Available with SQL data providers, see <a href="../dynamic-user-mod/#auto-created-virtual-folders">auto-created virtual folders</a>.</li>
 </ul>
 <h3 id="cloud-storage-backends">Cloud storage backends</h3>
@@ -3983,6 +4034,10 @@ SFTPGO_PLUGINS__0__AUTO_MTLS=1
 <li><code>SFTPGO_HOOK__AUTH_PLUGIN_PATH</code>, absolute path to the <code>sftpgo-plugin-auth</code> binary, registered automatically when the LDAP configuration is set from the WebAdmin UI. Example on Linux: <code>/usr/bin/sftpgo-plugin-auth</code>. Example on Windows: <code>C:\\Program Files\\SFTPGo Enterprise\\sftpgo-plugin-auth.exe</code>.</li>
 <li><code>SFTPGO_HOOK__ENABLE_TLS_UI</code>, set to <code>1</code> to add the TLS certificate configuration section in the WebAdmin UI. Allows uploading a certificate and private key that will be used as the default TLS certificate for the selected protocols (HTTPS, FTPS, WebDAV). Mutually exclusive with automatic certificates (Let's Encrypt/ACME).</li>
 </ul>
+<h3 id="defender">Defender</h3>
+<ul>
+<li><code>SFTPGO_HOOK__DEFENDER_MAX_OPEN_CONNECTIONS_PER_HOST</code>, the maximum number of HTTP and WebDAV connections one IP address can hold open when <a href="../defender/#incomplete-connections"><code>max_incomplete_connections</code></a> is enabled. Idle keep-alive connections count, unlike <code>max_per_host_connections</code>, which counts the requests in progress. Default: <code>1000</code>; <code>0</code> removes the limit. Raise it for many browser clients behind a single address, such as a corporate NAT.</li>
+</ul>
 <h3 id="admin-permissions-compatibility">Admin permissions compatibility</h3>
 <ul>
 <li><code>SFTPGO_HOOK__LEGACY_ADMIN_PERMS</code>, set to <code>1</code> to restore the umbrella semantics where the admin permissions <code>manage_groups</code> and <code>manage_folders</code> also grant view and delete on the respective catalogs, and admins without <code>view_groups</code> / <code>view_folders</code> can still attach groups and folders to users via the user save endpoints. Useful during the migration from the previous permission model to the new granular split. The flag will be removed in a future major version. See <a href="../admin-permissions/">Admin Permissions</a> for the full granular model and recommended migration steps.</li>
@@ -4017,7 +4072,7 @@ SFTPGO_PLUGINS__0__AUTO_MTLS=1
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="October 29, 2026 06:41:25 UTC">2026-10-29 06:41:25</span>
   </span>
 
     

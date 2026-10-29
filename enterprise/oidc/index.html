@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/oidc/",
         "inLanguage": "en",
         "datePublished": "2024-04-25T16:47:14Z",
-        "dateModified": "2026-09-14T13:14:33Z",
+        "dateModified": "2026-10-20T17:51:28Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -1725,6 +1725,34 @@
     
   
     Web User Interfaces
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../theme-customization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theme Customization
   
 
     
@@ -4306,7 +4334,7 @@
 <p>The OpenID Connect section of the WebAdmin Configurations page covers the settings most deployments need and stores them in the data provider. To add the section, set the following environment variable before starting SFTPGo:</p>
 <pre><code class="language-shell">SFTPGO_HOOK__ENABLE_OIDC_UI=1
 </code></pre>
-<p>See <a href="../env-vars/#variable-sources">environment variables</a> for where to define it on your platform. After the restart, open <strong>Server Manager &gt; Configurations &gt; OpenID Connect</strong>, fill in the form and click <strong>Submit</strong>. The submitted configuration URL is verified against the provider's discovery document, and a service restart applies the configuration.</p>
+<p>See <a href="../env-vars/#variable-sources">environment variables</a> for where to define it on your platform. After the restart, open <strong>Server Manager &gt; Configurations &gt; OpenID Connect</strong>, fill in the form and click <strong>Save</strong>. The saved configuration URL is verified against the provider's discovery document, and a service restart applies the configuration.</p>
 <p>The stored configuration is global: every HTTP binding offers the OpenID login, and the flow completes on the address configured as <code>redirect_base_url</code>. Configure the bindings in the configuration file, or through environment variables, when different bindings serve different IdP configurations.</p>
 <p>Each form field maps to a configuration parameter:</p>
 <table>
@@ -4565,7 +4593,7 @@
 <h2 id="account-provisioning">Account provisioning</h2>
 <p>The mapped username must correspond to an existing SFTPGo user or admin. If the account does not exist at login time, authentication fails. There are two ways to automatically provision accounts:</p>
 <h3 id="event-manager-recommended">Event Manager (recommended)</h3>
-<p>Create an Event Manager rule with an <strong>Identity Provider login</strong> trigger and an <strong>Identity Provider account check</strong> action. This action uses Go templates to generate the user or admin object from the ID token claims, and can either create the account on first login or update it on every login.</p>
+<p>Create an Event Manager rule with an <strong>Identity Provider logins</strong> trigger and an <strong>Identity Provider account check</strong> action. This action uses Go templates to generate the user or admin object from the ID token claims, and can either create the account on first login or update it on every login.</p>
 <p>Custom IdP fields are available in templates as <code>{{.IDPFields.fieldname}}</code>. See the <a href="../placeholders/">Placeholders &amp; Templates</a> reference.</p>
 <h3 id="pre-login-hook">Pre-login hook</h3>
 <p>Alternatively, use a <a href="../dynamic-user-mod/">pre-login hook</a> to create or modify users dynamically. Custom fields configured in <code>custom_fields</code> are passed to the hook in the <code>oidc_custom_fields</code> field of the JSON payload.</p>
@@ -4613,7 +4641,7 @@
 <p>SFTPGo does not poll the Identity Provider, so revoking an account that already has local credentials requires one of:</p>
 <ul>
 <li>Disable (set the status to inactive) or delete the account through the <a href="../rest-api/">REST API</a>, driven by your IdP's user-lifecycle automation.</li>
-<li>Gate access at login with an <strong>Identity Provider login</strong> Event Manager rule or a <a href="../dynamic-user-mod/">pre-login hook</a>. These run at OIDC login time, so combine them with the restrictions above when the account also allows SSH/FTP/WebDAV, otherwise direct protocol logins bypass the check.</li>
+<li>Gate access at login with an <strong>Identity Provider logins</strong> Event Manager rule or a <a href="../dynamic-user-mod/">pre-login hook</a>. These run at OIDC login time, so combine them with the restrictions above when the account also allows SSH/FTP/WebDAV, otherwise direct protocol logins bypass the check.</li>
 </ul>
 <h2 id="pkce-without-client-secret">PKCE without client secret</h2>
 <p>SFTPGo completes the authorization code exchange from the server: it stores the client secret encrypted in the data provider, or reads it from <code>client_secret_file</code>. Configure <code>client_secret</code> whenever the Identity Provider issues one for the application.</p>
@@ -4757,7 +4785,7 @@ SFTPGO_HTTPD__BINDINGS__0__OIDC__ROLE_FIELD="sftpgo_role"
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 14, 2026 13:14:33 UTC">2026-09-14 13:14:33</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="October 20, 2026 17:51:28 UTC">2026-10-20 17:51:28</span>
   </span>
 
     

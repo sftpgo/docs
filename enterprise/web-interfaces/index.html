@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/web-interfaces/",
         "inLanguage": "en",
         "datePublished": "2024-04-25T16:47:14Z",
-        "dateModified": "2026-09-08T09:20:06Z",
+        "dateModified": "2026-10-22T07:35:09Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -1918,6 +1918,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#accessibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Accessibility
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#internationalization" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1932,6 +1943,34 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../theme-customization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theme Customization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -3802,6 +3841,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#accessibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Accessibility
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#internationalization" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3878,13 +3928,13 @@
 
 
 <h1 id="web-user-interfaces">Web User Interfaces</h1>
-<p>SFTPGo provides two web interfaces, both available with dark and light themes.</p>
+<p>SFTPGo provides two web interfaces, both available with dark and light themes. Colors, sidebar, typography, logos and names can be adapted to your brand, see <a href="../theme-customization/">Theme customization</a>.</p>
 <h2 id="webadmin">WebAdmin</h2>
 <p>The WebAdmin UI allows administrators to create and manage users, groups, virtual folders, event rules, and other server resources.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/initial-screen.png" data-desc-position="bottom" data-gallery="initial screen"><img alt="Initial Screen" data-gallery="initial screen" src="../assets/img/initial-screen.png"></a></p>
 <p>With the default configuration it is served on port <code>8080</code>: <a href="http://127.0.0.1:8080/web/admin" target="_blank">http://127.0.0.1:8080/web/admin</a> from a browser running on the server itself, <code>http://&lt;server_address&gt;:8080/web/admin</code> from anywhere else, because the binding listens on all network interfaces. <a href="#network-access">Network access</a> covers ports, interfaces and reverse proxies.</p>
 <p>On first access (when no admin exists in the data provider), SFTPGo presents a setup screen to create the initial admin account. You can also pre-create an admin by loading initial data or by setting the environment variables <code>SFTPGO_DEFAULT_ADMIN_USERNAME</code> and <code>SFTPGO_DEFAULT_ADMIN_PASSWORD</code> (with <code>create_default_admin</code> enabled in the data provider configuration).</p>
-<p>Until an admin account exists, the setup screen is available to anyone who can reach the WebAdmin. Set an <code>installation_code</code> in the <a href="../config-file/#setup"><code>setup</code></a> configuration to require a shared code before the first account can be created.</p>
+<p>Until an admin account exists, the setup screen is available to anyone who can reach the WebAdmin. Set an <code>installation_code</code> in the <a href="../config-file/#setup"><code>setup</code></a> configuration to require a shared code before the first account can be created, or pre-create the first admin before exposing the WebAdmin.</p>
 <h2 id="webclient">WebClient</h2>
 <p>The WebClient UI gives end users a browser-based file manager. Users can browse and manage their files, change credentials, and configure two-factor authentication.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/web-client-files.png" data-desc-position="bottom" data-gallery="client-files"><img alt="WebClient files" data-gallery="client-files" src="../assets/img/web-client-files.png"></a></p>
@@ -3939,10 +3989,12 @@ SFTPGO_HTTPD__BINDINGS__1__ENABLE_WEB_CLIENT=false
 SFTPGO_HTTPD__BINDINGS__0__CLIENT_IP_PROXY_HEADER="X-Forwarded-For"
 </code></pre>
 <p>The header is read only from the listed addresses, so a client connecting to SFTPGo directly cannot choose the address SFTPGo records. When several proxies are in the path, <code>X-Forwarded-For</code> carries a chain of addresses and <code>client_ip_header_depth</code> selects which one to trust, counting from the right. The client address is what <a href="../defender/">brute force protection</a>, <a href="../rate-limiting/">rate limiting</a>, <a href="../ip-lists/">IP lists</a>, per-user IP filters and the audit log all work on, so it is worth configuring before publishing an instance.</p>
-<p><strong>TLS terminated at the proxy.</strong> When the proxy serves HTTPS to clients and plain HTTP to SFTPGo, declare the header it adds so that generated absolute URLs use <code>https://</code> and cookies carry the <code>Secure</code> flag:</p>
+<p><strong>TLS terminated at the proxy.</strong> When the proxy serves HTTPS to clients and plain HTTP to SFTPGo, have it send <code>X-Forwarded-Proto: https</code>. SFTPGo reads this header from the addresses listed in <code>proxy_allowed</code> and treats the request as HTTPS: cookies carry the <code>Secure</code> flag and generated absolute URLs use <code>https://</code>. If the last hop before SFTPGo sends <code>X-Forwarded-Proto: http</code>, for example a second load balancer listening on HTTP, requests are treated as plain HTTP: the WebClient and the REST API work, chunked uploads included, and cookies are sent without the <code>Secure</code> flag.</p>
+<p>To send the <code>Strict-Transport-Security</code> header on these requests, declare the header in the <code>security</code> block as well:</p>
 <pre><code class="language-bash">SFTPGO_HTTPD__BINDINGS__0__SECURITY__ENABLED=true
 SFTPGO_HTTPD__BINDINGS__0__SECURITY__HTTPS_PROXY_HEADERS__0__KEY="X-Forwarded-Proto"
 SFTPGO_HTTPD__BINDINGS__0__SECURITY__HTTPS_PROXY_HEADERS__0__VALUE="https"
+SFTPGO_HTTPD__BINDINGS__0__SECURITY__STS_SECONDS=31536000
 </code></pre>
 <p>Skip this when the binding has its own certificate and the proxy connects to it over HTTPS.</p>
 <p><strong>Host name.</strong> Have the proxy forward the original <code>Host</code> header, or list the header that carries it in <code>hosts_proxy_headers</code>, typically <code>X-Forwarded-Host</code>. <code>allowed_hosts</code> restricts the host names a binding answers on. WebDAV <code>COPY</code> and <code>MOVE</code> need the original host name: see <a href="../webdav/#reverse-proxy">Reverse proxy</a>. Both settings live in the <a href="../config-file/#security"><code>security</code></a> block of the binding.</p>
@@ -3971,6 +4023,16 @@ SFTPGO_HTTPD__BINDINGS__0__SECURITY__HTTPS_PROXY_HEADERS__0__VALUE="https"
 <p>Certificates can be automatically managed via the built-in <a href="../tutorials/lets-encrypt-certificate/">ACME protocol</a> (Let's Encrypt).</p>
 <h3 id="content-security-policy">Content Security Policy</h3>
 <p>SFTPGo supports strict Content Security Policies — neither <code>unsafe-eval</code> nor <code>unsafe-inline</code> are required. Configure CSP and other security headers in the <code>security</code> section of the <code>httpd</code> configuration.</p>
+<h2 id="accessibility">Accessibility</h2>
+<p>The WebAdmin and the WebClient are developed to meet the Web Content Accessibility Guidelines (WCAG) 2.2 at level AA:</p>
+<ul>
+<li>every control is reachable and operable from the keyboard, with a visible focus indicator;</li>
+<li>form fields, buttons and icons carry accessible names, translated into every supported language;</li>
+<li>text and interface components meet the WCAG contrast minimums in both the light and the dark theme;</li>
+<li>text follows the size set in the browser.</li>
+</ul>
+<p>An Accessibility Conformance Report based on VPAT 2.5 is available on request.</p>
+<p>A custom theme can change colors and focus indicators: <a href="../theme-customization/#keyboard-focus-and-form-controls">Theme customization</a> lists the contrast each one needs.</p>
 <h2 id="internationalization">Internationalization</h2>
 <p>SFTPGo uses the <a href="https://www.i18next.com/" target="_blank">i18next</a> framework for internationalization. The following languages are supported: English, Italian, German, French, Spanish, Hungarian, and Chinese (Simplified).</p>
 
@@ -3995,7 +4057,7 @@ SFTPGO_HTTPD__BINDINGS__0__SECURITY__HTTPS_PROXY_HEADERS__0__VALUE="https"
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="October 22, 2026 07:35:09 UTC">2026-10-22 07:35:09</span>
   </span>
 
     

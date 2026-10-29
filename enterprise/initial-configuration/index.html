@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/initial-configuration/",
         "inLanguage": "en",
         "datePublished": "2024-04-25T16:47:14Z",
-        "dateModified": "2026-09-08T09:20:06Z",
+        "dateModified": "2026-10-29T06:41:25Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -1962,6 +1962,34 @@
     
   
     Web User Interfaces
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../theme-customization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theme Customization
   
 
     
@@ -3964,9 +3992,9 @@
 <p>From the <strong>Status</strong> page you can see the active services and their configuration. The default configuration enables the SFTP service on port <code>2022</code> and uses an embedded data provider (<code>SQLite</code> or <code>bolt</code> based on the target OS and architecture).</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/status.png" data-desc-position="bottom" data-gallery="status"><img alt="Status" data-gallery="status" src="../assets/img/status.png"></a></p>
 <h2 id="create-your-first-user">Create your first user</h2>
-<p>Navigate to <strong>Users</strong> and click the <code>+</code> icon to add a new user.</p>
+<p>Navigate to <strong>Users</strong> and click <strong>Add</strong> to create a new user.</p>
 <p>The minimum required fields are <strong>Username</strong> and a <strong>Password</strong> or <strong>Public key</strong> (at least one).</p>
-<p>If you installed SFTPGo from the official packages on Linux, the default <code>users_base_dir</code> is <code>/srv/sftpgo/data</code>, so the home directory is automatically set to <code>/srv/sftpgo/data/&lt;username&gt;</code>. If you installed manually or on Windows and no <code>users_base_dir</code> is configured, you must also specify the <strong>Home Dir</strong> as an absolute path (e.g., <code>/srv/sftpgo/data/username</code> or <code>C:\sftpgo\data\username</code>).</p>
+<p>If you installed SFTPGo from the official packages on Linux, the default <code>users_base_dir</code> is <code>/srv/sftpgo/data</code>, so the home directory is automatically set to <code>/srv/sftpgo/data/&lt;username&gt;</code>. If you installed manually or on Windows and no <code>users_base_dir</code> is configured, you must also specify the <strong>Root directory</strong>, in the <strong>File system</strong> card, as an absolute path (e.g., <code>/srv/sftpgo/data/username</code> or <code>C:\sftpgo\data\username</code>).</p>
 <p>SFTPGo automatically creates the home directory when the user logs in for the first time.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/add-user.png" data-desc-position="bottom" data-gallery="add-user"><img alt="Add user" data-gallery="add-user" src="../assets/img/add-user.png"></a></p>
 <p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> On Linux, SFTPGo runs as a dedicated <code>sftpgo</code> system user for security. To use directories outside <code>/srv/sftpgo</code>, you must set the appropriate system-level permissions. Parent directories must also be readable by the <code>sftpgo</code> user.</p>
@@ -4019,8 +4047,9 @@ file.txt                                      100% 4034     4.0MB/s   00:00
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/local-encrypted.png" data-desc-position="bottom" data-gallery="cryptfs-user"><img alt="Encrypted filesystem" data-gallery="cryptfs-user" src="../assets/img/local-encrypted.png"></a></p>
 <h3 id="virtual-folders-and-permissions">Virtual folders and permissions</h3>
 <p><a href="../virtual-folders/">Virtual folders</a> map paths in a user's namespace to directories outside their home or on different storage backends. This allows combining local storage, S3 buckets, and remote SFTP servers under a single user, each with independent quota limits.</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/add-folder.png" data-desc-position="bottom" data-gallery="add-folder"><img alt="Add folder" data-gallery="add-folder" src="../assets/img/add-folder.png"></a>
-<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/virtual-folders.png" data-desc-position="bottom" data-gallery="virtual-folders"><img alt="Virtual Folders" data-gallery="virtual-folders" src="../assets/img/virtual-folders.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/add-folder.png" data-desc-position="bottom" data-gallery="add-folder"><img alt="Add folder" data-gallery="add-folder" src="../assets/img/add-folder.png"></a></p>
+<p>Then open the user created earlier and, in the <strong>Virtual folders</strong> section, select the folder and enter the <strong>Mount path</strong> where the user sees it, for example <code>/vdirlocal</code>.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/virtual-folders.png" data-desc-position="bottom" data-gallery="virtual-folders"><img alt="Virtual Folders" data-gallery="virtual-folders" src="../assets/img/virtual-folders.png"></a></p>
 <p>SFTPGo also supports <a href="../virtual-folders/">per-directory permissions</a>. Each user has global permissions that can be overridden on specific paths — for example, full access by default but read-only on <code>/reports</code>.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../assets/img/virtual-permissions.png" data-desc-position="bottom" data-gallery="virtual-perms"><img alt="Permissions" data-gallery="virtual-perms" src="../assets/img/virtual-permissions.png"></a></p>
 <h3 id="groups-and-roles">Groups and roles</h3>
@@ -4036,7 +4065,7 @@ file.txt                                      100% 4034     4.0MB/s   00:00
 <li><strong>Data retention</strong> — automatically delete or archive files older than a configurable threshold.</li>
 <li><strong>Auto provisioning</strong> — create user accounts automatically when they log in through an Identity Provider.</li>
 <li><strong>Cross-backend transfers</strong> — copy uploaded files to a different S3 bucket, archive to an external SFTP server, or compress files into ZIP archives.</li>
-<li><strong>Recycle bin</strong> — move files to a recycle folder instead of deleting them.</li>
+<li><strong>Recycle bin</strong> — copy files to a recycle folder before they are deleted or overwritten.</li>
 <li><strong>PGP encryption/decryption</strong> — automatically encrypt or decrypt files after upload.</li>
 </ul>
 <p>All actions support <a href="../placeholders/">placeholders and templates</a> with full Go template syntax — conditions, loops, and helper functions.</p>
@@ -4066,7 +4095,7 @@ file.txt                                      100% 4034     4.0MB/s   00:00
 <p>Beyond SFTP, SFTPGo supports <strong><a href="../ftp/">FTP/FTPS</a></strong> and <strong><a href="../webdav/">WebDAV</a></strong>. These protocols are disabled by default and can be enabled via configuration. The same users, permissions, storage backends, and event rules apply across all protocols.</p>
 <p>See <a href="../configuration-examples/">Configuration examples</a> for setup instructions.</p>
 <h2 id="custom-branding">Custom branding</h2>
-<p>From <strong>Server Manager &gt; Configurations &gt; Branding</strong>, you can customize the name, logo, favicon, and add a disclaimer (e.g., a link to your Privacy Policy) to the login page of both the WebAdmin and WebClient.</p>
+<p>From <strong>Server Manager &gt; Configurations &gt; Branding</strong>, you can customize the name, logo, favicon, and add a disclaimer (e.g., a link to your Privacy Policy) to the login page of both the WebAdmin and WebClient. The disclaimer also appears on every page shown without signing in, such as the public share pages and the error pages, so visitors of a share without a password see it too.</p>
 <h2 id="configuration">Configuration</h2>
 <p>SFTPGo can be configured via environment variables or a configuration file. We recommend environment variables — they are stable across versions and easy to manage.</p>
 <p>See the <a href="../config-file/">Configuration reference</a> for all parameters and <a href="../configuration-examples/">Configuration examples</a> for common setups (PostgreSQL, MySQL, FTP, WebDAV).</p>
@@ -4092,7 +4121,7 @@ file.txt                                      100% 4034     4.0MB/s   00:00
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="October 29, 2026 06:41:25 UTC">2026-10-29 06:41:25</span>
   </span>
 
     

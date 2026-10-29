@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/config-file/",
         "inLanguage": "en",
         "datePublished": "2024-04-25T16:47:14Z",
-        "dateModified": "2026-09-18T07:27:47Z",
+        "dateModified": "2026-10-29T06:41:25Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -2497,6 +2497,34 @@
     
   
     Web User Interfaces
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../theme-customization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theme Customization
   
 
     
@@ -5083,13 +5111,13 @@
 <td><code>proxy_protocol</code></td>
 <td>integer</td>
 <td><code>0</code></td>
-<td><a href="https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt" target="_blank">HAProxy PROXY protocol</a> support. Supported for SSH/SFTP and FTP/S. See modes below.</td>
+<td><a href="https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt" target="_blank">HAProxy PROXY protocol</a> support. Supported for SSH/SFTP, FTP/S and the HTTP and WebDAV bindings that set <code>proxy_mode</code> to <code>1</code>. See modes below.</td>
 </tr>
 <tr>
 <td><code>proxy_allowed</code></td>
 <td>list of strings</td>
 <td>empty</td>
-<td>IP addresses and ranges allowed to send the proxy header. If <code>proxy_protocol</code> is <code>1</code>, connections from unlisted IPs are accepted but the header is ignored. If <code>proxy_protocol</code> is <code>2</code>, connections from unlisted IPs are rejected.</td>
+<td>IP addresses and ranges allowed to send the proxy header. If <code>proxy_protocol</code> is <code>1</code>, connections from unlisted IPs are accepted but the header is ignored. If <code>proxy_protocol</code> is <code>2</code>, connections from unlisted IPs are rejected, except those in <code>proxy_skipped</code>.</td>
 </tr>
 <tr>
 <td><code>proxy_skipped</code></td>
@@ -5234,11 +5262,11 @@
 </tr>
 <tr>
 <td><code>1</code></td>
-<td>Enabled. The proxy header is always read. If the upstream IP is not in <code>proxy_allowed</code>, the header is ignored (but the connection is accepted). Use <code>proxy_skipped</code> to allow specific IPs/networks to connect without sending or having their proxy header read.</td>
+<td><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Deprecated, it will be removed in a future version: use <code>2</code> and list the clients that connect directly in <code>proxy_skipped</code>. The proxy header is optional. The server reads the first bytes of each connection to look for it, so a client that waits for the server to speak first, as FTP clients do, receives the welcome message after up to 10 seconds. Headers from IP addresses outside <code>proxy_allowed</code> are ignored. Connections from the IP addresses and networks in <code>proxy_skipped</code> are served without reading the header.</td>
 </tr>
 <tr>
 <td><code>2</code></td>
-<td>Required. The proxy header is always read. If the upstream IP is not in <code>proxy_allowed</code> and a proxy header is found, the connection is rejected. Use <code>proxy_skipped</code> to allow specific IPs/networks to connect without sending or having their proxy header read.</td>
+<td>Connections from the IP addresses in <code>proxy_allowed</code> must send the proxy header. Connections from the IP addresses and networks in <code>proxy_skipped</code> are served without reading the header: list there the clients that connect directly. Connections from any other IP address are rejected.</td>
 </tr>
 </tbody>
 </table>
@@ -5328,13 +5356,13 @@
 <td><code>ban_time_increment</code></td>
 <td>integer</td>
 <td><code>50</code></td>
-<td>Ban time increment as a percentage if a banned host tries to connect again.</td>
+<td>Percentage of <code>ban_time</code> added to the ban of a host at each connection it opens while banned, and at each of its HTTP and WebDAV requests; the extension is at least one minute. Minimum value <code>1</code>. With <code>max_incomplete_connections</code> enabled, a host refused before the handshake extends its ban about once a minute instead.</td>
 </tr>
 <tr>
 <td><code>threshold</code></td>
 <td>integer</td>
 <td><code>15</code></td>
-<td>Score threshold for banning a client.</td>
+<td>Score at which a host is banned.</td>
 </tr>
 <tr>
 <td><code>score_invalid</code></td>
@@ -5358,13 +5386,13 @@
 <td><code>score_no_auth</code></td>
 <td>integer</td>
 <td><code>0</code></td>
-<td>Score for clients disconnected without any authentication attempt.</td>
+<td>Score for SSH and FTP connections closed before a login attempt.</td>
 </tr>
 <tr>
 <td><code>observation_time</code></td>
 <td>integer</td>
 <td><code>30</code></td>
-<td>Time window in minutes for tracking client errors. A host is banned if its score exceeds the threshold within this period.</td>
+<td>Time window in minutes for tracking client errors. A host is banned when its score reaches the threshold within this period.</td>
 </tr>
 <tr>
 <td><code>entries_soft_limit</code></td>
@@ -5377,6 +5405,12 @@
 <td>integer</td>
 <td><code>150</code></td>
 <td>For the <code>memory</code> driver, the number of banned IPs and host scores kept in memory varies between the soft and hard limits. For the <code>provider</code> driver, this limits the number of entries returned when listing all defender hosts.</td>
+</tr>
+<tr>
+<td><code>max_incomplete_connections</code></td>
+<td>integer</td>
+<td><code>0</code></td>
+<td>Number of incomplete connections within a minute, closed before a login attempt or before their TLS handshake completes, at which a source is reported to the defender. <code>0</code> disables the check. See <a href="../defender/#incomplete-connections">Incomplete connections</a>.</td>
 </tr>
 </tbody>
 </table>
@@ -5515,8 +5549,8 @@
 <tr>
 <td><code>key_type</code></td>
 <td>string</td>
-<td><code>4096</code></td>
-<td>Key type for private keys. Supported values: <code>2048</code> (RSA 2048), <code>3072</code> (RSA 3072), <code>4096</code> (RSA 4096), <code>8192</code> (RSA 8192), <code>P256</code> (EC 256), <code>P384</code> (EC 384).</td>
+<td><code>P256</code></td>
+<td>Key type for private keys. Supported values: <code>2048</code> (RSA 2048), <code>3072</code> (RSA 3072), <code>4096</code> (RSA 4096), <code>8192</code> (RSA 8192), <code>P256</code> (EC 256), <code>P384</code> (EC 384). A new key of this type is generated at each renewal, so a change applies to each certificate at its next renewal.</td>
 </tr>
 <tr>
 <td><code>certs_path</code></td>
@@ -6958,7 +6992,7 @@
 <td><code>proxy_allowed</code></td>
 <td>list of strings</td>
 <td></td>
-<td>IP addresses and ranges allowed to set client IP proxy headers (<code>X-Forwarded-For</code>, <code>X-Real-IP</code>, etc.). Headers set by connections from addresses not in this list are silently ignored.</td>
+<td>IP addresses and ranges allowed to set client IP proxy headers (<code>X-Forwarded-For</code>, <code>X-Real-IP</code>, etc.) and <code>X-Forwarded-Proto</code>. A request from these addresses carrying <code>X-Forwarded-Proto: https</code> is treated as HTTPS. Headers set by connections from addresses not in this list are silently ignored.</td>
 </tr>
 <tr>
 <td><code>client_ip_proxy_header</code></td>
@@ -7298,7 +7332,7 @@
 <td><code>https_proxy_headers</code></td>
 <td>list of structs</td>
 <td></td>
-<td>Each struct has <code>key</code> and <code>value</code> fields. Defines headers that indicate a valid HTTPS request (e.g., <code>key</code>: <code>X-Forwarded-Proto</code>, <code>value</code>: <code>https</code>).</td>
+<td>Each struct has <code>key</code> and <code>value</code> fields (e.g., <code>key</code>: <code>X-Forwarded-Proto</code>, <code>value</code>: <code>https</code>). A request carrying one of these headers with the given value receives the <code>Strict-Transport-Security</code> header configured by <code>sts_seconds</code>. Cookies, redirects and generated URLs follow <code>X-Forwarded-Proto</code> from the addresses in the binding's <code>proxy_allowed</code>.</td>
 </tr>
 <tr>
 <td><code>sts_seconds</code></td>
@@ -7410,7 +7444,7 @@
 <td><code>disclaimer_name</code></td>
 <td>string</td>
 <td></td>
-<td>Name for your optional disclaimer.</td>
+<td>Name for your optional disclaimer. The link is shown on every page displayed without signing in: login, public shares, error pages.</td>
 </tr>
 <tr>
 <td><code>disclaimer_path</code></td>
@@ -7432,6 +7466,7 @@
 </tr>
 </tbody>
 </table>
+<p>See <a href="../theme-customization/">Theme customization</a> for the variables the interfaces expose and a stylesheet listing their default values.</p>
 <h3 id="cors_1">cors</h3>
 <p>CORS configuration. SFTPGo uses <a href="https://github.com/rs/cors" target="_blank">Go CORS handler</a>; refer to upstream documentation for field semantics and default values.</p>
 <table>
@@ -7903,6 +7938,24 @@
 <p>See <a href="../cli/#rotating-the-master-key-without-downtime">rotating the master key without downtime</a> for the full procedure.</p>
 <h2 id="multi-factor-authentication">Multi-factor authentication</h2>
 <p>Configuration parameters for the <code>mfa</code> section.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>disable_recovery_codes</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>Set to <code>true</code> to turn off recovery codes for users and admins. No codes are generated, the stored ones stop working and are deleted the next time the account is saved, and the web UIs show no recovery option. An account that loses its second factor is recovered by an administrator who disables two-factor authentication for it; the last administrator can use the <a href="../cli/#restoring-access-for-an-administrator"><code>resetadmin</code></a> command.</td>
+</tr>
+</tbody>
+</table>
 <h3 id="totp">TOTP</h3>
 <p>The <code>totp</code> field is a list of structs that define settings for time-based one-time passwords (RFC 6238). Each struct has the following fields:</p>
 <table>
@@ -7971,7 +8024,7 @@
 <td><code>user</code></td>
 <td>string</td>
 <td>empty</td>
-<td>SMTP username.</td>
+<td>SMTP username. With the OAuth2 authentication type it is the mailbox the access token is valid for: when empty, the address set in <code>from</code> is used.</td>
 </tr>
 <tr>
 <td><code>password</code></td>
@@ -8041,10 +8094,16 @@
 <td>OAuth2 provider. <code>0</code> = Google, <code>1</code> = Microsoft.</td>
 </tr>
 <tr>
+<td><code>grant_type</code></td>
+<td>integer</td>
+<td><code>0</code></td>
+<td>How access tokens are obtained. <code>0</code> = authorization code, using the configured refresh token. <code>1</code> = client credentials, using the application credentials alone, available with the Microsoft provider. See <a href="../tutorials/oauth2-smtp-imap/">OAuth2 for SMTP and IMAP</a>.</td>
+</tr>
+<tr>
 <td><code>tenant</code></td>
 <td>string</td>
 <td>empty</td>
-<td>Azure Active Directory tenant for the Microsoft provider. Typical values are <code>common</code>, <code>organizations</code>, <code>consumers</code>, or a tenant identifier. If empty, <code>common</code> is used.</td>
+<td>Azure Active Directory tenant for the Microsoft provider. Typical values are <code>common</code>, <code>organizations</code>, <code>consumers</code>, or a tenant identifier. If empty, <code>common</code> is used. The client credentials grant type accepts a tenant identifier or <code>organizations</code>.</td>
 </tr>
 <tr>
 <td><code>client_id</code></td>
@@ -8062,7 +8121,7 @@
 <td><code>refresh_token</code></td>
 <td>string</td>
 <td>empty</td>
-<td>OAuth2 refresh token. The WebAdmin can obtain one from the SMTP configuration page: complete the authorization in the browser that started it.</td>
+<td>OAuth2 refresh token, used with the authorization code grant type. The WebAdmin can obtain one from the SMTP configuration page: complete the authorization in the browser that started it.</td>
 </tr>
 </tbody>
 </table>
@@ -8180,7 +8239,7 @@
 <td><code>log_events</code></td>
 <td>list of integers</td>
 <td>empty</td>
-<td>Log events to notify. <code>1</code> = Login failed, <code>2</code> = Login with non-existent user, <code>3</code> = No login tried, <code>4</code> = Algorithm negotiation failed, <code>5</code> = Login succeeded, <code>6</code> = Share legal agreement accepted.</td>
+<td>Log events to notify. <code>1</code> = Login failed, <code>2</code> = Login with non-existent user, <code>3</code> = No login tried, <code>4</code> = Algorithm negotiation failed, <code>5</code> = Login succeeded, <code>6</code> = Share legal agreement accepted, <code>7</code> = Administrator login failed, <code>8</code> = Login with non-existent administrator, <code>9</code> = Administrator login succeeded.</td>
 </tr>
 <tr>
 <td><code>retry_max_time</code></td>
@@ -8287,7 +8346,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 18, 2026 07:27:47 UTC">2026-09-18 07:27:47</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="October 29, 2026 06:41:25 UTC">2026-10-29 06:41:25</span>
   </span>
 
     

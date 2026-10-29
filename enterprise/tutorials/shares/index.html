@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/tutorials/shares/",
         "inLanguage": "en",
         "datePublished": "2025-10-09T07:54:50Z",
-        "dateModified": "2026-09-08T09:20:06Z",
+        "dateModified": "2026-10-29T06:41:25Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -1226,6 +1226,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#restricting-recipient-email-domains" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restricting Recipient Email Domains
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#delegating-share-management" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1238,10 +1249,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#administrator-configuration-webadmin" class="md-nav__link">
+  <a href="#group-share-policy-webadmin" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Administrator Configuration (WebAdmin)
+        Group Share Policy (WebAdmin)
       
     </span>
   </a>
@@ -2079,6 +2090,34 @@
     
   
     Web User Interfaces
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../theme-customization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theme Customization
   
 
     
@@ -3962,6 +4001,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#restricting-recipient-email-domains" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restricting Recipient Email Domains
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#delegating-share-management" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3974,10 +4024,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#administrator-configuration-webadmin" class="md-nav__link">
+  <a href="#group-share-policy-webadmin" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Administrator Configuration (WebAdmin)
+        Group Share Policy (WebAdmin)
       
     </span>
   </a>
@@ -4209,7 +4259,7 @@
 <p>Next, configure the sharing options. You can define the access level—read, write, or read/write—to control what actions recipients are allowed to perform.</p>
 <p>To enable email-based authentication, enter one or more email addresses and check the "Email authentication" option.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/webclient_config_share.png" data-desc-position="bottom" data-gallery="webclient-config-share"><img alt="WebClient add share" data-gallery="webclient-config-share" src="../../assets/img/webclient_config_share.png"></a></p>
-<p>You can also require recipients to accept a (customizable) legal agreement before accessing the share. Additionally, you can set an expiration date, limit the maximum number of accesses, and restrict access to specific IP addresses or networks.</p>
+<p>You can also require recipients to accept a (customizable) legal agreement before accessing the share, an option available when <code>SFTPGO_HOOK__HAS_SHARE_LEGAL_AGREEMENT</code> is set to <code>1</code> (see <a href="../../env-vars/">environment variables</a>). Additionally, you can set an expiration date, limit the maximum number of accesses, and restrict access to specific IP addresses or networks.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/webclient_config_share1.png" data-desc-position="bottom" data-gallery="webclient-config-share"><img alt="WebClient add share advanced" data-gallery="webclient-config-share" src="../../assets/img/webclient_config_share1.png"></a></p>
 <p>To share content with external users, go to the "Shares" page, click the "Link" icon next to the desired share, and copy the access URL. In most cases, a single directory will be shared.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/webclient_share_link.png" data-desc-position="bottom" data-gallery="webclient-share-link"><img alt="WebClient share link" data-gallery="webclient-share-link" src="../../assets/img/webclient_share_link.png"></a></p>
@@ -4232,7 +4282,7 @@
 <p>Upon accessing the share, users see a simple upload interface that displays:</p>
 <ul>
 <li>The name of the share, to provide context.</li>
-<li>Options to select files manually or use drag and drop for quick uploads.</li>
+<li>Options to select files or a whole folder, or to drop them onto the page. A folder is uploaded with its directory structure.</li>
 </ul>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/webclient_write_only_share.png" data-desc-position="bottom" data-gallery="webclient-w-share"><img alt="WebClient read only share" data-gallery="webclient-w-share" src="../../assets/img/webclient_write_only_share.png"></a></p>
 <h3 id="readwrite-shares">Read/write Shares</h3>
@@ -4282,42 +4332,58 @@ denied:  /projects/confidential
 <p>Both fields are textareas in the user or group settings, in the "Sharing" card of the "ACLs" section of the WebAdmin UI. Enter one or more virtual paths separated by commas.</p>
 <p>When configured at the group level, both lists are inherited additively by group members and deduplicated with any user-level entries.</p>
 <p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> A group-level <strong>Denied share paths</strong> entry holds against a user-level <strong>Allowed share paths</strong> entry for the same path: on a tie the denied entry wins. A user-level allowed entry deeper than the denied path wins instead, as in the nested override example above, so a hard restriction must be reviewed against the allowed entries of the members.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Both lists are checked against the path being shared, not against its content. With <code>/sensitive</code> denied, the user can still share <code>/</code>, and that share serves <code>/sensitive</code> too. To keep a subtree out of every share, use <strong>Allowed share paths</strong> to limit sharing to directories that do not contain it, or deny its parent directories as well.</p>
 <p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Both filters match the virtual path of the share. A symbolic link placed beneath a shareable path is dereferenced, as on every other protocol, so its target is served through the share. Where these filters must hold, keep symbolic-link creation disabled — its default <a href="../../config-file/#symbolic-links-and-permissions"><code>symlink_mode</code></a> — and provision the shareable subtrees accordingly.</p>
-<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Tightening either filter takes effect immediately, including for shares that already exist: if a previously-shared path is no longer allowed (or is now denied), the share starts returning 404 on next access until the filter is relaxed or the share is removed.</p>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Tightening either filter takes effect immediately, including for shares that already exist: if a previously-shared path is no longer allowed (or is now denied), the share reads as missing until the filter is relaxed or the share is removed.</p>
 <h2 id="restricting-share-scopes">Restricting Share Scopes</h2>
 <p>Administrators can also restrict which share scopes (read, write, read/write) users are allowed to use by configuring the <strong>Denied share scopes</strong> filter.</p>
 <p>For example, denying the "read/write" scope forces users to create either read-only or write-only shares, but not combined read/write shares. This is useful when you want to enforce a clear separation between upload-only and download-only shares.</p>
 <p>If all three scopes are denied, sharing is completely disabled for the user — equivalent to setting the "shares-disabled" web client option.</p>
+<h2 id="restricting-recipient-email-domains">Restricting Recipient Email Domains</h2>
+<p>The <strong>Allowed share email domains</strong> filter limits share recipients to the listed email domains. When the list is set:</p>
+<ul>
+<li>Every share uses <a href="#create-a-share-with-email-authentication">email authentication</a>, and the share form selects it by default.</li>
+<li>Every recipient address belongs to one of the listed domains. Domains match exactly, regardless of case: to accept addresses of both <code>example.com</code> and <code>sub.example.com</code>, list both.</li>
+</ul>
+<p>The field is a textarea in the user or group settings, in the "Sharing" card of the "ACLs" section of the WebAdmin UI. Enter one or more domains separated by commas, for example <code>example.com, example.net</code>.</p>
+<p>The lists of the user, of its primary group and of its secondary groups are combined: an address is accepted when its domain appears in any of them.</p>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> The list applies to existing shares as well, from the moment it is set: a share is served while it uses email authentication and every recipient belongs to one of the listed domains, and any other share reads as missing until it is updated or the list allows it.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> The filter decides who can open the share link. A recipient can pass the downloaded files on, and the share owner can download the same files through the other protocols enabled for the account. Combine the filter with the protocols and permissions granted to the user.</p>
 <h2 id="delegating-share-management">Delegating Share Management</h2>
-<p>By default, a public share is managed only by the user who created it. However, in collaborative environments, you may need to allow colleagues to manage your shares for example, to extend an expiration date or revoke access while you are on vacation.</p>
-<p>SFTPGo allows you to associate one or more groups with a share. When a share is assigned to a group, other users within that group (who have the necessary permissions) can view and manage the share, with specific limitations to ensure security and data consistency.</p>
-<p>This feature ensures business continuity and allows teams to collaboratively manage external data exchange without relying on a single account.</p>
+<p>By default, a public share is managed only by the user who created it. To let colleagues manage it, for example to extend an expiration date or revoke access while the owner is away, the owner associates the share with one or more groups. The other members of each group see the share in their list and act on it according to the permissions granted to that group:</p>
+<ul>
+<li><strong>Read</strong>: view its details, such as the link.</li>
+<li><strong>Edit</strong>: modify its settings, such as the expiration date.</li>
+<li><strong>Delete</strong>: revoke the share.</li>
+</ul>
 <p>Only the owner can modify shared paths (files and folders), access scope (read/write), and group associations. File paths are tied to the specific context of the user who created the share (e.g., a virtual path like <code>/docs</code> may map to different storage backends, or to different locations within the same backend, depending on the user).</p>
-<p>To enable share delegation, a specific configuration is required on the server side (WebAdmin), which then enables the feature for users in the WebClient.</p>
-<h3 id="administrator-configuration-webadmin">Administrator Configuration (WebAdmin)</h3>
-<p>Administrators can define the Share Policy within the "ACLs" section of a group's configuration. The policy controls how shares created by group members are automatically associated with the group.</p>
+<p>The owner can associate a share with any of the groups they belong to. The association is set from the WebClient, as described below, or through the REST API.</p>
+<p>When the group exists only to delegate share management, the way the users are added to it decides how their shares get associated:</p>
+<ul>
+<li>as a <a href="../../groups/">membership group</a>: the group applies no settings, and the owners select it on each share themselves;</li>
+<li>as a secondary group: a <a href="#group-share-policy-webadmin">share policy</a> on the group can also associate their shares automatically.</li>
+</ul>
+<h3 id="group-share-policy-webadmin">Group Share Policy (WebAdmin)</h3>
+<p>A share policy on a group associates the shares created by its members with that group automatically. The policy is optional: without it, owners choose the groups themselves. It is defined within the "ACLs" section of a group's configuration.</p>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> The policy is a group setting, and a membership group applies no settings: the policy reaches only the users who belong to the group as <strong>primary</strong> or <strong>secondary</strong> group. The type is not a property of the group but is chosen for each user, in the user's page, so the same group can be secondary for one user and membership for another. For the users who have the group under <strong>Membership groups</strong> the policy does nothing: their shares are associated with the group only when they select it in the Group Access section. To associate their shares automatically, move the group to their <strong>Secondary groups</strong>: a group that defines only the share policy adds nothing else to them.</p>
 <p>The policy consists of the Permissions granted to other group members (Read, Edit, Delete) and the Mode:</p>
 <ul>
-<li><strong>Enforced</strong>: The share policy is mandatory. Every share created by a user in this group is automatically associated with the group using the defined permissions. The user cannot remove this association.</li>
-<li><strong>Suggested</strong>: The share policy is pre-selected by default when creating a share, but the user is free to modify the permissions or remove the group association entirely.</li>
+<li><strong>Mandatory (Enforced)</strong>: The share policy is mandatory. Every share created by a user in this group is automatically associated with the group using the defined permissions. The user cannot remove this association.</li>
+<li><strong>Suggested (Removable)</strong>: The share policy is pre-selected by default when creating a share, but the user is free to modify the permissions or remove the group association entirely.</li>
 </ul>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/share_policy.png" data-desc-position="bottom" data-gallery="webadmin-share-policy"><img alt="WebAdmin Share Policy" data-gallery="webadmin-share-policy" src="../../assets/img/share_policy.png"></a></p>
+<p>The <code>shares-policy-change-disabled</code> WebClient option, set on a user or inherited from a group, hides the group access settings from the user: their shares are associated only with the groups whose policy is mandatory.</p>
 <h3 id="user-experience-webclient">User Experience (WebClient)</h3>
-<p>When users create or edit a share in the WebClient UI, they can control the group access based on the policy configured by the administrator.</p>
+<p>When the owner belongs to at least one group, the share page of the WebClient shows a <strong>Group Access</strong> section, which lists the groups the owner belongs to. Groups with a mandatory policy are added automatically, groups with a suggested policy are pre-selected.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/share_group_access.png" data-desc-position="bottom" data-gallery="webclient-group-access"><img alt="WebClient Group Access" data-gallery="webclient-group-access" src="../../assets/img/share_group_access.png"></a></p>
-<p>In the example above, the "Read" permission was granted for "group1". This results in the following behavior:</p>
-<ul>
-<li>Visibility: All members of "group1" will see this share in their list, in addition to the shares they created themselves.</li>
-<li>Access: Because only "Read" was granted, they can view the share details (e.g., the link) but cannot modify its settings or delete it.</li>
-</ul>
-<p>If "Edit" or "Delete" permissions were granted, members of "group1" would also be able to modify the share's settings (such as the expiration date) or revoke the share entirely.</p>
+<p>In the example above, the "Read" permission was granted for "group1": all members of "group1" see this share in their list, in addition to the shares they created themselves, and can view its details, such as the link, but cannot modify its settings or delete it.</p>
 <h2 id="automatically-send-share-links">Automatically Send Share Links</h2>
 <p>Administrators can configure an Event Manager rule and corresponding action from the WebAdmin UI to automatically send an email notification to all email addresses associated with a share whenever a new share is created.
 The email includes the access link, ensuring that recipients are promptly notified without requiring any manual steps.</p>
 <p>From the WebAdmin UI, create an email action similar to the example below.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/webadmin_action_add_share_notification.png" data-desc-position="bottom" data-gallery="webadmin-add-share-notify"><img alt="WebAdmin action add share notification" data-gallery="webadmin-add-share-notify" src="../../assets/img/webadmin_action_add_share_notification.png"></a></p>
 <p>Use the <code>{{.Email}}</code> placeholder to automatically insert the email addresses associated with the share—these are the recipients who can authenticate to access it.</p>
-<p>The share access URL follows this format:</p>
+<p>In the body, select the text of the link, click <strong>Insert Link</strong> in the menu that appears over the selection, or in the editor toolbar, and enter the share access URL, which follows this format:</p>
 <pre><code class="language-shell">https://sftp.example.com/web/client/pubshares/{{.ObjectName | urlPathEscape }}/browse
 </code></pre>
 <p>Where:</p>
@@ -4326,6 +4392,7 @@ The email includes the access link, ensuring that recipients are promptly notifi
 <li><code>{{.ObjectName}}</code> expands to the ID of the share.</li>
 <li>The <code>urlPathEscape</code> helper function ensures the share ID is properly URL-encoded.</li>
 </ul>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/webadmin_email_select_word_insert_link.png" data-desc-position="bottom" data-gallery="webadmin-email-editor"><img alt="WebAdmin email editor select word insert link" data-gallery="webadmin-email-editor" src="../../assets/img/webadmin_email_select_word_insert_link.png"></a></p>
 <p>Finally, create an Event Manager rule that triggers this action whenever a new share is created.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/webadmin_rule_add_share_notification.png" data-desc-position="bottom" data-gallery="webadmin-add-share-notify"><img alt="WebAdmin rule add share notification" data-gallery="webadmin-add-share-notify" src="../../assets/img/webadmin_rule_add_share_notification.png"></a>
 <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/webadmin_rule_add_share_notification1.png" data-desc-position="bottom" data-gallery="webadmin-add-share-notify"><img alt="WebAdmin rule add share notification1" data-gallery="webadmin-add-share-notify" src="../../assets/img/webadmin_rule_add_share_notification1.png"></a></p>
@@ -4413,7 +4480,7 @@ This share has been removed permanently.
 <p>Finally, create a Rule to execute these actions periodically.</p>
 <ol>
 <li>Go to <strong>Event Manager</strong> -&gt; <strong>Rules</strong> and click <strong>Add</strong>.</li>
-<li><strong>Trigger</strong>: Select <strong>Schedule</strong>.</li>
+<li><strong>Trigger</strong>: Select <strong>Schedules</strong>.</li>
 <li><strong>Schedule</strong>: Define how often to run the check (e.g., daily at 02:00 AM).</li>
 <li><strong>Actions</strong>: Add the actions created in the previous steps in the following order:<ol>
 <li>The <strong>Share expiration check</strong> action.</li>
@@ -4455,7 +4522,7 @@ This share has been removed permanently.
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="October 29, 2026 06:41:25 UTC">2026-10-29 06:41:25</span>
   </span>
 
     

@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/access-control/",
         "inLanguage": "en",
         "datePublished": "2026-06-20T17:54:33Z",
-        "dateModified": "2026-09-08T09:20:06Z",
+        "dateModified": "2026-10-25T18:53:55Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -925,6 +925,34 @@
     <span class="md-ellipsis">
       
         How path-based restrictions are evaluated
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How path-based restrictions are evaluated">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#names-that-reach-the-same-entry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Names that reach the same entry
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#copy-and-move-onto-the-same-entry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Copy and move onto the same entry
       
     </span>
   </a>
@@ -1918,6 +1946,34 @@
     
   
     Web User Interfaces
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../theme-customization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theme Customization
   
 
     
@@ -3754,6 +3810,34 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="How path-based restrictions are evaluated">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#names-that-reach-the-same-entry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Names that reach the same entry
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#copy-and-move-onto-the-same-entry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Copy and move onto the same entry
+      
+    </span>
+  </a>
+  
 </li>
       
         <li class="md-nav__item">
@@ -4001,6 +4085,8 @@
 <li><strong>Precedence:</strong> the most specific (deepest) matching path always wins.</li>
 </ul>
 <p>In the WebAdmin the <strong>Permissions</strong> field of the user holds the permissions of <code>/</code>, and the <strong>Per-directory permissions</strong> section holds one entry per path. Wildcards are supported in paths: <code>/incoming/*</code> matches any directory within <code>/incoming</code>.</p>
+<p>On local storage on Windows a wildcard path ignores the letter case of ASCII letters: the path and the directory are compared with their ASCII letters in lowercase. Write ranges with letters of one case (<code>[a-z]</code> or <code>[A-Z]</code>): a range that mixes letters with other characters changes meaning once lowercased, so <code>[A-z]</code> matches only what <code>[a-z]</code> matches and <code>[Z-a]</code> matches nothing. Letters outside ASCII are compared as written in the component that holds the wildcard and in the components after it: for a directory whose settings must hold for every spelling of its name, use a literal path, see <a href="#names-that-reach-the-same-entry">Names that reach the same entry</a>. On every other storage a wildcard path is matched as written, letter case included.</p>
+<p>When more than one wildcard path matches a directory at the same depth, which one applies is not defined: write wildcard paths that do not overlap. On local storage on Windows the comparison ignores letter case, so two paths that do not overlap elsewhere can overlap there: <code>/Data/*</code> and <code>/da*a/x</code> both match <code>/Data/x</code>.</p>
 <p>For example, to allow a user to work only inside <code>/account/custom</code> within a tree mounted at <code>/account</code>, grant the desired permissions on <code>/account/custom</code> and give <code>/account/inbound</code> and <code>/account/outbound</code> an entry with no permissions selected:</p>
 <table>
 <thead>
@@ -4065,11 +4151,13 @@
 <li>Allowed patterns are checked first; a name that matches one is accepted even if it would also match a denied pattern.</li>
 <li>A non-empty allowed list means <strong>deny by default</strong>: anything that does not match an allowed pattern is denied. An empty allowed list means <strong>allow by default</strong>: everything is accepted except names matching a denied pattern.</li>
 </ul>
+<p>Patterns are stored in lowercase and compared with the name in lowercase, on every platform and storage, following the Unicode case rules: a pattern matches every case variant of a name that Unicode recognizes, including some that a file system can keep as distinct names, such as the Kelvin sign <code>K</code> for <code>k</code>. Write letters in lowercase, ranges included (<code>[a-z]</code>): a range that mixes uppercase letters with other characters changes meaning once lowercased, <code>[Z-a]</code> becomes <code>[z-a]</code>, which matches nothing.</p>
 <p>A filter describes the names <em>inside</em> the path it is defined on, so a filter on <code>/data</code> governs the entries of <code>/data</code>, not the name <code>data</code> itself. Under the <strong>hide</strong> policy the distinction shows up when a directory is read by name: a directory hidden by a filter defined on one of its parents is reported as missing, while a directory whose own filter hides all of its entries is reported as empty.</p>
 <p>Listing and transfers follow the same rule, so a filter that hides every name in a directory denies every transfer there as well, uploads included: denying <code>*</code> on <code>/</code> under the hide policy leaves the user with an empty listing and no way to upload. To keep uploads working, deny the names that must stay hidden and leave the names users upload allowed.</p>
 <p>A name filter is matched whenever a directory name comes into existence: when the directory is explicitly created, renamed or copied, and when it is created as a missing parent on behalf of the user. Writing into a directory whose name is denied but that already exists stays allowed, unless the name is hidden. On the cloud storage backends directory entries are derived from object keys and no parent is ever created, so a permitted upload can still bring a denied path prefix into existence there. Use the <code>create_dirs</code> permission to control where directories may be created.</p>
 <p>A filter is attached to a virtual path and does not follow a directory that is moved: after a rename, the entries the directory carried are governed by whatever applies at the new location. When a filter is defined on the moved tree or on the target tree, or the two paths inherit different filters, the entries are authorized one at a time, as described for <a href="#how-each-operation-is-checked">renaming a directory</a>; with the same filters on both paths the directory is renamed in one operation.</p>
-<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Matching is on the name, so file pattern filters are a visibility and transfer control, not a content filter. A rule that denies <code>*.exe</code> matches the name only, and the same content uploaded as <code>*.txt</code> is allowed. Use them to organize what is listed and to block transfers by name; to control which directories a user can reach, rely on storage isolation, virtual folders, or per-directory permissions.</p>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> File pattern filters match names, not content: a rule that denies <code>*.exe</code> matches the name only, and the same content uploaded as <code>*.txt</code> is allowed. Use them to organize what is listed and to block transfers by name, and <a href="../tutorials/eventmanager-icap/">ICAP</a> or hooks to inspect content.</p>
+<p>A pattern matches a name when their lowercase forms match, on every storage. A storage can also resolve other spellings to the same file. On local storage on Windows, short names in their usual form, with a <code>~</code>, and names ending with a dot or a space are refused, so a file is reached by its long name; other spellings that the storage treats as equal although their lowercase forms differ, such as another Unicode normalization of the same letters, or a short name that a remote server resolves to the file, are not matched by a pattern written for the long name. To keep files out of a user's reach, place them where the user has no access, through storage isolation, virtual folders or per-directory permissions, rather than relying on a pattern; see <a href="#names-that-reach-the-same-entry">Names that reach the same entry</a> for how each storage resolves spellings.</p>
 <h3 id="examples">Examples</h3>
 <p><strong>Allow only images in a directory.</strong> Only the matching names can be uploaded, downloaded or listed in <code>/photos</code>; <code>report.txt</code> is denied because the allowed list is non-empty.</p>
 <table>
@@ -4163,6 +4251,34 @@
 </tr>
 </tbody>
 </table>
+<p><strong>Allow chosen directory names, with any content inside.</strong> With <code>*</code> as the denied pattern, the allowed patterns describe the names directly inside the path, and the content of each allowed directory is free of the filter. With the filter below, a user can create <code>/outbox/alice@example.com</code> and upload <code>/outbox/alice@example.com/report.pdf</code>, while creating <code>/outbox/archive</code> is refused.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Path</td>
+<td><code>/outbox</code></td>
+</tr>
+<tr>
+<td>Allowed patterns</td>
+<td><code>*@example.com</code></td>
+</tr>
+<tr>
+<td>Denied patterns</td>
+<td><code>*</code></td>
+</tr>
+<tr>
+<td>Deny policy</td>
+<td>Default</td>
+</tr>
+</tbody>
+</table>
+<p>Leaving the denied patterns empty changes the result: like any filter, the one on <code>/outbox</code> then also applies inside its subdirectories, so <code>report.pdf</code> is refused in <code>/outbox/alice@example.com</code> because its name does not match <code>*@example.com</code>.</p>
 <p><strong>Inheritance with an override.</strong> A filter on <code>/</code> applies to the whole tree; a more specific filter on <code>/incoming</code> relaxes or tightens the rule just there. The deepest matching path wins, exactly like permissions.</p>
 <table>
 <thead>
@@ -4209,11 +4325,44 @@
 </tbody>
 </table>
 <h2 id="how-path-based-restrictions-are-evaluated">How path-based restrictions are evaluated</h2>
-<p>Per-directory permissions, <a href="#file-pattern-filters">file pattern filters</a>, allowed and denied <a href="../tutorials/shares/#restricting-shareable-paths">share paths</a>, and every other setting keyed on a path are evaluated against the <strong>virtual path the client requests</strong>, not against the physical location that path ultimately resolves to. The configured restrictions belong to the requested path; they do not follow a redirection in the underlying storage.</p>
+<p>Per-directory permissions, <a href="#file-pattern-filters">file pattern filters</a>, allowed and denied <a href="../tutorials/shares/#restricting-shareable-paths">share paths</a>, and every other setting keyed on a path are evaluated against the <strong>virtual path the client requests</strong>, not against the physical location that path ultimately resolves to. The configured restrictions belong to the requested path; they do not follow a redirection in the underlying storage. On local storage on Windows, the spellings of a name that the storage resolves to the same entry, such as its letter case variants, count as that name, see <a href="#names-that-reach-the-same-entry">Names that reach the same entry</a>.</p>
 <p>When the storage redirects one path to another, through a symbolic link, a Windows junction, a bind mount, a hard link, or any similar operating-system or configuration mechanism, SFTPGo applies the restrictions configured for the path the client named. If <code>/path1</code> resolves to <code>/path2</code>, the access decision uses what is configured for <code>/path1</code>, <strong>even when <code>/path2</code> is configured with stricter restrictions</strong>. A tighter configuration on <code>/path2</code> does not protect it from access through <code>/path1</code>, and the restrictions defined for <code>/path2</code> are not consulted. A public share is a boundary of the same kind: it is evaluated on the virtual path requested through the share link, so a symbolic link beneath a shared path is dereferenced and its target is served through the share even when it sits elsewhere in the owner's tree.</p>
 <p>The practical consequence is that these restrictions are only as strong as the storage layout beneath them. SFTPGo confines symbolic links to the user's accessible area and disables link creation by default (<a href="../config-file/#symbolic-links-and-permissions"><code>symlink_mode</code></a>), but what the filesystem itself presents beneath a home directory is served as it appears: a mount point, a Linux bind mount and a special filesystem such as <code>/proc</code> are traversed like ordinary directories, see <a href="../localfs/#symbolic-links">Local filesystem</a>. Provision the storage so its directory structure reflects the boundaries you intend, and do not place a link, junction, or mount inside a user's tree that points at a location you restrict elsewhere.</p>
 <p>More generally, SFTPGo trusts the storage backend. What the storage reports, the structure it presents, the names it returns, the file types and the metadata it declares, is taken as authoritative, and the restrictions described here are layered on top of it. Content written to the storage outside SFTPGo, by another tool or directly on the filesystem, is served as it is reported.</p>
+<p>A requested path uses both <code>/</code> and <code>\</code> as directory separators, on every protocol, and restrictions apply to the path as read, so the names SFTPGo creates never contain <code>\</code>. An entry whose name contains <code>\</code> is left out of directory listings, since a request reads <code>\</code> as a separator: removing the directory that holds it deletes the rest of its contents and keeps the directory. Rename or delete such an entry directly on the storage.</p>
 <p>The <a href="#per-directory-permissions"><code>create_symlinks</code> permission</a> is itself path-based and bidirectional: a directory that grants it can both host links and have its entries made the target of links created elsewhere. The check is on the directory that contains the target, so everything below a directory that grants it can be reached through a link, a subdirectory that restricts operations included, under the permissions of the directory holding the link. A user holding <code>create_symlinks</code> in two directories can link one to the other and reach either under the more permissive directory's rights. Do not grant <code>create_symlinks</code> on a directory when it, or any directory below it, restricts operations, and see <a href="../config-file/#symbolic-links-and-permissions">Symbolic links and permissions</a> for the full interaction.</p>
+<h3 id="names-that-reach-the-same-entry">Names that reach the same entry</h3>
+<p>A storage can resolve several spellings of a name to one file or directory. On Windows, by default, names that differ only in letter case reach the same entry, and so do the short name the volume generates for a long name (<code>PASTAR~1</code> for <code>Pasta Riservata</code>) and a name followed by dots or spaces. Remote servers, network shares and object storage services follow naming rules of their own.</p>
+<p><strong>Local storage on Windows.</strong> This covers the local filesystem and its <a href="../dare/">encrypted variant</a>. The settings configured for a path apply to every spelling that reaches the same file or directory: per-directory permissions, file pattern filters and allowed and denied share paths configured for <code>/private</code> apply to <code>/PRIVATE</code> and <code>/Private/sub</code> as well, and those configured for <code>/étude</code> apply to <code>/ÉTUDE</code> when the storage resolves it to that directory. Short names in their usual form, with a <code>~</code>, and names ending with a dot or a space are refused for every operation, so files and directories are reached by their long name: a short name is reported as missing, a name ending with a dot or a space as not allowed.</p>
+<p>Which names reach the same entry is decided by the storage, from what the volume or share reports, see <a href="../localfs/#file-names-on-windows">File names on Windows</a>. SFTPGo asks the storage only when both the requested name and the configured path contain letters outside ASCII: if the storage treats a name as equal to a configured path where only one of the two contains such letters, that name reaches the directory with its own settings, not with those of the configured path.</p>
+<p><strong>Every other storage</strong>, local storage on Linux included, SFTP, FTP and HTTP storage, S3, Google Cloud Storage and Azure Blob, matches restrictions against the requested path as written, and the storage decides which spellings reach the same entry. Storage that matches names exactly has no other spelling to reach. Storage that does not, such as a Linux file system or directory set to ignore letter case, a network share mounted on Linux, a remote server running on Windows or an object storage service that keeps its keys on a case-insensitive file system, lets another spelling of a restricted directory reach it with the settings of the path as written. To make restrictions independent of the storage's naming rules, assign them at folder level: map each area that needs different settings to its own <a href="../virtual-folders/">virtual folder</a>. A virtual folder is reached only through its exact mount path, so the folder and the settings assigned to its mount path hold whatever spelling a client uses.</p>
+<p>On local storage on Windows, keep the configuration unambiguous:</p>
+<ul>
+<li>Use one spelling per directory in permissions, file pattern filters, share paths and mount paths, across user and group settings too. When two configured paths name the same directory with different spellings, the settings of one of them apply, and which one is not defined.</li>
+<li>Configured paths are compared as written: a path written with a short name, through a link or a junction, or as another spelling of a path configured elsewhere is a different path for every comparison. Write each path with long names, in the spelling the storage holds.</li>
+<li>A spelling of a virtual folder's mount path other than the configured one names the directory with that name on the parent's storage, not the folder, as on every platform. When settings are defined for the mount path or for a path below it, such a spelling is refused.</li>
+<li>Renaming a directory to a name that the storage cannot yet compare with the configured paths of the target directory is refused, since the target does not exist before the rename: this is the case for a name with letters outside ASCII next to configured paths with letters outside ASCII. Create the directory and move the contents into it.</li>
+<li>Every directory named by a configured path must be readable by the account SFTPGo runs as. When one of them cannot be read, the other directories with names outside ASCII next to it are refused, together with what they contain.</li>
+<li>A directory set to distinguish letter case (<code>fsutil file setCaseSensitiveInfo</code>) is treated like the rest of the volume: a name that differs from a configured path only in the case of ASCII letters gets that path's settings, even where the directory holds it as a separate entry. Give directories that need different settings distinct names, not case variants.</li>
+<li>A short name is recognized by its form: up to eight characters, with an optional extension of up to three, containing a <code>~</code> followed by a letter or a digit, the form of the short names Windows and Samba generate with a numeric or hashed tail. A name of that form is refused when it reaches an entry whose long name is different, so a file whose own name has that form stays reachable. A short name in another form, such as one assigned explicitly by an administrator or one a volume generates without <code>~</code>, is not recognized: do not assign short names, and keep short-name generation disabled on volumes that generate them without <code>~</code>.</li>
+<li>For a configured path with letters outside ASCII, the storage can compare a spelling with it only once the directory exists: an operation authorized while the directory is missing, then created by another session under another spelling, runs with the settings of the parent.</li>
+</ul>
+<h2 id="copy-and-move-onto-the-same-entry">Copy and move onto the same entry</h2>
+<p>SFTPGo refuses a copy, a move or an Event Manager action that would overwrite or replace its own source, also when the target is another name of it, such as a spelling the storage resolves to it, a hard link, a symbolic link, or a directory reached through a link or a mount, as far as the storage can tell (see <a href="#names-that-reach-the-same-entry">Names that reach the same entry</a>):</p>
+<ul>
+<li>local storage, on every platform: from the identity the storage reports for each file and directory;</li>
+<li>SFTP, FTP and HTTP storage: by the path as written, the remote server decides which names are equivalent;</li>
+<li>S3, Google Cloud Storage and Azure Blob: by the object key as written, and two folders are the same storage only when they name the same bucket or container.</li>
+</ul>
+<p>Keep the source and the target of copies, moves and actions in separate directories, and do not map two virtual folders onto overlapping locations of the same storage, directly, through a link, or through overlapping buckets, containers or prefixes.</p>
+<p>A rename that only changes the spelling of a name, such as <code>report.txt</code> to <code>Report.txt</code>, renames the entry in place: it needs no <code>overwrite</code> permission and leaves the quota unchanged.</p>
+<p>Limits:</p>
+<ul>
+<li>Storage that does not report a unique, persistent identity for each file cannot tell two names of one file apart: a copy of a file onto another name of itself is then not refused and empties the file.</li>
+<li>A copy into a directory inside its own source under another name stops with an error when it reaches the target, keeping what was copied until then; where the source cannot be read through the names being written, the copy stops at the maximum directory depth instead.</li>
+<li>A directory moved into a virtual folder mapped inside the directory itself stops with an error; the entries moved until then stay inside the source tree.</li>
+<li>The checks run before the operation: an entry another session creates or replaces in the meantime is not seen. Symbolic-link creation is disabled by default, see <a href="../config-file/#symbolic-links-and-permissions">Symbolic links and permissions</a>.</li>
+</ul>
 <h2 id="ip-and-protocol-restrictions">IP and protocol restrictions</h2>
 <p>You can gate the connection itself, independently of the filesystem:</p>
 <ul>
@@ -4259,7 +4408,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="October 25, 2026 18:53:55 UTC">2026-10-25 18:53:55</span>
   </span>
 
     

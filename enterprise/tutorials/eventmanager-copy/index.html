@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/tutorials/eventmanager-copy/",
         "inLanguage": "en",
         "datePublished": "2026-04-26T15:47:01Z",
-        "dateModified": "2026-09-08T09:20:06Z",
+        "dateModified": "2026-10-29T06:41:25Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -1943,6 +1943,34 @@
     
   
     Web User Interfaces
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../theme-customization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theme Customization
   
 
     
@@ -3944,6 +3972,7 @@
 <li><strong>Target</strong>: <code>/backup/{{.ObjectName}}</code></li>
 </ul>
 <p>This copies the uploaded file to the <code>/backup</code> directory, preserving the original filename.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/webadmin_action_copy_to_backup.png" data-desc-position="bottom" data-gallery="webadmin-action-copy-to-backup"><img alt="WebAdmin action copy to backup" data-gallery="webadmin-action-copy-to-backup" src="../../assets/img/webadmin_action_copy_to_backup.png"></a></p>
 <h3 id="step-2-create-a-rule">Step 2: Create a Rule</h3>
 <p>Create a rule with <code>Filesystem events</code> trigger, <code>upload</code> event, and select the <code>copy to backup</code> action.</p>
 <h2 id="glob-patterns-copy-multiple-files">Glob Patterns: Copy Multiple Files</h2>
@@ -3955,6 +3984,7 @@
 <li><strong>Target</strong>: <code>/processed/</code></li>
 </ul>
 <p>This copies all <code>.csv</code> files from <code>/inbound</code> to <code>/processed</code>. The <code>*</code> wildcard matches any sequence of characters in the filename. Subdirectories inside <code>/inbound</code> are <strong>not</strong> recursed into.</p>
+<p>Triggered by a filesystem event, the copy runs on the filesystem of the user who caused it. In a scheduled rule without a source or target folder, it runs once for each user selected by the rule's filters, each on their own files. To process a single inbox shared by everyone, see <a href="#complete-example-scheduled-file-distribution">Complete Example: Scheduled File Distribution</a>.</p>
 <p>Supported patterns follow standard shell syntax:</p>
 <ul>
 <li><code>*</code> — matches any sequence of characters</li>
@@ -3990,9 +4020,9 @@
 <p>Set <strong>After copy</strong> to <code>Delete source</code>. The source file is removed after a successful copy.</p>
 <p>This is the recommended approach for "move" workflows. With a separate copy-then-delete approach (e.g., copy an entire folder and then delete it), files added between the copy and the delete would be lost — they were not included in the copy but are removed by the delete. Source disposition eliminates this race condition by deleting each file individually, immediately after its copy succeeds.</p>
 <h3 id="move-to-archive-after-copy">Move to Archive After Copy</h3>
-<p>Set <strong>After copy</strong> to <code>Move source</code> and specify an archive path. The source file is moved to the archive location after a successful copy.</p>
+<p>Set <strong>After copy</strong> to <code>Move source</code> and enter the archive path in <strong>Move to path</strong>. The source file is moved to the archive location after a successful copy.</p>
 <ul>
-<li><strong>Archive path</strong>: <code>/archive/{{.ObjectName}}</code> — the archive path supports placeholders.</li>
+<li><strong>Move to path</strong>: <code>/archive/{{.ObjectName}}</code> — the path supports placeholders.</li>
 <li>If the archive is on the <strong>same filesystem</strong>, an atomic rename is used.</li>
 <li>If the archive is on a <strong>different filesystem</strong> (e.g., the source is local and the archive is a virtual folder backed by SFTP), SFTPGo falls back to a streaming copy + delete.</li>
 </ul>
@@ -4007,8 +4037,8 @@
 <p>When processing multiple files (via glob patterns), enable <strong>Continue on error</strong> to process all files even if some fail. Without this option, the first failure stops the entire action.</p>
 <p>Errors are collected (up to 100 entries) and reported at the end. This is useful for batch processing where one inaccessible file should not prevent the rest from being copied.</p>
 <h2 id="per-file-retries">Per-File Retries</h2>
-<p>Configure <strong>Max retries</strong> (0–5) for transient failures. Each retry waits 5 seconds. Retries apply to both the file copy and the source disposition step.</p>
-<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> With <code>Max retries = 5</code>, a single failing file could add up to 25 seconds of delay. Combined with multiple failing files, this can significantly increase the total action duration.</p>
+<p>Configure <strong>Retries</strong> (0–5) for transient failures. Each retry waits 5 seconds. Retries apply to both the file copy and the source disposition step.</p>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> With <strong>Retries</strong> set to <code>5</code>, a single failing file could add up to 25 seconds of delay. Combined with multiple failing files, this can significantly increase the total action duration.</p>
 <h2 id="complete-example-scheduled-file-distribution">Complete Example: Scheduled File Distribution</h2>
 <p>This example demonstrates a scheduled rule that distributes uploaded CSV files from a shared inbox to a processing directory, with source archival and error tolerance.</p>
 <h3 id="step-1-create-the-copy-action">Step 1: Create the Copy Action</h3>
@@ -4017,15 +4047,16 @@
 <li><strong>Source</strong>: <code>/inbox/*.csv</code></li>
 <li><strong>Target</strong>: <code>/processing/</code></li>
 <li><strong>After copy</strong>: Move source</li>
-<li><strong>Archive path</strong>: <code>/archive/{{.ObjectName}}</code></li>
-<li><strong>Max retries</strong>: 2</li>
+<li><strong>Move to path</strong>: <code>/archive/{{.ObjectName}}</code></li>
+<li><strong>Retries</strong>: 2</li>
 <li><strong>Continue on error</strong>: Enabled</li>
 </ul>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/webadmin_action_copy_distribute_csv.png" data-desc-position="bottom" data-gallery="webadmin-action-copy-distribute-csv"><img alt="WebAdmin action copy distribute csv" data-gallery="webadmin-action-copy-distribute-csv" src="../../assets/img/webadmin_action_copy_distribute_csv.png"></a></p>
 <p>Set both <strong>Source folder</strong> and <strong>Target folder</strong> to the virtual folder that provides the shared storage: with both set the action runs once, as a system action. With the source folder alone it runs once per user, and the <strong>Move source</strong> disposition of the first user leaves nothing for the others.</p>
 <h3 id="step-2-create-a-scheduled-rule">Step 2: Create a Scheduled Rule</h3>
 <p>Create a rule with:</p>
 <ul>
-<li><strong>Trigger</strong>: Schedule</li>
+<li><strong>Trigger</strong>: Schedules</li>
 <li><strong>Schedule</strong>: Every 15 minutes (minutes <code>*/15</code>, hours <code>*</code>)</li>
 <li><strong>Actions</strong>: <code>distribute csv files</code></li>
 </ul>
@@ -4059,7 +4090,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="October 29, 2026 06:41:25 UTC">2026-10-29 06:41:25</span>
   </span>
 
     

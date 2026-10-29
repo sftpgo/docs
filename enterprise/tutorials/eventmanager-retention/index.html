@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/tutorials/eventmanager-retention/",
         "inLanguage": "en",
         "datePublished": "2026-04-26T15:47:01Z",
-        "dateModified": "2026-09-08T09:20:06Z",
+        "dateModified": "2026-10-22T12:24:07Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -1988,6 +1988,34 @@
     
   
     Web User Interfaces
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../theme-customization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theme Customization
   
 
     
@@ -4032,7 +4060,7 @@
 </ul>
 <p>The two modes share the same configuration screen and the same report shape; the only difference is whether you fill the <strong>Source folder</strong> field on the action.</p>
 <h2 id="step-1-create-a-data-retention-action">Step 1: Create a Data Retention Action</h2>
-<p>From the WebAdmin, expand the <strong>Event Manager</strong> section, select <strong>Event actions</strong> and add a new action.</p>
+<p>From the WebAdmin, expand the <strong>Event Manager</strong> section, select <strong>Actions</strong> and add a new action.</p>
 <p>Create an action named <code>retention check</code>, set the type to <code>Data retention check</code>.</p>
 <p>Configure the retention policies — each entry defines a virtual path and a retention period in hours:</p>
 <table>
@@ -4062,11 +4090,13 @@
 </tbody>
 </table>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/retention-action.png" data-desc-position="bottom" data-gallery="retention-action"><img alt="Retention action" data-gallery="retention-action" src="../../assets/img/retention-action.png"></a></p>
-<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> <strong>Paths are literal — no wildcards, no placeholders.</strong> A path like <code>/inbound/*</code> is <em>not</em> a pattern: it looks for a directory literally named <code>*</code> inside <code>/inbound/</code> and finds nothing. To clean the contents of <code>/inbound</code>, just set the path to <code>/inbound</code>. The configured folder itself is always preserved — only its contents older than the retention period are removed. Sub-directories that become empty after cleanup can be removed too by enabling <strong>Delete empty directories</strong> on the entry.</p>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> <strong>Paths are literal — no wildcards, no placeholders.</strong> A path like <code>/inbound/*</code> is <em>not</em> a pattern: it looks for a directory literally named <code>*</code> inside <code>/inbound/</code> and finds nothing. To clean the contents of <code>/inbound</code>, just set the path to <code>/inbound</code>. The configured folder itself is always preserved — only its contents older than the retention period are removed. Sub-directories that become empty after cleanup can be removed too by enabling <strong>Delete empty dirs</strong> on the entry.</p>
+<p>On local storage on Windows a configured path also applies to its directory stored with ASCII letters in another case: <code>/inbound</code> covers a directory stored as <code>Inbound</code>. Letters outside ASCII are compared as written, so write such a path as the storage shows it. A virtual folder is reached by its exact mount path: a directory of the home named like the mount path in another letter case is not the folder and keeps the retention of its parent.</p>
 <p>If you need different retention paths for different groups of users, create one rule per group — each rule has its own action and its own user filter.</p>
 <h3 id="archive-instead-of-delete">Archive Instead of Delete</h3>
 <p>If you prefer to archive files instead of deleting them, specify an <strong>archive folder</strong>. Files are moved to the virtual folder instead of being permanently removed. This is useful for compliance scenarios where you need to keep files accessible but outside the user's working directories.</p>
 <p>The archive folder must be a virtual folder configured in SFTPGo — it can use any storage backend. For example, you could archive to a cheaper storage tier (e.g., S3 Glacier via lifecycle policies) while keeping the user's primary storage on standard S3.</p>
+<p>Map the archive folder outside the directories the check scans, such as the users' home directories: otherwise the files already archived are found again and archived once more at the next run.</p>
 <h3 id="folder-scoped-retention">Folder-scoped retention</h3>
 <p>Set a <strong>Source folder</strong> on the action when the retention policy belongs to a shared resource rather than to the users who happen to mount it. Common cases:</p>
 <ul>
@@ -4091,7 +4121,7 @@
 <p>Email actions need an SMTP server: configure it from the WebAdmin under <strong>Server Manager &gt; Configurations &gt; SMTP</strong>, where the settings apply without a restart, or in the <a href="../../config-file/#smtp">SMTP section</a> of the configuration file.</p>
 <p>Create an email action (for example named <code>retention report</code>). A minimal configuration is enough:</p>
 <ul>
-<li><strong>Recipients</strong> — one or more email addresses.</li>
+<li><strong>To</strong> — one or more email addresses.</li>
 <li><strong>Subject</strong> — any text, e.g. <code>Data retention report — {{ .Timestamp.Format "2006-01-02" }}</code>.</li>
 <li><strong>Body</strong> — any text. A fixed string like <code>Data retention check completed. The detailed report is attached.</code> works perfectly.</li>
 <li><strong>Attachments</strong> — add <code>{{.RetentionReports}}</code> to attach the full detailed results as a compressed CSV archive.</li>
@@ -4159,9 +4189,9 @@ User: {{ .Username }}
 </code></pre>
 <p>Field notes: <code>type</code> is <code>0</code> for delete and <code>1</code> for archive; <code>retention</code> is in hours; <code>deleted_size</code> is in bytes; <code>elapsed</code> is a Go duration in nanoseconds; <code>error</code> and <code>info</code> are optional per-folder fields and appear only when present.</p>
 <h2 id="step-3-create-a-scheduled-rule">Step 3: Create a Scheduled Rule</h2>
-<p>Now select <strong>Event rules</strong> and create a rule named <code>Daily retention check</code>.</p>
+<p>Now select <strong>Rules</strong> and create a rule named <code>Daily retention check</code>.</p>
 <ul>
-<li>Set <strong>Schedule</strong> as the trigger.</li>
+<li>Set <strong>Schedules</strong> as the trigger.</li>
 <li>Configure the schedule — for example, every day at 02:00 UTC: hours <code>2</code>, day of week <code>*</code>.</li>
 </ul>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/retention-schedule.png" data-desc-position="bottom" data-gallery="retention-schedule"><img alt="Retention schedule" data-gallery="retention-schedule" src="../../assets/img/retention-schedule.png"></a></p>
@@ -4235,7 +4265,7 @@ User: {{ .Username }}
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="October 22, 2026 12:24:07 UTC">2026-10-22 12:24:07</span>
   </span>
 
     

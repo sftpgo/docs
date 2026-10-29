@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/plugins/ldap-auth/",
         "inLanguage": "en",
         "datePublished": "2026-04-26T15:47:01Z",
-        "dateModified": "2026-09-08T09:20:06Z",
+        "dateModified": "2026-10-29T06:41:25Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -1745,6 +1745,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../theme-customization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theme Customization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../email-templates/" class="md-nav__link">
         
   
@@ -2631,6 +2659,34 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="User requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#storage-from-the-primary-group" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Storage from the primary group
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pre-created-users" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-created users
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2667,19 +2723,19 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#configuration-file-multiple-independent-directories" class="md-nav__link">
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multiple-independent-directories" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Configuration file (multiple independent directories)
+        Multiple independent directories
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -3949,6 +4005,34 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="User requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#storage-from-the-primary-group" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Storage from the primary group
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pre-created-users" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-created users
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -3985,19 +4069,19 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#configuration-file-multiple-independent-directories" class="md-nav__link">
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multiple-independent-directories" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Configuration file (multiple independent directories)
+        Multiple independent directories
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -4101,7 +4185,7 @@
 <p>There are two alternative ways to configure LDAP. Pick <strong>one</strong>:</p>
 <ul>
 <li><strong>WebAdmin UI</strong> — you set two environment variables to enable the LDAP section in the WebAdmin and register the plugin; every LDAP setting is then entered through the form. The configuration is persisted in the database (encrypted where appropriate) and replicated across HA nodes. The form exposes URL, Base DN, Bind DN, password, search query, group attributes, primary/secondary/membership/role group prefixes, require group membership, require existing users, and skip TLS verify.</li>
-<li><strong>Environment variables / configuration file</strong> — every option is set through environment variables (or, for multi-directory federation, a JSON configuration file). Required when you need advanced options that the form does not expose: STARTTLS, custom CA certificates, authentication caching, base directory for auto-created users, multi-directory federation.</li>
+<li><strong>Environment variables / configuration file</strong> — every option is set through environment variables (or, for <a href="#multiple-independent-directories">multiple independent directories</a>, a JSON configuration file). Required when you need advanced options that the form does not expose: STARTTLS, custom CA certificates, authentication caching, base directory and storage of auto-created users, multiple independent directories.</li>
 </ul>
 <p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Any configuration change requires a service restart to take effect (e.g. <code>systemctl restart sftpgo</code> on Linux, <code>Restart-Service sftpgo</code> on Windows).</p>
 <h3 id="configuration-from-the-webadmin-ui">Configuration from the WebAdmin UI</h3>
@@ -4142,7 +4226,7 @@ SFTPGO_HOOK__AUTH_PLUGIN_PATH="C:\\Program Files\\SFTPGo Enterprise\\sftpgo-plug
 </code></pre>
 <p>Adjust the plugin path if you installed SFTPGo Enterprise to a different directory. Backslashes inside double-quoted values must be doubled (<code>\\</code>) because the env file parser treats <code>\</code> as an escape character; alternatively, use single quotes (<code>'C:\Program Files\SFTPGo Enterprise\sftpgo-plugin-auth.exe'</code>) to disable escaping.</p>
 <h4 id="filling-in-the-form">Filling in the form</h4>
-<p>After the restart, open the WebAdmin and go to <strong>Server Manager &gt; Configurations &gt; LDAP</strong>. Fill in the form and click <strong>Submit</strong>. A service restart is required to apply the changes (the WebAdmin shows a notice).</p>
+<p>After the restart, open the WebAdmin and go to <strong>Server Manager &gt; Configurations &gt; LDAP</strong>. Fill in the form and click <strong>Save</strong>. A service restart is required to apply the changes (the WebAdmin shows a notice).</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/ldap-config-ui.png" data-desc-position="bottom" data-gallery="ldap-ui"><img alt="LDAP configuration in WebAdmin" data-gallery="ldap-ui" src="../../assets/img/ldap-config-ui.png"></a></p>
 <p>Recommended values for <strong>Active Directory</strong>:</p>
 <table>
@@ -4174,7 +4258,7 @@ SFTPGO_HOOK__AUTH_PLUGIN_PATH="C:\\Program Files\\SFTPGo Enterprise\\sftpgo-plug
 <td>leave empty to use the default AD query, or set a custom one (must contain <code>%username%</code>)</td>
 </tr>
 <tr>
-<td>Group attributes</td>
+<td>Attributes for groups</td>
 <td><code>memberOf</code></td>
 </tr>
 <tr>
@@ -4184,10 +4268,10 @@ SFTPGO_HOOK__AUTH_PLUGIN_PATH="C:\\Program Files\\SFTPGo Enterprise\\sftpgo-plug
 </tbody>
 </table>
 <p>For <strong>OpenLDAP</strong> set the search query to <code>(&amp;(objectClass=posixAccount)(uid=%username%))</code>.</p>
-<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> The form does <strong>not</strong> cover <code>STARTTLS</code>, custom CA certificates, the auto-created users base directory, authentication caching, and multi-directory federation. If you need any of these, switch to the <a href="#configuration-via-environment-variables">environment variables approach</a> — the two paths are mutually exclusive.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> The form does <strong>not</strong> cover <code>STARTTLS</code>, custom CA certificates, the auto-created users base directory and storage, authentication caching, and multiple independent directories. If you need any of these, switch to the <a href="#configuration-via-environment-variables">environment variables approach</a> — the two paths are mutually exclusive.</p>
 <p>For Active Directory on port 389, using <code>ldaps://dc01.example.com:636</code> is the simplest way to get a secure connection without STARTTLS, keeping the UI path viable.</p>
 <h3 id="configuration-via-environment-variables">Configuration via environment variables</h3>
-<p>This approach gives full control over every option and is the right choice for multi-directory federation, fully unattended setups, or whenever the form does not expose a setting you need. Do <strong>not</strong> combine it with <code>SFTPGO_HOOK__ENABLE_LDAP_UI=1</code>: register the plugin yourself through the <code>SFTPGO_PLUGINS__N__*</code> variables shown below.</p>
+<p>This approach gives full control over every option and is the right choice for multiple independent directories, fully unattended setups, or whenever the form does not expose a setting you need. Do <strong>not</strong> combine it with <code>SFTPGO_HOOK__ENABLE_LDAP_UI=1</code>: register the plugin yourself through the <code>SFTPGO_PLUGINS__N__*</code> variables shown below.</p>
 <h4 id="basic-setup-with-active-directory">Basic setup with Active Directory</h4>
 <p>This example connects SFTPGo to a single Active Directory server.</p>
 <pre><code class="language-shell"># LDAP connection
@@ -4268,7 +4352,7 @@ SFTPGO_PLUGINS__0__AUTO_MTLS=1
 <tr>
 <td><code>--primary-group-prefix</code></td>
 <td>Primary</td>
-<td>Settings that define the user's base configuration. Only one primary group is assigned.</td>
+<td>Settings that define the user's base configuration. A user has one primary group: membership in more than one matching group fails the login.</td>
 </tr>
 <tr>
 <td><code>--secondary-group-prefix</code></td>
@@ -4294,7 +4378,7 @@ SFTPGO_PLUGIN_AUTH_SECONDARY_GROUP_PREFIX="sftpgo-secondary-"
 SFTPGO_PLUGIN_AUTH_MEMBERSHIP_GROUP_PREFIX="sftpgo-membership-"
 </code></pre>
 <p>A user who is a member of all three AD groups will be assigned to SFTPGo groups <code>sftpgo-primary-sales</code> (primary), <code>sftpgo-secondary-readonly</code> (secondary), and <code>sftpgo-membership-projectx</code> (membership).</p>
-<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Prefix matching is case-insensitive. The corresponding SFTPGo groups must already exist; the plugin maps users to groups but does not create the groups. The configured prefixes (primary, secondary, membership, role) must be distinct: a prefix matching the initial part of another prefix is rejected, since groups are matched in a fixed order and the overlapping prefix would shadow the others.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Prefix matching is case-insensitive and the SFTPGo group name is the CN in lower case. The corresponding SFTPGo groups must already exist; the plugin maps users to groups but does not create the groups. No configured prefix (primary, secondary, membership, role) can be the beginning of another one, for example <code>sftpgo_</code> and <code>sftpgo_admin_</code>: groups are matched in a fixed order, so the shorter prefix would also take the groups meant for the longer one. Such a configuration is rejected.</p>
 <h3 id="mapping-a-role">Mapping a role</h3>
 <p>The plugin can also assign an SFTPGo <a href="../../roles/">role</a> from LDAP group membership, which is useful for delegated, multi-tenant administration. It reads the same group attribute used for group mapping and matches a dedicated prefix:</p>
 <pre><code class="language-shell">SFTPGO_PLUGIN_AUTH_ROLE_GROUP_PREFIX="sftpgo-role-"
@@ -4314,32 +4398,40 @@ SFTPGO_PLUGIN_AUTH_MEMBERSHIP_GROUP_PREFIX="sftpgo-membership-"
 <h2 id="user-requirements">User requirements</h2>
 <p>By default (<code>--user-requirements=0</code>), the plugin auto-creates SFTPGo users on first LDAP login. Auto-created users get:</p>
 <ul>
-<li>Home directory under <code>--users-base-dir</code> (e.g., <code>/srv/sftpgo/data/username</code>)</li>
+<li>Storage on the local disk, with the home directory under <code>--users-base-dir</code> (e.g., <code>/srv/sftpgo/data/username</code>)</li>
 <li>Full permissions on <code>/</code></li>
 <li>Email address from the LDAP <code>mail</code> attribute</li>
 <li>Password change and reset disabled in WebClient</li>
 </ul>
+<h3 id="storage-from-the-primary-group">Storage from the primary group</h3>
+<p>Auto-created users are members of their primary group like any other user, so the group storage applies to them: a cloud or remote backend set on the group, such as an S3 bucket or an Azure container, replaces the local disk, and a home directory set on the group replaces the one under <code>--users-base-dir</code>. See <a href="../../groups/#storage">Storage</a>. A user with no primary group, or whose group sets neither, keeps the local disk under <code>--users-base-dir</code>.</p>
+<p>To require the storage to come from the primary group, set:</p>
+<pre><code class="language-shell">SFTPGO_PLUGIN_AUTH_FS_PROVIDER=-1
+</code></pre>
+<p>The plugin then creates users with the storage set to <a href="../../groups/#users-with-storage-none">"None"</a>: the login works only when the primary group provides a storage, and is refused otherwise. A user matching no primary group cannot be saved and its login is refused too, so this setting requires a primary group prefix. Under a role with <a href="../../roles/#storage-allowlist">resource isolation</a>, the storage allowlist must include the backend of their group, while a local disk entry is not needed.</p>
+<p>The setting applies when the plugin creates a user: users already stored in SFTPGo keep their storage.</p>
+<h3 id="pre-created-users">Pre-created users</h3>
 <p>To require that users already exist in SFTPGo before they can authenticate via LDAP:</p>
 <pre><code class="language-shell">SFTPGO_PLUGIN_AUTH_USER_REQUIREMENTS=1
 </code></pre>
-<p>In this mode, the plugin only verifies LDAP credentials. The SFTPGo user must be pre-created (manually or via API), allowing full control over permissions, virtual folders, and quotas.</p>
+<p>In this mode the plugin checks the LDAP credentials and, when configured, the group and role requirements, but does not change the SFTPGo user. The SFTPGo user must be pre-created (manually or via API), allowing full control over permissions, virtual folders, and quotas.</p>
 <h2 id="caching">Caching</h2>
 <p>To reduce LDAP queries, you can cache successful authentications:</p>
 <pre><code class="language-shell">SFTPGO_PLUGIN_AUTH_CACHE_TIME=300
 </code></pre>
 <p>This caches credentials for 300 seconds (5 minutes). During this period, the user can log in without contacting the LDAP server.</p>
-<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Caching is automatically disabled when group or role mapping is configured. This ensures that group membership and role changes in LDAP are always reflected immediately.</p>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Caching is automatically disabled when group or role mapping is configured. This ensures that group membership and role changes in LDAP are always reflected immediately. With <a href="#multiple-independent-directories">multiple independent directories</a>, <code>cache_time</code> applies to the directory where it is set.</p>
 <h2 id="high-availability-with-multiple-ldap-servers">High availability with multiple LDAP servers</h2>
 <h3 id="multiple-urls-load-balancing">Multiple URLs (load balancing)</h3>
 <p>For a single LDAP configuration with multiple servers, provide multiple URLs:</p>
 <pre><code class="language-shell">SFTPGO_PLUGIN_AUTH_LDAP_URL="ldap://dc01.example.com:389,ldap://dc02.example.com:389"
 </code></pre>
 <p>The plugin randomly selects from the available servers and automatically removes unresponsive ones. A background health check restores servers when they become available again.</p>
-<h3 id="configuration-file-multiple-independent-directories">Configuration file (multiple independent directories)</h3>
-<p>For complex environments with multiple independent LDAP directories (e.g., different base DNs, different credentials), use a JSON configuration file:</p>
+<h2 id="multiple-independent-directories">Multiple independent directories</h2>
+<p>A JSON configuration file defines several independent LDAP directories, each with its own URLs, base DN, credentials, search query and group mapping, for example employees in Active Directory and partners in a separate directory:</p>
 <pre><code class="language-shell">SFTPGO_PLUGIN_AUTH_CONFIG_FILE="/etc/sftpgo/ldap-config.json"
 </code></pre>
-<p>When using a configuration file, all other LDAP-related environment variables and flags are ignored.</p>
+<p>When the configuration file is set, every option comes from the file and the other LDAP environment variables and flags are ignored.</p>
 <p>Example configuration:</p>
 <pre><code class="language-json">{
   "cache_size": 100,
@@ -4368,14 +4460,21 @@ SFTPGO_PLUGIN_AUTH_MEMBERSHIP_GROUP_PREFIX="sftpgo-membership-"
   ]
 }
 </code></pre>
-<p>The <code>cache_size</code> parameter controls the LRU cache that maps usernames to their last successful LDAP server, reducing unnecessary authentication attempts against multiple directories.</p>
-<p>The plugin tries the cached server first, then iterates through the remaining configurations until authentication succeeds.</p>
+<p>Each entry of <code>configs</code> is a complete configuration, with the keys listed in the <a href="#configuration-reference">configuration reference</a>.</p>
+<p>At login the plugin tries the directories in order, and the first one that authenticates the user decides the outcome:</p>
+<ul>
+<li>That directory verifies the password and provides the user's email, groups and role. The other directories are not consulted.</li>
+<li>A refusal moves on to the next directory, whatever its cause: unknown user, wrong password, missing required group, more than one role group, directory unreachable. A user present in several directories therefore logs in with the password of any of them.</li>
+</ul>
+<p><code>cache_size</code> sets how many usernames the plugin remembers together with the directory that last authenticated them (default <code>100</code>). That directory is tried first at the next login.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> Credentials, groups and role of a user come from the same directory. If group membership is kept in a different directory from the credentials, there are two options. You can set <code>sftpgo_user_requirements</code> to <code>1</code>, so that the plugin only checks the credentials and does not change the SFTPGo user, and assign the groups to the SFTPGo users through the REST API. Or you can expose both directories as a single view through an LDAP proxy.</p>
 <h2 id="configuration-reference">Configuration reference</h2>
 <table>
 <thead>
 <tr>
 <th>Environment variable</th>
 <th>Flag</th>
+<th>Configuration file key</th>
 <th>Description</th>
 </tr>
 </thead>
@@ -4383,92 +4482,116 @@ SFTPGO_PLUGIN_AUTH_MEMBERSHIP_GROUP_PREFIX="sftpgo-membership-"
 <tr>
 <td><code>SFTPGO_PLUGIN_AUTH_LDAP_URL</code></td>
 <td><code>--ldap-url</code></td>
+<td><code>dial_urls</code> (list)</td>
 <td>LDAP server URL(s), comma-separated. Supports <code>ldap://</code> and <code>ldaps://</code></td>
 </tr>
 <tr>
 <td><code>SFTPGO_PLUGIN_AUTH_LDAP_BASE_DN</code></td>
 <td><code>--ldap-base-dn</code></td>
+<td><code>base_dn</code></td>
 <td>Base DN for searches (e.g., <code>dc=example,dc=com</code>)</td>
 </tr>
 <tr>
 <td><code>SFTPGO_PLUGIN_AUTH_LDAP_BIND_DN</code></td>
 <td><code>--ldap-bind-dn</code></td>
+<td><code>bind_dn</code></td>
 <td>DN of the account used for LDAP searches</td>
 </tr>
 <tr>
 <td><code>SFTPGO_PLUGIN_AUTH_LDAP_PASSWORD</code></td>
 <td><code>--ldap-password</code></td>
+<td><code>password</code></td>
 <td>Password for the bind DN</td>
 </tr>
 <tr>
 <td><code>SFTPGO_PLUGIN_AUTH_LDAP_SEARCH_QUERY</code></td>
 <td><code>--ldap-search-query</code></td>
+<td><code>search_query</code></td>
 <td>LDAP search filter. Use <code>%username%</code> as placeholder</td>
 </tr>
 <tr>
 <td><code>SFTPGO_PLUGIN_AUTH_LDAP_GROUP_ATTRIBUTES</code></td>
 <td><code>--ldap-group-attributes</code></td>
+<td><code>group_attributes</code> (list)</td>
 <td>LDAP attributes for group membership (default: <code>memberOf</code>)</td>
 </tr>
 <tr>
 <td><code>SFTPGO_PLUGIN_AUTH_PRIMARY_GROUP_PREFIX</code></td>
 <td><code>--primary-group-prefix</code></td>
+<td><code>primary_group_prefix</code></td>
 <td>Prefix for primary group mapping</td>
 </tr>
 <tr>
 <td><code>SFTPGO_PLUGIN_AUTH_SECONDARY_GROUP_PREFIX</code></td>
 <td><code>--secondary-group-prefix</code></td>
+<td><code>secondary_group_prefix</code></td>
 <td>Prefix for secondary group mapping</td>
 </tr>
 <tr>
 <td><code>SFTPGO_PLUGIN_AUTH_MEMBERSHIP_GROUP_PREFIX</code></td>
 <td><code>--membership-group-prefix</code></td>
+<td><code>membership_group_prefix</code></td>
 <td>Prefix for membership group mapping</td>
 </tr>
 <tr>
 <td><code>SFTPGO_PLUGIN_AUTH_ROLE_GROUP_PREFIX</code></td>
 <td><code>--role-group-prefix</code></td>
+<td><code>role_group_prefix</code></td>
 <td>Prefix for role mapping. A user matching more than one role group is refused</td>
 </tr>
 <tr>
 <td><code>SFTPGO_PLUGIN_AUTH_REQUIRE_GROUPS</code></td>
 <td><code>--require-groups</code></td>
+<td><code>require_groups</code> (boolean)</td>
 <td>Deny access if no groups match (default: <code>false</code>)</td>
 </tr>
 <tr>
 <td><code>SFTPGO_PLUGIN_AUTH_USER_REQUIREMENTS</code></td>
 <td><code>--user-requirements</code></td>
+<td><code>sftpgo_user_requirements</code></td>
 <td><code>0</code> = auto-create users, <code>1</code> = users must pre-exist</td>
 </tr>
 <tr>
 <td><code>SFTPGO_PLUGIN_AUTH_STARTTLS</code></td>
 <td><code>--starttls</code></td>
+<td><code>start_tls</code></td>
 <td>Use STARTTLS (<code>1</code> = enabled)</td>
 </tr>
 <tr>
 <td><code>SFTPGO_PLUGIN_AUTH_USERS_BASE_DIR</code></td>
 <td><code>--users-base-dir</code></td>
+<td><code>base_dir</code></td>
 <td>Base directory for auto-created user home directories</td>
+</tr>
+<tr>
+<td><code>SFTPGO_PLUGIN_AUTH_FS_PROVIDER</code></td>
+<td><code>--fs-provider</code></td>
+<td><code>fs_provider</code></td>
+<td>Storage of auto-created users: <code>0</code> = local disk (default), <code>-1</code> = <a href="#storage-from-the-primary-group">"None"</a>, the primary group must provide it</td>
 </tr>
 <tr>
 <td><code>SFTPGO_PLUGIN_AUTH_CACHE_TIME</code></td>
 <td><code>--cache-time</code></td>
+<td><code>cache_time</code></td>
 <td>Cache authentication results for N seconds (<code>0</code> = disabled)</td>
 </tr>
 <tr>
 <td><code>SFTPGO_PLUGIN_AUTH_SKIP_TLS_VERIFY</code></td>
 <td><code>--skip-tls-verify</code></td>
+<td><code>skip_tls_verify</code> (boolean)</td>
 <td>Skip TLS certificate verification (<code>1</code> = skip). For testing only</td>
 </tr>
 <tr>
 <td><code>SFTPGO_PLUGIN_AUTH_CA_CERTIFICATES</code></td>
 <td><code>--ca-certificates</code></td>
+<td><code>ca_certificates</code> (list)</td>
 <td>Additional CA certificate file paths, comma-separated</td>
 </tr>
 <tr>
 <td><code>SFTPGO_PLUGIN_AUTH_CONFIG_FILE</code></td>
 <td><code>--config-file</code></td>
-<td>Path to JSON configuration file for multi-directory setups</td>
+<td></td>
+<td>Path to the JSON configuration file for <a href="#multiple-independent-directories">multiple independent directories</a></td>
 </tr>
 </tbody>
 </table>
@@ -4494,7 +4617,7 @@ SFTPGO_PLUGIN_AUTH_MEMBERSHIP_GROUP_PREFIX="sftpgo-membership-"
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="October 29, 2026 06:41:25 UTC">2026-10-29 06:41:25</span>
   </span>
 
     

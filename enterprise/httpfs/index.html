@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/httpfs/",
         "inLanguage": "en",
         "datePublished": "2024-04-25T16:47:14Z",
-        "dateModified": "2026-09-08T09:20:06Z",
+        "dateModified": "2026-10-29T06:41:25Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -1725,6 +1725,34 @@
     
   
     Web User Interfaces
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../theme-customization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theme Customization
   
 
     
@@ -3729,7 +3757,7 @@
 </tr>
 <tr>
 <td><strong>Equality check mode</strong></td>
-<td>How to determine if two configurations point to the same server: <code>0</code> (default) requires only the endpoint to match; <code>1</code> also requires the username to match. Used for rename operations across configurations.</td>
+<td>How to determine if two configurations point to the same server: <code>0</code> (default) requires both endpoint and username to match; <code>1</code> requires only the endpoint to match. Used for rename operations across configurations.</td>
 </tr>
 <tr>
 <td><strong>Skip TLS verify</strong></td>
@@ -3835,6 +3863,7 @@ https://unix?socket_path=/path/to/socket&amp;api_prefix=/api
 <li>Opening a file for both reading and writing at the same time is not supported.</li>
 <li><code>chown</code> and <code>symlink</code> are not supported.</li>
 <li>Virtual folders are not supported on this backend.</li>
+<li>Restrictions are matched against the requested path as written, and the implementation of the API decides which names reach the same file: an implementation that resolves different spellings of a name to one file lets another spelling reach a restricted directory with the settings of the path as written. Implement the API so that names that differ in any character name different files, see <a href="../access-control/#names-that-reach-the-same-entry">Names that reach the same entry</a>.</li>
 </ul>
 
 
@@ -3858,7 +3887,7 @@ https://unix?socket_path=/path/to/socket&amp;api_prefix=/api
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="October 29, 2026 06:41:25 UTC">2026-10-29 06:41:25</span>
   </span>
 
     

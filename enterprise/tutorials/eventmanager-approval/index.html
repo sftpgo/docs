@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/tutorials/eventmanager-approval/",
         "inLanguage": "en",
         "datePublished": "2026-04-28T09:15:58Z",
-        "dateModified": "2026-09-08T09:20:06Z",
+        "dateModified": "2026-10-20T17:51:28Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -1947,6 +1947,34 @@
     
   
     Web User Interfaces
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../theme-customization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theme Customization
   
 
     
@@ -3960,12 +3988,12 @@
 </ol>
 <p>Once uploaded, the file is read-only from the uploader's perspective — they can see it in the directory listing but cannot download, overwrite, or delete it. The reviewer is the only person who decides whether and how the content leaves the system.</p>
 <h2 id="step-1-create-the-drop-folder">Step 1: Create the Drop Folder</h2>
-<p>From the WebAdmin, expand <strong>Virtual folders</strong> and create a new folder named <code>inbox</code> backed by the storage of your choice (local, S3, Azure, GCS, SFTP — any backend works).</p>
+<p>From the WebAdmin, open <strong>Virtual folders</strong> and create a new folder named <code>inbox</code> backed by the storage of your choice (local, S3, Azure, GCS, SFTP — any backend works).</p>
 <p>This folder will be mounted on both the uploader and reviewer groups so they share the same physical storage.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/approval-inbox-folder.png" data-desc-position="bottom" data-gallery="approval-inbox-folder"><img alt="Inbox virtual folder" data-gallery="approval-inbox-folder" src="../../assets/img/approval-inbox-folder.png"></a></p>
 <h2 id="step-2-create-the-uploader-group">Step 2: Create the Uploader Group</h2>
-<p>Create a group named <code>uploaders</code>. In the <strong>Virtual folders</strong> section, mount the <code>inbox</code> folder at <code>/inbox</code> with quota and ratio set to your needs.</p>
-<p>In the <strong>Permissions</strong> section, configure permissions per directory:</p>
+<p>Create a group named <code>uploaders</code>. In the <strong>Virtual folders</strong> section, mount the <code>inbox</code> folder at <code>/inbox</code> with the quota set to your needs.</p>
+<p>In the <strong>ACLs</strong> section, set the <strong>Per-directory permissions</strong>:</p>
 <table>
 <thead>
 <tr>
@@ -3984,13 +4012,13 @@
 <p>Clients that set the file timestamp after an upload, such as WinSCP or <code>sftp -p</code>, need the <code>chtimes</code> permission too, or <code>setstat_mode</code> set to <code>1</code> in the <code>common</code> section of the configuration.</p>
 <p>In the <strong>ACLs</strong> section, restrict sharing:</p>
 <ul>
-<li><strong>Web client options</strong>: enable <code>shares-disabled</code>.</li>
+<li><strong>Web client/REST API</strong>: enable <code>shares-disabled</code>.</li>
 </ul>
-<p>This prevents uploaders from creating any share, regardless of path. Alternatively, if uploaders should be able to share files outside <code>/inbox</code> (for example from their home directory), set <strong>Denied share paths</strong> to <code>/inbox</code> instead.</p>
+<p>This prevents uploaders from creating any share, regardless of path. Alternatively, if uploaders should be able to share files outside <code>/inbox</code> (for example from their home directory), set <strong>Denied share paths</strong>, in the <strong>Sharing</strong> card, to <code>/inbox</code> instead.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/approval-uploader-permissions.png" data-desc-position="bottom" data-gallery="approval-uploader-permissions"><img alt="Uploader group permissions" data-gallery="approval-uploader-permissions" src="../../assets/img/approval-uploader-permissions.png"></a></p>
 <h2 id="step-3-create-the-reviewer-group">Step 3: Create the Reviewer Group</h2>
 <p>Create a group named <code>reviewers</code>. Mount the same <code>inbox</code> folder at <code>/inbox</code> (same virtual folder, so both groups see the same files).</p>
-<p>In the <strong>Permissions</strong> section, grant full access:</p>
+<p>In the <strong>ACLs</strong> section, grant full access in the <strong>Per-directory permissions</strong>:</p>
 <table>
 <thead>
 <tr>
@@ -4005,7 +4033,7 @@
 </tr>
 </tbody>
 </table>
-<p>In the <strong>Profile</strong> section, leave sharing enabled — reviewers can create shares for files in <code>/inbox</code>.</p>
+<p>In the <strong>ACLs</strong> section, leave sharing enabled — reviewers can create shares for files in <code>/inbox</code>.</p>
 <p>If reviewers also have a delivery folder for forwarding files (see <a href="#step-6-publishing-options">Step 6</a>), mount that here as well with <code>*</code> permissions.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/approval-reviewer-permissions.png" data-desc-position="bottom" data-gallery="approval-reviewer-permissions"><img alt="Reviewer group permissions" data-gallery="approval-reviewer-permissions" src="../../assets/img/approval-reviewer-permissions.png"></a></p>
 <h2 id="step-4-assign-users-to-groups">Step 4: Assign Users to Groups</h2>
@@ -4016,7 +4044,7 @@
 <p>From the WebAdmin, expand the <strong>Event Manager</strong> section and create a new email action named <code>notify reviewer</code>. Email actions need an SMTP server: configure it from the WebAdmin under <strong>Server Manager &gt; Configurations &gt; SMTP</strong>, where the settings apply without a restart, or in the <a href="../../config-file/#smtp">SMTP section</a> of the configuration file.</p>
 <p>Configure it as follows:</p>
 <ul>
-<li><strong>Recipients</strong>: the reviewer's email address (or use a distribution list).</li>
+<li><strong>To</strong>: the reviewer's email address (or use a distribution list).</li>
 <li><strong>Subject</strong>: <code>New file awaiting review: {{.ObjectName}}</code></li>
 <li><strong>Body</strong>:</li>
 </ul>
@@ -4166,7 +4194,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="October 20, 2026 17:51:28 UTC">2026-10-20 17:51:28</span>
   </span>
 
     

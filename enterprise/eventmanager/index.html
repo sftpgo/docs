@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/eventmanager/",
         "inLanguage": "en",
         "datePublished": "2024-04-25T16:47:14Z",
-        "dateModified": "2026-09-08T09:20:06Z",
+        "dateModified": "2026-10-29T06:41:25Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -1725,6 +1725,34 @@
     
   
     Web User Interfaces
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../theme-customization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theme Customization
   
 
     
@@ -4017,15 +4045,15 @@
 <td>Reacts to data provider changes: <code>add</code>, <code>update</code>, <code>delete</code> on users, admins, groups, folders, shares, and other resources.</td>
 </tr>
 <tr>
-<td><strong>Schedule</strong></td>
+<td><strong>Schedules</strong></td>
 <td>Runs on a cron schedule. The scheduler uses <strong>UTC</strong> time.</td>
 </tr>
 <tr>
-<td><strong>IP Blocked</strong></td>
+<td><strong>IP blocked</strong></td>
 <td>Fires when the <a href="../defender/">Defender</a> blocks an IP address.</td>
 </tr>
 <tr>
-<td><strong>Certificate</strong></td>
+<td><strong>Certificate renewal</strong></td>
 <td>Fires when a TLS certificate is renewed via the built-in ACME protocol (both success and failure).</td>
 </tr>
 <tr>
@@ -4033,7 +4061,7 @@
 <td>Triggered manually from the WebAdmin or via the REST API.</td>
 </tr>
 <tr>
-<td><strong>Identity Provider login</strong></td>
+<td><strong>Identity Provider logins</strong></td>
 <td>Fires when a user or admin logs in through an external Identity Provider.</td>
 </tr>
 </tbody>
@@ -4047,10 +4075,11 @@
 <p>For rules triggered by a schedule or by provider events — where SFTPGo must resolve the filters to the list of users the action applies to — prefer <strong>exact values</strong> over wildcard patterns when you can. With exact filters SFTPGo fetches only the matching users; with a wildcard pattern (<code>*</code>, <code>?</code>, <code>[...]</code>) it has to load every user and check them one by one, which gets expensive on instances with many users.</p>
 <p>The wildcard penalty is the same on any of the three axes: a single wildcard anywhere in the rule conditions is enough to trigger the full scan. Exact values on names, groups, or roles are equivalent — pick the one that expresses the intent most clearly (e.g. a group name when the target set already maps to a group).</p>
 <p>For small installations the difference is negligible. On instances with thousands of users, prefer exact names, groups, or roles whenever the target set is known up front, instead of patterns like <code>customer_*</code>.</p>
+<p>Name, group and role patterns use the shell-like syntax and are matched as written, letter case included: <code>*</code> matches any sequence of characters except <code>/</code>, which matters for group names that contain <code>/</code>.</p>
 <p>Filters on filesystem events (uploads, downloads, etc.) do not have this cost — the triggering user is already known, so the match is always a single in-memory check regardless of whether the filter is exact or a pattern.</p>
 <h4 id="path-filters">Path filters</h4>
 <p>By default, path patterns match against the <strong>virtual path</strong> — the normalized, backend-independent path that clients see (e.g., <code>/uploads/file.txt</code>).</p>
-<p>Each pattern can optionally be set to <strong>match on filesystem path</strong> instead. This matches against the actual backend storage path, which is useful when you need to filter by physical location, bucket, or Windows drive letter.</p>
+<p>Each pattern can optionally be set to <strong>match on filesystem path</strong> instead. This matches against the storage path SFTPGo builds for the request: the root directory or key prefix of the storage joined with the virtual path, as in the table below. It is useful when you need to filter by root directory, key prefix, or Windows drive letter. It is the path as SFTPGo builds it, not the location a symbolic link or a mount on the storage leads to.</p>
 <p>Filesystem paths are backend-dependent:</p>
 <table>
 <thead>
@@ -4091,7 +4120,8 @@
 </tbody>
 </table>
 <p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> <strong>Always use forward slashes</strong> (<code>/</code>) in patterns, even for Windows paths. Backslashes are automatically converted to forward slashes when saving the pattern.</p>
-<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> <strong>Matching is case-sensitive</strong> on all platforms, including Windows. Use character classes if needed (e.g., <code>[Dd]ata</code>).</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> <strong>Letter case.</strong> A path condition is a comparison of text: unlike <a href="../access-control/#names-that-reach-the-same-entry">per-directory permissions written as literal paths</a>, it never asks the storage which names reach the same file. On local storage on Windows, where names that differ only in letter case name the same file, the comparison ignores the letter case of ASCII letters, on the virtual and on the filesystem path alike: <code>/incoming/*.txt</code> matches <code>/INCOMING/A.TXT</code>, and an inverse pattern excludes every case of what it names. Pattern and path are compared with their ASCII letters in lowercase, so write ranges with letters of one case (<code>[a-z]</code> or <code>[A-Z]</code>). Letters outside ASCII are compared as written, so <code>/études/*</code> does not match <code>/ÉTUDES/a.txt</code>: write conditions with ASCII letters where a rule must hold for every spelling. On any other storage a pattern is matched exactly as written, letter case included. If that storage resolves other spellings to the same file, as a Linux directory with case folding enabled or a network share can, a rule fires only for the spellings its pattern describes: use character classes such as <code>[Dd]ata</code> for the letter case variants you expect.</p>
+<p>Patterns that contain <code>**</code> use the extended syntax: <code>**</code> matches any number of directories, <code>{a,b}</code> matches either alternative and <code>[!...]</code> is a negated class. Other patterns use the shell-like syntax, where <code>*</code> does not cross a <code>/</code> and a negated class is written <code>[^...]</code>.</p>
 <p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> <strong>Cloud storage paths have no leading slash</strong>, so a pattern like <code>/**/*.exe</code> will not match them. Use <code>**/*.exe</code> instead.</p>
 <p>You can mix virtual path and filesystem path patterns in the same rule. Each pattern is evaluated against its configured path type independently.</p>
 <h3 id="action-execution-order-and-options">Action execution order and options</h3>
@@ -4099,7 +4129,7 @@
 <ul>
 <li><strong>Stop on failure</strong> — If this action fails, skip all remaining actions in the rule.</li>
 <li><strong>Failure action</strong> — Mark an action so that it only executes when a previous (non-failure) action has failed. This is useful for error notifications. Note: a failure action runs when <em>another action in the rule</em> fails, not when the triggering event itself fails (e.g., a failed download still runs the main action, not the failure action).</li>
-<li><strong>Synchronous execution</strong> — For upload events, execute the action synchronously: the client waits for the action to complete before receiving a response. Required for pre-events (pre-delete, pre-download, pre-upload). If pre-* sync actions succeed, the operation is allowed; otherwise the client receives a permission denied error. Be mindful of client timeouts for long-running actions.</li>
+<li><strong>Synchronous execution</strong> — For upload events, execute the action synchronously: the client waits for the action to complete before receiving a response. Required for pre-events (pre-delete, pre-download, pre-upload). If pre-* sync actions succeed, the operation is allowed; otherwise the client receives a permission denied error. A <code>pre-delete</code> event also fires when a rename or a copy overwrites an existing file, and when a truncate request makes a file smaller. Be mindful of client timeouts for long-running actions.</li>
 <li><strong>Execute before file publish</strong> — For upload events with atomic uploads enabled, run the action on the temporary file <em>before</em> it is renamed to its final path. On failure, the temporary file is removed and the file never appears at its final path. The temporary file is an ordinary file in the destination directory: a file pattern filter hiding <code>.sftpgo-upload*</code> keeps it out of the users' reach while the action runs. Useful for antivirus scanning (ICAP), content validation, or any processing that must complete before the file is published. Can be combined with "Synchronous execution" for client-side feedback. See <a href="../execute-before-file-publish/">Execute Before File Publish</a> for details.</li>
 </ul>
 <p>If you run multiple SFTPGo instances connected to the same data provider, you can choose whether to allow simultaneous execution for scheduled rules.</p>
@@ -4270,7 +4300,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="October 29, 2026 06:41:25 UTC">2026-10-29 06:41:25</span>
   </span>
 
     

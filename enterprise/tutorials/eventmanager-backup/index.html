@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/tutorials/eventmanager-backup/",
         "inLanguage": "en",
         "datePublished": "2026-04-26T15:47:01Z",
-        "dateModified": "2026-09-08T09:20:06Z",
+        "dateModified": "2026-10-20T17:51:28Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -1820,6 +1820,34 @@
     
   
     Web User Interfaces
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../theme-customization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theme Customization
   
 
     
@@ -3698,7 +3726,7 @@ SFTPGO_SMTP__ENCRYPTION=2 # change based on what your server supports
 </code></pre>
 <p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> The SMTP server can also be configured directly through the WebAdmin UI by navigating to <strong>Server Manager &gt; Configurations &gt; SMTP</strong>.</p>
 <h2 id="step-1-create-a-backup-action">Step 1: Create a Backup Action</h2>
-<p>From the WebAdmin, expand the <strong>Event Manager</strong> section, select <strong>Event actions</strong> and add a new action.
+<p>From the WebAdmin, expand the <strong>Event Manager</strong> section, select <strong>Actions</strong> and add a new action.
 Create an action named <code>backup</code> and set the type to <code>Backup</code>.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/backup-action.png" data-desc-position="bottom" data-gallery="backup"><img alt="Backup action" data-gallery="backup" src="../../assets/img/backup-action.png"></a></p>
 <h2 id="step-2-create-a-notification-action">Step 2: Create a Notification Action</h2>
@@ -3707,7 +3735,7 @@ As email subject set <code>Backup notification</code>.
 As email body set <code>Backup done {{ stringJoin .Errors ", " }}</code>. The <code>stringJoin</code> function joins all error messages in the <code>.Errors</code> list using a comma and space as a separator. If no errors occurred, the resulting string will be empty.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/backup-notification-action.png" data-desc-position="bottom" data-gallery="backup-notification"><img alt="Backup notification action" data-gallery="backup-notification" src="../../assets/img/backup-notification-action.png"></a></p>
 <h2 id="step-3-create-a-scheduled-rule">Step 3: Create a Scheduled Rule</h2>
-<p>Now select <strong>Event rules</strong> and create a rule named <code>Daily backup</code>, select <code>Schedule</code> as trigger and schedule a backup at midnight UTC time.</p>
+<p>Now select <strong>Rules</strong> and create a rule named <code>Daily backup</code>, select <code>Schedules</code> as trigger and schedule a backup at midnight UTC time.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/daily-backup-schedule.png" data-desc-position="bottom" data-gallery="schedule"><img alt="Daily backup schedule" data-gallery="schedule" src="../../assets/img/daily-backup-schedule.png"></a></p>
 <p>As actions select <code>backup</code> and <code>backup notification</code>.</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/daily-backup-actions.png" data-desc-position="bottom" data-gallery="backup-actions"><img alt="Daily backup actions" data-gallery="backup-actions" src="../../assets/img/daily-backup-actions.png"></a></p>
@@ -3734,7 +3762,7 @@ As email body set <code>Backup done {{ stringJoin .Errors ", " }}</code>. The <c
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="October 20, 2026 17:51:28 UTC">2026-10-20 17:51:28</span>
   </span>
 
     

@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/tutorials/eventmanager-icap/",
         "inLanguage": "en",
         "datePublished": "2026-04-26T15:47:01Z",
-        "dateModified": "2026-09-08T09:20:06Z",
+        "dateModified": "2026-10-20T17:51:28Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -1931,6 +1931,34 @@
     
   
     Web User Interfaces
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../theme-customization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theme Customization
   
 
     
@@ -3948,12 +3976,12 @@
 <p>With the <strong>Hide</strong> policy, temporary files do not appear in directory listings and all operations on them are blocked. The ICAP action reads them regardless, since event actions are not bound by file pattern filters.</p>
 <p>Alternatively, the <strong>Deny</strong> policy makes the files appear in listings but blocks all operations (download, delete, rename). Use this if you need visibility into ongoing uploads.</p>
 <h2 id="step-3-create-an-icap-action">Step 3: Create an ICAP Action</h2>
-<p>From the WebAdmin, expand the <strong>Event Manager</strong> section, select <strong>Event actions</strong> and add a new action.</p>
+<p>From the WebAdmin, expand the <strong>Event Manager</strong> section, select <strong>Actions</strong> and add a new action.</p>
 <p>Create an action named <code>antivirus scan</code> and set the type to <code>ICAP</code>.</p>
 <p>Configure the ICAP settings:</p>
 <ul>
-<li><strong>URL</strong>: Your ICAP server URL (e.g., <code>icap://icap-server:1344/avscan</code>)</li>
-<li><strong>Path</strong>: The file to scan — set this to <code>/{{.VirtualPath}}</code>. When combined with "Execute before file publish", this resolves to the temporary file path automatically, so the scan targets the staged file before it is published.</li>
+<li><strong>Server URL</strong>: Your ICAP server URL (e.g., <code>icap://icap-server:1344/avscan</code>)</li>
+<li><strong>Paths</strong>: The file to scan — set this to <code>/{{.VirtualPath}}</code>. When combined with "Execute before file publish", this resolves to the temporary file path automatically, so the scan targets the staged file before it is published.</li>
 </ul>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../../assets/img/icap-action.png" data-desc-position="bottom" data-gallery="icap-action"><img alt="ICAP action" data-gallery="icap-action" src="../../assets/img/icap-action.png"></a></p>
 <h3 id="block-action">Block Action</h3>
@@ -3990,7 +4018,7 @@
 <p>This provides isolation — infected files are moved out of the user's storage entirely.</p>
 <p>With "Execute before file publish" the scanned file is still at its temporary path (<code>.sftpgo-upload.&lt;id&gt;.&lt;filename&gt;</code>): a quarantine path ending with <code>/</code> keeps that temporary name. Use <code>/quarantine/{{.Name}}/{{pathJoin (stringSlice (pathDir .VirtualPath) .ObjectName)}}</code> to store the file under its original name and directory layout, partitioned by user (e.g. <code>/quarantine/alice/inbox/report.pdf</code>). Use <code>{{.ObjectName}}</code> in notifications too — as in the failure email below — so messages show the name the user uploaded.</p>
 <h2 id="step-4-create-an-event-rule">Step 4: Create an Event Rule</h2>
-<p>Now select <strong>Event rules</strong> and create a rule named <code>Scan uploads</code>.</p>
+<p>Now select <strong>Rules</strong> and create a rule named <code>Scan uploads</code>.</p>
 <ul>
 <li><strong>Trigger</strong>: Filesystem events</li>
 <li><strong>Events</strong>: Upload</li>
@@ -4094,7 +4122,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="October 20, 2026 17:51:28 UTC">2026-10-20 17:51:28</span>
   </span>
 
     

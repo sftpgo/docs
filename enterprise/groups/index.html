@@ -97,7 +97,7 @@
         "url": "https://docs.sftpgo.com/enterprise/groups/",
         "inLanguage": "en",
         "datePublished": "2024-04-25T16:47:14Z",
-        "dateModified": "2026-09-08T09:20:06Z",
+        "dateModified": "2026-10-29T06:41:25Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -1885,6 +1885,34 @@
     
   
     Web User Interfaces
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../theme-customization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theme Customization
   
 
     
@@ -3825,7 +3853,7 @@
 <tr>
 <td><strong>Membership</strong></td>
 <td>Any number</td>
-<td>Declares membership only: no setting is inherited. It is used where a rule or a policy is expressed in terms of group membership, such as the conditions of <a href="../eventmanager/">Event Manager</a> rules and the group access of <a href="../tutorials/shares/">shares</a>.</td>
+<td>Declares membership only: no setting is inherited. It is used where a rule or a policy is expressed in terms of group membership, such as the conditions of <a href="../eventmanager/">Event Manager</a> rules and the group access of <a href="../tutorials/shares/">shares</a>. A group <a href="../tutorials/shares/#group-share-policy-webadmin">share policy</a> is a setting, so it does not apply through a membership group.</td>
 </tr>
 </tbody>
 </table>
@@ -4056,7 +4084,9 @@
 <p>They apply to the group settings flagged in the tables on this page, to the <a href="../virtual-folders/">virtual folder</a> mappings a group carries, and to the paths of per-directory permissions and file pattern filters.</p>
 <p><code>%username%</code> and <code>%role%</code> are values every account carries, so a group templated on them resolves for each of its members. A custom placeholder is a value an account carries only if it was given one, identified by its position in the list: inserting or removing an entry changes what every later placeholder of that account resolves to, and a member without the value cannot log in until it is set. Use <code>%username%</code> and <code>%role%</code> where the location can be derived from either, and a custom placeholder for a value that cannot, such as a tenant identifier.</p>
 <p>When a group setting uses a placeholder the user has no value for, <code>%role%</code> for a user without a role or <code>%customN%</code> beyond the custom placeholders defined on the user, the login of that user is refused with an error naming the setting: the setting applies once the value is defined. These failures do not count as authentication failures for the defender.</p>
-<p>Virtual folder sub-paths are the exception: the mapping whose sub-path the user cannot render is left unmounted for that user, the other mappings apply and the login succeeds. The value is never rendered with the placeholder replaced by an empty string, so <code>/tenants/%role%</code> does not fall back to <code>/tenants</code>, the directory that holds every tenant. The server log names the mapping left out and the reason.</p>
+<p>Placeholder values are replaced as literal names. A value with a character that would change how the setting is read refuses the login in the same way, with an error naming the setting: a <code>[</code> or <code>]</code> in the path of a per-directory permission, where it would form a pattern, and a <code>~</code> in a home directory or in the mapped path of a virtual folder, where it can form a Windows short name.</p>
+<p>The storage decides whether two values name different locations: values that differ only in letter case, or in characters outside ASCII, can name the same directory or key prefix on storage that treats them as equal. Keep the values used in paths and key prefixes unique regardless of letter case, preferably in lowercase ASCII.</p>
+<p>Virtual folder sub-paths are the exception: a sub-path the user cannot render, or that a placeholder value would render with a <code>~</code>, is left out for that user. A mapping with a single sub-path is then left unmounted, while from exposed sub-paths only that entry is left out, and the mapping is left unmounted when no entry remains. The other mappings apply and the login succeeds. The value is never rendered with the placeholder replaced by an empty string, so <code>/tenants/%role%</code> does not fall back to <code>/tenants</code>, the directory that holds every tenant. The server log names what is left out and the reason.</p>
 <p>A group is saved with its settings as written: which placeholders an account resolves depends on the account. To see what a member gets, open its <a href="#inspecting-the-effective-configuration">effective configuration</a>: the page reports the setting the account cannot resolve, the same answer the login gives, and leaves out the mappings left unmounted, so a group templated on a placeholder can be verified against a real member before the first login.</p>
 <h2 id="inspecting-the-effective-storage">Inspecting the effective storage</h2>
 <p>The storage configured on a user is not always the one that applies at login: the primary group can provide it. When the two differ, the user page shows an <strong>Effective storage</strong> panel above the storage selector, reporting the provider that applies, where it comes from, the location parameters (bucket, container, key prefix, endpoint, remote directory), the home directory when the primary group provides it, and "Login is denied" when no storage applies.</p>
@@ -4099,7 +4129,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="September 8, 2026 09:20:06 UTC">2026-09-08 09:20:06</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="October 29, 2026 06:41:25 UTC">2026-10-29 06:41:25</span>
   </span>
 
     
