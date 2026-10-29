@@ -1734,6 +1734,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../clustering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Clustering and high availability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -5589,7 +5617,7 @@
 <li><strong>Post-quantum PGP</strong>: <a href="../filesystem-actions/#keys-and-profile">PGP actions</a> encrypt, decrypt and sign with post-quantum keys, which combine ML-KEM with X25519 and ML-DSA with EdDSA.</li>
 <li>Shares: <a href="../tutorials/shares/#restricting-recipient-email-domains">allowed share email domains</a> restrict the recipients of a user's shares to the listed domains, and every share then requires email authentication.</li>
 <li>SMTP and IMAP: Microsoft 365 accounts can authenticate with the OAuth2 <a href="../tutorials/oauth2-smtp-imap/#part-3-client-credentials-microsoft">client credentials</a> grant, without a signed-in user.</li>
-<li>Audit logs: administrator logins, from the WebAdmin, the REST API and OpenID Connect, and share authentications are <a href="../logs/">logged</a> and sent to the notifier plugins. See <a href="../plugins/audit-logs/#event-types">Event types</a>.</li>
+<li>Audit logs: administrator logins, from the WebAdmin, the REST API and OpenID Connect, are <a href="../logs/">logged</a> and sent to the notifier plugins, see <a href="../plugins/audit-logs/#event-types">Event types</a>. Authentication attempts on shares protected by a password or by email are written to the <a href="../logs/">log</a>.</li>
 <li>Two-factor authentication: <a href="../config-file/#multi-factor-authentication"><code>disable_recovery_codes</code></a> turns off recovery codes for the whole server.</li>
 <li>REST API: <code>PATCH /api/v2/users/{username}</code> updates a user without sending the whole object.</li>
 <li>Event Manager: the <a href="../placeholders/#string-operations"><code>stringSplit</code></a> template function splits a string at each separator, for example to pick a path segment by position.</li>
