@@ -3492,13 +3492,13 @@
 <td><code>proxy_protocol</code></td>
 <td>integer</td>
 <td><code>0</code></td>
-<td><a href="https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt" target="_blank">HAProxy PROXY protocol</a> support. Supported for SSH/SFTP and FTP/S. See modes below.</td>
+<td><a href="https://www.haproxy.org/download/1.8/doc/proxy-protocol.txt" target="_blank">HAProxy PROXY protocol</a> support. Supported for SSH/SFTP, FTP/S and the HTTP and WebDAV bindings that set <code>proxy_mode</code> to <code>1</code>. See modes below.</td>
 </tr>
 <tr>
 <td><code>proxy_allowed</code></td>
 <td>list of strings</td>
 <td>empty</td>
-<td>IP addresses and ranges allowed to send the proxy header. If <code>proxy_protocol</code> is <code>1</code>, connections from unlisted IPs are accepted but the header is ignored. If <code>proxy_protocol</code> is <code>2</code>, connections from unlisted IPs are rejected.</td>
+<td>IP addresses and ranges allowed to send the proxy header. If <code>proxy_protocol</code> is <code>1</code>, connections from unlisted IPs are accepted but the header is ignored. If <code>proxy_protocol</code> is <code>2</code>, connections from unlisted IPs are rejected, except those in <code>proxy_skipped</code>.</td>
 </tr>
 <tr>
 <td><code>proxy_skipped</code></td>
@@ -3534,7 +3534,7 @@
 <td><code>max_per_host_connections</code></td>
 <td>integer</td>
 <td><code>20</code></td>
-<td>Maximum concurrent client connections from the same IP. If the defender is enabled, exceeding this limit generates <code>score_limit_exceeded</code> events, and repeat offenders can be automatically banned. <code>0</code> means unlimited.</td>
+<td>Maximum concurrent client connections from the same IP. If the defender is enabled, exceeding this limit generates <code>score_limit_exceeded</code> events, and repeat offenders can be automatically banned. The same value limits the concurrent sessions of a single SSH connection and the directories that SFTP clients from the same IP keep open at once. <code>0</code> means unlimited.</td>
 </tr>
 <tr>
 <td><code>allowlist_status</code></td>
@@ -3584,7 +3584,7 @@
 <p><code>symlink_mode</code> is a bit mask that selects the backends on which clients may create symbolic links, regardless of the <code>create_symlinks</code> permission. The default, <code>0</code>, disables creation on every backend across all protocols; add <code>1</code> to allow it on the local filesystem (including its encrypted variant), <code>2</code> on the SFTP backend, <code>3</code> for both. Symbolic links already present on the storage are still honored: <code>symlink_mode</code> controls creation, it does not change links that already exist.</p>
 <p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> On the local filesystem, including its encrypted variant, paths are resolved within the accessible area as part of each operation, one component at a time: a symbolic link resolving outside of it makes the operation fail, and a link with an absolute target is never followed, wherever it points. On the SFTP backend the path is validated and then operated on in separate steps; see <a href="../sftpfs/#path-confinement">Path confinement</a> for the residual limits that apply there.</p>
 <p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Per-directory permissions and path-based filters configure how a single user moves through its own home: different areas of one tree can carry different access. They enforce as configured on a trusted layout, evaluated against the path the client requests. A redirection introduced beneath the root — an alias placed on the storage, or a symbolic link created when <code>create_symlinks</code> is granted — is followed under the requesting path's permissions, so a more restricted area can be reached through a more permissive path. Where such a restriction must hold, keep the layout free of these redirections: symbolic-link creation is disabled by default, so leave it disabled when clients do not need links, and provision the tree so its structure reflects the boundaries intended.</p>
-<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> More generally, SFTPGo trusts the storage. What the storage reports — the structure it presents, the names it returns, the file types and the metadata it declares — is taken as authoritative, and the restrictions above are layered on top of it. Content written to the storage outside SFTPGo, by another tool or directly on the filesystem, is served as it is reported.</p>
+<p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> More generally, SFTPGo trusts the storage. What the storage reports — the structure it presents, the names it returns, the file types and the metadata it declares — is taken as authoritative, and the restrictions above are layered on top of it. Content written to the storage outside SFTPGo, by another tool or directly on the filesystem, is served as it is reported. A requested path uses both <code>/</code> and <code>\</code> as directory separators, on every protocol, and restrictions apply to the path as read, so the names SFTPGo creates never contain <code>\</code>. An entry whose name contains <code>\</code> is left out of directory listings, since a request reads <code>\</code> as a separator: removing the directory that holds it deletes the rest of its contents and keeps the directory. Rename or delete such an entry directly on the storage.</p>
 <p><img alt="ℹ" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2139.svg" title=":information_source:"> A public share exposes the shared paths as a boundary of the same kind as the path-based restrictions above: it is evaluated on the virtual path requested through the share link. A symbolic link beneath a shared path is dereferenced, so its target is served through the share even when it sits elsewhere in the owner's tree.</p>
 <h4 id="upload_mode-flags"><code>upload_mode</code> flags</h4>
 <table>
@@ -3636,11 +3636,11 @@
 </tr>
 <tr>
 <td><code>1</code></td>
-<td>Enabled. The proxy header is always read. If the upstream IP is not in <code>proxy_allowed</code>, the header is ignored (but the connection is accepted). Use <code>proxy_skipped</code> to allow specific IPs/networks to connect without sending or having their proxy header read.</td>
+<td><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:"> Deprecated, it will be removed in a future version: use <code>2</code> and list the clients that connect directly in <code>proxy_skipped</code>. The proxy header is optional. The server reads the first bytes of each connection to look for it, so a client that waits for the server to speak first, as FTP clients do, receives the welcome message after up to 10 seconds. Headers from IP addresses outside <code>proxy_allowed</code> are ignored. Connections from the IP addresses and networks in <code>proxy_skipped</code> are served without reading the header.</td>
 </tr>
 <tr>
 <td><code>2</code></td>
-<td>Required. The proxy header is always read. If the upstream IP is not in <code>proxy_allowed</code> and a proxy header is found, the connection is rejected. Use <code>proxy_skipped</code> to allow specific IPs/networks to connect without sending or having their proxy header read.</td>
+<td>Recommended. Connections from the IP addresses in <code>proxy_allowed</code> must send the proxy header. Connections from the IP addresses and networks in <code>proxy_skipped</code> are served without reading the header: list there the clients that connect directly. Connections from any other IP address are rejected.</td>
 </tr>
 </tbody>
 </table>
@@ -3730,13 +3730,13 @@
 <td><code>ban_time_increment</code></td>
 <td>integer</td>
 <td><code>50</code></td>
-<td>Ban time increment as a percentage if a banned host tries to connect again.</td>
+<td>Percentage of <code>ban_time</code> added to the ban of a host at each connection it opens while banned, and at each of its HTTP and WebDAV requests; the extension is at least one minute. Minimum value <code>1</code>.</td>
 </tr>
 <tr>
 <td><code>threshold</code></td>
 <td>integer</td>
 <td><code>15</code></td>
-<td>Score threshold for banning a client.</td>
+<td>Score at which a host is banned.</td>
 </tr>
 <tr>
 <td><code>score_invalid</code></td>
@@ -3760,13 +3760,13 @@
 <td><code>score_no_auth</code></td>
 <td>integer</td>
 <td><code>0</code></td>
-<td>Score for clients disconnected without any authentication attempt.</td>
+<td>Score for SSH and FTP connections closed before a login attempt.</td>
 </tr>
 <tr>
 <td><code>observation_time</code></td>
 <td>integer</td>
 <td><code>30</code></td>
-<td>Time window in minutes for tracking client errors. A host is banned if its score exceeds the threshold within this period.</td>
+<td>Time window in minutes for tracking client errors. A host is banned when its score reaches the threshold within this period.</td>
 </tr>
 <tr>
 <td><code>entries_soft_limit</code></td>
@@ -4746,7 +4746,7 @@
 <td><code>track_quota</code></td>
 <td>integer</td>
 <td><code>2</code></td>
-<td>Preferred mode to track user quota: <code>0</code> disables quota tracking (quota scan REST API does nothing). <code>1</code> updates quota on every upload or delete, even for users without quota restrictions. <code>2</code> updates quota on every upload or delete, but only for users with quota restrictions and for virtual folders (quota scan REST API can still be used for other users/folders).</td>
+<td>Preferred mode to track user quota: <code>0</code> disables quota tracking (quota scan REST API does nothing). <code>1</code> updates quota on every upload or delete, even for users without quota restrictions. <code>2</code> updates quota on every upload or delete, but only for users with quota restrictions and for virtual folders (quota scan REST API can still be used for other users/folders). An upload is admitted against the usage recorded when it starts and is capped at the space left at that moment, so uploads running at the same time each see the same free space. A periodic check, about once a minute, stops the transfers that together exceed the quota, so a burst of concurrent uploads can momentarily exceed it by roughly what the client moves within that window. Once the usage is above the quota every further upload is refused. Allow a small margin when sizing tight quotas for clients that upload in parallel.</td>
 </tr>
 <tr>
 <td><code>delayed_quota_update</code></td>
@@ -5243,7 +5243,7 @@
 <td><code>proxy_allowed</code></td>
 <td>list of strings</td>
 <td>empty</td>
-<td>IP addresses and ranges allowed to set client IP proxy headers (<code>X-Forwarded-For</code>, <code>X-Real-IP</code>, etc.). Headers set by connections from addresses not in this list are silently ignored.</td>
+<td>IP addresses and ranges allowed to set client IP proxy headers (<code>X-Forwarded-For</code>, <code>X-Real-IP</code>, etc.) and <code>X-Forwarded-Proto</code>. A request from these addresses carrying <code>X-Forwarded-Proto: https</code> is treated as HTTPS. Headers set by connections from addresses not in this list are silently ignored.</td>
 </tr>
 <tr>
 <td><code>client_ip_proxy_header</code></td>
@@ -5445,7 +5445,7 @@
 <td><code>https_proxy_headers</code></td>
 <td>list of structs</td>
 <td>empty</td>
-<td>Each struct has <code>key</code> and <code>value</code> fields. Defines headers that indicate a valid HTTPS request (e.g., <code>key</code>: <code>X-Forwarded-Proto</code>, <code>value</code>: <code>https</code>).</td>
+<td>Each struct has <code>key</code> and <code>value</code> fields (e.g., <code>key</code>: <code>X-Forwarded-Proto</code>, <code>value</code>: <code>https</code>). A request carrying one of these headers with the given value receives the <code>Strict-Transport-Security</code> header configured by <code>sts_seconds</code>. Cookies, redirects and generated URLs follow <code>X-Forwarded-Proto</code> from the addresses in the binding's <code>proxy_allowed</code>.</td>
 </tr>
 <tr>
 <td><code>sts_seconds</code></td>

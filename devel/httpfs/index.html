@@ -2021,6 +2021,7 @@
 <p>The only required parameter is the HTTP/S endpoint that SFTPGo must use to make API calls.
 If you define <code>http://127.0.0.1:9999/api/v1</code> as endpoint, SFTPGo will add the API path, for example for the <code>stat</code> API it will invoke <code>http://127.0.0.1:9999/api/v1/stat/{name}</code>.</p>
 <p>You can set a <code>username</code> and/or a <code>password</code> to instruct SFTPGo to use the basic authentication, or you can set an API key to instruct SFTPGo to add it to each API call in the <code>X-API-KEY</code> HTTP header.</p>
+<p>The equality check mode defines when two HTTP/S configurations are the same storage, which allows renames between them: by default the endpoint and the username must match, with <code>1</code> on both configurations the endpoint alone.</p>
 <p>Here is a mapping between HTTP response codes and protocol errors:</p>
 <ul>
 <li><code>401</code>, <code>403</code> mean permission denied error</li>

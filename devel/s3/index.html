@@ -2040,13 +2040,14 @@
 </ul>
 <p>Other notes:</p>
 <ul>
-<li>Directories are not real objects: the entries are derived from the object keys, so an upload brings the path prefixes it needs into existence.</li>
+<li>Directories are not real objects: the entries are derived from the object keys, so an upload brings the path prefixes it needs into existence. An object whose key has an empty, <code>.</code> or <code>..</code> segment names no entry: it is not listed, and removing the directory that holds it keeps the directory until the object is removed with the provider tools.</li>
 <li><code>rename</code> is a two step operation: server-side copy and then deletion. So, it is not atomic as for local filesystem.</li>
 <li>We don't support renaming non empty directories since we should rename all the contents too and this could take a long time: think about directories with thousands of files: for each file we should do an AWS API call.</li>
 <li>For server side encryption, you have to configure the mapped bucket to automatically encrypt objects.</li>
 <li>A local home directory is still required to store temporary files.</li>
 <li>Clients that require advanced filesystem-like features such as <code>sshfs</code> are not supported.</li>
 <li><code>chtime</code> not supported.</li>
+<li>Folders that name the same bucket on the same endpoint are treated as one bucket, whatever their credentials: renames and copies between them run inside it. On services where one bucket name can point to different buckets depending on the access key or tenant, give each bucket a name that is unique on the endpoint.</li>
 </ul>
 
 

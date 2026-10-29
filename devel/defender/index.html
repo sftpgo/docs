@@ -1976,25 +1976,25 @@
 <h1 id="defender">Defender</h1>
 <p>The built-in <code>defender</code> allows you to configure an auto-blocking policy for SFTPGo and thus helps to prevent DoS (Denial of Service) and brute force password guessing.</p>
 <p>If enabled it will protect SFTP, HTTP, FTP and WebDAV services and it will automatically block hosts (IP addresses) that continually fail to log in or attempt to connect.</p>
+<p>On the HTTP and WebDAV services the defender, the rate limiters and the per-host connection limit check each request once its TLS handshake has completed, and on implicit FTPS the reply to a refused connection completes the handshake first: to refuse a source before any TLS handshake, filter it in front of SFTPGo, for example at a firewall or a load balancer.</p>
 <p>You can configure a score for the following events:</p>
 <ul>
 <li><code>score_valid</code>, defines the score for valid login attempts, eg. user accounts that exist. Default <code>1</code>.</li>
 <li><code>score_invalid</code>, defines the score for invalid login attempts, eg. non-existent user accounts. Default <code>2</code>.</li>
-<li><code>score_no_auth</code>, defines the score for clients disconnected without any authentication attempt. Default <code>0</code>.</li>
+<li><code>score_no_auth</code>, defines the score for SSH and FTP connections closed before a login attempt. Default <code>0</code>.</li>
 <li><code>score_limit_exceeded</code>, defines the score for hosts that exceeded the configured rate limits or the configured max connections per host. Default <code>3</code>.</li>
 </ul>
 <p>You can set the score to <code>0</code> to not penalize some events.</p>
 <p>And then you can configure:</p>
 <ul>
 <li><code>observation_time</code>, defines the time window, in minutes, for tracking client errors.</li>
-<li><code>threshold</code>, defines the threshold value before banning a host.</li>
+<li><code>threshold</code>, defines the score at which a host is banned.</li>
 <li><code>ban_time</code>, defines the time to ban a client, as minutes</li>
 </ul>
-<p>So a host is banned, for <code>ban_time</code> minutes, if the sum of the scores has exceeded the defined threshold during the last observation time minutes.</p>
+<p>So a host is banned, for <code>ban_time</code> minutes, when the sum of its scores during the last <code>observation_time</code> minutes reaches the defined threshold.</p>
 <p>By defining the scores, each type of event can be weighted. Let's see an example: if <code>score_invalid</code> is 3 and <code>threshold</code> is 8, a host will be banned after 3 login attempts with an non-existent user within the configured <code>observation_time</code>.</p>
 <p>A banned IP has no score, it makes no sense to accumulate host events in memory for an already banned IP address.</p>
-<p>If an already banned client tries to log in again, its ban time will be incremented according the <code>ban_time_increment</code> configuration.</p>
-<p>The <code>ban_time_increment</code> is calculated as percentage of <code>ban_time</code>, so if <code>ban_time</code> is 30 minutes and <code>ban_time_increment</code> is 50 the host will be banned for additionally 15 minutes. You can also specify values greater than 100 for <code>ban_time_increment</code> if you want to increase the penalty for already banned hosts.</p>
+<p>Each connection from a banned host, and each request on the HTTP and WebDAV services, extends its ban by <code>ban_time_increment</code>, a percentage of <code>ban_time</code>: if <code>ban_time</code> is 30 minutes and <code>ban_time_increment</code> is 50, every new attempt adds 15 minutes. The extension is at least one minute, so a host that keeps connecting stays banned. <code>ban_time_increment</code> accepts values from <code>1</code>; values above 100 extend the ban by more than <code>ban_time</code> at each attempt.</p>
 <p>SFTPGo can store host scores and banned hosts in memory or within the configured data provider according to the <code>driver</code> set in the <code>defender</code> configuration section. The available drivers are <code>memory</code> and <code>provider</code>.
 The <code>provider</code> driver is useful if you want to share the defender data across multiple SFTPGo instances and it requires a shared or distributed data provider: <code>MySQL</code>, <code>PostgreSQL</code> and <code>CockroachDB</code> are supported.
 If you set the <code>provider</code> driver, the defender implementation may do many database queries (at least one query every time a new client connects to check if it is banned), if you have a single SFTPGo instance the <code>memory</code> driver is recommended.</p>

@@ -2016,11 +2016,11 @@
 
 
 <h1 id="post-login-hook">Post-login hook</h1>
-<p>This hook is executed after a login or after closing a connection for authentication timeout. Defining an appropriate <code>post_login_scope</code> you can get notifications for failed logins, successful logins or both.</p>
+<p>This hook is executed after a login, and after an SSH or FTP connection closed before a login attempt. Defining an appropriate <code>post_login_scope</code> you can get notifications for failed logins, successful logins or both.</p>
 <p>The <code>post-login-hook</code> can be defined as the absolute path of your program or an HTTP URL.</p>
-<p>If the hook defines an external program it can reads the following environment variables:</p>
+<p>If the hook defines an external program it can read the following environment variables:</p>
 <ul>
-<li><code>SFTPGO_LOGIND_USER</code>, it contains the user serialized as JSON. The username is empty if the connection is closed for authentication timeout</li>
+<li><code>SFTPGO_LOGIND_USER</code>, it contains the user serialized as JSON. The username is empty for a connection closed before a login attempt</li>
 <li><code>SFTPGO_LOGIND_IP</code></li>
 <li><code>SFTPGO_LOGIND_METHOD</code>, possible values are <code>publickey</code>, <code>password</code>, <code>keyboard-interactive</code>, <code>publickey+password</code>, <code>publickey+keyboard-interactive</code>, <code>TLSCertificate</code>, <code>TLSCertificate+password</code> or <code>no_auth_tried</code>, <code>IDP</code> (external identity provider)</li>
 <li><code>SFTPGO_LOGIND_STATUS</code>, 1 means login OK, 0 login KO</li>
@@ -2035,7 +2035,7 @@ The request body will contain the user serialized as JSON.</p>
 <p>The <code>post_login_scope</code> supports the following configuration values:</p>
 <ul>
 <li><code>0</code> means notify both failed and successful logins</li>
-<li><code>1</code> means notify failed logins. Connections closed for authentication timeout are notified as failed logins. You will get an empty username in this case</li>
+<li><code>1</code> means notify failed logins. Connections closed before a login attempt are notified as failed logins, with an empty username</li>
 <li><code>2</code> means notify successful logins</li>
 </ul>
 

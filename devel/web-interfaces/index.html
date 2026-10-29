@@ -2133,6 +2133,7 @@ Groups simplify the administration of multiple accounts by letting you assign se
 <p>With the default <code>httpd</code> configuration, the web admin is available at the following URL:</p>
 <p><a href="http://127.0.0.1:8080/web/admin" target="_blank">http://127.0.0.1:8080/web/admin</a></p>
 <p>If no admin user is found within the data provider, typically after the initial installation, SFTPGo will ask you to create the first admin. You can also pre-create an admin user by loading initial data or by configuration/env vars.</p>
+<p>Until an admin account exists, the setup screen is available to anyone who can reach the WebAdmin. Set an installation_code in the <a href="../config-file/#setup">setup</a> configuration to require a shared code before the first account can be created, or pre-create the first admin before exposing the WebAdmin.</p>
 <p>The web interface can be configured over HTTPS and to require mutual TLS authentication in addition to administrator credentials.</p>
 <h2 id="webclient">WebClient</h2>
 <p>The SFTPGo WebClient allows end users to change their credentials, browse and manage their files in the browser and setup two-factor authentication which works with Authy, Google Authenticator and other compatible apps.</p>
