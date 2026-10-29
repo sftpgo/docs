@@ -120,7 +120,7 @@ Skip this when the binding has its own certificate and the proxy connects to it 
 
 **Sub-path.** To serve the interfaces under a path prefix instead of at the root, set `web_root` to it, for example `/sftpgo`, and have the proxy forward the prefix unchanged.
 
-**Large uploads.** Proxies often cap the request body size and buffer the whole body before forwarding it. Raise the cap and turn off request buffering, or set `upload_chunk_size` to enable [TUS](tutorials/cloudflare.md#enabling-tus-uploads-on-the-binding) so that the WebClient splits each file into chunks that fit under the cap. With several instances behind a load balancer, chunked uploads require session affinity.
+**Large uploads.** Proxies often cap the request body size and buffer the whole body before forwarding it. Raise the cap and turn off request buffering, or set `upload_chunk_size` to enable [TUS](tutorials/cloudflare.md#enabling-tus-uploads-on-the-binding) so that the WebClient splits each file into chunks that fit under the cap. With several instances behind a load balancer, chunked uploads require session affinity; for the sessions themselves see [Clustering](clustering.md).
 
 **Health checks.** Every HTTP binding answers `GET /healthz` with `ok` and without authentication, which suits load balancer health checks. Requests to it go through the connection limits, the rate limiters and the [IP lists](ip-lists.md) like any other request, so include the address the checks come from when an allow list is enabled. The [telemetry](metrics.md) server exposes the same endpoint without those checks.
 

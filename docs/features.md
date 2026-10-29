@@ -112,7 +112,7 @@ SFTPGo includes two web interfaces, both with dark and light themes and support 
 
 SFTPGo is designed to scale from a single instance to large distributed deployments.
 
-- Multi-node clustering with near real-time propagation of configuration changes across all nodes. A *node* is a single SFTPGo instance — on Kubernetes, a pod (several can run on one Kubernetes worker node).
+- [Multi-node clustering](clustering.md) with near real-time propagation of configuration changes across all nodes. A *node* is a single SFTPGo instance — on Kubernetes, a pod (several can run on one Kubernetes worker node).
 - Native Kubernetes support with an official [Helm chart](installation.md).
 - Available on the [AWS Marketplace](tutorials/sftpgo-aws.md), [Azure Marketplace](installation.md#azure), and [Google Cloud Marketplace](tutorials/sftpgo-google-cloud.md).
 - Runs on Linux, Windows, macOS, and FreeBSD — from embedded devices to cloud infrastructure.
