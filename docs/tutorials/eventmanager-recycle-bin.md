@@ -70,7 +70,7 @@ Add a retention policy:
 | ------ | ------------------- | ------------------- |
 | `/recycle` | 72 | Yes |
 
-This deletes files older than 72 hours (3 days) from the `/recycle` folder and removes any empty subdirectories left behind.
+This deletes files older than 72 hours (3 days) from the `/recycle` folder and removes any empty subdirectories left behind. The age of a file is read from its modification time, see [Note on File Modification Time](eventmanager-retention.md#note-on-file-modification-time).
 
 ![Recycle retention action](../assets/img/recycle-retention-action.png){data-gallery="recycle-retention-action"}
 
@@ -90,4 +90,17 @@ Create a rule named `recycle_retention`:
 4. The file remains in `/recycle` for 72 hours.
 5. The nightly retention job cleans up files older than 72 hours.
 
-The same flow applies to uploads that overwrite existing files — the `pre-upload` trigger saves the current version before it is replaced.
+The same flow applies to uploads that overwrite existing files — the `pre-upload` trigger saves the current version before it is replaced. The `pre-delete` trigger also saves the existing file when a rename or a copy overwrites it, and when an SFTP truncate request makes it smaller.
+
+## Quota
+
+:warning: The copies in `/recycle` count toward the user's quota. When the quota is full the copy fails, and the delete or overwrite that triggered it is refused too. A user with a full quota therefore cannot free space by deleting files until the retention empties the bin. To keep the bin out of the user's quota, mount `/recycle` as a [virtual folder](../virtual-folders.md) with **Quota size** and **Quota files** set to `0`. On a [group](../groups.md), a single folder mapping with sub-path `/%username%` gives each member a bin of its own.
+
+## Read-Only Recycle Bin
+
+To let users browse the bin and restore files while every deleted file stays in it until the retention runs, add a [per-directory permission](../access-control.md#per-directory-permissions) on `/recycle` with `list`, `download` and `copy`:
+
+- a file is restored by downloading it and uploading it again, or with **Copy** in the WebClient; the original stays in the bin;
+- deleting, renaming, uploading and changing attributes inside `/recycle` are refused.
+
+The copy to recycle action and the retention keep working, since actions run with full permissions. Leave out `rename`, which moves a file out of the bin, and `chtimes`, which changes the modification time the retention reads.

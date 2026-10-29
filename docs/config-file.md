@@ -67,7 +67,7 @@ Per-directory permissions, file pattern filters and share paths are evaluated on
 | ------ | ------------- |
 | `0` | Disabled. |
 | `1` | :warning: Deprecated, it will be removed in a future version: use `2` and list the clients that connect directly in `proxy_skipped`. The proxy header is optional. The server reads the first bytes of each connection to look for it, so a client that waits for the server to speak first, as FTP clients do, receives the welcome message after up to 10 seconds. Headers from IP addresses outside `proxy_allowed` are ignored. Connections from the IP addresses and networks in `proxy_skipped` are served without reading the header. |
-| `2` | Recommended. Connections from the IP addresses in `proxy_allowed` must send the proxy header. Connections from the IP addresses and networks in `proxy_skipped` are served without reading the header: list there the clients that connect directly. Connections from any other IP address are rejected. |
+| `2` | Connections from the IP addresses in `proxy_allowed` must send the proxy header. Connections from the IP addresses and networks in `proxy_skipped` are served without reading the header: list there the clients that connect directly. Connections from any other IP address are rejected. |
 
 ### `actions`
 

@@ -32,6 +32,7 @@ A mapping, on the user or group page, has the following properties:
 | **Mount path** | Absolute path where the folder appears in the user's file system, for example `/shared`. `virtual_path` in the REST API. |
 | **Quota size** | Maximum size, `0` for no limit, `-1` to count the folder within the user's quota. |
 | **Quota files** | Maximum number of files, `0` for no limit, `-1` to count the folder within the user's quota. |
+| **Mounted content** | What the mount serves: the whole folder, a sub-path or a list of exposed sub-paths. |
 | **Sub-path** | Serves the folder starting from a sub-path instead of its root. See [Sub-path mounts](#sub-path-mounts). |
 | **Exposed sub-paths** | Exposes the listed sub-paths of the folder, each as a directory under the mount path. See [Sub-path mounts](#sub-path-mounts). |
 
@@ -91,7 +92,7 @@ When a configuration needs overlapping mapped paths:
 
 ## Renaming across folders
 
-A rename between the user's root filesystem and a virtual folder, or between two virtual folders, is accepted when both sides are on the same storage: the local filesystem, the same bucket or container, the same SFTP server. Between different storages, copy the files and remove the source.
+A rename between the user's root filesystem and a virtual folder, or between two virtual folders, is accepted when both sides are on the same storage: the local filesystem, the same bucket or container, the same SFTP or HTTP/S account. Between different storages, copy the files and remove the source.
 
 On the local filesystem such a rename is performed as a copy followed by a delete. It can be slow for large directory trees and is not atomic: each file leaves the source only after its copy succeeds, so no data is lost, but a failure midway leaves the files already moved at the destination and the rest at the source. Symbolic links and other special files are not moved: one found inside the renamed tree stays at the source, together with the source directory, and renaming such a file on its own fails. Regular files keep their permission bits, except `setuid`, `setgid` and the sticky bit, and their modification time.
 

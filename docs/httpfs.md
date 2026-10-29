@@ -16,7 +16,7 @@ SFTPGo can use a custom HTTP/S service as a storage backend. This allows you to 
 | **Username** | Username for HTTP Basic authentication. Optional. |
 | **Password** | Password for HTTP Basic authentication. Optional. |
 | **API key** | API key sent via the `X-API-KEY` header. Optional. Can be used in addition to or instead of Basic authentication. |
-| **Equality check mode** | How to determine if two configurations point to the same server: `0` (default) requires only the endpoint to match; `1` also requires the username to match. Used for rename operations across configurations. |
+| **Equality check mode** | How to determine if two configurations point to the same server: `0` (default) requires both endpoint and username to match; `1` requires only the endpoint to match. Used for rename operations across configurations. |
 | **Skip TLS verify** | Accept any TLS certificate. :warning: Only for testing — susceptible to man-in-the-middle attacks. |
 | **Remote directory** | Optional server-side path used as the starting directory for all operations. See [Remote directory](#remote-directory) below. |
 

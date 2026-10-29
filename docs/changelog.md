@@ -12,6 +12,37 @@ Upgrading to the Enterprise edition of SFTPGo is supported starting from Open So
 
 If you're migrating from an open-source installation, please follow the guide here: [**Migration from Open-Source to Enterprise Edition**](tutorials/migrating.md)
 
+## Update October 28, 2026 - v2.8.20261028
+
+### New features
+
+- **Accessibility**: the WebAdmin and the WebClient follow the [WCAG 2.2 level AA](web-interfaces.md#accessibility) guidelines. Every control works from the keyboard with a visible focus indicator, fields and buttons carry accessible names in every supported language, and both the light and the dark theme meet the contrast minimums. An Accessibility Conformance Report based on VPAT 2.5 is available on request.
+- **Theme customization**: match the WebAdmin and the WebClient to your brand with a custom stylesheet that sets the colors, the sidebar and the fonts. Start from the defaults file the server publishes and keep only the variables you change; the stylesheet survives upgrades, and each binding can serve its own brand. See [Theme customization](theme-customization.md).
+- **Protection against connection floods**: the defender can ban clients that open many connections and close them before logging in, an attack that loads the server with TLS handshakes and SSH key exchanges. Enable it with [`max_incomplete_connections`](defender.md#incomplete-connections).
+- **Post-quantum PGP**: [PGP actions](filesystem-actions.md#keys-and-profile) encrypt, decrypt and sign with post-quantum keys, which combine ML-KEM with X25519 and ML-DSA with EdDSA.
+- Shares: [allowed share email domains](tutorials/shares.md#restricting-recipient-email-domains) restrict the recipients of a user's shares to the listed domains, and every share then requires email authentication.
+- SMTP and IMAP: Microsoft 365 accounts can authenticate with the OAuth2 [client credentials](tutorials/oauth2-smtp-imap.md#part-3-client-credentials-microsoft) grant, without a signed-in user.
+- Audit logs: administrator logins, from the WebAdmin, the REST API and OpenID Connect, are [logged](logs.md) and sent to the notifier plugins, see [Event types](plugins/audit-logs.md#event-types). Authentication attempts on shares protected by a password or by email are written to the [log](logs.md).
+- Two-factor authentication: [`disable_recovery_codes`](config-file.md#multi-factor-authentication) turns off recovery codes for the whole server.
+- REST API: `PATCH /api/v2/users/{username}` updates a user without sending the whole object.
+- Event Manager: the [`stringSplit`](placeholders.md#string-operations) template function splits a string at each separator, for example to pick a path segment by position.
+
+### Bug fixes
+
+- Local storage on Windows: per-directory permissions, file pattern filters and share paths now apply to every name Windows resolves to the same entry, such as a different letter case. See [Names that reach the same entry](access-control.md#names-that-reach-the-same-entry).
+- Event rules and hooks: truncating a file with an SFTP request now triggers `pre-delete`.
+- SFTP with [memory pipes](env-vars.md#transfers-and-storage) enabled: a download now opens the file at the first read instead of at its beginning, which completes the fix of v2.7.20260910.
+- Web interfaces: the [disclaimer](config-file.md#branding) link is also shown on the share pages and the other pages served without login, not only on the login pages.
+
+### Behavior changes
+
+- Two-factor authentication: disabling it, generating a new secret, changing the protocols and viewing the recovery codes now require the current authentication code or a recovery code. REST API clients send the code in the `X-SFTPGO-OTP` header. See [Change or disable 2FA](tutorials/two-factor-authentication.md#change-or-disable-2fa).
+- FTP storage backend: a directory listing returns at most 50,000 entries, see [FTP backend](ftpfs.md).
+- Linux packages: the systemd unit sets the open files limit to `1024:524288`, the systemd default, instead of `8192`.
+- ACME: `P256` is the default key type and applies to each certificate at its next renewal.
+- [TUS](tutorials/cloudflare.md#enabling-tus-uploads-on-the-binding) uploads in the WebClient, in shares and in the REST API: the `Location` header returned when an upload is created holds a relative link, such as `/web/client/chunked-upload/<id>`, instead of an absolute URL. The client resolves it against the URL it used, so behind a proxy the scheme and host seen by SFTPGo no longer reach it.
+- `proxy_protocol` mode `1` is deprecated: use mode `2` and list the clients that connect directly in `proxy_skipped`. See [`proxy_protocol` modes](config-file.md#proxy_protocol-modes).
+
 ## Update September 10, 2026 - v2.7.20260910
 
 ### New features

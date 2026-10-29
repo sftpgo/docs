@@ -14,7 +14,7 @@ SFTPGo supports the following types of groups:
 | ------ | ---------- | ------------- |
 | **Primary** | At most one | Provides the base configuration: the storage, the settings the user leaves unset, and additive settings such as virtual folders and permissions, including the ones for `/`. |
 | **Secondary** | Any number | Adds virtual folders, permissions, filters and the other additive settings on top of the primary group and of the user's own settings. It cannot provide the `/` path. |
-| **Membership** | Any number | Declares membership only: no setting is inherited. It is used where a rule or a policy is expressed in terms of group membership, such as the conditions of [Event Manager](eventmanager.md) rules and the group access of [shares](tutorials/shares.md). |
+| **Membership** | Any number | Declares membership only: no setting is inherited. It is used where a rule or a policy is expressed in terms of group membership, such as the conditions of [Event Manager](eventmanager.md) rules and the group access of [shares](tutorials/shares.md). A group [share policy](tutorials/shares.md#group-share-policy-webadmin) is a setting, so it does not apply through a membership group. |
 
 :warning: SFTPGo groups are completely unrelated to system groups. There is no need to create Linux/Windows groups to use SFTPGo groups.
 

@@ -8,14 +8,14 @@ SFTPGo Enterprise is accessible through our Docker repository: `registry.sftpgo.
 
 ## Latest tags
 
-- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260910
-- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260910-plugins
-- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260910-distroless
-- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260910-distroless-plugins
-- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260910-fips
-- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260910-plugins-fips
-- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260910-distroless-fips
-- registry.sftpgo.com/sftpgo/sftpgo:v2.7.20260910-distroless-plugins-fips
+- registry.sftpgo.com/sftpgo/sftpgo:v2.8.20261028
+- registry.sftpgo.com/sftpgo/sftpgo:v2.8.20261028-plugins
+- registry.sftpgo.com/sftpgo/sftpgo:v2.8.20261028-distroless
+- registry.sftpgo.com/sftpgo/sftpgo:v2.8.20261028-distroless-plugins
+- registry.sftpgo.com/sftpgo/sftpgo:v2.8.20261028-fips
+- registry.sftpgo.com/sftpgo/sftpgo:v2.8.20261028-plugins-fips
+- registry.sftpgo.com/sftpgo/sftpgo:v2.8.20261028-distroless-fips
+- registry.sftpgo.com/sftpgo/sftpgo:v2.8.20261028-distroless-plugins-fips
 
 ## How to use the SFTPGo image
 
@@ -73,8 +73,8 @@ Alternatively you can increase the default docker grace time to a value larger t
 
 Important note: There are several ways to store data used by applications that run in Docker containers. We encourage users of the SFTPGo images to familiarize themselves with the options available, including:
 
-- Let Docker manage the storage for SFTPGo data by [writing them to disk on the host system using its own internal volume management](https://docs.docker.com/engine/tutorials/dockervolumes/#adding-a-data-volume){:target="_blank"}. This is the default and is easy and fairly transparent to the user. The downside is that the files may be hard to locate for tools and applications that run directly on the host system, i.e. outside containers.
-- Create a data directory on the host system (outside the container) and [mount this to a directory visible from inside the container](https://docs.docker.com/engine/tutorials/dockervolumes/#mount-a-host-directory-as-a-data-volume){:target="_blank"}. This places the SFTPGo files in a known location on the host system, and makes it easy for tools and applications on the host system to access the files. The downside is that the user needs to make sure that the directory exists, and that e.g. directory permissions and other security mechanisms on the host system are set up correctly. The SFTPGo image runs using `1000` as UID/GID by default.
+- Let Docker manage the storage for SFTPGo data by [writing it to disk on the host system using its own internal volume management](https://docs.docker.com/engine/tutorials/dockervolumes/#adding-a-data-volume){:target="_blank"}. This is the default and is easy and fairly transparent to the user. The downside is that the files may be hard to locate for tools and applications that run directly on the host system, i.e. outside containers.
+- Create a data directory on the host system (outside the container) and [mount it to a directory visible from inside the container](https://docs.docker.com/engine/tutorials/dockervolumes/#mount-a-host-directory-as-a-data-volume){:target="_blank"}. This places the SFTPGo files in a known location on the host system, and makes it easy for tools and applications on the host system to access the files. The downside is that the user needs to make sure that the directory exists, and that e.g. directory permissions and other security mechanisms on the host system are set up correctly. The SFTPGo image runs using `1000` as UID/GID by default, so the directory must be writable by that user.
 
 The Docker documentation is a good starting point for understanding the different storage options and variations. This section covers only the basic procedure for the second option above:
 
@@ -201,7 +201,7 @@ replicaCount: 2
 # Use the Enterprise image with plugins
 image:
   repository: registry.sftpgo.com/sftpgo/sftpgo
-  tag: v2.7.20260910-plugins
+  tag: v2.8.20261028-plugins
 
 # Enable protocols
 sftpd:

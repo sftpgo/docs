@@ -157,6 +157,8 @@ When configured at the group level, both lists are inherited additively by group
 
 :information_source: A group-level **Denied share paths** entry holds against a user-level **Allowed share paths** entry for the same path: on a tie the denied entry wins. A user-level allowed entry deeper than the denied path wins instead, as in the nested override example above, so a hard restriction must be reviewed against the allowed entries of the members.
 
+:information_source: Both lists are checked against the path being shared, not against its content. With `/sensitive` denied, the user can still share `/`, and that share serves `/sensitive` too. To keep a subtree out of every share, use **Allowed share paths** to limit sharing to directories that do not contain it, or deny its parent directories as well.
+
 :information_source: Both filters match the virtual path of the share. A symbolic link placed beneath a shareable path is dereferenced, as on every other protocol, so its target is served through the share. Where these filters must hold, keep symbolic-link creation disabled — its default [`symlink_mode`](../config-file.md#symbolic-links-and-permissions) — and provision the shareable subtrees accordingly.
 
 :warning: Tightening either filter takes effect immediately, including for shares that already exist: if a previously-shared path is no longer allowed (or is now denied), the share reads as missing until the filter is relaxed or the share is removed.
@@ -186,19 +188,26 @@ The lists of the user, of its primary group and of its secondary groups are comb
 
 ## Delegating Share Management
 
-By default, a public share is managed only by the user who created it. However, in collaborative environments, you may need to allow colleagues to manage your shares for example, to extend an expiration date or revoke access while you are on vacation.
+By default, a public share is managed only by the user who created it. To let colleagues manage it, for example to extend an expiration date or revoke access while the owner is away, the owner associates the share with one or more groups. The other members of each group see the share in their list and act on it according to the permissions granted to that group:
 
-SFTPGo allows you to associate one or more groups with a share. When a share is assigned to a group, other users within that group (who have the necessary permissions) can view and manage the share, with specific limitations to ensure security and data consistency.
-
-This feature ensures business continuity and allows teams to collaboratively manage external data exchange without relying on a single account.
+- **Read**: view its details, such as the link.
+- **Edit**: modify its settings, such as the expiration date.
+- **Delete**: revoke the share.
 
 Only the owner can modify shared paths (files and folders), access scope (read/write), and group associations. File paths are tied to the specific context of the user who created the share (e.g., a virtual path like `/docs` may map to different storage backends, or to different locations within the same backend, depending on the user).
 
-To enable share delegation, a specific configuration is required on the server side (WebAdmin), which then enables the feature for users in the WebClient.
+The owner can associate a share with any of the groups they belong to. The association is set from the WebClient, as described below, or through the REST API.
 
-### Administrator Configuration (WebAdmin)
+When the group exists only to delegate share management, the way the users are added to it decides how their shares get associated:
 
-Administrators can define the Share Policy within the "ACLs" section of a group's configuration. The policy controls how shares created by group members are automatically associated with the group.
+- as a [membership group](../groups.md): the group applies no settings, and the owners select it on each share themselves;
+- as a secondary group: a [share policy](#group-share-policy-webadmin) on the group can also associate their shares automatically.
+
+### Group Share Policy (WebAdmin)
+
+A share policy on a group associates the shares created by its members with that group automatically. The policy is optional: without it, owners choose the groups themselves. It is defined within the "ACLs" section of a group's configuration.
+
+:warning: The policy is a group setting, and a membership group applies no settings: the policy reaches only the users who belong to the group as **primary** or **secondary** group. The type is not a property of the group but is chosen for each user, in the user's page, so the same group can be secondary for one user and membership for another. For the users who have the group under **Membership groups** the policy does nothing: their shares are associated with the group only when they select it in the Group Access section. To associate their shares automatically, move the group to their **Secondary groups**: a group that defines only the share policy adds nothing else to them.
 
 The policy consists of the Permissions granted to other group members (Read, Edit, Delete) and the Mode:
 
@@ -207,18 +216,15 @@ The policy consists of the Permissions granted to other group members (Read, Edi
 
 ![WebAdmin Share Policy](../assets/img/share_policy.png){data-gallery="webadmin-share-policy"}
 
+The `shares-policy-change-disabled` WebClient option, set on a user or inherited from a group, hides the group access settings from the user: their shares are associated only with the groups whose policy is mandatory.
+
 ### User Experience (WebClient)
 
-When users create or edit a share in the WebClient UI, they can control the group access based on the policy configured by the administrator.
+When the owner belongs to at least one group, the share page of the WebClient shows a **Group Access** section, which lists the groups the owner belongs to. Groups with a mandatory policy are added automatically, groups with a suggested policy are pre-selected.
 
 ![WebClient Group Access](../assets/img/share_group_access.png){data-gallery="webclient-group-access"}
 
-In the example above, the "Read" permission was granted for "group1". This results in the following behavior:
-
-- Visibility: All members of "group1" will see this share in their list, in addition to the shares they created themselves.
-- Access: Because only "Read" was granted, they can view the share details (e.g., the link) but cannot modify its settings or delete it.
-
-If "Edit" or "Delete" permissions were granted, members of "group1" would also be able to modify the share's settings (such as the expiration date) or revoke the share entirely.
+In the example above, the "Read" permission was granted for "group1": all members of "group1" see this share in their list, in addition to the shares they created themselves, and can view its details, such as the link, but cannot modify its settings or delete it.
 
 ## Automatically Send Share Links
 
@@ -231,7 +237,7 @@ From the WebAdmin UI, create an email action similar to the example below.
 
 Use the `{{.Email}}` placeholder to automatically insert the email addresses associated with the share—these are the recipients who can authenticate to access it.
 
-In the body, select the text of the link, click **Insert Link** in the editor toolbar and enter the share access URL, which follows this format:
+In the body, select the text of the link, click **Insert Link** in the menu that appears over the selection, or in the editor toolbar, and enter the share access URL, which follows this format:
 
 ```shell
 https://sftp.example.com/web/client/pubshares/{{.ObjectName | urlPathEscape }}/browse
@@ -242,6 +248,8 @@ Where:
 - `https://sftp.example.com` is the externally accessible base URL of your SFTPGo installation.
 - `{{.ObjectName}}` expands to the ID of the share.
 - The `urlPathEscape` helper function ensures the share ID is properly URL-encoded.
+
+![WebAdmin email editor select word insert link](../assets/img/webadmin_email_select_word_insert_link.png){data-gallery="webadmin-email-editor"}
 
 Finally, create an Event Manager rule that triggers this action whenever a new share is created.
 

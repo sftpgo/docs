@@ -105,6 +105,9 @@ Data At Rest Encryption is configured the same way — select the encrypted loca
 [Virtual folders](virtual-folders.md) map paths in a user's namespace to directories outside their home or on different storage backends. This allows combining local storage, S3 buckets, and remote SFTP servers under a single user, each with independent quota limits.
 
 ![Add folder](assets/img/add-folder.png){data-gallery="add-folder"}
+
+Then open the user created earlier and, in the **Virtual folders** section, select the folder and enter the **Mount path** where the user sees it, for example `/vdirlocal`.
+
 ![Virtual Folders](assets/img/virtual-folders.png){data-gallery="virtual-folders"}
 
 SFTPGo also supports [per-directory permissions](virtual-folders.md). Each user has global permissions that can be overridden on specific paths — for example, full access by default but read-only on `/reports`.
@@ -130,7 +133,7 @@ Common use cases:
 - **Data retention** — automatically delete or archive files older than a configurable threshold.
 - **Auto provisioning** — create user accounts automatically when they log in through an Identity Provider.
 - **Cross-backend transfers** — copy uploaded files to a different S3 bucket, archive to an external SFTP server, or compress files into ZIP archives.
-- **Recycle bin** — move files to a recycle folder instead of deleting them.
+- **Recycle bin** — copy files to a recycle folder before they are deleted or overwritten.
 - **PGP encryption/decryption** — automatically encrypt or decrypt files after upload.
 
 All actions support [placeholders and templates](placeholders.md) with full Go template syntax — conditions, loops, and helper functions.

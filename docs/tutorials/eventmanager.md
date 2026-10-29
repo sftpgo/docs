@@ -25,7 +25,7 @@ The following step-by-step tutorials cover common use cases:
 - [**Upload Approval Workflow**](eventmanager-approval.md) — Hold uploads in a review area until a reviewer publishes them via share, push to a remote backend, or pull by a partner account.
 - [**PGP Encryption and Decryption**](eventmanager-pgp.md) — Automatically encrypt or decrypt files after upload using PGP keys.
 - [**Virtual Folders Integration**](eventmanager-folders.md) — Copy files across storage backends and outside a user's security context.
-- [**Recycle Bin**](eventmanager-recycle-bin.md) — Move files to a recycle folder instead of deleting them permanently.
+- [**Recycle Bin**](eventmanager-recycle-bin.md) — Copy files to a recycle folder before they are deleted or overwritten.
 
 ## SMTP Configuration
 

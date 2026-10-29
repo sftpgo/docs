@@ -4,7 +4,7 @@ description: "SFTPGo: managed file transfer (MFT) with SFTP, FTP/S, WebDAV and H
 
 # What is SFTPGo?
 
-SFTPGo is a fully featured, open-core managed file transfer (MFT) platform. It provides secure file exchange over SFTP, SCP, FTP/S, WebDAV, and a built-in HTTPS WebClient, with support for local and cloud storage backends.
+SFTPGo is an open-core managed file transfer (MFT) platform. It moves files securely over SFTP, SCP, FTP/S, WebDAV, or its own HTTPS WebClient, and can store them locally or in the cloud.
 
 SFTPGo is built around a few core principles:
 
@@ -17,9 +17,9 @@ SFTPGo is designed for high availability: it supports multi-node clustering with
 
 The WebAdmin interface provides centralized management for users, groups, virtual folders, event rules, and server configuration. The WebClient gives end users a browser-based file manager with credential management, two-factor authentication, and secure file sharing.
 
-**Ready to get started?** See the [installation guide](installation.md) and then the [Getting Started](initial-configuration.md) walkthrough. For a complete feature list, see [Features](features.md).
+Start with the [installation guide](installation.md), then follow [Getting Started](initial-configuration.md) to set up your first users and storage. For an overview of what SFTPGo can do, see [Features](features.md).
 
-**Using an AI assistant?** The project publishes an AI-agent-agnostic skill that teaches Claude Code, Cursor, Copilot, ChatGPT, Gemini, and compatible models how to produce correct SFTPGo configuration, REST API payloads, and Event Action templates. See [AI Assistants](ai-assistants.md) for install instructions.
+If you work with an AI assistant, install the official [SFTPGo skill](ai-assistants.md): the same skill works with Claude Code, Cursor, Copilot, ChatGPT, Gemini and other assistants, and gives them the context to write correct SFTPGo configurations, REST API payloads and Event Action templates.
 
 ![Architectural overview](assets/img/sftpgo%20architecture.png#only-light){data-gallery="architecture"}
 ![Architectural overview](assets/img/sftpgo%20architecture-dark.png#only-dark){data-gallery="architecture"}

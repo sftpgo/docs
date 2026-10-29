@@ -23,6 +23,8 @@ Add a copy entry:
 
 This copies the uploaded file to the `/backup` directory, preserving the original filename.
 
+![WebAdmin action copy to backup](../assets/img/webadmin_action_copy_to_backup.png){data-gallery="webadmin-action-copy-to-backup"}
+
 ### Step 2: Create a Rule
 
 Create a rule with `Filesystem events` trigger, `upload` event, and select the `copy to backup` action.
@@ -39,6 +41,8 @@ Create a copy action with:
 - **Target**: `/processed/`
 
 This copies all `.csv` files from `/inbound` to `/processed`. The `*` wildcard matches any sequence of characters in the filename. Subdirectories inside `/inbound` are **not** recursed into.
+
+Triggered by a filesystem event, the copy runs on the filesystem of the user who caused it. In a scheduled rule without a source or target folder, it runs once for each user selected by the rule's filters, each on their own files. To process a single inbox shared by everyone, see [Complete Example: Scheduled File Distribution](#complete-example-scheduled-file-distribution).
 
 Supported patterns follow standard shell syntax:
 
@@ -106,6 +110,8 @@ Create an action named `distribute csv files` with:
 - **Move to path**: `/archive/{{.ObjectName}}`
 - **Retries**: 2
 - **Continue on error**: Enabled
+
+![WebAdmin action copy distribute csv](../assets/img/webadmin_action_copy_distribute_csv.png){data-gallery="webadmin-action-copy-distribute-csv"}
 
 Set both **Source folder** and **Target folder** to the virtual folder that provides the shared storage: with both set the action runs once, as a system action. With the source folder alone it runs once per user, and the **Move source** disposition of the first user leaves nothing for the others.
 

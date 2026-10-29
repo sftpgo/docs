@@ -143,6 +143,15 @@ When using a key pair:
 - **Encryption**: the public key is required. If a private key is also provided, it is used to **sign** the encrypted output.
 - **Decryption**: the private key is required. If a public key is also provided, it is used to **verify** the signature.
 
+### Keys and profile
+
+With a key pair, the message format follows the recipient's public key. Supported keys: v4 keys such as RSA and Curve25519, v6 keys defined by RFC 9580, and post-quantum keys that combine ML-KEM with X25519 for encryption and ML-DSA with EdDSA for signatures. Decryption reads every format with any profile.
+
+The profile sets the message format for password-based encryption:
+
+- **Default** and **RFC 4880**: the format read by every OpenPGP implementation.
+- **RFC 9580**: Argon2 key derivation and AEAD encryption, for recipients whose tools implement RFC 9580.
+
 Each entry defines a source path and a target path; both support placeholders. A common pattern is to encrypt an uploaded file and store it with a `.pgp` extension:
 
 - Source: `/{{.VirtualPath}}`

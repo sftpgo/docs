@@ -8,7 +8,7 @@ SFTPGo is compatible with Linux, Windows, macOS, and FreeBSD. Other BSD variants
 
 The **Enterprise edition** is officially distributed and supported for Linux and Windows platforms, and is also available as a Docker image or through a Helm chart.
 
-A fully managed [SaaS offering](https://sftpgo.com/saas){:target="_blank"} is also available for organizations that prefer not to manage their own infrastructure.
+A fully managed [SaaS version](https://sftpgo.com/saas){:target="_blank"} is also available if you don't want to host it yourself.
 
 :warning: **Note:** Only the installation methods explicitly documented here provide access to **SFTPGo Enterprise**.
 Community distributions, including unofficial Docker images and pre-packaged solutions from third-party platforms, even if offered as paid services, provide the open-source edition of SFTPGo.
