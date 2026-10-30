@@ -1,10 +1,12 @@
 ---
-description: "SFTPGo clustering and high availability: multiple nodes behind a load balancer with a shared PostgreSQL or MySQL database, on VMs or Kubernetes."
+description: "SFTPGo clustering and high availability: multiple nodes behind a load balancer with a shared PostgreSQL or MySQL database, on VMs or Kubernetes, and active/standby setups."
 ---
 
 # Clustering and high availability
 
 Several SFTPGo nodes can serve the same users behind a load balancer. Adding nodes increases the number of connections and transfers the service can handle, and when a node stops, for an upgrade or a failure, the load balancer sends new connections to the others. A *node* is a single running SFTPGo instance; on Kubernetes, a pod.
+
+For a setup where only one node is active at a time, see [Active/standby](#activestandby).
 
 The default configuration is intended for a single instance: the sections below describe the settings a cluster requires.
 
@@ -18,7 +20,7 @@ With the HA feature, part of the [Ultimate tier](https://sftpgo.com/on-premises)
 - **Sessions are shared.** WebAdmin and WebClient sessions, REST API tokens and public share cookies issued by one node are accepted by all of them and remain valid when a node restarts. The load balancer can send each HTTP request to any node.
 - **Connections are managed cluster-wide.** WebAdmin and the REST API list and close the connections of all the nodes. Deleting a user, or updating it with the option to disconnect it, closes its connections on every node.
 
-Connection, transfer and rate limits apply per node: see [node](config-file.md#node).
+Connection, transfer and rate limits apply per node: a limit of N per node allows up to N times the number of nodes across the cluster.
 
 ## Prerequisites
 
@@ -27,7 +29,7 @@ Connection, transfer and rate limits apply per node: see [node](config-file.md#n
 
 ## Configuration
 
-The examples use [environment variables](env-vars.md). Changes to the configuration file or to environment variables take effect after a restart of the service, e.g. `systemctl restart sftpgo`. The [node](#node) and [signing passphrase](#signing-passphrase) settings take effect with the HA feature.
+The examples use [environment variables](env-vars.md). Changes to the configuration file or to environment variables take effect after a restart of the service, e.g. `systemctl restart sftpgo`. The [node](#node) and [signing passphrase](#signing-passphrase) settings take effect only with the HA feature.
 
 ### Data provider
 
@@ -44,6 +46,8 @@ SFTPGO_DATA_PROVIDER__IS_SHARED=1
 ```
 
 For MySQL/MariaDB, set the driver to `mysql` and adjust the other values.
+
+Without `IS_SHARED=1` the nodes keep working but do not stay aligned: an event rule deleted on one node stays active on the others until they restart, changes to configurations and IP lists are not picked up, scheduled rules run on every node, and quota checks ignore the transfers in progress on the other nodes.
 
 ### Node
 
@@ -77,7 +81,7 @@ SFTPGO_HTTPD__SIGNING_PASSPHRASE='a long random string'
 
 ### Host keys
 
-Every node must present the same SSH host keys: otherwise SFTP clients warn that the host key has changed when the load balancer sends them to a different node than the first time.
+Every node must present the same SSH host keys: otherwise SFTP clients warn that the host key has changed when they reach a different node than the first time.
 
 Configure the host keys from **Server Manager > Configurations > SFTP**: they are stored, encrypted, in the data provider and used by every node, and they take precedence over the key files.
 
@@ -96,9 +100,10 @@ If you set a [KMS](kms.md) master key, set the same one on every node: each node
 
 Behind a load balancer, SFTPGo sees the address of the load balancer unless the original client address is forwarded. Load balancers that preserve the client address need no configuration. Otherwise:
 
-- for SFTP and FTP, enable the PROXY protocol, versions 1 and 2, on both the load balancer and SFTPGo:
+- for SFTP and FTP, enable the PROXY protocol on the load balancer, version 1 or 2, and configure SFTPGo to require it from the load balancer's addresses:
 
 ```shell
+# 2: connections from PROXY_ALLOWED must send the PROXY header
 SFTPGO_COMMON__PROXY_PROTOCOL=2
 # Addresses of the load balancer, allowed to send the PROXY header
 SFTPGO_COMMON__PROXY_ALLOWED="192.168.1.1/32"
@@ -127,5 +132,13 @@ SFTPGO_HOOK__MEMORY_PIPES__ENABLED=1
 ## Load balancer
 
 - **SFTP and FTP** are TCP protocols: balance them at the TCP level.
-- **HTTP**: every node serves any request. Chunked WebClient uploads ([TUS](web-interfaces.md#reverse-proxies-and-load-balancers)) require session affinity.
+- **HTTP**: with the HA feature, every node serves any request. Without it, enable session affinity. Chunked WebClient uploads ([TUS](web-interfaces.md#reverse-proxies-and-load-balancers)) require session affinity in every case.
 - **Health checks**: every HTTP binding answers `GET /healthz`, as does the [telemetry](metrics.md) server.
+
+## Active/standby
+
+In an active/standby setup only one node serves users at any given time, and another node takes over when it stops, as in a Pacemaker active/passive cluster, a Windows Server Failover Cluster or a Kubernetes Deployment with a single replica. This setup does not need the HA feature and works with every [tier](https://sftpgo.com/on-premises){:target="_blank"}.
+
+The node that takes over must find what the active node was using: the data provider, the users' files, the configuration, the [host keys](#host-keys) and the [master key](#master-key). There are several ways to provide them, for example a database reachable from both nodes, or storage shared or replicated between them. The [Node](#node) and [Signing passphrase](#signing-passphrase) settings do not apply. Sessions are not carried over: after a switchover, WebAdmin and WebClient users sign in again.
+
+For a disaster recovery site with its own data provider, [Restoring a dump as a mirror](data-provider.md#restoring-a-dump-as-a-mirror) keeps the recovery instance aligned with the primary: `initprovider` loads the dump without starting the service. Keep the SFTPGo service on the recovery site stopped until failover, because a running instance counts as an active license even if it serves no users.
