@@ -8,7 +8,7 @@
 
     
       
-        <title>Clustering and high availability - SFTPGo docs</title>
+        <title>Clustering &amp; HA - SFTPGo docs</title>
       
     
     
@@ -40,14 +40,14 @@
 
     
     <meta name="keywords" content="SFTPGo, SFTP server, FTP server, SCP, WebDAV, S3, Google Cloud Storage, Azure Blob, Managed File Transfer, MFT, 2FA, Data At Rest Encryption, file sharing, secure file transfer, SaaS, on-premise, REST API, Kubernetes, Helm chart, OIDC, LDAP">
-  <meta name="description" content="SFTPGo clustering and high availability: multiple nodes behind a load balancer with a shared PostgreSQL or MySQL database, on VMs or Kubernetes.">
-  <meta property="og:title" content="Clustering and high availability - SFTPGo docs">
+  <meta name="description" content="SFTPGo clustering and high availability: multiple nodes behind a load balancer with a shared PostgreSQL or MySQL database, on VMs or Kubernetes, and active/standby setups.">
+  <meta property="og:title" content="Clustering &amp; HA - SFTPGo docs">
   <meta property="og:url" content="https://docs.sftpgo.com/enterprise/clustering/">
-  <meta property="og:description" content="SFTPGo clustering and high availability: multiple nodes behind a load balancer with a shared PostgreSQL or MySQL database, on VMs or Kubernetes.">
+  <meta property="og:description" content="SFTPGo clustering and high availability: multiple nodes behind a load balancer with a shared PostgreSQL or MySQL database, on VMs or Kubernetes, and active/standby setups.">
   <meta property="og:image" content="https://sftpgo.com/assets/img/og-image.png">
   <meta property="og:type" content="article">
-  <meta name="twitter:title" content="Clustering and high availability - SFTPGo docs">
-  <meta name="twitter:description" content="SFTPGo clustering and high availability: multiple nodes behind a load balancer with a shared PostgreSQL or MySQL database, on VMs or Kubernetes.">
+  <meta name="twitter:title" content="Clustering &amp; HA - SFTPGo docs">
+  <meta name="twitter:description" content="SFTPGo clustering and high availability: multiple nodes behind a load balancer with a shared PostgreSQL or MySQL database, on VMs or Kubernetes, and active/standby setups.">
   <meta name="twitter:image" content="https://sftpgo.com/assets/img/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
 
@@ -91,13 +91,13 @@
       },
       {
         "@type": "TechArticle",
-        "headline": "Clustering and high availability",
-        "description": "SFTPGo clustering and high availability: multiple nodes behind a load balancer with a shared PostgreSQL or MySQL database, on VMs or Kubernetes.",
+        "headline": "Clustering \u0026 HA",
+        "description": "SFTPGo clustering and high availability: multiple nodes behind a load balancer with a shared PostgreSQL or MySQL database, on VMs or Kubernetes, and active/standby setups.",
         "image": "https://sftpgo.com/assets/img/og-image.png",
         "url": "https://docs.sftpgo.com/enterprise/clustering/",
         "inLanguage": "en",
         "datePublished": "2026-10-29T17:20:32Z",
-        "dateModified": "2026-10-29T17:20:32Z",
+        "dateModified": "2026-10-30T09:04:06Z",
         "author": { "@id": "https://sftpgo.com/#organization" },
         "isPartOf": { "@id": "https://docs.sftpgo.com/enterprise/#website" },
         "publisher": { "@id": "https://sftpgo.com/#organization" }
@@ -174,7 +174,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Clustering and high availability
+              Clustering &amp; HA
             
           </span>
         </div>
@@ -706,7 +706,7 @@
   <span class="md-ellipsis">
     
   
-    Clustering and high availability
+    Clustering &amp; HA
   
 
     
@@ -724,7 +724,7 @@
   <span class="md-ellipsis">
     
   
-    Clustering and high availability
+    Clustering &amp; HA
   
 
     
@@ -870,6 +870,17 @@
     <span class="md-ellipsis">
       
         Load balancer
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#activestandby" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Active/standby
       
     </span>
   </a>
@@ -3822,6 +3833,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#activestandby" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Active/standby
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3889,6 +3911,7 @@
 
 <h1 id="clustering-and-high-availability">Clustering and high availability</h1>
 <p>Several SFTPGo nodes can serve the same users behind a load balancer. Adding nodes increases the number of connections and transfers the service can handle, and when a node stops, for an upgrade or a failure, the load balancer sends new connections to the others. A <em>node</em> is a single running SFTPGo instance; on Kubernetes, a pod.</p>
+<p>For a setup where only one node is active at a time, see <a href="#activestandby">Active/standby</a>.</p>
 <p>The default configuration is intended for a single instance: the sections below describe the settings a cluster requires.</p>
 <h2 id="how-it-works">How it works</h2>
 <p>The nodes share one data provider. Users, groups, virtual folders, event rules and the settings saved from <strong>Server Manager &gt; Configurations</strong> are stored once and served by every node. Disk and data-transfer quotas are enforced across the nodes, and scheduled event rules run on one node at a time.</p>
@@ -3898,14 +3921,14 @@
 <li><strong>Sessions are shared.</strong> WebAdmin and WebClient sessions, REST API tokens and public share cookies issued by one node are accepted by all of them and remain valid when a node restarts. The load balancer can send each HTTP request to any node.</li>
 <li><strong>Connections are managed cluster-wide.</strong> WebAdmin and the REST API list and close the connections of all the nodes. Deleting a user, or updating it with the option to disconnect it, closes its connections on every node.</li>
 </ul>
-<p>Connection, transfer and rate limits apply per node: see <a href="../config-file/#node">node</a>.</p>
+<p>Connection, transfer and rate limits apply per node: a limit of N per node allows up to N times the number of nodes across the cluster.</p>
 <h2 id="prerequisites">Prerequisites</h2>
 <ul>
 <li>A database reachable from every node: PostgreSQL (or compatible, such as CockroachDB) or MySQL/MariaDB (or compatible).</li>
 <li>For users that store files on the local filesystem, the same files available to every node at the same path, for example on shared or replicated storage. Cloud storage backends (S3, Azure Blob Storage, Google Cloud Storage) require no additional setup.</li>
 </ul>
 <h2 id="configuration">Configuration</h2>
-<p>The examples use <a href="../env-vars/">environment variables</a>. Changes to the configuration file or to environment variables take effect after a restart of the service, e.g. <code>systemctl restart sftpgo</code>. The <a href="#node">node</a> and <a href="#signing-passphrase">signing passphrase</a> settings take effect with the HA feature.</p>
+<p>The examples use <a href="../env-vars/">environment variables</a>. Changes to the configuration file or to environment variables take effect after a restart of the service, e.g. <code>systemctl restart sftpgo</code>. The <a href="#node">node</a> and <a href="#signing-passphrase">signing passphrase</a> settings take effect only with the HA feature.</p>
 <h3 id="data-provider">Data provider</h3>
 <p>Point every node at the same database and declare it shared. For example, a PostgreSQL database named <code>sftpgo</code> on <code>192.168.1.5</code>:</p>
 <pre><code class="language-shell">SFTPGO_DATA_PROVIDER__DRIVER=postgresql
@@ -3917,6 +3940,7 @@ SFTPGO_DATA_PROVIDER__PASSWORD=mysecret
 SFTPGO_DATA_PROVIDER__IS_SHARED=1
 </code></pre>
 <p>For MySQL/MariaDB, set the driver to <code>mysql</code> and adjust the other values.</p>
+<p>Without <code>IS_SHARED=1</code> the nodes keep working but do not stay aligned: an event rule deleted on one node stays active on the others until they restart, changes to configurations and IP lists are not picked up, scheduled rules run on every node, and quota checks ignore the transfers in progress on the other nodes.</p>
 <h3 id="node">Node</h3>
 <p>Each node declares the address the other nodes use to reach its REST API: its own IP address or host name, and the port and protocol of an HTTP binding that serves the REST API. The nodes must be able to connect to each other on that port.</p>
 <pre><code class="language-shell"># Different on each node
@@ -3937,7 +3961,7 @@ SFTPGO_DATA_PROVIDER__NODE__PROTO=http
 <pre><code class="language-shell">SFTPGO_HTTPD__SIGNING_PASSPHRASE='a long random string'
 </code></pre>
 <h3 id="host-keys">Host keys</h3>
-<p>Every node must present the same SSH host keys: otherwise SFTP clients warn that the host key has changed when the load balancer sends them to a different node than the first time.</p>
+<p>Every node must present the same SSH host keys: otherwise SFTP clients warn that the host key has changed when they reach a different node than the first time.</p>
 <p>Configure the host keys from <strong>Server Manager &gt; Configurations &gt; SFTP</strong>: they are stored, encrypted, in the data provider and used by every node, and they take precedence over the key files.</p>
 <p>Alternatively, copy the key files of one node to all the others: <code>id_rsa</code>, <code>id_ecdsa</code>, <code>id_ed25519</code> and their <code>.pub</code> files, in the configuration directory (<code>/etc/sftpgo</code> for DEB and RPM installations). On Docker and Kubernetes, mount the keys as secrets and list their paths:</p>
 <pre><code class="language-yaml">- name: SFTPGO_SFTPD__HOST_KEYS
@@ -3948,35 +3972,39 @@ SFTPGO_DATA_PROVIDER__NODE__PROTO=http
 <h3 id="client-ip-addresses">Client IP addresses</h3>
 <p>Behind a load balancer, SFTPGo sees the address of the load balancer unless the original client address is forwarded. Load balancers that preserve the client address need no configuration. Otherwise:</p>
 <ul>
-<li>for SFTP and FTP, enable the PROXY protocol, versions 1 and 2, on both the load balancer and SFTPGo:<p><code>shell
-  # 1: the PROXY header is optional, 2: it is required
-  SFTPGO_COMMON__PROXY_PROTOCOL=2
-  # Addresses of the load balancer, allowed to send the PROXY header
-  SFTPGO_COMMON__PROXY_ALLOWED="192.168.1.1/32"
-  # Addresses allowed to connect without the PROXY header
-  SFTPGO_COMMON__PROXY_SKIPPED="192.168.0.0/24"</code></p>
-</li>
+<li>for SFTP and FTP, enable the PROXY protocol on the load balancer, version 1 or 2, and configure SFTPGo to require it from the load balancer's addresses:</li>
 </ul>
+<pre><code class="language-shell"># 2: connections from PROXY_ALLOWED must send the PROXY header
+SFTPGO_COMMON__PROXY_PROTOCOL=2
+# Addresses of the load balancer, allowed to send the PROXY header
+SFTPGO_COMMON__PROXY_ALLOWED="192.168.1.1/32"
+# Addresses allowed to connect without the PROXY header
+SFTPGO_COMMON__PROXY_SKIPPED="192.168.0.0/24"
+</code></pre>
 <ul>
-<li>for the web interfaces and the REST API, read the address from the header set by the load balancer, or use the PROXY protocol on the binding:<p><code>shell
-  SFTPGO_HTTPD__BINDINGS__0__PROXY_ALLOWED="192.168.1.1/32"
-  SFTPGO_HTTPD__BINDINGS__0__CLIENT_IP_PROXY_HEADER="X-Forwarded-For"</code></p>
-</li>
+<li>for the web interfaces and the REST API, read the address from the header set by the load balancer, or use the PROXY protocol on the binding:</li>
 </ul>
+<pre><code class="language-shell">SFTPGO_HTTPD__BINDINGS__0__PROXY_ALLOWED="192.168.1.1/32"
+SFTPGO_HTTPD__BINDINGS__0__CLIENT_IP_PROXY_HEADER="X-Forwarded-For"
+</code></pre>
 <p>The client address is what <a href="../defender/">brute force protection</a>, <a href="../rate-limiting/">rate limiting</a>, IP lists and the audit log work on. See <a href="../web-interfaces/#reverse-proxies-and-load-balancers">Reverse proxies and load balancers</a> for the other HTTP settings and <a href="../ftp/">FTP</a> for the data connections.</p>
 <h3 id="other-recommendations">Other recommendations</h3>
 <ul>
 <li>Set the <a href="../defender/">defender</a> <code>driver</code> to <code>provider</code>, so that a ban applies to every node.</li>
-<li>With cloud storage backends, enable in-memory pipes: transfers then stream through memory instead of temporary files on the local disk, which would otherwise need as much free space as the files being transferred.<p><code>shell
-  SFTPGO_HOOK__MEMORY_PIPES__ENABLED=1</code></p>
-</li>
+<li>With cloud storage backends, enable in-memory pipes: transfers then stream through memory instead of temporary files on the local disk, which would otherwise need as much free space as the files being transferred.</li>
 </ul>
+<pre><code class="language-shell">SFTPGO_HOOK__MEMORY_PIPES__ENABLED=1
+</code></pre>
 <h2 id="load-balancer">Load balancer</h2>
 <ul>
 <li><strong>SFTP and FTP</strong> are TCP protocols: balance them at the TCP level.</li>
-<li><strong>HTTP</strong>: every node serves any request. Chunked WebClient uploads (<a href="../web-interfaces/#reverse-proxies-and-load-balancers">TUS</a>) require session affinity.</li>
+<li><strong>HTTP</strong>: with the HA feature, every node serves any request. Without it, enable session affinity. Chunked WebClient uploads (<a href="../web-interfaces/#reverse-proxies-and-load-balancers">TUS</a>) require session affinity in every case.</li>
 <li><strong>Health checks</strong>: every HTTP binding answers <code>GET /healthz</code>, as does the <a href="../metrics/">telemetry</a> server.</li>
 </ul>
+<h2 id="activestandby">Active/standby</h2>
+<p>In an active/standby setup only one node serves users at any given time, and another node takes over when it stops, as in a Pacemaker active/passive cluster, a Windows Server Failover Cluster or a Kubernetes Deployment with a single replica. This setup does not need the HA feature and works with every <a href="https://sftpgo.com/on-premises" target="_blank">tier</a>.</p>
+<p>The node that takes over must find what the active node was using: the data provider, the users' files, the configuration, the <a href="#host-keys">host keys</a> and the <a href="#master-key">master key</a>. There are several ways to provide them, for example a database reachable from both nodes, or storage shared or replicated between them. The <a href="#node">Node</a> and <a href="#signing-passphrase">Signing passphrase</a> settings do not apply. Sessions are not carried over: after a switchover, WebAdmin and WebClient users sign in again.</p>
+<p>For a disaster recovery site with its own data provider, <a href="../data-provider/#restoring-a-dump-as-a-mirror">Restoring a dump as a mirror</a> keeps the recovery instance aligned with the primary: <code>initprovider</code> loads the dump without starting the service. Keep the SFTPGo service on the recovery site stopped until failover, because a running instance counts as an active license even if it serves no users.</p>
 
 
 
@@ -3999,7 +4027,7 @@ SFTPGO_DATA_PROVIDER__NODE__PROTO=http
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="October 29, 2026 17:20:32 UTC">2026-10-29 17:20:32</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="October 30, 2026 09:04:06 UTC">2026-10-30 09:04:06</span>
   </span>
 
     
