@@ -98,21 +98,20 @@ Behind a load balancer, SFTPGo sees the address of the load balancer unless the 
 
 - for SFTP and FTP, enable the PROXY protocol, versions 1 and 2, on both the load balancer and SFTPGo:
 
-    ```shell
-    # 1: the PROXY header is optional, 2: it is required
-    SFTPGO_COMMON__PROXY_PROTOCOL=2
-    # Addresses of the load balancer, allowed to send the PROXY header
-    SFTPGO_COMMON__PROXY_ALLOWED="192.168.1.1/32"
-    # Addresses allowed to connect without the PROXY header
-    SFTPGO_COMMON__PROXY_SKIPPED="192.168.0.0/24"
-    ```
+```shell
+SFTPGO_COMMON__PROXY_PROTOCOL=2
+# Addresses of the load balancer, allowed to send the PROXY header
+SFTPGO_COMMON__PROXY_ALLOWED="192.168.1.1/32"
+# Addresses allowed to connect without the PROXY header
+SFTPGO_COMMON__PROXY_SKIPPED="192.168.0.0/24"
+```
 
 - for the web interfaces and the REST API, read the address from the header set by the load balancer, or use the PROXY protocol on the binding:
 
-    ```shell
-    SFTPGO_HTTPD__BINDINGS__0__PROXY_ALLOWED="192.168.1.1/32"
-    SFTPGO_HTTPD__BINDINGS__0__CLIENT_IP_PROXY_HEADER="X-Forwarded-For"
-    ```
+```shell
+SFTPGO_HTTPD__BINDINGS__0__PROXY_ALLOWED="192.168.1.1/32"
+SFTPGO_HTTPD__BINDINGS__0__CLIENT_IP_PROXY_HEADER="X-Forwarded-For"
+```
 
 The client address is what [brute force protection](defender.md), [rate limiting](rate-limiting.md), IP lists and the audit log work on. See [Reverse proxies and load balancers](web-interfaces.md#reverse-proxies-and-load-balancers) for the other HTTP settings and [FTP](ftp.md) for the data connections.
 
@@ -121,9 +120,9 @@ The client address is what [brute force protection](defender.md), [rate limiting
 - Set the [defender](defender.md) `driver` to `provider`, so that a ban applies to every node.
 - With cloud storage backends, enable in-memory pipes: transfers then stream through memory instead of temporary files on the local disk, which would otherwise need as much free space as the files being transferred.
 
-    ```shell
-    SFTPGO_HOOK__MEMORY_PIPES__ENABLED=1
-    ```
+```shell
+SFTPGO_HOOK__MEMORY_PIPES__ENABLED=1
+```
 
 ## Load balancer
 

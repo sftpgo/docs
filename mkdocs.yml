@@ -16,7 +16,7 @@ nav:
     - 'Initial Setup': initial-configuration.md
     - 'Configuration Examples': configuration-examples.md
     - 'Data provider management': data-provider.md
-    - clustering.md
+    - 'Clustering & HA': clustering.md
   - 'Core concepts':
     - users.md
     - 'Access Control': access-control.md
