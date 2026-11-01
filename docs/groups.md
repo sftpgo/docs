@@ -37,6 +37,8 @@ The following settings are inherited from the primary and secondary groups:
 
 The settings from the primary group are always merged first. no setting is inherited from "membership" groups.
 
+Placeholder values are replaced as literal names. A value that would bring a `[` or `]` into the path of a per-directory permission, where it would form a pattern, or a `~` into a home directory or the mapped path of a virtual folder refuses the login of that user. Values that differ only in letter case can name the same directory on storage that treats them as equal: keep usernames and role names used in paths unique regardless of letter case.
+
 The final settings are a combination of the user settings and the group ones.
 For example you can define the following groups:
 

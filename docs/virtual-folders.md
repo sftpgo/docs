@@ -43,6 +43,8 @@ If you upload a file to `folder2` its quota will be updated but the quota of `fo
 
 The same applies when a folder's mapped path is inside the home directory of a user who mounts it. The folder's contents are then reachable both at the mount point and at the matching path under the home, and each path is governed by the permissions and file pattern filters defined for it. Operations on the home path act on the folder's storage, since inside the home they are ordinary filesystem operations. Keep mapped paths outside the home directories to enforce disk quotas and to keep one set of rules per folder.
 
+A folder is reached only through its exact mount path. Another spelling, such as `/DATA` for a folder mounted on `/data`, is a path of the user's root filesystem: it does not reach the folder and has the root's settings. On local storage on Windows and macOS, `/DATA` names the directory of the root that lies beneath the mount point; when settings are defined for the mount path or for a path below it, such a spelling is refused, see [Names that reach the same entry](config-file.md#names-that-reach-the-same-entry). When a configuration needs overlapping mapped paths, keep the permissions, file pattern filters and quotas of every route to the same data consistent, and keep copy and move targets outside their source, see [Copy and move onto the same entry](config-file.md#copy-and-move-onto-the-same-entry).
+
 It is allowed to mount a virtual folder in the user's root path (`/`). This might be useful if you want to share the same virtual folder between different users. In this case the user's root filesystem is hidden from the virtual folder.
 
 ## Sub-path mounts
@@ -53,7 +55,7 @@ The sub-path applies to the folder's backend path: the key prefix for S3, Google
 
 The value is a canonical POSIX path with a leading slash, for example `/dataset1/2026`, at most 191 characters. The same folder can be mapped multiple times with distinct subpaths, at freely chosen virtual paths: for example `/current` can serve the folder's `/2026` sub-path while `/archive` serves `/2025`. Quota remains a property of the whole folder: every mapping of the same folder must use the same quota limits and usage is tracked once across all its mounts.
 
-On group mappings the subpath supports the `%username%` and `%role%` placeholders, resolved per user when the group settings are applied: a single group mapping with subpath `/tenants/%username%` gives each member their own sub-tree of a shared folder, at the same virtual path for every user. A mapping whose placeholder has no value for a user is skipped for that user.
+On group mappings the subpath supports the `%username%` and `%role%` placeholders, resolved per user when the group settings are applied: a single group mapping with subpath `/tenants/%username%` gives each member their own sub-tree of a shared folder, at the same virtual path for every user. A mapping whose placeholder has no value for a user, or whose value would bring a `~` into the subpath, is skipped for that user.
 
 Using the REST API you can:
 

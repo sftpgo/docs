@@ -31,6 +31,8 @@ The following actions are supported:
 
 A filesystem action is started by SFTPGo to carry out the rule, it is not requested by the account, so it runs with the access the action needs rather than with the access the account has: inside the filesystem it operates on, the per-directory permissions of the user are raised to full access, the file pattern filters are not applied, and the bandwidth limits and the data transfer quota of the user do not bound it. Paths resolve inside the home directory and the virtual folders mapped for that user. The authorization decision belongs to the rule: its conditions select the users and the events the action runs for.
 
+On local storage on Windows and macOS, a data retention path also applies to its directory stored with ASCII letters in another case, `/inbound` to `Inbound`, within the same mount; letters outside ASCII are compared as written.
+
 :information_source: Quota usage is tracked by SFTPGo in software, not by the kernel or by the storage: the counters are accounting kept by the application, so they describe the usage rather than enforce it and are approximate by construction. A process killed mid-transfer, files changed outside SFTPGo, or a bug in the accounting itself leave them off. Recalculation is part of the model: schedule the quota reset actions to rebuild the counters from the actual content; quota scans are also available via the REST API.
 
 The following placeholders are supported:
@@ -78,6 +80,8 @@ The following trigger events are supported:
 - `Identity Provider login`, this trigger is generated when a user/admin logs in using an external Identity Provider.
 
 You can further restrict a rule by specifying additional conditions that must be met before the rule’s actions are taken. For example you can react to uploads only if they are performed by a particular user or using a specified protocol.
+
+Path conditions are a comparison of text. For files on local storage on Windows and macOS, pattern and path are compared with their ASCII letters in lowercase: `/incoming/*.txt` matches `/INCOMING/A.TXT`, and an inverse pattern excludes every case of what it names. Write ranges with letters of one case (`[a-z]` or `[A-Z]`). Letters outside ASCII are compared as written, so `/études/*` does not match `/ÉTUDES/a.txt`. On any other storage a pattern is matched as written, letter case included.
 
 Actions such as user quota reset, transfer quota reset, data retention check, folder quota reset and filesystem events are executed for all matching users if the trigger is a schedule or for the affected user if the trigger is a provider event or a filesystem action.
 

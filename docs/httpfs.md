@@ -31,3 +31,5 @@ HTTPFs can also connect to UNIX domain sockets. To use UNIX domain sockets you n
 - The optional API prefix can be set using the `api_prefix` query parameter. The prefix must be query escaped.
 
 Here is an example endpoint for UNIX domain socket connections: `http://unix?socket_path=%2Ftmp%2Fsftpgofs.sock&api_prefix=%2Fapi%2Fv1`. In this case we are connecting using the `HTTP` protocol to the socket `/tmp/sftpgofs.sock` and we use the `/api/v1` prefix for API URLs.
+
+Restrictions are matched against the requested path as written, and the implementation of the API decides which names reach the same file: implement it so that names that differ in any character name different files, see [Names that reach the same entry](config-file.md#names-that-reach-the-same-entry).

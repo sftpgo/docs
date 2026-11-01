@@ -41,6 +41,8 @@ Some SFTP servers (eg. AWS Transfer) do not support opening files read/write at 
 
 The equality check mode defines when two SFTP configurations are the same storage, which allows renames between them: by default the endpoint and the username must match, with `1` on both configurations the endpoint alone.
 
+Restrictions below the root are matched against the requested path as written, and the remote server decides which names reach the same file or directory. To make restrictions independent of the server's naming rules, map each area that needs different settings to its own [virtual folder](virtual-folders.md), whose prefix is the remote path of that area, see [Names that reach the same entry](config-file.md#names-that-reach-the-same-entry). A copy or a move between two names the server resolves to the same entry is not recognized as such: keep copy and move targets outside their source.
+
 ## Path confinement
 
 When you set a prefix other than `/`, SFTPGo scopes the account to that path and its subdirectories on the remote server. In that case — and only then — SFTPGo resolves symbolic links in every path component as a best-effort check, so a link that persistently points outside the prefix is rejected rather than followed. The per-directory permission interaction described in [Symbolic links and permissions](config-file.md#symbolic-links-and-permissions) applies here too.

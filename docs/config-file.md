@@ -44,6 +44,47 @@ Renaming a directory carries the entries it holds, so they are authorized agains
 
 Per-directory permissions, path-based filters and every other setting keyed on a path are evaluated when the operation is processed, against the state observed at that time; concurrent operations on the same path are not serialized.
 
+#### Names that reach the same entry
+
+A storage can resolve several spellings of a name to one file or directory. On Windows and macOS, by default, names that differ only in letter case reach the same entry. Windows also resolves the short names a volume generates and names followed by dots or spaces, macOS the different Unicode normalizations of a name. Remote servers, network shares and object storage services follow naming rules of their own.
+
+On local storage on Windows and macOS, encrypted variant included, per-directory permissions and file pattern filters are looked up as follows:
+
+- a name that differs from a configured path only in the letter case of ASCII letters gets the settings of that path: those configured for `/private` apply to `/PRIVATE` and `/Private/sub`;
+- a name and a configured path that differ otherwise are compared through the identity the storage reports for the two entries, on Windows when both have letters outside ASCII, on macOS when at least one has. Those configured for `/étude` apply to `/ÉTUDE` when the storage resolves it to that directory;
+- on Windows, short names in their usual form, with a `~`, and names ending with a dot or a space are refused for every operation: a short name is reported as missing, a name ending with a dot or a space as not allowed.
+
+Pairs in which only one of the two has letters outside ASCII are not compared on Windows: a storage that resolves a name outside ASCII to an entry whose name has only ASCII letters, or the reverse, lets that name reach the entry with its own settings. NTFS and ReFS volumes keep such names apart; for other volumes and for network shares see [Local filesystem](localfs.md).
+
+Wildcard paths in per-directory permissions are compared with their ASCII letters in lowercase on the same storage, so write ranges with letters of one case (`[a-z]` or `[A-Z]`); letters outside ASCII are compared as written in the component that holds the wildcard and in those after it. File pattern filters are stored in lowercase and compared with the name in lowercase on every platform and storage. Both are comparisons of text: a spelling that the storage resolves to the same entry while its lowercase form differs, such as another Unicode normalization of a name, is not matched by them. To keep files out of a user's reach, place them where the user has no access, with per-directory permissions or virtual folders, rather than relying on a pattern.
+
+:warning: File pattern filters match names, not content: a rule that denies `*.exe` matches the name only, and the same content uploaded as `*.txt` is allowed. Use them to control names, and a synchronous [custom action](custom-actions.md) or [Event Manager](eventmanager.md) action on uploads to inspect content.
+
+On any other storage, local storage on Linux included, per-directory permissions are matched against the requested path as written, and the storage decides which spellings reach the same entry. A storage that ignores letter case, such as a Linux directory with case folding enabled, a network share mounted on Linux, a remote server running on Windows or an object storage service that keeps its keys on such a file system, lets another spelling of a restricted directory reach it with the settings of the path as written. To make restrictions independent of the storage's naming rules, map each area that needs different settings to its own [virtual folder](virtual-folders.md): a folder is reached only through its exact mount path.
+
+On local storage on Windows and macOS, keep the configuration unambiguous:
+
+- Use one spelling per directory in permissions, file pattern filters and mount paths, across user and group settings too. When two configured paths name the same directory with different spellings, the settings of one of them apply, and which one is not defined. The same holds for two wildcard paths that match one directory at the same depth.
+- Write each configured path with long names, in the spelling the storage holds: configured paths are compared as written, so a path written with a short name or through a link is a different path.
+- A spelling of a virtual folder's mount path other than the configured one names a directory of the parent storage, not the folder. When settings are defined for the mount path or for a path below it, such a spelling is refused.
+- Renaming a directory to a name that can only be compared with the configured paths of the target directory through the storage is refused, since the target does not exist before the rename. Create the directory and move the contents into it.
+- Every directory named by a configured path must be readable by the account SFTPGo runs as: when one of them cannot be read, the other names compared with it through the storage are refused.
+- A directory or a volume set to distinguish letter case, such as a case-sensitive APFS volume or a Windows directory configured with `fsutil file setCaseSensitiveInfo`, is treated like the default: a name that differs from a configured path only in the case of ASCII letters gets that path's settings. Give directories that need different settings distinct names.
+- On Windows, a short name is recognized by its form: up to eight characters with an optional extension of up to three, containing a `~` followed by a letter or a digit. Do not assign short names in another form, and keep short-name generation disabled on volumes that generate them without `~`.
+- A configured path with letters outside ASCII can be compared through the storage only once its directory exists: an operation authorized while the directory is missing runs with the settings of the parent.
+
+#### Copy and move onto the same entry
+
+A copy, a move or an Event Manager action that would overwrite or replace its own source is refused. Whether the target is another name of the source is decided as follows:
+
+- local storage, on every platform: from the identity the storage reports for each file and directory;
+- SFTP and HTTP storage: by the path as written;
+- S3, Google Cloud Storage and Azure Blob: by the object key as written, and two folders are the same storage only when they name the same bucket or container.
+
+On local storage where the two names reach the same entry, a rename that only changes the letter case of a name, such as `report.txt` to `Report.txt`, renames the entry in place: it needs no `overwrite` permission.
+
+A copy into a directory inside its own source under another name stops with an error when it reaches the target, keeping what was copied until then; on storage that cannot tell, it stops at the maximum directory depth instead. On local storage, a directory moved into a virtual folder mapped inside the directory itself stops with an error, and the entries moved until then stay inside the source tree. Storage that does not report a unique, persistent identity for each file, such as some network shares, cannot tell two names of one file apart: a copy of a file onto another name of itself is then not refused and empties the file. The checks run before the operation, so an entry another session creates or replaces in the meantime is not seen. Keep the source and the target of copies, moves and actions in separate directories, and do not map two virtual folders onto overlapping locations of the same storage.
+
 #### When account changes take effect
 
 Account settings are read when a session starts: the account is loaded from the data provider, the settings of the [groups](groups.md) it belongs to are merged, and the result governs that session. A change to a user, to an administrator, or to a group they belong to, is applied the next time the account is loaded. A session already established keeps the settings it started with, for as long as it lasts, and an operation already authorized is not authorized again while it runs. How long a session lasts depends on the protocol and on the client: an SFTP or FTP connection can remain open long after a change.
