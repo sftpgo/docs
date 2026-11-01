@@ -201,7 +201,7 @@ The [`create_symlinks` permission](#per-directory-permissions) is itself path-ba
 
 ### Names that reach the same entry
 
-A storage can resolve several spellings of a name to one file or directory. On Windows, by default, names that differ only in letter case reach the same entry, and so do the short name the volume generates for a long name (`PASTAR~1` for `Pasta Riservata`) and a name followed by dots or spaces. Remote servers, network shares and object storage services follow naming rules of their own.
+A storage can resolve several spellings of a name to one file or directory. On Windows, by default, names that differ only in letter case reach the same entry, and so do the short name the volume generates for a long name and a name followed by dots or spaces. Remote servers, network shares and object storage services follow naming rules of their own.
 
 **Local storage on Windows.** This covers the local filesystem and its [encrypted variant](dare.md). The settings configured for a path apply to every spelling that reaches the same file or directory: per-directory permissions, file pattern filters and allowed and denied share paths configured for `/private` apply to `/PRIVATE` and `/Private/sub` as well, and those configured for `/étude` apply to `/ÉTUDE` when the storage resolves it to that directory. Short names in their usual form, with a `~`, and names ending with a dot or a space are refused for every operation, so files and directories are reached by their long name: a short name is reported as missing, a name ending with a dot or a space as not allowed.
 
@@ -222,7 +222,7 @@ On local storage on Windows, keep the configuration unambiguous:
 
 ## Copy and move onto the same entry
 
-SFTPGo refuses a copy, a move or an Event Manager action that would overwrite or replace its own source, also when the target is another name of it, such as a spelling the storage resolves to it, a hard link, a symbolic link, or a directory reached through a link or a mount, as far as the storage can tell (see [Names that reach the same entry](#names-that-reach-the-same-entry)):
+SFTPGo refuses a copy, a move or an Event Manager action that would overwrite or replace its own source. Whether the target is another name of the source is decided as follows (see [Names that reach the same entry](#names-that-reach-the-same-entry)):
 
 - local storage, on every platform: from the identity the storage reports for each file and directory;
 - SFTP, FTP and HTTP storage: by the path as written, the remote server decides which names are equivalent;
@@ -230,13 +230,13 @@ SFTPGo refuses a copy, a move or an Event Manager action that would overwrite or
 
 Keep the source and the target of copies, moves and actions in separate directories, and do not map two virtual folders onto overlapping locations of the same storage, directly, through a link, or through overlapping buckets, containers or prefixes.
 
-A rename that only changes the spelling of a name, such as `report.txt` to `Report.txt`, renames the entry in place: it needs no `overwrite` permission and leaves the quota unchanged.
+On local storage where the two names reach the same entry, a rename that only changes the letter case of a name, such as `report.txt` to `Report.txt`, renames the entry in place: it needs no `overwrite` permission.
 
 Limits:
 
 - Storage that does not report a unique, persistent identity for each file cannot tell two names of one file apart: a copy of a file onto another name of itself is then not refused and empties the file.
-- A copy into a directory inside its own source under another name stops with an error when it reaches the target, keeping what was copied until then; where the source cannot be read through the names being written, the copy stops at the maximum directory depth instead.
-- A directory moved into a virtual folder mapped inside the directory itself stops with an error; the entries moved until then stay inside the source tree.
+- A copy into a directory inside its own source under another name stops with an error when it reaches the target, keeping what was copied until then; on storage that cannot tell, the copy stops at the maximum directory depth instead.
+- On local storage, a directory moved into a virtual folder mapped inside the directory itself stops with an error; the entries moved until then stay inside the source tree.
 - The checks run before the operation: an entry another session creates or replaces in the meantime is not seen. Symbolic-link creation is disabled by default, see [Symbolic links and permissions](config-file.md#symbolic-links-and-permissions).
 
 ## IP and protocol restrictions

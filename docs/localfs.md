@@ -54,19 +54,15 @@ On an SMB/CIFS mount of a share that ignores letter case, the Linux client can r
 
 ## File names on Windows
 
-By default Windows resolves several spellings of a name to one file or directory: names that differ in letter case, short names such as `PASTAR~1`, and names followed by dots or spaces. On local storage on Windows SFTPGo applies the settings of a path to every spelling that reaches it, and refuses short names in their usual form, with a `~`, and names ending with a dot or a space, as described in [Names that reach the same entry](access-control.md#names-that-reach-the-same-entry).
+By default Windows resolves several spellings of a name to one file or directory: names that differ in letter case, short names, and names followed by dots or spaces. On local storage on Windows SFTPGo applies the settings of a path to every spelling that reaches it, and refuses short names in their usual form, with a `~`, and names ending with a dot or a space, as described in [Names that reach the same entry](access-control.md#names-that-reach-the-same-entry).
 
 To tell spellings apart SFTPGo relies on what the storage reports. Before relying on per-directory settings on a volume or an SMB share, verify that it reports a unique identifier for each file, keeps names with letters outside ASCII apart from ASCII ones, and generates short names only in the form with `~`, or not at all. On shares served by Samba, set `mangled names = no`: with the default value, `illegal`, and with `yes`, Samba resolves a short name for every long name.
 
-File names are stored in UTF-16: a byte that is not part of a valid UTF-8 sequence is stored as the replacement character (U+FFFD), so names that differ only in such bytes name the same file. Configure clients to send file names in UTF-8.
+File names are stored in UTF-16: a byte that is not part of a valid UTF-8 sequence is stored as the replacement character (U+FFFD), so names that differ only in such bytes name the same file. Clients that send file names in UTF-8 are not affected.
 
 ## Atomic uploads
 
 When atomic uploads are enabled (`upload_mode` set to `1` or `2`), files are written to a temporary file in the same directory and renamed to the final path on completion. This is an atomic operation on local filesystems: the rename is instantaneous regardless of file size.
-
-## Copy and move onto the same entry
-
-On local storage, on every platform, SFTPGo recognizes another name of a file or directory, such as a letter case variant, a hard link or a symbolic link, from the identity the storage reports, and refuses a copy, a move or an Event Manager action that would overwrite or replace its own source. See [Copy and move onto the same entry](access-control.md#copy-and-move-onto-the-same-entry) for the rule on every storage and its limits.
 
 ## Symbolic links
 

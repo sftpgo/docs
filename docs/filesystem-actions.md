@@ -77,7 +77,7 @@ Checks whether a specified path exists. If the path does not exist, the action f
 
 Copies one or more files or directories. Each copy entry defines a source path and a target path, both supporting placeholders. Copy is the most feature-rich filesystem action, with several options to fine-tune its behavior.
 
-Copy applies the same checks as a copy requested by a client: a copy onto its own source is refused, and a copy whose target is inside its source stops with an error when it reaches the target, also through another name on storage that can tell, see [Copy and move onto the same entry](access-control.md#copy-and-move-onto-the-same-entry). With [Continue on error](#continue-on-error) a refused entry is skipped and reported with the other errors.
+With [Continue on error](#continue-on-error), an entry refused as described in [Copy and move onto the same entry](access-control.md#copy-and-move-onto-the-same-entry) is skipped and reported with the other errors.
 
 ### Glob patterns
 
@@ -118,8 +118,6 @@ This is particularly useful when copying multiple files via glob patterns — on
 
 Compresses one or more files and directories into a **ZIP** archive. The source paths support placeholders. Useful for bundling files before transfer or archival.
 
-When the archive is inside one of the compressed directories it is left out of the archive, also when reached through another name on storage that can tell, see [Copy and move onto the same entry](access-control.md#copy-and-move-onto-the-same-entry).
-
 ## Extract
 
 Extracts **ZIP** archives. To mitigate common ZIP-based attacks, the following security limits are enforced by default:
@@ -131,8 +129,6 @@ Extracts **ZIP** archives. To mitigate common ZIP-based attacks, the following s
 | Maximum uncompressed size | 1 GB | Caps the total size of extracted content. |
 
 These limits can be adjusted via [environment variables](env-vars.md).
-
-An entry that would be written onto the archive being extracted stops the extraction with an error and leaves the archive intact, also when the entry reaches the archive through another name on storage that can tell, see [Copy and move onto the same entry](access-control.md#copy-and-move-onto-the-same-entry).
 
 ## PGP
 
