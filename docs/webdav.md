@@ -25,11 +25,12 @@ WebDAV should work as expected for most use cases but there are some minor issue
 
 If you use WebDAV behind a reverse proxy ensure to preserve the `Host` header or `COPY`/`MOVE` operations will fail. For example for apache you have to set `ProxyPreserveHost On`.
 
-Know issues:
+`COPY` and `MOVE` are defined by the WebDAV protocol on the resource model and SFTPGo serves them that way: a `COPY` reads the source and writes the copy, a `MOVE` is a rename, and each is authorized as those operations are. The `copy` permission applies to the server-side copy that SFTPGo performs as a single operation for the REST API, the WebClient and the `sftpgo-copy` SSH command.
+
+Known issues:
 
 - removing a directory tree on Cloud Storage backends could generate a `not found` error when removing the last (virtual) directory. This happens if the client cycles the directories tree itself and removes files and directories one by one instead of issuing a single remove command
-- to be able to properly list a directory you need to grant both `list` and `download` permissions and to be able to upload files you need to gran both `list` and `upload` permissions
-- `COPY` and `MOVE` are defined by the WebDAV protocol on the resource model and SFTPGo serves them that way: a `COPY` reads the source and writes the copy, a `MOVE` is a rename, and each is authorized as those operations are. The `copy` permission applies to the server-side copy that SFTPGo performs as a single operation for the REST API, the WebClient and the `sftpgo-copy` SSH command
+- to be able to properly list a directory you need to grant both `list` and `download` permissions and to be able to upload files you need to grant both `list` and `upload` permissions
 - a `COPY` or a `MOVE` whose destination overlaps the source is refused: the destination is the source, one of its parent directories or a path inside it, also through another name on local storage, see [Copy and move onto the same entry](config-file.md#copy-and-move-onto-the-same-entry). On local storage on Windows and macOS this includes a `MOVE` that changes only the letter case of a name: use SFTP, FTP, the WebClient or the REST API for such a rename
 - a `COPY` of a directory skips the symbolic links and special files it holds, and a `COPY` whose source is one of them is refused, as with the other protocols
 - if a file or a directory cannot be accessed, for example due to OS permissions issues or because a mapped path for a virtual folder is a missing, it will be omitted from the directory listing. If there is a different error then the whole directory listing will fail. This behavior is different from SFTP/FTP where you will be able to see the problematic file/directory in the directory listing, you will only get an error if you try to access it
