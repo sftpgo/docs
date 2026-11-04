@@ -41,7 +41,10 @@ SFTPGo also reads files inside the `env.d` directory relative to config dir and 
 - Override any configuration option.
 - Set environment variables for SFTPGo plugins.
 
-However, you cannot set command flags this way because these files are read after SFTPGo starts and the config dir must already be set.
+Variables already present in the process environment take precedence over the `env.d` files, including those set in the systemd unit and in `/etc/sftpgo/sftpgo.env`. The `serve` flags backed by an environment variable, such as `SFTPGO_LOG_FILE_PATH`, can be set in `env.d` too; `SFTPGO_CONFIG_DIR` must be set before SFTPGo starts, since it locates the `env.d` directory.
+
+The systemd unit shipped with the deb/rpm packages sets `SFTPGO_LOG_FILE_PATH` to an empty value, so logs go to the journal. To write logs to a file, set `SFTPGO_LOG_FILE_PATH` in `/etc/sftpgo/sftpgo.env` or in a unit drop-in (`systemctl edit sftpgo`).
+
 You can also set environment variables using the method provided by your operating system.
 
 **Example:** to enable the SFTP service on port 2222, require the proxy protocol from a load balancer, and configure an EventStore plugin, create a file such as `/etc/sftpgo/env.d/custom.env` with the following content:
