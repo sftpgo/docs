@@ -28,6 +28,16 @@ You can disable automatic data provider checks/updates at startup by setting the
 
 :warning: Please note that some data providers (e.g. MySQL and CockroachDB) do not support schema changes within a transaction, this means that you may end up with an inconsistent schema if migrations are forcibly aborted. CockroachDB doesn't support database-level locks, so make sure you don't execute migrations concurrently.
 
+## Backups and restores
+
+A backup, or dump, is a provider-independent JSON document with the objects of the requested scopes. It is produced by the `dumpdata` REST API, by the "Maintenance" section of the WebAdmin, by the periodic backup and by the backup [event action](eventmanager.md), and restored by the `loaddata` REST API, by the WebAdmin and by the `--loaddata-from` flag of `serve` and `initprovider`.
+
+A backup is built in memory before it is written: plan about ten times the size of the backup it produces, for example around 800 MB for the 70 MB backup of 20,000 users with three virtual folders each and their 60,000 folders. To lower the memory a single backup needs on a large configuration, back up the object types separately with the `scopes` parameter of `dumpdata`, comma separated: `users`, `folders`, `groups`, `admins`, `api_keys`, `shares`, `actions`, `rules`, `roles`, `ip_lists`, `configs`.
+
+A restore accepts a backup of up to 20 MB and decodes it in memory: plan up to about 700 MB for a backup close to that size.
+
+A backup carries up to 60,000 IP list entries, counted across the lists together. Past that the backup fails with an explicit error, so it either carries every entry or does not complete: request the other scopes to back up the rest of the configuration.
+
 ## Upgrading
 
 SFTPGo supports upgrading from the previous release branch to the current one.
