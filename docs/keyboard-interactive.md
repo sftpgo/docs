@@ -171,3 +171,7 @@ Content-Length: 18
 ```
 
 An example keyboard interactive program allowing to authenticate using [Twilio Authy 2FA](https://www.twilio.com/docs/authy){:target="_blank"} can be found inside the source tree [authy](https://github.com/drakkan/sftpgo/tree/main/examples/OTP/authy){:target="_blank"} directory.
+
+## Challenges for unknown usernames
+
+The builtin keyboard interactive authentication sends the password request as first challenge for every username, whether or not the account exists. A keyboard interactive program, HTTP hook or plugin defines its own challenges, and SFTPGo sends them for the accounts it resolves; for any other username it asks for the password itself. A client receives a challenge in both cases, but when the integration asks something other than a password the two can be told apart. With the [external authentication hook](external-auth.md#keyboard-interactive-authentication), the hook's answer decides: a refused username receives no challenge. To send the same challenges for every username, have the external authentication hook resolve the unknown ones to a disabled placeholder account. Response times are not equalized: they depend on the data provider, the integration and the network. Enable the [defender](defender.md) to limit repeated attempts from the same host.

@@ -14,7 +14,7 @@ The external program can read the following environment variables to get info ab
 - `SFTPGO_AUTHD_PROTOCOL`, possible values are `SSH`, `FTP`, `DAV`, `HTTP`
 - `SFTPGO_AUTHD_PASSWORD`, not empty for password authentication
 - `SFTPGO_AUTHD_PUBLIC_KEY`, not empty for public key authentication
-- `SFTPGO_AUTHD_KEYBOARD_INTERACTIVE`, not empty for keyboard interactive authentication
+- `SFTPGO_AUTHD_KEYBOARD_INTERACTIVE`, set to `1` for keyboard interactive authentication. This request carries no credential, see [keyboard interactive authentication](#keyboard-interactive-authentication)
 - `SFTPGO_AUTHD_TLS_CERT`, TLS client certificate PEM encoded. Not empty for TLS certificate authentication
 
 Global environment variables are cleared, for security reasons, when the script is called. You can set additional environment variables in the "command" configuration section.
@@ -22,7 +22,7 @@ The program can inspect the SFTPGo user, if it exists, using the `SFTPGO_AUTHD_U
 The program must write, on its standard output:
 
 - a valid SFTPGo user serialized as JSON if the authentication succeeds. The user will be added/updated within the defined data provider
-- an empty string, or no response at all, if authentication succeeds and the existing SFTPGo user does not need to be updated. This means that the credentials already stored in SFTPGo must match those used for the current authentication.
+- an empty string, or no response at all, if authentication succeeds and the existing SFTPGo user does not need to be updated. For a password login SFTPGo stores the password the hook has just accepted; for a public key login the key must already be stored for the user.
 - a user with an empty username if the authentication fails
 
 If the hook is an HTTP URL then it will be invoked as HTTP POST. The request body will contain a JSON serialized struct with the following fields:
@@ -33,13 +33,13 @@ If the hook is an HTTP URL then it will be invoked as HTTP POST. The request bod
 - `protocol`, possible values are `SSH`, `FTP`, `DAV`, `HTTP`
 - `password`, not empty for password authentication
 - `public_key`, not empty for public key authentication
-- `keyboard_interactive`, not empty for keyboard interactive authentication
+- `keyboard_interactive`, set to `1` for keyboard interactive authentication. This request carries no credential, see [keyboard interactive authentication](#keyboard-interactive-authentication)
 - `tls_cert`, TLS client certificate PEM encoded. Not empty for TLS certificate authentication
 
 If authentication succeeds the HTTP response code must be 200 and the response body can be:
 
 - a valid SFTPGo user serialized as JSON. The user will be added/updated within the defined data provider
-- empty, the existing SFTPGo user does not need to be updated. Please note that in versions 2.0.x and earlier an empty response was interpreted as an authentication error
+- empty, the existing SFTPGo user does not need to be updated, as for an empty program response.
 
 If the authentication fails the HTTP response code must be != 200 or the returned SFTPGo user must have an empty username.
 
@@ -59,6 +59,8 @@ You can also restrict the authentication scope for the hook using the `external_
 - `8` means TLS certificate only
 
 You can combine the scopes. For example, 3 means password and public key, 5 means password and keyboard interactive, and so on.
+
+With the default scope the hook receives every authentication method listed above and must answer each of them. A method outside the scope is verified by SFTPGo against the credentials stored for the user, without calling the hook: for example the last password the hook accepted, or the public keys of the user, including those the user adds from the WebClient.
 
 Let's see a very basic example. Our sample authentication program will only accept user `test_user` with any password or public key.
 
@@ -83,6 +85,14 @@ An example authentication program allowing to authenticate against an LDAP serve
 An example server, to use as HTTP authentication hook, allowing to authenticate against an LDAP server can be found inside the source tree [ldapauthserver](https://github.com/drakkan/sftpgo/tree/main/examples/ldapauthserver){:target="_blank"} directory.
 
 If you have an external authentication hook that could be useful to others too, please let us know and/or please send a pull request.
+
+## Keyboard interactive authentication
+
+A keyboard interactive request carries the username only: the hook decides whether the account can use this method. A refused username receives no challenge, and the client can move on to password authentication.
+
+SFTPGo verifies the challenges itself, not through this hook: the builtin flow checks the password against the one stored in SFTPGo, which is the last password the hook accepted, and then the one-time code if enabled. To verify the password against a directory on every login, use a [keyboard interactive hook](keyboard-interactive.md); it can also ask for the one-time code or leave its check to SFTPGo. When keyboard interactive authentication is not needed, set [`keyboard_interactive_authentication`](config-file.md#sshsftp-server) to `false`: clients then use password authentication and the hook receives the password. Over SSH the [second factor](tutorials/two-factor-authentication.md) is asked only within keyboard interactive authentication, so this setting suits installations that do not use it for SSH.
+
+The hook is invoked for every username, including the ones that do not exist inside SFTPGo, and SFTPGo uses the username of the account it returns. To handle every unknown username in the same way, return the same disabled placeholder account, with `status` set to `0`, for all of them: a single account is created the first time and updated on the following logins, the same [challenges](keyboard-interactive.md#challenges-for-unknown-usernames) are sent as for an existing account, and every login of the placeholder is denied.
 
 ## Trust model
 

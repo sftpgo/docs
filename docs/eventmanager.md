@@ -29,6 +29,8 @@ The following actions are supported:
   - `Copy`. You can copy one or more files or directories.
   - `Compress paths`. You can compress (currently as zip) ore or more files and directories.
 
+:warning: In the templates of the `Identity Provider account check` action, set the username to `{{.Name}}`, the name the login maps to. The action looks up the account by that name and writes the account the template names: a template that renders another value, such as an `{{.IDPField<fieldname>}}` placeholder, updates a different account with the credentials of the account looked up, and an admin login receives the permissions of that other account.
+
 A filesystem action is started by SFTPGo to carry out the rule, it is not requested by the account, so it runs with the access the action needs rather than with the access the account has: inside the filesystem it operates on, the per-directory permissions of the user are raised to full access, the file pattern filters are not applied, and the bandwidth limits and the data transfer quota of the user do not bound it. Paths resolve inside the home directory and the virtual folders mapped for that user. The authorization decision belongs to the rule: its conditions select the users and the events the action runs for.
 
 On local storage on Windows and macOS, a data retention path also applies to its directory stored with ASCII letters in another case, `/inbound` to `Inbound`, within the same mount; letters outside ASCII are compared as written.
