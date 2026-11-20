@@ -35,7 +35,7 @@ The logs can be divided into the following categories:
 
 **command logs**, SFTP/SCP command logs:
 
-- `sender` string. `Rename`, `Rmdir`, `Mkdir`, `Symlink`, `Remove`, `Chmod`, `Chown`, `Chtimes`, `Truncate`, `Copy`, `SSHCommand`
+- `sender` string. `Rename`, `Rmdir`, `Mkdir`, `Remove`, `Chmod`, `Chown`, `Chtimes`, `Truncate`, `Copy`, `SSHCommand`
 - `level` string-
 - `local_addr` string. IP/port of the local address the connection arrived on. For example `127.0.0.1:1234`
 - `remote_addr` string. IP and, optionally, port of the remote client. For example `127.0.0.1:1234` or `127.0.0.1`

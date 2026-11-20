@@ -299,6 +299,8 @@ Log in using the newly created administrator and try to add a new user. The user
 
 ![Simplified user add](assets/img/add-user-simplified.png){data-gallery="simplified-user"}
 
+The user page preferences and the groups for users shape the WebAdmin forms: the REST API accepts every user setting from the same administrator, so they simplify the work of trusted administrators rather than restrict it.
+
 ## Configuration parameters
 
 Until now we used the default configuration, to change the global service parameters you have to edit the configuration file, or set appropriate environment variables, and restart SFTPGo to apply the changes.

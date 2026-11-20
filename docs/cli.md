@@ -39,6 +39,7 @@ To start the SFTPGo server you can use the `serve` command. It supports the foll
 - `--grace-time`, integer. Graceful shutdown is an option to initiate a shutdown without abrupt cancellation of the currently ongoing client-initiated transfer sessions. This grace time defines the number of seconds allowed for existing transfers to get completed before shutting down. 0 means disabled. The default value is `0` or the value of `SFTPGO_GRACE_TIME` environment variable. A graceful shutdown is triggered by an interrupt signal or by a service `stop` request on Windows, if a grace time is configured.
 - `--loaddata-from` string. Load users and folders from this file. The file must be specified as absolute path and it must contain a backup obtained using the `dumpdata` REST API or compatible content. The default value is empty or the value of `SFTPGO_LOADDATA_FROM` environment variable. Objects that already exist are left unchanged unless `--loaddata-mode` is set to `0`.
 - `--loaddata-clean` boolean. Determine if the loaddata-from file should be removed after a successful load. Default `false` or the value of `SFTPGO_LOADDATA_CLEAN` environment variable (1 or `true`, 0 or `false`).
+- `--loaddata-fail-on-error` boolean. Exit with an error if the `--loaddata-from` file cannot be loaded, a missing file included. Without it, the server logs the error and starts with the objects restored before the failure: a restore stops at the first invalid object. Recommended with the memory data provider, where this file is the only source of data. Combined with `--loaddata-clean`, the file must be provided again before every start. Default `false` or the value of `SFTPGO_LOADDATA_FAIL_ON_ERROR` environment variable (1 or `true`, 0 or `false`).
 - `--loaddata-mode`, integer. Restore mode for data to load. 0 means new users are added, existing users are updated. 1 means new users are added, existing users are not modified. Default 1 or the value of `SFTPGO_LOADDATA_MODE` environment variable.
 - `--loaddata-scan`, integer. Quota scan mode after data load. 0 means no quota scan. 1 means quota scan. 2 means scan quota if the user has quota restrictions. Default 0 or the value of `SFTPGO_LOADDATA_QUOTA_SCAN` environment variable.
 - `--log-compress` boolean. Determine if the rotated log files should be compressed using gzip. Default `false` or the value of `SFTPGO_LOG_COMPRESS` environment variable (1 or `true`, 0 or `false`). It is unused if `log-file-path` is empty.
@@ -264,7 +265,7 @@ Flags:
 Use "sftpgo service [command] --help" for more information about a command.
 ```
 
-The `install` subcommand accepts the same flags that are valid for `serve`.
+The `install` subcommand accepts the configuration, logging and grace time flags of `serve`. The service reads the `--loaddata-*` settings at every start from the matching `SFTPGO_LOADDATA_*` environment variables, set as system variables or in the [`env.d` directory](env-vars.md#variable-sources).
 
 After installing as a Windows Service, please remember to allow network access to the SFTPGo executable using something like this:
 
