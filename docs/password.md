@@ -21,5 +21,7 @@ Supported hash algorithms:
 - SHA256 digest, prefix `{SHA256}`
 - SHA512 digest, prefix `{SHA512}`
 
-If you set a password with one of these prefixes it will not be hashed.
+An administrator with the `*` permission can set a password with one of these prefixes, for example to import accounts from another system: it is stored as is. For other administrators the save fails with a validation error. Backups and the initial data are restored as they are. A password a user chooses, when changing or resetting it or for a share, and the password an administrator chooses for itself are always hashed, even if they start with one of these prefixes.
 When users log in, if their passwords are stored with anything other than the preferred algorithm, SFTPGo will automatically upgrade the algorithm to the preferred one.
+
+A plain-text password cannot be longer than 255 characters, 72 bytes with bcrypt. Imported hashes are not subject to this limit.
