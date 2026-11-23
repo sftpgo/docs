@@ -16,4 +16,4 @@ Users created by role administrators automatically inherit their role.
 
 Admins without a role are global administrators and can manage all users (with and without a role) and assign a specific role to users.
 
-A role limits which users an administrator manages, not the storage those users reach: an administrator who can add or edit users, or manage folders, sets any home directory, mapped path and storage configuration. Give these permissions only to administrators trusted with all the storage SFTPGo can access.
+A role limits which users an administrator manages, not the storage those users reach: an administrator who can add or edit users, or manage groups or folders, sets any home directory, mapped path and storage configuration, including the credentials stored in it. Give these permissions only to administrators trusted with all the storage SFTPGo can access and with its credentials.
