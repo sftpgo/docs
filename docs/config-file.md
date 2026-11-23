@@ -195,7 +195,7 @@ Each entry in the list has the following fields:
 
 | Parameter | Type | Default | Description |
 | ----------- | ------ | --------- | ------------- |
-| `enabled_commands` | list of strings | empty | Absolute paths to system commands that can be executed through the EventManager. :warning: Allowing system commands could pose a security risk. |
+| `enabled_commands` | list of strings | empty | Absolute paths to system commands that can be executed through the EventManager. :warning: The list limits which programs an action can start, not the arguments and environment variables the action passes to them: an enabled program that uses its arguments or environment to run other programs or load code (shells, interpreters, scripts, dynamically linked executables, tools such as `find`, `tar` or `rsync`) lets administrators with the `*` permission run arbitrary code as the SFTPGo service account. Enable only programs designed to run with arguments and environment variables chosen by these administrators, or trust them with the service account. |
 
 ## ACME
 
