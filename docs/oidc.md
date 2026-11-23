@@ -81,6 +81,8 @@ The `username_field` claim is the identity key: SFTPGo grants access to the acco
 
 The `role_field` claim decides administrative access: choose a claim your identity provider administrator assigns, such as a realm role or a group membership, so that its value stays outside the reach of the identities it governs. With `implicit_roles` the authorization decision rests entirely on the SFTPGo admin accounts: every identity that authenticates through the admin login link is granted the admin role, and the login succeeds when an admin with the mapped username exists.
 
+:information_source: The claims are read at login. When the token issued by the identity provider expires, SFTPGo renews it and checks the SFTPGo account again, but the OpenID Connect specification does not require the provider to repeat the claims in the renewed token, so a change made at the identity provider, such as a different role, takes effect at the next login. To revoke access sooner, disable or change the SFTPGo account: the change is enforced when the session is renewed, or immediately with [`token_validation`](config-file.md#http-server) set to `2`.
+
 Here is an example ID token which allows the SFTPGo admin `root` to access to the Web Admin UI.
 
 ```json
