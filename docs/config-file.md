@@ -275,6 +275,7 @@ Configuration parameters for the `ftpd` section:
 | `passive_port_range` | struct | `start: 50000`, `end: 50100` | Port range for passive data connections (keys: `start`, `end`). Random if not specified. |
 | `passive_port_multiplexing` | boolean | `false` | Set to `true` to share the ports of `passive_port_range` among clients, routing each data connection to its client by source IP address. Passive mode then works with only a few exposed ports. Enable it only if you cannot expose a port range wide enough for your passive transfers. Requires a single FTP binding. See [Passive port multiplexing](ftp.md#passive-port-multiplexing). |
 | `disable_active_mode` | boolean | `false` | Set to `true` to disable active FTP mode. |
+| `sort_listings` | boolean | `false` | Set to `true` to return FTP directory listings (`LIST`, `NLST`, `MLSD`) sorted by name, as most traditional FTP servers (vsftpd, ProFTPD, Pure-FTPd) do. Some legacy clients rely on this order to detect new files. |
 | `enable_site` | boolean | `false` | Set to `true` to enable the FTP `SITE` command for `chmod`. |
 | `hash_support` | integer | `0` | Set to `1` to enable FTP hash commands: `HASH`, `XCRC`, `MD5/XMD5`, `XSHA/XSHA1`, `XSHA256`, `XSHA512`. :warning: Calculating a hash requires reading the entire file. For remote backends this means downloading the file; for encrypted backends this means decrypting it. |
 | `certificate_file` | string | empty | TLS certificate for FTPS (absolute or relative to the config directory). |
